@@ -53,15 +53,35 @@ module IsoDoc
         end
       end
 
-=begin
       def make_body2(body, docxml)
         body.div **{ class: "WordSection2" } do |div2|
           info docxml, div2
+          abstract docxml, div2
+          keywords docxml, div2
+          preface docxml, div2
           div2.p { |p| p << "&nbsp;" } # placeholder
         end
         section_break(body)
       end
-=end
+
+            FRONT_CLAUSE = "//*[parent::preface]"\
+        "[not(local-name() = 'abstract')]".freeze
+
+            def preface(isoxml, out)
+        isoxml.xpath(ns(FRONT_CLAUSE)).each do |c|
+          foreword(isoxml, out) and next if c.name == "foreword"
+          next if skip_render(c, isoxml)
+          title = c&.at(ns("./title"))
+          out.div **attr_code(id: c["id"]) do |s|
+            clause_name(get_anchors[c['id']][:label], title&.content, s,
+                        "IntroTitle")
+            c.elements.reject { |c1| c1.name == "title" }.each do |c1|
+              parse(c1, s)
+            end
+          end
+        end
+      end
+
 
       def info(isoxml, out)
         super
@@ -105,6 +125,23 @@ module IsoDoc
           h2.add_child(d.remove)
         end
         docxml
+      end
+
+            def abstract(isoxml, out)
+        f = isoxml.at(ns("//preface/abstract")) || return
+        out.div **attr_code(id: f["id"]) do |s|
+          clause_name(nil, "Summary", s, class: "AbstractTitle")
+          f.elements.each { |e| parse(e, s) unless e.name == "title" }
+        end
+      end
+
+      def keywords(_docxml, out)
+        kw = @meta.get[:keywords]
+        kw.nil? || kw.empty? and return
+        out.div do |div|
+          clause_name(nil, "Keywords", div,  class: "IntroTitle")
+          div.p kw.sort.join(", ") + "."
+        end
       end
 
     end

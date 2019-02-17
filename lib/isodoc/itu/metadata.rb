@@ -14,9 +14,9 @@ module IsoDoc
         set(:doctitle, main)
         series = isoxml&.at(ns("//bibdata/series[@type='main']/title"))&.text
         set(:series, series)
-        series = isoxml&.at(ns("//bibdata/series[@type='secondary']/title"))&.text
+        series1 = isoxml&.at(ns("//bibdata/series[@type='secondary']/title"))&.text
         set(:series1, series1)
-        series = isoxml&.at(ns("//bibdata/series[@type='tertiary']/title"))&.text
+        series2 = isoxml&.at(ns("//bibdata/series[@type='tertiary']/title"))&.text
         set(:series2, series2)
       end
 

@@ -66,8 +66,8 @@ module Asciidoctor
           c.from from
           c.owner do |owner|
             owner.organization do |o|
-              a.name "International Telecommunication Union"
-              a.abbreviation "ITU"
+              o.name "International Telecommunication Union"
+              o.abbreviation "ITU"
             end
           end
         end
@@ -88,9 +88,17 @@ module Asciidoctor
         end
       end
 
+      def metadata_keywords(node, xml)
+        return unless node.attr("keywords")
+        node.attr("keywords").split(/,[ ]*/).each do |kw|
+          xml.keyword kw
+        end
+      end
+
       def metadata(node, xml)
         super
         metadata_series(node, xml)
+        metadata_keywords(node, xml)
       end
 
       def title_validate(root)

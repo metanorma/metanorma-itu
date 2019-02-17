@@ -140,12 +140,18 @@ _H: Audiovisual and Multimedia Systems_.
 `:series2:`:: Second level subseries, e.g. _Digital Signage_
 (= H.780&ndash;H.789)
 
+`:keywords:`:: Comma-delimited list of the keywords associated with the document.
+
+
 == Asciidoctor features specific to ITU
 
 The https://github.com/riboseinc/metanorma-standoc[metanorma-standoc]
 gem documents the customisations of Asciidoctor markup common to all metanorma gems.
 The following markup is specific to this gem:
 
+=== Summary
+
+The summary sections of recommendations are marked up with the style attribute `[abstract]`.
 
 == Examples
 

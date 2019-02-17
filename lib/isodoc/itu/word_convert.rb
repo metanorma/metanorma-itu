@@ -14,7 +14,8 @@ module IsoDoc
       end
 
       def convert1(docxml, filename, dir)
-        FileUtils.cp html_doc_path('logo.jpg'), "logo.jpg"
+        FileUtils.cp html_doc_path('image001.png'), "image001.png"
+        FileUtils.cp html_doc_path('logo.png'), "logo.png"
         super
       end
 

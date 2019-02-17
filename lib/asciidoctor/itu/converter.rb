@@ -16,7 +16,8 @@ module Asciidoctor
         xml.contributor do |c|
           c.role **{ type: "author" }
           c.organization do |a|
-            a.name "ITU"
+            a.name "International Telecommunication Union"
+            a.abbreviation "ITU"
           end
         end
       end
@@ -25,13 +26,15 @@ module Asciidoctor
         xml.contributor do |c|
           c.role **{ type: "publisher" }
           c.organization do |a|
-            a.name "ITU"
+            a.name "International Telecommunication Union"
+            a.abbreviation "ITU"
           end
         end
       end
 
       def metadata_committee(node, xml)
         xml.editorialgroup do |a|
+          a.bureau ( node.attr("bureau") || "T" )
           a.committee node.attr("committee"),
             **attr_code(type: node.attr("committee-type"))
           i = 2
@@ -48,9 +51,10 @@ module Asciidoctor
       end
 
       def metadata_id(node, xml)
+        bureau = node.attr("bureau") || "T"
         return unless node.attr("docnumber")
         xml.docidentifier do |i|
-          i << "ITU "\
+          i << "ITU-#{bureau} "\
             "#{node.attr("docnumber")}"
         end
         xml.docnumber { |i| i << node.attr("docnumber") }
@@ -62,14 +66,31 @@ module Asciidoctor
           c.from from
           c.owner do |owner|
             owner.organization do |o|
-              o.name "ITU"
+              a.name "International Telecommunication Union"
+              a.abbreviation "ITU"
             end
           end
         end
       end
 
+      def metadata_series(node, xml)
+        node.attr("series") and
+          xml.series **{ type: "main" } do |s|
+          s.title node.attr("series")
+        end
+        node.attr("series1") and
+          xml.series **{ type: "secondary" } do |s|
+          s.title node.attr("series1")
+        end
+        node.attr("series2") and
+          xml.series **{ type: "tertiary" } do |s|
+          s.title node.attr("series2")
+        end
+      end
+
       def metadata(node, xml)
         super
+        metadata_series(node, xml)
       end
 
       def title_validate(root)

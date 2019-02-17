@@ -12,6 +12,12 @@ module IsoDoc
       def title(isoxml, _out)
         main = isoxml&.at(ns("//bibdata/title[@language='en']"))&.text
         set(:doctitle, main)
+        series = isoxml&.at(ns("//bibdata/series[@type='main']/title"))&.text
+        set(:series, series)
+        series = isoxml&.at(ns("//bibdata/series[@type='secondary']/title"))&.text
+        set(:series1, series1)
+        series = isoxml&.at(ns("//bibdata/series[@type='tertiary']/title"))&.text
+        set(:series2, series2)
       end
 
       def subtitle(_isoxml, _out)
@@ -19,6 +25,8 @@ module IsoDoc
       end
 
       def author(isoxml, _out)
+        bureau = isoxml.at(ns("//bibdata/editorialgroup/bureau"))
+        set(:bureau, bureau.text) if bureau
         tc = isoxml.at(ns("//bibdata/editorialgroup/committee"))
         set(:tc, tc.text) if tc
       end
@@ -74,15 +82,15 @@ module IsoDoc
         "12": "December",
       }.freeze
 
+      def bibdate(isoxml, _out)
+        pubdate = isoxml.xpath(ns("//bibdata/date[@type = 'published']"))
+        pubdate and set(:pubdate_monthyear, monthyr(pubdate.text))
+      end
+
       def monthyr(isodate)
         m = /(?<yr>\d\d\d\d)-(?<mo>\d\d)/.match isodate
         return isodate unless m && m[:yr] && m[:mo]
-        return "#{MONTHS[m[:mo].to_sym]} #{m[:yr]}"
-      end
-
-      def security(isoxml, _out)
-        security = isoxml.at(ns("//bibdata/security")) || return
-        set(:security, security.text)
+        return "#{m[:mo]}/#{m[:yr]}"
       end
     end
   end

@@ -1,0 +1,148 @@
+= metanorma-acme: Asciidoctor processor for a (fictitious) Acme Corporation
+
+image:https://img.shields.io/gem/v/metanorma-acme.svg["Gem Version", link="https://rubygems.org/gems/metanorma-acme"]
+image:https://img.shields.io/travis/riboseinc/metanorma-acme/master.svg["Build Status", link="https://travis-ci.org/riboseinc/metanorma-acme"]
+image:https://codeclimate.com/github/riboseinc/metanorma-acme/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/riboseinc/metanorma-acme"]
+
+WARNING: This gem is still under development.
+
+== Functionality
+
+This gem processes http://asciidoctor.org/[Asciidoctor] documents following
+a template for generating Acme documents.
+
+The gem currently inherits from the https://github.com/riboseinc/metanorma-standoc
+gem, and aligns closely to it. Refer to the ISO gem documentation
+for guidance, including https://github.com/riboseinc/metanorma-iso/wiki/Guidance-for-authoring
+
+The following outputs are generated.
+
+* an XML representation of the document, intended as a document model for Acme documents.
+* The XML representation is processed in turn to generate the following outputs
+as end deliverable Acme documents.
+** HTML
+** http://asciimath.org[AsciiMathML] is to be used for mathematical formatting.
+The gem uses the https://github.com/asciidoctor/asciimath[Ruby AsciiMath parser],
+which is syntactically stricter than the common MathJax processor;
+if you do not get expected results, try bracketing terms your in AsciiMathML
+expressions.
+
+== Usage
+
+The preferred way to invoke this gem is via the `metanorma` script:
+
+[source,console]
+----
+$ metanorma --type acme a.adoc                   # output HTML 
+$ metanorma --type acme --extensions html a.adoc # output just HTML
+$ metanorma --type acme --extensions xml a.adoc  # output RSD XML
+----
+
+The gem translates the document into Metanorma XML format, and then
+validates its output against the Metanorma XML document model; errors are
+reported to console against the XML, and are intended for users to
+check that they have provided all necessary components of the
+document.
+
+The gem then converts the XML into HTML.
+
+The gem can also be invoked directly within asciidoctor, though this is deprecated:
+
+[source,console]
+----
+$ asciidoctor -b acme -r 'metanorma-acme' a.adoc  
+----
+
+=== Installation
+
+If you are using a Mac, the https://github.com/riboseinc/metanorma-macos-setup
+repository has instructions on setting up your machine to run Metanorma
+scripts such as this one. You need only run the following in a Terminal console:
+
+[source,console]
+----
+$ bash <(curl -s https://raw.githubusercontent.com/riboseinc/metanorma-macos-setup/master/metanorma-setup)
+$ gem install metanorma-acme
+$ gem install metanorma-cli
+----
+
+== Approach
+
+=== Document model
+
+The Acme Document model used by this gem is an instance of the
+https://github.com/riboseinc/isodoc-models[StandardDocument model].
+
+The Metanorma XML format intends to introduce rigor into the Acme
+standards authoring process, and is prescribed in a separate document.
+
+=== Asciidoctor
+
+Asciidoctor has been selected as the authoring tool to generate the document
+model representation of Acme standards. It is a document formatting tool like
+Markdown and DocBook, which combines the relative ease of use of the former
+(using relatively lightweight markup), and the rigor and expressively of the
+latter (it has a well-defined syntax, and was in fact initially developed as a
+DocBook document authoring tool). Asciidoctor has built-in capability to output
+Text, DocBook and HTML; so it can be used to preview the file as it is being
+autA
+
+Generating documents via a document model substantially automated formatting
+associated with the document, including automating numbering of headings, figures,
+tables etc, and automatically generating references and citations.
+hored.
+
+== Document Attributes
+
+=== Common attributes
+
+The gem relies on Asciidoctor document attributes to provide necessary
+metadata about the document. The https://github.com/riboseinc/metanorma-standoc[metanorma-standoc]
+gem documents the Asciidoctor document attributes common to all metanorma gems. These include:
+
+`:edition:`:: The document edition
+
+`:revdate:`:: The date the document was last updated
+
+`:copyright-year:`:: The year which will be claimed as when the copyright for
+the document was issued
+
+`:title:`:: The main component of the English title of the document
+(mandatory). (The first line of the AsciiDoc document, which contains the title
+introduced with `=`, is ignored)
+
+`:doctype:`:: The document type (mandatory). The permitted types are:
++
+--
+code:: Code Artifact
+presentation:: Presentation
+proposal:: Proposal; includes IETF DRAFT
+standard:: Recommendation; includes IETF RFC
+report:: report
+--
+
+`:status:``:: The document status. The permitted types are: `proposal`,
+`working-draft`, `committee-draft`, `draft-standard`, `final-draft`,
+`published`, `withdrawn`.
+
+`:technical-committee:`:: The name of the relevant M3D technical committee
+(mandatory)
+
+`:language:` :: The language of the document (only `en` for now)  (mandatory)
+
+The attribute `:draft:`, if present, includes review notes in the XML output;
+these are otherwise suppressed.
+
+== Asciidoctor features specific to Acme
+
+The https://github.com/riboseinc/metanorma-standoc[metanorma-standoc]
+gem documents the customisations of Asciidoctor markup common to all metanorma gems.
+The following markup is specific to this gem:
+
+
+== Examples
+
+* link:spec/examples/rfc6350.adoc[] is an Metanorma Asciidoctor version of https://tools.ietf.org/html/rfc6350[RFC 6350].
+* link:spec/examples/rfc6350.html[] is an HTML file generated from the Asciidoctor.
+* link:spec/examples/rfc6350.doc[] is a Word document generated from the Asciidoctor.
+

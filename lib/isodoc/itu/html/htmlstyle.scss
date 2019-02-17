@@ -1,0 +1,1075 @@
+/*
+    0 CSS RESET
+*/
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+        margin: 0;
+        padding: 0;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+        border: 0;
+        font-size: 100%;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, tt, var,
+b, u, i, center,
+dl, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+        vertical-align: baseline;
+}
+
+
+html, body, div, span, applet, object, iframe,
+p, blockquote, 
+a, abbr, acronym, address, big, cite, 
+del, dfn, em, img, ins, q, s, 
+small, strike, strong, sub, sup, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  font-family: $bodyfont;
+}
+
+code, pre, tt, kbd, samp {
+  font-family: $monospacefont;
+  font-variant-ligatures: none;
+}
+
+code *, pre *, tt *, kbd *, samp * {
+  font-family: $monospacefont !important;
+  font-variant-ligatures: none;
+}
+
+h1, h2, h3, h4, h5, h6, .h2Annex {
+  font-family: $headerfont;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: max-content auto;
+}
+
+dt {
+  grid-column-start: 1;
+}
+
+dd {
+  grid-column-start: 2;
+}
+
+dd p, dt p {
+  margin-top: 0px;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/*
+    1. HTML & Body
+*/
+
+  body {
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    color: #1d1d1d;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.4em;
+    background-color: #ffffff;
+  }
+
+  main {margin: 0 3em 0 6em;}
+
+  #toc{
+    font-family: $bodyfont;
+    font-weight: 400;
+  }
+
+/*
+    2. Responsive navigation layout
+*/
+
+
+@media screen and (min-width: 768px) {
+    nav {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 323px;
+        font-size: 0.9em;
+        overflow: auto;
+        padding: 0 0 0 45px;
+        margin-right: 30px;
+        background-color:#f7f7f7;
+    }
+
+    #toggle {
+        position: fixed;
+        height: 100%;
+        width: 30px;
+        background-color:#1661AD;
+        color: white!important;
+        cursor: pointer;
+        z-index: 100;
+    }
+
+    #toggle span {
+        text-align: center;
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+
+    }
+
+    .container {
+        padding-left: 360px;
+    }
+
+    .rule.toc {
+        display: none;
+    }
+
+    h1.toc-contents {
+        margin-top: 1em;
+    }
+
+    ul#toc-list {
+        padding:0;
+        margin:0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #toc {
+        padding: 0 1.5em 0 1.5em;
+        overflow: visible;
+    }
+}
+
+@media screen {
+  div.figure > img { 
+      width: 100%; 
+      height: auto;
+  }
+}
+
+#toc ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#toc li {
+    padding: 5px 10px;
+}
+
+#toc a {
+    color: #485094;
+    text-decoration: none;
+    display: block;
+}
+
+#toc a:hover {
+    color: white;
+}
+
+#toc .h2 {
+    padding-left: 30px;
+}
+
+#toc .h3 {
+    padding-left: 50px;
+}
+
+#toc .toc-active a {
+    color: white;
+}
+
+#toc .toc-active, #toc li:hover {
+    background: #1661AD;
+    box-shadow: inset -5px 0px 10px -5px #1661AD!important;
+
+}
+
+#toc li:hover a {
+    color: white;
+    background: none;
+     box-shadow: none;
+}
+
+#toc li a {
+  text-transform: uppercase;
+}
+
+/*
+    Document types + stages
+*/
+
+.document-type-band {
+    left:0;
+    top:180px;
+    height: 100%;
+    position: fixed;
+    display: block;
+    z-index: 99;
+    /*box-shadow: -5px 0px 10px #1d1d1d*/
+
+}
+
+.document-stage-band {
+    left:0;
+    top:0;
+    height: 100%;
+    position: fixed;
+    display: block;
+    z-index: 98;
+    box-shadow: -5px 0px 10px #1d1d1d
+}
+
+.document-type {
+    position: relative;
+    width: 25px;
+}
+
+.document-stage {
+    position: relative;
+    width: 25px;
+}
+
+p.document-type, p.document-stage {
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    margin:0;
+    margin-left: 6px;
+    writing-mode:tb-rl;
+	-webkit-transform:rotate(180deg);
+	-moz-transform:rotate(180deg);
+	-o-transform: rotate(180deg);
+	white-space:nowrap;
+	display:block;
+    bottom:0;
+}
+
+p.document-type {
+    font-weight: 400;
+    height: 150;
+}
+
+#governance-band p.document-type {
+    font-weight: 400;
+    height: 230px!important;
+}
+
+p.document-stage {
+    font-weight: 300;
+    height:160px;
+}
+
+#standard-band p{
+  height: 270px;
+}
+
+#proposal-band p {
+  height: 150px;
+}
+
+
+#standard-band,  #published-band {
+    background-color: #9ABD48;
+}
+
+#standard, #published {
+    border-bottom: solid 3px #9ABD48;
+}
+
+#governance, #policy-and-procedures {
+    border-bottom: solid 3px #750697;
+}
+
+#governance-band, #policy-and-procedures-band {
+    background-color: #750697;
+}
+
+#guide {
+    border-bottom: solid 3px #48a0e7;
+}
+
+#guide-band {
+    background-color: #48a0e7;
+}
+
+.coverpage-maturity {
+    font-family: $bodyfont;
+    font-weight: 400;
+    font-size: 1em;
+    margin: 0 0 2em 0;
+    text-transform: uppercase;
+    }
+
+#working-draft, #proposal {
+    border-bottom: solid 3px #F7803C;
+}
+
+#working-draft-band, #proposal-band {
+    background-color: #F7803C;
+}
+
+#committee-draft {
+    border-bottom: solid 3px #fd06fd;
+}
+
+#committee-draft-band {
+    background-color: #fd06fd;
+}
+
+#draft-standard {
+    border-bottom: solid 3px #fdf906;
+}
+
+#draft-standard-band {
+    background-color: #fdf906;
+}
+
+#standard {
+    border-bottom: solid 3px #9ABD48;
+}
+
+#standard-band {
+    background-color: #9ABD48;
+}
+
+#obsolete {
+    border-bottom: solid 3px #7e0d13;
+}
+
+#obsolete-band {
+    background-color: #7e0d13;
+}
+
+/*
+    3. TYPOGRAPHY
+*/
+
+/*
+    3.1 Titles
+*/
+
+  h1,h2,h3,h4,h5,h6 {
+    font-family: $headerfont;
+    color: #1661AD;
+    font-weight: 300;
+    margin-top: 1.6em;
+    margin-bottom: 0.3em;
+  }
+
+  h1 {
+    font-size: 1.6em;
+    text-transform: uppercase;
+    margin-top: 2em;
+  }
+
+  h1#content {
+      margin-top: 2em;
+  }
+
+  h2 {
+    margin-top: 1.3em;
+    font-size: 1.3em;
+    font-weight: 400;
+  }
+
+  h3 {
+    margin-top: 1.1em;
+    font-size: 1.1em;
+    font-weight: 100;
+  }
+
+  .TermNum, .Terms, .AltTerms {
+    color: #1661AD;
+    font-weight: 100;
+  }
+
+  h2.TermNum {
+    margin-bottom: 0;
+  }
+
+  p.Terms {
+    font-size: 1.1em;
+    line-height: 1.5em;
+    margin: 0;
+  }
+
+  p.AltTerms {
+    /*
+    font-style: italic;
+     */
+    font-size: 1.1em;
+    margin: 0;
+  }
+
+/*
+    3.2 Links
+*/
+
+    a, a:visited{
+        text-decoration: none;
+        color: #485094;
+    }
+
+    a:hover {
+        color: white;
+        background: #1661AD;
+        box-shadow: 3px 0 0 #1661AD, -3px 0 0 #1661AD;
+        /* padding: 2px 0 2px 0; */
+    }
+
+    ::selection {
+        background: #1661AD; /* WebKit/Blink Browsers */
+        color: white;
+      }
+      ::-moz-selection {
+        background: #1661AD; /* Gecko Browsers */
+        color: white;
+      }
+
+      .contact-info a:hover {
+          color: #485094;
+          text-decoration: underline;
+          background: none;
+          box-shadow: 0 0 0 0;
+      }
+
+
+
+/*
+    3.3 Lists
+*/
+
+    ul, ol {margin-left: 1.2em;}
+
+  ul  li {
+  list-style: none;
+   }
+
+   ul > li:before {
+    content: "\2014";
+    display: inline-block; width: 1em;
+    margin-left: -1.2em;
+  }
+
+  ul > li p:first-child {
+    display: inline;
+  }
+
+ul > li:first-child {
+  margin-top: 1em;
+}
+
+    #toc-list ul {margin-bottom: 0.25em;}
+
+    #toc-list li {list-style-type: none;}
+
+    #toc li:before {
+  content: " ";
+  display: none;
+}
+
+
+/*
+    3.4 Rules
+*/
+
+    .rule {
+        width: 100%;
+        height: 1px;
+        background-color: #0e1a85;
+        margin: 2em 0;
+      }
+
+/*
+    3.5 Bibliograhy
+*/
+
+p.Biblio, p.NormRef {
+    margin-top: 1em;
+    margin-left: 2em;
+}
+
+/*
+    3.6 Source Code + figures
+*/
+
+.figure, .Sourcecode {
+    font-family: $monospacefont;
+    font-variant-ligatures: none;
+    background-color: #f7f7f7;
+    font-size: 0.8em;
+    line-height: 1.6em;
+    padding: 1.5em;
+    margin: 2em 0 1em 0;
+    overflow: auto;
+}
+
+.FigureTitle {
+    font-weight: 700;
+    font-size: 1em;
+    text-align: center;
+}
+
+/*
+    3.7 Notes
+*/
+
+.Note {
+    background-color: #fff495;
+    color: #47430c;
+    padding: 1.2em;
+    margin: 1em 0 1em 0;
+
+    p {
+        margin: 0;
+    }
+}
+
+.Admonition {
+    background-color: #ffcccc;
+    color: #47430c;
+    padding: 1.2em;
+    margin: 1em 0 1em 0;
+
+    p {
+        margin: 0;
+    }
+}
+
+
+/*
+    3.8 Examples
+*/
+
+.example {
+    background-color: #e1eef1;
+    padding: 1.2em;
+    margin: 2em 0 1em 0;
+    padding-left: 2em;
+}
+
+.example .example-title {
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top:0;
+    margin-left:-1.5em;
+}
+
+.example .Sourcecode {
+      background: none;
+}
+
+/*
+    3.9 Tables
+*/
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-weight: 300;
+  margin: 1em 0 2em 0;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 2em;
+}
+
+table, th, td {
+  border: 1px solid black;
+  font-size: 0.95em;
+}
+
+td, th {
+  padding: 1em;
+}
+
+td.header {
+  font-weight: 400;
+}
+
+p.TableTitle {
+  text-align: center;
+  margin-top: 2.5em;
+  font-weight: 400;
+}
+
+/*
+  3.10 Footnotes
+*/
+
+a.footnote-number {
+    vertical-align: super;
+    font-size: 0.8em;
+}
+
+.footnote {
+    font-size: 0.9em;
+}
+
+
+/*
+    3.11 Blockquotes
+*/
+
+.Quote {
+    background-color: #f7f7f7;
+    font-style: italic;
+    width: 80%;
+    padding: 1.5em;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/*
+    3.12 Formulas
+*/
+
+.formula {
+    background-color: #f7f7f7;
+    padding: 1.5em;
+    margin-top: 2em;
+    text-align: center;
+}
+
+/*
+    3.13 Contact Info
+*/
+
+.contact-info {
+    padding: 2em;
+    margin-top: 5em;
+    width: 250px;
+
+  text-align: left;
+  border: #1661AD solid 2px;
+  color: #1661AD!important;
+  border-radius: 25px;
+
+}
+
+.contact-info a,
+.contact-info a:hover {
+  color: #1661AD;
+}
+
+.contact-info p, .contact-info a {
+    font-family: $monospacefont;
+    font-variant-ligatures: none;
+    font-weight: 400;
+}
+
+.contact-info .name {
+    font-weight: 700;
+    font-size: 1.2em;
+    margin-bottom:0;
+}
+
+.contact-info .address {
+    font-size: 1em;
+    line-height: 1.3em;
+    margin-top:0;
+}
+
+/*
+    Keywords
+*/
+
+span.keyword {
+    font-weight: 600;
+}
+
+/*
+    Paragraphs
+*/
+
+p {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+h2 p {
+  display: inline;
+}
+
+
+/*
+    4.0 Page header
+*/
+
+/*
+    4.1 Top Logo
+*/
+
+.icon-svg {
+  width: 100%;
+  color: #5ecf86;
+}
+
+.wrapper-top {
+  background: linear-gradient(200deg, #0f365e, #1661AD);
+  color: #ffffff;
+  padding: 2em 0;
+  width: 100%;
+}
+
+.wrapper-top-bottom {
+  width: 0;
+  height: 0;
+  border-top: 100px solid #1661AD;
+  border-right: 100px solid transparent;
+  position: absolute;
+}
+
+  .doc-number {
+      font-size: 0.5em;
+      font-family: $bodyfont;
+  }
+
+  .coverpage-title {
+      padding-bottom: 0.5em;
+      font-family: $headerfont;
+      font-size: 1.2em;
+      line-height: 1.5em;
+  font-weight: 100;
+  padding-left: 1em;
+  padding-right: 1em;
+  text-transform: uppercase;
+  }
+
+  .WordSection11 {
+    padding: 0 2em 0 3em;
+  }
+
+ .info-section {
+    padding: 0 2em 0 5em; }
+
+  .prefatory-section {
+    padding: 0 3em 0 6em;
+  }
+
+
+  .zzSTDTitle1, .MsoCommentText {
+    display: none;
+  }
+
+
+  .coverpage {
+    text-align: center;
+    padding-left: 1.5em;
+  }
+
+  .coverpage-logo span, .coverpage-tc-name span {
+    font-family: $bodyfont;
+      text-transform: none;
+      font-weight: 300;
+  }
+
+  .coverpage-tc-name {
+    font-size: 1.2em;
+    line-height: 1.2em;
+    margin: 0.25em 0;
+  }
+
+/*
+    4.2 Document Identity
+*/
+
+  .coverpage-doc-identity {
+    font-size: 2em;
+    line-height: 2em;
+  }
+
+  .coverpage-title .title-second {
+    display: none;
+  }
+
+  .coverpage-stage-block {
+    font-family: $bodyfont;
+    font-weight: 600;
+    font-size: 1.25em;
+    margin: 2em 0em 2em 0em;
+    text-transform: uppercase;
+  }
+
+/*
+    4.3 Draft Warning
+*/
+
+  .coverpage-warning {
+    border: #f36f36 solid 2px;
+  color: #f36f36!important;
+  margin: 1em 2em;
+  color: #485094;
+  padding: 2em 1em 1em 1em;
+  border-radius: 25px;
+  }
+
+  .coverpage-warning .title {
+    font-family: $headerfont;
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: 1.2em;
+  }
+
+
+/*
+    4.4 Copyright
+*/
+
+  .copyright {
+    padding: 1em;
+    font-size: 0.9em;
+    text-align: left;
+  }
+
+
+/*  .copyright .name, .copyright .address {color: #485094;} */
+
+
+
+/*
+    5.0 Other styles
+*/
+
+
+
+/*
+To top button
+*/
+
+#myBtn {
+    font-family: $monospacefont;
+    font-variant-ligatures: none;
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 12px;
+    border: none;
+    outline: none;
+    background-color: #1f8ca0;
+    opacity: 0.15;
+    color: white;
+    cursor: pointer;
+    padding: 10px 15px 10px 15px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  #myBtn:hover {
+    opacity: 1;
+  }
+
+  a.anchorjs-link:hover {
+  background: none;
+  color: #485094;
+  box-shadow: none;
+}
+
+@page {
+  margin: 2cm 1cm;
+}
+
+@media print {
+
+
+  .document-info,  nav, .copyright {
+      page-break-before: always;
+  }
+
+  nav {
+    page-break-after: always;
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+    margin-top: 1.2em;
+  }
+
+  .note, .figure, .Sourcecode, table {
+    page-break-inside: avoid;
+  }
+
+  .info-section {
+    display: none;
+  }
+
+  .coverpage {
+      height: 23cm;
+  }
+
+  .wrapper-top {
+    top: 0;
+    padding-top: 4cm;
+    padding-bottom: 4cm;
+  }
+
+  .wrapper-top-bottom {
+    margin-top: -5px;
+  }
+
+
+  #toggle, .document-stage-band,
+  .document-type-band, button#myBtn {
+      display: none;
+  }
+
+  button#myBtn {
+    background-color: white;
+  }
+
+  .container {
+      padding-left: 0;
+  }
+
+  nav {
+      position: relative;
+      width: auto;
+      font-size: 0.9em;
+      overflow: auto;
+      padding: 0;
+      margin-right: 0;
+      background-color: white;
+  }
+
+    #toc .toc-active a {
+    color: #4D7EA5;
+  }
+
+  #toc .toc-active, #toc li:hover {
+    background: white;
+    box-shadow: none !important; }
+
+    #toc li:hover a {
+    color: black; }
+
+
+    h1.content {
+      margin-top: 2em;
+      line-height: 2.5em;
+    }
+
+    h1 {
+      font-size: 1.5em;
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-size: 1.2em
+    }
+
+    h3 {
+      font-size: 1em;
+    }
+
+    .Note {
+        background-color: #fff495;
+        color: #47430c;
+        padding: 5px;
+        margin: 2em 0 1em 0; }
+
+    .Note p {
+      padding: 0 5px 0 5px;
+    }
+
+    .Admonition {
+        background-color: #ffcccc;
+        color: #47430c;
+        padding: 5px;
+        margin: 2em 0 1em 0; }
+
+    .Admonition p {
+      padding: 0 5px 0 5px;
+    }
+
+
+
+    nav {
+      line-height: 1;
+    }
+
+    .wrapper-top-bottom {
+      display: none;
+    }
+
+}
+

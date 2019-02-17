@@ -1,0 +1,75 @@
+<p class="MsoNormal" align="right" style='text-align:right'><b style='mso-bidi-font-weight:
+normal'><span lang="EN-GB" style='font-size:14.0pt;mso-no-proof:yes'>{{ docnumber }}:{{ docyear }} {{ draftinfo }}</span></b><b
+style='mso-bidi-font-weight:normal'><span lang="EN-GB" style='font-size:14.0pt'><o:p></o:p></span></b></p>
+
+<p class="MsoNormal" align="right" style='text-align:right'><span lang="EN-GB"
+style='mso-no-proof:yes'>Acme&nbsp;</span><span lang="EN-GB"><span
+style='mso-no-proof:yes'>{{ tc | join: "/" }}</span></p>
+
+<p class="MsoNormal" align="center" style='text-align:center;line-height:18.0pt;margin-bottom:0.0pt'><b
+style='mso-bidi-font-weight:normal'><span lang="EN-GB" style='font-size:24.0pt'>{{ doctitle }}</span>
+</b><br/><span lang="EN-GB" style='font-size:16.0pt'>{{ docsubtitle }}</span></p>
+
+<p class="MsoNormal" style='margin-top:100.0pt'><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+mso-border-alt:solid windowtext .5pt;padding:1.0pt 4.0pt 1.0pt 4.0pt;
+margin-left:4.25pt;margin-right:4.25pt'>
+
+<p class="MsoNormal" align="center" style='text-align:center;border:none;
+mso-border-alt:solid windowtext .5pt;padding:0cm;mso-padding-alt:1.0pt 4.0pt 1.0pt 4.0pt'><span
+                     lang="EN-GB" style='font-size:16.0pt'>{% if unpublished %}{{ status }} {% endif %}{{ doctype }}</span></p>
+
+{% if security %}
+<p class="MsoNormal" align="center" style='text-align:center;border:none;
+mso-border-alt:solid windowtext .5pt;padding:0cm;mso-padding-alt:1.0pt 4.0pt 1.0pt 4.0pt'><span
+                     lang="EN-GB" style='font-size:16.0pt'> Classification: {{ security }}</span></p>
+{% endif %}
+
+{% if doctype == "Policy And Procedures" or doctype == "Proposal" %}
+<p class="MsoNormal" align="center" style='text-align:center;border:none;
+mso-border-alt:solid windowtext .5pt;padding:0cm;mso-padding-alt:1.0pt 4.0pt 1.0pt 4.0pt'><span
+                     lang="EN-GB" style='font-size:16.0pt'>{{ revdate }}<o:p></o:p></span></p>
+{% endif %}
+</div>
+
+<p class="MsoNormal" style='margin-bottom:6.0pt'><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+mso-border-alt:solid windowtext .5pt;padding:1.0pt 4.0pt 1.0pt 4.0pt;
+margin-left:4.25pt;margin-right:4.25pt'>
+
+{% if unpublished %}
+<p class="MsoNormal" align="center" style='margin-bottom:6.0pt;text-align:center;
+border:none;mso-border-alt:solid windowtext .5pt;padding:0cm;mso-padding-alt:
+1.0pt 4.0pt 1.0pt 4.0pt'><b style='mso-bidi-font-weight:normal'><span
+lang="EN-GB" style='font-size:10.0pt;mso-bidi-font-size:11.0pt'>Warning for drafts<o:p></o:p></span></b></p>
+
+<p class="MsoNormal" style='margin-bottom:6.0pt;border:none;mso-border-alt:solid windowtext .5pt;
+padding:0cm;mso-padding-alt:1.0pt 4.0pt 1.0pt 4.0pt'><span lang="EN-GB"
+style='font-size:10.0pt;mso-bidi-font-size:11.0pt;mso-bidi-font-weight:bold'>This document
+is not a Acme Standard. It is distributed for review and
+    comment, and is subject to change without notice and may not be referred to as
+    a Standard. Recipients of this draft are invited to submit, with their
+    comments, notification of any relevant patent rights of which they are aware
+    and to provide supporting documentation.<o:p></o:p></span></p>
+
+<p class="MsoNormal" style='border:none;mso-border-alt:solid windowtext .5pt;
+padding:0cm;mso-padding-alt:1.0pt 4.0pt 1.0pt 4.0pt'><span lang="EN-GB"
+style='font-size:10.0pt;mso-bidi-font-size:11.0pt;mso-bidi-font-weight:bold'>Recipients
+of this draft are invited to submit, with their comments, notification of any
+relevant patent rights of which they are aware and to provide supporting
+documentation.</span><span lang="EN-GB" style='font-size:10.0pt;mso-bidi-font-size:
+11.0pt'><o:p></o:p></span></p>
+
+{% endif %}
+
+</div>
+
+<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-GB"
+style='mso-no-proof:yes'>Acme Corp.&nbsp;</span><span lang="EN-GB"><span
+                                                             style='mso-no-proof:yes'>{{ docyear }}</span></p>
+
+
+
+

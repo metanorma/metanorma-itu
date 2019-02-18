@@ -114,12 +114,12 @@ module IsoDoc
         docxml
       end
 
-            def info(isoxml, out)
+      def info(isoxml, out)
         @meta.keywords isoxml, out
         super
       end
 
-                  def initial_anchor_names(d)
+      def initial_anchor_names(d)
         d.xpath("//xmlns:preface/child::*").each do |c|
           preface_names(c)
         end
@@ -128,6 +128,22 @@ module IsoDoc
         middle_section_asset_names(d)
         termnote_anchor_names(d)
         termexample_anchor_names(d)
+      end
+
+      def norm_ref(isoxml, out, num)
+        q = "//bibliography/references[title = 'References']"
+        f = isoxml.at(ns(q)) or return num
+        out.div do |div|
+          num = num + 1
+          clause_name(num, "References", div, nil)
+          norm_ref_preface(f, div)
+          biblio_list(f, div, false)
+        end
+        num
+      end
+
+      def norm_ref_preface(f, div)
+        div.p "The following ITU-T Recommendations and other references contain provisions which, through reference in this text, constitute provisions of this Recommendation. At the time of publication, the editions indicated were valid. All Recommendations and other references are subject to revision; users of this Recommendation are therefore encouraged to investigate the possibility of applying the most recent edition of the Recommendations and other references listed below. A list of the currently valid ITU-T Recommendations is regularly published. The reference to a document within this Recommendation does not give it, as a stand-alone document, the status of a Recommendation."
       end
 
     end

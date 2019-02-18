@@ -181,6 +181,43 @@ module Asciidoctor
         return
       end
 
+            def section(node)
+        a = { id: Utils::anchor_or_uuid(node) }
+        noko do |xml|
+          case sectiontype(node)
+          when "references" then norm_ref_parse(a, xml, node)
+          when "terms and definitions",
+            "terms, definitions, symbols and abbreviated terms",
+            "terms, definitions, symbols and abbreviations",
+            "terms, definitions and symbols",
+            "terms, definitions and abbreviations",
+            "terms, definitions and abbreviated terms"
+            @term_def = true
+            term_def_parse(a, xml, node, true)
+            @term_def = false
+          when "symbols and abbreviated terms",
+            "symbols",
+            "abbreviated terms",
+            "abbreviations"
+            symbols_parse(a, xml, node)
+          when "bibliography" then bibliography_parse(a, xml, node)
+          else
+            if @term_def then term_def_subclause_parse(a, xml, node)
+            elsif @definitions then symbols_parse(a, xml, node)
+            elsif @biblio then bibliography_parse(a, xml, node)
+            elsif node.attr("style") == "bibliography" && node.level == 1
+              bibliography_parse(a, xml, node)
+            elsif node.attr("style") == "abstract"
+              abstract_parse(a, xml, node)
+            elsif node.attr("style") == "appendix" && node.level == 1
+              annex_parse(a, xml, node)
+            else
+              clause_parse(a, xml, node)
+            end
+          end
+        end.join("\n")
+      end
+
       def html_converter(node)
         IsoDoc::ITU::HtmlConvert.new(html_extract_attributes(node))
       end

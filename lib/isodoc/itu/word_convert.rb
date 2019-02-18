@@ -182,7 +182,7 @@ module IsoDoc
 
     def middle_title(out)
       out.p(**{ class: "zzSTDTitle1" }) { |p| p << "Recommendation " + @meta.get[:docidentifier] }
-      out.p(**{ class: "zzSTDTitle1", style: "align: center" }) { |p| p << @meta.get[:doctitle] }
+      out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
     end
 
           def norm_ref(isoxml, out, num)

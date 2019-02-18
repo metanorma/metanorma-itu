@@ -49,7 +49,7 @@
     <p><span class="coverpage-maturity" id="{{ status | replace: ' ', '-' | downcase }}">{{ status }}</span></p>
 {% if keywords %}
 <p><span class="coverpage-maturity">Keywords: {{ keywords | join ", " }}</span></p>
-{% keywords %}
+{% endif %}
 </div>
 
 {% if unpublished %}

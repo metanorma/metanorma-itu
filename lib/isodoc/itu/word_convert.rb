@@ -169,7 +169,12 @@ module IsoDoc
           preface_names(c)
         end
         sequential_asset_names(d.xpath("//xmlns:preface/child::*"))
-        clause_names(d, 0)
+                n = section_names(d.at(ns("//clause[title = 'Scope']")), 0, 1)
+        n = section_names(d.at(ns("//bibliography/clause[title = 'References']")), n, 1)
+        n = section_names(d.at(ns("//sections/terms | "\
+                                  "//sections/clause[descendant::terms]")), n, 1)
+        n = section_names(d.at(ns("//sections/definitions")), n, 1)
+        clause_names(d, n)
         middle_section_asset_names(d)
         termnote_anchor_names(d)
         termexample_anchor_names(d)

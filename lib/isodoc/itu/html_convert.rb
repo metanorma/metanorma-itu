@@ -119,6 +119,17 @@ module IsoDoc
         super
       end
 
+                  def initial_anchor_names(d)
+        d.xpath("//xmlns:preface/child::*").each do |c|
+          preface_names(c)
+        end
+        sequential_asset_names(d.xpath("//xmlns:preface/child::*"))
+        clause_names(d, 0)
+        middle_section_asset_names(d)
+        termnote_anchor_names(d)
+        termexample_anchor_names(d)
+      end
+
     end
   end
 end

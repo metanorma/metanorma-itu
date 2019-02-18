@@ -188,6 +188,41 @@ module IsoDoc
         end
       end
 
+            ELSEWHERE_TERMS = "This Recommendation uses the following terms defined elsewhere:"
+      HERE_TERMS = "This Recommendation defines the following terms:"
+
+      def terms_parse(isoxml, out)
+        title = isoxml.at(ns("./title"))&.text&.downcase
+        title == "terms defined elsewhere" and out.p ELSEWHERE_TERMS
+        title == "terms defined in this recommendation" and out.p HERE_TERMS
+        content = isoxml.at(ns("./clause | ./term"))
+        if content.nil? then out.p "None."
+        else
+          clause_parse(isoxml, out)
+        end
+      end
+
+            def termdef_parse(node, out)
+        term = node.at(ns("./preferred"))
+        defn = node.at(ns("./definition"))
+        source = node.at(ns("./termsource/origin/@citeas"))
+        out.p **{ class: "TermNum", id: node["id"] } do |p|
+          p.b do |b|
+            b << get_anchors[node["id"]][:label]
+            insert_tab(ref, 1)
+            term.children.each { |n| parse(n, b) }
+          end
+          source and p << " [#{source.value}]"
+        p << ":"
+        defn.children.each { |n| parse(n, p) }
+        end
+        set_termdomain("")
+        node.children.each do |n|
+          next if %w(preferred definition termsource).include n.name
+          parse(n, out)
+        end
+      end
+
     end
   end
 end

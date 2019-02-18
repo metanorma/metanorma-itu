@@ -43,7 +43,7 @@ module IsoDoc
         @meta = Metadata.new(lang, script, labels)
       end
 
-            def load_yaml(lang, script)
+      def load_yaml(lang, script)
         y = if @i18nyaml then YAML.load_file(@i18nyaml)
             elsif lang == "en"
               YAML.load_file(File.join(File.dirname(__FILE__), "i18n-en.yaml"))
@@ -169,7 +169,7 @@ module IsoDoc
           preface_names(c)
         end
         sequential_asset_names(d.xpath("//xmlns:preface/child::*"))
-                n = section_names(d.at(ns("//clause[title = 'Scope']")), 0, 1)
+        n = section_names(d.at(ns("//clause[title = 'Scope']")), 0, 1)
         n = section_names(d.at(ns("//bibliography/clause[title = 'References'] | "\
                                   "//bibliography/references[title = 'References']")), n, 1)
         n = section_names(d.at(ns("//sections/terms | "\
@@ -195,12 +195,12 @@ module IsoDoc
         docxml
       end
 
-    def middle_title(out)
-      out.p(**{ class: "zzSTDTitle1" }) { |p| p << "Recommendation " + @meta.get[:docidentifier] }
-      out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
-    end
+      def middle_title(out)
+        out.p(**{ class: "zzSTDTitle1" }) { |p| p << "Recommendation " + @meta.get[:docidentifier] }
+        out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
+      end
 
-          def norm_ref(isoxml, out, num)
+      def norm_ref(isoxml, out, num)
         q = "//bibliography/references[title = 'References']"
         f = isoxml.at(ns(q)) or return num
         out.div do |div|
@@ -216,7 +216,7 @@ module IsoDoc
         div.p "The following ITU-T Recommendations and other references contain provisions which, through reference in this text, constitute provisions of this Recommendation. At the time of publication, the editions indicated were valid. All Recommendations and other references are subject to revision; users of this Recommendation are therefore encouraged to investigate the possibility of applying the most recent edition of the Recommendations and other references listed below. A list of the currently valid ITU-T Recommendations is regularly published. The reference to a document within this Recommendation does not give it, as a stand-alone document, the status of a Recommendation."
       end
 
-            def term_defs_boilerplate(div, source, term, preface)
+      def term_defs_boilerplate(div, source, term, preface)
       end
 
       def split_bibitems(f)
@@ -227,7 +227,7 @@ module IsoDoc
         bibitem
       end
 
-            def noniso_bibitem_entry(list, b, ordinal, biblio)
+      def noniso_bibitem_entry(list, b, ordinal, biblio)
         return if implicit_reference(b)
         list.p **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
           ref << "[#{iso_bibitem_ref_code(b)}]"
@@ -241,6 +241,41 @@ module IsoDoc
         bibitems = split_bibitems(f)
         bibitems.each_with_index do |b, i|
           noniso_bibitem_entry(div, b, (i + 1), bibliography)
+        end
+      end
+
+      ELSEWHERE_TERMS = "This Recommendation uses the following terms defined elsewhere:"
+      HERE_TERMS = "This Recommendation defines the following terms:"
+
+      def terms_parse(isoxml, out)
+        title = isoxml.at(ns("./title"))&.text&.downcase
+        title == "terms defined elsewhere" and out.p ELSEWHERE_TERMS
+        title == "terms defined in this recommendation" and out.p HERE_TERMS
+        content = isoxml.at(ns("./clause | ./term"))
+        if content.nil? then out.p "None."
+        else
+          clause_parse(isoxml, out)
+        end
+      end
+
+      def termdef_parse(node, out)
+        term = node.at(ns("./preferred"))
+        defn = node.at(ns("./definition"))
+        source = node.at(ns("./termsource/origin/@citeas"))
+        out.p **{ class: "TermNum", id: node["id"] } do |p|
+          p.b do |b|
+            b << get_anchors[node["id"]][:label]
+            insert_tab(ref, 1)
+            term.children.each { |n| parse(n, b) }
+          end
+          source and p << " [#{source.value}]"
+        p << ":"
+        defn.children.each { |n| parse(n, p) }
+        end
+        set_termdomain("")
+        node.children.each do |n|
+          next if %w(preferred definition termsource).include n.name
+          parse(n, out)
         end
       end
 

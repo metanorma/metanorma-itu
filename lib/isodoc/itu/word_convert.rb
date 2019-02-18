@@ -155,7 +155,7 @@ module IsoDoc
         keywords.parent = keywordsbox if keywords && keywordsbox
       end
 
-            def initial_anchor_names(d)
+      def initial_anchor_names(d)
         d.xpath("//xmlns:preface/child::*").each do |c|
           preface_names(c)
         end
@@ -165,6 +165,21 @@ module IsoDoc
         termnote_anchor_names(d)
         termexample_anchor_names(d)
       end
+
+      def word_preface_cleanup(docxml)
+        docxml.xpath("//h1[@class = 'AbstractTitle'] | "\
+                     "//h1[@class = 'IntroTitle']").each do |h2|
+          h2.name = "p"
+          h2["class"] = "h1Preface"
+        end
+      end
+
+      def word_cleanup(docxml)
+        super
+        word_preface_cleanup(docxml)
+        docxml
+      end
+
 
     end
   end

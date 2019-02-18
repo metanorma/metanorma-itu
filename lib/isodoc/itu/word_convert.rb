@@ -265,7 +265,7 @@ module IsoDoc
         out.p **{ class: "TermNum", id: node["id"] } do |p|
           p.b do |b|
             b << get_anchors[node["id"]][:label]
-            insert_tab(ref, 1)
+            insert_tab(b, 1)
             term.children.each { |n| parse(n, b) }
           end
           source and p << " [#{source.value}]"

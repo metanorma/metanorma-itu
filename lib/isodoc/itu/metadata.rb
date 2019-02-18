@@ -87,6 +87,14 @@ module IsoDoc
         return isodate unless m && m[:yr] && m[:mo]
         return "#{m[:mo]}/#{m[:yr]}"
       end
+
+      def keywords(isoxml, _out)
+        keywords = []
+        isoxml.xpath(ns("//bibdata/keyword")).each do |kw|
+          keywords << kw.text
+        end
+        set(:keywords, keywords)
+      end
     end
   end
 end

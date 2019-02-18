@@ -114,7 +114,8 @@ module IsoDoc
         docxml
       end
 
-      def info(isoxml, out)
+            def info(isoxml, out)
+        @meta.keywords isoxml, out
         super
       end
 

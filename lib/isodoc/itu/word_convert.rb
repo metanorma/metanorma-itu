@@ -69,8 +69,6 @@ module IsoDoc
 
       def preface(isoxml, out)
         isoxml.xpath(ns(FRONT_CLAUSE)).each do |c|
-          foreword(isoxml, out) and next if c.name == "foreword"
-          next if skip_render(c, isoxml)
           title = c&.at(ns("./title"))
           out.div **attr_code(id: c["id"]) do |s|
             clause_name(get_anchors[c['id']][:label], title&.content, s,

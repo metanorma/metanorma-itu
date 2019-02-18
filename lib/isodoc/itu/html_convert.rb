@@ -39,7 +39,7 @@ module IsoDoc
         }
       end
 
-            def load_yaml(lang, script)
+      def load_yaml(lang, script)
         y = if @i18nyaml then YAML.load_file(@i18nyaml)
             elsif lang == "en"
               YAML.load_file(File.join(File.dirname(__FILE__), "i18n-en.yaml"))
@@ -135,7 +135,7 @@ module IsoDoc
         end
         sequential_asset_names(d.xpath("//xmlns:preface/child::*"))
         n = section_names(d.at(ns("//clause[title = 'Scope']")), 0, 1)
-         n = section_names(d.at(ns("//bibliography/clause[title = 'References'] | "\
+        n = section_names(d.at(ns("//bibliography/clause[title = 'References'] | "\
                                   "//bibliography/references[title = 'References']")), n, 1)
         n = section_names(d.at(ns("//sections/terms | "\
                                   "//sections/clause[descendant::terms]")), n, 1)
@@ -165,7 +165,31 @@ module IsoDoc
       def term_defs_boilerplate(div, source, term, preface)
       end
 
+      def split_bibitems(f)
+        bibitem = []
+        f.xpath(ns("./bibitem")).each do |x|
+          bibitem << x
+        end
+        bibitem
+      end
+
+      def iso_bibitem_entry(list, b, ordinal, biblio)
+        return if implicit_reference(b)
+        list.p **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
+          ref << "[#{iso_bibitem_ref_code(b)}]"
+          date_note_process(b, ref)
+          insert_tab(ref, 1)
+          ref.i { |i| i << " #{iso_title(b)}" }
+        end
+      end
+
+      def biblio_list(f, div, bibliography)
+        bibitems = split_bibitems(f)
+        bibitems.each_with_index do |b, i|
+          iso_bibitem_entry(div, b, (i + 1), bibliography)
+        end
+      end
+
     end
   end
 end
-

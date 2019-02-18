@@ -163,6 +163,30 @@ module IsoDoc
             def term_defs_boilerplate(div, source, term, preface)
       end
 
+      def split_bibitems(f)
+        bibitem = []
+        f.xpath(ns("./bibitem")).each do |x|
+          bibitem << x
+        end
+        bibitem
+      end
+
+      def iso_bibitem_entry(list, b, ordinal, biblio)
+        return if implicit_reference(b)
+        list.p **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
+          ref << "[#{iso_bibitem_ref_code(b)}]"
+          date_note_process(b, ref)
+          insert_tab(ref, 1)
+          ref.i { |i| i << " #{iso_title(b)}" }
+        end
+      end
+
+      def biblio_list(f, div, bibliography)
+        bibitems = split_bibitems(f)
+        bibitems.each_with_index do |b, i|
+          iso_bibitem_entry(div, b, (i + 1), bibliography)
+        end
+      end
 
     end
   end

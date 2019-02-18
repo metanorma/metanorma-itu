@@ -22,7 +22,7 @@ module IsoDoc
       def default_fonts(options)
         {
           bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' : '"Times New Roman",serif'),
-          headerfont: (options[:script] == "Hans" ? '"SimHei",sans-serif' : '"Arial",sans-serif'),
+          headerfont: (options[:script] == "Hans" ? '"SimHei",sans-serif' : '"Times New Roman",serif'),
           monospacefont: '"Courier New",monospace'
         }
       end
@@ -64,10 +64,10 @@ module IsoDoc
         section_break(body)
       end
 
-            FRONT_CLAUSE = "//*[parent::preface]"\
+      FRONT_CLAUSE = "//*[parent::preface]"\
         "[not(local-name() = 'abstract')]".freeze
 
-            def preface(isoxml, out)
+      def preface(isoxml, out)
         isoxml.xpath(ns(FRONT_CLAUSE)).each do |c|
           foreword(isoxml, out) and next if c.name == "foreword"
           next if skip_render(c, isoxml)
@@ -127,7 +127,7 @@ module IsoDoc
         docxml
       end
 
-            def abstract(isoxml, out)
+      def abstract(isoxml, out)
         f = isoxml.at(ns("//preface/abstract")) || return
         out.div **attr_code(id: f["id"]) do |s|
           clause_name(nil, "Summary", s, class: "AbstractTitle")
@@ -142,6 +142,19 @@ module IsoDoc
           clause_name(nil, "Keywords", div,  class: "IntroTitle")
           div.p kw.sort.join(", ") + "."
         end
+      end
+
+      def word_preface(docxml)
+        super
+        abstractbox = docxml.at("//div[@id='abstractbox']")
+        historybox = docxml.at("//div[@id='historybox']")
+        keywordsbox = docxml.at("//div[@id='keywordsbox']")
+        abstract = docxml.at("//h1[@class = 'AbstractTitle']/..")
+        history = docxml.at("//h1[@class = 'IntroTitle' and text() = 'History']/..")
+        keywords = docxml.at("//h1[@class = 'IntroTitle' and text() = 'Keywords']/..")
+        abstract.parent = abstractbox if abstract && abstractbox
+        history.parent = historybox if history && historybox
+        keywords.parent = keywordsbox if keywords && keywordsbox
       end
 
     end

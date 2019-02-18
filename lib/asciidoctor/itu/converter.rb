@@ -141,7 +141,7 @@ module Asciidoctor
 
       def make_preface(x, s)
         make_abstract(x, s)
-          move_sections_into_preface(x, preface)
+        move_sections_into_preface(x, x.at("//preface"))
       end
 
       def document(node)

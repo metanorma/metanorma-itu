@@ -191,7 +191,8 @@ module Asciidoctor
             "terms, definitions, symbols and abbreviations",
             "terms, definitions and symbols",
             "terms, definitions and abbreviations",
-            "terms, definitions and abbreviated terms"
+            "terms, definitions and abbreviated terms",
+            "definitions"
             @term_def = true
             term_def_parse(a, xml, node, true)
             @term_def = false
@@ -199,6 +200,7 @@ module Asciidoctor
             "symbols",
             "abbreviated terms",
             "abbreviations"
+            "abbreviations and acronyms"
             symbols_parse(a, xml, node)
           when "bibliography" then bibliography_parse(a, xml, node)
           else

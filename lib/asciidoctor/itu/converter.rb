@@ -127,7 +127,7 @@ module Asciidoctor
         d
       end
 
-            def clause_parse(attrs, xml, node)
+      def clause_parse(attrs, xml, node)
         attrs[:preface] = true if node.attr("style") == "preface"
         super
       end
@@ -181,7 +181,7 @@ module Asciidoctor
         return
       end
 
-            def section(node)
+      def section(node)
         a = { id: Asciidoctor::Standoc::Utils::anchor_or_uuid(node) }
         noko do |xml|
           case sectiontype(node)
@@ -220,7 +220,7 @@ module Asciidoctor
         end.join("\n")
       end
 
-                  def norm_ref_parse(attrs, xml, node)
+      def norm_ref_parse(attrs, xml, node)
         @norm_ref = true
         xml.references **attr_code(attrs) do |xml_section|
           xml_section.title { |t| t << "References" }
@@ -228,6 +228,12 @@ module Asciidoctor
         end
         @norm_ref = false
       end
+
+      def term_def_title(toplevel, node)
+        return node.title unless toplevel
+        "Definitions"
+      end
+
 
       def html_converter(node)
         IsoDoc::ITU::HtmlConvert.new(html_extract_attributes(node))

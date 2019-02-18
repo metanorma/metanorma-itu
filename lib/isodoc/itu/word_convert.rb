@@ -274,7 +274,7 @@ module IsoDoc
         end
         set_termdomain("")
         node.children.each do |n|
-          next if %w(preferred definition termsource).include n.name
+          next if %w(preferred definition termsource).include? n.name
           parse(n, out)
         end
       end

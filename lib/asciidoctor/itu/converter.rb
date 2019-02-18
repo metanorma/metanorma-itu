@@ -127,6 +127,23 @@ module Asciidoctor
         d
       end
 
+            def clause_parse(attrs, xml, node)
+        attrs[:preface] = true if node.attr("style") == "preface"
+        super
+      end
+
+      def move_sections_into_preface(x, preface)
+        x.xpath("//clause[@preface]").each do |c|
+          c.delete("preface")
+          preface.add_child c.remove
+        end
+      end
+
+      def make_preface(x, s)
+        make_abstract(x, s)
+          move_sections_into_preface(x, preface)
+      end
+
       def document(node)
         init(node)
         ret1 = makexml(node)

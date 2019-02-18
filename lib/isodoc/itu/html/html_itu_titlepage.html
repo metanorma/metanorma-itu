@@ -3,7 +3,7 @@
 </div>
 
 <div class="document-type-band" id='{{ doctype | downcase | replace: " ", "-" }}-band'>
-    <p class="document-type">Acme {{ doctype }}</p>
+    <p class="document-type">ITU {{ doctype }}</p>
 </div>
 
 
@@ -18,7 +18,7 @@
 
   <div class="coverpage-doc-identity">
     <div class="doc-number">
-      <span class="docnumber">{{ docnumber }}</span>
+      <span class="docnumber">{{ docidentifier }}</span>
       <span class="docnumber-separator">:</span>
       <span class="docyear">{{ docyear }} {{ draftinfo }}</span>
     </div>
@@ -30,7 +30,7 @@
   </div>
 
   <div class="coverpage-logo">
-    <span>Acme Corp. {{ docyear }}</span>
+    <span>International Telecommunications Union {{ docyear }}</span>
   </div>
 
   <div class="coverpage-tc-name">
@@ -47,25 +47,20 @@
 
   <div class="coverpage-stage-block" >
     <p><span class="coverpage-maturity" id="{{ status | replace: ' ', '-' | downcase }}">{{ status }}</span></p>
-{% if security %}
-<p><span class="coverpage-maturity">Classification: {{ security }}</span></p>
-{% endif %}
+{% if keywords %}
+<p><span class="coverpage-maturity">Keywords: {{ keywords | join ", " }}</span></p>
+{% keywords %}
 </div>
-
-{% if doctype == "Policy And Procedures" or doctype == "Proposal" %}
-<div  class="coverpage-stage-block" >{{ revdate }}</div>
-{% endif %}
 
 {% if unpublished %}
   <div class="coverpage-warning">
     <span class="title">Warning for Drafts</span>
 
     <p class="content">
-    This document is not a Acme Standard. It is distributed for review and
-    comment, and is subject to change without notice and may not be referred to as
-    a Standard. Recipients of this draft are invited to submit, with their
-    comments, notification of any relevant patent rights of which they are aware
-    and to provide supporting documentation.
+    This prepublication is an unedited version of a recently approved Recommendation.
+  It&#xA0;will be replaced by the published version after editing. Therefore,
+  there will be differences between this prepublication and the published
+  version.
     </p>
   </div>
 {% endif %}
@@ -73,7 +68,7 @@
 <div class="info-section">
 <div class="copyright">
   <p class="year">
-    &copy; {{ docyear }} Acme Corp.
+    &copy; {{ docyear }} International Telecommunications Union.
   </p>
 
   <p class="message">

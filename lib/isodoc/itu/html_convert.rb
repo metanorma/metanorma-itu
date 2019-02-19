@@ -227,7 +227,6 @@ module IsoDoc
         defn = node.at(ns("./definition"))
         source = node.at(ns("./termsource/origin/@citeas"))
         out.div **attr_code(id: node["id"]) do |div|
-          clause_parse_title(node, div, node.at(ns("./title")), out)
           termdef_parse1(node, div, term, defn, source)
           set_termdomain("")
           node.children.each do |n|

@@ -286,6 +286,26 @@ module IsoDoc
         end
       end
 
+          def get_eref_linkend(node)
+      link = "[#{anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))}]"
+      link += eref_localities(node.xpath(ns("./locality")), link)
+      contents = node.children.select { |c| c.name != "locality" }
+      return link if contents.nil? || contents.empty?
+      Nokogiri::XML::NodeSet.new(node.document, contents).to_xml
+    end
+
+        def eref_parse(node, out)
+      linkend = get_eref_linkend(node)
+      if node["type"] == "footnote"
+        out.sup do |s|
+          s.a(**{ "href": "#" + node["bibitemid"] }) { |l| l << linkend }
+        end
+      else
+        out.a(**{ "href": "#" + node["bibitemid"] }) { |l| l << linkend }
+      end
+    end
+
+
     end
   end
 end

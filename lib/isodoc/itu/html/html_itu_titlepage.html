@@ -16,86 +16,122 @@
   <div class="coverpage">
     <div class="wrapper-top">
 
+              <div class="rule-2"></div>
+
   <div class="coverpage-doc-identity">
     <div class="doc-number">
-      <span class="docnumber">{{ docidentifier }}</span>
-      <span class="docnumber-separator">:</span>
-      <span class="docyear">{{ docyear }} {{ draftinfo }}</span>
+      <div>{{ docidentifier }}</div>
+      {% if edition %} <div> Revision {{ edition }}</div> {% endif %}
+      <div> {{ draftinfo }}</div>
     </div>
 
     <div class="coverpage-title">
       <span class="title-first">{{ doctitle }}</span>
-      <!--<span class="title-second">{{ docsubtitle }}</span>-->
+      {% if docsubtitle %}
+      <br/><span class="title-second">{{ docsubtitle }}</span>
+      {% endif %}
     </div>
   </div>
 
   <div class="coverpage-logo">
-    <span>International Telecommunications Union {{ docyear }}</span>
+    <span>International Telecommunication Union {{ docyear }}</span>
   </div>
 
   <div class="coverpage-tc-name">
     <span>{{ tc }}</span>
   </div>
+
+  <div class="rule-thick"></div>
+
+  <div class="authors-container">
+    {% for affiliation in authors_affiliations %}
+    {% for author in affiliation[1] %}
+<div class="author">{{ author }}</div>
+{% endfor %}
+<div class="affiliation">{{affiliation[0]}}</div>
+{% endfor %}
+    </div>
+
+    <div class="download-info">
+
+This publication is available free of charge from: <br>
+<a href="{{url}}">{{ url }}</a>
+
+<div class="category">{{ tc }}</div>
+
+    </div>
+
+  </div>
   </div>
 
-    <div class="wrapper-top-bottom"></div>
+    <div class="logo-wrapper">
+
+    <img id="ITU-logo" src="logo.png">
+  </div>
+
+  <div class="logo-info">
+      <p>U.S. Department of Commerce</p>
+      <p><i>Wilbur L. Ross, Jr., Secretary</i></p>
+  </div>
 
   <div class="WordSection11">
-  <div class="coverpage-stage-block" >
-    <span class="coverpage-stage" id="{{ doctype | replace: ' ', '-' | downcase }}">Acme {{ doctype }}</span>
+  <div class="coverpage-stage-block">
+    <span class="coverpage-stage" id="{{ doctype | downcase | replace: ' ', '-' }}">{{ doctype }}</span>
   </div>
-
-  <div class="coverpage-stage-block" >
-    <p><span class="coverpage-maturity" id="{{ status | replace: ' ', '-' | downcase }}">{{ status }}</span></p>
-{% if keywords %}
-<p><span class="coverpage-maturity">Keywords: {{ keywords | join ", " }}</span></p>
-{% endif %}
+  
+  <div class="coverpage-stage-block">
+    <span class="coverpage-maturity" id="{{ status }}">{{ status }}</span>
+  
 </div>
 
+              
 {% if unpublished %}
   <div class="coverpage-warning">
     <span class="title">Warning for Drafts</span>
-
+      
     <p class="content">
-    This prepublication is an unedited version of a recently approved Recommendation.
-  It&#xA0;will be replaced by the published version after editing. Therefore,
+    This
+  prepublication is an unedited version of a recently approved Recommendation.
+  It will be replaced by the published version after editing. Therefore,
   there will be differences between this prepublication and the published
   version.
-    </p>
+    </p> 
   </div>
 {% endif %}
-
+    
 <div class="info-section">
 <div class="copyright">
-  <p class="year">
-    &copy; {{ docyear }} International Telecommunications Union.
+  
+  <p class="year"> 
+    &copy; {{ docyear }} ITU.
   </p>
-
+  
   <p class="message">
     All rights reserved. Unless otherwise specified, no part of this
     publication may be reproduced or utilized otherwise in any form or by any
     means, electronic or mechanical, including photocopying, or posting on the
     internet or an intranet, without prior written permission. Permission can
     be requested from the address below.
-  </p>
-
-<div class="contact-info">
-  <p class="name">Acme Corp.</p>
+  </p> 
+    
+  <div class="contact-info">
+  <p class="name">International Telecommunication Union</p>
   <p class="address">
-    Suite 1, 8/F, New Henry House<br />
-    10 Ice House Street<br />
-    Central<br />
-    Hong Kong<br />
+ Place des Nations 
+1211 Geneva 20 Switzerland
     <br />
-    <a href="mailto:copyright@ribose.com">copyright@ribose.com</a><br />
-    <a href="open.ribose.com">www.ribose.com</a>
+    <a href="mailto:itumail@itu.int">itumail@itu.int</a><br />
+    <a href="www.itu.int">www.itu.int</a>
   </p>
 </div>
+
+
 </div>
 
 <div class="rule"></div>
 </div>
   </div>
-
+    
 
 </header>
+

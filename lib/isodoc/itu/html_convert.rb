@@ -80,6 +80,31 @@ module IsoDoc
         end
       end
 
+          def make_body3(body, docxml)
+      body.div **{ class: "main-section" } do |div3|
+        abstract docxml, div3
+        preface docxml, div3
+        middle docxml, div3
+        footnotes div3
+        comments div3
+      end
+    end
+
+                FRONT_CLAUSE = "//*[parent::preface]"\
+        "[not(local-name() = 'abstract')]".freeze
+
+      def preface(isoxml, out)
+        isoxml.xpath(ns(FRONT_CLAUSE)).each do |c|
+          title = c&.at(ns("./title"))
+          out.div **attr_code(id: c["id"]) do |s|
+            clause_name(nil, title&.content, s, class: "IntroTitle")
+            c.elements.reject { |c1| c1.name == "title" }.each do |c1|
+              parse(c1, s)
+            end
+          end
+        end
+      end
+
       def html_toc(docxml)
         docxml
       end

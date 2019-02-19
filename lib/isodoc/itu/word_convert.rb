@@ -190,8 +190,8 @@ module IsoDoc
       end
 
       def word_cleanup(docxml)
-        super
         word_preface_cleanup(docxml)
+        super
         docxml
       end
 

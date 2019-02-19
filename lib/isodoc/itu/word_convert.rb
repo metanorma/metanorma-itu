@@ -156,9 +156,9 @@ module IsoDoc
         abstractbox = docxml.at("//div[@id='abstractbox']")
         historybox = docxml.at("//div[@id='historybox']")
         keywordsbox = docxml.at("//div[@id='keywordsbox']")
-        abstract = docxml.at("//h1[@class = 'AbstractTitle']/..")
-        history = docxml.at("//h1[@class = 'IntroTitle' and text() = 'History']/..")
-        keywords = docxml.at("//h1[@class = 'IntroTitle' and text() = 'Keywords']/..")
+        abstract = docxml.at("//p[@class = 'h1Preface' and text() = 'Summary']/..")
+        history = docxml.at("//p[@class = 'h1Preface' and text() = 'History']/..")
+        keywords = docxml.at("//p[@class = 'h1Preface' and text() = 'Keywords']/..")
         abstract.parent = abstractbox if abstract && abstractbox
         history.parent = historybox if history && historybox
         keywords.parent = keywordsbox if keywords && keywordsbox

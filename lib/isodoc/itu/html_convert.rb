@@ -196,10 +196,10 @@ module IsoDoc
       def terms_parse(node, out)
         out.div **attr_code(id: node["id"]) do |div|
           clause_parse_title(node, div, node.at(ns("./title")), out)
-          title = isoxml.at(ns("./title"))&.text&.downcase
+          title = node.at(ns("./title"))&.text&.downcase
           title == "terms defined elsewhere" and out.p ELSEWHERE_TERMS
           title == "terms defined in this recommendation" and out.p HERE_TERMS
-          content = isoxml.at(ns("./clause | ./term"))
+          content = node.at(ns("./clause | ./term"))
           if content.nil? then out.p "None."
           else
             node.children.reject { |c1| c1.name == "title" }.each do |c1|

@@ -248,27 +248,32 @@ module IsoDoc
       HERE_TERMS = "This Recommendation defines the following terms:"
 
       def terms_parse(isoxml, out)
-        title = isoxml.at(ns("./title"))&.text&.downcase
-        title == "terms defined elsewhere" and out.p ELSEWHERE_TERMS
-        title == "terms defined in this recommendation" and out.p HERE_TERMS
-        content = isoxml.at(ns("./clause | ./term"))
-        if content.nil? then out.p "None."
-        else
-          clause_parse(isoxml, out)
+        out.div **attr_code(id: node["id"]) do |div|
+          clause_parse_title(node, div, node.at(ns("./title")), out)
+          title = isoxml.at(ns("./title"))&.text&.downcase
+          title == "terms defined elsewhere" and out.p ELSEWHERE_TERMS
+          title == "terms defined in this recommendation" and out.p HERE_TERMS
+          content = isoxml.at(ns("./clause | ./term"))
+          if content.nil? then out.p "None."
+          else
+            node.children.reject { |c1| c1.name == "title" }.each do |c1|
+              parse(c1, div)
+            end
+          end
         end
       end
 
-            def termdef_parse1(node, div, term, defn, source)
+      def termdef_parse1(node, div, term, defn, source)
         div.p **{ class: "TermNum", id: node["id"] } do |p|
-            p.b do |b|
-              b << get_anchors[node["id"]][:label]
-              insert_tab(b, 1)
-              term.children.each { |n| parse(n, b) }
-            end
-            source and p << " [#{source.value}]"
-            p << ":"
-            defn.children.each { |n| parse(n, p) }
+          p.b do |b|
+            b << get_anchors[node["id"]][:label]
+            insert_tab(b, 1)
+            term.children.each { |n| parse(n, b) }
           end
+          source and p << " [#{source.value}]"
+          p << ":"
+          defn.children.each { |n| parse(n, p) }
+        end
       end
 
       def termdef_parse(node, out)
@@ -286,24 +291,24 @@ module IsoDoc
         end
       end
 
-          def get_eref_linkend(node)
-      link = "[#{anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))}]"
-      link += eref_localities(node.xpath(ns("./locality")), link)
-      contents = node.children.select { |c| c.name != "locality" }
-      return link if contents.nil? || contents.empty?
-      Nokogiri::XML::NodeSet.new(node.document, contents).to_xml
-    end
-
-        def eref_parse(node, out)
-      linkend = get_eref_linkend(node)
-      if node["type"] == "footnote"
-        out.sup do |s|
-          s.a(**{ "href": "#" + node["bibitemid"] }) { |l| l << linkend }
-        end
-      else
-        out.a(**{ "href": "#" + node["bibitemid"] }) { |l| l << linkend }
+      def get_eref_linkend(node)
+        link = "[#{anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))}]"
+        link += eref_localities(node.xpath(ns("./locality")), link)
+        contents = node.children.select { |c| c.name != "locality" }
+        return link if contents.nil? || contents.empty?
+        Nokogiri::XML::NodeSet.new(node.document, contents).to_xml
       end
-    end
+
+      def eref_parse(node, out)
+        linkend = get_eref_linkend(node)
+        if node["type"] == "footnote"
+          out.sup do |s|
+            s.a(**{ "href": "#" + node["bibitemid"] }) { |l| l << linkend }
+          end
+        else
+          out.a(**{ "href": "#" + node["bibitemid"] }) { |l| l << linkend }
+        end
+      end
 
 
     end

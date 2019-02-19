@@ -191,7 +191,7 @@ module IsoDoc
             ELSEWHERE_TERMS = "This Recommendation uses the following terms defined elsewhere:"
       HERE_TERMS = "This Recommendation defines the following terms:"
 
-      def terms_parse(isoxml, out)
+      def terms_parse(node, out)
         out.div **attr_code(id: node["id"]) do |div|
           clause_parse_title(node, div, node.at(ns("./title")), out)
           title = isoxml.at(ns("./title"))&.text&.downcase

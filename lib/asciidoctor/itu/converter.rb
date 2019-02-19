@@ -234,6 +234,15 @@ module Asciidoctor
         "Definitions"
       end
 
+      def termdef_cleanup(xmldoc)
+        xmldoc.xpath("//term/preferred").each do |p|
+          if ["terms defined elsewhere", "terms defined in this recommendation"].include? p.text.downcase
+            p.name = "title"
+            p.parent.name = "terms"
+          end
+        end
+        super
+      end
 
       def html_converter(node)
         IsoDoc::ITU::HtmlConvert.new(html_extract_attributes(node))

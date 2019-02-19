@@ -888,10 +888,10 @@ h2 p {
 
 .coverpage-title {
 
-  font-family: 'Libre Baskerville', serif; }
+  font-family: $headerfont; }
 
   .coverpage-title span {
-    font-family: 'Libre Baskerville', serif;
+    font-family: $headerfont;
     font-size: 1.1em;
     line-height: 1;
   }

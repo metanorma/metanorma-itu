@@ -1,137 +1,117 @@
 <div class="document-stage-band" id='{{ status | downcase | replace: " ", "-" }}-band'>
-    <p class="document-stage">{{ status }}</p>
+  <p class="document-stage">{{ status }}</p>
 </div>
 
 <div class="document-type-band" id='{{ doctype | downcase | replace: " ", "-" }}-band'>
-    <p class="document-type">ITU {{ doctype }}</p>
+  <p class="document-type">ITU {{ doctype }}</p>
 </div>
 
 
 
-  <div id='toggle'> <span>&#x2022;</span> </div>
+<div id='toggle'> <span>&#x2022;</span> </div>
 
-  <header>
+<header>
 
-<!--<div class="WordSection1">-->
+  <!--<div class="WordSection1">-->
   <div class="coverpage">
     <div class="wrapper-top">
 
-              <div class="rule-2"></div>
+      <div class="rule-2"></div>
 
-  <div class="coverpage-doc-identity">
-    <div class="doc-number">
-      <div>{{ docidentifier }}</div>
-      {% if edition %} <div> Revision {{ edition }}</div> {% endif %}
-      <div> {{ draftinfo }}</div>
-    </div>
+      <div class="coverpage-doc-identity">
+        <div class="doc-number">
+          <div>{{ docidentifier }}</div>
+          {% if edition %} <div> Revision {{ edition }}</div> {% endif %}
+          <div> {{ draftinfo }}</div>
+        </div>
 
-    <div class="coverpage-title">
-      <span class="title-first">{{ doctitle }}</span>
-      {% if docsubtitle %}
-      <br/><span class="title-second">{{ docsubtitle }}</span>
-      {% endif %}
-    </div>
-  </div>
+        <div class="coverpage-title">
+          <span class="title-first">{{ doctitle }}</span>
+          {% if docsubtitle %}
+          <br/><span class="title-second">{{ docsubtitle }}</span>
+          {% endif %}
+        </div>
+      </div>
 
-  <div class="coverpage-logo">
-    <span>International Telecommunication Union {{ docyear }}</span>
-  </div>
+      <div class="coverpage-logo">
+        <span>International Telecommunication Union {{ docyear }}</span>
+      </div>
 
-  <div class="coverpage-tc-name">
-    <span>{{ tc }}</span>
-  </div>
-
-  <div class="rule-thick"></div>
-
-  <div class="authors-container">
-    {% for affiliation in authors_affiliations %}
-    {% for author in affiliation[1] %}
-<div class="author">{{ author }}</div>
-{% endfor %}
-<div class="affiliation">{{affiliation[0]}}</div>
-{% endfor %}
-    </div>
-
-    <div class="download-info">
-
-This publication is available free of charge from: <br>
-<a href="{{url}}">{{ url }}</a>
-
-<div class="category">{{ tc }}</div>
+      <div class="coverpage-tc-name">
+        <span>
+          {% if bureau == "T" %}Telecommunication Standardization Sector of ITU{% endif %}
+          {% if bureau == "D" %}Telecommunication Development Sector of ITU{% endif %}
+          {% if bureau == "R" %}Radiocommunication Sector of ITU{% endif %}
+        </span>
+      </div>
 
     </div>
 
   </div>
-  </div>
 
-    <div class="logo-wrapper">
+  <div class="logo-wrapper">
 
     <img id="ITU-logo" src="logo.png">
   </div>
 
-  <div class="logo-info">
-      <p>U.S. Department of Commerce</p>
-      <p><i>Wilbur L. Ross, Jr., Secretary</i></p>
-  </div>
-
   <div class="WordSection11">
-  <div class="coverpage-stage-block">
-    <span class="coverpage-stage" id="{{ doctype | downcase | replace: ' ', '-' }}">{{ doctype }}</span>
+    <div class="coverpage-stage-block">
+      <span class="coverpage-stage" id="{{ doctype | downcase | replace: ' ', '-' }}">{{ doctype }}</span>
+    </div>
+
+    <div class="coverpage-stage-block">
+      <span class="coverpage-maturity" id="{{ status }}">{{ status }}</span>
+
+    </div>
+
+
+    {% if unpublished %}
+    <div class="coverpage-warning">
+      <span class="title">Warning for Drafts</span>
+
+      <p class="content">
+      This
+      prepublication is an unedited version of a recently approved Recommendation.
+      It will be replaced by the published version after editing. Therefore,
+      there will be differences between this prepublication and the published
+      version.
+      </p> 
+    </div>
+    {% endif %}
+
+    <div class="info-section">
+      <div class="copyright">
+
+        <p class="year"> 
+        &copy; {{ docyear }} ITU.
+        </p>
+
+        <p class="message">
+        All rights reserved. Unless otherwise specified, no part of this
+        publication may be reproduced or utilized otherwise in any form or by any
+        means, electronic or mechanical, including photocopying, or posting on the
+        internet or an intranet, without prior written permission. Permission can
+        be requested from the address below.
+        </p> 
+
+        <div class="contact-info">
+          <p class="name">International Telecommunication Union</p>
+          <p class="address">
+          Place des Nations 
+          1211 Geneva 20 Switzerland
+          <br />
+          <a href="mailto:itumail@itu.int">itumail@itu.int</a><br />
+          <a href="www.itu.int">www.itu.int</a>
+          </p>
+        </div>
+
+
+      </div>
+
+      <div class="rule"></div>
+    </div>
   </div>
-  
-  <div class="coverpage-stage-block">
-    <span class="coverpage-maturity" id="{{ status }}">{{ status }}</span>
-  
-</div>
 
-              
-{% if unpublished %}
-  <div class="coverpage-warning">
-    <span class="title">Warning for Drafts</span>
-      
-    <p class="content">
-    This
-  prepublication is an unedited version of a recently approved Recommendation.
-  It will be replaced by the published version after editing. Therefore,
-  there will be differences between this prepublication and the published
-  version.
-    </p> 
-  </div>
-{% endif %}
-    
-<div class="info-section">
-<div class="copyright">
-  
-  <p class="year"> 
-    &copy; {{ docyear }} ITU.
-  </p>
-  
-  <p class="message">
-    All rights reserved. Unless otherwise specified, no part of this
-    publication may be reproduced or utilized otherwise in any form or by any
-    means, electronic or mechanical, including photocopying, or posting on the
-    internet or an intranet, without prior written permission. Permission can
-    be requested from the address below.
-  </p> 
-    
-  <div class="contact-info">
-  <p class="name">International Telecommunication Union</p>
-  <p class="address">
- Place des Nations 
-1211 Geneva 20 Switzerland
-    <br />
-    <a href="mailto:itumail@itu.int">itumail@itu.int</a><br />
-    <a href="www.itu.int">www.itu.int</a>
-  </p>
-</div>
-
-
-</div>
-
-<div class="rule"></div>
-</div>
-  </div>
-    
 
 </header>
 

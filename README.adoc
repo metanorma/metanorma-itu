@@ -118,7 +118,7 @@ report:: report
 `working-draft`, `committee-draft`, `draft-standard`, `final-draft`,
 `published`, `withdrawn`.
 
-`:technical-committee:`:: The name of the relevant M3D technical committee
+`:technical-committee:`:: The name of the relevant ITU technical committee
 (mandatory)
 
 `:language:` :: The language of the document (only `en` for now)  (mandatory)

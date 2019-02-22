@@ -114,7 +114,7 @@ standard:: Recommendation; includes IETF RFC
 report:: report
 --
 
-`:status:``:: The document status. The permitted types are: `proposal`,
+`:status:`:: The document status. The permitted types are: `proposal`,
 `working-draft`, `committee-draft`, `draft-standard`, `final-draft`,
 `published`, `withdrawn`.
 

@@ -33,7 +33,7 @@ The preferred way to invoke this gem is via the `metanorma` script:
 
 [source,console]
 ----
-$ metanorma --type itu a.adoc                   # output HTML 
+$ metanorma --type itu a.adoc                   # output HTML
 $ metanorma --type itu --extensions html a.adoc # output just HTML
 $ metanorma --type itu --extensions xml a.adoc  # output RSD XML
 ----
@@ -72,7 +72,7 @@ standards authoring process, and is prescribed in a separate document.
 === Asciidoctor
 
 Asciidoctor has been selected as the authoring tool to generate the document
-model representation of ITU standards. It is a document formatting tool like
+model representation of ITU documents. It is a document formatting tool like
 Markdown and DocBook, which combines the relative ease of use of the former
 (using relatively lightweight markup), and the rigor and expressively of the
 latter (it has a well-defined syntax, and was in fact initially developed as a
@@ -114,11 +114,11 @@ standard:: Recommendation; includes IETF RFC
 report:: report
 --
 
-`:status:``:: The document status. The permitted types are: `proposal`,
+`:status:`:: The document status. The permitted types are: `proposal`,
 `working-draft`, `committee-draft`, `draft-standard`, `final-draft`,
 `published`, `withdrawn`.
 
-`:technical-committee:`:: The name of the relevant M3D technical committee
+`:technical-committee:`:: The name of the relevant ITU technical committee
 (mandatory)
 
 `:language:` :: The language of the document (only `en` for now)  (mandatory)

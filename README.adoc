@@ -121,7 +121,8 @@ report:: report
 `:technical-committee:`:: The name of the relevant ITU technical committee
 (mandatory)
 
-`:language:` :: The language of the document (only `en` for now)  (mandatory)
+`:language:` :: The language of the document (only `en` for now; will eventually support
+`ar`, `zh`, `en`, `fr`, `ru`, `es`)  (default: `en`)
 
 The attribute `:draft:`, if present, includes review notes in the XML output;
 these are otherwise suppressed.

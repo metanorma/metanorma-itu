@@ -1,8 +1,8 @@
 = metanorma-itu: Asciidoctor processor for ITU
 
 image:https://img.shields.io/gem/v/metanorma-itu.svg["Gem Version", link="https://rubygems.org/gems/metanorma-itu"]
-image:https://img.shields.io/travis/riboseinc/metanorma-itu/master.svg["Build Status", link="https://travis-ci.org/riboseinc/metanorma-itu"]
-image:https://codeclimate.com/github/riboseinc/metanorma-itu/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/riboseinc/metanorma-itu"]
+image:https://img.shields.io/travis/metanorma/metanorma-itu/master.svg["Build Status", link="https://travis-ci.org/metanorma/metanorma-itu"]
+image:https://codeclimate.com/github/metanorma/metanorma-itu/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/metanorma-itu"]
 
 WARNING: This gem is still under development.
 
@@ -11,9 +11,9 @@ WARNING: This gem is still under development.
 This gem processes http://asciidoctor.org/[Asciidoctor] documents following
 a template for generating ITU documents.
 
-The gem currently inherits from the https://github.com/riboseinc/metanorma-standoc
+The gem currently inherits from the https://github.com/metanorma/metanorma-standoc
 gem, and aligns closely to it. Refer to the ISO gem documentation
-for guidance, including https://github.com/riboseinc/metanorma-iso/wiki/Guidance-for-authoring
+for guidance, including https://github.com/metanorma/metanorma-iso/wiki/Guidance-for-authoring
 
 The following outputs are generated.
 
@@ -48,13 +48,13 @@ The gem then converts the XML into HTML.
 
 === Installation
 
-If you are using a Mac, the https://github.com/riboseinc/metanorma-macos-setup
+If you are using a Mac, the https://github.com/metanorma/metanorma-macos-setup
 repository has instructions on setting up your machine to run Metanorma
 scripts such as this one. You need only run the following in a Terminal console:
 
 [source,console]
 ----
-$ bash <(curl -s https://raw.githubusercontent.com/riboseinc/metanorma-macos-setup/master/metanorma-setup)
+$ bash <(curl -s https://raw.githubusercontent.com/metanorma/metanorma-macos-setup/master/metanorma-setup)
 $ gem install metanorma-acme
 $ gem install metanorma-cli
 ----
@@ -64,7 +64,7 @@ $ gem install metanorma-cli
 === Document model
 
 The ITU Document model used by this gem is an instance of the
-https://github.com/riboseinc/isodoc-models[StandardDocument model].
+https://github.com/metanorma/metanorma-model-standoc[StandardDocument model].
 
 The Metanorma XML format intends to introduce rigor into the ITU
 standards authoring process, and is prescribed in a separate document.
@@ -90,7 +90,7 @@ hored.
 === Common attributes
 
 The gem relies on Asciidoctor document attributes to provide necessary
-metadata about the document. The https://github.com/riboseinc/metanorma-standoc[metanorma-standoc]
+metadata about the document. The https://github.com/metanorma/metanorma-standoc[metanorma-standoc]
 gem documents the Asciidoctor document attributes common to all metanorma gems. These include:
 
 `:edition:`:: The document edition
@@ -145,7 +145,7 @@ _H: Audiovisual and Multimedia Systems_.
 
 == Asciidoctor features specific to ITU
 
-The https://github.com/riboseinc/metanorma-standoc[metanorma-standoc]
+The https://github.com/metanorma/metanorma-standoc[metanorma-standoc]
 gem documents the customisations of Asciidoctor markup common to all metanorma gems.
 The following markup is specific to this gem:
 

@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
     Metanorma for the ITU.
   DESCRIPTION
 
-  spec.homepage      = "https://github.com/riboseinc/metanorma-itu"
+  spec.homepage      = "https://github.com/metanorma/metanorma-itu"
   spec.license       = "BSD-2-Clause"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

@@ -151,7 +151,7 @@ table {
   main {margin: 0 3em 0 6em;}
 
   #toc{
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: $bodyfont;
     font-weight: 400;
   }
 
@@ -178,7 +178,7 @@ table {
         position: fixed;
         height: 100%;
         width: 30px;
-        background-color:#006494;
+        background-color:#DA1D52;
         color: white!important;
         cursor: pointer;
         z-index: 100;
@@ -248,6 +248,10 @@ table {
     color: white;
 }
 
+#toc .h1 {
+  text-transform: uppercase;
+}
+
 #toc .h2 {
     padding-left: 30px;
 }
@@ -261,15 +265,14 @@ table {
 }
 
 #toc .toc-active, #toc li:hover {
-    background: #006494;
-    box-shadow: inset -5px 0px 10px -5px #006494!important;
-    font-weight: 600;
+    background: #DA1D52;
+    box-shadow: inset -5px 0px 10px -5px #DA1D52!important;
 }
 
 #toc li:hover a {
     color: white;
     background: none;
-     box-shadow: none;
+    box-shadow: none;
 }
 
 #toc li a {
@@ -292,24 +295,24 @@ table {
 }
 
 .document-stage-band {
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: $bodyfont;
     left:0;
     top:0;
     height: 100%;
     position: fixed;
     display: block;
     z-index: 98;
-    box-shadow: -5px 0px 10px #1d1d1d
+    box-shadow: -5px 0px 10px #1d1d1d;
 }
 
 .document-type {
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: $bodyfont;
     position: relative;
     width: 25px;
 }
 
 .document-stage {
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: $bodyfont;
     position: relative;
     width: 25px;
 }
@@ -335,113 +338,105 @@ p.document-type {
     height: 150;
 }
 
-#governance-band p.document-type {
-    font-weight: 400;
-    height: 230px!important;
-}
-
 p.document-stage {
     font-weight: 300;
     height:160px;
 }
 
-#standard-band p{
+#focus-group-band p.document-type,
+#implementers-guide-band p.document-type {
+    font-weight: 400;
+    height: 230px!important;
+}
+
+#recommendation-band p, #recommendation-supplement p,
+#recommendation-amendment p, #recommendation-corrigendum p,
+#recommendation-errata p, #recommendation-annex p  {
   height: 270px;
 }
 
-#proposal-band p {
+#technical-paper-band p, #technical-report-band {
   height: 150px;
 }
 
 
-#standard-band,  #published-band {
-color: rgb(123, 168, 18);
-  background-color: rgb(216, 236, 168); }
+#recommendation-band, #recommendation-supplement-band,
+#recommendation-amendment-band, #recommendation-corrigendum-band,
+#recommendation-errata-band, #recommendation-annex-band  {
+color:  #2A2D34;
+  background-color: #a3d88f; }
 
-  #standard, #published {
-  color: #9ABD48; }
+#recommendation, #recommendation-supplement,
+#recommendation-amendment, #recommendation-corrigendum,
+#recommendation-errata, #recommendation-annex {
+color:  #2A2D34;
+  border-bottom: solid 3px #a3d88f;
+}
 
-#governance, #policy-and-procedures {
+#technical-paper, #technical-report {
+  border-bottom: solid 3px #53DD6C; }
+
+#technical-paper-band, #technical-report-band {
+  background-color: #53DD6C; }
+
+
+#focus-group, #implementers-guide {
   border-bottom: solid 3px #750697; }
 
-#governance-band, #policy-and-procedures-band {
+#focus-group-band, #implementers-guide-band {
   background-color: #750697; }
 
-#guide {
+#joint-itu-iso-iec {
   border-bottom: solid 3px #48a0e7; }
 
-#guide-band {
+#joint-itu-iso-iec-band {
   background-color: #48a0e7; }
 
 .coverpage-maturity, .coverpage-stage {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: $bodyfont;
   font-weight: 400;
   font-size: 1em;
   margin: 0 0 2em 0;
   text-transform: uppercase; }
 
-#working-draft, #proposal {
-  border-bottom: solid 3px #F7803C; }
-
-#working-draft-band, #proposal-band {
-  background-color: #F7803C; }
-
-#committee-draft {
+#superseded-draft {
   border-bottom: solid 3px #fd06fd; }
 
-#committee-draft-band {
+#superseded-band {
   background-color: #fd06fd; }
 
-#draft-standard {
+#in-force-prepublished {
   border-bottom: solid 3px #fdf906; }
 
-#draft-standard-band {
+#in-force-prepublished-band {
   background-color: #fdf906; }
 
-#standard {
+#in-force {
   border-bottom: solid 3px #9ABD48; }
 
-#standard-band {
-  background-color: #9ABD48; }
+#in-force-band {
+  background-color: #d9f39d; }
 
-#obsolete {
+#withdrawn {
   border-bottom: solid 3px #7e0d13; }
 
-#obsolete-band {
+#withdrawn-band {
   background-color: #7e0d13; }
 
-.coverpage-maturity {
-    font-family: $bodyfont;
-    font-weight: 400;
-    font-size: 1em;
-    margin: 0 0 2em 0;
-    text-transform: uppercase;
-    }
-
 .logo-wrapper {
-  margin-left: 3em;
+  width: 100%;
+  display: block;
+  height: 100px;
+  padding-top: 75px;
 }
 
 .logo-wrapper img {
-  display: block;
-  padding-bottom: 3em;
+  float: right;
+  padding-right: 42px;
 }
 
-.logo-info {
-  margin-left: 3em;
-  margin-bottom: 1.5em;
-}
-
-.logo-info p{
-  margin: 0;
-}
-
-#NIST-logo {
-  width: 300px;
-}
-
-#commerce-logo {
-  width: 150px;
+#ITU-logo {
+  width: 200px;
 }
 
 .authors-container {
@@ -479,22 +474,20 @@ color: rgb(123, 168, 18);
 
   h2 {
     margin-top: 1.7em;
-    font-size: 1.3em;
-    font-weight: 300;
+    font-size: 1.5em;
   }
 
   h3 {
     margin-top: 1.5em;
-    font-size: 1.2em;
-    font-weight: 100;
+    font-size: 1.4em;
   }
 
   h4 {
-  font-size: 1em;
+  font-size: 1.2em;
   }
 
   .TermNum, .Terms, .AltTerms {
-    font-weight: 300;
+    font-weight: 400;
   }
 
   h2.TermNum {
@@ -521,27 +514,27 @@ color: rgb(123, 168, 18);
 
     a, a:visited{
         text-decoration: none;
-        color: #2677EA;
+        color: #00539F;
     }
 
     a:hover {
         color: white;
-        background: #2677EA;
-        box-shadow: 3px 0 0 #2677EA, -3px 0 0 #2677EA;
+        background: #00539F;
+        box-shadow: 3px 0 0 #00539F, -3px 0 0 #00539F;
         /* padding: 2px 0 2px 0; */
     }
 
     ::selection {
-        background: #2677EA; /* WebKit/Blink Browsers */
+        background: #00539F; /* WebKit/Blink Browsers */
         color: white;
       }
       ::-moz-selection {
-        background: #2677EA; /* Gecko Browsers */
+        background: #00539F; /* Gecko Browsers */
         color: white;
       }
 
       .contact-info a:hover {
-          color: #2677EA;
+          color: #00539F;
           text-decoration: underline;
           background: none;
           box-shadow: 0 0 0 0;
@@ -561,7 +554,8 @@ color: rgb(123, 168, 18);
 
    ul > li:before {
     content: "\2014";
-    display: inline-block; width: 1em;
+    display: inline-block; 
+    width: 1em;
     margin-left: -1.2em;
   }
 
@@ -590,20 +584,20 @@ ul > li:first-child {
     .rule {
         width: 100%;
         height: 1px;
-        background-color: #2677ea;
+        background-color: #00539F;
         margin: 2em 0;
       }
 
       .rule-2 {
   width: 100%;
   height: 1px;
-  background-color: #2677ea;
+  background-color: #00539F;
 }
 
 .rule-thick {
   width: 100%;
   height: 3px;
-  background-color: #2677ea;
+  background-color: #00539F;
   margin-top: 3em;
 }
 
@@ -636,11 +630,6 @@ p.Biblio, p.NormRef {
     font-weight: 700;
     font-size: 1em;
     text-align: center;
-}
-
-span.nistvariable {
-  font-family: $bodyfont;
-  font-style: italic;
 }
 
 /*
@@ -798,9 +787,8 @@ a.footnote-number {
     padding: 2em;
     margin-top: 5em;
     width: 280px;
-
   text-align: left;
-  color: #2677ea!important;
+  color: #00539F!important;
   background-color: #f1f8ff;
   border-radius: 25px;
 
@@ -808,7 +796,7 @@ a.footnote-number {
 
 .contact-info a,
 .contact-info a:hover {
-  color: #2677ea;
+  color: #00539F;
 }
 
 .contact-info p, .contact-info a {
@@ -867,90 +855,94 @@ h2 p {
 .wrapper-top {
     background: #fff;
   color: #141115;
-  padding: 7em 0;
-  margin-left: 3em;
+  padding: 3em 0 6em 10em;
+  margin-left: 0em;
+  background: url('ITU-side-pattern@4x.png');
+  background-repeat: repeat-y;
+  background-size: 100px;
 }
 
-.wrapper-top-bottom {
-  width: 0;
-  height: 0;
-  border-top: 100px solid #1661AD;
-  border-right: 100px solid transparent;
-  position: absolute;
+.doc-type {
+  font-size: 18px;
+  letter-spacing: 4px;
+  color: #797979;
+  margin-bottom: 42px;
 }
 
-  .doc-number {
-      font-size: 0.5em;
-      font-family: $bodyfont;
-      line-height: 1.6;
-  margin: 1.5em 0;
-  }
+.ITU-sector, .doc-identifier {
+  font-size: 42px;
+  font-weight: 800;
+  display: inline;}
+
+.doc-info-left {
+  float: right;
+  padding-right: 42px;
+}
+
+.doc-identifier, .publication-month {
+  display: block;
+  text-align: right;
+}
+
+.publication-month {
+  font-size: 18px;
+  padding-top: 10px;
+  line-height: 1;
+}
+
+.doc-category {
+  text-transform: uppercase;
+  font-size: 16px;
+  line-height: 1.2;
+}
 
 .coverpage-title {
-
-  font-family: $headerfont; }
-
-  .coverpage-title span {
-    font-family: $headerfont;
-    font-size: 1.1em;
-    line-height: 1;
-  }
-
-  .title-second {
-  font-style: italic;
-  font-size: 15px;
-  line-height: 1.6;
-  margin-bottom: 1.5em;
+  margin-top: 42px;
 }
 
-.download-info {
-  margin-top: 2em;
+.coverpage-title span {
+  display: block;
+  font-size: 20px;
+line-height: 1.5;
 }
 
-.category {
-  color: #2677ea;
-  margin-top: 4em;
-  margin-right: 2em;
-  padding: 0.7em 1em;
-  text-align: center;
-  border-top: solid 1px #2677ea;
-  border-bottom: solid 1px #2677ea;
-  text-transform: uppercase;
+span.doc-title {
+  font-size: 26px;
+  font-weight: 800;
+  margin-top: 20px;
+  border-top: 2px solid #DA1D52;
+  margin-right: 42px;
 }
 
-  .WordSection11 {
-    padding: 0 2em 0 3em;
-  }
+.doc-footer {
+  margin-top: 100px;
+}
 
- .info-section {
-    padding: 0; }
+.doc-footer span {
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: black;
+  float: left;
+  padding-right: 10px;
+}
 
-  .prefatory-section {
-    padding: 0 3em 0 6em;
-  }
+.WordSection11 {
+  padding: 0 2em 0 3em; }
 
+.info-section {
+  padding: 0 }
 
-  .zzSTDTitle1, .MsoCommentText {
-    display: none;
-  }
+.prefatory-section {
+  padding: 0 3em 0 6em; }
 
+.zzSTDTitle1, .MsoCommentText {
+  display: none; }
 
-  .coverpage {
-    text-align: left;
-    padding-left: 1.5em;
-  }
+.coverpage {
+  text-align: left;
+  padding-left: 1.5em; }
 
-  .coverpage-logo span, .coverpage-tc-name span {
-    font-family: $bodyfont;
-    text-transform: none;
-    font-weight: 300;
-  }
-
-  .coverpage-tc-name {
-    font-size: 1.2em;
-    line-height: 1.2em;
-    margin: 0.25em 0;
-  }
 
 /*
     4.2 Document Identity
@@ -966,7 +958,7 @@ h2 p {
   }
 
   .coverpage-stage-block {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: $bodyfont;
     font-weight: 600;
     font-size: 1.25em;
     margin: 2em 0em 2em 0em;
@@ -987,7 +979,7 @@ h2 p {
   }
 
   .coverpage-warning .title {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: $bodyfont;
     font-weight: 300;
     text-transform: uppercase;
     font-size: 1.2em;
@@ -1030,7 +1022,7 @@ To top button
     font-size: 12px;
     border: none;
     outline: none;
-    background-color: #2677ea;
+    background-color: #00539F;
     opacity: 0.15;
     color: white;
     cursor: pointer;

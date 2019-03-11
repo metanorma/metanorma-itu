@@ -13,17 +13,19 @@ module IsoDoc
       end
 
       def convert1(docxml, filename, dir)
-        FileUtils.cp html_doc_path('image001.png'), "#{@localdir}/image001.png"
-        @files_to_delete << "#{@localdir}/image001.png"
-        FileUtils.cp html_doc_path('logo.png'), File.join(@localdir, "logo.png")
-        @files_to_delete << File.join(@localdir, "logo.png")
+        FileUtils.cp html_doc_path('itu-document-comb.png'), "#{@localdir}/itu-document-comb.png"
+        @files_to_delete << "#{@localdir}/itu-document-comb.png"
+        FileUtils.cp html_doc_path('Logo_ITU.JPG'), File.join(@localdir, "Logo_ITU.JPG")
+        @files_to_delete << File.join(@localdir, "Logo_ITU.JPG")
+        FileUtils.cp html_doc_path('ITU-side-pattern@4x.png'), "#{@localdir}/ITU-side-pattern@4x.png"
+        @files_to_delete << "#{@localdir}/ITU-side-pattern@4x.png"
         super
       end
 
       def default_fonts(options)
         {
-          bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' : '"Libre Baskerville",serif'),
-          headerfont: (options[:script] == "Hans" ? '"SimHei",sans-serif' : '"Libre Baskerville",serif'),
+          bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' : '"Open Sans",sans-serif'),
+          headerfont: (options[:script] == "Hans" ? '"SimHei",sans-serif' : '"Open Sans",sans-serif'),
           monospacefont: '"Space Mono",monospace'
         }
       end
@@ -41,7 +43,7 @@ module IsoDoc
         @meta = Metadata.new(lang, script, labels)
       end
 
-            def load_yaml(lang, script)
+      def load_yaml(lang, script)
         y = if @i18nyaml then YAML.load_file(@i18nyaml)
             elsif lang == "en"
               YAML.load_file(File.join(File.dirname(__FILE__), "i18n-en.yaml"))
@@ -61,7 +63,6 @@ module IsoDoc
 
     <!--Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i|Space+Mono:400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700,700i" rel="stylesheet">
     <!--Font awesome import for the link icon-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous">
@@ -78,17 +79,17 @@ module IsoDoc
         end
       end
 
-                def make_body3(body, docxml)
-      body.div **{ class: "main-section" } do |div3|
-        abstract docxml, div3
-        preface docxml, div3
-        middle docxml, div3
-        footnotes div3
-        comments div3
+      def make_body3(body, docxml)
+        body.div **{ class: "main-section" } do |div3|
+          abstract docxml, div3
+          preface docxml, div3
+          middle docxml, div3
+          footnotes div3
+          comments div3
+        end
       end
-    end
 
-                FRONT_CLAUSE = "//*[parent::preface]"\
+      FRONT_CLAUSE = "//*[parent::preface]"\
         "[not(local-name() = 'abstract')]".freeze
 
       def preface(isoxml, out)
@@ -152,13 +153,13 @@ module IsoDoc
         super
       end
 
-            def initial_anchor_names(d)
+      def initial_anchor_names(d)
         d.xpath("//xmlns:preface/child::*").each do |c|
           preface_names(c)
         end
         sequential_asset_names(d.xpath("//xmlns:preface/child::*"))
-                n = section_names(d.at(ns("//clause[title = 'Scope']")), 0, 1)
-         n = section_names(d.at(ns("//bibliography/clause[title = 'References'] | "\
+        n = section_names(d.at(ns("//clause[title = 'Scope']")), 0, 1)
+        n = section_names(d.at(ns("//bibliography/clause[title = 'References'] | "\
                                   "//bibliography/references[title = 'References']")), n, 1)
         n = section_names(d.at(ns("//sections/terms | "\
                                   "//sections/clause[descendant::terms]")), n, 1)
@@ -169,7 +170,7 @@ module IsoDoc
         termexample_anchor_names(d)
       end
 
-                  def norm_ref(isoxml, out, num)
+      def norm_ref(isoxml, out, num)
         q = "//bibliography/references[title = 'References']"
         f = isoxml.at(ns(q)) or return num
         out.div do |div|
@@ -185,7 +186,7 @@ module IsoDoc
         div.p "The following ITU-T Recommendations and other references contain provisions which, through reference in this text, constitute provisions of this Recommendation. At the time of publication, the editions indicated were valid. All Recommendations and other references are subject to revision; users of this Recommendation are therefore encouraged to investigate the possibility of applying the most recent edition of the Recommendations and other references listed below. A list of the currently valid ITU-T Recommendations is regularly published. The reference to a document within this Recommendation does not give it, as a stand-alone document, the status of a Recommendation."
       end
 
-            def term_defs_boilerplate(div, source, term, preface)
+      def term_defs_boilerplate(div, source, term, preface)
       end
 
       def split_bibitems(f)
@@ -213,7 +214,7 @@ module IsoDoc
         end
       end
 
-            ELSEWHERE_TERMS = "This Recommendation uses the following terms defined elsewhere:"
+      ELSEWHERE_TERMS = "This Recommendation uses the following terms defined elsewhere:"
       HERE_TERMS = "This Recommendation defines the following terms:"
 
       def terms_parse(node, out)
@@ -232,17 +233,17 @@ module IsoDoc
         end
       end
 
-            def termdef_parse1(node, div, term, defn, source)
+      def termdef_parse1(node, div, term, defn, source)
         div.p **{ class: "TermNum", id: node["id"] } do |p|
-            p.b do |b|
-              b << get_anchors[node["id"]][:label]
-              insert_tab(b, 1)
-              term.children.each { |n| parse(n, b) }
-            end
-            source and p << " [#{source.value}]"
-            p << ":"
-            defn.children.each { |n| parse(n, p) }
+          p.b do |b|
+            b << get_anchors[node["id"]][:label]
+            insert_tab(b, 1)
+            term.children.each { |n| parse(n, b) }
           end
+          source and p << " [#{source.value}]"
+          p << ":"
+          defn.children.each { |n| parse(n, p) }
+        end
       end
 
       def termdef_parse(node, out)
@@ -259,24 +260,24 @@ module IsoDoc
         end
       end
 
-          def get_eref_linkend(node)
-      link = "[#{anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))}]"
-      link += eref_localities(node.xpath(ns("./locality")), link)
-      contents = node.children.select { |c| c.name != "locality" }
-      return link if contents.nil? || contents.empty?
-      Nokogiri::XML::NodeSet.new(node.document, contents).to_xml
-    end
-
-        def eref_parse(node, out)
-      linkend = get_eref_linkend(node)
-      if node["type"] == "footnote"
-        out.sup do |s|
-          s.a(**{ "href": "#" + node["bibitemid"] }) { |l| l << linkend }
-        end
-      else
-        out.a(**{ "href": "#" + node["bibitemid"] }) { |l| l << linkend }
+      def get_eref_linkend(node)
+        link = "[#{anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))}]"
+        link += eref_localities(node.xpath(ns("./locality")), link)
+        contents = node.children.select { |c| c.name != "locality" }
+        return link if contents.nil? || contents.empty?
+        Nokogiri::XML::NodeSet.new(node.document, contents).to_xml
       end
-    end
+
+      def eref_parse(node, out)
+        linkend = get_eref_linkend(node)
+        if node["type"] == "footnote"
+          out.sup do |s|
+            s.a(**{ "href": "#" + node["bibitemid"] }) { |l| l << linkend }
+          end
+        else
+          out.a(**{ "href": "#" + node["bibitemid"] }) { |l| l << linkend }
+        end
+      end
 
 
     end

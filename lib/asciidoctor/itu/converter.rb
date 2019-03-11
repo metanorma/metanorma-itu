@@ -12,6 +12,25 @@ module Asciidoctor
 
       register_for "itu"
 
+      def title_english(node, xml)
+        ["en"].each do |lang|
+          at = { language: lang, format: "text/plain", 
+                 type: node.attr("provisional-name") ? "provisional" : "main" }
+          xml.title **attr_code(at) do |t|
+            t << asciidoc_sub(node.attr("title") || node.attr("title-en") || node.title)
+          end
+        end
+      end
+
+      def title_otherlangs(node, xml)
+        node.attributes.each do |k, v|
+          next unless /^title-(?<titlelang>.+)$/ =~ k
+          next if titlelang == "en"
+          xml.title v, { language: titlelang, format: "text/plain",
+                         type: node.attr("provisional-name") ? "provisional" : "main" }
+        end
+      end
+
       def metadata_author(node, xml)
         xml.contributor do |c|
           c.role **{ type: "author" }
@@ -33,15 +52,49 @@ module Asciidoctor
       end
 
       def metadata_committee(node, xml)
+        metadata_committee1(node, xml, "")
+        suffix = 2
+        while node.attr("bureau_#{suffix}")
+          metadata_committee1(node, xml, "_#{suffix}")
+        end
+      end
+
+      def metadata_committee1(node, xml, suffix)
         xml.editorialgroup do |a|
-          a.bureau ( node.attr("bureau") || "T" )
-          a.committee node.attr("committee"),
-            **attr_code(type: node.attr("committee-type"))
-          i = 2
-          while node.attr("committee_#{i}") do
-            a.committee node.attr("committee_#{i}"),
-              **attr_code(type: node.attr("committee-type_#{i}"))
-            i += 1
+          a.bureau ( node.attr("bureau#{suffix}") || "T" )
+          a.group **attr_code(type: node.attr("grouptype#{suffix}")) do |g|
+            g.name node.attr("group#{suffix}")
+            g.acronym node.attr("groupacronym#{suffix}") if node.attr("groupacronym#{suffix}")
+            if node.attr("groupyearstart#{suffix}")
+              g.period do |p|
+                period.start node.attr("groupyearstart#{suffix}")
+                period.end node.attr("groupyearend#{suffix}") if node.attr("groupacronym#{suffix}")
+              end
+            end
+          end
+          if node.attr("subgroup#{suffix}")
+            a.subgroup **attr_code(type: node.attr("subgrouptype#{suffix}")) do |g|
+              g.name node.attr("subgroup#{suffix}")
+              g.acronym node.attr("subgroupacronym#{suffix}") if node.attr("subgroupacronym#{suffix}")
+              if node.attr("subgroupyearstart#{suffix}")
+                g.period do |p|
+                  period.start node.attr("subgroupyearstart#{suffix}")
+                  period.end node.attr("subgroupyearend#{suffix}") if node.attr("subgroupyearend#{suffix}")
+                end
+              end
+            end
+          end
+          if node.attr("workgroup#{suffix}")
+            a.workgroup **attr_code(type: node.attr("workgrouptype#{suffix}")) do |g|
+              g.name node.attr("workgroup#{suffix}")
+              g.acronym node.attr("workgroupacronym#{suffix}") if node.attr("workgroupacronym#{suffix}")
+              if node.attr("workgroupyearstart#{suffix}")
+                g.period do |p|
+                  period.start node.attr("workgroupyearstart#{suffix}")
+                  period.end node.attr("workgroupyearend#{suffix}") if node.attr("wokrgroupyearend#{suffix}")
+                end
+              end
+            end
           end
         end
       end
@@ -88,6 +141,11 @@ module Asciidoctor
         end
       end
 
+      def metadata_provisionalname(node, xml)
+        return unless node.attr("provisional-name")
+        xml.provisionalname node.attr("provisional-name")
+      end
+
       def metadata_keywords(node, xml)
         return unless node.attr("keywords")
         node.attr("keywords").split(/,[ ]*/).each do |kw|
@@ -95,10 +153,25 @@ module Asciidoctor
         end
       end
 
+      def metadata_recommendationstatus(node, xml)
+        return unless node.attr("recommendation-from")
+        xml.recommendationstatus do |s|
+          s.from node.attr("recommendation-from")
+          s.to node.attr("recommendation-to") if node.attr("recommendation-to")
+          if node.attr("approval-process")
+            s.approvalstage **{process: node.attr("approval-process")} do |a|
+              a << node.attr("approval-status")
+            end
+          end
+        end
+      end
+
       def metadata(node, xml)
         super
         metadata_series(node, xml)
+        metadata_provisionalname(node, xml)
         metadata_keywords(node, xml)
+        metadata_recommendationstatus(node, xml)
       end
 
       def title_validate(root)
@@ -119,12 +192,7 @@ module Asciidoctor
       end
 
       def doctype(node)
-        d = node.attr("doctype")
-        unless %w{policy-and-procedures best-practices supporting-document report legal directives proposal standard}.include? d
-          warn "#{d} is not a legal document type: reverting to 'standard'"
-          d = "standard"
-        end
-        d
+        node.attr("doctype") || "recommendation"
       end
 
       def clause_parse(attrs, xml, node)
@@ -163,11 +231,23 @@ module Asciidoctor
       def validate(doc)
         content_validate(doc)
         schema_validate(formattedstr_strip(doc.dup),
-                        File.join(File.dirname(__FILE__), "acme.rng"))
+                        File.join(File.dirname(__FILE__), "itu.rng"))
       end
 
-      def html_path_acme(file)
-        File.join(File.dirname(__FILE__), File.join("html", file))
+      def content_validate(doc)
+        super
+        approval_validate(doc)
+      end
+
+      def approval_validate(xmldoc)
+        s = xmldoc.at("//bibdata/recommendationstatus") || return
+        process = s.at("./@process").text
+        if process == "aap" and %w(determined in-force).include? s.text
+          warn "Recommendation Status #{s.text} inconsistent with AAP"
+        end
+        if process == "tap" and !%w(determined in-force).include? s.text
+          warn "Recommendation Status #{s.text} inconsistent with TAP"
+        end
       end
 
       def sections_cleanup(x)

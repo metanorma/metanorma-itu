@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <!--
+    Currently we inherit from a namespaced grammar, isostandard. Until we inherit from isodoc,
+    we cannot have a new default namespace: we will end up with a grammar with two different
+    namespaces, one for isostandard and one for csand additions. And we do not want that.
+  -->
+  <include href="isostandard.rng">
+    <start>
+      <ref name="itu"/>
+    </start>
+    <define name="language">
+      <element name="language">
+        <value>en</value>
+      </element>
+    </define>
+    <define name="docidentifier">
+      <element name="docidentifier">
+        <optional>
+          <attribute name="type"/>
+        </optional>
+        <text/>
+      </element>
+    </define>
+    <define name="btitle">
+      <element name="title">
+        <ref name="FormattedString"/>
+      </element>
+    </define>
+    <define name="figure">
+      <element name="figure">
+        <attribute name="id">
+          <data type="ID"/>
+        </attribute>
+        <optional>
+          <ref name="tname"/>
+        </optional>
+        <choice>
+          <ref name="image"/>
+          <ref name="pre"/>
+          <oneOrMore>
+            <ref name="subfigure"/>
+          </oneOrMore>
+        </choice>
+        <zeroOrMore>
+          <ref name="fn"/>
+        </zeroOrMore>
+        <optional>
+          <ref name="dl"/>
+        </optional>
+        <zeroOrMore>
+          <ref name="note"/>
+        </zeroOrMore>
+      </element>
+    </define>
+    <define name="subfigure">
+      <element name="figure">
+        <attribute name="id">
+          <data type="ID"/>
+        </attribute>
+        <optional>
+          <ref name="tname"/>
+        </optional>
+        <choice>
+          <ref name="image"/>
+          <ref name="pre"/>
+        </choice>
+      </element>
+    </define>
+    <define name="status">
+      <element name="status">
+        <choice>
+          <value>in-force</value>
+          <value>superseded</value>
+          <value>in-force-prepublished</value>
+          <value>withdrawn</value>
+        </choice>
+      </element>
+    </define>
+    <define name="BibItemType" combine="choice">
+      <choice>
+        <value>recommendation</value>
+        <value>recommendation-supplement</value>
+        <value>recommendation-amendment</value>
+        <value>recommendation-corrigendum</value>
+        <value>recommendation-errata</value>
+        <value>recommendation-annex</value>
+        <value>focus-group</value>
+        <value>implementers-guide</value>
+        <value>technical-paper</value>
+        <value>technical-report</value>
+        <value>joint-itu-iso-iec</value>
+      </choice>
+    </define>
+    <define name="editorialgroup">
+      <element name="editorialgroup">
+        <ref name="bureau"/>
+        <ref name="group"/>
+        <optional>
+          <ref name="subgroup"/>
+        </optional>
+        <optional>
+          <ref name="workgroup"/>
+        </optional>
+      </element>
+    </define>
+    <define name="workgroup">
+      <element name="workgroup">
+        <ref name="ItuGroup"/>
+      </element>
+    </define>
+    <define name="BibData">
+      <optional>
+        <attribute name="type">
+          <ref name="BibItemType"/>
+        </attribute>
+      </optional>
+      <oneOrMore>
+        <ref name="btitle"/>
+      </oneOrMore>
+      <optional>
+        <ref name="formattedref"/>
+      </optional>
+      <ref name="bsource"/>
+      <zeroOrMore>
+        <ref name="itudocidentifier"/>
+      </zeroOrMore>
+      <optional>
+        <ref name="itudocnumber"/>
+      </optional>
+      <zeroOrMore>
+        <ref name="bdate"/>
+      </zeroOrMore>
+      <zeroOrMore>
+        <ref name="contributor"/>
+      </zeroOrMore>
+      <optional>
+        <ref name="edition"/>
+      </optional>
+      <optional>
+        <ref name="version"/>
+      </optional>
+      <zeroOrMore>
+        <ref name="biblionote"/>
+      </zeroOrMore>
+      <zeroOrMore>
+        <ref name="language"/>
+      </zeroOrMore>
+      <zeroOrMore>
+        <ref name="script"/>
+      </zeroOrMore>
+      <zeroOrMore>
+        <ref name="abstract"/>
+      </zeroOrMore>
+      <optional>
+        <ref name="status"/>
+      </optional>
+      <ref name="copyright"/>
+      <zeroOrMore>
+        <ref name="docrelation"/>
+      </zeroOrMore>
+      <ref name="editorialgroup"/>
+      <zeroOrMore>
+        <ref name="ics"/>
+      </zeroOrMore>
+      <zeroOrMore>
+        <ref name="series"/>
+      </zeroOrMore>
+      <optional>
+        <ref name="provisionalName"/>
+      </optional>
+      <zeroOrMore>
+        <ref name="bkeyword"/>
+      </zeroOrMore>
+      <optional>
+        <ref name="recommendationstatus"/>
+      </optional>
+    </define>
+  </include>
+  <define name="recommendationstatus">
+    <element name="recommendationstatus">
+      <element name="from">
+        <ref name="ISO8601Date"/>
+      </element>
+      <element name="to">
+        <ref name="ISO8601Date"/>
+      </element>
+      <optional>
+        <ref name="approvalstage"/>
+      </optional>
+    </element>
+  </define>
+  <define name="approvalstage">
+    <element name="approvalstage">
+      <attribute name="process">
+        <choice>
+          <value>tap</value>
+          <value>aap</value>
+        </choice>
+      </attribute>
+      <choice>
+        <value>determined</value>
+        <value>in-force</value>
+        <value>a</value>
+        <value>lc</value>
+        <value>ac</value>
+        <value>lj</value>
+        <value>aj</value>
+        <value>na</value>
+        <value>ar</value>
+        <value>ri</value>
+        <value>at</value>
+        <value>sg</value>
+        <value>c</value>
+        <value>tap</value>
+      </choice>
+    </element>
+  </define>
+  <define name="provisionalName">
+    <element name="provisionalname">
+      <text/>
+    </element>
+  </define>
+  <define name="bkeyword">
+    <element name="keyword">
+      <text/>
+    </element>
+  </define>
+  <define name="bureau">
+    <element name="bureau">
+      <choice>
+        <value>T</value>
+        <value>D</value>
+        <value>R</value>
+      </choice>
+    </element>
+  </define>
+  <define name="group">
+    <element name="group">
+      <ref name="ItuGroup"/>
+    </element>
+  </define>
+  <define name="subgroup">
+    <element name="subgroup">
+      <ref name="ItuGroup"/>
+    </element>
+  </define>
+  <define name="ItuGroup">
+    <optional>
+      <attribute name="type">
+        <choice>
+          <value>tsag</value>
+          <value>study-group</value>
+          <value>work-group</value>
+        </choice>
+      </attribute>
+    </optional>
+    <ref name="tname"/>
+    <optional>
+      <ref name="groupacronym"/>
+    </optional>
+    <optional>
+      <ref name="groupperiod"/>
+    </optional>
+  </define>
+  <define name="groupacronym">
+    <element name="acronym">
+      <text/>
+    </element>
+  </define>
+  <define name="groupperiod">
+    <element name="period">
+      <ref name="groupperiodstart"/>
+      <optional>
+        <ref name="groupperiodend"/>
+      </optional>
+    </element>
+  </define>
+  <define name="groupperiodstart">
+    <element name="start">
+      <data type="gYear"/>
+    </element>
+  </define>
+  <define name="groupperiodend">
+    <element name="end">
+      <data type="gYear"/>
+    </element>
+  </define>
+  <define name="itudocidentifier">
+    <element name="docidentifier">
+      <optional>
+        <attribute name="type">
+          <value>ITU</value>
+        </attribute>
+      </optional>
+      <data type="string">
+        <param name="pattern">ITU-[RTD] [AD-VX-Z]\.[0-9]+</param>
+      </data>
+    </element>
+  </define>
+  <define name="itudocnumber">
+    <element name="docnumber">
+      <data type="string">
+        <param name="pattern">[AD-VX-Z]\.[0-9]+</param>
+      </data>
+    </element>
+  </define>
+  <define name="itu">
+    <element name="itu-standard">
+      <ref name="bibdata"/>
+      <zeroOrMore>
+        <ref name="termdocsource"/>
+      </zeroOrMore>
+      <ref name="preface"/>
+      <oneOrMore>
+        <ref name="sections"/>
+      </oneOrMore>
+      <zeroOrMore>
+        <ref name="annex"/>
+      </zeroOrMore>
+      <ref name="bibliography"/>
+    </element>
+  </define>
+</grammar>

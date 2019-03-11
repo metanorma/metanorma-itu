@@ -53,7 +53,7 @@ module IsoDoc
       end
 
       def unpublished(status)
-        !%w(published withdrawn).include? status.downcase
+        %w(in-force-prepublished).include? status.downcase
       end
 
       def version(isoxml, _out)

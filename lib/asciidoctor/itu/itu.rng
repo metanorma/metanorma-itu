@@ -109,6 +109,9 @@
         <ref name="ItuGroup"/>
       </element>
     </define>
+    <define name="TitleType" combine="choice">
+      <value>provisional</value>
+    </define>
     <define name="BibData">
       <optional>
         <attribute name="type">

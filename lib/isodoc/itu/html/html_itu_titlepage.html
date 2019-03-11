@@ -16,46 +16,67 @@
   <div class="coverpage">
     <div class="wrapper-top">
 
-      <div class="rule-2"></div>
-
       <div class="coverpage-doc-identity">
-        <div class="doc-number">
-          <div>{{ docidentifier }}</div>
+        <div class="doc-type">
+      International Telecommunications Union
+    </div>
+
+    <div class="ITU-sector">
+      ITU-{{bureau}}</div>
+
+    <div class="doc-info-left">
+        <div class="doc-identifier">
+          {{ docidentifier }}
           {% if edition %} <div> Revision {{ edition }}</div> {% endif %}
           <div> {{ draftinfo }}</div>
+
+          <div class="publication-month">
+            {{ pubdate_monthyear }}
+    </div>
+        </div>
+
+        <div class="doc-category">
+          {% if bureau == "T" %}Telecommunication <br/>Standardization Sector <br/>of ITU{% endif %}
+          {% if bureau == "D" %}Telecommunication <br/>Development Sector <br/>of ITU{% endif %}
+          {% if bureau == "R" %}Radiocommunication <br/>Sector of ITU{% endif %}
         </div>
 
         <div class="coverpage-title">
-          <span class="title-first">{{ doctitle }}</span>
+          <span class="doc-series">{{ series }}</span>
+
+      <span class="doc-subSeries">
+        {{ series1 }} {% if series2 %}&mdash; {{ series2 }}{% endif %}
+      </span>
+          <span class="doc-title">{{ doctitle }}</span>
           {% if docsubtitle %}
-          <br/><span class="title-second">{{ docsubtitle }}</span>
+          <br/><span class="doc-subtitle">{{ docsubtitle }}</span>
           {% endif %}
         </div>
-      </div>
+      
 
-      <div class="coverpage-logo">
-        <span>International Telecommunication Union {{ docyear }}</span>
-      </div>
-
-      <div class="coverpage-tc-name">
-        <span>
-          {% if bureau == "T" %}Telecommunication Standardization Sector of ITU{% endif %}
-          {% if bureau == "D" %}Telecommunication Development Sector of ITU{% endif %}
-          {% if bureau == "R" %}Radiocommunication Sector of ITU{% endif %}
-        </span>
-      </div>
       <div class="keywords">
         <b>Keywords</b>: {{ keywords | join ', ' }}
       </div>
 
     </div>
 
-    <div class="logo-wrapper">
 
-      <img id="ITU-logo" src="logo.png">
-    </div>
+    <div class="doc-footer">
+
+      <span class="doc-type">{{ doctype }}</span>
+  <span class="ITU-sector">ITU-{{ bureau }}</span>
+  <span class="doc-identifier">{{ docnumber }}</span>
+
+</div>
+  <div class="logo-wrapper">
+
+    <img id="ITU-logo" src="Logo_ITU.jpg">
+  </div>
+
+</div>
 
     <div class="WordSection11">
+      <!--
       <div class="coverpage-stage-block">
         <span class="coverpage-stage" id="{{ doctype | downcase | replace: ' ', '-' }}">{{ doctype }}</span>
       </div>
@@ -64,6 +85,7 @@
         <span class="coverpage-maturity" id="{{ status }}">{{ status }}</span>
 
       </div>
+      -->
 
 
       {% if unpublished %}

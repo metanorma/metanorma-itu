@@ -14,8 +14,7 @@ module Asciidoctor
 
       def title_english(node, xml)
         ["en"].each do |lang|
-          at = { language: lang, format: "text/plain", 
-                 type: node.attr("provisional-name") ? "provisional" : "main" }
+          at = { language: lang, format: "text/plain", type: "main" }
           xml.title **attr_code(at) do |t|
             t << asciidoc_sub(node.attr("title") || node.attr("title-en") || node.title)
           end
@@ -26,8 +25,7 @@ module Asciidoctor
         node.attributes.each do |k, v|
           next unless /^title-(?<titlelang>.+)$/ =~ k
           next if titlelang == "en"
-          xml.title v, { language: titlelang, format: "text/plain",
-                         type: node.attr("provisional-name") ? "provisional" : "main" }
+          xml.title v, { language: titlelang, format: "text/plain", type: "main" }
         end
       end
 
@@ -104,9 +102,21 @@ module Asciidoctor
       end
 
       def metadata_id(node, xml)
+        itu_id(node, xml)
+        provisional_id(node, xml)
+      end
+
+      def provisional_id(node, xml)
+        return unless node.attr("provisional-name")
+        xml.docidentifier **(type: "ITU-provisional") do |i|
+          i << node.attr("provisional-name")
+        end
+      end
+
+      def itu_id(node, xml)
         bureau = node.attr("bureau") || "T"
         return unless node.attr("docnumber")
-        xml.docidentifier do |i|
+        xml.docidentifier **(type: "ITU") do |i|
           i << "ITU-#{bureau} "\
             "#{node.attr("docnumber")}"
         end
@@ -141,11 +151,6 @@ module Asciidoctor
         end
       end
 
-      def metadata_provisionalname(node, xml)
-        return unless node.attr("provisional-name")
-        xml.provisionalname node.attr("provisional-name")
-      end
-
       def metadata_keywords(node, xml)
         return unless node.attr("keywords")
         node.attr("keywords").split(/,[ ]*/).each do |kw|
@@ -169,7 +174,6 @@ module Asciidoctor
       def metadata(node, xml)
         super
         metadata_series(node, xml)
-        metadata_provisionalname(node, xml)
         metadata_keywords(node, xml)
         metadata_recommendationstatus(node, xml)
       end
@@ -237,6 +241,7 @@ module Asciidoctor
       def content_validate(doc)
         super
         approval_validate(doc)
+        itu_identifier_validate(doc)
       end
 
       def approval_validate(xmldoc)
@@ -247,6 +252,13 @@ module Asciidoctor
         end
         if process == "tap" and !%w(determined in-force).include? s.text
           warn "Recommendation Status #{s.text} inconsistent with TAP"
+        end
+      end
+
+      def itu_identifier_validate(xmldoc)
+        s = xmldoc.xpath("//bibdata/docidentifier[@type = 'ITU']").each do |x|
+          /^ITU-[RTF] [AD-VX-Z]\.[0-9]+$/.match x.text or
+            warn "#{x.text} does not match ITU document identifier conventions"
         end
       end
 

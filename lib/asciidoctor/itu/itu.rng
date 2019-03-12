@@ -109,9 +109,6 @@
         <ref name="ItuGroup"/>
       </element>
     </define>
-    <define name="TitleType" combine="choice">
-      <value>provisional</value>
-    </define>
     <define name="BibData">
       <optional>
         <attribute name="type">
@@ -126,7 +123,7 @@
       </optional>
       <ref name="bsource"/>
       <zeroOrMore>
-        <ref name="itudocidentifier"/>
+        <ref name="docidentifier"/>
       </zeroOrMore>
       <optional>
         <ref name="itudocnumber"/>
@@ -169,9 +166,6 @@
       <zeroOrMore>
         <ref name="series"/>
       </zeroOrMore>
-      <optional>
-        <ref name="provisionalName"/>
-      </optional>
       <zeroOrMore>
         <ref name="bkeyword"/>
       </zeroOrMore>
@@ -217,11 +211,6 @@
         <value>c</value>
         <value>tap</value>
       </choice>
-    </element>
-  </define>
-  <define name="provisionalName">
-    <element name="provisionalname">
-      <text/>
     </element>
   </define>
   <define name="bkeyword">
@@ -287,18 +276,6 @@
   <define name="groupperiodend">
     <element name="end">
       <data type="gYear"/>
-    </element>
-  </define>
-  <define name="itudocidentifier">
-    <element name="docidentifier">
-      <optional>
-        <attribute name="type">
-          <value>ITU</value>
-        </attribute>
-      </optional>
-      <data type="string">
-        <param name="pattern">ITU-[RTD] [AD-VX-Z]\.[0-9]+</param>
-      </data>
     </element>
   </define>
   <define name="itudocnumber">

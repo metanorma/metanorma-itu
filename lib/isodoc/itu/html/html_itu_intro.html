@@ -15,7 +15,15 @@
  
 <P>INTELLECTUAL PROPERTY RIGHTS </p>
 <p>ITU draws attention to the possibility that the practice or implementation of this Recommendation may involve the use of a claimed Intellectual Property Right. ITU takes no position concerning the evidence, validity or applicability of claimed Intellectual Property Rights, whether asserted by ITU members or others outside of the Recommendation development process.</p>
+{% if unpublished %}
+<p>As of the date of approval of this Recommendation, ITU [had/had not] received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <a href="http://www.itu.int/ITU-T/ipr/">http://www.itu.int/ITU-T/ipr/</a>.
+{% else %}
+{% if ip_notice_received %}
+<p>As of the date of approval of this Recommendation, ITU had received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <a href="http://www.itu.int/ITU-T/ipr/">http://www.itu.int/ITU-T/ipr/</a>.
+{% else %}
 <p>As of the date of approval of this Recommendation, ITU had not received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <a href="http://www.itu.int/ITU-T/ipr/">http://www.itu.int/ITU-T/ipr/</a>.
+{% endif %}
+{% endif %}
  
  
  

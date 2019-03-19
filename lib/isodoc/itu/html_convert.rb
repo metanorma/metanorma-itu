@@ -148,6 +148,7 @@ module IsoDoc
 
       def info(isoxml, out)
         @meta.keywords isoxml, out
+        @meta.ip_notice_received isoxml, out
         super
       end
 

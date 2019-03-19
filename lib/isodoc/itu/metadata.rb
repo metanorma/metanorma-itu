@@ -95,6 +95,11 @@ module IsoDoc
         end
         set(:keywords, keywords)
       end
+
+      def ip_notice_received(isoxml, _out)
+        received = isoxml.at(ns("//bibdata/ip-notice-received"))&.text || "false"
+        set(:ip_notice_received, received)
+      end
     end
   end
 end

@@ -180,20 +180,33 @@ validity or applicability of claimed Intellectual Property Rights, whether
 asserted by ITU members or others outside of the Recommendation development
 process.<o:p></o:p></a></span></span></p>
 
-<p class=MsoNormal><span style='mso-bookmark:_Hlk526346232'><span
-style='mso-bookmark:iitexteb'><span lang=EN-US style='font-size:11.0pt;
+{% if unpublished %}
+<p class=MsoNormal><span lang=EN-US style='font-size:11.0pt;
+mso-bidi-font-size:10.0pt;mso-ansi-language:EN-US'>As of the date of approval
+of this Recommendation, ITU [had/had not] received notice of intellectual property,
+protected by patents, which may be required to implement this Recommendation.
+However, implementers are cautioned that this may not represent the latest
+information and are therefore strongly urged to consult the TSB patent database at
+<a href="http://www.itu.int/ITU-T/ipr/">http://www.itu.int/ITU-T/ipr/</a>.</span></p>
+{% else %}
+{% if ip_notice_received %}
+<p class=MsoNormal><span lang=EN-US style='font-size:11.0pt;
+mso-bidi-font-size:10.0pt;mso-ansi-language:EN-US'>As of the date of approval
+of this Recommendation, ITU had received notice of intellectual property,
+protected by patents, which may be required to implement this Recommendation.
+However, implementers are cautioned that this may not represent the latest
+information and are therefore strongly urged to consult the TSB patent database at
+<a href="http://www.itu.int/ITU-T/ipr/">http://www.itu.int/ITU-T/ipr/</a>.</span></p>
+{% else %}
+<p class=MsoNormal><span lang=EN-US style='font-size:11.0pt;
 mso-bidi-font-size:10.0pt;mso-ansi-language:EN-US'>As of the date of approval
 of this Recommendation, ITU had not received notice of intellectual property,
 protected by patents, which may be required to implement this Recommendation.
 However, implementers are cautioned that this may not represent the latest
-information and are therefore strongly urged to consult the TSB patent database</span></span></span><span
-style='mso-bookmark:_Hlk526346232'><span lang=EN-US style='font-size:11.0pt;
-mso-bidi-font-size:10.0pt;mso-ansi-language:EN-US'> at </span></span><a
-href="http://www.itu.int/ITU-T/ipr/"><span style='mso-bookmark:_Hlk526346232'><span
-lang=EN-US style='font-size:11.0pt;mso-fareast-font-family:SimSun;mso-ansi-language:
-EN-US;mso-fareast-language:ZH-CN'>http://www.itu.int/ITU-T/ipr/</span></span></a><span
-style='mso-bookmark:_Hlk526346232'><span lang=EN-US style='font-size:11.0pt;
-mso-bidi-font-size:10.0pt;mso-ansi-language:EN-US'>.<o:p></o:p></span></span></p>
+information and are therefore strongly urged to consult the TSB patent database at
+<a href="http://www.itu.int/ITU-T/ipr/">http://www.itu.int/ITU-T/ipr/</a>.</span></p>
+{% endif %}
+{% endif %}
 
 <p class=MsoNormal align=center style='text-align:center'><span
 style='mso-bookmark:_Hlk526346232'><span lang=EN-US style='font-size:11.0pt;

@@ -53,6 +53,11 @@ module IsoDoc
         <<~HEAD.freeze
         <title>{{ doctitle }}</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    function toclevel() { var i; var text = "";
+      for(i = 1; i <= #{@htmlToClevels}; i++) {
+        if (i > 1) { text += ","; } text += "h" + i + ":not(.TermNum)"; } }
+    </script>
 
     <!--TOC script import-->
     <script type="text/javascript"  src="https://cdn.rawgit.com/jgallen23/toc/0.3.2/dist/toc.min.js"></script>

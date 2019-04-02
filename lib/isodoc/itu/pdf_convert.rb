@@ -49,25 +49,9 @@ module IsoDoc
         super.merge(y)
       end
 
-      def html_head()
+      def googlefonts()
         <<~HEAD.freeze
-        <title>{{ doctitle }}</title>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript">
-    function toclevel() { var i; var text = "";
-      for(i = 1; i <= #{@htmlToClevels}; i++) {
-        if (i > 1) { text += ","; } text += "h" + i + ":not(.TermNum)"; } }
-    </script>
-
-    <!--TOC script import-->
-    <script type="text/javascript"  src="https://cdn.rawgit.com/jgallen23/toc/0.3.2/dist/toc.min.js"></script>
-
-    <!--Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,800|Space+Mono:400,700" rel="stylesheet">
-    <!--Font awesome import for the link icon-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous">
-<style class="anchorjs"></style>
         HEAD
       end
 

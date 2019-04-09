@@ -3,6 +3,7 @@
 image:https://img.shields.io/gem/v/metanorma-itu.svg["Gem Version", link="https://rubygems.org/gems/metanorma-itu"]
 image:https://img.shields.io/travis/metanorma/metanorma-itu/master.svg["Build Status", link="https://travis-ci.org/metanorma/metanorma-itu"]
 image:https://codeclimate.com/github/metanorma/metanorma-itu/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/metanorma-itu"]
+image:https://ci.appveyor.com/api/projects/status/lo05dblngrgx2tlq?svg=true["Appveyor Build Status", link="https://ci.appveyor.com/project/ribose/metanorma-itu"]
 
 WARNING: This gem is still under development.
 

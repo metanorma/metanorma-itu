@@ -636,22 +636,27 @@
       <ref name="ISO8601Date"/>
     </optional>
   </define>
+  <define name="BibliographicDateType">
+    <choice>
+      <value>published</value>
+      <value>accessed</value>
+      <value>created</value>
+      <value>implemented</value>
+      <value>obsoleted</value>
+      <value>confirmed</value>
+      <value>updated</value>
+      <value>issued</value>
+      <value>transmitted</value>
+      <value>copied</value>
+      <value>unchanged</value>
+      <value>circulated</value>
+    </choice>
+  </define>
   <define name="bdate">
     <element name="date">
       <attribute name="type">
         <choice>
-          <value>published</value>
-          <value>accessed</value>
-          <value>created</value>
-          <value>implemented</value>
-          <value>obsoleted</value>
-          <value>confirmed</value>
-          <value>updated</value>
-          <value>issued</value>
-          <value>transmitted</value>
-          <value>copied</value>
-          <value>unchanged</value>
-          <value>circulated</value>
+          <ref name="BibliographicDateType"/>
           <text/>
         </choice>
       </attribute>
@@ -805,6 +810,9 @@
   </define>
   <define name="biblionote">
     <element name="note">
+      <optional>
+        <attribute name="type"/>
+      </optional>
       <ref name="FormattedString"/>
     </element>
   </define>
@@ -837,26 +845,29 @@
       <ref name="ContributorInfo"/>
     </element>
   </define>
+  <define name="DocRelationType">
+    <choice>
+      <value>obsoletes</value>
+      <value>updates</value>
+      <value>updatedBy</value>
+      <value>complements</value>
+      <value>derivedFrom</value>
+      <value>translatedFrom</value>
+      <value>adoptedFrom</value>
+      <value>equivalent</value>
+      <value>identical</value>
+      <value>nonequivalent</value>
+      <value>includedIn</value>
+      <value>includes</value>
+      <value>instance</value>
+      <value>partOf</value>
+      <value>hasDraft</value>
+    </choice>
+  </define>
   <define name="docrelation">
     <element name="relation">
       <attribute name="type">
-        <choice>
-          <value>obsoletes</value>
-          <value>updates</value>
-          <value>updatedBy</value>
-          <value>complements</value>
-          <value>derivedFrom</value>
-          <value>translatedFrom</value>
-          <value>adoptedFrom</value>
-          <value>equivalent</value>
-          <value>identical</value>
-          <value>nonequivalent</value>
-          <value>includedIn</value>
-          <value>includes</value>
-          <value>instance</value>
-          <value>partOf</value>
-          <value>hasDraft</value>
-        </choice>
+        <ref name="DocRelationType"/>
       </attribute>
       <element name="bibitem">
         <ref name="BibliographicItem"/>

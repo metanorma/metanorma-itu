@@ -41,6 +41,9 @@
     <element name="standard-document">
       <ref name="bibdata"/>
       <optional>
+        <ref name="boilerplate"/>
+      </optional>
+      <optional>
         <ref name="preface"/>
       </optional>
       <ref name="sections"/>
@@ -62,6 +65,42 @@
       <oneOrMore>
         <ref name="content"/>
       </oneOrMore>
+    </element>
+  </define>
+  <define name="boilerplate">
+    <element name="boilerplate">
+      <optional>
+        <ref name="copyright-statement"/>
+      </optional>
+      <optional>
+        <ref name="license-statement"/>
+      </optional>
+      <optional>
+        <ref name="legal-statement"/>
+      </optional>
+      <optional>
+        <ref name="feedback-statement"/>
+      </optional>
+    </element>
+  </define>
+  <define name="copyright-statement">
+    <element name="copyright-statement">
+      <ref name="Content-Section"/>
+    </element>
+  </define>
+  <define name="license-statement">
+    <element name="license-statement">
+      <ref name="Content-Section"/>
+    </element>
+  </define>
+  <define name="legal-statement">
+    <element name="legal-statement">
+      <ref name="Content-Section"/>
+    </element>
+  </define>
+  <define name="feedback-statement">
+    <element name="feedback-statement">
+      <ref name="Content-Section"/>
     </element>
   </define>
   <define name="sections">
@@ -534,6 +573,9 @@
         <data type="ID"/>
       </attribute>
       <optional>
+        <attribute name="alt"/>
+      </optional>
+      <optional>
         <ref name="tname"/>
       </optional>
       <optional>
@@ -735,6 +777,20 @@
       <ref name="bookmark"/>
     </choice>
   </define>
+  <define name="PureTextElement">
+    <choice>
+      <text/>
+      <ref name="em"/>
+      <ref name="strong"/>
+      <ref name="sub"/>
+      <ref name="sup"/>
+      <ref name="tt"/>
+      <ref name="keyword"/>
+      <ref name="strike"/>
+      <ref name="smallcap"/>
+      <ref name="br"/>
+    </choice>
+  </define>
   <define name="source">
     <element name="source">
       <ref name="TypedUri"/>
@@ -742,42 +798,58 @@
   </define>
   <define name="em">
     <element name="em">
-      <text/>
+      <zeroOrMore>
+        <ref name="PureTextElement"/>
+      </zeroOrMore>
     </element>
   </define>
   <define name="strong">
     <element name="strong">
-      <text/>
+      <zeroOrMore>
+        <ref name="PureTextElement"/>
+      </zeroOrMore>
     </element>
   </define>
   <define name="tt">
     <element name="tt">
-      <text/>
+      <zeroOrMore>
+        <ref name="PureTextElement"/>
+      </zeroOrMore>
     </element>
   </define>
   <define name="keyword">
     <element name="keyword">
-      <text/>
+      <zeroOrMore>
+        <ref name="PureTextElement"/>
+      </zeroOrMore>
     </element>
   </define>
   <define name="sub">
     <element name="sub">
-      <text/>
+      <zeroOrMore>
+        <ref name="PureTextElement"/>
+      </zeroOrMore>
     </element>
   </define>
   <define name="sup">
     <element name="sup">
-      <text/>
+      <zeroOrMore>
+        <ref name="PureTextElement"/>
+      </zeroOrMore>
     </element>
   </define>
   <define name="strike">
     <element name="strike">
-      <text/>
+      <zeroOrMore>
+        <ref name="PureTextElement"/>
+      </zeroOrMore>
     </element>
   </define>
   <define name="smallcap">
     <element name="smallcap">
-      <text/>
+      <zeroOrMore>
+        <ref name="PureTextElement"/>
+      </zeroOrMore>
     </element>
   </define>
   <define name="br">
@@ -838,6 +910,9 @@
       <attribute name="type">
         <ref name="ReferenceFormat"/>
       </attribute>
+      <optional>
+        <attribute name="alt"/>
+      </optional>
       <text/>
     </element>
   </define>

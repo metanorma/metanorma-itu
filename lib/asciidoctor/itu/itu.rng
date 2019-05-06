@@ -9,11 +9,6 @@
     <start>
       <ref name="itu"/>
     </start>
-    <define name="language">
-      <element name="language">
-        <value>en</value>
-      </element>
-    </define>
     <define name="docidentifier">
       <element name="docidentifier">
         <optional>
@@ -291,6 +286,9 @@
       <zeroOrMore>
         <ref name="termdocsource"/>
       </zeroOrMore>
+      <optional>
+        <ref name="boilerplate"/>
+      </optional>
       <ref name="preface"/>
       <oneOrMore>
         <ref name="sections"/>

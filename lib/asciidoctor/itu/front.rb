@@ -95,10 +95,6 @@ module Asciidoctor
         end
       end
 
-      def metadata_status(node, xml)
-        xml.status(**{ format: "plain" }) { |s| s << node.attr("status") }
-      end
-
       def metadata_id(node, xml)
         itu_id(node, xml)
         provisional_id(node, xml)

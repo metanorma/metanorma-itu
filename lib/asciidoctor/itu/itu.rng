@@ -62,16 +62,6 @@
         </choice>
       </element>
     </define>
-    <define name="status">
-      <element name="status">
-        <choice>
-          <value>in-force</value>
-          <value>superseded</value>
-          <value>in-force-prepublished</value>
-          <value>withdrawn</value>
-        </choice>
-      </element>
-    </define>
     <define name="BibItemType" combine="choice">
       <choice>
         <value>recommendation</value>

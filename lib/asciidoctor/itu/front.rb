@@ -169,9 +169,10 @@ module Asciidoctor
         xml.ip_notice_received (node.attr("ip-notice-received") || "false")
       end
 
-      def metadata(node, xml)
-        super
-        metadata_series(node, xml)
+      def metadata_ext(node, xml)
+        metadata_doctype(node, ext)
+        metadata_committee(node, ext)
+        metadata_ics(node, ext)
         metadata_keywords(node, xml)
         metadata_recommendationstatus(node, xml)
         metadata_ip_notice(node, xml)

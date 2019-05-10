@@ -24,9 +24,9 @@ module IsoDoc
       end
 
       def author(isoxml, _out)
-        bureau = isoxml.at(ns("//bibdata/editorialgroup/bureau"))
+        bureau = isoxml.at(ns("//bibdata/ext/editorialgroup/bureau"))
         set(:bureau, bureau.text) if bureau
-        tc = isoxml.at(ns("//bibdata/editorialgroup/committee"))
+        tc = isoxml.at(ns("//bibdata/ext/editorialgroup/committee"))
         set(:tc, tc.text) if tc
       end
 
@@ -85,14 +85,14 @@ module IsoDoc
 
       def keywords(isoxml, _out)
         keywords = []
-        isoxml.xpath(ns("//bibdata/keyword")).each do |kw|
+        isoxml.xpath(ns("//bibdata/ext/keyword")).each do |kw|
           keywords << kw.text
         end
         set(:keywords, keywords)
       end
 
       def ip_notice_received(isoxml, _out)
-        received = isoxml.at(ns("//bibdata/ip-notice-received"))&.text || "false"
+        received = isoxml.at(ns("//bibdata/ext/ip-notice-received"))&.text || "false"
         set(:ip_notice_received, received)
       end
     end

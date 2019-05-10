@@ -62,7 +62,7 @@
         </choice>
       </element>
     </define>
-    <define name="BibItemType" combine="choice">
+    <define name="DocumentType">
       <choice>
         <value>recommendation</value>
         <value>recommendation-supplement</value>
@@ -94,62 +94,13 @@
         <ref name="ItuGroup"/>
       </element>
     </define>
-    <define name="BibData">
+    <define name="BibDataExtensionType">
       <optional>
-        <attribute name="type">
-          <ref name="BibItemType"/>
-        </attribute>
+        <ref name="doctype"/>
       </optional>
-      <oneOrMore>
-        <ref name="btitle"/>
-      </oneOrMore>
-      <optional>
-        <ref name="formattedref"/>
-      </optional>
-      <ref name="bsource"/>
-      <zeroOrMore>
-        <ref name="docidentifier"/>
-      </zeroOrMore>
-      <optional>
-        <ref name="itudocnumber"/>
-      </optional>
-      <zeroOrMore>
-        <ref name="bdate"/>
-      </zeroOrMore>
-      <zeroOrMore>
-        <ref name="contributor"/>
-      </zeroOrMore>
-      <optional>
-        <ref name="edition"/>
-      </optional>
-      <optional>
-        <ref name="version"/>
-      </optional>
-      <zeroOrMore>
-        <ref name="biblionote"/>
-      </zeroOrMore>
-      <zeroOrMore>
-        <ref name="language"/>
-      </zeroOrMore>
-      <zeroOrMore>
-        <ref name="script"/>
-      </zeroOrMore>
-      <zeroOrMore>
-        <ref name="abstract"/>
-      </zeroOrMore>
-      <optional>
-        <ref name="status"/>
-      </optional>
-      <ref name="copyright"/>
-      <zeroOrMore>
-        <ref name="docrelation"/>
-      </zeroOrMore>
       <ref name="editorialgroup"/>
       <zeroOrMore>
         <ref name="ics"/>
-      </zeroOrMore>
-      <zeroOrMore>
-        <ref name="series"/>
       </zeroOrMore>
       <zeroOrMore>
         <ref name="bkeyword"/>

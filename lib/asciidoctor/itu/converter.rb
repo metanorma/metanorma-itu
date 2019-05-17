@@ -2,6 +2,7 @@ require "asciidoctor"
 require "asciidoctor/standoc/converter"
 require "fileutils"
 require_relative "./front.rb"
+require_relative "./validate.rb"
 
 module Asciidoctor
   module ITU
@@ -71,30 +72,6 @@ module Asciidoctor
         content_validate(doc)
         schema_validate(formattedstr_strip(doc.dup),
                         File.join(File.dirname(__FILE__), "itu.rng"))
-      end
-
-      def content_validate(doc)
-        super
-        approval_validate(doc)
-        itu_identifier_validate(doc)
-      end
-
-      def approval_validate(xmldoc)
-        s = xmldoc.at("//bibdata/recommendationstatus") || return
-        process = s.at("./@process").text
-        if process == "aap" and %w(determined in-force).include? s.text
-          warn "Recommendation Status #{s.text} inconsistent with AAP"
-        end
-        if process == "tap" and !%w(determined in-force).include? s.text
-          warn "Recommendation Status #{s.text} inconsistent with TAP"
-        end
-      end
-
-      def itu_identifier_validate(xmldoc)
-        s = xmldoc.xpath("//bibdata/docidentifier[@type = 'ITU']").each do |x|
-          /^ITU-[RTF] [AD-VX-Z]\.[0-9]+$/.match x.text or
-            warn "#{x.text} does not match ITU document identifier conventions"
-        end
       end
 
       def sections_cleanup(x)

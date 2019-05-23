@@ -20,7 +20,7 @@ module IsoDoc
         super
       end
 
-            def html_toc(docxml)
+      def html_toc(docxml)
         docxml
       end
 

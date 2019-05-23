@@ -48,6 +48,7 @@ module Asciidoctor
       end
 
       def make_preface(x, s)
+        s.add_previous_sibling("<preface/>") unless x.at("//preface")
         make_abstract(x, s)
         move_sections_into_preface(x, x.at("//preface"))
       end

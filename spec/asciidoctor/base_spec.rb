@@ -21,7 +21,7 @@ RSpec.describe Asciidoctor::ITU do
     #{ASCIIDOC_BLANK_HDR}
     INPUT
     #{BLANK_HDR}
-<sections/>
+<preface/><sections/>
 </itu-standard>
     OUTPUT
   end
@@ -35,28 +35,77 @@ RSpec.describe Asciidoctor::ITU do
       :novalid:
     INPUT
     #{BLANK_HDR}
-<sections/>
+<preface/><sections/>
 </itu-standard>
     OUTPUT
     expect(File.exist?("test.html")).to be true
   end
 
-  it "overrides invalid document type" do
-    FileUtils.rm_f "test.html"
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
+    it "processes default metadata" do
+    expect(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)).to be_equivalent_to <<~'OUTPUT'
       = Document title
       Author
       :docfile: test.adoc
-      :doctype: dinosaur
+      :nodoc:
+      :novalid:
+      :docnumber: 1000
+      :revdate: 2000-01-01
+      :copyright-year: 2001
+      :title: Main Title
     INPUT
-    #{BLANK_HDR}
-<sections/>
-</itu-standard>
-    OUTPUT
-    expect(File.exist?("test.html")).to be true
-  end
+    <itu-standard xmlns="https://open.ribose.com/standards/itu">
+<bibdata type="standard">
+  <title language="en" format="text/plain" type="main">Main Title</title>
+  <docidentifier type="ITU">ITU-T 1000</docidentifier>
+  <docnumber>1000</docnumber>
+  <contributor>
+    <role type="author"/>
+    <organization>
+      <name>International Telecommunication Union</name>
+      <abbreviation>ITU</abbreviation>
+    </organization>
+  </contributor>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <name>International Telecommunication Union</name>
+      <abbreviation>ITU</abbreviation>
+    </organization>
+  </contributor>
+  <version>
+    <revision-date>2000-01-01</revision-date>
+  </version>
+  <language>en</language>
+  <script>Latn</script>
+  <status>
+    <stage>published</stage>
+  </status>
+  <copyright>
+    <from>2001</from>
+    <owner>
+      <organization>
+        <name>International Telecommunication Union</name>
+        <abbreviation>ITU</abbreviation>
+      </organization>
+    </owner>
+  </copyright>
+  <ext>
+    <doctype>article</doctype>
+    <editorialgroup>
+      <bureau>T</bureau>
+      <group>
 
-  it "processes default metadata for final-draft directive with copyright year" do
+      </group>
+    </editorialgroup>
+    <ip-notice-received>false</ip-notice-received>
+  </ext>
+</bibdata>
+<preface/><sections/>
+</itu-standard>
+OUTPUT
+    end
+
+  it "processes explicit metadata" do
     expect(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)).to be_equivalent_to <<~'OUTPUT'
       = Document title
       Author
@@ -82,44 +131,30 @@ RSpec.describe Asciidoctor::ITU do
       :role_2: editor
     INPUT
 <?xml version="1.0" encoding="UTF-8"?>
-<itu-standard xmlns="https://www.calconnect.org/standards/itu">
+<itu-standard xmlns="https://open.ribose.com/standards/itu">
 <bibdata type="standard">
-  <title language="en" format="text/plain">Main Title</title>
-  <docidentifier type="itu">CC/DIR/FDS 1000:2001</docidentifier>
+  <title language="en" format="text/plain" type="main">Main Title</title>
+  <docidentifier type="ITU">ITU-T 1000</docidentifier>
   <docnumber>1000</docnumber>
+  <contributor>
+    <role type="author"/>
+    <organization>
+      <name>International Telecommunication Union</name>
+      <abbreviation>ITU</abbreviation>
+    </organization>
+  </contributor>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <name>International Telecommunication Union</name>
+      <abbreviation>ITU</abbreviation>
+    </organization>
+  </contributor>
   <edition>2</edition>
 <version>
   <revision-date>2000-01-01</revision-date>
   <draft>3.4</draft>
-</version>  <contributor>
-    <role type="author"/>
-    <organization>
-      <name>CalConnect</name>
-    </organization>
-  </contributor>
-   <contributor>
-   <role type="author"/>
-   <person>
-     <name>
-       <completename>Fred Flintstone</completename>
-     </name>
-   </person>
- </contributor>
- <contributor>
-   <role type="editor"/>
-   <person>
-     <name>
-       <forename>Barney</forename>
-       <surname>Rubble</surname>
-     </name>
-   </person>
- </contributor>
-  <contributor>
-    <role type="publisher"/>
-    <organization>
-      <name>CalConnect</name>
-    </organization>
-  </contributor>
+</version>  
   <language>en</language>
   <script>Latn</script>
   <status>
@@ -130,87 +165,26 @@ RSpec.describe Asciidoctor::ITU do
     <from>2001</from>
     <owner>
       <organization>
-        <name>CalConnect</name>
+      <name>International Telecommunication Union</name>
+      <abbreviation>ITU</abbreviation>
       </organization>
     </owner>
   </copyright>
   <ext>
   <doctype>directive</doctype>
   <editorialgroup>
-    <technical-committee type="provisional">TC</technical-committee>
-  </editorialgroup>
+  <bureau>T</bureau>
+  <group>
+
+  </group>
+</editorialgroup>
+<ip-notice-received>false</ip-notice-received>
   </ext>
 </bibdata>
-<sections/>
+<preface/><sections/>
 </itu-standard>
     OUTPUT
   end
-
-  it "processes default metadata for published technical-corrigendum" do
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :docnumber: 1000
-      :doctype: technical-corrigendum
-      :edition: 2
-      :technical-committee: TC 788
-      :technical-committee-type: provisional
-      :technical-committee_2: TC 789
-      :technical-committee-type_2: technical
-      :secretariat: SECRETARIAT
-      :status: published
-      :iteration: 3
-      :language: en
-      :title: Main Title
-    INPUT
-       <?xml version="1.0" encoding="UTF-8"?>
-       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
-       <bibdata type="standard">
-         <title language="en" format="text/plain">Main Title</title>
-         <docidentifier type="itu">CC/Cor 1000</docidentifier>
-         <docnumber>1000</docnumber>
-         <edition>2</edition>
-         <contributor>
-           <role type="author"/>
-           <organization>
-             <name>CalConnect</name>
-           </organization>
-         </contributor>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>CalConnect</name>
-           </organization>
-         </contributor>
-         <language>en</language>
-         <script>Latn</script>
-         <status>
-           <stage>published</stage>
-           <iteration>3</iteration>
-         </status>
-         <copyright>
-           <from>#{Time.now.year}</from>
-           <owner>
-             <organization>
-               <name>CalConnect</name>
-             </organization>
-           </owner>
-         </copyright>
-         <ext>
-         <doctype>technical-corrigendum</doctype>
-         <editorialgroup>
-           <technical-committee type="provisional">TC 788</technical-committee>
-           <technical-committee type="technical">TC 789</technical-committee>
-         </editorialgroup>
-         </ext>
-       </bibdata>
-       <sections/>
-       </itu-standard>
-        OUTPUT
-    end
 
   it "ignores unrecognised status" do
     expect(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
@@ -228,21 +202,23 @@ RSpec.describe Asciidoctor::ITU do
       :title: Main Title
     INPUT
        <?xml version="1.0" encoding="UTF-8"?>
-       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
+       <itu-standard xmlns="https://open.ribose.com/standards/itu">
        <bibdata type="standard">
-         <title language="en" format="text/plain">Main Title</title>
-         <docidentifier type="itu">CC/Cor 1000</docidentifier>
+         <title language="en" format="text/plain" type="main">Main Title</title>
+         <docidentifier type="ITU">ITU-T 1000</docidentifier>
          <docnumber>1000</docnumber>
          <contributor>
            <role type="author"/>
            <organization>
-             <name>CalConnect</name>
+      <name>International Telecommunication Union</name>
+      <abbreviation>ITU</abbreviation>
            </organization>
          </contributor>
          <contributor>
            <role type="publisher"/>
            <organization>
-             <name>CalConnect</name>
+      <name>International Telecommunication Union</name>
+      <abbreviation>ITU</abbreviation>
            </organization>
          </contributor>
          <language>en</language>
@@ -255,15 +231,23 @@ RSpec.describe Asciidoctor::ITU do
            <from>#{Time.now.year}</from>
            <owner>
              <organization>
-               <name>CalConnect</name>
+      <name>International Telecommunication Union</name>
+      <abbreviation>ITU</abbreviation>
              </organization>
            </owner>
          </copyright>
          <ext>
          <doctype>technical-corrigendum</doctype>
+         <editorialgroup>
+  <bureau>T</bureau>
+  <group>
+
+  </group>
+</editorialgroup>
+<ip-notice-received>false</ip-notice-received>
          </ext>
        </bibdata>
-       <sections/>
+       <preface/><sections/>
        </itu-standard>
         OUTPUT
     end
@@ -276,10 +260,10 @@ RSpec.describe Asciidoctor::ITU do
       == Section 1
       INPUT
     #{BLANK_HDR}
-             <preface><foreword obligation="informative">
+             <preface/><sections><foreword obligation="informative">
          <title>Foreword</title>
          <p id="_">This is a preamble</p>
-       </foreword></preface><sections>
+       </foreword>
        <clause id="_" obligation="normative">
          <title>Section 1</title>
        </clause></sections>
@@ -297,8 +281,8 @@ RSpec.describe Asciidoctor::ITU do
     INPUT
     html = File.read("test.html", encoding: "utf-8")
     expect(html).to match(%r[\.Sourcecode[^{]+\{[^}]+font-family: "Space Mono", monospace;]m)
-    expect(html).to match(%r[ div[^{]+\{[^}]+font-family: "Overpass", sans-serif;]m)
-    expect(html).to match(%r[h1, h2, h3, h4, h5, h6 \{[^}]+font-family: "Overpass", sans-serif;]m)
+    expect(html).to match(%r[ div[^{]+\{[^}]+font-family: "Open Sans", sans-serif;]m)
+    expect(html).to match(%r[h1, h2, h3, h4, h5, h6 \{[^}]+font-family: "Open Sans", sans-serif;]m)
   end
 
   it "uses default fonts (Word)" do
@@ -311,8 +295,8 @@ RSpec.describe Asciidoctor::ITU do
     INPUT
     html = File.read("test.doc", encoding: "utf-8")
     expect(html).to match(%r[\.Sourcecode[^{]+\{[^}]+font-family: "Courier New", monospace;]m)
-    expect(html).to match(%r[ div[^{]+\{[^}]+font-family: "Arial", sans-serif;]m)
-    expect(html).to match(%r[h1 \{[^}]+font-family: "Arial", sans-serif;]m)
+    expect(html).to match(%r[ div[^{]+\{[^}]+font-family: "Times New Roman", serif;]m)
+    expect(html).to match(%r[h1 \{[^}]+font-family: "Times New Roman", serif;]m)
   end
 
   it "uses Chinese fonts" do
@@ -366,7 +350,7 @@ RSpec.describe Asciidoctor::ITU do
       [smallcap]#smallcap#
     INPUT
     #{BLANK_HDR}
-       <sections>
+       <preface/><sections>
         <p id="_"><em>emphasis</em>
        <strong>strong</strong>
        <tt>monospace</tt>
@@ -384,28 +368,205 @@ RSpec.describe Asciidoctor::ITU do
     OUTPUT
   end
 
+  it "move sections to preface" do
+    FileUtils.rm_f "test.html"
+        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      
+      [preface]
+      == Prefatory
+      section
+
+      == Section
+
+      text
+    INPUT
+    #{BLANK_HDR}
+    <preface><clause id="_" obligation="normative">
+  <title>Prefatory</title>
+  <p id="_">section</p>
+</clause></preface><sections>
+<clause id="_" obligation="normative">
+  <title>Section</title>
+  <p id="_">text</p>
+</clause></sections>
+</itu-standard>
+
+    OUTPUT
+  end
+
+  it "processes sections" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)).sub(/^.*<preface/m, "<preface")).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      .Foreword
+
+      Text
+
+      [abstract]
+      == Abstract
+
+      Text
+
+      == Introduction
+
+      === Introduction Subsection
+
+      == Scope
+
+      Text
+
+      [bibliography]
+      == References
+
+      == Terms and Definitions
+
+      === Term1
+
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.nonterm]
+      === Introduction
+
+      ==== Intro 1
+
+      === Intro 2
+
+      [.nonterm]
+      ==== Intro 3
+
+      === Intro 4
+
+      ==== Intro 5
+
+      ===== Term1
+
+      === Normal Terms
+
+      ==== Term2
+
+      ==== Terms defined elsewhere
+
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      ==== General
+
+      ==== Symbols 1
+
+      == Abbreviated Terms
+
+      == Clause 4
+
+      === Introduction
+
+      === Clause 4.2
+
+      == Terms and Definitions
+
+      [appendix]
+      == Annex
+
+      === Annex A.1
+
+      == Bibliography
+
+      === Bibliography Subsection
+
+      [bibliography]
+      == Second Bibliography
+    INPUT
+    <preface><abstract id="_">
+  <p id="_">Text</p>
+</abstract></preface><sections><foreword obligation="informative">
+  <title>Foreword</title>
+  <p id="_">Text</p>
+</foreword>
+
+<clause id="_" obligation="normative">
+  <title>Introduction</title>
+  <clause id="_" obligation="normative">
+  <title>Introduction Subsection</title>
+</clause>
+</clause>
+<clause id="_" obligation="normative">
+  <title>Scope</title>
+  <p id="_">Text</p>
+</clause>
+<terms id="_" obligation="normative">
+  <title>Definitions</title>
+  <term id="_">
+  <preferred>Term1</preferred>
+</term>
+</terms>
+<clause id="_" obligation="normative"><title>Definitions</title><clause id="_" obligation="normative">
+  <title>Introduction</title>
+  <clause id="_" obligation="normative">
+  <title>Intro 1</title>
+</clause>
+</clause>
+<terms id="_" obligation="normative">
+  <title>Intro 2</title>
+  <clause id="_" obligation="normative">
+  <title>Intro 3</title>
+</clause>
+</terms>
+<clause id="_" obligation="normative">
+  <title>Intro 4</title>
+  <terms id="_" obligation="normative">
+  <title>Intro 5</title>
+  <term id="_">
+  <preferred>Term1</preferred>
+</term>
+</terms>
+</clause>
+<clause id="_" obligation="normative"><title>Normal Terms</title><term id="_">
+  <preferred>Term2</preferred>
+</term>
+<terms id="_" obligation="normative">
+  <title>Terms defined elsewhere</title>
+</terms></clause>
+<definitions id="_"><title>Symbols and Abbreviated Terms</title><clause id="_" obligation="normative">
+  <title>General</title>
+</clause>
+<definitions id="_">
+  <title>Symbols 1</title>
+</definitions></definitions></clause>
+<definitions id="_">
+  <title>Abbreviated Terms</title>
+</definitions>
+<clause id="_" obligation="normative"><title>Clause 4</title><clause id="_" obligation="normative">
+  <title>Introduction</title>
+</clause>
+<clause id="_" obligation="normative">
+  <title>Clause 4.2</title>
+</clause></clause>
+<clause id="_" obligation="normative">
+  <title>Terms and Definitions</title>
+</clause>
+
+</sections><annex id="_" obligation="normative">
+  <title>Annex</title>
+  <clause id="_" obligation="normative">
+  <title>Annex A.1</title>
+</clause>
+</annex><bibliography>
+<references id="_" obligation="informative">
+  <title>References</title>
+</references>
+<clause id="_" obligation="informative">
+  <title>Bibliography</title>
+  <references id="_" obligation="informative">
+  <title>Bibliography Subsection</title>
+</references>
+</clause>
+<references id="_" obligation="informative">
+         <title>Bibliography</title>
+       </references>
+</bibliography>
+</itu-standard>
+OUTPUT
+  end
 
 end
 
-RSpec.describe "warns when missing a title" do
-  specify { expect { Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true) }.to output(/is not a legal document type/).to_stderr }
-  #{VALIDATING_BLANK_HDR}
-      = Document title
-      Author
-      :docfile: test.adoc
-      :doctype: dinosaur
-
-  INPUT
-end
-
-RSpec.describe "warns about illegal status" do
-  specify { expect { Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true) }.to output(/is not a legal status/).to_stderr }
-  #{VALIDATING_BLANK_HDR}
-      = Document title
-      Author
-      :docfile: test.adoc
-      :status: dinosaur
-
-  INPUT
-end
 

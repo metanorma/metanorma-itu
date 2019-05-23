@@ -65,7 +65,7 @@ module IsoDoc
       end
 
       def middle_title(out)
-        out.p(**{ class: "zzSTDTitle1" }) { |p| p << "Recommendation " + @meta.get[:docidentifier] }
+        out.p(**{ class: "zzSTDTitle1" }) { |p| p << "Recommendation #{@meta.get[:docidentifier]}" }
         out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
       end
 

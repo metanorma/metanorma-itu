@@ -170,9 +170,9 @@ module Asciidoctor
       end
 
       def metadata_ext(node, xml)
-        metadata_doctype(node, ext)
-        metadata_committee(node, ext)
-        metadata_ics(node, ext)
+        metadata_doctype(node, xml)
+        metadata_committee(node, xml)
+        metadata_ics(node, xml)
         metadata_keywords(node, xml)
         metadata_recommendationstatus(node, xml)
         metadata_ip_notice(node, xml)

@@ -19,7 +19,7 @@ module Metanorma
       end
 
       def version
-        "Metanorma::Acme #{Metanorma::ITU::VERSION}"
+        "Metanorma::ITU #{Metanorma::ITU::VERSION}"
       end
 
       def input_to_isodoc(file, filename)

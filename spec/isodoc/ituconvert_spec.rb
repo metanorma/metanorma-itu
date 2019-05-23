@@ -6,76 +6,131 @@ RSpec.describe Asciidoctor::ITU do
     csdc = IsoDoc::ITU::HtmlConvert.new({})
     docxml, filename, dir = csdc.convert_init(<<~"INPUT", "test", true)
 <itu-standard xmlns="https://www.calconnect.org/standards/itu">
-<bibdata type="standard">
-  <title language="en" format="plain">Main Title</title>
-  <docidentifier>CC/WD 1000:2001</docidentifier>
+  <bibdata type="standard">
+  <title language="en" format="text/plain" type="main">Main Title</title>
+  <title language="fr" format="text/plain" type="main">Titre Principal</title>
+  <docidentifier type="ITU-provisional">ABC</docidentifier>
+  <docidentifier type="ITU">ITU-R 1000</docidentifier>
+  <docnumber>1000</docnumber>
   <contributor>
     <role type="author"/>
     <organization>
-      <name>CalConnect</name>
+      <name>International Telecommunication Union</name>
+      <abbreviation>ITU</abbreviation>
     </organization>
   </contributor>
-           <contributor>
-           <role type="editor"/>
-           <person>
-             <name>
-               <completename>Fred Flintstone</completename>
-             </name>
-           </person>
-         </contributor>
-         <contributor>
-           <role type="author"/>
-           <person>
-             <name>
-               <forename>Barney</forename>
-               <surname>Rubble</surname>
-             </name>
-                  <affiliation>
-      <organization><name>Bedrock Inc.</name></organization>
-      </affiliation>
-           </person>
-         </contributor>
   <contributor>
     <role type="publisher"/>
     <organization>
-      <name>CalConnect</name>
+      <name>International Telecommunication Union</name>
+      <abbreviation>ITU</abbreviation>
     </organization>
   </contributor>
   <edition>2</edition>
-  <version>
+<version>
   <revision-date>2000-01-01</revision-date>
   <draft>3.4</draft>
-</version>
+</version>  
   <language>en</language>
   <script>Latn</script>
   <status>
-    <stage>working-draft</stage>
+    <stage>final-draft</stage>
+    <iteration>3</iteration>
   </status>
   <copyright>
     <from>2001</from>
     <owner>
       <organization>
-        <name>CalConnect</name>
+      <name>International Telecommunication Union</name>
+      <abbreviation>ITU</abbreviation>
       </organization>
     </owner>
   </copyright>
+  <series type="main">
+  <title>A3</title>
+</series>
+<series type="secondary">
+  <title>B3</title>
+</series>
+<series type="tertiary">
+  <title>C3</title>
+</series>
   <ext>
-  <doctype>standard</doctype>
-  <editorialgroup>
-    <technical-committee type="A">TC</technical-committee>
-  </editorialgroup>
+  <doctype>directive</doctype>
+      <editorialgroup>
+      <bureau>R</bureau>
+      <group type="A">
+        <name>I</name>
+        <acronym>C</acronym>
+        <period>
+          <start>E</start>
+          <end>G</end>
+        </period>
+      </group>
+      <subgroup type="A1">
+        <name>I1</name>
+        <acronym>C1</acronym>
+        <period>
+          <start>E1</start>
+          <end>G1</end>
+        </period>
+      </subgroup>
+      <workgroup type="A2">
+        <name>I2</name>
+        <acronym>C2</acronym>
+        <period>
+          <start>E2</start>
+          <end>G2</end>
+        </period>
+      </workgroup>
+    </editorialgroup>
+    <editorialgroup>
+      <bureau>T</bureau>
+      <group type="B">
+        <name>J</name>
+        <acronym>D</acronym>
+        <period>
+          <start>F</start>
+          <end>H</end>
+        </period>
+      </group>
+      <subgroup type="B1">
+        <name>J1</name>
+        <acronym>D1</acronym>
+        <period>
+          <start>F1</start>
+          <end>H1</end>
+        </period>
+      </subgroup>
+      <workgroup type="B2">
+        <name>J2</name>
+        <acronym>D2</acronym>
+        <period>
+          <start>F2</start>
+          <end>H2</end>
+        </period>
+      </workgroup>
+    </editorialgroup>
+     <keyword>word1</keyword>
+ <keyword>word2</keyword>
+ <recommendationstatus>
+  <from>D3</from>
+  <to>E3</to>
+  <approvalstage process="F3">G3</approvalstage>
+</recommendationstatus>
+<ip-notice-received>false</ip-notice-received>
   </ext>
 </bibdata>
 <preface/><sections/>
 </itu-standard>
     INPUT
     expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <<~"OUTPUT"
-    {:accesseddate=>"XXX", :authors=>["Fred Flintstone", "Barney Rubble"], :authors_affiliations=>{""=>["Fred Flintstone"], "Bedrock Inc."=>["Barney Rubble"]}, :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docnumber=>"CC/WD 1000:2001", :doctitle=>"Main Title", :doctype=>"Standard", :docyear=>"2001", :draft=>"3.4", :draftinfo=>" (draft 3.4, 2000-01-01)", :edition=>"2", :implementeddate=>"XXX", :issueddate=>"XXX", :obsoleteddate=>"XXX", :publisheddate=>"XXX", :receiveddate=>"XXX", :revdate=>"2000-01-01", :roles_authors_affiliations=>{"author"=>{"Bedrock Inc."=>["Barney Rubble"]}, "editor"=>{""=>["Fred Flintstone"]}}, :stage=>"Working Draft", :tc=>"TC", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>true, :updateddate=>"XXX"}
+    {:accesseddate=>"XXX", :bureau=>"R", :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docidentifier=>"ABC", :docnumber=>"1000", :doctitle=>"Main Title", :doctype=>"Directive", :docyear=>"2001", :draft=>"3.4", :draftinfo=>" (draft 3.4, 2000-01-01)", :edition=>"2", :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :iteration=>"3", :keywords=>["word1", "word2"], :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :receiveddate=>"XXX", :revdate=>"2000-01-01", :revdate_monthyear=>"01/2000", :series=>"A3", :series1=>"B3", :series2=>"C3", :stage=>"Final Draft", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>false, :updateddate=>"XXX"}
     OUTPUT
   end
 
   it "processes pre" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>}, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
 <itu-standard xmlns="https://www.calconnect.org/standards/itu">
 <preface><foreword>
 <pre>ABC</pre>
@@ -85,7 +140,7 @@ RSpec.describe Asciidoctor::ITU do
     #{HTML_HDR}
              <br/>
              <div>
-               <h1 class="ForewordTitle">Foreword</h1>
+               <h1 class="IntroTitle"/>
                <pre>ABC</pre>
              </div>
              <p class="zzSTDTitle1"/>
@@ -95,7 +150,7 @@ RSpec.describe Asciidoctor::ITU do
   end
 
   it "processes keyword" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>}, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
 <itu-standard xmlns="https://www.calconnect.org/standards/itu">
 <preface><foreword>
 <keyword>ABC</keyword>
@@ -103,9 +158,8 @@ RSpec.describe Asciidoctor::ITU do
 </itu-standard>
     INPUT
         #{HTML_HDR}
-             <br/>
              <div>
-               <h1 class="ForewordTitle">Foreword</h1>
+               <h1 class="IntroTitle"/>
                <span class="keyword">ABC</span>
              </div>
              <p class="zzSTDTitle1"/>
@@ -115,7 +169,7 @@ RSpec.describe Asciidoctor::ITU do
   end
 
   it "processes simple terms & definitions" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>}, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
                <itu-standard xmlns="http://riboseinc.com/isoxml">
        <preface/><sections>
        <terms id="H" obligation="normative"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
@@ -128,10 +182,9 @@ RSpec.describe Asciidoctor::ITU do
     INPUT
         #{HTML_HDR}
                <p class="zzSTDTitle1"/>
-               <div id="H"><h1>1.&#160; Terms and definitions</h1><p>For the purposes of this document,
-           the following terms and definitions apply.</p>
-       <p class="TermNum" id="J">1.1.</p>
-         <p class="Terms" style="text-align:left;">Term2</p>
+               <div id="H"><h1>1.&#160; Definitions</h1>
+       <div id="J"><p class="TermNum" id="J"><b>1.1&#160; Term2</b>:</p>
+       </div>
        </div>
              </div>
            </body>
@@ -139,7 +192,7 @@ RSpec.describe Asciidoctor::ITU do
   end
 
   it "processes terms & definitions with external source" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>}, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
                <itu-standard xmlns="http://riboseinc.com/isoxml">
          <termdocsource type="inline" bibitemid="ISO712"/>
        <preface/><sections>
@@ -150,7 +203,7 @@ RSpec.describe Asciidoctor::ITU do
        </terms>
         </sections>
         <bibliography>
-        <references id="_normative_references" obligation="informative"><title>Normative References</title>
+        <references id="_normative_references" obligation="informative"><title>References</title>
 <bibitem id="ISO712" type="standard">
   <title format="text/plain">Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</title>
   <docidentifier>ISO 712</docidentifier>
@@ -167,7 +220,7 @@ RSpec.describe Asciidoctor::ITU do
         #{HTML_HDR}
                <p class="zzSTDTitle1"/>
                <div>
-                 <h1>1.&#160; Normative references</h1>
+                 <h1>1.&#160; References</h1>
                  <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
                  <p id="ISO712" class="NormRef">ISO 712, <i> Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</i></p>
                </div>
@@ -182,7 +235,7 @@ RSpec.describe Asciidoctor::ITU do
   end
 
   it "processes empty terms & definitions" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>}, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
                <itu-standard xmlns="http://riboseinc.com/isoxml">
        <preface/><sections>
        <terms id="H" obligation="normative"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
@@ -192,7 +245,8 @@ RSpec.describe Asciidoctor::ITU do
     INPUT
         #{HTML_HDR}
                <p class="zzSTDTitle1"/>
-               <div id="H"><h1>1.&#160; Terms and definitions</h1><p>No terms and definitions are listed in this document.</p>
+               <div id="H"><h1>1.&#160; Definitions</h1>
+               </div>
        </div>
              </div>
            </body>
@@ -299,7 +353,7 @@ RSpec.describe Asciidoctor::ITU do
          </clause>
        </clause>
        </annex><bibliography><references id="R" obligation="informative">
-         <title>Normative References</title>
+         <title>References</title>
        </references><clause id="S" obligation="informative">
          <title>Bibliography</title>
          <references id="T" obligation="informative">
@@ -312,10 +366,9 @@ RSpec.describe Asciidoctor::ITU do
         #{HTML_HDR}
              <br/>
              <div>
-                 <h1 class="ForewordTitle">Foreword</h1>
+                 <h1 class="IntroTitle">Foreword</h1>
                  <p id="A">This is a preamble</p>
                </div>
-               <br/>
                <div class="Section3" id="B">
                  <h1 class="IntroTitle">Introduction</h1>
                  <div id="C">
@@ -328,16 +381,14 @@ RSpec.describe Asciidoctor::ITU do
                  <p id="E">Text</p>
                </div>
                <div>
-                 <h1>2.&#160; Normative references</h1>
-                 <p>There are no normative references in this document.</p>
+                 <h1>2.&#160; references</h1>
+                 <p>The following ITU-T Recommendations and other references contain provisions which, through reference in this text, constitute provisions of this Recommendation. At the time of publication, the editions indicated were valid. All Recommendations and other references are subject to revision; users of this Recommendation are therefore encouraged to investigate the possibility of applying the most recent edition of the Recommendations and other references listed below. A list of the currently valid ITU-T Recommendations is regularly published. The reference to a document within this Recommendation does not give it, as a stand-alone document, the status of a Recommendation.</p>
                </div>
-               <div id="H"><h1>3.&#160; Terms, definitions, symbols and abbreviated terms</h1><p>For the purposes of this document,
-           the following terms and definitions apply.</p>
+               <div id="H"><h1>3.&#160; Terms, definitions, symbols and abbreviated terms</h1>
        <div id="I">
           <h2>3.1. Normal Terms</h2>
-          <p class="TermNum" id="J">3.1.1.</p>
-          <p class="Terms" style="text-align:left;">Term2</p>
-
+          <div id="J"><p class="TermNum" id="J"><b>3.1.1&#160; Term2</b>:</p>
+        </div>
         </div><div id="K"><h2>3.2. Symbols and abbreviated terms</h2>
           <dl><dt><p>Symbol</p></dt><dd>Definition</dd></dl>
         </div></div>
@@ -395,7 +446,7 @@ RSpec.describe Asciidoctor::ITU do
     OUTPUT
     html = File.read("test.html", encoding: "utf-8")
     expect(html).to match(%r{jquery\.min\.js})
-    expect(html).to match(%r{Overpass})
+    expect(html).to match(%r{Open Sans})
     expect(html).to match(%r{<main class="main-section"><button})
   end
 

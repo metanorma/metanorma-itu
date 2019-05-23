@@ -113,6 +113,7 @@ OUTPUT
       :nodoc:
       :novalid:
       :docnumber: 1000
+      :provisional-name: ABC
       :doctype: directive
       :edition: 2
       :revdate: 2000-01-01
@@ -123,18 +124,62 @@ OUTPUT
       :status: final-draft
       :iteration: 3
       :language: en
-      :title: Main Title
+      :title-en: Main Title
+      :title-fr: Titre Principal
       :fullname: Fred Flintstone
       :role: author
       :surname_2: Rubble
       :givenname_2: Barney
       :role_2: editor
+      :bureau: R
+      :bureau_2: T
+      :grouptype: A
+      :grouptype_2: B
+      :groupacronym: C
+      :groupacronym_2: D
+      :groupyearstart: E
+      :groupyearstart_2: F
+      :groupyearend: G
+      :groupyearend_2: H
+      :group: I
+      :group_2: J
+      :subgrouptype: A1
+      :subgrouptype_2: B1
+      :subgroupacronym: C1
+      :subgroupacronym_2: D1
+      :subgroupyearstart: E1
+      :subgroupyearstart_2: F1
+      :subgroupyearend: G1
+      :subgroupyearend_2: H1
+      :subgroup: I1
+      :subgroup_2: J1
+      :workgrouptype: A2
+      :workgrouptype_2: B2
+      :workgroupacronym: C2
+      :workgroupacronym_2: D2
+      :workgroupyearstart: E2
+      :workgroupyearstart_2: F2
+      :workgroupyearend: G2
+      :workgroupyearend_2: H2
+      :workgroup: I2
+      :workgroup_2: J2
+      :series: A3
+      :series1: B3
+      :series2: C3
+      :keywords: word1,word2
+      :recommendation-from: D3
+      :recommendation-to: E3
+      :approval-process: F3
+      :approval-status: G3
+
     INPUT
 <?xml version="1.0" encoding="UTF-8"?>
 <itu-standard xmlns="https://open.ribose.com/standards/itu">
 <bibdata type="standard">
   <title language="en" format="text/plain" type="main">Main Title</title>
-  <docidentifier type="ITU">ITU-T 1000</docidentifier>
+  <title language="fr" format="text/plain" type="main">Titre Principal</title>
+  <docidentifier type="ITU-provisional">ABC</docidentifier>
+  <docidentifier type="ITU">ITU-R 1000</docidentifier>
   <docnumber>1000</docnumber>
   <contributor>
     <role type="author"/>
@@ -170,14 +215,78 @@ OUTPUT
       </organization>
     </owner>
   </copyright>
+  <series type="main">
+  <title>A3</title>
+</series>
+<series type="secondary">
+  <title>B3</title>
+</series>
+<series type="tertiary">
+  <title>C3</title>
+</series>
   <ext>
   <doctype>directive</doctype>
-  <editorialgroup>
-  <bureau>T</bureau>
-  <group>
-
-  </group>
-</editorialgroup>
+      <editorialgroup>
+      <bureau>R</bureau>
+      <group type="A">
+        <name>I</name>
+        <acronym>C</acronym>
+        <period>
+          <start>E</start>
+          <end>G</end>
+        </period>
+      </group>
+      <subgroup type="A1">
+        <name>I1</name>
+        <acronym>C1</acronym>
+        <period>
+          <start>E1</start>
+          <end>G1</end>
+        </period>
+      </subgroup>
+      <workgroup type="A2">
+        <name>I2</name>
+        <acronym>C2</acronym>
+        <period>
+          <start>E2</start>
+          <end>G2</end>
+        </period>
+      </workgroup>
+    </editorialgroup>
+    <editorialgroup>
+      <bureau>T</bureau>
+      <group type="B">
+        <name>J</name>
+        <acronym>D</acronym>
+        <period>
+          <start>F</start>
+          <end>H</end>
+        </period>
+      </group>
+      <subgroup type="B1">
+        <name>J1</name>
+        <acronym>D1</acronym>
+        <period>
+          <start>F1</start>
+          <end>H1</end>
+        </period>
+      </subgroup>
+      <workgroup type="B2">
+        <name>J2</name>
+        <acronym>D2</acronym>
+        <period>
+          <start>F2</start>
+          <end>H2</end>
+        </period>
+      </workgroup>
+    </editorialgroup>
+     <keyword>word1</keyword>
+ <keyword>word2</keyword>
+ <recommendationstatus>
+  <from>D3</from>
+  <to>E3</to>
+  <approvalstage process="F3">G3</approvalstage>
+</recommendationstatus>
 <ip-notice-received>false</ip-notice-received>
   </ext>
 </bibdata>

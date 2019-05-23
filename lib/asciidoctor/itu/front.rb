@@ -52,6 +52,7 @@ module Asciidoctor
         suffix = 2
         while node.attr("bureau_#{suffix}")
           metadata_committee1(node, xml, "_#{suffix}")
+          suffix += 1
         end
       end
 
@@ -59,45 +60,35 @@ module Asciidoctor
         xml.editorialgroup do |a|
           a.bureau ( node.attr("bureau#{suffix}") || "T" )
           a.group **attr_code(type: node.attr("grouptype#{suffix}")) do |g|
-            g.name node.attr("group#{suffix}")
-            g.acronym node.attr("groupacronym#{suffix}") if node.attr("groupacronym#{suffix}")
-            if node.attr("groupyearstart#{suffix}")
-              g.period do |p|
-                period.start node.attr("groupyearstart#{suffix}")
-                period.end node.attr("groupyearend#{suffix}") if node.attr("groupacronym#{suffix}")
-              end
-            end
+            metadata_committee2(node, g, suffix, "")
           end
           if node.attr("subgroup#{suffix}")
             a.subgroup **attr_code(type: node.attr("subgrouptype#{suffix}")) do |g|
-              g.name node.attr("subgroup#{suffix}")
-              g.acronym node.attr("subgroupacronym#{suffix}") if node.attr("subgroupacronym#{suffix}")
-              if node.attr("subgroupyearstart#{suffix}")
-                g.period do |p|
-                  period.start node.attr("subgroupyearstart#{suffix}")
-                  period.end node.attr("subgroupyearend#{suffix}") if node.attr("subgroupyearend#{suffix}")
-                end
-              end
+              metadata_committee2(node, g, suffix, "sub")
             end
           end
           if node.attr("workgroup#{suffix}")
             a.workgroup **attr_code(type: node.attr("workgrouptype#{suffix}")) do |g|
-              g.name node.attr("workgroup#{suffix}")
-              g.acronym node.attr("workgroupacronym#{suffix}") if node.attr("workgroupacronym#{suffix}")
-              if node.attr("workgroupyearstart#{suffix}")
-                g.period do |p|
-                  period.start node.attr("workgroupyearstart#{suffix}")
-                  period.end node.attr("workgroupyearend#{suffix}") if node.attr("wokrgroupyearend#{suffix}")
-                end
-              end
+              metadata_committee2(node, g, suffix, "work")
             end
           end
         end
       end
 
+      def metadata_committee2(node, g, suffix, prefix)
+        g.name node.attr("#{prefix}group#{suffix}")
+        g.acronym node.attr("#{prefix}groupacronym#{suffix}") if node.attr("#{prefix}groupacronym#{suffix}")
+        if node.attr("#{prefix}groupyearstart#{suffix}")
+          g.period do |p|
+            p.start node.attr("#{prefix}groupyearstart#{suffix}")
+            p.end node.attr("#{prefix}groupyearend#{suffix}") if node.attr("#{prefix}groupacronym#{suffix}")
+          end
+        end
+      end
+
       def metadata_id(node, xml)
-        itu_id(node, xml)
         provisional_id(node, xml)
+        itu_id(node, xml)
       end
 
       def provisional_id(node, xml)

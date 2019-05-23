@@ -29,8 +29,8 @@ module Asciidoctor
       end
 
       def approval_validate(xmldoc)
-        s = xmldoc.at("//bibdata/recommendationstatus") || return
-        process = s.at("./@process").text
+        s = xmldoc.at("//bibdata/ext/recommendationstatus/approvalstage") || return
+        process = s["process"]
         if process == "aap" and %w(determined in-force).include? s.text
           warn "Recommendation Status #{s.text} inconsistent with AAP"
         end
@@ -41,8 +41,8 @@ module Asciidoctor
 
       def itu_identifier_validate(xmldoc)
         s = xmldoc.xpath("//bibdata/docidentifier[@type = 'ITU']").each do |x|
-          /^ITU-[RTF] [AD-VX-Z]\.[0-9]+$/.match x.text or
-            warn "#{x.text} does not match ITU document identifier conventions"
+          /^ITU-[RTF] [AD-VX-Z]\.[0-9]+$/.match(x.text) or
+            warn("#{x.text} does not match ITU document identifier conventions")
         end
       end
 

@@ -27,7 +27,7 @@ RSpec.describe Metanorma::ITU::Processor do
     #{ASCIIDOC_BLANK_HDR}
     INPUT
     #{BLANK_HDR}
-<sections/>
+<preface/><sections/>
 </itu-standard>
     OUTPUT
   end
@@ -37,17 +37,18 @@ RSpec.describe Metanorma::ITU::Processor do
     processor.output(<<~"INPUT", "test.html", :html)
                <itu-standard xmlns="http://riboseinc.com/isoxml">
        <sections>
-       <terms id="H" obligation="normative"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+       <terms id="H" obligation="normative">
          <term id="J">
          <preferred>Term2</preferred>
        </term>
         </terms>
-        </sections>
+        <preface/></sections>
         </itu-standard>
     INPUT
     expect(File.read("test.html", encoding: "utf-8").gsub(%r{^.*<main}m, "<main").gsub(%r{</main>.*}m, "</main>")).to be_equivalent_to <<~"OUTPUT"
            <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
              <p class="zzSTDTitle1"></p>
+             <p class="zzSTDTitle2"></p>
        <div id="H">
   <h1>1.&#xA0; Definitions</h1>
   <div id="J"><p class="TermNum" id="J"><b>1.1&#xA0; Term2</b>:</p>

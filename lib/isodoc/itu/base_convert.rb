@@ -44,14 +44,6 @@ module IsoDoc
         end
       end
 
-      def term_defs_boilerplate(div, source, term, preface)
-        if source.empty? && term.nil?
-          div << @no_terms_boilerplate
-        else
-          div << term_defs_boilerplate_cont(source, term)
-        end
-      end
-
       def i18n_init(lang, script)
         super
       end
@@ -102,7 +94,7 @@ module IsoDoc
         f = isoxml.at(ns(q)) or return num
         out.div do |div|
           num = num + 1
-          clause_name(num, "References", div, nil)
+          clause_name(num, @normref_lbl, div, nil)
           norm_ref_preface(f, div)
           biblio_list(f, div, false)
         end
@@ -141,17 +133,33 @@ module IsoDoc
         end
       end
 
-      ELSEWHERE_TERMS = "This Recommendation uses the following terms defined elsewhere:"
-      HERE_TERMS = "This Recommendation defines the following terms:"
+      def terms_defs_title(node)
+        t = node.at(ns("./title")) and return t.text
+        super
+      end
+
+      def terms_defs(node, out, num)
+        f = node.at(ns(IsoDoc::Convert::TERM_CLAUSE)) or return num
+        out.div **attr_code(id: f["id"]) do |div|
+          num = num + 1
+          clause_name(num, terms_defs_title(f), div, nil)
+          if f.at(ns("./clause | ./terms | ./term")).nil? then out.p "None."
+          else
+            f.children.reject { |c1| c1.name == "title" }.each do |c1|
+              parse(c1, div)
+            end
+          end
+        end
+        num
+      end
 
       def terms_parse(node, out)
         out.div **attr_code(id: node["id"]) do |div|
           clause_parse_title(node, div, node.at(ns("./title")), out)
           title = node.at(ns("./title"))&.text&.downcase
-          title == "terms defined elsewhere" and out.p ELSEWHERE_TERMS
-          title == "terms defined in this recommendation" and out.p HERE_TERMS
-          content = node.at(ns("./clause | ./term"))
-          if content.nil? then out.p "None."
+          title == "terms defined elsewhere" and out.p @labels["elsewhere_terms"]
+          title == "terms defined in this recommendation" and out.p @labels["here_terms"]
+          if node.at(ns("./clause | ./term")).nil? then out.p "None."
           else
             node.children.reject { |c1| c1.name == "title" }.each do |c1|
               parse(c1, div)
@@ -168,7 +176,7 @@ module IsoDoc
             term.children.each { |n| parse(n, b) }
           end
           source and p << " [#{source.value}]"
-          p << ":"
+          p << ": "
           defn and defn.children.each { |n| parse(n, p) }
         end
       end
@@ -204,6 +212,13 @@ module IsoDoc
         else
           out.a(**{ "href": "#" + node["bibitemid"] }) { |l| l << linkend }
         end
+      end
+
+      def middle_title(out)
+        out.p(**{ class: "zzSTDTitle1" }) do |p|
+          id = @meta.get[:docidentifier] and p << "Recommendation #{id}" 
+        end
+        out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
       end
     end
   end

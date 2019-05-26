@@ -37,16 +37,6 @@ module IsoDoc
         set(:docidentifier, dn&.text)
       end
 
-      def status_abbr(status)
-        case status
-        when "working-draft" then "wd"
-        when "committee-draft" then "cd"
-        when "draft-standard" then "d"
-        else
-          ""
-        end
-      end
-
       def unpublished(status)
         %w(in-force-prepublished).include? status.downcase
       end

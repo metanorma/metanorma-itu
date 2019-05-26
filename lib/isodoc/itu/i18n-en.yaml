@@ -1,2 +1,8 @@
 termsdef: Definitions
 termnote: NOTE %
+normref: References
+elsewhere_terms: >-
+  This Recommendation uses the following terms defined elsewhere:
+here_terms: >-
+  This Recommendation defines the following terms:
+

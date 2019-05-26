@@ -64,11 +64,6 @@ module IsoDoc
         docxml
       end
 
-      def middle_title(out)
-        out.p(**{ class: "zzSTDTitle1" }) { |p| p << "Recommendation #{@meta.get[:docidentifier]}" }
-        out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
-      end
-
       def word_preface(docxml)
         super
         abstractbox = docxml.at("//div[@id='abstractbox']")

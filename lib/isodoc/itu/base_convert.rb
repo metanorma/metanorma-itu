@@ -36,7 +36,7 @@ module IsoDoc
 
       def annex_name(annex, name, div)
         div.h1 **{ class: "Annex" } do |t|
-          t << "#{get_anchors[annex['id']][:label]} "
+          t << "#{anchor(annex['id'], :label)} "
           t.br
           t.b do |b|
             name&.children&.each { |c2| parse(c2, b) }
@@ -171,7 +171,7 @@ module IsoDoc
       def termdef_parse1(node, div, term, defn, source)
         div.p **{ class: "TermNum", id: node["id"] } do |p|
           p.b do |b|
-            b << get_anchors[node["id"]][:label]
+            b << anchor(node["id"], :label)
             insert_tab(b, 1)
             term.children.each { |n| parse(n, b) }
           end

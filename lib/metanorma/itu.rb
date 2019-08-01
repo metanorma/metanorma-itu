@@ -1,3 +1,4 @@
+require "metanorma/itu/version"
 require "metanorma/itu/processor"
 
 module Metanorma

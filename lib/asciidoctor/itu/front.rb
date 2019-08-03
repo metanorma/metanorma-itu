@@ -136,13 +136,6 @@ module Asciidoctor
         end
       end
 
-      def metadata_keywords(node, xml)
-        return unless node.attr("keywords")
-        node.attr("keywords").split(/,[ ]*/).each do |kw|
-          xml.keyword kw
-        end
-      end
-
       def metadata_recommendationstatus(node, xml)
         return unless node.attr("recommendation-from")
         xml.recommendationstatus do |s|
@@ -164,7 +157,6 @@ module Asciidoctor
         metadata_doctype(node, xml)
         metadata_committee(node, xml)
         metadata_ics(node, xml)
-        metadata_keywords(node, xml)
         metadata_recommendationstatus(node, xml)
         metadata_ip_notice(node, xml)
       end

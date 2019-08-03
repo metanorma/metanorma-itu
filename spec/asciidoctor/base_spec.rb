@@ -224,6 +224,8 @@ OUTPUT
 <series type="tertiary">
   <title>C3</title>
 </series>
+     <keyword>word1</keyword>
+ <keyword>word2</keyword>
   <ext>
   <doctype>directive</doctype>
       <editorialgroup>
@@ -280,8 +282,6 @@ OUTPUT
         </period>
       </workgroup>
     </editorialgroup>
-     <keyword>word1</keyword>
- <keyword>word2</keyword>
  <recommendationstatus>
   <from>D3</from>
   <to>E3</to>

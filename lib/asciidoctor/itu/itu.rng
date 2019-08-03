@@ -89,9 +89,6 @@
       <zeroOrMore>
         <ref name="ics"/>
       </zeroOrMore>
-      <zeroOrMore>
-        <ref name="bkeyword"/>
-      </zeroOrMore>
       <optional>
         <ref name="recommendationstatus"/>
       </optional>
@@ -134,11 +131,6 @@
         <value>c</value>
         <value>tap</value>
       </choice>
-    </element>
-  </define>
-  <define name="bkeyword">
-    <element name="keyword">
-      <text/>
     </element>
   </define>
   <define name="bureau">

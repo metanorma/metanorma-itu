@@ -20,10 +20,6 @@ module IsoDoc
         super
       end
 
-      def html_toc(docxml)
-        docxml
-      end
-
       def default_fonts(options)
         {
           bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' : '"Open Sans",sans-serif'),

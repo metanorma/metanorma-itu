@@ -116,21 +116,18 @@ module IsoDoc
         bibitem
       end
 
-      def noniso_bibitem_entry(list, b, ordinal, biblio)
+      def nonstd_bibitem(list, b, ordinal, biblio)
         return if implicit_reference(b)
         list.p **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
-          ref << "[#{iso_bibitem_ref_code(b)}]"
+          ref << "[#{bibitem_ref_code(b)}]"
           date_note_process(b, ref)
           insert_tab(ref, 1)
           reference_format(b, ref)
         end
       end
 
-      def biblio_list(f, div, bibliography)
-        bibitems = split_bibitems(f)
-        bibitems.each_with_index do |b, i|
-          noniso_bibitem_entry(div, b, (i + 1), bibliography)
-        end
+      def std_bibitem_entry(list, b, ordinal, biblio)
+        nonstd_bibitem(list, b, ordinal, biblio)
       end
 
       def terms_defs_title(node)

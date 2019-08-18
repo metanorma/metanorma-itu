@@ -117,7 +117,6 @@ module IsoDoc
       end
 
       def nonstd_bibitem(list, b, ordinal, biblio)
-        return if implicit_reference(b)
         list.p **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
           ref << "[#{bibitem_ref_code(b)}]"
           date_note_process(b, ref)

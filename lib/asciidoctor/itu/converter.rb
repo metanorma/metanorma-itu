@@ -149,6 +149,9 @@ module Asciidoctor
         super
       end
 
+      def boilerplate_cleanup(xmldoc)
+      end
+
       def html_converter(node)
         IsoDoc::ITU::HtmlConvert.new(html_extract_attributes(node))
       end

@@ -661,6 +661,7 @@ OUTPUT
 </annex><bibliography>
 <references id="_" obligation="informative">
   <title>References</title>
+  <p>There are no normative references in this document.</p>
 </references>
 <clause id="_" obligation="informative">
   <title>Bibliography</title>
@@ -675,6 +676,50 @@ OUTPUT
 </itu-standard>
 OUTPUT
   end
+
+  it "inserts boilerplate before empty Normative References" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+
+      [bibliography]
+      == References
+
+      INPUT
+      #{BLANK_HDR}
+      <preface/><sections>
+
+</sections><bibliography><references id="_" obligation="informative">
+  <title>References</title><p>There are no normative references in this document.</p>
+</references></bibliography>
+</itu-standard>
+      OUTPUT
+      end
+
+ it "inserts boilerplate before non-empty Normative References" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+
+      [bibliography]
+      == References
+      * [[[a,b]]] A
+
+      INPUT
+    #{BLANK_HDR}
+    <preface/><sections>
+
+       </sections><bibliography><references id="_" obligation="informative">
+         <title>References</title>
+<p>The following ITU-T Recommendations and other references contain provisions which, through reference in this text, constitute provisions of this Recommendation. At the time of publication, the editions indicated were valid. All Recommendations and other references are subject to revision; users of this Recommendation are therefore encouraged to investigate the possibility of applying the most recent edition of the Recommendations and other references listed below. A list of the currently valid ITU-T Recommendations is regularly published. The reference to a document within this Recommendation does not give it, as a stand-alone document, the status of a Recommendation.</p>
+         <bibitem id="a">
+         <formattedref format="application/x-isodoc+xml">A</formattedref>
+         <docidentifier>b</docidentifier>
+       </bibitem>
+       </references></bibliography>
+       </itu-standard>
+
+      OUTPUT
+      end
+
 
 end
 

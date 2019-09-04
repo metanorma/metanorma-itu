@@ -110,7 +110,7 @@ module IsoDoc
 
       def nonstd_bibitem(list, b, ordinal, biblio)
         list.p **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
-          ref << "[#{bibitem_ref_code(b)}]"
+          ref << "[#{render_identifier(bibitem_ref_code(b))}]"
           date_note_process(b, ref)
           insert_tab(ref, 1)
           reference_format(b, ref)

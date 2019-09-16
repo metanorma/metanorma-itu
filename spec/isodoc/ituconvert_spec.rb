@@ -416,6 +416,127 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
     INPUT
  end
 
+       it "processes annexes and appendixes" do
+    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+               <itu-standard xmlns="http://riboseinc.com/isoxml">
+               <bibdata type="standard">
+               <title language="en" format="text/plain" type="main">An ITU Standard</title>
+               <docidentifier>12345</docidentifier>
+               <language>en</language>
+               <keyword>A</keyword>
+               <keyword>B</keyword>
+               <ext>
+               </ext>
+               </bibdata>
+        <annex id="A1" obligation="normative"><title>Annex</title></annex>
+        <annex id="A2" obligation="normative"><title>Annex</title></annex>
+        <annex id="A3" obligation="normative"><title>Annex</title></annex>
+        <annex id="A4" obligation="normative"><title>Annex</title></annex>
+        <annex id="A5" obligation="normative"><title>Annex</title></annex>
+        <annex id="A6" obligation="normative"><title>Annex</title></annex>
+        <annex id="A7" obligation="normative"><title>Annex</title></annex>
+        <annex id="A8" obligation="normative"><title>Annex</title></annex>
+        <annex id="A9" obligation="normative"><title>Annex</title></annex>
+        <annex id="A10" obligation="normative"><title>Annex</title></annex>
+        <annex id="B1" obligation="informative"><title>Annex</title></annex>
+        <annex id="B2" obligation="informative"><title>Annex</title></annex>
+        <annex id="B3" obligation="informative"><title>Annex</title></annex>
+        <annex id="B4" obligation="informative"><title>Annex</title></annex>
+        <annex id="B5" obligation="informative"><title>Annex</title></annex>
+        <annex id="B6" obligation="informative"><title>Annex</title></annex>
+        <annex id="B7" obligation="informative"><title>Annex</title></annex>
+        <annex id="B8" obligation="informative"><title>Annex</title></annex>
+        <annex id="B9" obligation="informative"><title>Annex</title></annex>
+        <annex id="B10" obligation="informative"><title>Annex</title></annex>
+    INPUT
+        #{HTML_HDR}
+        <p class="zzSTDTitle1">Recommendation 12345</p>
+             <p class="zzSTDTitle2">An ITU Standard</p>
+             <br/>
+             <div id="A1" class="Section3">
+               <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="A2" class="Section3">
+               <h1 class="Annex"><b>Annex B</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="A3" class="Section3">
+               <h1 class="Annex"><b>Annex C</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="A4" class="Section3">
+               <h1 class="Annex"><b>Annex D</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="A5" class="Section3">
+               <h1 class="Annex"><b>Annex E</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="A6" class="Section3">
+               <h1 class="Annex"><b>Annex F</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="A7" class="Section3">
+               <h1 class="Annex"><b>Annex G</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="A8" class="Section3">
+               <h1 class="Annex"><b>Annex H</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="A9" class="Section3">
+               <h1 class="Annex"><b>Annex J</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="A10" class="Section3">
+               <h1 class="Annex"><b>Annex K</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="B1" class="Section3">
+               <h1 class="Annex"><b>Appendix I</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="B2" class="Section3">
+               <h1 class="Annex"><b>Appendix II</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="B3" class="Section3">
+               <h1 class="Annex"><b>Appendix III</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="B4" class="Section3">
+               <h1 class="Annex"><b>Appendix IV</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="B5" class="Section3">
+               <h1 class="Annex"><b>Appendix V</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="B6" class="Section3">
+               <h1 class="Annex"><b>Appendix VI</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="B7" class="Section3">
+               <h1 class="Annex"><b>Appendix VII</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="B8" class="Section3">
+               <h1 class="Annex"><b>Appendix VIII</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="B9" class="Section3">
+               <h1 class="Annex"><b>Appendix IX</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+             </div>
+             <br/>
+             <div id="B10" class="Section3">
+               <h1 class="Annex"><b>Appendix X</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+             </div>
+           </div>
+         </body>
+OUTPUT
+       end
+
       it "processes section names" do
     expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", itudoc("en"), true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
         #{HTML_HDR}
@@ -473,7 +594,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
                </div>
                <br/>
                <div id="P" class="Section3">
-                 <h1 class="Annex"><b>Annex A</b><br/>(normative) <br/><b>Annex</b></h1>
+                 <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
                  <div id="Q">
           <h2>A.1. Annex A.1</h2>
           <div id="Q1">
@@ -550,7 +671,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
                </div>
                <br/>
                <div id="P" class="Section3">
-                 <h1 class="Annex"><b>Annexe A</b><br/>(normative) <br/><b>Annex</b></h1>
+                 <h1 class="Annex"><b>Annexe A</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
                  <div id="Q">
           <h2>A.1. Annex A.1</h2>
           <div id="Q1">
@@ -646,7 +767,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
                <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
              </p>
              <div id="P" class="Section3">
-               <h1 class="Annex"><b>Annex A</b><br/>(normative) <br/><b>Annex</b></h1>
+               <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
                <div id="Q"><h2>A.1. Annex A.1</h2>
      
           <div id="Q1"><h3>A.1.1. Annex A.1a</h3>

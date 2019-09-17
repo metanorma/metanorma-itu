@@ -13,18 +13,21 @@ module Asciidoctor
       def title_english(node, xml)
         ["en"].each do |lang|
           at = { language: lang, format: "text/plain", type: "main" }
-          xml.title **attr_code(at) do |t|
-            t << Asciidoctor::Standoc::Utils::asciidoc_sub(node.attr("title") ||
-                                                           node.attr("title-en") || node.title)
+          a = node.attr("title") || node.attr("title-en") || node.title
+          xml.title Asciidoctor::Standoc::Utils::asciidoc_sub(a), **attr_code(at)
+          if a = node.attr("annextitle") || node.attr("annextitle-en")
+            at[:type] = "annex"
+            xml.title Asciidoctor::Standoc::Utils::asciidoc_sub(a), **attr_code(at)
           end
         end
       end
 
       def title_otherlangs(node, xml)
         node.attributes.each do |k, v|
-          next unless /^title-(?<titlelang>.+)$/ =~ k
+          next unless /^(annex)?title-(?<titlelang>.+)$/ =~ k
           next if titlelang == "en"
-          xml.title v, { language: titlelang, format: "text/plain", type: "main" }
+          xml.title v, { language: titlelang, format: "text/plain",
+                         type: /^annex/.match(k) ? "annex" : "main" }
         end
       end
 
@@ -154,12 +157,22 @@ module Asciidoctor
         xml.ip_notice_received (node.attr("ip-notice-received") || "false")
       end
 
+      def structured_id(node, xml)
+        return unless node.attr("docnumber")
+        xml.structuredidentifier do |i|
+          i.bureau node.attr("bureau") || "T"
+          i.docnumber node.attr("docnumber")
+          a = node.attr("annexid") and i.annexid a
+        end
+      end
+
       def metadata_ext(node, xml)
         metadata_doctype(node, xml)
         metadata_committee(node, xml)
         metadata_ics(node, xml)
         metadata_recommendationstatus(node, xml)
         metadata_ip_notice(node, xml)
+        structured_id(node, xml)
       end
     end
   end

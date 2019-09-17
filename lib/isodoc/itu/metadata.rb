@@ -17,6 +17,8 @@ module IsoDoc
         set(:series1, series1)
         series2 = isoxml&.at(ns("//bibdata/series[@type='tertiary']/title"))&.text
         set(:series2, series2)
+        annext = isoxml&.at(ns("//bibdata/title[@type='annex']"))&.text
+        set(:annextitle, annext)
       end
 
       def subtitle(_isoxml, _out)
@@ -35,6 +37,10 @@ module IsoDoc
         set(:docnumber, dn&.text)
         dn = isoxml.at(ns("//bibdata/docidentifier"))
         set(:docidentifier, dn&.text)
+        dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/annexid"))
+        oblig = isoxml&.at(ns("//annex/@obligation"))&.text
+        lbl = oblig == "informative" ? @labels["appendix"] : @labels["annex"]
+        dn and set(:annexid, IsoDoc::Function::I18n::l10n("#{lbl} #{dn&.text}"))
       end
 
       def unpublished(status)

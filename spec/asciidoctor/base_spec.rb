@@ -738,6 +738,26 @@ OUTPUT
       OUTPUT
       end
 
+   it "processes stem blocks" do
+    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+      #{ASCIIDOC_BLANK_HDR}
+      [stem%unnumbered%inequality]
+      ++++
+      r = 1 %
+      r = 1 %
+      ++++
+INPUT
+            #{BLANK_HDR}
+            <preface/><sections>
+         <formula id="_" inequality="true" unnumbered="true">
+         <stem type="AsciiMath">r = 1 %
+       r = 1 %</stem>
+       </formula>
+       </sections>
+       </itu-standard>
+OUTPUT
+   end
+
 
 end
 

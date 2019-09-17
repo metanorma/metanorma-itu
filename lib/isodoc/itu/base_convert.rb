@@ -42,8 +42,8 @@ module IsoDoc
           t.b do |b|
             name&.children&.each { |c2| parse(c2, b) }
           end
-        type = annex&.document&.root&.at("//bibdata/ext/doctype")&.text || "recommendation"
-        type = type.split(" ").map {|w| w.capitalize }.join(" ")
+          type = annex&.document&.root&.at("//bibdata/ext/doctype")&.text || "recommendation"
+          type = type.split(" ").map {|w| w.capitalize }.join(" ")
           info = annex["obligation"] == "informative"
           t.p { |p| p << (info ? @inform_annex_lbl : @norm_annex_lbl).sub(/%/, type) }
         end
@@ -70,6 +70,7 @@ module IsoDoc
 
       def i18n_init(lang, script)
         super
+        @inequality_lbl = @labels["inequality"]
       end
 
       def fileloc(loc)
@@ -126,9 +127,7 @@ module IsoDoc
 
       def split_bibitems(f)
         bibitem = []
-        f.xpath(ns("./bibitem")).each do |x|
-          bibitem << x
-        end
+        f.xpath(ns("./bibitem")).each { |x| bibitem << x }
         bibitem
       end
 
@@ -231,6 +230,38 @@ module IsoDoc
           id = @meta.get[:docidentifier] and p << "Recommendation #{id}" 
         end
         out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
+      end
+
+      def anchor_struct_xref(lbl, elem)
+        case elem
+        when @formula_lbl then l10n("#{elem} (#{lbl})")
+        when @inequality_lbl then l10n("#{elem} (#{lbl})")
+        else
+          l10n("#{elem} #{lbl}")
+        end
+      end
+
+      def sequential_formula_names(clause)
+        i = 0
+        clause.xpath(ns(".//formula")).each do |t|
+          next if t["id"].nil? || t["id"].empty?
+          @anchors[t["id"]] = 
+            anchor_struct(i + 1, t, t["inequality"] ? @inequality_lbl : @formula_lbl,
+                          "formula", t["unnumbered"])
+          i += 1 unless t["unnumbered"]
+        end
+      end
+
+      def hierarchical_formula_names(clause, num)
+        i = 0
+        clause.xpath(ns(".//formula")).each do |t|
+          next if t["id"].nil? || t["id"].empty?
+          @anchors[t["id"]] =
+            anchor_struct("#{num}#{hiersep}#{i + 1}", t,
+                          t["inequality"] ? @inequality_lbl : @formula_lbl, "formula",
+                          t["unnumbered"])
+          i += 1 unless t["unnumbered"]
+        end
       end
     end
   end

@@ -166,6 +166,21 @@ module Asciidoctor
         super.merge(y)
       end
 
+      def stem(node)
+        stem_content = node.lines.join("\n")
+        noko do |xml|
+          xml.formula **formula_attr(node) do |s|
+            stem_parse(stem_content, s, node.style.to_sym)
+          end
+        end
+      end
+
+      def formula_attr(node)
+        attr_code( id: Asciidoctor::Standoc::Utils::anchor_or_uuid(node),
+                  inequality: node.option?("inequality") ? "true" : nil,
+                  unnumbered: node.option?("unnumbered") ? "true" : nil )
+      end
+
       def html_converter(node)
         IsoDoc::ITU::HtmlConvert.new(html_extract_attributes(node))
       end

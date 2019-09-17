@@ -939,5 +939,49 @@ OUTPUT
 OUTPUT
            end
 
+       it "cross-references formulae" do
+    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+            <itu-standard xmlns="http://riboseinc.com/isoxml">
+            <preface>
+    <foreword>
+    <p>
+    <xref target="N1"/>
+    <xref target="N2"/>
+    </p>
+    </foreword>
+    <introduction id="intro">
+    <formula id="N1">
+  <stem type="AsciiMath">r = 1 %</stem>
+  </formula>
+  <clause id="xyz"><title>Preparatory</title>
+    <formula id="N2" inequality="true">
+  <stem type="AsciiMath">r = 1 %</stem>
+  </formula>
+</clause>
+    </introduction>
+    </itu-standard>
+    INPUT
+            #{HTML_HDR}
+            <div>
+               <h1 class="IntroTitle"/>
+               <p>
+           <a href="#N1">Introduction, Equation (1)</a>
+           <a href="#N2">Preparatory, Inequality (2)</a>
+           </p>
+             </div>
+             <div id="intro"><h1 class="IntroTitle"/><div id="N1" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (1)</p></div>
+
+         <div id="xyz"><h2>Preparatory</h2>
+           <div id="N2" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (2)</p></div>
+
+
+       </div></div>
+             <p class="zzSTDTitle1"/>
+             <p class="zzSTDTitle2"/>
+           </div>
+         </body>
+
+    OUTPUT
+       end
 
 end

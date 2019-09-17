@@ -81,6 +81,19 @@
         <ref name="ItuGroup"/>
       </element>
     </define>
+    <define name="structuredidentifier">
+      <element name="structuredidentifier">
+        <ref name="bureau"/>
+        <element name="docnumber">
+          <text/>
+        </element>
+        <optional>
+          <element name="annexid">
+            <text/>
+          </element>
+        </optional>
+      </element>
+    </define>
     <define name="BibDataExtensionType">
       <optional>
         <ref name="doctype"/>
@@ -91,6 +104,9 @@
       </zeroOrMore>
       <optional>
         <ref name="recommendationstatus"/>
+      </optional>
+      <optional>
+        <ref name="structuredidentifier"/>
       </optional>
     </define>
   </include>

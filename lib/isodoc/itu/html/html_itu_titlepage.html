@@ -30,6 +30,9 @@
             {% if edition %} <div> Revision {{ edition }}</div> {% endif %}
             <div> {{ draftinfo }}</div>
           </div>
+           {% if annexid %}
+           <div class="doc-identifier">{{annexid}}</div>
+           {% endif %}
           <div class="publication-month">
             ({{ pubdate_monthyear }})
           </div>
@@ -50,6 +53,9 @@
           <span class="doc-title">{{ doctitle }}</span>
           {% if docsubtitle %}
           <br/><span class="doc-subtitle">{{ docsubtitle }}</span>
+          {% if annextitle %}
+          <br/><span class="doctitle">{{ annextitle }}</span>
+          {% endif %}
           {% endif %}
         </div>
 

@@ -8,6 +8,7 @@ RSpec.describe Asciidoctor::ITU do
 <itu-standard xmlns="https://www.calconnect.org/standards/itu">
   <bibdata type="standard">
   <title language="en" format="text/plain" type="main">Main Title</title>
+  <title language="en" format="text/plain" type="annex">Annex Title</title>
   <title language="fr" format="text/plain" type="main">Titre Principal</title>
   <docidentifier type="ITU-provisional">ABC</docidentifier>
   <docidentifier type="ITU">ITU-R 1000</docidentifier>
@@ -119,13 +120,19 @@ RSpec.describe Asciidoctor::ITU do
   <approvalstage process="F3">G3</approvalstage>
 </recommendationstatus>
 <ip-notice-received>false</ip-notice-received>
+<structuredidentifier>
+<bureau>R</bureau>
+<docnumber>1000</docnumber>
+<annexid>F1</annexid>
+</structuredidentifier>
   </ext>
 </bibdata>
 <preface/><sections/>
+<annex obligation="informative"/>
 </itu-standard>
     INPUT
     expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <<~"OUTPUT"
-    {:accesseddate=>"XXX", :bureau=>"R", :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docidentifier=>"ABC", :docnumber=>"1000", :doctitle=>"Main Title", :doctype=>"Directive", :docyear=>"2001", :draft=>"3.4", :draftinfo=>" (draft 3.4, 2000-01-01)", :edition=>"2", :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :iteration=>"3", :keywords=>["word1", "word2"], :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :receiveddate=>"XXX", :revdate=>"2000-01-01", :revdate_monthyear=>"01/2000", :series=>"A3", :series1=>"B3", :series2=>"C3", :stage=>"Final Draft", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>false, :updateddate=>"XXX"}
+    {:accesseddate=>"XXX", :annexid=>"Appendix F1", :annextitle=>"Annex Title", :bureau=>"R", :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docidentifier=>"ABC", :docnumber=>"1000", :doctitle=>"Main Title", :doctype=>"Directive", :docyear=>"2001", :draft=>"3.4", :draftinfo=>" (draft 3.4, 2000-01-01)", :edition=>"2", :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :iteration=>"3", :keywords=>["word1", "word2"], :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :receiveddate=>"XXX", :revdate=>"2000-01-01", :revdate_monthyear=>"01/2000", :series=>"A3", :series1=>"B3", :series2=>"C3", :stage=>"Final Draft", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>false, :updateddate=>"XXX"}
     OUTPUT
   end
 
@@ -160,7 +167,7 @@ RSpec.describe Asciidoctor::ITU do
   </status>
 INPUT
 expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <<~"OUTPUT"
-    {:accesseddate=>"XXX", :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docidentifier=>"ABC", :docnumber=>"1000", :doctitle=>"Main Title", :docyear=>nil, :draft=>nil, :draftinfo=>"", :edition=>nil, :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :keywords=>[], :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :receiveddate=>"XXX", :revdate=>nil, :revdate_monthyear=>nil, :series=>nil, :series1=>nil, :series2=>nil, :stage=>"In Force Prepublished", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>true, :updateddate=>"XXX"}
+    {:accesseddate=>"XXX", :annextitle=>nil, :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docidentifier=>"ABC", :docnumber=>"1000", :doctitle=>"Main Title", :docyear=>nil, :draft=>nil, :draftinfo=>"", :edition=>nil, :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :keywords=>[], :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :receiveddate=>"XXX", :revdate=>nil, :revdate_monthyear=>nil, :series=>nil, :series1=>nil, :series2=>nil, :stage=>"In Force Prepublished", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>true, :updateddate=>"XXX"}
     OUTPUT
    end
 
@@ -889,6 +896,48 @@ OUTPUT
          </body>
     OUTPUT
   end
+
+           it "processes annex with supplied annexid" do
+    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+               <itu-standard xmlns="http://riboseinc.com/isoxml">
+               <bibdata type="standard">
+               <title language="en" format="text/plain" type="main">An ITU Standard</title>
+               <docidentifier>12345</docidentifier>
+               <language>en</language>
+               <keyword>A</keyword>
+               <keyword>B</keyword>
+               <ext>
+               <structuredidentifier>
+               <annexid>F2</annexid>
+               </structuredidentifier>
+               </ext>
+               </bibdata>
+        <annex id="A1" obligation="normative">
+                <title>Annex</title>
+                <clause id="A2"><title>Subtitle</title>
+                <table id="T"/>
+                <figure id="U"/>
+                <formula id="V"><stem type="AsciiMath">r = 1 %</stem></formula>
+                </clause>
+        </annex>
+    INPUT
+        #{HTML_HDR}
+        <p class="zzSTDTitle1">Recommendation 12345</p>
+             <p class="zzSTDTitle2">An ITU Standard</p>
+             <br/>
+             <div id="A1" class="Section3">
+               <h1 class="Annex"><b>Annex F2</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <div id="A2"><h2>F2.1. Subtitle</h2>
+               <p class="TableTitle" style="text-align:center;">Table F2.1</p><table id="T" class="MsoISOTable" style="border-width:1px;border-spacing:0;"/>
+               <div id="U" class="figure"><p class="FigureTitle" style="text-align:center;">Figure F2.1</p></div>
+               <div id="V" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (F2.1)</p></div>
+               </div>
+             </div>
+           </div>
+         </body>
+
+OUTPUT
+           end
 
 
 end

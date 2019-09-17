@@ -50,18 +50,21 @@ module IsoDoc
       end
 
       def annex_name_lbl(clause, num)
-        info = clause["obligation"] == "informative"
-        lbl = info ? @appendix_lbl : @annex_lbl
+        lbl = clause["obligation"] == "informative" ? @appendix_lbl : @annex_lbl
         l10n("<b>#{lbl} #{num}</b>")
       end
 
       def back_anchor_names(docxml)
         super
-        docxml.xpath(ns("//annex[@obligation = 'informative']")).each_with_index do |c, i|
-          annex_names(c, RomanNumerals.to_roman(i + 1))
-        end
-        docxml.xpath(ns("//annex[not(@obligation = 'informative')]")).each_with_index do |c, i|
-          annex_names(c, (65 + i + (i > 7 ? 1 : 0)).chr.to_s)
+        if annexid = docxml&.at(ns("//bibdata/ext/structuredidentifier/annexid"))&.text
+          docxml.xpath(ns("//annex")).each { |c| annex_names(c, annexid) }
+        else
+          docxml.xpath(ns("//annex[@obligation = 'informative']")).each_with_index do |c, i|
+            annex_names(c, RomanNumerals.to_roman(i + 1))
+          end
+          docxml.xpath(ns("//annex[not(@obligation = 'informative')]")).each_with_index do |c, i|
+            annex_names(c, (65 + i + (i > 7 ? 1 : 0)).chr.to_s)
+          end
         end
       end
 

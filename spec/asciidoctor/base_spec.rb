@@ -98,6 +98,10 @@ RSpec.describe Asciidoctor::ITU do
       </group>
     </editorialgroup>
     <ip-notice-received>false</ip-notice-received>
+    <structuredidentifier>
+  <bureau>T</bureau>
+  <docnumber>1000</docnumber>
+</structuredidentifier>
   </ext>
 </bibdata>
 <preface/><sections/>
@@ -171,13 +175,18 @@ OUTPUT
       :recommendation-to: E3
       :approval-process: F3
       :approval-status: G3
+      :annexid: H3
+      :annextitle: I3
+      :annextitle-fr: J3
 
     INPUT
 <?xml version="1.0" encoding="UTF-8"?>
 <itu-standard xmlns="https://open.ribose.com/standards/itu">
 <bibdata type="standard">
   <title language="en" format="text/plain" type="main">Main Title</title>
+  <title language="en" format="text/plain" type="annex">I3</title>
   <title language="fr" format="text/plain" type="main">Titre Principal</title>
+  <title language="fr" format="text/plain" type="annex">J3</title>
   <docidentifier type="ITU-provisional">ABC</docidentifier>
   <docidentifier type="ITU">ITU-R 1000</docidentifier>
   <docnumber>1000</docnumber>
@@ -288,6 +297,11 @@ OUTPUT
   <approvalstage process="F3">G3</approvalstage>
 </recommendationstatus>
 <ip-notice-received>false</ip-notice-received>
+<structuredidentifier>
+  <bureau>R</bureau>
+  <docnumber>1000</docnumber>
+  <annexid>H3</annexid>
+</structuredidentifier>
   </ext>
 </bibdata>
 <preface/><sections/>
@@ -354,6 +368,10 @@ OUTPUT
   </group>
 </editorialgroup>
 <ip-notice-received>false</ip-notice-received>
+<structuredidentifier>
+  <bureau>T</bureau>
+  <docnumber>1000</docnumber>
+</structuredidentifier>
          </ext>
        </bibdata>
        <preface/><sections/>

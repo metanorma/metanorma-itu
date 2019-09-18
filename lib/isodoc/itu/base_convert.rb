@@ -70,7 +70,6 @@ module IsoDoc
 
       def i18n_init(lang, script)
         super
-        @inequality_lbl = @labels["inequality"]
       end
 
       def fileloc(loc)
@@ -230,38 +229,6 @@ module IsoDoc
           id = @meta.get[:docidentifier] and p << "Recommendation #{id}" 
         end
         out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
-      end
-
-      def anchor_struct_xref(lbl, elem)
-        case elem
-        when @formula_lbl then l10n("#{elem} (#{lbl})")
-        when @inequality_lbl then l10n("#{elem} (#{lbl})")
-        else
-          l10n("#{elem} #{lbl}")
-        end
-      end
-
-      def sequential_formula_names(clause)
-        i = 0
-        clause.xpath(ns(".//formula")).each do |t|
-          next if t["id"].nil? || t["id"].empty?
-          @anchors[t["id"]] = 
-            anchor_struct(i + 1, t, t["inequality"] ? @inequality_lbl : @formula_lbl,
-                          "formula", t["unnumbered"])
-          i += 1 unless t["unnumbered"]
-        end
-      end
-
-      def hierarchical_formula_names(clause, num)
-        i = 0
-        clause.xpath(ns(".//formula")).each do |t|
-          next if t["id"].nil? || t["id"].empty?
-          @anchors[t["id"]] =
-            anchor_struct("#{num}#{hiersep}#{i + 1}", t,
-                          t["inequality"] ? @inequality_lbl : @formula_lbl, "formula",
-                          t["unnumbered"])
-          i += 1 unless t["unnumbered"]
-        end
       end
     end
   end

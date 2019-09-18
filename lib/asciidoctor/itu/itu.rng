@@ -9,30 +9,6 @@
     <start>
       <ref name="itu"/>
     </start>
-    <define name="formula">
-      <element name="formula">
-        <attribute name="id">
-          <data type="ID"/>
-        </attribute>
-        <optional>
-          <attribute name="unnumbered">
-            <data type="boolean"/>
-          </attribute>
-        </optional>
-        <optional>
-          <attribute name="inequality">
-            <data type="boolean"/>
-          </attribute>
-        </optional>
-        <ref name="stem"/>
-        <optional>
-          <ref name="dl"/>
-        </optional>
-        <zeroOrMore>
-          <ref name="note"/>
-        </zeroOrMore>
-      </element>
-    </define>
     <define name="figure">
       <element name="figure">
         <attribute name="id">

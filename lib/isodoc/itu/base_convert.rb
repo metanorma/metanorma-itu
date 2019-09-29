@@ -42,11 +42,11 @@ module IsoDoc
           t.b do |b|
             name&.children&.each { |c2| parse(c2, b) }
           end
-          type = annex&.document&.root&.at("//bibdata/ext/doctype")&.text || "recommendation"
-          type = type.split(" ").map {|w| w.capitalize }.join(" ")
-          info = annex["obligation"] == "informative"
-          t.p { |p| p << (info ? @inform_annex_lbl : @norm_annex_lbl).sub(/%/, type) }
         end
+        type = annex&.document&.root&.at("//bibdata/ext/doctype")&.text || "recommendation"
+        type = type.split(" ").map {|w| w.capitalize }.join(" ")
+        info = annex["obligation"] == "informative"
+        div.p { |p| p << (info ? @inform_annex_lbl : @norm_annex_lbl).sub(/%/, type) }
       end
 
       def annex_name_lbl(clause, num)

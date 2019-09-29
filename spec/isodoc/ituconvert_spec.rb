@@ -461,83 +461,103 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
              <p class="zzSTDTitle2">An ITU Standard</p>
              <br/>
              <div id="A1" class="Section3">
-               <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b></h1>
+               <p>(This annex forms an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="A2" class="Section3">
-               <h1 class="Annex"><b>Annex B</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Annex B</b> <br/><br/><b>Annex</b></h1>
+               <p>(This annex forms an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="A3" class="Section3">
-               <h1 class="Annex"><b>Annex C</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Annex C</b> <br/><br/><b>Annex</b></h1>
+               <p>(This annex forms an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="A4" class="Section3">
-               <h1 class="Annex"><b>Annex D</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Annex D</b> <br/><br/><b>Annex</b></h1>
+               <p>(This annex forms an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="A5" class="Section3">
-               <h1 class="Annex"><b>Annex E</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Annex E</b> <br/><br/><b>Annex</b></h1>
+               <p>(This annex forms an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="A6" class="Section3">
-               <h1 class="Annex"><b>Annex F</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Annex F</b> <br/><br/><b>Annex</b></h1>
+               <p>(This annex forms an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="A7" class="Section3">
-               <h1 class="Annex"><b>Annex G</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Annex G</b> <br/><br/><b>Annex</b></h1>
+               <p>(This annex forms an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="A8" class="Section3">
-               <h1 class="Annex"><b>Annex H</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Annex H</b> <br/><br/><b>Annex</b></h1>
+               <p>(This annex forms an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="A9" class="Section3">
-               <h1 class="Annex"><b>Annex J</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Annex J</b> <br/><br/><b>Annex</b></h1>
+               <p>(This annex forms an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="A10" class="Section3">
-               <h1 class="Annex"><b>Annex K</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Annex K</b> <br/><br/><b>Annex</b></h1>
+               <p>(This annex forms an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="B1" class="Section3">
-               <h1 class="Annex"><b>Appendix I</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Appendix I</b> <br/><br/><b>Annex</b></h1>
+               <p>(This appendix does not form an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="B2" class="Section3">
-               <h1 class="Annex"><b>Appendix II</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Appendix II</b> <br/><br/><b>Annex</b></h1>
+               <p>(This appendix does not form an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="B3" class="Section3">
-               <h1 class="Annex"><b>Appendix III</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Appendix III</b> <br/><br/><b>Annex</b></h1>
+                              <p>(This appendix does not form an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="B4" class="Section3">
-               <h1 class="Annex"><b>Appendix IV</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Appendix IV</b> <br/><br/><b>Annex</b></h1>
+                              <p>(This appendix does not form an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="B5" class="Section3">
-               <h1 class="Annex"><b>Appendix V</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Appendix V</b> <br/><br/><b>Annex</b></h1>
+                              <p>(This appendix does not form an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="B6" class="Section3">
-               <h1 class="Annex"><b>Appendix VI</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Appendix VI</b> <br/><br/><b>Annex</b></h1>
+                              <p>(This appendix does not form an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="B7" class="Section3">
-               <h1 class="Annex"><b>Appendix VII</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Appendix VII</b> <br/><br/><b>Annex</b></h1>
+                              <p>(This appendix does not form an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="B8" class="Section3">
-               <h1 class="Annex"><b>Appendix VIII</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Appendix VIII</b> <br/><br/><b>Annex</b></h1>
+                              <p>(This appendix does not form an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="B9" class="Section3">
-               <h1 class="Annex"><b>Appendix IX</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Appendix IX</b> <br/><br/><b>Annex</b></h1>
+                              <p>(This appendix does not form an integral part of this Recommendation.)</p>
              </div>
              <br/>
              <div id="B10" class="Section3">
-               <h1 class="Annex"><b>Appendix X</b> <br/><br/><b>Annex</b><p>(This appendix does not form an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Appendix X</b> <br/><br/><b>Annex</b></h1>
+                              <p>(This appendix does not form an integral part of this Recommendation.)</p>
              </div>
            </div>
          </body>
@@ -601,7 +621,8 @@ OUTPUT
                </div>
                <br/>
                <div id="P" class="Section3">
-                 <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+                 <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b></h1>
+                 <p>(This annex forms an integral part of this Recommendation.)</p>
                  <div id="Q">
           <h2>A.1. Annex A.1</h2>
           <div id="Q1">
@@ -678,7 +699,8 @@ OUTPUT
                </div>
                <br/>
                <div id="P" class="Section3">
-                 <h1 class="Annex"><b>Annexe A</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+                 <h1 class="Annex"><b>Annexe A</b> <br/><br/><b>Annex</b></h1>
+                <p>(This annex forms an integral part of this Recommendation.)</p>
                  <div id="Q">
           <h2>A.1. Annex A.1</h2>
           <div id="Q1">
@@ -774,7 +796,8 @@ OUTPUT
                <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
              </p>
              <div id="P" class="Section3">
-               <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b></h1>
+                <p>(This annex forms an integral part of this Recommendation.)</p>
                <div id="Q"><h2>A.1. Annex A.1</h2>
      
           <div id="Q1"><h3>A.1.1. Annex A.1a</h3>
@@ -926,7 +949,8 @@ OUTPUT
              <p class="zzSTDTitle2">An ITU Standard</p>
              <br/>
              <div id="A1" class="Section3">
-               <h1 class="Annex"><b>Annex F2</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Annex F2</b> <br/><br/><b>Annex</b></h1>
+                <p>(This annex forms an integral part of this Recommendation.)</p>
                <div id="A2"><h2>F2.1. Subtitle</h2>
                <p class="TableTitle" style="text-align:center;">Table F2.1</p><table id="T" class="MsoISOTable" style="border-width:1px;border-spacing:0;"/>
                <div id="U" class="figure"><p class="FigureTitle" style="text-align:center;">Figure F2.1</p></div>

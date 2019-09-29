@@ -9,3 +9,4 @@ norm_annex: (This annex forms an integral part of this %.)
 inform_annex: (This appendix does not form an integral part of this %.)
 formula: Equation
 inequality: Inequality
+annex_subclause: Clause

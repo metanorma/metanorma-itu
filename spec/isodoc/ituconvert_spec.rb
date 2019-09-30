@@ -435,6 +435,12 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
                <ext>
                </ext>
                </bibdata>
+               <preface>
+               <abstract>
+                   <xref target="A1"/>
+                   <xref target="B1"/>
+               </abstract>
+               </preface>
         <annex id="A1" obligation="normative"><title>Annex</title></annex>
         <annex id="A2" obligation="normative"><title>Annex</title></annex>
         <annex id="A3" obligation="normative"><title>Annex</title></annex>
@@ -457,6 +463,12 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
         <annex id="B10" obligation="informative"><title>Annex</title></annex>
     INPUT
         #{HTML_HDR}
+        <br/>
+        <div>
+               <h1 class="AbstractTitle">Abstract</h1>
+               <a href="#A1">Annex A</a>
+               <a href="#B1">Appendix I</a>
+             </div>
         <p class="zzSTDTitle1">Recommendation 12345</p>
              <p class="zzSTDTitle2">An ITU Standard</p>
              <br/>

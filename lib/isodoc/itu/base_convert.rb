@@ -54,6 +54,16 @@ module IsoDoc
         l10n("<b>#{lbl} #{num}</b>")
       end
 
+      def annex_names(clause, num)
+        lbl = clause["obligation"] == "informative" ? @appendix_lbl : @annex_lbl
+        @anchors[clause["id"]] = { label: annex_name_lbl(clause, num), type: "clause",
+                                   xref: "#{lbl} #{num}", level: 1 }
+        clause.xpath(ns("./clause")).each_with_index do |c, i|
+          annex_names1(c, "#{num}.#{i + 1}", 2)
+        end
+        hierarchical_asset_names(clause, num)
+      end
+
       def back_anchor_names(docxml)
         super
         if annexid = docxml&.at(ns("//bibdata/ext/structuredidentifier/annexid"))&.text

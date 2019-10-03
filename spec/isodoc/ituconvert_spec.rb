@@ -1020,4 +1020,65 @@ OUTPUT
     OUTPUT
        end
 
+              it "cross-references annex subclauses" do
+    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+        <itu-standard xmlns="http://riboseinc.com/isoxml">
+               <bibdata type="standard">
+               <title language="en" format="text/plain" type="main">An ITU Standard</title>
+               <docidentifier>12345</docidentifier>
+               <language>en</language>
+               <keyword>A</keyword>
+               <keyword>B</keyword>
+               <ext>
+               <structuredidentifier>
+               <annexid>F2</annexid>
+               </structuredidentifier>
+               </ext>
+               </bibdata>
+               <preface>
+      <abstract><title>Abstract</title>
+      <p>
+      <xref target="A1"/>
+    <xref target="A2"/>
+    </p>
+      </abstract>
+               <sections>
+               </sections>
+        <annex id="A1" obligation="normative">
+                <title>Annex</title>
+                <clause id="A2"><title>Subtitle</title>
+                </clause>
+        </annex>
+    INPUT
+            #{HTML_HDR}
+             <br/>
+             <div>
+               <h1 class="AbstractTitle">Abstract</h1>
+               <p>
+         <a href="#A1">Annex F2</a>
+       <a href="#A2">Clause F2.1</a>
+       </p>
+             </div>
+             <div>
+               <h1 class="IntroTitle"/>
+             </div>
+             <div id="A1">
+               <h1 class="IntroTitle">Annex</h1>
+               <div id="A2"><h2>F2.1. Subtitle</h2>
+                   </div>
+             </div>
+             <p class="zzSTDTitle1">Recommendation 12345</p>
+             <p class="zzSTDTitle2">An ITU Standard</p>
+             <br/>
+             <div id="A1" class="Section3">
+               <h1 class="Annex"><b>Annex F2</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <div id="A2"><h2>F2.1. Subtitle</h2>
+                   </div>
+             </div>
+           </div>
+         </body>
+
+    OUTPUT
+       end
+
 end

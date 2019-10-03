@@ -134,12 +134,6 @@ module IsoDoc
         num
       end
 
-      def split_bibitems(f)
-        bibitem = []
-        f.xpath(ns("./bibitem")).each { |x| bibitem << x }
-        bibitem
-      end
-
       def nonstd_bibitem(list, b, ordinal, biblio)
         list.p **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
           ref << "[#{render_identifier(bibitem_ref_code(b))}]"

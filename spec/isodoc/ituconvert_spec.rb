@@ -1071,7 +1071,8 @@ OUTPUT
              <p class="zzSTDTitle2">An ITU Standard</p>
              <br/>
              <div id="A1" class="Section3">
-               <h1 class="Annex"><b>Annex F2</b> <br/><br/><b>Annex</b><p>(This annex forms an integral part of this Recommendation.)</p></h1>
+               <h1 class="Annex"><b>Annex F2</b> <br/><br/><b>Annex</b></h1>
+<p>(This annex forms an integral part of this Recommendation.)</p>
                <div id="A2"><h2>F2.1. Subtitle</h2>
                    </div>
              </div>

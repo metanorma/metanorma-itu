@@ -58,7 +58,7 @@ module IsoDoc
         lbl = clause["obligation"] == "informative" ? @appendix_lbl : @annex_lbl
         @anchors[clause["id"]] = { label: annex_name_lbl(clause, num), type: "clause",
                                    xref: "#{lbl} #{num}", level: 1 }
-        clause.xpath(ns("./clause")).each_with_index do |c, i|
+        clause.xpath(ns("./clause | ./references | ./terms | ./definitions ")).each_with_index do |c, i|
           annex_names1(c, "#{num}.#{i + 1}", 2)
         end
         hierarchical_asset_names(clause, num)

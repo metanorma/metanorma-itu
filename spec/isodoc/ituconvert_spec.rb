@@ -836,29 +836,26 @@ OUTPUT
     IsoDoc::ITU::WordConvert.new({}).convert("test", itudoc("en"), false)
      expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-expect(html.gsub(%r{^.*(<td[^>]+)>\s*<div>\s*<a name="abstractbox"}m, %{\\1><div><a name="abstractbox"}).gsub(%r{</td>.*}m, "</td>")).to be_equivalent_to <<~"OUTPUT"
-<td width="663" valign="top" style="width:497.25pt;padding:0cm 5.4pt 0cm 5.4pt"><div><a name="abstractbox" id="abstractbox"></a>
+expect(html.gsub(%r{^.*<div>\s*<a name="abstractbox"}m, %{<div><a name="abstractbox"}).gsub(%r{</div>.*}m, "</div>")).to be_equivalent_to <<~"OUTPUT"
+<div><a name="abstractbox" id="abstractbox"></a>
          <div>
                <p class="h1Preface">Summary</p>
                <p class="MsoNormal">This is an abstract</p>
-             </div></div>
-         </td>
+             </div>
 OUTPUT
-expect(html.gsub(%r{^.*(<td[^>]+)>\s*<div>\s*<a name="keywordsbox"}m, %{\\1><div><a name="keywordsbox"}).gsub(%r{</td>.*}m, "</td>")).to be_equivalent_to <<~"OUTPUT"
-<td width="663" valign="top" style="width:497.25pt;padding:0cm 5.4pt 0cm 5.4pt"><div><a name="keywordsbox" id="keywordsbox"></a>
+expect(html.gsub(%r{^.*<div>\s*<a name="keywordsbox"}m, %{<div><a name="keywordsbox"}).gsub(%r{</div>.*}m, "</div>")).to be_equivalent_to <<~"OUTPUT"
+<div><a name="keywordsbox" id="keywordsbox"></a>
     <div>
         <p class="h1Preface">Keywords</p>
         <p class="MsoNormal">A, B.</p>
-      </div></div>
-  </td>
+      </div>
 OUTPUT
-expect(html.gsub(%r{^.*(<td[^>]+)>\s*<div>\s*<a name="historybox"}m, %{\\1><div><a name="historybox"}).gsub(%r{<span style="mso-bookmark.*}m, "</td>")).to be_equivalent_to <<~"OUTPUT"
-<td width="663" valign="top" style="width:497.4pt;padding:0cm 5.4pt 0cm 5.4pt"><div><a name="historybox" id="historybox"></a>
+expect(html.gsub(%r{^.*<div>\s*<a name="historybox"}m, %{<div><a name="historybox"}).gsub(%r{</div>.*}m, "</div>")).to be_equivalent_to <<~"OUTPUT"
+<div><a name="historybox" id="historybox"></a>
    <div><a name="A0" id="A0"></a>
        <p class="h1Preface">History</p>
        <p class="MsoNormal">history</p>
-     </div></div>
- </td>
+     </div>
 OUTPUT
             end
 
@@ -1081,5 +1078,55 @@ OUTPUT
 
     OUTPUT
        end
+
+                it "processes IsoXML bibliographies" do
+                      expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    <itu-standard xmlns="http://riboseinc.com/isoxml">
+    <bibdata>
+    <language>en</language>
+    </bibdata>
+    <preface><foreword>
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">
+  <eref bibitemid="ISO712"/>
+  </p>
+    </foreword></preface>
+    <bibliography><references id="_normative_references" obligation="informative"><title>References</title>
+    <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+<bibitem id="ISO712" type="standard">
+  <title format="text/plain">Cereals or cereal products</title>
+  <title type="main" format="text/plain">Cereals and cereal products</title>
+  <docidentifier type="ISO">ISO 712</docidentifier>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <name>International Organization for Standardization</name>
+    </organization>
+  </contributor>
+</bibitem>
+</references>
+</bibliography>
+</itu-standard>
+INPUT
+            #{HTML_HDR}
+    <div>
+               <h1 class="IntroTitle"/>
+               <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">
+         <a href="#ISO712">[ISO 712]</a>
+         </p>
+             </div>
+             <p class="zzSTDTitle1"/>
+             <p class="zzSTDTitle2"/>
+             <div>
+               <h1>1.&#160; References</h1>
+               <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+               <p id="ISO712" class="NormRef">[ISO 712]&#160; <i>Cereals and cereal products</i></p>
+             </div>
+           </div>
+         </body>
+
+            OUTPUT
+                end
+            
+
 
 end

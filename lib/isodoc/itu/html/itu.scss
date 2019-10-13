@@ -1,4 +1,4 @@
-p.Sourcecode, li.Sourcecode, div.Sourcecode, pre.Sourcecode, pre
+6.Sourcecode, li.Sourcecode, div.Sourcecode, pre.Sourcecode, pre
 	{mso-style-unhide:no;
 	mso-style-qformat:yes;
 	mso-style-parent:"";
@@ -20,7 +20,7 @@ p.Biblio, li.Biblio, div.Biblio, p.NormRef, li.NormRef, div.NormRef
 	mso-style-parent:"";
 	margin-top:0cm;
 	margin-right:0cm;
-	margin-bottom:12.0pt;
+	margin-bottom:6.0pt;
     margin-left:4.5cm;
     text-indent:-4.5cm;
     tab-stops: 4.5cm;
@@ -113,7 +113,7 @@ p.Note, div.Note, li.Note, p.TableFootnote, div.TableFootnote, li.TableFootnote
 	mso-style-parent:"";
 	margin-top:0cm;
 	margin-right:0cm;
-	margin-bottom:12.0pt;
+	margin-bottom:6.0pt;
 	margin-left:0cm;
 	text-align:justify;
 	line-height:12.0pt;
@@ -181,7 +181,7 @@ p.Definition, li.Definition, div.Definition
 	mso-style-unhide:no;
 	margin-top:0cm;
 	margin-right:0cm;
-	margin-bottom:12.0pt;
+	margin-bottom:6.0pt;
 	margin-left:0cm;
 	text-align:justify;
 	line-height:12.0pt;
@@ -345,7 +345,7 @@ p.zzCopyright, li.zzCopyright
 	mso-style-next:Normal;
 	margin-top:0cm;
 	margin-right:14.2pt;
-	margin-bottom:12.0pt;
+	margin-bottom:6.0pt;
 	margin-left:14.2pt;
 	text-align:justify;
 	line-height:12.0pt;
@@ -701,6 +701,8 @@ font-family:$bodyfont;
 
 table.dl
 	{margin-top:0cm;
+          width:95%;
+          mso-table-layout-alt: auto;
 	margin-right:0cm;
 	margin-bottom:11.0pt;
 	margin-left:20.15pt;}

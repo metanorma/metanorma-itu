@@ -141,7 +141,8 @@ module Asciidoctor
 
       def termdef_cleanup(xmldoc)
         xmldoc.xpath("//term/preferred").each do |p|
-          if ["terms defined elsewhere", "terms defined in this recommendation"].include? p.text.downcase
+          if ["terms defined elsewhere",
+              "terms defined in this recommendation"].include? p.text.downcase
             p.name = "title"
             p.parent.name = "terms"
           end
@@ -149,12 +150,37 @@ module Asciidoctor
         super
       end
 
-      NORM_REF = "//bibliography/references[title = 'References']".freeze
-
-      def boilerplate_cleanup(xmldoc)
-        f = xmldoc.at(self.class::NORM_REF) and
-        norm_ref_preface(f)
+      def termdef_boilerplate_cleanup(xmldoc)
       end
+
+      def terms_extract(div)
+        internal = nil
+        external = nil
+        div.parent.xpath("./terms/title").each do |t|
+          case t&.text&.downcase
+          when "terms defined elsewhere" then external = t
+          when "terms defined in this recommendation" then internal = t
+          end
+        end
+        [internal, external]
+      end
+
+      def term_defs_boilerplate(div, source, term, preface, isodoc)
+        internal, external = terms_extract(div)
+        internal&.next_element&.name == "term" and
+          internal.next = "<p>#{@internal_terms_boilerplate}</p>"
+        internal and internal&.next_element == nil and
+          internal.next = "<p>#{@no_terms_boilerplate}</p>"
+        external&.next_element&.name == "term" and
+          external.next = "<p>#{@external_terms_boilerplate}</p>"
+        external and external&.next_element == nil and
+          external.next = "<p>#{@no_terms_boilerplate}</p>"
+        !internal and !external and
+          %w(term terms).include? div&.next_element&.name and
+          div.next = "<p>#{@term_def_boilerplate}</p>"
+      end
+
+      NORM_REF = "//bibliography/references[title = 'References']".freeze
 
       def load_yaml(lang, script)
         y = if @i18nyaml then YAML.load_file(@i18nyaml)

@@ -621,6 +621,7 @@ OUTPUT
 </clause>
 <terms id="_" obligation="normative">
   <title>Definitions</title>
+  <p>This Recommendation defines the following terms:</p>
   <term id="_">
   <preferred>Term1</preferred>
 </term>
@@ -756,6 +757,147 @@ INPUT
        </itu-standard>
 OUTPUT
    end
+
+   it "inserts boilerplate before internal and external terms clause" do
+        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        #{ASCIIDOC_BLANK_HDR}
+        == Definitions
+        === terms defined elsewhere       
+        ==== Term 1
+        === terms defined in this recommendation
+        ==== Term 2
+        INPUT
+        #{BLANK_HDR}
+        <preface/><sections>
+         <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative">
+         <title>terms defined elsewhere</title>
+         <p>This Recommendation uses the following terms defined elsewhere:</p>
+         <term id="_">
+         <preferred>Term 1</preferred>
+       </term>
+       </terms>
+       <terms id="_" obligation="normative">
+         <title>terms defined in this recommendation</title>
+         <p>This Recommendation defines the following terms:</p>
+         <term id="_">
+         <preferred>Term 2</preferred>
+       </term>
+       </terms></clause>
+       </sections>
+       </itu-standard>
+        OUTPUT
+   end
+
+   it "inserts boilerplate before empty internal and external terms clause" do
+        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        #{ASCIIDOC_BLANK_HDR}
+        == Definitions
+        === terms defined elsewhere
+        === terms defined in this recommendation
+        INPUT
+        #{BLANK_HDR}
+        <preface/><sections>
+  <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative">
+  <title>terms defined elsewhere</title><p>None.</p>
+</terms>
+<terms id="_" obligation="normative">
+  <title>terms defined in this recommendation</title><p>None.</p>
+</terms></clause>
+</sections>
+</itu-standard>
+        OUTPUT
+   end
+
+   it "does not insert boilerplate before internal and external terms clause if already populated" do
+        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        #{ASCIIDOC_BLANK_HDR}
+        == Definitions
+        === terms defined elsewhere       
+
+        Boilerplate
+
+        ==== Term 1
+        === terms defined in this recommendation
+
+        Boilerplate
+
+        ==== Term 2
+        INPUT
+        #{BLANK_HDR}
+        <preface/><sections>
+         <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative"><title>terms defined elsewhere</title><p id="_">Boilerplate</p>
+       <term id="_">
+         <preferred>Term 1</preferred>
+       </term></terms>
+       <terms id="_" obligation="normative"><title>terms defined in this recommendation</title><p id="_">Boilerplate</p>
+       <term id="_">
+         <preferred>Term 2</preferred>
+       </term></terms></clause>
+       </sections>
+       </itu-standard>
+        OUTPUT
+   end
+
+   it "inserts boilerplate before definitions with no internal and external terms clauses" do
+        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        #{ASCIIDOC_BLANK_HDR}
+        == Definitions
+        === terms defined somewhere
+        ==== Term 1
+        === terms defined somewhere else
+        ==== Term 2
+        INPUT
+        #{BLANK_HDR}
+        <preface/><sections>
+  <clause id="_" obligation="normative"><title>Definitions</title><p>This Recommendation defines the following terms:</p><terms id="_" obligation="normative">
+  <title>terms defined somewhere</title>
+  <term id="_">
+  <preferred>Term 1</preferred>
+</term>
+</terms>
+<terms id="_" obligation="normative">
+  <title>terms defined somewhere else</title>
+  <term id="_">
+  <preferred>Term 2</preferred>
+</term>
+</terms></clause>
+</sections>
+</itu-standard>
+        OUTPUT
+   end
+
+   it "does not insert boilerplate before definitions with no internal and external terms clauses, if already populated" do
+        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        #{ASCIIDOC_BLANK_HDR}
+        == Definitions
+
+        Boilerplate
+
+        === terms defined somewhere
+        ==== Term 1
+        === terms defined somewhere else
+        ==== Term 2
+        INPUT
+        #{BLANK_HDR}
+        <preface/><sections>
+  <clause id="_" obligation="normative"><title>Definitions</title><p id="_">Boilerplate</p>
+<terms id="_" obligation="normative">
+  <title>terms defined somewhere</title>
+  <term id="_">
+  <preferred>Term 1</preferred>
+</term>
+</terms>
+<terms id="_" obligation="normative">
+  <title>terms defined somewhere else</title>
+  <term id="_">
+  <preferred>Term 2</preferred>
+</term>
+</terms></clause>
+</sections>
+</itu-standard>
+        OUTPUT
+   end
+
 
 
 end

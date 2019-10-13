@@ -8,3 +8,5 @@ external_terms_boilerplate:
    "This Recommendation uses the following terms defined elsewhere:"
 no_terms_boilerplate:
   None.
+symbols_boilerplate:
+  "This Recommendation uses the following abbreviations:"

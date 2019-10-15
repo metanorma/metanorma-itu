@@ -108,6 +108,11 @@ module Asciidoctor
         end
       end
 
+      def cleanup(xmldoc)
+        symbols_cleanup(xmldoc)
+        super
+      end
+
       def style(n, t)
         return
       end
@@ -130,7 +135,7 @@ module Asciidoctor
           when "symbols and abbreviated terms",
             "symbols",
             "abbreviated terms",
-            "abbreviations"
+            "abbreviations",
             "abbreviations and acronyms"
             symbols_parse(a, xml, node)
           when "bibliography" then bibliography_parse(a, xml, node)
@@ -208,6 +213,12 @@ module Asciidoctor
 
       NORM_REF = "//bibliography/references[title = 'References']".freeze
 
+      def symbols_cleanup(xmldoc)
+        sym = xmldoc.at("//definitions/title")
+        sym and sym&.next_element&.name == "dl" and
+          sym.next = "<p>#{@symbols_boilerplate}</p>"
+      end
+
       def load_yaml(lang, script)
         y = if @i18nyaml then YAML.load_file(@i18nyaml)
             elsif lang == "en"
@@ -215,7 +226,12 @@ module Asciidoctor
             else
               YAML.load_file(File.join(File.dirname(__FILE__), "i18n-en.yaml"))
             end
+        @symbols_boilerplate = y["symbols_boilerplate"] || ""
         super.merge(y)
+      end
+
+      def i18n_init(lang, script)
+        super
       end
 
       def html_converter(node)

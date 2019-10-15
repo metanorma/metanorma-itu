@@ -918,6 +918,55 @@ OUTPUT
         OUTPUT
    end
 
+   it "inserts boilerplate before symbols" do
+           expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        #{ASCIIDOC_BLANK_HDR}
+        == Abbreviations and acronyms
+
+        a:: b
+        INPUT
+        #{BLANK_HDR}
+        <preface/><sections>
+  <definitions id="_">
+  <title>Abbreviations and acronyms</title><p id="_">This Recommendation uses the following abbreviations:</p>
+  <dl id="_">
+  <dt>a</dt>
+  <dd>
+    <p id="_">b</p>
+  </dd>
+</dl>
+</definitions>
+</sections>
+</itu-standard>
+OUTPUT
+end
+
+   it "does not insert boilerplate before symbols if alreadt populated" do
+           expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        #{ASCIIDOC_BLANK_HDR}
+        == Abbreviations and acronyms
+
+        Boilerplate
+
+        a:: b
+        INPUT
+        #{BLANK_HDR}
+        <preface/><sections>
+  <definitions id="_"><title>Abbreviations and acronyms</title><p id="_">Boilerplate</p>
+<dl id="_">
+  <dt>a</dt>
+  <dd>
+    <p id="_">b</p>
+  </dd>
+</dl></definitions>
+</sections>
+</itu-standard>
+OUTPUT
+end
+
+
+
+
 
 end
 

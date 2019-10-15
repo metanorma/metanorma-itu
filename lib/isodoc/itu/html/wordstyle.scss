@@ -321,8 +321,11 @@ span.blackgraphtx
 	mso-default-props:yes;}
 div.figure 
         {text-align: center;}
-div.pseudocode 
-        {text-align: left;}
+div.pseudocode, p.pseudocode, li.pseudocode
+        {text-align: left;
+        margin-left:1.27cm;
+        margin-right:1.27cm;
+        font-size:10pt;}
 
 
 h1

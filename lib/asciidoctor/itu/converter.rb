@@ -3,6 +3,7 @@ require "asciidoctor/standoc/converter"
 require "fileutils"
 require_relative "./front.rb"
 require_relative "./validate.rb"
+require_relative "./macros.rb"
 
 module Asciidoctor
   module ITU
@@ -11,6 +12,9 @@ module Asciidoctor
     # schema encapsulation of the document for validation
     #
     class Converter < Standoc::Converter
+      Asciidoctor::Extensions.register do
+        block PseudocodeBlockMacro
+      end
 
       register_for "itu"
 
@@ -33,6 +37,28 @@ module Asciidoctor
 
       def doctype(node)
         node.attr("doctype") || "recommendation"
+      end
+
+       def example(node)
+        role = node.role || node.attr("style")
+        return pseudocode_example(node) if role == "pseudocode"
+        super
+      end
+
+      def pseudocode_example(node)
+        noko do |xml|
+          xml.figure **{id: Asciidoctor::Standoc::Utils::anchor_or_uuid(node),
+                        type: "pseudocode"} do |ex|
+            figure_title(node, ex)
+            wrap_in_para(node, ex)
+          end
+        end.join("\n")
+      end
+
+      def init_indent(s)
+        /^(?<prefix>[ \t]*)(?<suffix>.*)$/ =~ s
+        prefix = prefix.gsub(/\t/, "&#xa0;&#xa0;&#xa0;&#xa0;").gsub(/ /, "&#xa0;")
+        prefix + suffix
       end
 
       def clause_parse(attrs, xml, node)

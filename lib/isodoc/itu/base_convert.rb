@@ -34,6 +34,23 @@ module IsoDoc
         end
       end
 
+      def figure_parse(node, out)
+        return pseudocode_parse(node, out) if node["type"] == "pseudocode"
+        super
+      end
+
+      def pseudocode_parse(node, out)
+        @in_figure = true
+        name = node.at(ns("./name"))
+        out.div **attr_code(id: node["id"], class: "pseudocode") do |div|
+          node.children.each do |n|
+            parse(n, div) unless n.name == "name"
+          end
+          figure_name_parse(node, div, name)
+        end
+        @in_figure = false
+      end
+
       def annex_name(annex, name, div)
         div.h1 **{ class: "Annex" } do |t|
           t << "#{anchor(annex['id'], :label)} "

@@ -1127,6 +1127,32 @@ INPUT
             OUTPUT
                 end
             
+                 it "processes pseudocode" do
+                      expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+<itu-standard xmlns="http://riboseinc.com/isoxml">
+    <bibdata>
+    <language>en</language>
+    </bibdata>
+        <preface><foreword>
+  <figure id="_" type="pseudocode"><p id="_">?| ?| <strong>A</strong><br/>
+?| ?| ?| ?| ?| ?| ?| ?| <smallcap>B</smallcap></p>
+<p id="_">?| ?| <em>C</em></p></figure>
+</preface></itu-standard>
+INPUT
+#{HTML_HDR}
+      <div>
+        <h1 class="IntroTitle"/>
+        <div id="_" class="pseudocode"><p id="_">?| ?| <b>A</b><br/>
+?| ?| ?| ?| ?| ?| ?| ?| <span style="font-variant:small-caps;">B</span></p>
+<p id="_">?| ?| <i>C</i></p><p class="FigureTitle" style="text-align:center;">Figure 1</p></div>
+      </div>
+      <p class="zzSTDTitle1"/>
+      <p class="zzSTDTitle2"/>
+    </div>
+  </body>
 
+OUTPUT
+
+                 end
 
 end

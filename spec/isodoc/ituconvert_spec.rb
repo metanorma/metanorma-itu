@@ -1126,7 +1126,58 @@ INPUT
 
             OUTPUT
                 end
-            
 
+  it "processes pseudocode" do
+    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+<itu-standard xmlns="http://riboseinc.com/isoxml">
+    <bibdata>
+    <language>en</language>
+    </bibdata>
+        <preface><foreword>
+  <figure id="_" type="pseudocode"><p id="_">?| ?| <strong>A</strong><br/>
+?| ?| ?| ?| ?| ?| ?| ?| <smallcap>B</smallcap></p>
+<p id="_">?| ?| <em>C</em></p></figure>
+</preface></itu-standard>
+INPUT
+    #{HTML_HDR}
+      <div>
+        <h1 class="IntroTitle"/>
+        <div id="_" class="pseudocode"><p id="_">?| ?| <b>A</b><br/>
+?| ?| ?| ?| ?| ?| ?| ?| <span style="font-variant:small-caps;">B</span></p>
+<p id="_">?| ?| <i>C</i></p><p class="FigureTitle" style="text-align:center;">Figure 1</p></div>
+      </div>
+      <p class="zzSTDTitle1"/>
+      <p class="zzSTDTitle2"/>
+    </div>
+  </body>
+OUTPUT
+  end
+
+  it "processes pseudocode (Word)" do
+    FileUtils.rm_f "test.doc"
+    IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
+<itu-standard xmlns="http://riboseinc.com/isoxml">
+    <bibdata>
+    <language>en</language>
+    </bibdata>
+        <preface><foreword>
+  <figure id="_" type="pseudocode"><p id="_">?| ?| <strong>A</strong><br/>
+?| ?| ?| ?| ?| ?| ?| ?| <smallcap>B</smallcap></p>
+<p id="_">?| ?| <em>C</em></p></figure>
+</preface></itu-standard>
+INPUT
+    expect( File.read("test.doc").gsub(%r{^.*<p class="h1Preface"></p>}m, "").gsub(%r{<div class="WordSection3">.*}m, "")).to be_equivalent_to <<~"OUTPUT"
+    <div class="pseudocode"><a name="_" id="_"></a><p class="pseudocode"><a name="_" id="_"></a>?| ?| <b>A</b><br/>
+       ?| ?| ?| ?| ?| ?| ?| ?| <span style="font-variant:small-caps;">B</span></p>
+       <p class="pseudocode"><a name="_" id="_"></a>?| ?| <i>C</i></p><p class="FigureTitle" style="text-align:center;">Figure 1</p></div>
+             </div>
+             <p class="MsoNormal">&#xA0;</p>
+           </div>
+           <p class="MsoNormal">
+             <br clear="all" class="section"/>
+           </p>
+
+OUTPUT
+  end
 
 end

@@ -67,7 +67,9 @@
     <define name="editorialgroup">
       <element name="editorialgroup">
         <ref name="bureau"/>
-        <ref name="group"/>
+        <optional>
+          <ref name="group"/>
+        </optional>
         <optional>
           <ref name="subgroup"/>
         </optional>
@@ -106,10 +108,32 @@
         <ref name="recommendationstatus"/>
       </optional>
       <optional>
+        <ref name="ipnoticereceived"/>
+      </optional>
+      <optional>
         <ref name="structuredidentifier"/>
       </optional>
     </define>
+    <define name="preface">
+      <element name="preface">
+        <oneOrMore>
+          <choice>
+            <ref name="content"/>
+            <ref name="abstract"/>
+            <ref name="foreword"/>
+            <ref name="introduction"/>
+            <ref name="acknowledgements"/>
+            <ref name="clause"/>
+          </choice>
+        </oneOrMore>
+      </element>
+    </define>
   </include>
+  <define name="ipnoticereceived">
+    <element name="ip-notice-received">
+      <data type="boolean"/>
+    </element>
+  </define>
   <define name="recommendationstatus">
     <element name="recommendationstatus">
       <element name="from">

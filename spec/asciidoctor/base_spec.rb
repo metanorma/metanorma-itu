@@ -93,9 +93,6 @@ RSpec.describe Asciidoctor::ITU do
     <doctype>article</doctype>
     <editorialgroup>
       <bureau>T</bureau>
-      <group>
-
-      </group>
     </editorialgroup>
     <ip-notice-received>false</ip-notice-received>
     <structuredidentifier>
@@ -363,9 +360,6 @@ OUTPUT
          <doctype>technical-corrigendum</doctype>
          <editorialgroup>
   <bureau>T</bureau>
-  <group>
-
-  </group>
 </editorialgroup>
 <ip-notice-received>false</ip-notice-received>
 <structuredidentifier>

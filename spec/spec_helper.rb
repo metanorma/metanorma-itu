@@ -94,7 +94,6 @@ BLANK_HDR = <<~"HDR"
                 <doctype>article</doctype>
                 <editorialgroup>
                 <bureau>T</bureau>
-                <group> </group>
                 </editorialgroup>
                 <ip-notice-received>false</ip-notice-received>
         </ext>

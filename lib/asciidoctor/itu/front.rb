@@ -63,8 +63,10 @@ module Asciidoctor
       def metadata_committee1(node, xml, suffix)
         xml.editorialgroup do |a|
           a.bureau ( node.attr("bureau#{suffix}") || "T" )
-          a.group **attr_code(type: node.attr("grouptype#{suffix}")) do |g|
-            metadata_committee2(node, g, suffix, "")
+          if node.attr("group#{suffix}")
+            a.group **attr_code(type: node.attr("grouptype#{suffix}")) do |g|
+              metadata_committee2(node, g, suffix, "")
+            end
           end
           if node.attr("subgroup#{suffix}")
             a.subgroup **attr_code(type: node.attr("subgrouptype#{suffix}")) do |g|

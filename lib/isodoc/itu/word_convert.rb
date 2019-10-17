@@ -77,6 +77,19 @@ module IsoDoc
         keywords.parent = keywordsbox if keywords && keywordsbox
       end
 
+      def formula_parse1(node, out)
+      out.div **attr_code(id: node["id"], class: "formula") do |div|
+        div.p **attr_code(class: "formula") do |p|
+          insert_tab(div, 1)
+          parse(node.at(ns("./stem")), div)
+          lbl = anchor(node['id'], :label, false)
+          unless lbl.nil?
+            insert_tab(div, 1)
+            div << "(#{lbl})"
+          end
+        end
+      end
+    end
 
       def convert1(docxml, filename, dir)
         FileUtils.cp html_doc_path('itu-document-comb.png'), File.join(@localdir, "itu-document-comb.png")

@@ -1169,13 +1169,46 @@ INPUT
     expect( File.read("test.doc").gsub(%r{^.*<p class="h1Preface"></p>}m, "").gsub(%r{<div class="WordSection3">.*}m, "")).to be_equivalent_to <<~"OUTPUT"
     <div class="pseudocode"><a name="_" id="_"></a><p class="pseudocode"><a name="_" id="_"></a>?| ?| <b>A</b><br/>
        ?| ?| ?| ?| ?| ?| ?| ?| <span style="font-variant:small-caps;">B</span></p>
-       <p class="pseudocode"><a name="_" id="_"></a>?| ?| <i>C</i></p><p class="FigureTitle" style="text-align:center;">Figure 1</p></div>
+       <p class="pseudocode"  style="text-align:center;page-break-after:avoid;"><a name="_" id="_"></a>?| ?| <i>C</i></p><p class="FigureTitle" style="text-align:center;">Figure 1</p></div>
              </div>
              <p class="MsoNormal">&#xA0;</p>
            </div>
            <p class="MsoNormal">
              <br clear="all" class="section"/>
            </p>
+
+OUTPUT
+  end
+
+  it "processes formulae (Word)" do
+    expect(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(/.*<h1 class="IntroTitle"\/>/m, "").sub(/<br .*$/m, "")).to be_equivalent_to <<~"OUTPUT"
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <formula id="_be9158af-7e93-4ee2-90c5-26d31c181934" unnumbered="true">
+  <stem type="AsciiMath">r = 1 %</stem>
+<dl id="_e4fe94fe-1cde-49d9-b1ad-743293b7e21d">
+  <dt>
+    <stem type="AsciiMath">r</stem>
+  </dt>
+  <dd>
+    <p id="_1b99995d-ff03-40f5-8f2e-ab9665a69b77">is the repeatability limit.</p>
+  </dd>
+</dl>
+    </formula>
+    </foreword></preface>
+    </iso-standard>
+    INPUT
+    <div id="_be9158af-7e93-4ee2-90c5-26d31c181934" class="formula"><p class="formula"><span style="mso-tab-count:1">&#160; </span><span class="stem">(#(r = 1 %)#)</span></p></div><p>where</p><table class="dl"><tr><td valign="top" align="left"><p align="left" style="margin-left:0pt;text-align:left;">
+           <span class="stem">(#(r)#)</span>
+         </p></td><td valign="top">
+           <p id="_1b99995d-ff03-40f5-8f2e-ab9665a69b77">is the repeatability limit.</p>
+         </td></tr></table>
+
+
+           </div>
+             <p>&#160;</p>
+           </div>
+           <p>
 
 OUTPUT
   end

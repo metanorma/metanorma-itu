@@ -58,8 +58,14 @@ module IsoDoc
         end
       end
 
+      def word_term_cleanup(docxml)
+      docxml.xpath("//p[@class = 'TermNum']").each do |t|
+      end
+      end
+
       def word_cleanup(docxml)
         word_preface_cleanup(docxml)
+        word_term_cleanup(docxml)
         super
         docxml
       end

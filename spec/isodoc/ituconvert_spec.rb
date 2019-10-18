@@ -218,7 +218,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
        <terms id="H" obligation="normative">
          <term id="J">
          <preferred>Term2</preferred>
-         <definition>This is a journey into sound</definition>
+         <definition><p>This is a journey into sound</p></definition>
          <termsource><origin citeas="XYZ">x y z</origin></termsource>
          <termnote id="J1"><p>This is a note</p></termnote>
        </term>
@@ -230,7 +230,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
                <p class="zzSTDTitle1"/>
              <p class="zzSTDTitle2"/>
                <div id="H"><h1>1.&#160; Definitions</h1>
-               <div id="J"><p class="TermNum" id="J"><b>1.1&#160; Term2</b> [XYZ]: This is a journey into sound</p>
+               <div id="J"><p class="TermNum" id="J"><b>1.1&#160; Term2</b> [XYZ]: </p><p>This is a journey into sound</p>
 
 
 
@@ -239,6 +239,39 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
         </div>
            </div>
          </body>
+    OUTPUT
+  end
+
+  it "postprocesses simple terms & definitions" do
+        FileUtils.rm_f "test.html"
+        FileUtils.rm_f "test.doc"
+    IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", false)
+               <itu-standard xmlns="http://riboseinc.com/isoxml">
+       <preface/><sections>
+       <terms id="H" obligation="normative">
+         <term id="J">
+         <preferred>Term2</preferred>
+         <definition><p>This is a journey into sound</p></definition>
+         <termsource><origin citeas="XYZ">x y z</origin></termsource>
+         <termnote id="J1"><p>This is a note</p></termnote>
+       </term>
+        </terms>
+        </sections>
+        </itu-standard>
+    INPUT
+        expect(File.read("test.html", encoding: "utf-8").to_s.gsub(%r{^.*<main}m, "<main").gsub(%r{</main>.*}m, "</main>")).to be_equivalent_to <<~"OUTPUT"
+        <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+             <p class="zzSTDTitle1"></p>
+             <p class="zzSTDTitle2"></p>
+             <div id="H"><h1>1.&#xA0; Definitions</h1>
+         <div id="J"><p class="TermNum" id="J"><b>1.1&#xA0; Term2</b> [XYZ]: This is a journey into sound</p>
+
+
+
+         <div class="Note"><p>NOTE 1: This is a note</p></div>
+       </div>
+        </div>
+           </main>
     OUTPUT
   end
 
@@ -1198,7 +1231,7 @@ OUTPUT
     </foreword></preface>
     </iso-standard>
     INPUT
-    <div id="_be9158af-7e93-4ee2-90c5-26d31c181934" class="formula"><p class="formula"><span style="mso-tab-count:1">&#160; </span><span class="stem">(#(r = 1 %)#)</span></p></div><p>where</p><table class="dl"><tr><td valign="top" align="left"><p align="left" style="margin-left:0pt;text-align:left;">
+    <div id="_be9158af-7e93-4ee2-90c5-26d31c181934" class="formula"><p class="formula"><span style="mso-tab-count:2">&#160; </span><span class="stem">(#(r = 1 %)#)</span></p></div><p>where</p><table class="dl"><tr><td valign="top" align="left"><p align="left" style="margin-left:0pt;text-align:left;">
            <span class="stem">(#(r)#)</span>
          </p></td><td valign="top">
            <p id="_1b99995d-ff03-40f5-8f2e-ab9665a69b77">is the repeatability limit.</p>

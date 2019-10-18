@@ -117,10 +117,16 @@ module IsoDoc
       end
 
       def term_cleanup(docxml)
+        require "byebug"; byebug
         docxml.xpath("//p[@class = 'Terms']").each do |d|
           h2 = d.at("./preceding-sibling::*[@class = 'TermNum'][1]")
           h2.add_child("&nbsp;")
           h2.add_child(d.remove)
+        end
+        docxml.xpath("//p[@class = 'TermNum']").each do |d|
+          d1 = d.next_element and d1.name == "p" or next
+          d1.children.each { |e| e.parent = d }
+          d1.remove
         end
         docxml
       end
@@ -219,8 +225,8 @@ module IsoDoc
           end
           source and p << " [#{source.value}]"
           p << ": "
-          defn and defn.children.each { |n| parse(n, p) }
         end
+        defn and defn.children.each { |n| parse(n, div) }
       end
 
       def termdef_parse(node, out)

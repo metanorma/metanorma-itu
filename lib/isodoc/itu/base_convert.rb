@@ -117,7 +117,6 @@ module IsoDoc
       end
 
       def term_cleanup(docxml)
-        require "byebug"; byebug
         docxml.xpath("//p[@class = 'Terms']").each do |d|
           h2 = d.at("./preceding-sibling::*[@class = 'TermNum'][1]")
           h2.add_child("&nbsp;")

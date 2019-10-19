@@ -50,7 +50,7 @@ RSpec.describe Metanorma::ITU::Processor do
              <p class="zzSTDTitle1"></p>
              <p class="zzSTDTitle2"></p>
        <div id="H">
-  <h1>1.&#xA0; Definitions</h1>
+  <h1>1&#xA0; Definitions</h1>
   <div id="J"><p class="TermNum" id="J"><b>1.1&#xA0; Term2</b>:</p>
 
        </div>

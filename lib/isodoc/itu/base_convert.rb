@@ -184,6 +184,33 @@ module IsoDoc
         nonstd_bibitem(list, b, ordinal, biblio)
       end
 
+      def reference_format(b, r)
+        reference_format_start(b, r)
+        reference_format_title(b, r)
+      end
+
+      def reference_format_start(b, r)
+        id = bibitem_ref_code(b)
+        r << "Recommendation " if id["type"] == "ITU"
+        r << render_identifier(id)
+        if date = b.at(ns("./date[@type = 'published']"))
+          r << " (#{date.text.sub(/-.*$/, '')})"
+        end
+        r << ", "
+      end
+
+      def reference_format_title(b, r)
+        if ftitle = b.at(ns("./formattedref"))
+          ftitle&.children&.each { |n| parse(n, r) }
+          /\.$/.match(ftitle&.text) or r << "."
+        elsif title = iso_title(b)
+          r.i do |i|
+            title&.children&.each { |n| parse(n, i) }
+          end
+          /\.$/.match(title&.text) or r << "."
+        end
+      end
+
       def terms_defs_title(node)
         t = node.at(ns("./title")) and return t.text
         super

@@ -64,10 +64,16 @@ module IsoDoc
             name&.children&.each { |c2| parse(c2, b) }
           end
         end
+        annex_obligation_subtitle(annex, div)
+      end
+
+      def annex_obligation_subtitle(annex, div)
         type = annex&.document&.root&.at("//bibdata/ext/doctype")&.text || "recommendation"
         type = type.split(" ").map {|w| w.capitalize }.join(" ")
         info = annex["obligation"] == "informative"
-        div.p { |p| p << (info ? @inform_annex_lbl : @norm_annex_lbl).sub(/%/, type) }
+        div.p **{class: "annex_obligation" } do |p|
+          p << (info ? @inform_annex_lbl : @norm_annex_lbl).sub(/%/, type)
+        end
       end
 
       def annex_name_lbl(clause, num)

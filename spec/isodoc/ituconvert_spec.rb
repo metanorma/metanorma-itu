@@ -315,21 +315,21 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
              <p class="zzSTDTitle2"/>
                <div>
                  <h1>1&#160; References</h1>
-                 <p id="ISO712" class="NormRef">[ISO 712]&#160; <i> Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</i></p>
+                 <p id="ISO712" class="NormRef">[ISO 712]&#160; ISO 712, <i>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</i>.</p>
                </div>
 
 <div id="G"><h1>2&#160; Terms, Definitions, Symbols and Abbreviated Terms</h1>
-              <div id="H"><h2>2.1 Terms defined in this recommendation</h2><p>This Recommendation defines the following terms:</p>
+              <div id="H"><h2>2.1&#160; Terms defined in this recommendation</h2><p>This Recommendation defines the following terms:</p>
                 <div id="J"><p class="TermNum" id="J"><b>2.1.1&#160; Term2</b>:</p>
      
               </div>
               </div>
-              <div id="I"><h2>2.2 Terms defined elsewhere</h2><p>This Recommendation uses the following terms defined elsewhere:</p>
+              <div id="I"><h2>2.2&#160; Terms defined elsewhere</h2><p>This Recommendation uses the following terms defined elsewhere:</p>
                 <div id="K"><p class="TermNum" id="K"><b>2.2.1&#160; Term2</b>:</p>
      
               </div>
               </div>
-              <div id="L"><h2>2.3 Other terms</h2><p>None.</p></div>
+              <div id="L"><h2>2.3&#160; Other terms</h2><p>None.</p></div>
               </div>
            </div>
            </body>
@@ -658,10 +658,10 @@ OUTPUT
                <div id="M">
                  <h1>5&#160; Clause 4</h1>
                  <div id="N">
-          <h2>5.1 Introduction</h2>
+          <h2>5.1&#160; Introduction</h2>
         </div>
                  <div id="O">
-          <h2>5.2 Clause 4.2</h2>
+          <h2>5.2&#160; Clause 4.2</h2>
         </div>
                </div>
                <br/>
@@ -669,9 +669,9 @@ OUTPUT
                  <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b></h1>
                  <p>(This annex forms an integral part of this Recommendation.)</p>
                  <div id="Q">
-          <h2>A.1 Annex A.1</h2>
+          <h2>A.1&#160; Annex A.1</h2>
           <div id="Q1">
-          <h3>A.1.1 Annex A.1a</h3>
+          <h3>A.1.1&#160; Annex A.1a</h3>
           </div>
         </div>
                </div>
@@ -736,10 +736,10 @@ OUTPUT
                <div id="M">
                  <h1>5&#160; Clause 4</h1>
                  <div id="N">
-          <h2>5.1 Introduction</h2>
+          <h2>5.1&#160; Introduction</h2>
         </div>
                  <div id="O">
-          <h2>5.2 Clause 4.2</h2>
+          <h2>5.2&#160; Clause 4.2</h2>
         </div>
                </div>
                <br/>
@@ -747,9 +747,9 @@ OUTPUT
                  <h1 class="Annex"><b>Annexe A</b> <br/><br/><b>Annex</b></h1>
                 <p>(This annex forms an integral part of this Recommendation.)</p>
                  <div id="Q">
-          <h2>A.1 Annex A.1</h2>
+          <h2>A.1&#160; Annex A.1</h2>
           <div id="Q1">
-          <h3>A.1.1 Annex A.1a</h3>
+          <h3>A.1.1&#160; Annex A.1a</h3>
           </div>
         </div>
                </div>
@@ -830,10 +830,10 @@ OUTPUT
              </div>
              <div id="M">
                <h1>5<span style="mso-tab-count:1">&#160; </span>Clause 4</h1>
-               <div id="N"><h2>5.1 Introduction</h2>
+               <div id="N"><h2>5.1<span style="mso-tab-count:1">&#160; </span>Introduction</h2>
      
         </div>
-               <div id="O"><h2>5.2 Clause 4.2</h2>
+               <div id="O"><h2>5.2<span style="mso-tab-count:1">&#160; </span>Clause 4.2</h2>
      
         </div>
              </div>
@@ -843,9 +843,9 @@ OUTPUT
              <div id="P" class="Section3">
                <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b></h1>
                 <p>(This annex forms an integral part of this Recommendation.)</p>
-               <div id="Q"><h2>A.1 Annex A.1</h2>
+               <div id="Q"><h2>A.1<span style="mso-tab-count:1">&#160; </span>Annex A.1</h2>
      
-          <div id="Q1"><h3>A.1.1 Annex A.1a</h3>
+          <div id="Q1"><h3>A.1.1<span style="mso-tab-count:1">&#160; </span>Annex A.1a</h3>
      
           </div>
         </div>
@@ -927,6 +927,7 @@ OUTPUT
 <bibitem id="ISO712" type="standard">
   <title format="text/plain">Cereals and cereal products</title>
   <docidentifier>ISO 712</docidentifier>
+  <date type="published">2019-01-01</date>
   <contributor>
     <role type="publisher"/>
     <organization>
@@ -955,7 +956,7 @@ OUTPUT
                <p class="zzSTDTitle2"/>
                <div>
                               <h1>1&#160; References</h1>
-               <p id="ISO712" class="NormRef">[ISO 712]&#160; <i>Cereals and cereal products</i></p>
+               <p id="ISO712" class="NormRef">[ISO 712]&#160; ISO 712 (2019), <i>Cereals and cereal products</i>.</p>
              </div>
            </div>
          </body>
@@ -993,7 +994,7 @@ OUTPUT
              <div id="A1" class="Section3">
                <h1 class="Annex"><b>Annex F2</b> <br/><br/><b>Annex</b></h1>
                 <p>(This annex forms an integral part of this Recommendation.)</p>
-               <div id="A2"><h2>F2.1 Subtitle</h2>
+               <div id="A2"><h2>F2.1&#160; Subtitle</h2>
                <p class="TableTitle" style="text-align:center;">Table F2.1</p><table id="T" class="MsoISOTable" style="border-width:1px;border-spacing:0;"/>
                <div id="U" class="figure"><p class="FigureTitle" style="text-align:center;">Figure F2.1</p></div>
                <div id="V" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (F2.1)</p></div>
@@ -1094,7 +1095,7 @@ OUTPUT
              </div>
              <div id="A1">
                <h1 class="IntroTitle">Annex</h1>
-               <div id="A2"><h2>F2.1 Subtitle</h2>
+               <div id="A2"><h2>F2.1&#160; Subtitle</h2>
                    </div>
              </div>
              <p class="zzSTDTitle1">Recommendation 12345</p>
@@ -1103,7 +1104,7 @@ OUTPUT
              <div id="A1" class="Section3">
                <h1 class="Annex"><b>Annex F2</b> <br/><br/><b>Annex</b></h1>
 <p>(This annex forms an integral part of this Recommendation.)</p>
-               <div id="A2"><h2>F2.1 Subtitle</h2>
+               <div id="A2"><h2>F2.1&#160; Subtitle</h2>
                    </div>
              </div>
            </div>
@@ -1216,7 +1217,7 @@ INPUT
     expect( File.read("test.doc").gsub(%r{^.*<p class="h1Preface"></p>}m, "").gsub(%r{<div class="WordSection3">.*}m, "")).to be_equivalent_to <<~"OUTPUT"
     <div class="pseudocode"><a name="_" id="_"></a><p class="pseudocode"><a name="_" id="_"></a>?| ?| <b>A</b><br/>
        ?| ?| ?| ?| ?| ?| ?| ?| <span style="font-variant:small-caps;">B</span></p>
-       <p class="pseudocode"><a name="_" id="_"></a>?| ?| <i>C</i></p><p class="FigureTitle" style="text-align:center;">Figure 1</p></div>
+       <p class="pseudocode" style="text-align:center;page-break-after:avoid;"><a name="_" id="_"></a>?| ?| <i>C</i></p><p class="FigureTitle" style="text-align:center;">Figure 1</p></div>
              </div>
              <p class="MsoNormal">&#xA0;</p>
            </div>

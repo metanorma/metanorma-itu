@@ -195,13 +195,17 @@ module IsoDoc
         reference_format_title(b, r)
       end
 
+      def titlecase(s)
+        s.gsub(/ |\_|\-/, " ").split(/ /).map(&:capitalize).join(" ")
+      end
+
       def reference_format_start(b, r)
         id = bibitem_ref_code(b)
-        r << "Recommendation " if id["type"] == "ITU"
+        id["type"] == "ITU" and
+          r << titlecase(b&.at(ns("./ext/doctype"))&.text || "recommendation") + " "
         r << render_identifier(id)
-        if date = b.at(ns("./date[@type = 'published']"))
+        date = b.at(ns("./date[@type = 'published']")) and
           r << " (#{date.text.sub(/-.*$/, '')})"
-        end
         r << ", "
       end
 

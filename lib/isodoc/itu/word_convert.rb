@@ -66,8 +66,16 @@ module IsoDoc
       def word_cleanup(docxml)
         word_preface_cleanup(docxml)
         word_term_cleanup(docxml)
+        word_history_cleanup(docxml)
         super
         docxml
+      end
+
+      def word_history_cleanup(docxml)
+        docxml.xpath("//div[@id='_history']//table").each do |t|
+          t["class"] = "MsoNormalTable"
+          t.xpath(".//td").each { |td| td["style"] = nil }
+        end
       end
 
       def word_preface(docxml)

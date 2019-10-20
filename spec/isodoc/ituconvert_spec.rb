@@ -1261,4 +1261,68 @@ OUTPUT
 OUTPUT
   end
 
+    it "processes history tables (Word)" do
+FileUtils.rm_f "test.doc"
+      IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
+      <iso-standard xmlns="http://riboseinc.com/isoxml">
+      <preface><clause id="_history" obligation="normative">
+  <title>History</title>
+  <table id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4">
+  <tbody>
+    <tr>
+      <td align="left">Edition</td>
+      <td align="left">Recommendation</td>
+      <td align="left">Approval</td>
+      <td align="left">Study Group</td>
+      <td align="left">Unique ID<fn reference="a">
+  <p id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9">To access the Recommendation, type the URL <link target="http://handle.itu.int/"/> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <link target="http://handle.itu.int/11.1002/1000/11830-en"/></p>
+</fn>.</td>
+    </tr>
+<tr>
+      <td align="left">1.0</td>
+      <td align="left">ITU-T G.650</td>
+      <td align="left">1993-03-12</td>
+      <td align="left">XV</td>
+      <td align="left">
+        <link target="http://handle.itu.int/11.1002/1000/879">11.1002/1000/879</link>
+      </td>
+    </tr>
+    </tbody>
+    </table>
+    </clause>
+    </preface>
+    </iso-standard>
+      INPUT
+     expect(File.exist?("test.doc")).to be true
+    html = File.read("test.doc", encoding: "UTF-8")
+      expect(html.gsub(%r{.*<p class="h1Preface">History</p>}m, '<p class="h1Preface">History</p>').sub(%r{</table>.*$}m, "</table>")).to be_equivalent_to <<~"OUTPUT"
+      <p class="h1Preface">History</p>
+               <p class="TableTitle" style="text-align:center;">Table 1</p>
+               <div align="center">
+                 <table class="MsoNormalTable" style="mso-table-lspace:15.0cm;margin-left:423.0pt;mso-table-rspace:15.0cm;margin-right:423.0pt;mso-table-bspace:14.2pt;mso-table-anchor-vertical:paragraph;mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4"></a>
+                   <tbody>
+                     <tr>
+                       <td align="left" style="">Edition</td>
+                       <td align="left" style="">Recommendation</td>
+                       <td align="left" style="">Approval</td>
+                       <td align="left" style="">Study Group</td>
+                       <td align="left" style="">Unique ID<a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" class="TableFootnoteRef">a</a>.</td>
+                     </tr>
+                     <tr>
+                       <td align="left" style="">1.0</td>
+                       <td align="left" style="">ITU-T G.650</td>
+                       <td align="left" style="">1993-03-12</td>
+                       <td align="left" style="">XV</td>
+                       <td align="left" style="">
+               <a href="http://handle.itu.int/11.1002/1000/879">11.1002/1000/879</a>
+             </td>
+                     </tr>
+                   </tbody>
+                 <tfoot><tr><td colspan="5" style=""><div class="TableFootnote"><div><a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>
+         <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><a class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a<span style="mso-tab-count:1">&#xA0; </span></a>To access the Recommendation, type the URL <a href="http://handle.itu.int/">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en">http://handle.itu.int/11.1002/1000/11830-en</a></p>
+       </div></div></td></tr></tfoot></table>
+      OUTPUT
+    end
+
+
 end

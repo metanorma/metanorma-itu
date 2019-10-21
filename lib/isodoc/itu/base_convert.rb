@@ -1,6 +1,7 @@
 require "isodoc"
 require_relative "metadata"
 require "fileutils"
+require_relative "./ref.rb"
 
 module IsoDoc
   module ITU
@@ -68,7 +69,8 @@ module IsoDoc
       end
 
       def annex_obligation_subtitle(annex, div)
-        type = annex&.document&.root&.at("//bibdata/ext/doctype")&.text || "recommendation"
+        type = annex&.document&.root&.at("//bibdata/ext/doctype")&.text ||
+          "recommendation"
         type = type.split(" ").map {|w| w.capitalize }.join(" ")
         info = annex["obligation"] == "informative"
         div.p **{class: "annex_obligation" } do |p|
@@ -83,9 +85,11 @@ module IsoDoc
 
       def annex_names(clause, num)
         lbl = clause["obligation"] == "informative" ? @appendix_lbl : @annex_lbl
-        @anchors[clause["id"]] = { label: annex_name_lbl(clause, num), type: "clause",
-                                   xref: "#{lbl} #{num}", level: 1 }
-        clause.xpath(ns("./clause | ./references | ./terms | ./definitions ")).each_with_index do |c, i|
+        @anchors[clause["id"]] =
+          { label: annex_name_lbl(clause, num), type: "clause",
+            xref: "#{lbl} #{num}", level: 1 }
+        clause.xpath(ns("./clause | ./references | ./terms | ./definitions")).
+          each_with_index do |c, i|
           annex_names1(c, "#{num}.#{i + 1}", 2)
         end
         hierarchical_asset_names(clause, num)
@@ -106,8 +110,9 @@ module IsoDoc
       end
 
       def annex_names1(clause, num, level)
-        @anchors[clause["id"]] = { label: num, xref: "#{@labels["annex_subclause"]} #{num}",
-                                   level: level, type: "clause" }
+        @anchors[clause["id"]] =
+          { label: num, xref: "#{@labels["annex_subclause"]} #{num}",
+            level: level, type: "clause" }
         clause.xpath(ns("./clause")).each_with_index do |c, i|
           annex_names1(c, "#{num}.#{i + 1}", level + 1)
         end
@@ -163,64 +168,6 @@ module IsoDoc
         termexample_anchor_names(d)
       end
 
-      def norm_ref(isoxml, out, num)
-        q = "//bibliography/references[title = 'References']"
-        f = isoxml.at(ns(q)) or return num
-        out.div do |div|
-          num = num + 1
-          clause_name(num, @normref_lbl, div, nil)
-          f.elements.reject do |e|
-            %w(reference title bibitem note).include? e.name
-          end.each { |e| parse(e, div) }
-          biblio_list(f, div, false)
-        end
-        num
-      end
-
-      def nonstd_bibitem(list, b, ordinal, biblio)
-        list.p **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
-          ref << "[#{render_identifier(bibitem_ref_code(b))}]"
-          date_note_process(b, ref)
-          insert_tab(ref, 1)
-          reference_format(b, ref)
-        end
-      end
-
-      def std_bibitem_entry(list, b, ordinal, biblio)
-        nonstd_bibitem(list, b, ordinal, biblio)
-      end
-
-      def reference_format(b, r)
-        reference_format_start(b, r)
-        reference_format_title(b, r)
-      end
-
-      def titlecase(s)
-        s.gsub(/ |\_|\-/, " ").split(/ /).map(&:capitalize).join(" ")
-      end
-
-      def reference_format_start(b, r)
-        id = bibitem_ref_code(b)
-        id["type"] == "ITU" and
-          r << titlecase(b&.at(ns("./ext/doctype"))&.text || "recommendation") + " "
-        r << render_identifier(id)
-        date = b.at(ns("./date[@type = 'published']")) and
-          r << " (#{date.text.sub(/-.*$/, '')})"
-        r << ", "
-      end
-
-      def reference_format_title(b, r)
-        if ftitle = b.at(ns("./formattedref"))
-          ftitle&.children&.each { |n| parse(n, r) }
-          /\.$/.match(ftitle&.text) or r << "."
-        elsif title = iso_title(b)
-          r.i do |i|
-            title&.children&.each { |n| parse(n, i) }
-          end
-          /\.$/.match(title&.text) or r << "."
-        end
-      end
-
       def terms_defs_title(node)
         t = node.at(ns("./title")) and return t.text
         super
@@ -245,8 +192,10 @@ module IsoDoc
         out.div **attr_code(id: node["id"]) do |div|
           clause_parse_title(node, div, node.at(ns("./title")), out)
           title = node.at(ns("./title"))&.text&.downcase
-          title == "terms defined elsewhere" and out.p @labels["elsewhere_terms"]
-          title == "terms defined in this recommendation" and out.p @labels["here_terms"]
+          title == "terms defined elsewhere" and
+            out.p @labels["elsewhere_terms"]
+          title == "terms defined in this recommendation" and
+            out.p @labels["here_terms"]
           if node.at(ns("./clause | ./term")).nil? then out.p "None."
           else
             node.children.reject { |c1| c1.name == "title" }.each do |c1|

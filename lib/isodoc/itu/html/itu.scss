@@ -852,17 +852,25 @@ div.coverpage_warning
 
 .example-title {
 font-weight: bold;
-margin-left: -36.0pt;
+margin-left: 0pt;
 }
 
 p.example, li.example, div.example, td.example {
     margin-top: 0cm;
-  margin-right: 0.0pt;
   margin-bottom: 0cm;
-  margin-left: 0.0pt;
         mso-pagination:none;
         font-size:10.0pt;
         font-family:$bodyfont;}
+
+div.example {
+  margin-right: 0pt;
+  margin-left: 0pt;
+}
+
+p.example, li.example {
+  margin-right: 0pt;
+  margin-left: 0pt;
+}
 
 td.example p.MsoListParagraph {
   font-size: 10.0pt;

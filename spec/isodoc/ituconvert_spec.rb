@@ -1261,6 +1261,124 @@ OUTPUT
 OUTPUT
   end
 
+    it "processes tables (Word)" do
+    expect(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(/.*<h1 class="IntroTitle"\/>/m, "").sub(/<br .*$/m, "")).to be_equivalent_to <<~"OUTPUT"
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <table id="tableD-1" alt="tool tip" summary="long desc">
+  <name>Repeatability and reproducibility of <em>husked</em> rice yield</name>
+  <thead>
+    <tr>
+      <td rowspan="2" align="left">Description</td>
+      <td colspan="4" align="center">Rice sample</td>
+    </tr>
+    <tr>
+      <td align="left">Arborio</td>
+      <td align="center">Drago<fn reference="a">
+  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+</fn></td>
+      <td align="center">Balilla<fn reference="a">
+  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+</fn></td>
+      <td align="center">Thaibonnet</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th align="left">Number of laboratories retained after eliminating outliers</td>
+      <td align="center">13</td>
+      <td align="center">11</td>
+      <td align="center">13</td>
+      <td align="center">13</td>
+    </tr>
+    <tr>
+      <td align="left">Mean value, g/100 g</td>
+      <td align="center">81,2</td>
+      <td align="center">82,0</td>
+      <td align="center">81,8</td>
+      <td align="center">77,7</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td align="left">Reproducibility limit, <stem type="AsciiMath">R</stem> (= 2,83 <stem type="AsciiMath">s_R</stem>)</td>
+      <td align="center">2,89</td>
+      <td align="center">0,57</td>
+      <td align="center">2,26</td>
+      <td align="center">6,06</td>
+    </tr>
+  </tfoot>
+  <dl>
+  <dt>Drago</dt>
+<dd>A type of rice</dd>
+</dl>
+<note><p>This is a table about rice</p></note>
+</table>
+    </foreword></preface>
+    </iso-standard>
+    INPUT
+<p class="TableTitle" style="text-align:center;">Table 1&#160;&#8212; Repeatability and reproducibility of <i>husked</i> rice yield</p>
+               <div align="center">
+                 <table id="tableD-1" class="MsoISOTable" style="mso-table-lspace:15.0cm;margin-left:423.0pt;mso-table-rspace:15.0cm;margin-right:423.0pt;mso-table-bspace:14.2pt;mso-table-anchor-vertical:paragraph;mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;" title="tool tip" summary="long desc">
+                   <thead>
+                     <tr>
+                       <td rowspan="2" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Description</td>
+                       <td colspan="4" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext 1.0pt;" valign="top">Rice sample</td>
+                     </tr>
+                     <tr>
+                       <td align="left" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Arborio</td>
+                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Drago<a href="#tableD-1a" class="TableFootnoteRef">a</a><aside><div id="ftntableD-1a"><a id="tableD-1a" class="TableFootnoteRef">a<span style="mso-tab-count:1">&#160; </span></a>
+         <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+       </div></aside></td>
+                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a</a></td>
+                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Thaibonnet</td>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr>
+                       <th align="left" style="font-weight:bold;border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext 1.0pt;" valign="top">Number of laboratories retained after eliminating outliers</th>
+                       <td align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext 1.0pt;" valign="top">13</td>
+                       <td align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext 1.0pt;" valign="top">11</td>
+                       <td align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext 1.0pt;" valign="top">13</td>
+                       <td align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext 1.0pt;" valign="top">13</td>
+                     </tr>
+                     <tr>
+                       <td align="left" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Mean value, g/100 g</td>
+                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">81,2</td>
+                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">82,0</td>
+                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">81,8</td>
+                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">77,7</td>
+                     </tr>
+                   </tbody>
+                   <tfoot>
+                     <tr>
+                       <td align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Reproducibility limit, <span class="stem">(#(R)#)</span> (= 2,83 <span class="stem">(#(s_R)#)</span>)</td>
+                       <td align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">2,89</td>
+                       <td align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">0,57</td>
+                       <td align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">2,26</td>
+                       <td align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">6,06</td>
+                     </tr>
+                   </tfoot>
+                   <table class="dl">
+                     <tr>
+                       <td valign="top" align="left">
+                         <p align="left" style="margin-left:0pt;text-align:left;">Drago</p>
+                       </td>
+                       <td valign="top">A type of rice</td>
+                     </tr>
+                   </table>
+                   <div id="" class="Note">
+                     <p class="Note"><span class="note_label">NOTE</span><span style="mso-tab-count:1">&#160; </span>This is a table about rice</p>
+                   </div>
+                 </table>
+               </div>
+             </div>
+             <p>&#160;</p>
+           </div>
+           <p>
+OUTPUT
+  end
+
     it "processes history tables (Word)" do
 FileUtils.rm_f "test.doc"
       IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
@@ -1302,18 +1420,18 @@ FileUtils.rm_f "test.doc"
                  <table class="MsoNormalTable" style="mso-table-lspace:15.0cm;margin-left:423.0pt;mso-table-rspace:15.0cm;margin-right:423.0pt;mso-table-bspace:14.2pt;mso-table-anchor-vertical:paragraph;mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4"></a>
                    <tbody>
                      <tr>
-                       <td align="left" style="">Edition</td>
-                       <td align="left" style="">Recommendation</td>
-                       <td align="left" style="">Approval</td>
-                       <td align="left" style="">Study Group</td>
-                       <td align="left" style="">Unique ID<a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" class="TableFootnoteRef">a</a>.</td>
+                       <td align="left" style="" valign="top">Edition</td>
+                       <td align="left" style="" valign="top">Recommendation</td>
+                       <td align="left" style="" valign="top">Approval</td>
+                       <td align="left" style="" valign="top">Study Group</td>
+                       <td align="left" style="" valign="top">Unique ID<a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" class="TableFootnoteRef">a</a>.</td>
                      </tr>
                      <tr>
-                       <td align="left" style="">1.0</td>
-                       <td align="left" style="">ITU-T G.650</td>
-                       <td align="left" style="">1993-03-12</td>
-                       <td align="left" style="">XV</td>
-                       <td align="left" style="">
+                       <td align="left" style="" valign="top">1.0</td>
+                       <td align="left" style="" valign="top">ITU-T G.650</td>
+                       <td align="left" style="" valign="top">1993-03-12</td>
+                       <td align="left" style="" valign="top">XV</td>
+                       <td align="left" style="" valign="top">
                <a href="http://handle.itu.int/11.1002/1000/879">11.1002/1000/879</a>
              </td>
                      </tr>

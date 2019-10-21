@@ -140,6 +140,10 @@ module IsoDoc
         end
       end
 
+      def make_tr_attr(td, row, totalrows, header)
+        super.merge(valign: "top")
+      end
+
       include BaseConvert
     end
   end

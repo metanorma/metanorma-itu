@@ -62,6 +62,7 @@
         <value>technical-paper</value>
         <value>technical-report</value>
         <value>joint-itu-iso-iec</value>
+        <value>resolution</value>
       </choice>
     </define>
     <define name="editorialgroup">

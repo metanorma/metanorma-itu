@@ -234,6 +234,14 @@ module Asciidoctor
         super
       end
 
+      def html_extract_attributes(node)
+        super.merge(hierarchical_assets: node.attr("hierarchical-assets"))
+      end
+
+      def doc_extract_attributes(node)
+        super.merge(hierarchical_assets: node.attr("hierarchical-assets"))
+      end
+
       def html_converter(node)
         IsoDoc::ITU::HtmlConvert.new(html_extract_attributes(node))
       end

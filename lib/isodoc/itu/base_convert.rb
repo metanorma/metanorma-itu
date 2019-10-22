@@ -2,6 +2,7 @@ require "isodoc"
 require_relative "metadata"
 require "fileutils"
 require_relative "./ref.rb"
+require_relative "./xref.rb"
 
 module IsoDoc
   module ITU
@@ -78,46 +79,6 @@ module IsoDoc
         end
       end
 
-      def annex_name_lbl(clause, num)
-        lbl = clause["obligation"] == "informative" ? @appendix_lbl : @annex_lbl
-        l10n("<b>#{lbl} #{num}</b>")
-      end
-
-      def annex_names(clause, num)
-        lbl = clause["obligation"] == "informative" ? @appendix_lbl : @annex_lbl
-        @anchors[clause["id"]] =
-          { label: annex_name_lbl(clause, num), type: "clause",
-            xref: "#{lbl} #{num}", level: 1 }
-        clause.xpath(ns("./clause | ./references | ./terms | ./definitions")).
-          each_with_index do |c, i|
-          annex_names1(c, "#{num}.#{i + 1}", 2)
-        end
-        hierarchical_asset_names(clause, num)
-      end
-
-      def back_anchor_names(docxml)
-        super
-        if annexid = docxml&.at(ns("//bibdata/ext/structuredidentifier/annexid"))&.text
-          docxml.xpath(ns("//annex")).each { |c| annex_names(c, annexid) }
-        else
-          docxml.xpath(ns("//annex[@obligation = 'informative']")).each_with_index do |c, i|
-            annex_names(c, RomanNumerals.to_roman(i + 1))
-          end
-          docxml.xpath(ns("//annex[not(@obligation = 'informative')]")).each_with_index do |c, i|
-            annex_names(c, (65 + i + (i > 7 ? 1 : 0)).chr.to_s)
-          end
-        end
-      end
-
-      def annex_names1(clause, num, level)
-        @anchors[clause["id"]] =
-          { label: num, xref: "#{@labels["annex_subclause"]} #{num}",
-            level: level, type: "clause" }
-        clause.xpath(ns("./clause")).each_with_index do |c, i|
-          annex_names1(c, "#{num}.#{i + 1}", level + 1)
-        end
-      end
-
       def i18n_init(lang, script)
         super
       end
@@ -149,23 +110,6 @@ module IsoDoc
         @meta.keywords isoxml, out
         @meta.ip_notice_received isoxml, out
         super
-      end
-
-      def initial_anchor_names(d)
-        d.xpath("//xmlns:preface/child::*").each do |c|
-          preface_names(c)
-        end
-        sequential_asset_names(d.xpath("//xmlns:preface/child::*"))
-        n = section_names(d.at(ns("//clause[title = 'Scope']")), 0, 1)
-        n = section_names(d.at(ns("//bibliography/clause[title = 'References'] | "\
-                                  "//bibliography/references[title = 'References']")), n, 1)
-        n = section_names(d.at(ns("//sections/terms | "\
-                                  "//sections/clause[descendant::terms]")), n, 1)
-        n = section_names(d.at(ns("//sections/definitions")), n, 1)
-        clause_names(d, n)
-        middle_section_asset_names(d)
-        termnote_anchor_names(d)
-        termexample_anchor_names(d)
       end
 
       def terms_defs_title(node)

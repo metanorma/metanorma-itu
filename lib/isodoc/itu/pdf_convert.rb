@@ -9,6 +9,7 @@ module IsoDoc
     class PdfConvert < IsoDoc::PdfConvert
       def initialize(options)
         @libdir = File.dirname(__FILE__)
+        @hierarchical_assets = options[:hierarchical_assets]
         super
       end
 

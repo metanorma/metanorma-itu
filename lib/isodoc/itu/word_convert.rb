@@ -10,6 +10,7 @@ module IsoDoc
     class WordConvert < IsoDoc::WordConvert
       def initialize(options)
         @libdir = File.dirname(__FILE__)
+        @hierarchical_assets = options[:hierarchical_assets]
         super
       end
 
@@ -21,7 +22,7 @@ module IsoDoc
           make_body3(body, docxml)
         end
       end
-      
+
       def make_body2(body, docxml)
         body.div **{ class: "WordSection2" } do |div2|
           info docxml, div2 
@@ -59,8 +60,8 @@ module IsoDoc
       end
 
       def word_term_cleanup(docxml)
-      docxml.xpath("//p[@class = 'TermNum']").each do |t|
-      end
+        docxml.xpath("//p[@class = 'TermNum']").each do |t|
+        end
       end
 
       def word_cleanup(docxml)
@@ -92,18 +93,18 @@ module IsoDoc
       end
 
       def formula_parse1(node, out)
-      out.div **attr_code(id: node["id"], class: "formula") do |div|
-        div.p **attr_code(class: "formula") do |p|
-          insert_tab(div, 2)
-          parse(node.at(ns("./stem")), div)
-          lbl = anchor(node['id'], :label, false)
-          unless lbl.nil?
-            insert_tab(div, 1)
-            div << "(#{lbl})"
+        out.div **attr_code(id: node["id"], class: "formula") do |div|
+          div.p **attr_code(class: "formula") do |p|
+            insert_tab(div, 2)
+            parse(node.at(ns("./stem")), div)
+            lbl = anchor(node['id'], :label, false)
+            unless lbl.nil?
+              insert_tab(div, 1)
+              div << "(#{lbl})"
+            end
           end
         end
       end
-    end
 
       def convert1(docxml, filename, dir)
         FileUtils.cp html_doc_path('itu-document-comb.png'), File.join(@localdir, "itu-document-comb.png")

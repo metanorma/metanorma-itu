@@ -1195,7 +1195,7 @@ INPUT
     <language>en</language>
     </bibdata>
         <preface><foreword>
-  <figure id="_" type="pseudocode"><p id="_">?| ?| <strong>A</strong><br/>
+  <figure id="_" type="pseudocode"><name>Label</name><p id="_">?| ?| <strong>A</strong><br/>
 ?| ?| ?| ?| ?| ?| ?| ?| <smallcap>B</smallcap></p>
 <p id="_">?| ?| <em>C</em></p></figure>
 </preface></itu-standard>
@@ -1205,7 +1205,7 @@ INPUT
         <h1 class="IntroTitle"/>
         <div id="_" class="pseudocode"><p id="_">?| ?| <b>A</b><br/>
 ?| ?| ?| ?| ?| ?| ?| ?| <span style="font-variant:small-caps;">B</span></p>
-<p id="_">?| ?| <i>C</i></p><p class="FigureTitle" style="text-align:center;">Figure 1</p></div>
+<p id="_">?| ?| <i>C</i></p><p class="SourceTitle" style="text-align:center;">Label</p></div>
       </div>
       <p class="zzSTDTitle1"/>
       <p class="zzSTDTitle2"/>
@@ -1222,7 +1222,7 @@ OUTPUT
     <language>en</language>
     </bibdata>
         <preface><foreword>
-  <figure id="_" type="pseudocode"><p id="_">?| ?| <strong>A</strong><br/>
+  <figure id="_" type="pseudocode"><name>Label</name><p id="_">?| ?| <strong>A</strong><br/>
 ?| ?| ?| ?| ?| ?| ?| ?| <smallcap>B</smallcap></p>
 <p id="_">?| ?| <em>C</em></p></figure>
 </preface></itu-standard>
@@ -1230,7 +1230,7 @@ INPUT
     expect( File.read("test.doc").gsub(%r{^.*<p class="h1Preface"></p>}m, "").gsub(%r{<div class="WordSection3">.*}m, "")).to be_equivalent_to <<~"OUTPUT"
     <div class="pseudocode"><a name="_" id="_"></a><p class="pseudocode"><a name="_" id="_"></a>?| ?| <b>A</b><br/>
        ?| ?| ?| ?| ?| ?| ?| ?| <span style="font-variant:small-caps;">B</span></p>
-       <p class="pseudocode" style="text-align:center;page-break-after:avoid;"><a name="_" id="_"></a>?| ?| <i>C</i></p><p class="FigureTitle" style="text-align:center;">Figure 1</p></div>
+       <p class="pseudocode"><a name="_" id="_"></a>?| ?| <i>C</i></p><p class="SourceTitle" style="text-align:center;">Label</p></div>
              </div>
              <p class="MsoNormal">&#xA0;</p>
            </div>

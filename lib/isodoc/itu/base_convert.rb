@@ -52,7 +52,7 @@ module IsoDoc
           node.children.each do |n|
             parse(n, div) unless n.name == "name"
           end
-          figure_name_parse(node, div, name)
+          sourcecode_name_parse(node, div, name) if name
         end
         @in_figure = false
       end

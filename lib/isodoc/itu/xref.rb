@@ -40,7 +40,7 @@ module IsoDoc
         @anchors[clause["id"]] =
           { label: num, xref: "#{@labels["annex_subclause"]} #{num}",
             level: level, type: "clause" }
-        clause.xpath(ns("./clause")).each_with_index do |c, i|
+        clause.xpath(ns("./clause | ./references | ./terms | ./definitions")).each_with_index do |c, i|
           annex_names1(c, "#{num}.#{i + 1}", level + 1)
         end
       end

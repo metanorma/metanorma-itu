@@ -1236,7 +1236,7 @@ INPUT
     expect( File.read("test.doc").gsub(%r{^.*<p class="h1Preface"></p>}m, "").gsub(%r{<div class="WordSection3">.*}m, "")).to be_equivalent_to <<~"OUTPUT"
     <div class="pseudocode"><a name="_" id="_"></a><p class="pseudocode"><a name="_" id="_"></a>?| ?| <b>A</b><br/>
        ?| ?| ?| ?| ?| ?| ?| ?| <span style="font-variant:small-caps;">B</span></p>
-       <p class="pseudocode"><a name="_" id="_"></a>?| ?| <i>C</i></p><p class="SourceTitle" style="text-align:center;">Label</p></div>
+       <p class="pseudocode" style="page-break-after:avoid;"><a name="_" id="_"></a>?| ?| <i>C</i></p><p class="SourceTitle" style="text-align:center;">Label</p></div>
              </div>
              <p class="MsoNormal">&#xA0;</p>
            </div>

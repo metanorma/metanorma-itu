@@ -17,7 +17,7 @@ module Asciidoctor
 
       def stage_validate(xmldoc)
         stage = xmldoc&.at("//bibdata/status/stage")&.text
-        %w(in-force superseded in-force-prepublished withdrawn).include? stage or
+        %w(in-force superseded in-force-prepublished withdrawn draft).include? stage or
           warn "Document Attributes: #{stage} is not a recognised status"
       end
 

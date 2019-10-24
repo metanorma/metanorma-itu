@@ -52,6 +52,7 @@ RSpec.describe Asciidoctor::ITU do
       :revdate: 2000-01-01
       :copyright-year: 2001
       :title: Main Title
+      :draft: 3.4
     INPUT
     <itu-standard xmlns="https://open.ribose.com/standards/itu">
 <bibdata type="standard">
@@ -74,11 +75,12 @@ RSpec.describe Asciidoctor::ITU do
   </contributor>
   <version>
     <revision-date>2000-01-01</revision-date>
+    <draft>3.4</draft>
   </version>
   <language>en</language>
   <script>Latn</script>
   <status>
-    <stage>published</stage>
+    <stage>draft</stage>
   </status>
   <copyright>
     <from>2001</from>
@@ -118,7 +120,6 @@ OUTPUT
       :doctype: directive
       :edition: 2
       :revdate: 2000-01-01
-      :draft: 3.4
       :technical-committee: TC
       :technical-committee-type: provisional
       :copyright-year: 2001
@@ -204,13 +205,11 @@ OUTPUT
   <edition>2</edition>
 <version>
   <revision-date>2000-01-01</revision-date>
-  <draft>3.4</draft>
 </version>  
   <language>en</language>
   <script>Latn</script>
   <status>
     <stage>final-draft</stage>
-    <iteration>3</iteration>
   </status>
   <copyright>
     <from>2001</from>
@@ -345,7 +344,6 @@ OUTPUT
          <script>Latn</script>
          <status>
            <stage>pizza</stage>
-           <iteration>3</iteration>
          </status>
          <copyright>
            <from>#{Time.now.year}</from>

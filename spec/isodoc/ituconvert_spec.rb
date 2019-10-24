@@ -873,22 +873,28 @@ expect(html.gsub(%r{^.*<div>\s*<a name="abstractbox"}m, %{<div><a name="abstract
 <div><a name="abstractbox" id="abstractbox"></a>
          <div>
                <p class="h1Preface">Summary</p>
-               <p class="MsoNormal">This is an abstract</p>
+               <p class="Normalaftertitle">This is an abstract</p>
              </div>
 OUTPUT
 expect(html.gsub(%r{^.*<div>\s*<a name="keywordsbox"}m, %{<div><a name="keywordsbox"}).gsub(%r{</div>.*}m, "</div>")).to be_equivalent_to <<~"OUTPUT"
 <div><a name="keywordsbox" id="keywordsbox"></a>
     <div>
         <p class="h1Preface">Keywords</p>
-        <p class="MsoNormal">A, B.</p>
+        <p class="Normalaftertitle">A, B.</p>
       </div>
 OUTPUT
 expect(html.gsub(%r{^.*<div>\s*<a name="historybox"}m, %{<div><a name="historybox"}).gsub(%r{</div>.*}m, "</div>")).to be_equivalent_to <<~"OUTPUT"
 <div><a name="historybox" id="historybox"></a>
    <div><a name="A0" id="A0"></a>
        <p class="h1Preface">History</p>
-       <p class="MsoNormal">history</p>
+       <p class="Normalaftertitle">history</p>
      </div>
+OUTPUT
+expect(html.gsub(%r{^.*<h1>}m, %{<h1>}).gsub(%r{</div>.*}m, "</div>")).to be_equivalent_to <<~"OUTPUT"
+<h1>5<span style="mso-tab-count:1">&#xA0; </span>Clause 4</h1>
+        <div><a name="N" id="N"></a><h2>5.1<span style="mso-tab-count:1">&#xA0; </span>Introduction</h2>
+
+ </div>
 OUTPUT
             end
 

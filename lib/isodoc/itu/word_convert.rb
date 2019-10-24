@@ -65,11 +65,21 @@ module IsoDoc
       end
 
       def word_cleanup(docxml)
+        word_title_cleanup(docxml)
         word_preface_cleanup(docxml)
         word_term_cleanup(docxml)
         word_history_cleanup(docxml)
         super
         docxml
+      end
+
+      def word_title_cleanup(docxml)
+        docxml.xpath("p[@class = 'h1Preface'] | p[@class = 'h2Annex'] | "\
+                     "//h1 | //h2 | //h3 | //h4 | //h5 | //h6 | "\
+                     "//p[@class = 'annex_obligation']").each do |h|
+          h&.next_element&.name == "p" or next
+          h.next_element["class"] ||= "Normalaftertitle"
+        end
       end
 
       def word_history_cleanup(docxml)
@@ -107,7 +117,8 @@ module IsoDoc
       end
 
       def convert1(docxml, filename, dir)
-        FileUtils.cp html_doc_path('itu-document-comb.png'), File.join(@localdir, "itu-document-comb.png")
+        FileUtils.cp html_doc_path('itu-document-comb.png'),
+          File.join(@localdir, "itu-document-comb.png")
         FileUtils.cp html_doc_path('logo.png'), File.join(@localdir, "logo.png")
         @files_to_delete << File.join(@localdir, "itu-document-comb.png")
         @files_to_delete << File.join(@localdir, "logo.png")
@@ -115,23 +126,21 @@ module IsoDoc
       end
 
       def default_fonts(options)
-        {
-          bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' : '"Times New Roman",serif'),
-          headerfont: (options[:script] == "Hans" ? '"SimHei",sans-serif' : '"Times New Roman",serif'),
-          monospacefont: '"Courier New",monospace'
-        }
+        { bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' :
+                     '"Times New Roman",serif'),
+                     headerfont: (options[:script] == "Hans" ? '"SimHei",sans-serif' :
+                                  '"Times New Roman",serif'),
+                                  monospacefont: '"Courier New",monospace' }
       end
 
       def default_file_locations(options)
-        {
-          wordstylesheet: html_doc_path("wordstyle.scss"),
+        { wordstylesheet: html_doc_path("wordstyle.scss"),
           standardstylesheet: html_doc_path("itu.scss"),
           header: html_doc_path("header.html"),
           wordcoverpage: html_doc_path("word_itu_titlepage.html"),
           wordintropage: html_doc_path("word_itu_intro.html"),
           ulstyle: "l3",
-          olstyle: "l2",
-        }
+          olstyle: "l2", }
       end
 
       def word_example_cleanup(docxml)

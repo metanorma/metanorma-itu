@@ -229,9 +229,9 @@
   normal'><span lang="EN-GB" style='font-size:16.0pt;mso-bidi-font-size:10.0pt'>PREPUBLISHED</span></i></b></span><b
   style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
   lang="EN-GB" style='font-size:16.0pt;mso-bidi-font-size:10.0pt'><span
-  style='mso-spacerun:yes'>  </span>RECOMMENDATION<o:p></o:p></span></i></b></p>
+  style='mso-spacerun:yes'>  </span>{{ doctype  | upcase }}<o:p></o:p></span></i></b></p>
   <p class="MsoNormal" style='tab-stops:right 17.0cm'><span lang="EN-GB">This
-  prepublication is an unedited version of a recently approved Recommendation.
+    prepublication is an unedited version of a recently approved {{doctype}}.
   It&#xA0;will be replaced by the published version after editing. Therefore,
   there will be differences between this prepublication and the published
   version.</span><span lang="EN-GB" style='font-size:9.0pt;mso-bidi-font-size:
@@ -263,7 +263,7 @@
   margin-bottom:12.0pt;margin-left:0cm;text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
   style='mso-bookmark:_Hlk526346232'><a name="dnum2e"></a><span lang="EN-US"
   style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
-  mso-ansi-language:EN-US'>Recommendation<span style='mso-spacerun:yes'> 
+  mso-ansi-language:EN-US'>{% if stage == "Draft" %}Draft {% endif %}{{ doctype }}<span style='mso-spacerun:yes'> 
   </span>ITU‑{{ bureau }}<span style='mso-spacerun:yes'>  </span>{{ docnumber }}<o:p></o:p></span></span></p>
   <span style='mso-bookmark:_Hlk526346232'></span>
   <p class="MsoNormal" align="left" style='margin-top:3.0pt;text-align:left;

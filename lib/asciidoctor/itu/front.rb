@@ -9,6 +9,12 @@ module Asciidoctor
     # schema encapsulation of the document for validation
     #
     class Converter < Standoc::Converter
+      def metadata_status(node, xml)
+        xml.status do |s|
+          s.stage (node.attributes.has_key?("draft") ? "draft" :
+                   (node.attr("status") || node.attr("docstage") || "published" ))
+        end
+      end
 
       def title_english(node, xml)
         ["en"].each do |lang|

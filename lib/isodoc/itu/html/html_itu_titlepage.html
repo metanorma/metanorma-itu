@@ -71,7 +71,7 @@
         </div>
         {% endif %}
         <div>
-        <span class="doc-type">{{ doctype }}</span>
+          <span class="doc-type">{% if stage == "Draft" %}Draft {% endif %}{{ doctype }}</span>
         <span class="ITU-sector">ITU-{{ bureau }}</span>
         <span class="doc-identifier">{{ docnumber }}</span>
         </div>

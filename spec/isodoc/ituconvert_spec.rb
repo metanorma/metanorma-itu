@@ -385,6 +385,99 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
     OUTPUT
   end
 
+   it "processes IsoXML footnotes (Word)" do
+     expect(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).sub(%r{^.*<body }m, "<body ").sub(%r{</body>.*$}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    <itu-standard xmlns="http://riboseinc.com/isoxml">
+    <preface>
+    <foreword>
+    <p>A.<fn reference="2">
+  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
+</fn></p>
+    <p>B.<fn reference="2">
+  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
+</fn></p>
+    <p>C.<fn reference="1">
+  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
+</fn></p>
+    </foreword>
+    </preface>
+    </itu-standard>
+    INPUT
+    <body lang="EN-US" link="blue" vlink="#954F72">
+           <div class="WordSection1">
+             <p>&#160;</p>
+           </div>
+           <p>
+             <br clear="all" class="section"/>
+           </p>
+           <div class="WordSection2">
+             <div>
+               <h1 class="IntroTitle"/>
+               <p>A.<a href="#ftn1" epub:type="footnote"><sup>1</sup></a></p>
+               <p>B.<a href="#ftn2" epub:type="footnote"><sup>2</sup></a></p>
+               <p>C.<a href="#ftn3" epub:type="footnote"><sup>3</sup></a></p>
+             </div>
+             <p>&#160;</p>
+           </div>
+           <p>
+             <br clear="all" class="section"/>
+           </p>
+           <div class="WordSection3">
+             <p class="zzSTDTitle1"/>
+             <p class="zzSTDTitle2"/>
+             <aside id="ftn1">
+         <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
+       </aside>
+             <aside id="ftn2">
+         <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
+       </aside>
+             <aside id="ftn3">
+         <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
+       </aside>
+           </div>
+         </body>
+    OUTPUT
+  end
+
+  it "cleans up footnotes (Word)" do
+    FileUtils.rm_f "test.doc"
+    IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
+    <itu-standard xmlns="http://riboseinc.com/isoxml">
+    <preface>
+    <foreword>
+    <p>A.<fn reference="2">
+  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
+</fn></p>
+    <p>B.<fn reference="2">
+  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
+</fn></p>
+    <p>C.<fn reference="1">
+  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
+</fn></p>
+    </foreword>
+    </preface>
+    </itu-standard>
+    INPUT
+     expect(File.exist?("test.doc")).to be true
+    html = File.read("test.doc", encoding: "UTF-8")
+    expect(html.sub(%r{^.*<div style="mso-element:footnote-list">}m, '<div style="mso-element:footnote-list">').sub(%r{</body>.*$}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+           <div style="mso-element:footnote-list"><div style="mso-element:footnote" id="ftn1">
+
+         <p class="MsoFootnoteText"><a name="_1e228e29-baef-4f38-b048-b05a051747e4" id="_1e228e29-baef-4f38-b048-b05a051747e4"></a><a style="mso-footnote-id:ftn1" href="#_ftn1" name="_ftnref1" title="" id="_ftnref1"><span class="MsoFootnoteReference"><span style="mso-special-character:footnote"></span></span></a><span style="mso-tab-count:1"></span>Formerly denoted as 15 % (m/m).</p>
+       </div>
+       <div style="mso-element:footnote" id="ftn2">
+
+         <p class="MsoFootnoteText"><a name="_1e228e29-baef-4f38-b048-b05a051747e4" id="_1e228e29-baef-4f38-b048-b05a051747e4"></a><a style="mso-footnote-id:ftn2" href="#_ftn2" name="_ftnref2" title="" id="_ftnref2"><span class="MsoFootnoteReference"><span style="mso-special-character:footnote"></span></span></a><span style="mso-tab-count:1"></span>Formerly denoted as 15 % (m/m).</p>
+       </div>
+       <div style="mso-element:footnote" id="ftn3">
+
+         <p class="MsoFootnoteText"><a name="_1e228e29-baef-4f38-b048-b05a051747e4" id="_1e228e29-baef-4f38-b048-b05a051747e4"></a><a style="mso-footnote-id:ftn3" href="#_ftn3" name="_ftnref3" title="" id="_ftnref3"><span class="MsoFootnoteReference"><span style="mso-special-character:footnote"></span></span></a><span style="mso-tab-count:1"></span>Hello! denoted as 15 % (m/m).</p>
+       </div>
+       </div></body>
+OUTPUT
+  end
+
+
  def itudoc(lang)
 <<~"INPUT"
                <itu-standard xmlns="http://riboseinc.com/isoxml">

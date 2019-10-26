@@ -65,12 +65,20 @@ module IsoDoc
       end
 
       def word_cleanup(docxml)
+        word_footnote_cleanup(docxml)
         word_title_cleanup(docxml)
         word_preface_cleanup(docxml)
         word_term_cleanup(docxml)
         word_history_cleanup(docxml)
         super
         docxml
+      end
+
+      def word_footnote_cleanup(docxml)
+        docxml.xpath("//aside").each do |a|
+          a.first_element_child.children.first.previous =
+            '<span style="mso-tab-count:1"/>'
+        end
       end
 
       def word_title_cleanup(docxml)

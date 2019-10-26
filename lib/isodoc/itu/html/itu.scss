@@ -141,7 +141,7 @@ p.TableTitle
 	mso-fareast-font-family:$bodyfont;
 	mso-bidi-font-family:$bodyfont;
 	mso-ansi-language:EN-GB;}
-p.Note, div.Note, li.Note, p.TableFootnote, div.TableFootnote, li.TableFootnote
+p.Note, div.Note, li.Note
 	{mso-style-unhide:no;
 	mso-style-qformat:yes;
 	margin-top:4.0pt;
@@ -162,6 +162,28 @@ p.Note, div.Note, li.Note, p.TableFootnote, div.TableFootnote, li.TableFootnote
 	mso-fareast-font-family:$bodyfont;
 	mso-bidi-font-family:$bodyfont;
 	mso-ansi-language:EN-GB;}
+p.TableFootnote, div.TableFootnote, li.TableFootnote
+        {mso-style-unhide:no;
+        mso-style-qformat:yes;
+        margin-top:2.0pt;
+        margin-right:0cm;
+        margin-bottom:2.0pt;
+        margin-left:14.2pt;
+        text-indent:-14.2pt;
+        margin-bottom:.0001pt;
+        text-align:justify; 
+        text-justify:inter-ideograph;
+        mso-pagination:widow-orphan;
+        tab-stops:39.7pt 59.55pt 79.4pt 99.25pt;
+        mso-layout-grid-align:none;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:11.0pt;
+        mso-bidi-font-size:10.0pt;
+        font-family:$bodyfont;
+        mso-fareast-font-family:$bodyfont;
+        mso-bidi-font-family:$bodyfont;
+        mso-ansi-language:EN-GB;}
 p.FooterQP, li.FooterQP, div.FooterQP
 	{mso-style-name:Footer_QP;
 	mso-style-unhide:no;
@@ -866,6 +888,7 @@ div.coverpage_warning
 
     a.TableFootnoteRef
         {mso-style-priority:99;
+           mso-style-parent:"Footnote Reference";
         vertical-align:super;}
 
         aside {

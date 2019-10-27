@@ -201,6 +201,16 @@ module IsoDoc
         end
         out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
       end
+
+      def make_table_footnote_target(out, fnid, fnref)
+        attrs = { id: fnid, class: "TableFootnoteRef" }
+        out.span do |s|
+          out.span **attrs do |a|
+            a << fnref + ")"
+          end
+          insert_tab(s, 1)
+        end
+      end
     end
   end
 end

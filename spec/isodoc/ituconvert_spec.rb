@@ -319,12 +319,12 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
                </div>
 
 <div id="G"><h1>2&#160; Terms, Definitions, Symbols and Abbreviated Terms</h1>
-              <div id="H"><h2>2.1&#160; Terms defined in this recommendation</h2><p>This Recommendation defines the following terms:</p>
+              <div id="H"><h2>2.1&#160; Terms defined in this recommendation</h2>
                 <div id="J"><p class="TermNum" id="J"><b>2.1.1&#160; Term2</b>:</p>
      
               </div>
               </div>
-              <div id="I"><h2>2.2&#160; Terms defined elsewhere</h2><p>This Recommendation uses the following terms defined elsewhere:</p>
+              <div id="I"><h2>2.2&#160; Terms defined elsewhere</h2>
                 <div id="K"><p class="TermNum" id="K"><b>2.2.1&#160; Term2</b>:</p>
      
               </div>

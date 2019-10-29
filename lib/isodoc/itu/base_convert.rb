@@ -45,6 +45,10 @@ module IsoDoc
         super
       end
 
+      def prefix_container(container, linkend, _target)
+        l10n("#{linkend} #{@labels["in"]} #{anchor(container, :xref)}")
+      end
+
       def ol_depth(node)
         return super unless node["class"] == "steps" or
           node.at(".//ancestor::xmlns:ol[@class = 'steps']")

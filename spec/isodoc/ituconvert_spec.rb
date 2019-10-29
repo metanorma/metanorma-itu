@@ -1787,5 +1787,54 @@ it "processes hierarchical assets" do
     OUTPUT
 end
 
+it "processes steps class of ordered lists" do
+    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <ol id="_ae34a226-aab4-496d-987b-1aa7b6314026" class="steps">
+  <li>
+    <p id="_0091a277-fb0e-424a-aea8-f0001303fe78">all information necessary for the complete identification of the sample;</p>
+  </li>
+  <ol>
+  <li>
+    <p id="_8a7b6299-db05-4ff8-9de7-ff019b9017b2">a reference to this document (i.e. ISO 17301-1);</p>
+  </li>
+  <ol>
+  <li>
+    <p id="_ea248b7f-839f-460f-a173-a58a830b2abe">the sampling method used;</p>
+  </li>
+  </ol>
+  </ol>
+</ol>
+</foreword></preface>
+</iso-standard>
+    INPUT
+    #{HTML_HDR}
+      <div>
+        <h1 class="IntroTitle"/>
+        <ol type="1" id="_ae34a226-aab4-496d-987b-1aa7b6314026">
+  <li>
+    <p id="_0091a277-fb0e-424a-aea8-f0001303fe78">all information necessary for the complete identification of the sample;</p>
+  </li>
+  <ol type="a">
+  <li>
+    <p id="_8a7b6299-db05-4ff8-9de7-ff019b9017b2">a reference to this document (i.e. ISO 17301-1);</p>
+  </li>
+  <ol type="i">
+  <li>
+    <p id="_ea248b7f-839f-460f-a173-a58a830b2abe">the sampling method used;</p>
+  </li>
+  </ol>
+  </ol>
+</ol>
+      </div>
+      <p class="zzSTDTitle1"/>
+      <p class="zzSTDTitle2"/>
+    </div>
+  </body>
+    OUTPUT
+  end
+
+
 
 end

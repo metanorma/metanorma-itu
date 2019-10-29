@@ -45,6 +45,15 @@ module Asciidoctor
         super
       end
 
+        def olist(node)
+        noko do |xml|
+          xml.ol **attr_code(id: Asciidoctor::Standoc::Utils::anchor_or_uuid(node),
+                             class: node.attr("class")) do |xml_ol|
+            node.items.each { |item| li(xml_ol, item) }
+          end
+        end.join("\n")
+      end
+
       def pseudocode_example(node)
         noko do |xml|
           xml.figure **{id: Asciidoctor::Standoc::Utils::anchor_or_uuid(node),

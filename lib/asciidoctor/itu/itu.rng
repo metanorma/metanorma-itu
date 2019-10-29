@@ -49,6 +49,24 @@
         </choice>
       </element>
     </define>
+    <define name="ol">
+      <element name="ol">
+        <attribute name="id">
+          <data type="ID"/>
+        </attribute>
+        <optional>
+          <attribute name="class">
+            <value>steps</value>
+          </attribute>
+        </optional>
+        <oneOrMore>
+          <ref name="li"/>
+        </oneOrMore>
+        <zeroOrMore>
+          <ref name="note"/>
+        </zeroOrMore>
+      </element>
+    </define>
     <define name="DocumentType">
       <choice>
         <value>recommendation</value>

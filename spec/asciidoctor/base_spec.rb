@@ -956,6 +956,32 @@ end
 OUTPUT
 end
 
+  it "processes steps class of ordered lists" do
+           expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        #{ASCIIDOC_BLANK_HDR}
+        == Clause
+
+        [class=steps]
+        . First
+        . Second
+        INPUT
+        #{BLANK_HDR}
+        <preface/><sections>
+  <clause id="_" obligation="normative">
+  <title>Clause</title>
+  <ol id="_" class="steps">
+  <li>
+    <p id="_">First</p>
+  </li>
+  <li>
+    <p id="_">Second</p>
+  </li>
+</ol>
+</clause>
+</sections>
+</itu-standard>
+OUTPUT
+end
 
 
 

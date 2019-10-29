@@ -1131,8 +1131,8 @@ OUTPUT
             <div>
                <h1 class="IntroTitle"/>
                <p>
-           <a href="#N1">Introduction, Equation (1)</a>
-           <a href="#N2">Preparatory, Inequality (2)</a>
+           <a href="#N1">Equation (1) in Introduction</a>
+           <a href="#N2">Inequality (2) in Preparatory</a>
            </p>
              </div>
              <div id="intro"><h1 class="IntroTitle"/><div id="N1" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (1)</p></div>
@@ -1835,6 +1835,133 @@ it "processes steps class of ordered lists" do
     OUTPUT
   end
 
+it "cross-references notes" do
+    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface>
+    <foreword>
+    <p>
+    <xref target="N1"/>
+    <xref target="N2"/>
+    <xref target="N"/>
+    <xref target="note1"/>
+    <xref target="note2"/>
+    <xref target="AN"/>
+    <xref target="Anote1"/>
+    <xref target="Anote2"/>
+    </p>
+    </foreword>
+    <introduction id="intro">
+    <note id="N1">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83e">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+<clause id="xyz"><title>Preparatory</title>
+    <note id="N2">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83d">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+</clause>
+    </introduction>
+    </preface>
+    <sections>
+    <clause id="scope"><title>Scope</title>
+    <note id="N">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+<p><xref target="N"/></p>
 
+    </clause>
+    <terms id="terms"/>
+    <clause id="widgets"><title>Widgets</title>
+    <clause id="widgets1">
+    <note id="note1">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    <note id="note2">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83a">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+<p>    <xref target="note1"/> <xref target="note2"/> </p>
+
+    </clause>
+    </clause>
+    </sections>
+    <annex id="annex1">
+    <clause id="annex1a">
+    <note id="AN">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    </clause>
+    <clause id="annex1b">
+    <note id="Anote1">
+<p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    <note id="Anote2">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83a">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    </clause>
+    </annex>
+    </iso-standard>
+    INPUT
+    #{HTML_HDR}
+             <div>
+               <h1 class="IntroTitle"/>
+               <p>
+           <a href="#N1">Note in Introduction</a>
+           <a href="#N2">Note in Preparatory</a>
+           <a href="#N">Note in Clause 1</a>
+           <a href="#note1">Note  1 in Clause 3.1</a>
+           <a href="#note2">Note  2 in Clause 3.1</a>
+           <a href="#AN">Note in Clause A.1</a>
+           <a href="#Anote1">Note  1 in Clause A.2</a>
+           <a href="#Anote2">Note  2 in Clause A.2</a>
+           </p>
+             </div>
+             <div id="intro">
+               <h1 class="IntroTitle"/>
+               <div id="N1" class="Note">
+                 <p><span class="note_label">NOTE</span>&#160; These results are based on a study carried out on three different types of kernel.</p>
+               </div>
+               <div id="xyz"><h2>Preparatory</h2>
+           <div id="N2" class="Note"><p><span class="note_label">NOTE</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+       </div>
+             </div>
+             <p class="zzSTDTitle1"/>
+             <p class="zzSTDTitle2"/>
+             <div id="scope">
+               <h1>1&#160; Scope</h1>
+               <div id="N" class="Note">
+                 <p><span class="note_label">NOTE</span>&#160; These results are based on a study carried out on three different types of kernel.</p>
+               </div>
+               <p>
+                 <a href="#N">Note</a>
+               </p>
+             </div>
+             <div id="terms">
+               <h1>2&#160; Definitions</h1>
+               <p>None.</p>
+             </div>
+             <div id="widgets">
+               <h1>3&#160; Widgets</h1>
+               <div id="widgets1"><h2>3.1&#160; </h2>
+           <div id="note1" class="Note"><p><span class="note_label">NOTE  1</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="note2" class="Note"><p><span class="note_label">NOTE  2</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+       <p>    <a href="#note1">Note  1</a> <a href="#note2">Note  2</a> </p>
+
+           </div>
+             </div>
+             <br/>
+             <div id="annex1" class="Section3">
+               <div id="annex1a"><h2>A.1&#160; </h2>
+           <div id="AN" class="Note"><p><span class="note_label">NOTE</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+           </div>
+               <div id="annex1b"><h2>A.2&#160; </h2>
+           <div id="Anote1" class="Note"><p><span class="note_label">NOTE  1</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="Anote2" class="Note"><p><span class="note_label">NOTE  2</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+           </div>
+             </div>
+           </div>
+         </body>
+
+OUTPUT
+end
 
 end

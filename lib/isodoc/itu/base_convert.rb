@@ -40,11 +40,6 @@ module IsoDoc
         ""
       end
 
-      def figure_parse(node, out)
-        return pseudocode_parse(node, out) if node["type"] == "pseudocode"
-        super
-      end
-
       def formula_where(dl, out)
       return unless dl
       out.p { |p| p << l10n("#{@where_lbl}:") }
@@ -52,6 +47,7 @@ module IsoDoc
     end
 
       def prefix_container(container, linkend, _target)
+        require "byebug"; byebug
         l10n("#{linkend} #{@labels["in"]} #{anchor(container, :xref)}")
       end
 
@@ -65,18 +61,6 @@ module IsoDoc
         type = :alphabet_upper if [4, 9].include? depth
         type = :roman_upper if [5, 10].include? depth
         ol_style(type)
-      end
-
-      def pseudocode_parse(node, out)
-        @in_figure = true
-        name = node.at(ns("./name"))
-        out.div **attr_code(id: node["id"], class: "pseudocode") do |div|
-          node.children.each do |n|
-            parse(n, div) unless n.name == "name"
-          end
-          sourcecode_name_parse(node, div, name) if name
-        end
-        @in_figure = false
       end
 
       def annex_name(annex, name, div)

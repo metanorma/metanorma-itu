@@ -890,26 +890,6 @@ OUTPUT
         OUTPUT
    end
 
-  it "generates pseudocode examples, with formatting and initial indentation" do
-        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
-        #{ASCIIDOC_BLANK_HDR}
-
-        [pseudocode]
-        ====
-          *A* +
-                [smallcap]#B#
-
-          _C_
-        ====
-        INPUT
-        #{BLANK_HDR}
-        <preface/><sections>
-  <figure id="_" type="pseudocode"><p id="_">  <strong>A</strong><br/>
-        <smallcap>B</smallcap></p>
-<p id="_">  <em>C</em></p></figure>
-        OUTPUT
-   end
-
    it "inserts boilerplate before symbols" do
            expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
         #{ASCIIDOC_BLANK_HDR}

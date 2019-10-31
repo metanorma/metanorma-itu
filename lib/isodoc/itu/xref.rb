@@ -79,7 +79,7 @@ module IsoDoc
           hierarchical_asset_names(c, @anchors[c["id"]][:label])
         end
       end
-
+=begin
       def sequential_figure_names(clause)
         c = IsoDoc::Function::XrefGen::Counter.new
         j = 0
@@ -111,7 +111,8 @@ module IsoDoc
           @anchors[t["id"]] = anchor_struct(label, nil, @figure_lbl, "figure",
                                             t["unnumbered"])
         end
-      end
+    end
+=end
     end
   end
 end

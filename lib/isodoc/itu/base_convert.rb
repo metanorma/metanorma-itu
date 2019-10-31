@@ -47,7 +47,6 @@ module IsoDoc
     end
 
       def prefix_container(container, linkend, _target)
-        require "byebug"; byebug
         l10n("#{linkend} #{@labels["in"]} #{anchor(container, :xref)}")
       end
 

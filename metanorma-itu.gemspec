@@ -24,7 +24,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.required_ruby_version = Gem::Requirement.new(">= 2.4.0")
 
-  spec.add_dependency "asciidoctor", "~> 1.5.7"
   spec.add_dependency "htmlentities", "~> 4.3.4"
   spec.add_dependency "ruby-jing"
   spec.add_dependency "metanorma-standoc", "~> 1.3.0"

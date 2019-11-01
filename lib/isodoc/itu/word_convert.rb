@@ -151,13 +151,6 @@ module IsoDoc
           olstyle: "l2", }
       end
 
-      def word_example_cleanup(docxml)
-        super
-        docxml.xpath("//div[@class = 'pseudocode']//p[not(@class)]").each do |p|
-          p["class"] = "pseudocode"
-        end
-      end
-
       def make_tr_attr(td, row, totalrows, header)
         super.merge(valign: "top")
       end

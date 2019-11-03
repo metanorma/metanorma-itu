@@ -172,7 +172,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
    end
 
   it "processes pre" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 <itu-standard xmlns="https://www.calconnect.org/standards/itu">
 <preface><foreword>
 <pre>ABC</pre>
@@ -192,7 +192,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
   end
 
   it "processes keyword" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 <itu-standard xmlns="https://www.calconnect.org/standards/itu">
 <preface><foreword>
 <keyword>ABC</keyword>
@@ -212,7 +212,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
   end
 
   it "processes simple terms & definitions" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
                <itu-standard xmlns="http://riboseinc.com/isoxml">
        <preface/><sections>
        <terms id="H" obligation="normative">
@@ -259,7 +259,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
         </sections>
         </itu-standard>
     INPUT
-        expect(File.read("test.html", encoding: "utf-8").to_s.gsub(%r{^.*<main}m, "<main").gsub(%r{</main>.*}m, "</main>")).to be_equivalent_to <<~"OUTPUT"
+        expect(xmlpp(File.read("test.html", encoding: "utf-8").to_s.gsub(%r{^.*<main}m, "<main").gsub(%r{</main>.*}m, "</main>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
              <p class="zzSTDTitle1"></p>
              <p class="zzSTDTitle2"></p>
@@ -276,7 +276,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
   end
 
   it "processes terms & definitions subclauses with external, internal, and empty definitions" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
                <itu-standard xmlns="http://riboseinc.com/isoxml">
          <termdocsource type="inline" bibitemid="ISO712"/>
        <preface/><sections>
@@ -337,7 +337,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
   end
 
     it "rearranges term headers" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).cleanup(Nokogiri::XML(<<~"INPUT")).to_s).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).cleanup(Nokogiri::XML(<<~"INPUT")).to_s)).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <html>
            <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
              <div class="title-section">
@@ -386,7 +386,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
   end
 
    it "processes IsoXML footnotes (Word)" do
-     expect(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).sub(%r{^.*<body }m, "<body ").sub(%r{</body>.*$}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+     expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).sub(%r{^.*<body }m, "<body xmlns:epub='epub' ").sub(%r{</body>.*$}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <itu-standard xmlns="http://riboseinc.com/isoxml">
     <preface>
     <foreword>
@@ -403,7 +403,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
     </preface>
     </itu-standard>
     INPUT
-    <body lang="EN-US" link="blue" vlink="#954F72">
+    <body xmlns:epub="epub" lang="EN-US" link="blue" vlink="#954F72">
            <div class="WordSection1">
              <p>&#160;</p>
            </div>
@@ -460,7 +460,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
     INPUT
      expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(html.sub(%r{^.*<div style="mso-element:footnote-list">}m, '<div style="mso-element:footnote-list">').sub(%r{</body>.*$}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(html.sub(%r{^.*<div style="mso-element:footnote-list">}m, '<div style="mso-element:footnote-list">').sub(%r{</body>.*$}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
            <div style="mso-element:footnote-list"><div style="mso-element:footnote" id="ftn1">
 
          <p class="MsoFootnoteText"><a name="_1e228e29-baef-4f38-b048-b05a051747e4" id="_1e228e29-baef-4f38-b048-b05a051747e4"></a><a style="mso-footnote-id:ftn1" href="#_ftn1" name="_ftnref1" title="" id="_ftnref1"><span class="MsoFootnoteReference"><span style="mso-special-character:footnote"></span></span></a><span style="mso-tab-count:1"></span>Formerly denoted as 15 % (m/m).</p>
@@ -473,7 +473,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
 
          <p class="MsoFootnoteText"><a name="_1e228e29-baef-4f38-b048-b05a051747e4" id="_1e228e29-baef-4f38-b048-b05a051747e4"></a><a style="mso-footnote-id:ftn3" href="#_ftn3" name="_ftnref3" title="" id="_ftnref3"><span class="MsoFootnoteReference"><span style="mso-special-character:footnote"></span></span></a><span style="mso-tab-count:1"></span>Hello! denoted as 15 % (m/m).</p>
        </div>
-       </div></body>
+       </div>
 OUTPUT
   end
 
@@ -550,7 +550,7 @@ OUTPUT
  end
 
        it "processes annexes and appendixes" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
                <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
@@ -703,7 +703,7 @@ OUTPUT
        end
 
       it "processes section names" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", itudoc("en"), true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", itudoc("en"), true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{HTML_HDR}
         <br/>
         <div>
@@ -781,7 +781,7 @@ OUTPUT
   end
 
             it "processes section names in French" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", itudoc("fr"), true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", itudoc("fr"), true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{HTML_HDR}
         <br/>
         <div>
@@ -859,7 +859,7 @@ OUTPUT
   end
 
       it "processes section names (Word)" do
-    expect(IsoDoc::ITU::WordConvert.new({}).convert("test", itudoc("en"), true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", itudoc("en"), true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
            <body lang="EN-US" link="blue" vlink="#954F72">
            <div class="WordSection1">
              <p>&#160;</p>
@@ -962,38 +962,40 @@ OUTPUT
     IsoDoc::ITU::WordConvert.new({}).convert("test", itudoc("en"), false)
      expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-expect(html.gsub(%r{^.*<div>\s*<a name="abstractbox"}m, %{<div><a name="abstractbox"}).gsub(%r{</div>.*}m, "</div>")).to be_equivalent_to <<~"OUTPUT"
+expect(xmlpp(html.gsub(%r{^.*<div>\s*<a name="abstractbox"}m, %{<div><a name="abstractbox"}).gsub(%r{</div>.*}m, "</div></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 <div><a name="abstractbox" id="abstractbox"></a>
          <div>
                <p class="h1Preface">Summary</p>
                <p class="Normalaftertitle">This is an abstract</p>
-             </div>
+             </div></div>
 OUTPUT
-expect(html.gsub(%r{^.*<div>\s*<a name="keywordsbox"}m, %{<div><a name="keywordsbox"}).gsub(%r{</div>.*}m, "</div>")).to be_equivalent_to <<~"OUTPUT"
+expect(xmlpp(html.gsub(%r{^.*<div>\s*<a name="keywordsbox"}m, %{<div><a name="keywordsbox"}).gsub(%r{</div>.*}m, "</div></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 <div><a name="keywordsbox" id="keywordsbox"></a>
     <div>
         <p class="h1Preface">Keywords</p>
         <p class="Normalaftertitle">A, B.</p>
-      </div>
+      </div></div>
 OUTPUT
-expect(html.gsub(%r{^.*<div>\s*<a name="historybox"}m, %{<div><a name="historybox"}).gsub(%r{</div>.*}m, "</div>")).to be_equivalent_to <<~"OUTPUT"
+expect(xmlpp(html.gsub(%r{^.*<div>\s*<a name="historybox"}m, %{<div><a name="historybox"}).gsub(%r{</div>.*}m, "</div></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 <div><a name="historybox" id="historybox"></a>
    <div><a name="A0" id="A0"></a>
        <p class="h1Preface">History</p>
        <p class="Normalaftertitle">history</p>
-     </div>
+     </div></div>
 OUTPUT
-expect(html.gsub(%r{^.*<h1>}m, %{<h1>}).gsub(%r{</div>.*}m, "</div>")).to be_equivalent_to <<~"OUTPUT"
+expect(xmlpp(html.gsub(%r{^.*<h1>}m, %{<div><h1>}).gsub(%r{</div>.*}m, "</div></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+<div>
 <h1>5<span style="mso-tab-count:1">&#xA0; </span>Clause 4</h1>
         <div><a name="N" id="N"></a><h2>5.1<span style="mso-tab-count:1">&#xA0; </span>Introduction</h2>
 
+ </div>
  </div>
 OUTPUT
             end
 
   it "injects JS into blank html" do
     FileUtils.rm_f "test.html"
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -1010,7 +1012,7 @@ OUTPUT
   end
 
     it "processes eref types" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <itu-standard xmlns="http://riboseinc.com/isoxml">
     <preface><foreword>
     <p>
@@ -1063,7 +1065,7 @@ OUTPUT
   end
 
            it "processes annex with supplied annexid" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
                <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
@@ -1106,7 +1108,7 @@ OUTPUT
            end
 
        it "cross-references formulae" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
             <itu-standard xmlns="http://riboseinc.com/isoxml">
             <preface>
     <foreword>
@@ -1151,7 +1153,7 @@ OUTPUT
        end
 
               it "cross-references annex subclauses" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
@@ -1213,7 +1215,7 @@ OUTPUT
        end
 
                 it "processes IsoXML bibliographies" do
-                      expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+                      expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <itu-standard xmlns="http://riboseinc.com/isoxml">
     <bibdata>
     <language>en</language>
@@ -1288,7 +1290,7 @@ INPUT
                 end
 
   it "processes formulae (Word)" do
-    expect(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(/.*<h1 class="IntroTitle"\/>/m, "").sub(/<br .*$/m, "")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(/.*<h1 class="IntroTitle"\/>/m, "<div>").sub(/<p>&#160;<\/p>.*$/m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <iso-standard xmlns="http://riboseinc.com/isoxml">
     <preface><foreword>
     <formula id="_be9158af-7e93-4ee2-90c5-26d31c181934" unnumbered="true">
@@ -1305,6 +1307,7 @@ INPUT
     </foreword></preface>
     </iso-standard>
     INPUT
+    <div>
     <div id="_be9158af-7e93-4ee2-90c5-26d31c181934" class="formula"><p class="formula"><span style="mso-tab-count:2">&#160; </span><span class="stem">(#(r = 1 %)#)</span></p></div><p>where:</p><table class="dl"><tr><td valign="top" align="left"><p align="left" style="margin-left:0pt;text-align:left;">
            <span class="stem">(#(r)#)</span>
          </p></td><td valign="top">
@@ -1313,15 +1316,11 @@ INPUT
 
 
            </div>
-             <p>&#160;</p>
-           </div>
-           <p>
-
 OUTPUT
   end
 
     it "processes tables (Word)" do
-    expect(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(/.*<h1 class="IntroTitle"\/>/m, "").sub(/<br .*$/m, "")).to be_equivalent_to <<~"OUTPUT"
+      expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(/.*<h1 class="IntroTitle"\/>/m, "<div>").sub(/<p>\s*<br clear="all".*$/m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <iso-standard xmlns="http://riboseinc.com/isoxml">
     <preface><foreword>
     <table id="tableD-1" alt="tool tip" summary="long desc">
@@ -1376,6 +1375,7 @@ OUTPUT
     </foreword></preface>
     </iso-standard>
     INPUT
+    <div>
 <p class="TableTitle" style="text-align:center;">Table 1&#160;&#8212; Repeatability and reproducibility of <i>husked</i> rice yield</p>
                <div align="center">
                  <table id="tableD-1" class="MsoISOTable" style="mso-table-lspace:15.0cm;margin-left:423.0pt;mso-table-rspace:15.0cm;margin-right:423.0pt;mso-table-bspace:14.2pt;mso-table-anchor-vertical:paragraph;mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;" title="tool tip" summary="long desc">
@@ -1433,8 +1433,7 @@ OUTPUT
                </div>
              </div>
              <p>&#160;</p>
-           </div>
-           <p>
+             </div>
 OUTPUT
   end
 
@@ -1472,7 +1471,8 @@ FileUtils.rm_f "test.doc"
       INPUT
      expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-      expect(html.gsub(%r{.*<p class="h1Preface">History</p>}m, '<p class="h1Preface">History</p>').sub(%r{</table>.*$}m, "</table>")).to be_equivalent_to <<~"OUTPUT"
+      expect(xmlpp(html.gsub(%r{.*<p class="h1Preface">History</p>}m, '<div><p class="h1Preface">History</p>').sub(%r{</table>.*$}m, "</table></div></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      <div>
       <p class="h1Preface">History</p>
                <p class="TableTitle" style="text-align:center;">Table 1</p>
                <div align="center">
@@ -1498,11 +1498,12 @@ FileUtils.rm_f "test.doc"
                  <tfoot><tr><td colspan="5" style=""><div class="TableFootnote"><div><a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>
          <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en">http://handle.itu.int/11.1002/1000/11830-en</a></p>
        </div></div></td></tr></tfoot></table>
+       </div></div>
       OUTPUT
     end
 
       it "cross-references subfigures" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         <iso-standard xmlns="http://riboseinc.com/isoxml">
         <preface>
     <foreword id="fwd">
@@ -1614,7 +1615,7 @@ OUTPUT
       end
 
 it "processes hierarchical assets" do
-    expect(IsoDoc::ITU::HtmlConvert.new({hierarchical_assets: true}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({hierarchical_assets: true}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <iso-standard xmlns="http://riboseinc.com/isoxml">
         <preface>
     <foreword id="fwd">
@@ -1735,7 +1736,7 @@ it "processes hierarchical assets" do
 end
 
 it "processes steps class of ordered lists" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <iso-standard xmlns="http://riboseinc.com/isoxml">
     <preface><foreword>
     <ol id="_ae34a226-aab4-496d-987b-1aa7b6314026" class="steps">
@@ -1783,7 +1784,7 @@ it "processes steps class of ordered lists" do
   end
 
 it "cross-references notes" do
-    expect(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <iso-standard xmlns="http://riboseinc.com/isoxml">
     <preface>
     <foreword>

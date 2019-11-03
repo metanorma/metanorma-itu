@@ -11,13 +11,13 @@ RSpec.describe Asciidoctor::ITU do
   #  FileUtils.cd "spec/examples"
   #  Asciidoctor.convert_file "rfc6350.adoc", {:attributes=>{"backend"=>"itu"}, :safe=>0, :header_footer=>true, :requires=>["metanorma-itu"], :failure_level=>4, :mkdirs=>true, :to_file=>nil}
   #  FileUtils.cd "../.."
-  #  expect(File.exist?("spec/examples/rfc6350.doc")).to be true
-  #  expect(File.exist?("spec/examples/rfc6350.html")).to be true
-  #  expect(File.exist?("spec/examples/rfc6350.pdf")).to be true
+  #  expect(xmlpp(File.exist?("spec/examples/rfc6350.doc"))).to be true
+  #  expect(xmlpp(File.exist?("spec/examples/rfc6350.html"))).to be true
+  #  expect(xmlpp(File.exist?("spec/examples/rfc6350.pdf"))).to be true
   #end
 
   it "processes a blank document" do
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     #{ASCIIDOC_BLANK_HDR}
     INPUT
     #{BLANK_HDR}
@@ -28,7 +28,7 @@ RSpec.describe Asciidoctor::ITU do
 
   it "converts a blank document" do
     FileUtils.rm_f "test.html"
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -42,7 +42,7 @@ RSpec.describe Asciidoctor::ITU do
   end
 
     it "processes default metadata" do
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)).to be_equivalent_to <<~'OUTPUT'
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to xmlpp(<<~'OUTPUT')
       = Document title
       Author
       :docfile: test.adoc
@@ -109,7 +109,7 @@ OUTPUT
     end
 
   it "processes explicit metadata" do
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)).to be_equivalent_to <<~'OUTPUT'
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to xmlpp(<<~'OUTPUT')
       = Document title
       Author
       :docfile: test.adoc
@@ -306,7 +306,7 @@ OUTPUT
   end
 
   it "ignores unrecognised status" do
-    expect(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -372,7 +372,7 @@ OUTPUT
     end
 
   it "strips inline header" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       This is a preamble
 
@@ -451,45 +451,9 @@ OUTPUT
     expect(html).to match(%r[h1, h2, h3, h4, h5, h6 \{[^}]+font-family: Comic Sans;]m)
   end
 
-  it "processes inline_quoted formatting" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
-      #{ASCIIDOC_BLANK_HDR}
-
-      _emphasis_
-      *strong*
-      `monospace`
-      "double quote"
-      'single quote'
-      super^script^
-      sub~script~
-      stem:[a_90]
-      stem:[<mml:math><mml:msub xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">F</mml:mi> </mml:mrow> </mml:mrow> <mml:mrow> <mml:mrow> <mml:mi mathvariant="bold-italic">&#x391;</mml:mi> </mml:mrow> </mml:mrow> </mml:msub> </mml:math>]
-      [keyword]#keyword#
-      [strike]#strike#
-      [smallcap]#smallcap#
-    INPUT
-    #{BLANK_HDR}
-       <preface/><sections>
-        <p id="_"><em>emphasis</em>
-       <strong>strong</strong>
-       <tt>monospace</tt>
-       “double quote”
-       ‘single quote’
-       super<sup>script</sup>
-       sub<sub>script</sub>
-       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>a</mi><mn>90</mn></msub></math></stem>
-       <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub> <mrow> <mrow> <mi mathvariant="bold-italic">F</mi> </mrow> </mrow> <mrow> <mrow> <mi mathvariant="bold-italic">Α</mi> </mrow> </mrow> </msub> </math></stem>
-       <keyword>keyword</keyword>
-       <strike>strike</strike>
-       <smallcap>smallcap</smallcap></p>
-       </sections>
-       </itu-standard>
-    OUTPUT
-  end
-
   it "move sections to preface" do
     FileUtils.rm_f "test.html"
-        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       
       [preface]
@@ -515,7 +479,7 @@ OUTPUT
   end
 
   it "processes sections" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)).sub(/^.*<preface/m, "<preface")).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       .Foreword
 
@@ -594,6 +558,7 @@ OUTPUT
       [bibliography]
       == Second Bibliography
     INPUT
+    #{BLANK_HDR.sub(/<status>/, "<abstract> <p id='_'>Text</p> </abstract><status>")}
     <preface><abstract id="_">
   <p id="_">Text</p>
 </abstract></preface><sections><foreword obligation="informative">
@@ -689,7 +654,7 @@ OUTPUT
   end
 
   it "inserts boilerplate before empty Normative References" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       [bibliography]
@@ -707,7 +672,7 @@ OUTPUT
       end
 
  it "inserts boilerplate before non-empty Normative References" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
 
       [bibliography]
@@ -732,7 +697,7 @@ OUTPUT
       end
 
    it "processes stem blocks" do
-    expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       [stem%unnumbered%inequality]
       ++++
@@ -751,7 +716,7 @@ OUTPUT
    end
 
    it "inserts boilerplate before internal and external terms clause" do
-        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{ASCIIDOC_BLANK_HDR}
         == Definitions
         === terms defined elsewhere       
@@ -781,7 +746,7 @@ OUTPUT
    end
 
    it "inserts boilerplate before empty internal and external terms clause" do
-        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{ASCIIDOC_BLANK_HDR}
         == Definitions
         === terms defined elsewhere
@@ -801,7 +766,7 @@ OUTPUT
    end
 
    it "does not insert boilerplate before internal and external terms clause if already populated" do
-        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{ASCIIDOC_BLANK_HDR}
         == Definitions
         === terms defined elsewhere       
@@ -831,7 +796,7 @@ OUTPUT
    end
 
    it "inserts boilerplate before definitions with no internal and external terms clauses" do
-        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{ASCIIDOC_BLANK_HDR}
         == Definitions
         === terms defined somewhere
@@ -859,7 +824,7 @@ OUTPUT
    end
 
    it "does not insert boilerplate before definitions with no internal and external terms clauses, if already populated" do
-        expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+        expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{ASCIIDOC_BLANK_HDR}
         == Definitions
 
@@ -891,7 +856,7 @@ OUTPUT
    end
 
    it "inserts boilerplate before symbols" do
-           expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+           expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{ASCIIDOC_BLANK_HDR}
         == Abbreviations and acronyms
 
@@ -913,8 +878,8 @@ OUTPUT
 OUTPUT
 end
 
-   it "does not insert boilerplate before symbols if alreadt populated" do
-           expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+   it "does not insert boilerplate before symbols if already populated" do
+           expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{ASCIIDOC_BLANK_HDR}
         == Abbreviations and acronyms
 
@@ -937,7 +902,7 @@ OUTPUT
 end
 
   it "processes steps class of ordered lists" do
-           expect(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to <<~"OUTPUT"
+           expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         #{ASCIIDOC_BLANK_HDR}
         == Clause
 
@@ -963,6 +928,38 @@ end
 OUTPUT
 end
 
+it "does not apply smartquotes by default" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+
+      == "Quotation" A's
+
+      `"quote" A's`
+
+      == “Quotation” A’s
+
+      “Quotation” A’s
+    INPUT
+       #{BLANK_HDR}
+       <preface/>
+       <sections><clause id="_" obligation="normative">
+         <title>"Quotation" A's</title>
+         <p id="_">
+         <tt>"quote" A's</tt>
+       </p>
+       </clause>
+       <clause id="_" obligation="normative">
+         <title>"Quotation" A's</title>
+         <p id="_">"Quotation" A's</p>
+       </clause></sections>
+       </itu-standard>
+    OUTPUT
+  end
 
 
 

@@ -1320,7 +1320,7 @@ OUTPUT
   end
 
     it "processes tables (Word)" do
-      expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(/.*<h1 class="IntroTitle"\/>/m, "<div>").sub(/<p>\s*<br clear="all".*$/m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(/.*<h1 class="IntroTitle"\/>/m, "<div>").sub(/<p>&#160;<\/p>.*$/m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <iso-standard xmlns="http://riboseinc.com/isoxml">
     <preface><foreword>
     <table id="tableD-1" alt="tool tip" summary="long desc">
@@ -1431,8 +1431,6 @@ OUTPUT
                    </div>
                  </table>
                </div>
-             </div>
-             <p>&#160;</p>
              </div>
 OUTPUT
   end

@@ -3,6 +3,7 @@ require "asciidoctor/standoc/converter"
 require "fileutils"
 require_relative "./front.rb"
 require_relative "./validate.rb"
+require_relative "./cleanup.rb"
 
 module Asciidoctor
   module ITU
@@ -15,6 +16,11 @@ module Asciidoctor
 
       def title_validate(root)
         nil
+      end
+
+      def init(node)
+        super
+        @smartquotes = node.attr("smartquotes") == "true"
       end
 
       def makexml(node)
@@ -34,7 +40,7 @@ module Asciidoctor
         node.attr("doctype") || "recommendation"
       end
 
-        def olist(node)
+      def olist(node)
         noko do |xml|
           xml.ol **attr_code(id: Asciidoctor::Standoc::Utils::anchor_or_uuid(node),
                              class: node.attr("class")) do |xml_ol|
@@ -81,18 +87,6 @@ module Asciidoctor
         content_validate(doc)
         schema_validate(formattedstr_strip(doc.dup),
                         File.join(File.dirname(__FILE__), "itu.rng"))
-      end
-
-      def sections_cleanup(x)
-        super
-        x.xpath("//*[@inline-header]").each do |h|
-          h.delete("inline-header")
-        end
-      end
-
-      def cleanup(xmldoc)
-        symbols_cleanup(xmldoc)
-        super
       end
 
       def style(n, t)
@@ -152,20 +146,6 @@ module Asciidoctor
         "Definitions"
       end
 
-      def termdef_cleanup(xmldoc)
-        xmldoc.xpath("//term/preferred").each do |p|
-          if ["terms defined elsewhere",
-              "terms defined in this recommendation"].include? p.text.downcase
-            p.name = "title"
-            p.parent.name = "terms"
-          end
-        end
-        super
-      end
-
-      def termdef_boilerplate_cleanup(xmldoc)
-      end
-
       def terms_extract(div)
         internal = nil
         external = nil
@@ -194,12 +174,6 @@ module Asciidoctor
       end
 
       NORM_REF = "//bibliography/references[title = 'References']".freeze
-
-      def symbols_cleanup(xmldoc)
-        sym = xmldoc.at("//definitions/title")
-        sym and sym&.next_element&.name == "dl" and
-          sym.next = "<p>#{@symbols_boilerplate}</p>"
-      end
 
       def load_yaml(lang, script)
         y = if @i18nyaml then YAML.load_file(@i18nyaml)

@@ -1843,6 +1843,74 @@ it "processes steps class of ordered lists (Word)" do
     OUTPUT
   end
 
+it "processes erefs and xrefs (Word)" do
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+<iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <p>
+    <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">A</stem>
+    <eref type="inline" bibitemid="ISO712" citeas="ISO 712">A</stem>
+    <xref target="_http_1_1">Requirement <tt>/req/core/http</tt></xref>
+    </p>
+    </foreword></preface>
+    <bibliography><references id="_normative_references" obligation="informative"><title>References</title>
+<bibitem id="ISO712" type="standard">
+  <title format="text/plain">Cereals and cereal products</title>
+  <docidentifier>ISO 712</docidentifier>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <abbreviation>ISO</abbreviation>
+    </organization>
+  </contributor>
+</bibitem>
+    </references>
+    </bibliography>
+    </iso-standard>
+    INPUT
+    <body lang='EN-US' link='blue' vlink='#954F72'>
+  <div class='WordSection1'>
+    <p>&#160;</p>
+  </div>
+  <p>
+    <br clear='all' class='section'/>
+  </p>
+  <div class='WordSection2'>
+    <div>
+      <h1 class='IntroTitle'/>
+      <p>
+        <sup>A</sup>
+          A Requirement 
+<tt>/req/core/http</tt>
+      </p>
+    </div>
+    <p>&#160;</p>
+  </div>
+  <p>
+    <br clear='all' class='section'/>
+  </p>
+  <div class='WordSection3'>
+    <p class='zzSTDTitle1'/>
+    <p class='zzSTDTitle2'/>
+    <div>
+      <h1>
+        1
+        <span style='mso-tab-count:1'>&#160; </span>
+        References
+      </h1>
+      <p id='ISO712' class='NormRef'>
+        [ISO 712]
+        <span style='mso-tab-count:1'>&#160; </span>
+        ISO 712,
+        <i>Cereals and cereal products</i>
+        .
+      </p>
+    </div>
+  </div>
+</body>
+OUTPUT
+end
+
 it "cross-references notes" do
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <iso-standard xmlns="http://riboseinc.com/isoxml">

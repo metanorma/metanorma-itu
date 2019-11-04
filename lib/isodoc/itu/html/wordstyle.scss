@@ -1523,6 +1523,72 @@ p.Tablebody, li.Tablebody, div.Tablebody
 	mso-level-number-position:left;
 	margin-left:178.65pt;
 	text-indent:-19.85pt;}
+/* steps ordered list */
+@list l4
+        {mso-list-id:525294608;
+        mso-list-template-ids:676331812}
+@list l4:level1
+        {mso-level-text:"%1\)";
+        mso-level-tab-stop:none;
+        mso-level-number-position:left;
+        margin-left:18.0pt;
+        text-indent:-18.0pt;}
+@list l4:level2
+        {mso-level-text:"%2\)";
+        mso-level-number-format:alpha-lower;
+        mso-level-tab-stop:none;
+        mso-level-number-position:left;
+        margin-left:36.0pt;
+        text-indent:-18.0pt;}
+@list l4:level3
+        {mso-level-number-format:roman-lower;
+        mso-level-text:"%3\)";
+        mso-level-tab-stop:none;
+        mso-level-number-position:left;
+        margin-left:54.0pt;
+        text-indent:-18.0pt;}
+@list l4:level4
+        {mso-level-number-format:alpha-upper;
+        mso-level-text:"%4\)";
+        mso-level-tab-stop:none;
+        mso-level-number-position:left;
+        margin-left:72.0pt;
+        text-indent:-18.0pt;}
+@list l4:level5
+        {mso-level-number-format:roman-upper;
+        mso-level-text:"%5\)";
+        mso-level-tab-stop:none;
+        mso-level-number-position:left;
+        margin-left:90.0pt;
+        text-indent:-18.0pt;}
+@list l4:level6
+        {mso-level-text:"%6\)";
+        mso-level-tab-stop:none;
+        mso-level-number-position:left;
+        margin-left:108.0pt;
+        text-indent:-18.0pt;}
+@list l4:level7
+        {mso-level-tab-stop:none;
+        mso-level-number-format:alpha-lower;
+        mso-level-text:"%7\)";
+        mso-level-number-position:left;
+        margin-left:126.0pt;
+        text-indent:-18.0pt;}
+@list l4:level8
+        {mso-level-number-format:roman-lower;
+        mso-level-text:"%8\)";
+        mso-level-tab-stop:none;
+        mso-level-number-position:left;
+        margin-left:144.0pt;
+        text-indent:-18.0pt;}
+@list l4:level9
+        {mso-level-number-format:alpha-upper;
+        mso-level-text:"%9\)";
+        mso-level-tab-stop:none;
+        mso-level-number-position:left;
+        margin-left:162.0pt;
+        text-indent:-18.0pt;}
+
 
 p.ListContLevel1, li.ListContLevel1, div.ListContLevel1
 	{mso-style-priority:34;

@@ -155,6 +155,21 @@ module IsoDoc
         super.merge(valign: "top")
       end
 
+      def ol_parse(node, out)
+      out.ol **attr_code(class: node["class"], id: node["id"] ) do |ol|
+        node.children.each { |n| parse(n, ol) }
+      end
+    end
+
+      def toWord(result, filename, dir, header)
+      result = populate_template(result, :word)
+      result = from_xhtml(word_cleanup(to_xhtml(result)))
+      Html2Doc.process(result, filename: filename, stylesheet: @wordstylesheet,
+                       header_file: header, dir: dir,
+                       asciimathdelims: [@openmathdelim, @closemathdelim],
+                       liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" })
+    end
+
       include BaseConvert
     end
   end

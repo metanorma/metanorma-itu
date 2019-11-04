@@ -1843,6 +1843,42 @@ it "processes steps class of ordered lists (Word)" do
     OUTPUT
   end
 
+it "post-processes steps class of ordered lists (Word)" do
+  FileUtils.rm_f "test.doc"
+    FileUtils.rm_f "test.html"
+    IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <ol id="_ae34a226-aab4-496d-987b-1aa7b6314026" class="steps">
+  <li>
+    <p id="_0091a277-fb0e-424a-aea8-f0001303fe78">all information necessary for the complete identification of the sample;</p>
+  </li>
+  <ol>
+  <li>
+    <p id="_8a7b6299-db05-4ff8-9de7-ff019b9017b2">a reference to this document (i.e. ISO 17301-1);</p>
+  </li>
+  <ol>
+  <li>
+    <p id="_ea248b7f-839f-460f-a173-a58a830b2abe">the sampling method used;</p>
+  </li>
+  </ol>
+  </ol>
+</ol>
+</foreword></preface>
+</iso-standard>
+    INPUT
+    expect(File.exist?("test.doc")).to be true
+    html = File.read("test.doc").sub(/^.*<div>\s*<p class="h1Preface">/m, '<div><p class="h1Preface">').sub(%r{</div>.*$}m, "</div>")
+    expect(xmlpp(html)).to be_equivalent_to xmlpp(<<~"OUTPUT")
+           <div>
+         <p class='h1Preface'/>
+         <p style='mso-list:l4 level1 lfo1;' class='MsoListParagraphCxSpFirst'> all information necessary for the complete identification of the sample; </p>
+         <p class='MsoListParagraphCxSpFirst'> a reference to this document (i.e. ISO 17301-1); </p>
+         <p class='MsoListParagraphCxSpFirst'> the sampling method used; </p>
+       </div>
+    OUTPUT
+end
+
 it "cross-references notes" do
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <iso-standard xmlns="http://riboseinc.com/isoxml">

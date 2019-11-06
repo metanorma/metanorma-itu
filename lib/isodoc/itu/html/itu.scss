@@ -762,6 +762,13 @@ p.RecNo, li.RecNo, div.RecNo
 	mso-fareast-language:EN-US;
 	font-weight:bold;
 	mso-bidi-font-weight:normal;}
+span.addition {
+        color: blue;
+}
+span.deletion {
+        color: red;
+        text-decoration: line-through;
+}
 
 @page {
 	mso-page-border-surround-header:no;

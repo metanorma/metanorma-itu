@@ -211,6 +211,33 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
     OUTPUT
   end
 
+  it "processes add, del" do
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+<itu-standard xmlns="https://www.calconnect.org/standards/itu">
+<preface><foreword id="A">
+<add>ABC <xref target="A"></add> <del><strong>B</strong></del>
+</foreword></preface>
+</itu-standard>
+    INPUT
+        #{HTML_HDR}
+             <div id='A'>
+             <h1 class='IntroTitle'/>
+  <span class='addition'>
+               ABC 
+               <a href='#A'>Foreword</a>
+               <span class='deletion'>
+                 <b>B</b>
+               </span>
+             </span>
+             </div>
+             <p class="zzSTDTitle1"/>
+             <p class="zzSTDTitle2"/>
+           </div>
+         </body>
+    OUTPUT
+  end
+
+
   it "processes simple terms & definitions" do
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
                <itu-standard xmlns="http://riboseinc.com/isoxml">

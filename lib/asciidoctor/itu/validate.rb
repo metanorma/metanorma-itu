@@ -26,6 +26,7 @@ module Asciidoctor
         approval_validate(doc)
         itu_identifier_validate(doc)
         bibdata_validate(doc.root)
+        termdef_style(doc.root)
       end
 
       def approval_validate(xmldoc)
@@ -46,6 +47,19 @@ module Asciidoctor
         end
       end
 
+      def termdef_style(xmldoc)
+        xmldoc.xpath("//term").each do |t|
+          para = t.at("./definition") || return
+          term = t.at("./preferred").text
+          termdef_warn(term, /^[A-Z][a-z]+/, term, "term is not lowercase")
+          termdef_warn(para.text, /^[a-z]/, term, "term definition does not start with capital")
+          termdef_warn(para.text, /[^.]$/, term, "term definition does not end with period")
+        end
+      end
+
+      def termdef_warn(text, re, term, msg)
+        re.match(text) && warn("ITU style: #{term}: #{msg}")
+      end
     end
   end
 end

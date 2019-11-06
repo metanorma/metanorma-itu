@@ -4,6 +4,7 @@ require "fileutils"
 require_relative "./front.rb"
 require_relative "./validate.rb"
 require_relative "./cleanup.rb"
+require_relative "./macros.rb"
 
 module Asciidoctor
   module ITU
@@ -13,6 +14,11 @@ module Asciidoctor
     #
     class Converter < Standoc::Converter
       register_for "itu"
+
+      Asciidoctor::Extensions.register do
+        inline_macro AddMacro
+        inline_macro DelMacro
+      end
 
       def title_validate(root)
         nil

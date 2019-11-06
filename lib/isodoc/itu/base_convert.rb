@@ -211,6 +211,26 @@ module IsoDoc
           insert_tab(s, 1)
         end
       end
+
+      def add_parse(node, out)
+        out.span **{class: "addition"} do |e|
+          node.children.each { |n| parse(n, e) }
+        end
+      end
+
+       def del_parse(node, out)
+        out.span **{class: "deletion"} do |e|
+          node.children.each { |n| parse(n, e) }
+        end
+      end
+      def error_parse(node, out)
+        case node.name
+        when "add" then add_parse(node, out)
+        when "del" then del_parse(node, out)
+        else
+          super
+        end
+      end
     end
   end
 end

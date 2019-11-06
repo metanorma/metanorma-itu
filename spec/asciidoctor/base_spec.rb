@@ -1016,4 +1016,32 @@ it "does not apply smartquotes by default" do
 end
 end
 
+   it "add, del macros" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+
+      [[clause]]
+      == Clause
+
+      add:[a <<clause>>] del:[B]
+    INPUT
+       #{BLANK_HDR}
+       <preface/>
+       <sections>
+       <clause id='clause' obligation='normative'>
+             <title>Clause</title>
+             <p id='_'>
+               <add>
+                 a
+                 <xref target='clause'/>
+               </add>
+               <del>B</del>
+             </p>
+           </clause>
+</sections>
+       </itu-standard>
+    OUTPUT
+  end
+
+
 end

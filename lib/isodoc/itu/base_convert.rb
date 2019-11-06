@@ -40,11 +40,17 @@ module IsoDoc
         ""
       end
 
+      def note_label(node)
+        n = get_anchors[node["id"]]
+        return "#{@note_lbl} &ndash; " if n.nil? || n[:label].nil? || n[:label].empty?
+        l10n("#{@note_lbl} #{n[:label]} &ndash; ")
+      end
+
       def formula_where(dl, out)
-      return unless dl
-      out.p { |p| p << l10n("#{@where_lbl}:") }
-      parse(dl, out)
-    end
+        return unless dl
+        out.p { |p| p << l10n("#{@where_lbl}:") }
+        parse(dl, out)
+      end
 
       def prefix_container(container, linkend, _target)
         l10n("#{linkend} #{@labels["in"]} #{anchor(container, :xref)}")
@@ -218,11 +224,12 @@ module IsoDoc
         end
       end
 
-       def del_parse(node, out)
+      def del_parse(node, out)
         out.span **{class: "deletion"} do |e|
           node.children.each { |n| parse(n, e) }
         end
       end
+
       def error_parse(node, out)
         case node.name
         when "add" then add_parse(node, out)
@@ -230,6 +237,25 @@ module IsoDoc
         else
           super
         end
+      end
+
+      def note_p_parse(node, div)
+        div.p do |p|
+          p.span **{ class: "note_label" } do |s|
+            s << note_label(node)
+          end
+          node.first_element_child.children.each { |n| parse(n, p) }
+        end
+        node.element_children[1..-1].each { |n| parse(n, div) }
+      end
+
+      def note_parse1(node, div)
+        div.p do |p|
+          p.span **{ class: "note_label" } do |s|
+            s << note_label(node)
+          end
+        end
+        node.children.each { |n| parse(n, div) }
       end
     end
   end

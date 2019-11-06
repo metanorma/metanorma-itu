@@ -1454,7 +1454,7 @@ OUTPUT
                      </tr>
                    </table>
                    <div id="" class="Note">
-                     <p class="Note"><span class="note_label">NOTE</span><span style="mso-tab-count:1">&#160; </span>This is a table about rice</p>
+                     <p><span class="note_label">NOTE &#8211; </span>This is a table about rice</p>
                    </div>
                  </table>
                </div>
@@ -2021,10 +2021,10 @@ it "cross-references notes" do
              <div id="intro">
                <h1 class="IntroTitle"/>
                <div id="N1" class="Note">
-                 <p><span class="note_label">NOTE</span>&#160; These results are based on a study carried out on three different types of kernel.</p>
+                 <p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p>
                </div>
                <div id="xyz"><h2>Preparatory</h2>
-           <div id="N2" class="Note"><p><span class="note_label">NOTE</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="N2" class="Note"><p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
        </div>
              </div>
              <p class="zzSTDTitle1"/>
@@ -2032,7 +2032,7 @@ it "cross-references notes" do
              <div id="scope">
                <h1>1&#160; Scope</h1>
                <div id="N" class="Note">
-                 <p><span class="note_label">NOTE</span>&#160; These results are based on a study carried out on three different types of kernel.</p>
+                 <p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p>
                </div>
                <p>
                  <a href="#N">Note</a>
@@ -2045,8 +2045,8 @@ it "cross-references notes" do
              <div id="widgets">
                <h1>3&#160; Widgets</h1>
                <div id="widgets1"><h2>3.1&#160; </h2>
-           <div id="note1" class="Note"><p><span class="note_label">NOTE  1</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
-           <div id="note2" class="Note"><p><span class="note_label">NOTE  2</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="note1" class="Note"><p><span class="note_label">NOTE  1 &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="note2" class="Note"><p><span class="note_label">NOTE  2 &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
        <p>    <a href="#note1">Note  1</a> <a href="#note2">Note  2</a> </p>
 
            </div>
@@ -2054,11 +2054,11 @@ it "cross-references notes" do
              <br/>
              <div id="annex1" class="Section3">
                <div id="annex1a"><h2>A.1&#160; </h2>
-           <div id="AN" class="Note"><p><span class="note_label">NOTE</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="AN" class="Note"><p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
            </div>
                <div id="annex1b"><h2>A.2&#160; </h2>
-           <div id="Anote1" class="Note"><p><span class="note_label">NOTE  1</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
-           <div id="Anote2" class="Note"><p><span class="note_label">NOTE  2</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="Anote1" class="Note"><p><span class="note_label">NOTE  1 &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="Anote2" class="Note"><p><span class="note_label">NOTE  2 &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
            </div>
              </div>
            </div>
@@ -2066,5 +2066,170 @@ it "cross-references notes" do
 
 OUTPUT
 end
+
+it "processes unlabelled notes" do
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <note>
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    </foreword></preface>
+    </iso-standard>
+    INPUT
+    #{HTML_HDR}
+               <div>
+               <h1 class='IntroTitle'/>
+                 <div id="" class="Note">
+                   <p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p>
+                 </div>
+               </div>
+               <p class="zzSTDTitle1"/>
+               <p class='zzSTDTitle2'/>
+             </div>
+           </body>
+    OUTPUT
+  end
+
+it "processes unlabelled notes (Word)" do
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <note>
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    </foreword></preface>
+    </iso-standard>
+    INPUT
+    <body lang='EN-US' link='blue' vlink='#954F72'>
+         <div class='WordSection1'>
+           <p>&#160;</p>
+         </div>
+         <p>
+           <br clear='all' class='section'/>
+         </p>
+         <div class='WordSection2'>
+           <div>
+             <h1 class='IntroTitle'/>
+             <div id='' class='Note'>
+               <p>
+                 <span class='note_label'>NOTE &#8211; </span>
+                 These results are based on a study carried out on three different
+                 types of kernel.
+               </p>
+             </div>
+           </div>
+           <p>&#160;</p>
+         </div>
+         <p>
+           <br clear='all' class='section'/>
+         </p>
+         <div class='WordSection3'>
+           <p class='zzSTDTitle1'/>
+           <p class='zzSTDTitle2'/>
+         </div>
+       </body>
+    OUTPUT
+  end
+
+ it "processes sequences of notes" do
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <note id="note1">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    <note id="note2">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83a">These results are based on a study carried out on three different types of kernel.</p>
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    </foreword></preface>
+    </iso-standard>
+INPUT
+    #{HTML_HDR}
+    <div>
+             <h1 class='IntroTitle'/>
+             <div id='note1' class='Note'>
+               <p>
+                 <span class='note_label'>NOTE 1 &#8211; </span>
+                 These results are based on a study carried out on three
+                 different types of kernel.
+               </p>
+             </div>
+             <div id='note2' class='Note'>
+               <p>
+                 <span class='note_label'>NOTE 2 &#8211; </span>
+                 These results are based on a study carried out on three
+                 different types of kernel.
+               </p>
+               <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b'>
+                 These results are based on a study carried out on three different
+                 types of kernel.
+               </p>
+             </div>
+           </div>
+           <p class='zzSTDTitle1'/>
+           <p class='zzSTDTitle2'/>
+         </div>
+       </body>
+    OUTPUT
+  end
+
+  it "processes sequences of notes (Word)" do
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <note id="note1">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    <note id="note2">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83a">These results are based on a study carried out on three different types of kernel.</p>
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    </foreword></preface>
+    </iso-standard>
+INPUT
+<body lang='EN-US' link='blue' vlink='#954F72'>
+         <div class='WordSection1'>
+           <p>&#160;</p>
+         </div>
+         <p>
+           <br clear='all' class='section'/>
+         </p>
+         <div class='WordSection2'>
+           <div>
+             <h1 class='IntroTitle'/>
+             <div id='note1' class='Note'>
+               <p>
+                 <span class='note_label'>NOTE 1 &#8211; </span>
+                 These results are based on a study carried out on three different
+                 types of kernel.
+               </p>
+             </div>
+             <div id='note2' class='Note'>
+               <p>
+                 <span class='note_label'>NOTE 2 &#8211; </span>
+                 These results are based on a study carried out on three different
+                 types of kernel.
+               </p>
+               <p class='Note' id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b'>
+                 These results are based on a study carried out on three different
+                 types of kernel.
+               </p>
+             </div>
+           </div>
+           <p>&#160;</p>
+         </div>
+         <p>
+           <br clear='all' class='section'/>
+         </p>
+         <div class='WordSection3'>
+           <p class='zzSTDTitle1'/>
+           <p class='zzSTDTitle2'/>
+         </div>
+       </body>
+    OUTPUT
+  end
+
 
 end

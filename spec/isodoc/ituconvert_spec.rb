@@ -249,6 +249,13 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
          <termsource><origin citeas="XYZ">x y z</origin></termsource>
          <termnote id="J1"><p>This is a note</p></termnote>
        </term>
+         <term id="K">
+         <preferred>Term3</preferred>
+         <definition><p>This is a journey into sound</p></definition>
+         <termsource><origin citeas="XYZ">x y z</origin></termsource>
+         <termnote id="J2"><p>This is a note</p></termnote>
+         <termnote id="J3"><p>This is a note</p></termnote>
+       </term>
         </terms>
         </sections>
         </itu-standard>
@@ -257,14 +264,31 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
                <p class="zzSTDTitle1"/>
              <p class="zzSTDTitle2"/>
                <div id="H"><h1>1&#160; Definitions</h1>
-               <div id="J"><p class="TermNum" id="J"><b>1.1&#160; Term2</b> [XYZ]: </p><p>This is a journey into sound</p>
-
-
-
-         <div class="Note"><p>NOTE 1: This is a note</p></div>
-       </div>
-        </div>
+               <div id='J'>
+               <p class='TermNum' id='J'>
+                 <b>1.1&#160; Term2</b>
+                  [XYZ]: 
+               </p>
+               <p>This is a journey into sound</p>
+               <div class='Note'>
+                 <p>NOTE &#8211; This is a note</p>
+               </div>
+             </div>
+             <div id='K'>
+               <p class='TermNum' id='K'>
+                 <b>1.2&#160; Term3</b>
+                  [XYZ]: 
+               </p>
+               <p>This is a journey into sound</p>
+               <div class='Note'>
+                 <p>NOTE 1 &#8211; This is a note</p>
+               </div>
+               <div class='Note'>
+                 <p>NOTE 2 &#8211; This is a note</p>
+               </div>
+             </div>
            </div>
+         </div>
          </body>
     OUTPUT
   end
@@ -295,7 +319,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
 
 
 
-         <div class="Note"><p>NOTE 1: This is a note</p></div>
+         <div class="Note"><p>NOTE &#x2013; This is a note</p></div>
        </div>
         </div>
            </main>
@@ -2230,6 +2254,5 @@ INPUT
        </body>
     OUTPUT
   end
-
 
 end

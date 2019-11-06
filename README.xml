@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itu-standard xmlns="https://open.ribose.com/standards/itu">
+<bibdata type="standard">
+  <title language="en" format="text/plain" type="main">metanorma-itu: Asciidoctor processor for ITU</title>
+  <contributor>
+    <role type="author"/>
+    <organization>
+      <name>International Telecommunication Union</name>
+      <abbreviation>ITU</abbreviation>
+    </organization>
+  </contributor>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <name>International Telecommunication Union</name>
+      <abbreviation>ITU</abbreviation>
+    </organization>
+  </contributor>
+  
+  <language>en</language>
+  <script>Latn</script>
+  <status>
+    <stage>published</stage>
+  </status>
+  <copyright>
+    <from>2019</from>
+    <owner>
+      <organization>
+        <name>International Telecommunication Union</name>
+        <abbreviation>ITU</abbreviation>
+      </organization>
+    </owner>
+  </copyright>
+  <ext>
+    <doctype>article</doctype>
+    <editorialgroup>
+      <bureau>T</bureau>
+      <group>
+        
+      </group>
+    </editorialgroup>
+    <ip-notice-received>false</ip-notice-received>
+  </ext>
+</bibdata>
+<preface/><sections><foreword obligation="informative"><title>Foreword</title><p id="_98914bed-6b19-4853-9a73-363ef62f1c98"><image src="https://img.shields.io/gem/v/metanorma-itu.svg" id="_ef45dc41-b5ba-4380-aec3-61a3d323ca6b" mimetype="image/svg+xml" height="auto" width="auto" alt="Gem Version"/>
+<image src="https://travis-ci.com/metanorma/metanorma-itu.svg?branch=master" id="_62bd2aa1-2bcd-40a5-881b-5c162191b1b1" mimetype="" height="auto" width="auto" alt="Build Status"/>
+<image src="https://codeclimate.com/github/metanorma/metanorma-itu/badges/gpa.svg" id="_3cffe663-ab71-4c49-9b9f-bae2527745dd" mimetype="image/svg+xml" height="auto" width="auto" alt="Code Climate"/>
+<image src="https://ci.appveyor.com/api/projects/status/lo05dblngrgx2tlq?svg=true" id="_ce45cb7e-e7f3-4f40-b14c-94a3a44e5ff7" mimetype="" height="auto" width="auto" alt="Appveyor Build Status"/></p>
+<admonition id="_0fbdc51f-53af-428e-9307-e91d71d1b5b3" type="warning">
+  <p id="_f092b45d-15c4-4c8e-9295-7d8b78293ad6">This gem is still under development.</p>
+</admonition></foreword>
+<clause id="_functionality" obligation="normative"><title>Functionality</title><p id="_9cbab31d-ed4f-412f-86ff-75f4418812ff">This gem processes <link target="http://asciidoctor.org/">Asciidoctor</link> documents following
+a template for generating ITU documents.</p>
+<p id="_69d0b56b-d487-4a6b-bf81-e0021936ded7">The gem currently inherits from the <link target="https://github.com/metanorma/metanorma-standoc"/>
+gem, and aligns closely to it. Refer to the ISO gem documentation
+for guidance, including <link target="https://github.com/metanorma/metanorma-iso/wiki/Guidance-for-authoring"/></p>
+<p id="_14bb5daa-347f-448a-b735-b60a0425b7bd">The following outputs are generated.</p>
+<ul id="_50d7bf72-fe41-45dd-bdcd-a8d524a2b0cc">
+  <li>
+    <p id="_1e69c949-4751-4d30-8561-4e695a0c07a5">an XML representation of the document, intended as a document model for ITU documents.</p>
+  </li>
+  <li>
+    <p id="_5fee6ac3-64dd-449f-a9a4-c7692cd023b9">The XML representation is processed in turn to generate the following outputs
+as end deliverable ITU documents.</p>
+    <ul id="_bc03992c-9b4c-4df9-8c39-9288dd03a82b">
+  <li>
+    <p id="_54f05dee-3cb2-4c25-b5e2-c03317894be9">HTML</p>
+  </li>
+  <li>
+    <p id="_65f62144-8a8b-423d-988b-2966c6a9cd69"><link target="http://asciimath.org">AsciiMathML</link> is to be used for mathematical formatting.
+The gem uses the <link target="https://github.com/asciidoctor/asciimath">Ruby AsciiMath parser</link>,
+which is syntactically stricter than the common MathJax processor;
+if you do not get expected results, try bracketing terms your in AsciiMathML
+expressions.</p>
+  </li>
+</ul>
+  </li>
+</ul></clause>
+<clause id="_usage" obligation="normative"><title>Usage</title><p id="_9aea35aa-5e4f-487c-a0d3-d5d38bc7b588">The preferred way to invoke this gem is via the <tt>metanorma</tt> script:</p>
+<sourcecode lang="console" id="_c25ef984-2035-4c01-bfcf-aa35effa53de">$ metanorma --type itu a.adoc                   # output HTML
+$ metanorma --type itu --extensions html a.adoc # output just HTML
+$ metanorma --type itu --extensions xml a.adoc  # output RSD XML</sourcecode>
+
+<p id="_7e293c37-199b-4bc7-b807-1436eee65df5">The gem translates the document into Metanorma XML format, and then
+validates its output against the Metanorma XML document model; errors are
+reported to console against the XML, and are intended for users to
+check that they have provided all necessary components of the
+document.</p>
+<p id="_eeae9109-8839-4e71-8458-bab2565b6828">The gem then converts the XML into HTML.</p>
+<clause id="_installation" obligation="normative"><title>Installation</title><p id="_e3cb5947-d8bf-433d-a2cd-d17ab747c774">If you are using a Mac, the <link target="https://github.com/metanorma/metanorma-macos-setup"/>
+repository has instructions on setting up your machine to run Metanorma
+scripts such as this one. You need only run the following in a Terminal console:</p>
+<sourcecode lang="console" id="_0fd4d1ba-01fb-42b2-9748-91cf7751a1e4">$ bash &lt;(curl -s https://raw.githubusercontent.com/metanorma/metanorma-macos-setup/master/metanorma-setup)
+$ gem install metanorma-acme
+$ gem install metanorma-cli</sourcecode>
+</clause></clause>
+<clause id="_documentation" obligation="normative">
+  <title>Documentation</title>
+  <p id="_5a785e76-a058-4e95-9f75-16a43d14401f">See <link target="https://www.metanorma.com/author/itu/">Write ITU-T documents with Metanorma</link>.</p>
+</clause>
+<clause id="_examples" obligation="normative">
+  <title>Examples</title>
+  <ul id="_ad05bf04-9924-485b-a56f-dd7b0aedce8a">
+  <li>
+    <p id="_cd87b504-47cd-4d10-aa27-40b275b3c5cf"><link target="spec/examples/rfc6350.adoc"/> is an Metanorma Asciidoctor version of <link target="https://tools.ietf.org/html/rfc6350">RFC 6350</link>.</p>
+  </li>
+  <li>
+    <p id="_a2647ade-4fa1-4674-bbcb-97efab0e825d"><link target="spec/examples/rfc6350.html"/> is an HTML file generated from the Asciidoctor.</p>
+  </li>
+  <li>
+    <p id="_efc20954-fdf5-4a77-b7d9-14fa93f4a86d"><link target="spec/examples/rfc6350.doc"/> is a Word document generated from the Asciidoctor.</p>
+  </li>
+</ul>
+</clause></sections>
+</itu-standard>

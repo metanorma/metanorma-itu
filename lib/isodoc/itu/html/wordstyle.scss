@@ -296,18 +296,18 @@ a:link, span.MsoHyperlink
 	{mso-style-unhide:no;
 	mso-style-parent:"";
 	color:blue;
-        font-family:"Arial",sans-serif;
-        font-size:8pt;
-	text-decoration:underline;
-	text-underline:single;}
+}
 a:visited, span.MsoHyperlinkFollowed
 	{mso-style-unhide:no;
 	mso-style-parent:"";
+	color:purple;}
+a.url {
         font-family:"Arial",sans-serif;
         font-size:8pt;
-	color:purple;
 	text-decoration:underline;
-	text-underline:single;}
+	text-underline:single;
+}
+
 p.MsoCommentSubject, li.MsoCommentSubject, div.MsoCommentSubject
 	{mso-style-noshow:yes;
 	mso-style-unhide:no;
@@ -853,7 +853,6 @@ p.MsoToc1, li.MsoToc1, div.MsoToc1
 	mso-fareast-font-family:$bodyfont;
 	mso-bidi-font-family:$bodyfont;
 	mso-ansi-language:EN-GB;
-	font-weight:bold;
 	mso-bidi-font-weight:normal;}
 p.MsoToc2, li.MsoToc2, div.MsoToc2
 	{mso-style-noshow:yes;

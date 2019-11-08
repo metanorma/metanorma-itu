@@ -1894,7 +1894,7 @@ it "processes steps class of ordered lists (Word)" do
     OUTPUT
   end
 
-it "processes erefs and xrefs (Word)" do
+it "processes erefs and xrefs and links (Word)" do
     expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 <iso-standard xmlns="http://riboseinc.com/isoxml">
     <preface><foreword>
@@ -1902,6 +1902,8 @@ it "processes erefs and xrefs (Word)" do
     <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">A</stem>
     <eref type="inline" bibitemid="ISO712" citeas="ISO 712">A</stem>
     <xref target="_http_1_1">Requirement <tt>/req/core/http</tt></xref>
+    <link target="http://www.example.com">Test</link>
+    <link target="http://www.example.com"/>
     </p>
     </foreword></preface>
     <bibliography><references id="_normative_references" obligation="informative"><title>References</title>

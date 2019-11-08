@@ -1540,12 +1540,12 @@ FileUtils.rm_f "test.doc"
                        <td align="left" style="" valign="top">1993-03-12</td>
                        <td align="left" style="" valign="top">XV</td>
                        <td align="left" style="" valign="top">
-               <a href="http://handle.itu.int/11.1002/1000/879">11.1002/1000/879</a>
+               <a href="http://handle.itu.int/11.1002/1000/879" class="url">11.1002/1000/879</a>
              </td>
                      </tr>
                    </tbody>
                  <tfoot><tr><td colspan="5" style=""><div class="TableFootnote"><div><a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>
-         <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en">http://handle.itu.int/11.1002/1000/11830-en</a></p>
+         <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11.1002/1000/11830-en</a></p>
        </div></div></td></tr></tfoot></table>
        </div></div>
       OUTPUT
@@ -1932,9 +1932,16 @@ it "processes erefs and xrefs and links (Word)" do
     <div>
       <h1 class='IntroTitle'/>
       <p>
-        <sup>A</sup>
-          A Requirement 
-<tt>/req/core/http</tt>
+      <sup>
+  <a href='#ISO712'>A</a>
+</sup>
+<a href='#ISO712'>A</a>
+<a href='#_http_1_1'>
+  Requirement 
+  <tt>/req/core/http</tt>
+</a>
+<a href='http://www.example.com' class='url'>Test</a>
+<a href='http://www.example.com' class='url'>http://www.example.com</a>
       </p>
     </div>
     <p>&#160;</p>

@@ -1928,6 +1928,7 @@ it "post-processes steps class of ordered lists (Word)" do
          <p class='MsoListParagraphCxSpFirst'> the sampling method used; </p>
        </div>
     OUTPUT
+end
 
 it "processes erefs and xrefs and links (Word)" do
     expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")

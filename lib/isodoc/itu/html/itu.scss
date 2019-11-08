@@ -762,6 +762,13 @@ p.RecNo, li.RecNo, div.RecNo
 	mso-fareast-language:EN-US;
 	font-weight:bold;
 	mso-bidi-font-weight:normal;}
+span.addition {
+        color: blue;
+}
+span.deletion {
+        color: red;
+        text-decoration: line-through;
+}
 
 @page {
 	mso-page-border-surround-header:no;
@@ -949,7 +956,7 @@ div.Note  p.MsoListParagraph {
 
 span.note_label, span.example_label, td.example_label, td.note_label
 {
-font-size: 10.0pt;
+font-size: 11.0pt;
 font-family:$bodyfont;
 }
 

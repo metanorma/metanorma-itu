@@ -682,6 +682,8 @@ p.Biblio, p.NormRef {
 
 .example .Sourcecode, .example .pseudocode {
       background: none;
+      margin: 0;
+      padding: 0 0 0 2em;
 }
 
 .pseudocode {
@@ -839,6 +841,15 @@ p {
 
 h2 p {
   display: inline;
+}
+
+.addition {
+  color: blue;
+}
+
+.deletion {
+  color: red;
+  text-decoration: line-through;
 }
 
 

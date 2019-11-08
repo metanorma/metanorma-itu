@@ -42,6 +42,51 @@ module Asciidoctor
         sym and sym&.next_element&.name == "dl" and
           sym.next = "<p>#{@symbols_boilerplate}</p>"
       end
+
+      PUBLISHER = "./contributor[role/@type = 'publisher']/organization".freeze
+
+      def pub_class(bib)
+        return 1 if bib.at("#{PUBLISHER}[abbreviation = 'ITU']")
+        return 1 if bib.at("#{PUBLISHER}[name = 'International Telecommunication Union']")
+        return 2 if bib.at("#{PUBLISHER}[abbreviation = 'ISO']")
+        return 2 if bib.at("#{PUBLISHER}[name = 'International Organization "\
+                           "for Standardization']")
+        return 3 if bib.at("#{PUBLISHER}[abbreviation = 'IEC']")
+        return 3 if bib.at("#{PUBLISHER}[name = 'International "\
+                           "Electrotechnical Commission']")
+        return 4 if bib.at("./docidentifier[@type][not(@type = 'DOI' or "\
+                           "@type = 'metanorma' or @type = 'ISSN' or @type = 'ISBN')]")
+        5
+      end
+
+      def sort_biblio(bib)
+        bib.sort do |a, b|
+          sort_biblio_key(a) <=> sort_biblio_key(b)
+        end
+      end
+
+      # sort by: doc class (ITU, ISO, IEC, other standard (not DOI &c), other
+      # then standard class (docid class other than DOI &c)
+      # then alphanumeric doc id (not DOI &c)
+      # then title
+      def sort_biblio_key(bib)
+        pubclass = pub_class(bib)
+        num = bib&.at("./docnumber")&.text
+        id = bib&.at("./docidentifier[not(@type = 'DOI' or "\
+                           "@type = 'metanorma' or @type = 'ISSN' or @type = 'ISBN')]")
+        metaid = bib&.at("./docidentifier[@type = 'metanorma']")&.text
+        abbrid = metaid unless /^\[\d+\]$/.match(metaid)
+        type = id['type'] if id
+        title = bib&.at("./title[@type = 'main']")&.text ||
+          bib&.at("./title")&.text || bib&.at("./formattedref")&.text
+        "#{pubclass} :: #{type} :: #{id&.text || metaid} :: #{title}"
+      end
+
+      def biblio_reorder(xmldoc)
+        xmldoc.xpath("//references").each do |r|
+          biblio_reorder1(r)
+        end
+      end
     end
   end
 end

@@ -70,5 +70,38 @@ it "Warns if not Recommendation Status determined or in-force, and Process TAP" 
   INPUT
 end
 
+it "Warning if term definition does not start with capital" do
+  expect { Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true) }.to output(%r{term definition does not start with capital}).to_stderr
+  #{VALIDATING_BLANK_HDR}
+  == Terms and Definitions
+  
+  === Term
+
+  the definition of a term is a part of the specialized vocabulary of a particular field
+  INPUT
+end
+
+it "Warning if term definition does not end with period" do
+  expect { Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true) }.to output(%r{term definition does not end with period}).to_stderr
+  #{VALIDATING_BLANK_HDR}
+  == Terms and Definitions
+  
+  === Term
+
+  Part of the specialized vocabulary of a particular field
+  INPUT
+end
+
+it "Warning if term is not lowercase" do
+  expect { Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true) }.to output(%r{Fred: term is not lowercase}).to_stderr
+  #{VALIDATING_BLANK_HDR}
+  == Terms and Definitions
+
+  === Fred
+
+  Part of the specialized vocabulary of a particular field
+  INPUT
+end
+
 
 end

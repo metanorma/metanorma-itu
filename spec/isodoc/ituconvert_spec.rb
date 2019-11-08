@@ -211,6 +211,33 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
     OUTPUT
   end
 
+  it "processes add, del" do
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+<itu-standard xmlns="https://www.calconnect.org/standards/itu">
+<preface><foreword id="A">
+<add>ABC <xref target="A"></add> <del><strong>B</strong></del>
+</foreword></preface>
+</itu-standard>
+    INPUT
+        #{HTML_HDR}
+             <div id='A'>
+             <h1 class='IntroTitle'/>
+  <span class='addition'>
+               ABC 
+               <a href='#A'>Foreword</a>
+               <span class='deletion'>
+                 <b>B</b>
+               </span>
+             </span>
+             </div>
+             <p class="zzSTDTitle1"/>
+             <p class="zzSTDTitle2"/>
+           </div>
+         </body>
+    OUTPUT
+  end
+
+
   it "processes simple terms & definitions" do
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
                <itu-standard xmlns="http://riboseinc.com/isoxml">
@@ -222,6 +249,13 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
          <termsource><origin citeas="XYZ">x y z</origin></termsource>
          <termnote id="J1"><p>This is a note</p></termnote>
        </term>
+         <term id="K">
+         <preferred>Term3</preferred>
+         <definition><p>This is a journey into sound</p></definition>
+         <termsource><origin citeas="XYZ">x y z</origin></termsource>
+         <termnote id="J2"><p>This is a note</p></termnote>
+         <termnote id="J3"><p>This is a note</p></termnote>
+       </term>
         </terms>
         </sections>
         </itu-standard>
@@ -230,14 +264,31 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
                <p class="zzSTDTitle1"/>
              <p class="zzSTDTitle2"/>
                <div id="H"><h1>1&#160; Definitions</h1>
-               <div id="J"><p class="TermNum" id="J"><b>1.1&#160; Term2</b> [XYZ]: </p><p>This is a journey into sound</p>
-
-
-
-         <div class="Note"><p>NOTE 1: This is a note</p></div>
-       </div>
-        </div>
+               <div id='J'>
+               <p class='TermNum' id='J'>
+                 <b>1.1&#160; Term2</b>
+                  [XYZ]: 
+               </p>
+               <p>This is a journey into sound</p>
+               <div class='Note'>
+                 <p>NOTE &#8211; This is a note</p>
+               </div>
+             </div>
+             <div id='K'>
+               <p class='TermNum' id='K'>
+                 <b>1.2&#160; Term3</b>
+                  [XYZ]: 
+               </p>
+               <p>This is a journey into sound</p>
+               <div class='Note'>
+                 <p>NOTE 1 &#8211; This is a note</p>
+               </div>
+               <div class='Note'>
+                 <p>NOTE 2 &#8211; This is a note</p>
+               </div>
+             </div>
            </div>
+         </div>
          </body>
     OUTPUT
   end
@@ -268,7 +319,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
 
 
 
-         <div class="Note"><p>NOTE 1: This is a note</p></div>
+         <div class="Note"><p>NOTE &#x2013; This is a note</p></div>
        </div>
         </div>
            </main>
@@ -1427,7 +1478,7 @@ OUTPUT
                      </tr>
                    </table>
                    <div id="" class="Note">
-                     <p class="Note"><span class="note_label">NOTE</span><span style="mso-tab-count:1">&#160; </span>This is a table about rice</p>
+                     <p><span class="note_label">NOTE &#8211; </span>This is a table about rice</p>
                    </div>
                  </table>
                </div>
@@ -1489,12 +1540,12 @@ FileUtils.rm_f "test.doc"
                        <td align="left" style="" valign="top">1993-03-12</td>
                        <td align="left" style="" valign="top">XV</td>
                        <td align="left" style="" valign="top">
-               <a href="http://handle.itu.int/11.1002/1000/879">11.1002/1000/879</a>
+               <a href="http://handle.itu.int/11.1002/1000/879" class="url">11.1002/1000/879</a>
              </td>
                      </tr>
                    </tbody>
                  <tfoot><tr><td colspan="5" style=""><div class="TableFootnote"><div><a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>
-         <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en">http://handle.itu.int/11.1002/1000/11830-en</a></p>
+         <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11.1002/1000/11830-en</a></p>
        </div></div></td></tr></tfoot></table>
        </div></div>
       OUTPUT
@@ -1877,6 +1928,82 @@ it "post-processes steps class of ordered lists (Word)" do
          <p class='MsoListParagraphCxSpFirst'> the sampling method used; </p>
        </div>
     OUTPUT
+
+it "processes erefs and xrefs and links (Word)" do
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+<iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <p>
+    <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">A</stem>
+    <eref type="inline" bibitemid="ISO712" citeas="ISO 712">A</stem>
+    <xref target="_http_1_1">Requirement <tt>/req/core/http</tt></xref>
+    <link target="http://www.example.com">Test</link>
+    <link target="http://www.example.com"/>
+    </p>
+    </foreword></preface>
+    <bibliography><references id="_normative_references" obligation="informative"><title>References</title>
+<bibitem id="ISO712" type="standard">
+  <title format="text/plain">Cereals and cereal products</title>
+  <docidentifier>ISO 712</docidentifier>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <abbreviation>ISO</abbreviation>
+    </organization>
+  </contributor>
+</bibitem>
+    </references>
+    </bibliography>
+    </iso-standard>
+    INPUT
+    <body lang='EN-US' link='blue' vlink='#954F72'>
+  <div class='WordSection1'>
+    <p>&#160;</p>
+  </div>
+  <p>
+    <br clear='all' class='section'/>
+  </p>
+  <div class='WordSection2'>
+    <div>
+      <h1 class='IntroTitle'/>
+      <p>
+      <sup>
+  <a href='#ISO712'>A</a>
+</sup>
+<a href='#ISO712'>A</a>
+<a href='#_http_1_1'>
+  Requirement 
+  <tt>/req/core/http</tt>
+</a>
+<a href='http://www.example.com' class='url'>Test</a>
+<a href='http://www.example.com' class='url'>http://www.example.com</a>
+      </p>
+    </div>
+    <p>&#160;</p>
+  </div>
+  <p>
+    <br clear='all' class='section'/>
+  </p>
+  <div class='WordSection3'>
+    <p class='zzSTDTitle1'/>
+    <p class='zzSTDTitle2'/>
+    <div>
+      <h1>
+        1
+        <span style='mso-tab-count:1'>&#160; </span>
+        References
+      </h1>
+      <p id='ISO712' class='NormRef'>
+        [ISO 712]
+        <span style='mso-tab-count:1'>&#160; </span>
+        ISO 712,
+        <i>Cereals and cereal products</i>
+        .
+      </p>
+    </div>
+  </div>
+</body>
+OUTPUT
 end
 
 it "cross-references notes" do
@@ -1962,10 +2089,10 @@ it "cross-references notes" do
              <div id="intro">
                <h1 class="IntroTitle"/>
                <div id="N1" class="Note">
-                 <p><span class="note_label">NOTE</span>&#160; These results are based on a study carried out on three different types of kernel.</p>
+                 <p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p>
                </div>
                <div id="xyz"><h2>Preparatory</h2>
-           <div id="N2" class="Note"><p><span class="note_label">NOTE</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="N2" class="Note"><p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
        </div>
              </div>
              <p class="zzSTDTitle1"/>
@@ -1973,7 +2100,7 @@ it "cross-references notes" do
              <div id="scope">
                <h1>1&#160; Scope</h1>
                <div id="N" class="Note">
-                 <p><span class="note_label">NOTE</span>&#160; These results are based on a study carried out on three different types of kernel.</p>
+                 <p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p>
                </div>
                <p>
                  <a href="#N">Note</a>
@@ -1986,8 +2113,8 @@ it "cross-references notes" do
              <div id="widgets">
                <h1>3&#160; Widgets</h1>
                <div id="widgets1"><h2>3.1&#160; </h2>
-           <div id="note1" class="Note"><p><span class="note_label">NOTE  1</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
-           <div id="note2" class="Note"><p><span class="note_label">NOTE  2</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="note1" class="Note"><p><span class="note_label">NOTE  1 &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="note2" class="Note"><p><span class="note_label">NOTE  2 &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
        <p>    <a href="#note1">Note  1</a> <a href="#note2">Note  2</a> </p>
 
            </div>
@@ -1995,11 +2122,11 @@ it "cross-references notes" do
              <br/>
              <div id="annex1" class="Section3">
                <div id="annex1a"><h2>A.1&#160; </h2>
-           <div id="AN" class="Note"><p><span class="note_label">NOTE</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="AN" class="Note"><p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
            </div>
                <div id="annex1b"><h2>A.2&#160; </h2>
-           <div id="Anote1" class="Note"><p><span class="note_label">NOTE  1</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
-           <div id="Anote2" class="Note"><p><span class="note_label">NOTE  2</span>&#160; These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="Anote1" class="Note"><p><span class="note_label">NOTE  1 &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
+           <div id="Anote2" class="Note"><p><span class="note_label">NOTE  2 &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
            </div>
              </div>
            </div>
@@ -2007,5 +2134,169 @@ it "cross-references notes" do
 
 OUTPUT
 end
+
+it "processes unlabelled notes" do
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <note>
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    </foreword></preface>
+    </iso-standard>
+    INPUT
+    #{HTML_HDR}
+               <div>
+               <h1 class='IntroTitle'/>
+                 <div id="" class="Note">
+                   <p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p>
+                 </div>
+               </div>
+               <p class="zzSTDTitle1"/>
+               <p class='zzSTDTitle2'/>
+             </div>
+           </body>
+    OUTPUT
+  end
+
+it "processes unlabelled notes (Word)" do
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <note>
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    </foreword></preface>
+    </iso-standard>
+    INPUT
+    <body lang='EN-US' link='blue' vlink='#954F72'>
+         <div class='WordSection1'>
+           <p>&#160;</p>
+         </div>
+         <p>
+           <br clear='all' class='section'/>
+         </p>
+         <div class='WordSection2'>
+           <div>
+             <h1 class='IntroTitle'/>
+             <div id='' class='Note'>
+               <p>
+                 <span class='note_label'>NOTE &#8211; </span>
+                 These results are based on a study carried out on three different
+                 types of kernel.
+               </p>
+             </div>
+           </div>
+           <p>&#160;</p>
+         </div>
+         <p>
+           <br clear='all' class='section'/>
+         </p>
+         <div class='WordSection3'>
+           <p class='zzSTDTitle1'/>
+           <p class='zzSTDTitle2'/>
+         </div>
+       </body>
+    OUTPUT
+  end
+
+ it "processes sequences of notes" do
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <note id="note1">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    <note id="note2">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83a">These results are based on a study carried out on three different types of kernel.</p>
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    </foreword></preface>
+    </iso-standard>
+INPUT
+    #{HTML_HDR}
+    <div>
+             <h1 class='IntroTitle'/>
+             <div id='note1' class='Note'>
+               <p>
+                 <span class='note_label'>NOTE 1 &#8211; </span>
+                 These results are based on a study carried out on three
+                 different types of kernel.
+               </p>
+             </div>
+             <div id='note2' class='Note'>
+               <p>
+                 <span class='note_label'>NOTE 2 &#8211; </span>
+                 These results are based on a study carried out on three
+                 different types of kernel.
+               </p>
+               <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b'>
+                 These results are based on a study carried out on three different
+                 types of kernel.
+               </p>
+             </div>
+           </div>
+           <p class='zzSTDTitle1'/>
+           <p class='zzSTDTitle2'/>
+         </div>
+       </body>
+    OUTPUT
+  end
+
+  it "processes sequences of notes (Word)" do
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface><foreword>
+    <note id="note1">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    <note id="note2">
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83a">These results are based on a study carried out on three different types of kernel.</p>
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b">These results are based on a study carried out on three different types of kernel.</p>
+</note>
+    </foreword></preface>
+    </iso-standard>
+INPUT
+<body lang='EN-US' link='blue' vlink='#954F72'>
+         <div class='WordSection1'>
+           <p>&#160;</p>
+         </div>
+         <p>
+           <br clear='all' class='section'/>
+         </p>
+         <div class='WordSection2'>
+           <div>
+             <h1 class='IntroTitle'/>
+             <div id='note1' class='Note'>
+               <p>
+                 <span class='note_label'>NOTE 1 &#8211; </span>
+                 These results are based on a study carried out on three different
+                 types of kernel.
+               </p>
+             </div>
+             <div id='note2' class='Note'>
+               <p>
+                 <span class='note_label'>NOTE 2 &#8211; </span>
+                 These results are based on a study carried out on three different
+                 types of kernel.
+               </p>
+               <p class='Note' id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b'>
+                 These results are based on a study carried out on three different
+                 types of kernel.
+               </p>
+             </div>
+           </div>
+           <p>&#160;</p>
+         </div>
+         <p>
+           <br clear='all' class='section'/>
+         </p>
+         <div class='WordSection3'>
+           <p class='zzSTDTitle1'/>
+           <p class='zzSTDTitle2'/>
+         </div>
+       </body>
+    OUTPUT
+  end
 
 end

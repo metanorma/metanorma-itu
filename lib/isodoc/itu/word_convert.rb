@@ -170,6 +170,7 @@ module IsoDoc
                          liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" })
       end
 
+=begin
       def eref_parse(node, out)
         linkend = get_linkend(node)
         if node["type"] == "footnote"
@@ -184,6 +185,17 @@ module IsoDoc
         #  "##{node["target"]}"
         out << get_linkend(node)
       end
+=end
+
+def link_parse(node, out)
+      out.a **attr_code(href: node["target"], title: node["alt"], class: "url") do |l|
+        if node.text.empty?
+          l << node["target"].sub(/^mailto:/, "")
+        else
+          node.children.each { |n| parse(n, l) }
+        end
+      end
+    end
 
       include BaseConvert
     end

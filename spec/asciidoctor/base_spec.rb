@@ -961,8 +961,87 @@ it "does not apply smartquotes by default" do
     OUTPUT
   end
 
+ it "reorders references in bibliography, and renumbers citations accordingly" do
+    FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
+    FileUtils.mv File.expand_path("~/.relaton/cache"), File.expand_path("~/.relaton-bib.pstore1"), force: true
+    FileUtils.rm_rf File.expand_path("~/.iev.pstore1")
+    FileUtils.mv File.expand_path("~/.iev.pstore"), File.expand_path("~/.iev.pstore1"), force: true
+    FileUtils.rm_rf "relaton/cache"
+    FileUtils.rm_rf "test.iev.pstore"
+
+  VCR.use_cassette "multi-standards sort" do
+    xml = Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
+    = Document title
+    Author
+    :docfile: test.adoc
+    :nodoc:
+    :novalid:
+    
+    == Clause 1
+    <<ref1>>
+    <<ref2>>
+    <<ref3>>
+    <<ref4>>
+    <<ref8>>
+    <<ref9>>
+    <<ref10>>
+
+    [bibliography]
+    == References
+
+    * [[[ref3,IEC 60027]]], _Standard IEC 123_
+    * [[[ref1,ISO 55000]]], _Standard ISO 123_
+    * [[[ref4,GB 12663-2019]]], _Standard GB 123_
+    * [[[ref2,ISO/IEC 27001]]], _Standard ISO/IEC 123_
+    * [[[ref8,ITU-T Z.100]]], _Standard 30_
+    * [[[ref9,ITU-T Y.140]]], _Standard 30_
+    * [[[ref10,ITU-T Y.1001]]], _Standard 30_
+    INPUT
+    xpath = Nokogiri::XML(xml).xpath("//xmlns:references/xmlns:bibitem/xmlns:docidentifier")
+    expect(xmlpp("<div>#{xpath.to_xml}</div>")).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <div>
+  <docidentifier type='ITU'>ITU-T Y.1001</docidentifier>
+  <docidentifier type='ITU'>ITU-T Y.140</docidentifier>
+  <docidentifier type='ITU'>ITU-T Z.100</docidentifier>
+  <docidentifier type='ISO'>ISO 55000:2014</docidentifier>
+  <docidentifier type='ISO'>ISO/IEC 27001:2013</docidentifier>
+  <docidentifier type='Chinese Standard'>GB 12663-2019</docidentifier>
+  <docidentifier type='IEC'>IEC 60027</docidentifier>
+</div>
+    OUTPUT
+    FileUtils.rm_rf File.expand_path("~/.relaton/cache")
+    FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
+    FileUtils.rm_rf File.expand_path("~/.iev.pstore")
+    FileUtils.mv File.expand_path("~/.iev.pstore1"), File.expand_path("~/.iev.pstore"), force: true
+end
+end
+
+   it "add, del macros" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+
+      [[clause]]
+      == Clause
+
+      add:[a <<clause>>] del:[B]
+    INPUT
+       #{BLANK_HDR}
+       <preface/>
+       <sections>
+       <clause id='clause' obligation='normative'>
+             <title>Clause</title>
+             <p id='_'>
+               <add>
+                 a
+                 <xref target='clause'/>
+               </add>
+               <del>B</del>
+             </p>
+           </clause>
+</sections>
+       </itu-standard>
+    OUTPUT
+  end
 
 
 end
-
-

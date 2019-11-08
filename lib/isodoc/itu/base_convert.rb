@@ -3,6 +3,7 @@ require_relative "metadata"
 require "fileutils"
 require_relative "./ref.rb"
 require_relative "./xref.rb"
+require_relative "./terms.rb"
 
 module IsoDoc
   module ITU
@@ -40,11 +41,17 @@ module IsoDoc
         ""
       end
 
+      def note_label(node)
+        n = get_anchors[node["id"]]
+        return "#{@note_lbl} &ndash; " if n.nil? || n[:label].nil? || n[:label].empty?
+        l10n("#{@note_lbl} #{n[:label]} &ndash; ")
+      end
+
       def formula_where(dl, out)
-      return unless dl
-      out.p { |p| p << l10n("#{@where_lbl}:") }
-      parse(dl, out)
-    end
+        return unless dl
+        out.p { |p| p << l10n("#{@where_lbl}:") }
+        parse(dl, out)
+      end
 
       def prefix_container(container, linkend, _target)
         l10n("#{linkend} #{@labels["in"]} #{anchor(container, :xref)}")
@@ -117,65 +124,6 @@ module IsoDoc
         super
       end
 
-      def terms_defs_title(node)
-        t = node.at(ns("./title")) and return t.text
-        super
-      end
-
-      def terms_defs(node, out, num)
-        f = node.at(ns(IsoDoc::Convert::TERM_CLAUSE)) or return num
-        out.div **attr_code(id: f["id"]) do |div|
-          num = num + 1
-          clause_name(num, terms_defs_title(f), div, nil)
-          if f.at(ns("./clause | ./terms | ./term")).nil? then out.p "None."
-          else
-            f.children.reject { |c1| c1.name == "title" }.each do |c1|
-              parse(c1, div)
-            end
-          end
-        end
-        num
-      end
-
-      def terms_parse(node, out)
-        out.div **attr_code(id: node["id"]) do |div|
-          clause_parse_title(node, div, node.at(ns("./title")), out)
-          if node.at(ns("./clause | ./term")).nil? then out.p "None."
-          else
-            node.children.reject { |c1| c1.name == "title" }.each do |c1|
-              parse(c1, div)
-            end
-          end
-        end
-      end
-
-      def termdef_parse1(node, div, term, defn, source)
-        div.p **{ class: "TermNum", id: node["id"] } do |p|
-          p.b do |b|
-            b << anchor(node["id"], :label)
-            insert_tab(b, 1)
-            term.children.each { |n| parse(n, b) }
-          end
-          source and p << " [#{source.value}]"
-          p << ": "
-        end
-        defn and defn.children.each { |n| parse(n, div) }
-      end
-
-      def termdef_parse(node, out)
-        term = node.at(ns("./preferred"))
-        defn = node.at(ns("./definition"))
-        source = node.at(ns("./termsource/origin/@citeas"))
-        out.div **attr_code(id: node["id"]) do |div|
-          termdef_parse1(node, div, term, defn, source)
-          set_termdomain("")
-          node.children.each do |n|
-            next if %w(preferred definition termsource title).include? n.name
-            parse(n, out)
-          end
-        end
-      end
-
       def get_eref_linkend(node)
         link = "[#{anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))}]"
         link += eref_localities(node.xpath(ns("./locality")), link)
@@ -210,6 +158,46 @@ module IsoDoc
           end
           insert_tab(s, 1)
         end
+      end
+
+      def add_parse(node, out)
+        out.span **{class: "addition"} do |e|
+          node.children.each { |n| parse(n, e) }
+        end
+      end
+
+      def del_parse(node, out)
+        out.span **{class: "deletion"} do |e|
+          node.children.each { |n| parse(n, e) }
+        end
+      end
+
+      def error_parse(node, out)
+        case node.name
+        when "add" then add_parse(node, out)
+        when "del" then del_parse(node, out)
+        else
+          super
+        end
+      end
+
+      def note_p_parse(node, div)
+        div.p do |p|
+          p.span **{ class: "note_label" } do |s|
+            s << note_label(node)
+          end
+          node.first_element_child.children.each { |n| parse(n, p) }
+        end
+        node.element_children[1..-1].each { |n| parse(n, div) }
+      end
+
+      def note_parse1(node, div)
+        div.p do |p|
+          p.span **{ class: "note_label" } do |s|
+            s << note_label(node)
+          end
+        end
+        node.children.each { |n| parse(n, div) }
       end
     end
   end

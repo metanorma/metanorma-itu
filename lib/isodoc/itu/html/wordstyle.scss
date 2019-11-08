@@ -296,18 +296,18 @@ a:link, span.MsoHyperlink
 	{mso-style-unhide:no;
 	mso-style-parent:"";
 	color:blue;
-        font-family:"Arial",sans-serif;
-        font-size:8pt;
-	text-decoration:underline;
-	text-underline:single;}
+}
 a:visited, span.MsoHyperlinkFollowed
 	{mso-style-unhide:no;
 	mso-style-parent:"";
+	color:purple;}
+a.url {
         font-family:"Arial",sans-serif;
         font-size:8pt;
-	color:purple;
 	text-decoration:underline;
-	text-underline:single;}
+	text-underline:single;
+}
+
 p.MsoCommentSubject, li.MsoCommentSubject, div.MsoCommentSubject
 	{mso-style-noshow:yes;
 	mso-style-unhide:no;
@@ -466,7 +466,6 @@ p.h1Preface
 	text-indent:-39.7pt;
 	mso-pagination:widow-orphan lines-together;
 	page-break-after:avoid;
-	mso-outline-level:1;
 	tab-stops:39.7pt 59.55pt 79.4pt 99.25pt;
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
@@ -853,7 +852,6 @@ p.MsoToc1, li.MsoToc1, div.MsoToc1
 	mso-fareast-font-family:$bodyfont;
 	mso-bidi-font-family:$bodyfont;
 	mso-ansi-language:EN-GB;
-	font-weight:bold;
 	mso-bidi-font-weight:normal;}
 p.MsoToc2, li.MsoToc2, div.MsoToc2
 	{mso-style-noshow:yes;
@@ -1042,8 +1040,7 @@ span.MsoFootnoteReference
 	position:relative;
 	top:-3.0pt;
 	mso-text-raise:3.0pt;
-	mso-style-priority:99;
-	vertical-align:super;}
+	mso-style-priority:99;}
 p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
 	{mso-style-noshow:yes;
 	mso-style-priority:99;

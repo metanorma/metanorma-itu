@@ -156,18 +156,45 @@ module IsoDoc
       end
 
       def ol_parse(node, out)
-      out.ol **attr_code(class: node["class"], id: node["id"] ) do |ol|
-        node.children.each { |n| parse(n, ol) }
+        out.ol **attr_code(class: node["class"], id: node["id"] ) do |ol|
+          node.children.each { |n| parse(n, ol) }
+        end
       end
-    end
 
       def toWord(result, filename, dir, header)
-      result = populate_template(result, :word)
-      result = from_xhtml(word_cleanup(to_xhtml(result)))
-      Html2Doc.process(result, filename: filename, stylesheet: @wordstylesheet,
-                       header_file: header, dir: dir,
-                       asciimathdelims: [@openmathdelim, @closemathdelim],
-                       liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" })
+        result = populate_template(result, :word)
+        result = from_xhtml(word_cleanup(to_xhtml(result)))
+        Html2Doc.process(result, filename: filename, stylesheet: @wordstylesheet,
+                         header_file: header, dir: dir,
+                         asciimathdelims: [@openmathdelim, @closemathdelim],
+                         liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" })
+      end
+
+=begin
+      def eref_parse(node, out)
+        linkend = get_linkend(node)
+        if node["type"] == "footnote"
+          out.sup { |s| s << linkend }
+        else
+          out << linkend
+        end
+      end
+
+      def xref_parse(node, out)
+        #target = /#/.match(node["target"]) ? node["target"].sub(/#/, ".html#") :
+        #  "##{node["target"]}"
+        out << get_linkend(node)
+      end
+=end
+
+def link_parse(node, out)
+      out.a **attr_code(href: node["target"], title: node["alt"], class: "url") do |l|
+        if node.text.empty?
+          l << node["target"].sub(/^mailto:/, "")
+        else
+          node.children.each { |n| parse(n, l) }
+        end
+      end
     end
 
       include BaseConvert

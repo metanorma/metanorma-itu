@@ -124,14 +124,14 @@ module IsoDoc
         end
       end
 
-      def convert1(docxml, filename, dir)
-        FileUtils.cp html_doc_path('itu-document-comb.png'),
-          File.join(@localdir, "itu-document-comb.png")
-        FileUtils.cp html_doc_path('logo.png'), File.join(@localdir, "logo.png")
-        @files_to_delete << File.join(@localdir, "itu-document-comb.png")
-        @files_to_delete << File.join(@localdir, "logo.png")
-        super
-      end
+      #def convert1(docxml, filename, dir)
+        #FileUtils.cp html_doc_path('itu-document-comb.png'),
+          #File.join(@localdir, "itu-document-comb.png")
+        #FileUtils.cp html_doc_path('logo.png'), File.join(@localdir, "logo.png")
+        #@files_to_delete << File.join(@localdir, "itu-document-comb.png")
+        #@files_to_delete << File.join(@localdir, "logo.png")
+        #super
+      #end
 
       def default_fonts(options)
         { bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' :

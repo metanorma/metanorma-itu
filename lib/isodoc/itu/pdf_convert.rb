@@ -13,11 +13,11 @@ module IsoDoc
         super
       end
 
-      def convert1(docxml, filename, dir)
-        FileUtils.cp html_doc_path('Logo_ITU.jpg'), File.join(@localdir, "Logo_ITU.jpg")
-        @files_to_delete << File.join(@localdir, "Logo_ITU.jpg")
-        super
-      end
+      #def convert1(docxml, filename, dir)
+      #  FileUtils.cp html_doc_path('Logo_ITU.jpg'), File.join(@localdir, "Logo_ITU.jpg")
+      #  @files_to_delete << File.join(@localdir, "Logo_ITU.jpg")
+      #  super
+      #end
 
       def html_toc(docxml)
         docxml

@@ -6,6 +6,12 @@ module IsoDoc
     class Metadata < IsoDoc::Metadata
       def initialize(lang, script, labels)
         super
+        here = File.dirname(__FILE__)
+        set(:logo_html,
+            File.expand_path(File.join(here, "html", "Logo_ITU.jpg")))
+        set(:logo_comb,
+            File.expand_path(File.join(here, "html", "itu-document-comb.png")))
+        set(:logo_word, File.expand_path(File.join(here, "html", "logo.png")))
       end
 
       def title(isoxml, _out)
@@ -13,9 +19,11 @@ module IsoDoc
         set(:doctitle, main)
         series = isoxml&.at(ns("//bibdata/series[@type='main']/title"))&.text
         set(:series, series)
-        series1 = isoxml&.at(ns("//bibdata/series[@type='secondary']/title"))&.text
+        series1 =
+          isoxml&.at(ns("//bibdata/series[@type='secondary']/title"))&.text
         set(:series1, series1)
-        series2 = isoxml&.at(ns("//bibdata/series[@type='tertiary']/title"))&.text
+        series2 =
+          isoxml&.at(ns("//bibdata/series[@type='tertiary']/title"))&.text
         set(:series2, series2)
         annext = isoxml&.at(ns("//bibdata/title[@type='annex']"))&.text
         set(:annextitle, annext)
@@ -88,7 +96,8 @@ module IsoDoc
       end
 
       def ip_notice_received(isoxml, _out)
-        received = isoxml.at(ns("//bibdata/ext/ip-notice-received"))&.text || "false"
+        received = isoxml.at(ns("//bibdata/ext/ip-notice-received"))&.text ||
+          "false"
         set(:ip_notice_received, received)
       end
     end

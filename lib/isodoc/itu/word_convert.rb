@@ -124,14 +124,14 @@ module IsoDoc
         end
       end
 
-      def convert1(docxml, filename, dir)
-        FileUtils.cp html_doc_path('itu-document-comb.png'),
-          File.join(@localdir, "itu-document-comb.png")
-        FileUtils.cp html_doc_path('logo.png'), File.join(@localdir, "logo.png")
-        @files_to_delete << File.join(@localdir, "itu-document-comb.png")
-        @files_to_delete << File.join(@localdir, "logo.png")
-        super
-      end
+      #def convert1(docxml, filename, dir)
+        #FileUtils.cp html_doc_path('itu-document-comb.png'),
+          #File.join(@localdir, "itu-document-comb.png")
+        #FileUtils.cp html_doc_path('logo.png'), File.join(@localdir, "logo.png")
+        #@files_to_delete << File.join(@localdir, "itu-document-comb.png")
+        #@files_to_delete << File.join(@localdir, "logo.png")
+        #super
+      #end
 
       def default_fonts(options)
         { bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' :
@@ -161,14 +161,16 @@ module IsoDoc
         end
       end
 
-      def toWord(result, filename, dir, header)
-        result = populate_template(result, :word)
-        result = from_xhtml(word_cleanup(to_xhtml(result)))
-        Html2Doc.process(result, filename: filename, stylesheet: @wordstylesheet,
-                         header_file: header, dir: dir,
-                         asciimathdelims: [@openmathdelim, @closemathdelim],
-                         liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" })
-      end
+       def toWord(result, filename, dir, header)
+      result = populate_template(result, :word)
+      result = from_xhtml(word_cleanup(to_xhtml(result)))
+      Html2Doc.process(result, filename: filename, stylesheet: @wordstylesheet&.path,
+                       header_file: header&.path, dir: dir,
+                       asciimathdelims: [@openmathdelim, @closemathdelim],
+                       liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" })
+      header&.unlink
+      @wordstylesheet&.unlink
+    end
 
 =begin
       def eref_parse(node, out)

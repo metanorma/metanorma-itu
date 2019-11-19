@@ -15,11 +15,11 @@ module IsoDoc
         super
       end
 
-      def convert1(docxml, filename, dir)
-        FileUtils.cp html_doc_path('Logo_ITU.jpg'), "#{@localdir}/Logo_ITU.jpg"
-        @files_to_delete << "#{@localdir}/Logo_ITU.jpg"
-        super
-      end
+      #def convert1(docxml, filename, dir)
+      #  FileUtils.cp html_doc_path('Logo_ITU.jpg'), "#{@localdir}/Logo_ITU.jpg"
+      #  @files_to_delete << "#{@localdir}/Logo_ITU.jpg"
+      #  super
+      #end
 
       def default_fonts(options)
         {

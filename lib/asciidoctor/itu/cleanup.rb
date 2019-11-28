@@ -17,8 +17,9 @@ module Asciidoctor
         return super if @smartquotes
         xmldoc.traverse do |n|
           next unless n.text?
-          n.replace(n.text.gsub(/\u2019|\u2018|\u201a|\u201b/, "'").
-                    gsub(/\u201c|\u201d|\u201e|\u201f/, '"'))
+          n.replace(HTMLEntities.new.encode(
+            n.text.gsub(/\u2019|\u2018|\u201a|\u201b/, "'").
+                    gsub(/\u201c|\u201d|\u201e|\u201f/, '"'), :basic))
         end
         xmldoc
       end

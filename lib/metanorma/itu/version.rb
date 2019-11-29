@@ -1,5 +1,5 @@
 module Metanorma
   module ITU
-    VERSION = "0.2.10"
+    VERSION = "1.0.0"
   end
 end

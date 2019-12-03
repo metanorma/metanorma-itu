@@ -26,6 +26,7 @@ module IsoDoc
       def make_body2(body, docxml)
         body.div **{ class: "WordSection2" } do |div2|
           info docxml, div2 
+          boilerplate docxml, div2
           abstract docxml, div2
           keywords docxml, div2
           preface docxml, div2
@@ -70,7 +71,9 @@ module IsoDoc
         word_preface_cleanup(docxml)
         word_term_cleanup(docxml)
         word_history_cleanup(docxml)
+        authority_hdr_cleanup(docxml)
         super
+        authority_cleanup(docxml)
         docxml
       end
 
@@ -124,15 +127,6 @@ module IsoDoc
         end
       end
 
-      #def convert1(docxml, filename, dir)
-        #FileUtils.cp html_doc_path('itu-document-comb.png'),
-          #File.join(@localdir, "itu-document-comb.png")
-        #FileUtils.cp html_doc_path('logo.png'), File.join(@localdir, "logo.png")
-        #@files_to_delete << File.join(@localdir, "itu-document-comb.png")
-        #@files_to_delete << File.join(@localdir, "logo.png")
-        #super
-      #end
-
       def default_fonts(options)
         { bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' :
                      '"Times New Roman",serif'),
@@ -161,16 +155,16 @@ module IsoDoc
         end
       end
 
-       def toWord(result, filename, dir, header)
-      result = populate_template(result, :word)
-      result = from_xhtml(word_cleanup(to_xhtml(result)))
-      Html2Doc.process(result, filename: filename, stylesheet: @wordstylesheet&.path,
-                       header_file: header&.path, dir: dir,
-                       asciimathdelims: [@openmathdelim, @closemathdelim],
-                       liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" })
-      header&.unlink
-      @wordstylesheet&.unlink
-    end
+      def toWord(result, filename, dir, header)
+        result = populate_template(result, :word)
+        result = from_xhtml(word_cleanup(to_xhtml(result)))
+        Html2Doc.process(result, filename: filename, stylesheet: @wordstylesheet&.path,
+                         header_file: header&.path, dir: dir,
+                         asciimathdelims: [@openmathdelim, @closemathdelim],
+                         liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" })
+        header&.unlink
+        @wordstylesheet&.unlink
+      end
 
 =begin
       def eref_parse(node, out)
@@ -189,15 +183,52 @@ module IsoDoc
       end
 =end
 
-def link_parse(node, out)
-      out.a **attr_code(href: node["target"], title: node["alt"], class: "url") do |l|
-        if node.text.empty?
-          l << node["target"].sub(/^mailto:/, "")
-        else
-          node.children.each { |n| parse(n, l) }
+      def link_parse(node, out)
+        out.a **attr_code(href: node["target"], title: node["alt"], class: "url") do |l|
+          if node.text.empty?
+            l << node["target"].sub(/^mailto:/, "")
+          else
+            node.children.each { |n| parse(n, l) }
+          end
         end
       end
-    end
+
+      def authority_hdr_cleanup(docxml)
+        docxml&.xpath("//div[@id = 'draft-warning']").each do |d|
+          d.xpath(".//h1 | .//h2").each do |p|
+            p.name = "p"
+            p["class"] = "draftwarningHdr"
+          end
+        end
+        %w(copyright license legal).each do |t|
+          docxml&.xpath("//div[@class = '#{t}']").each do |d|
+            p = d&.at("./descendant::h1[2]") and
+              p.previous = "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>"
+            d.xpath(".//h1 | .//h2").each do |p|
+              p.name = "p"
+              p["class"] = "boilerplateHdr"
+            end
+          end
+        end
+      end
+
+      def authority_cleanup(docxml)
+        dest = docxml.at("//div[@class = 'draft-warning']")
+        auth = docxml.at("//div[@id = 'draft-warning']")
+        dest and auth and dest.replace(auth.remove)
+        %w(copyright license legal).each do |t|
+          dest = docxml.at("//div[@id = '#{t}']")
+          auth = docxml.at("//div[@class = '#{t}']")
+          next unless auth && dest
+          t == "copyright" and p = auth&.at(".//p[@class = 'Normalaftertitle']") and
+            p["class"] = "boilerplateHdr"
+          auth&.xpath(".//p[not(@class) or @class = 'Normalaftertitle']")&.each do |p|
+            p["class"] = "boilerplate"
+          end
+          auth << "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>" unless t == "copyright"
+          dest.replace(auth.remove)
+        end
+      end
 
       include BaseConvert
     end

@@ -176,6 +176,18 @@ module IsoDoc
         case node.name
         when "add" then add_parse(node, out)
         when "del" then del_parse(node, out)
+        when "copyright-statement"
+          out.div **{class: "copyright"} do |div|
+            node.children.each { |n| parse(n, div) }
+          end
+        when "license-statement"
+          out.div **{class: "license"} do |div|
+            node.children.each { |n| parse(n, out) }
+          end
+        when "legal-statement"
+          out.div **{class: "legal"} do |div|
+            node.children.each { |n| parse(n, out) }
+          end
         else
           super
         end
@@ -199,6 +211,22 @@ module IsoDoc
         end
         node.children.each { |n| parse(n, div) }
       end
+
+      def boilerplate(node, out)
+        boilerplate = node.at(ns("//boilerplate")) or return
+        out.div **{class: "authority"} do |s|
+          boilerplate.children.each do |n|
+            if n.name == "title"
+              s.h1 do |h|
+                n.children.each { |nn| parse(nn, h) }
+              end
+            else
+              parse(n, s)
+            end
+          end
+        end
+      end
+
     end
   end
 end

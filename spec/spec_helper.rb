@@ -70,6 +70,13 @@ VALIDATING_BLANK_HDR = <<~"HDR"
 
 HDR
 
+BOILERPLATE =
+  HTMLEntities.new.decode(
+  File.read(File.join(File.dirname(__FILE__), "..", "lib", "asciidoctor", "itu", "itu_intro.xml"), encoding: "utf-8").
+  gsub(/\{\{ docyear \}\}/, Date.today.year.to_s).
+  gsub(/\{% if unpublished %\}.+?\{% endif %\}/m, "").
+  gsub(/\{% if ip_notice_received %\}\{% else %\}not\{% endif %\}/m, ""))
+
 BLANK_HDR = <<~"HDR"
        <?xml version="1.0" encoding="UTF-8"?>
        <itu-standard xmlns="https://open.ribose.com/standards/itu">
@@ -114,6 +121,7 @@ BLANK_HDR = <<~"HDR"
                 <ip-notice-received>false</ip-notice-received>
         </ext>
        </bibdata>
+       #{BOILERPLATE}
 HDR
 
 HTML_HDR = <<~"HDR"

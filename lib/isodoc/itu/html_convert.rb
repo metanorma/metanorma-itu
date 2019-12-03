@@ -15,12 +15,6 @@ module IsoDoc
         super
       end
 
-      #def convert1(docxml, filename, dir)
-      #  FileUtils.cp html_doc_path('Logo_ITU.jpg'), "#{@localdir}/Logo_ITU.jpg"
-      #  @files_to_delete << "#{@localdir}/Logo_ITU.jpg"
-      #  super
-      #end
-
       def default_fonts(options)
         {
           bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' : '"Open Sans",sans-serif'),
@@ -55,6 +49,7 @@ module IsoDoc
 
       def make_body3(body, docxml)
         body.div **{ class: "main-section" } do |div3|
+          boilerplate docxml, div3
           abstract docxml, div3
           preface docxml, div3
           middle docxml, div3
@@ -63,7 +58,26 @@ module IsoDoc
         end
       end
 
-      include BaseConvert
+       def html_preface(docxml)
+        super
+        authority_cleanup(docxml)
+        docxml
+      end
+
+       def authority_cleanup(docxml)
+         dest = docxml.at("//div[@class = 'draft-warning']")
+         auth = docxml.at("//div[@id = 'draft-warning']")
+         auth&.xpath(".//h1 | .//h2")&.each { |h| h["class"] = "IntroTitle" }
+         dest and auth and dest.replace(auth.remove)
+         %w(copyright license legal).each do |t|
+           dest = docxml.at("//div[@id = '#{t}']")
+           auth = docxml.at("//div[@class = '#{t}']")
+           auth&.xpath(".//h1 | .//h2")&.each { |h| h["class"] = "IntroTitle" }
+           dest and auth and dest.replace(auth.remove)
+         end
+       end
+
+       include BaseConvert
     end
   end
 end

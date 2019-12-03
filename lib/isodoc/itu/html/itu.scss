@@ -762,6 +762,25 @@ p.RecNo, li.RecNo, div.RecNo
 	mso-fareast-language:EN-US;
 	font-weight:bold;
 	mso-bidi-font-weight:normal;}
+p.boilerplateHdr {
+        text-align:center;
+	font-family:$bodyfont;
+	font-size:11.0pt;
+}
+p.boilerplate {
+	font-family:$bodyfont;
+	font-size:11.0pt;
+	text-align:justify;
+         margin-top:6.0pt;
+         margin-bottom:0.0pt;
+}
+p.draftwarningHdr {
+text-align:center;
+font-family:$bodyfont;
+font-weight:bold;
+	font-size:16.0pt;
+        font-style:italic;
+}
 span.addition {
         color: blue;
 }

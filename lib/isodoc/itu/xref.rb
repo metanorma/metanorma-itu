@@ -46,9 +46,8 @@ module IsoDoc
       end
 
       def initial_anchor_names(d)
-        d.xpath("//xmlns:preface/child::*").each do |c|
-          preface_names(c)
-        end
+        d.xpath(ns("//boilerplate//clause")).each { |c| preface_names(c) }
+        d.xpath("//xmlns:preface/child::*").each { |c| preface_names(c) }
         @hierarchical_assets ?
           hierarchical_asset_names(d.xpath("//xmlns:preface/child::*"), "Preface") :
           sequential_asset_names(d.xpath("//xmlns:preface/child::*"))

@@ -1005,8 +1005,8 @@ it "does not apply smartquotes by default" do
   <docidentifier type='ITU'>ITU-T Z.100</docidentifier>
   <docidentifier type='ISO'>ISO 55000:2014</docidentifier>
   <docidentifier type='ISO'>ISO/IEC 27001:2013</docidentifier>
+  <docidentifier type='IEC'>IEC 60027-1+AMD1:1997+AMD2:2005 CSV</docidentifier>
   <docidentifier type='Chinese Standard'>GB 12663-2019</docidentifier>
-  <docidentifier type='IEC'>IEC 60027</docidentifier>
 </div>
     OUTPUT
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")

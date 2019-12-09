@@ -82,7 +82,7 @@ module IsoDoc
       def sequential_figure_names(clause)
         c = IsoDoc::Function::XrefGen::Counter.new
         j = 0
-        clause.xpath(ns(".//figure[not(@type = 'pseudocode')]")).each do |t|
+        clause.xpath(ns(".//figure | .//sourcecode[not(ancestor::example)]")).each do |t|
           if t.parent.name == "figure" then j += 1
           else
             j = 0
@@ -98,7 +98,7 @@ module IsoDoc
       def hierarchical_figure_names(clause, num)
         c = IsoDoc::Function::XrefGen::Counter.new
         j = 0
-        clause.xpath(ns(".//figure[not(@type = 'pseudocode')]")).each do |t|
+        clause.xpath(ns(".//figure | .//sourcecode[not(ancestor::example)]")).each do |t|
           if t.parent.name == "figure" then j += 1
           else
             j = 0

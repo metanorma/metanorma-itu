@@ -43,7 +43,9 @@ module Asciidoctor
       end
 
       def doctype(node)
-        node.attr("doctype") || "recommendation"
+        ret = node.attr("doctype") || "recommendation"
+        ret = "recommendation" if ret == "article"
+        ret
       end
 
       def olist(node)

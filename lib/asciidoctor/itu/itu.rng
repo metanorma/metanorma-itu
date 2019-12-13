@@ -147,13 +147,13 @@
         </oneOrMore>
       </element>
     </define>
-    <define name="TextElement" combine="choice">
-      <choice>
-        <ref name="add"/>
-        <ref name="del"/>
-      </choice>
-    </define>
   </include>
+  <define name="TextElement" combine="choice">
+    <choice>
+      <ref name="add"/>
+      <ref name="del"/>
+    </choice>
+  </define>
   <define name="add">
     <element name="add">
       <choice>

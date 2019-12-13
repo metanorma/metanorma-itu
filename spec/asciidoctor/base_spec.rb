@@ -92,7 +92,7 @@ RSpec.describe Asciidoctor::ITU do
     </owner>
   </copyright>
   <ext>
-    <doctype>article</doctype>
+    <doctype>recommendation</doctype>
     <editorialgroup>
       <bureau>T</bureau>
     </editorialgroup>

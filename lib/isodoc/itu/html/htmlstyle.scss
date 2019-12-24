@@ -1,161 +1,429 @@
+/*
+    0 CSS RESET
+*/
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+        margin: 0;
+        padding: 0;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+        border: 0;
+        font-size: 100%;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, tt, var,
+b, u, i, center,
+dl, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+        vertical-align: baseline;
+}
+
+html, body, div, span, applet, object, iframe,
+p, blockquote,
+a, abbr, acronym, address, big, cite,
+del, dfn, em, img, ins, q, s,
+small, strike, strong, sub, sup, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  font-family: $bodyfont;
+}
+
+code, pre, tt, kbd, samp {
+  font-family: $monospacefont;
+  font-variant-ligatures: none;
+}
+
+code *, pre *, tt *, kbd *, samp * {
+  font-family: $monospacefont !important;
+  font-variant-ligatures: none;
+}
+
+h1, h2, h3, h4, h5, h6, .h2Annex {
+  font-family: $headerfont;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: max-content auto;
+}
+
+dt {
+  grid-column-start: 1;
+}
+
+dd {
+  grid-column-start: 2;
+}
+
+dd p, dt p {
+  margin-top: 0px;
+}
+
 dl.glossary dt {
   font-weight: bold;
 }
 
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
 body {
-  @include bodyStyle1(14px, 1.6em, #141115, #fff);
+	line-height: 1;
 }
 
-nav {
-  @include sidebarNav(
-    $offsetLeft: 45px,
-    $colorBg: #fff,
-    $width: 323px);
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
 
-  #toc {
-    @include sidebarToc();
+
+/*
+    1. HTML & Body
+*/
+
+  body {
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    color: #141115;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.6em;
+    background-color: #fff;
   }
-}
 
-#toc {
-  font-family: $bodyfont;
-  font-weight: 400;
+  main {margin: 0 3em 0 6em;}
 
-  @include toc($colorLink: #141115, $colorLinkActiveBg: #da1d52, $colorLinkActiveFg: white);
-
-  .h1 {
-    text-transform: uppercase;
+  #toc{
+    font-family: $bodyfont;
+    font-weight: 400;
   }
 
-  li:hover a {
-    background: none;
-    box-shadow: none;
-  }
+/*
+    2. Responsive navigation layout
+*/
 
-  li:before {
-    content: " ";
-    display: none;
-  }
-
-  @media print {
-    .toc-active a {
-      color: #4D7EA5;
-    }
-
-    .toc-active, li:hover {
-      background: white;
-      box-shadow: none !important;
-    }
-
-    li:hover a {
-      color: black;
-    }
-  }
-}
-
-#toc-list {
-  ul {
-    margin-bottom: 0.25em;
-  }
-  li {
-    list-style-type: none;
-  }
-}
-
-#toggle {
-  @include sidebarNavToggle(
-    $colorBg: #da1d52,
-    $colorFg: white);
-}
-
-.container {
-  @include sidebarNavContainer(360px);
-}
-
-
-.rule {
-  @include rule(1px, #00539F, 2em 0);
-
-  &.toc {
-    @include tocSeparator();
-  }
-}
-.rule-2 {
-  width: 100%;
-  height: 1px;
-  background-color: #00539F;
-}
-.rule-thick {
-  width: 100%;
-  height: 3px;
-  background-color: #00539F;
-  margin-top: 3em;
-}
 
 @media screen and (min-width: 768px) {
-  h1.toc-contents {
-      margin-top: 1em;
+    nav {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 323px;
+        font-size: 0.9em;
+        overflow: auto;
+        padding: 0 0 0 45px;
+        margin-right: 30px;
+        background-color:#ffffff;
+    }
+
+    #toggle {
+        position: fixed;
+        height: 100%;
+        width: 30px;
+        background-color:#DA1D52;
+        color: white!important;
+        cursor: pointer;
+        z-index: 100;
+    }
+
+    #toggle span {
+        text-align: center;
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+
+    }
+
+    .container {
+        padding-left: 360px;
+    }
+
+    .rule.toc {
+        display: none;
+    }
+
+    h1.toc-contents {
+        margin-top: 1em;
+    }
+
+    ul#toc-list {
+        padding:0;
+        margin:0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #toc {
+        padding: 0 1.5em 0 1.5em;
+        overflow: visible;
+    }
+}
+
+  div.figure > img {
+    margin-left: auto;
+margin-right: auto;
+display: block;
+max-width: 100%;
+height: auto;
   }
 
-  ul#toc-list {
-    padding: 0;
+
+
+#toc ul {
     margin: 0;
-  }
+    padding: 0;
+    list-style: none;
 }
 
-
-.figure {
-  @include figureBlock();
-  @include monospaceBlockStyle();
-
-  background-color: #f6f6f6;
+#toc li a {
+    padding: 5px 10px;
+    font-size: 14px;
 }
 
-
-.Sourcecode {
-  @include sourceBlock(#f6f6f6);
+#toc a {
+    color: #141115;
+    text-decoration: none;
+    display: block;
 }
 
-.example .Sourcecode, .example .pseudocode {
-  background: none;
-  margin: 0;
-  padding: 0 0 0 2em;
+#toc a:hover {
+    box-shadow: none;
+    color: white;
+}
+
+#toc .h1 {
+  text-transform: uppercase;
+}
+
+#toc .h2 {
+    padding-left: 30px;
+}
+
+#toc .h3 {
+    padding-left: 50px;
+}
+
+#toc .toc-active a {
+    color: white;
+}
+
+#toc .toc-active, #toc li:hover {
+    background: #DA1D52;
+    box-shadow: inset -5px 0px 10px -5px #DA1D52!important;
+}
+
+#toc li:hover a {
+    color: white;
+    background: none;
+    box-shadow: none;
+}
+
+#toc li a {
+  text-transform: nonce;
+}
+
+/*
+    Document types + stages
+*/
+
+.document-type-band {
+    left:0;
+    top:180px;
+    height: 100%;
+    position: fixed;
+    display: block;
+    z-index: 99;
+    /*box-shadow: -5px 0px 10px #1d1d1d*/
+
 }
 
 .document-stage-band {
-  @include docBand($order: 1, $textLength: 160px, $fontWeight: 300);
+    font-family: $bodyfont;
+    left:0;
+    top:0;
+    height: 100%;
+    position: fixed;
+    display: block;
+    z-index: 98;
+    box-shadow: -5px 0px 10px #1d1d1d;
 }
 
-.document-type-band {
-  @include docBand($order: 2, $textLength: 210px, $offset: 180px);
+.document-type {
+    font-family: $bodyfont;
+    position: relative;
+    width: 25px;
 }
+
+.document-stage {
+    font-family: $bodyfont;
+    position: relative;
+    width: 25px;
+}
+
+p.document-type, p.document-stage {
+    text-transform: uppercase;
+    font-size: 0.9em;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    margin:0;
+    margin-left: 6px;
+    writing-mode:tb-rl;
+	-webkit-transform:rotate(180deg);
+	-moz-transform:rotate(180deg);
+	-o-transform: rotate(180deg);
+	white-space:nowrap;
+	display:block;
+    bottom:0;
+}
+
+p.document-type {
+    font-weight: 400;
+    height: 150;
+}
+
+p.document-stage {
+    font-weight: 300;
+    height:160px;
+}
+
+#focus-group-band p.document-type,
+#implementers-guide-band p.document-type {
+    font-weight: 400;
+    height: 230px!important;
+}
+
+#recommendation-band p, #recommendation-supplement p,
+#recommendation-amendment p, #recommendation-corrigendum p,
+#recommendation-errata p, #recommendation-annex p  {
+  height: 270px;
+}
+
+#technical-paper-band p, #technical-report-band {
+  height: 150px;
+}
+
+
+#recommendation-band, #recommendation-supplement-band,
+#recommendation-amendment-band, #recommendation-corrigendum-band,
+#recommendation-errata-band, #recommendation-annex-band  {
+color:  #2A2D34;
+  background-color: #a3d88f; }
+
+#recommendation, #recommendation-supplement,
+#recommendation-amendment, #recommendation-corrigendum,
+#recommendation-errata, #recommendation-annex {
+color:  #2A2D34;
+  border-bottom: solid 3px #a3d88f;
+}
+
+#technical-paper, #technical-report {
+  border-bottom: solid 3px #53DD6C; }
+
+#technical-paper-band, #technical-report-band {
+  background-color: #53DD6C; }
+
+
+#focus-group, #implementers-guide {
+  border-bottom: solid 3px #750697; }
+
+#focus-group-band, #implementers-guide-band {
+  background-color: #750697; }
+
+#joint-itu-iso-iec {
+  border-bottom: solid 3px #48a0e7; }
+
+#joint-itu-iso-iec-band {
+  background-color: #48a0e7; }
+
 .coverpage-maturity, .coverpage-stage {
-  @include coverpageStageBlock();
-}
+  font-family: $bodyfont;
+  font-weight: 400;
+  font-size: 1em;
+  margin: 0 0 2em 0;
+  text-transform: uppercase; }
+
 #superseded-draft {
-  border-bottom: solid 3px #fd06fd;
-}
+  border-bottom: solid 3px #fd06fd; }
+
 #superseded-band {
-  background-color: #fd06fd;
-}
+  background-color: #fd06fd; }
+
 #in-force-prepublished {
-  border-bottom: solid 3px #fdf906;
-}
+  border-bottom: solid 3px #fdf906; }
+
 #in-force-prepublished-band {
-  background-color: #fdf906;
-}
+  background-color: #fdf906; }
+
 #in-force {
-  border-bottom: solid 3px #9ABD48;
-}
+  border-bottom: solid 3px #9ABD48; }
+
 #in-force-band {
-  background-color: #d9f39d;
-}
+  background-color: #d9f39d; }
+
 #withdrawn {
-  border-bottom: solid 3px #7e0d13;
-}
+  border-bottom: solid 3px #7e0d13; }
+
 #withdrawn-band {
-  background-color: #7e0d13;
-}
+  background-color: #7e0d13; }
 
 .logo-wrapper {
   width: 100%;
@@ -182,214 +450,292 @@ nav {
   font-style: italic;
 }
 
+/*
+    3. TYPOGRAPHY
+*/
 
-/* Headings */
+/*
+    3.1 Titles
+*/
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 400;
-  margin-top: 1.6em;
-  margin-bottom: 0.3em;
-}
-
-h1, h2, h3, h4 {
-  @media print {
-    page-break-after: avoid;
-    margin-top: 1.2em;
+  h1,h2,h3,h4,h5,h6 {
+    font-family: $headerfont;
+    font-weight: 400;
+    margin-top: 1.6em;
+    margin-bottom: 0.3em;
   }
-}
 
-h1 {
-  font-size: 1.4em;
-  text-transform: uppercase;
-  margin-top: 2em;
-
-  &#content {
+  h1 {
+    font-size: 1.4em;
+    text-transform: uppercase;
     margin-top: 2em;
   }
 
-  @media print {
-    font-size: 1.5em;
-    line-height: 1.5;
-
-    &.content {
+  h1#content {
       margin-top: 2em;
-      line-height: 2.5em;
-    }
   }
-}
 
-h2 {
-  margin-top: 1.7em;
-  font-size: 1.5em;
+  h2 {
+    margin-top: 1.7em;
+    font-size: 1.5em;
+  }
 
-  p {
+  h3 {
+    margin-top: 1.5em;
+    font-size: 1.4em;
+  }
+
+  h4 {
+  font-size: 1.2em;
+  }
+
+  .TermNum, .Terms, .AltTerms {
+    font-weight: 400;
+  }
+
+  h2.TermNum {
+    margin-bottom: 0;
+  }
+/*
+  p.Terms {
+    font-size: 1.1em;
+    line-height: 1.5em;
+    margin: 0;
+  }
+*/
+  p.AltTerms {
+    /*
+    font-style: italic;
+     */
+    font-size: 20px;
+    margin-top: 1em;
+  }
+
+/*
+    3.2 Links
+*/
+
+    a, a:visited{
+        text-decoration: none;
+        color: #00539F;
+    }
+
+    a:hover {
+        color: white;
+        background: #00539F;
+        box-shadow: 3px 0 0 #00539F, -3px 0 0 #00539F;
+        /* padding: 2px 0 2px 0; */
+    }
+
+    ::selection {
+        background: #00539F; /* WebKit/Blink Browsers */
+        color: white;
+      }
+      ::-moz-selection {
+        background: #00539F; /* Gecko Browsers */
+        color: white;
+      }
+
+      .contact-info a:hover {
+          color: #00539F;
+          text-decoration: underline;
+          background: none;
+          box-shadow: 0 0 0 0;
+      }
+
+
+
+/*
+    3.3 Lists
+*/
+
+    ul, ol {margin-left: 1.2em;}
+
+  ul > li {
+  list-style: none;
+   }
+
+   ul > li:before {
+    content: "\2014";
+    display: inline-block; 
+    width: 1em;
+    margin-left: -1.2em;
+  }
+
+  ul > li p:first-child {
     display: inline;
   }
 
-  @media print {
-    font-size: 1.2em;
-  }
-}
-
-h3 {
-  margin-top: 1.5em;
-  font-size: 1.4em;
-
-  @media print {
-    font-size: 1em;
-  }
-}
-
-h4 {
-  font-size: 1.2em;
-}
-
-
-/* Terms */
-
-.TermNum, .Terms, .AltTerms {
-  font-weight: 400;
-}
-
-h2.TermNum {
-  margin-bottom: 0;
-}
-
-p.AltTerms {
-  font-size: 20px;
+ul > li:first-child {
   margin-top: 1em;
 }
 
+    #toc-list ul {margin-bottom: 0.25em;}
 
-/* Links, selection */
+    #toc-list li {list-style-type: none;}
 
-a, a:visited {
-  text-decoration: none;
-  color: #00539F;
-}
-
-a:hover {
-  color: white;
-  background: #00539F;
-  box-shadow: 3px 0 0 #00539F, -3px 0 0 #00539F;
-}
-
-::selection {
-  background: #00539F; /* WebKit/Blink Browsers */
-  color: white;
-}
-::-moz-selection {
-  background: #00539F; /* Gecko Browsers */
-  color: white;
+    #toc li:before {
+  content: " ";
+  display: none;
 }
 
 
-/* Lists */
+/*
+    3.4 Rules
+*/
 
-ul, ol {
-  margin-left: 1.2em;
+    .rule {
+        width: 100%;
+        height: 1px;
+        background-color: #00539F;
+        margin: 2em 0;
+      }
 
-  > li {
-    list-style: none;
+      .rule-2 {
+  width: 100%;
+  height: 1px;
+  background-color: #00539F;
+}
 
-    &:before {
-      content: "\2014";
-      display: inline-block; 
-      width: 1em;
-      margin-left: -1.2em;
-    }
-
-    p:first-child {
-      display: inline;
-    }
-
-    &:first-child {
-      margin-top: 1em;
-    }
-  }
+.rule-thick {
+  width: 100%;
+  height: 3px;
+  background-color: #00539F;
+  margin-top: 3em;
 }
 
 
-/* Bibliograhy */
+/*
+    3.5 Bibliograhy
+*/
 
 p.Biblio, p.NormRef {
-  margin-top: 1em;
-  margin-left: 2em;
+    margin-top: 1em;
+    margin-left: 2em;
 }
 
+/*
+    3.6 Source Code + figures
+*/
 
-/* Blocks */
+.figure, .Sourcecode {
+    font-family: $monospacefont;
+    font-variant-ligatures: none;
+    background-color: #f6f6f6;
+    font-size: 0.8em;
+    line-height: 1.6em;
+    padding: 1.5em;
+    margin: 2em 0 1em 0;
+    overflow: auto;
+}
+
+.FigureTitle, .SourceTitle, .AdmonitionTitle {
+    font-weight: 700;
+    font-size: 1em;
+    text-align: center;
+}
+
+/*
+    3.7 Notes
+*/
 
 .Note {
-  background-color: #ffca3a;
-  color: #141115;
-  padding: 1.2em;
-  margin: 1em 0 1em 0;
+    background-color: #ffca3a;
+    color: #141115;
+    padding: 1.2em;
+    margin: 1em 0 1em 0;
 
-  p {
-    margin: 0;
-  }
+    p {
+        margin: 0;
+    }
 }
 
 .Admonition {
-  background-color: #ffcccc;
-  color: #47430c;
-  padding: 1.2em;
-  margin: 1em 0 1em 0;
+    background-color: #ffcccc;
+    color: #47430c;
+    padding: 1.2em;
+    margin: 1em 0 1em 0;
 
-  p {
-    margin: 0;
-  }
+    p {
+        margin: 0;
+    }
 }
 
+
+/*
+    3.8 Examples
+*/
+
 .example {
-  @include exampleBlock(#e1eef1, null, 1.2em, 2em); 
+    background-color: #e1eef1;
+    padding: 1.2em;
+    margin: 2em 0 1em 0;
+    padding-left: 2em;
+}
 
-  .example-title {
-    margin-top: 0;
-    margin-left: -1.5em;
-  }
+.example .example-title {
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top:0;
+    margin-left:-1.5em;
+}
 
-  .Sourcecode, .pseudocode {
-    background: none;
-    margin: 0;
-    padding: 0 0 0 2em;
-  }
+.example .Sourcecode, .example .pseudocode {
+      background: none;
+      margin: 0;
+      padding: 0 0 0 2em;
 }
 
 .pseudocode {
-  background-color: #f6f6f6;
-  padding: 1.2em;
-  margin: 2em 0 1em 0;
-  padding-left: 2em;
+    background-color: #f6f6f6;
+    padding: 1.2em;
+    margin: 2em 0 1em 0;
+    padding-left: 2em;
+}
 
-  .example-title {
+.pseudocode .example-title {
     font-weight: 700;
     text-transform: uppercase;
     text-align: center;
     margin-top:0;
     margin-left:-1.5em;
-  }
 }
 
 .recommend {
-  background-color: #ccffcc;
-  padding: 1.2em;
-  margin: 2em 0 1em 0;
+    background-color: #ccffcc;
+    padding: 1.2em;
+    margin: 2em 0 1em 0;
 }
 
-
-/* Tables */
+/*
+    3.9 Tables
+*/
 
 table {
+  border-collapse: collapse;
+  width: 100%;
   color: #141115;
+  font-weight: 300;
+  margin: 1em 0 2em 0;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 2em;
+}
 
-  tr:nth-child(even) {
-    background: #f1f8ff;
-  }
-  tr:nth-child(odd) {
-    background: #f6f8fa;
-  }
+table, th, td {
+  border: none!important;
+  font-size: 0.95em;
+}
+
+tr:nth-child(even) {background: #f1f8ff}
+tr:nth-child(odd) {background: #f6f8fa}
+
+td, th {
+  padding: 1em;
+}
+
+td.header {
+  font-weight: 400;
 }
 
 p.TableTitle {
@@ -398,80 +744,103 @@ p.TableTitle {
   font-weight: 400;
 }
 
-
-/* Footnotes */
+/*
+  3.10 Footnotes
+*/
 
 a.footnote-number {
-  vertical-align: super;
-  font-size: 0.8em;
+    vertical-align: super;
+    font-size: 0.8em;
 }
 
 .footnote {
-  font-size: 0.9em;
+    font-size: 0.9em;
 }
+
+
+/*
+    3.11 Blockquotes
+*/
 
 .Quote {
-  background-color: #f6f6f6;
-  font-style: italic;
-  width: 80%;
-  padding: 1.5em;
-  margin-top: 2em;
-  margin-left: auto;
-  margin-right: auto;
+    background-color: #f6f6f6;
+    font-style: italic;
+    width: 80%;
+    padding: 1.5em;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+
+/*
+    3.12 Formulas
+*/
 
 .formula {
-  @include formulaBlock(#f6f6f6);
+    background-color: #f6f6f6;
+    padding: 1.5em;
+    margin-top: 2em;
+    text-align: center;
 }
 
+/*
+    3.13 Contact Info
+*/
 
 .contact-info {
-  padding: 2em;
-  margin-top: 5em;
-  width: 280px;
+    padding: 2em;
+    margin-top: 5em;
+    width: 280px;
   text-align: left;
   color: #00539F!important;
   background-color: #f1f8ff;
   border-radius: 25px;
 
-  a, a:hover {
-    color: #00539F;
-  }
-  a:hover {
-    text-decoration: underline;
-    background: none;
-    box-shadow: 0 0 0 0;
-  }
+}
 
-  p, a {
+.contact-info a,
+.contact-info a:hover {
+  color: #00539F;
+}
+
+.contact-info p, .contact-info a {
     font-family: $monospacefont;
     font-variant-ligatures: none;
     font-weight: 400;
-  }
+}
 
-  .name {
+.contact-info .name {
     font-weight: 700;
     font-size: 14px;
     margin-bottom: 5px;
-  }
+}
 
-  .address {
+.contact-info .address {
     font-size: 12px;
     line-height: 1.3em;
     margin-top:0;
-  }
 }
 
+/*
+    Keywords
+*/
 
 span.keyword {
-  font-weight: 600;
+    font-weight: 600;
 }
 
+/*
+    Paragraphs
+*/
 
 p {
-  margin-top: 1em;
-  margin-bottom: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+h2 p {
+  display: inline;
 }
 
 .addition {
@@ -483,19 +852,219 @@ p {
   text-decoration: line-through;
 }
 
-@import 'coverpage';
 
+/*
+    4.0 Page header
+*/
 
-#myBtn {
-  @include toTopBtn($color: white, $colorBg: #00539F);
+/*
+    4.1 Top Logo
+*/
 
-  @media print {
-    background-color: white;
-  }
+.icon-svg {
+  width: 100%;
+  color: #5ecf86;
 }
 
-a.anchorjs-link {
-  @include anchorLink(#2e81c2);
+.wrapper-top {
+    background: #fff;
+  color: #141115;
+  padding: 3em 0 6em 10em;
+  margin-left: 0em;
+  background: url(data:image/png;base64,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);
+  background-repeat: repeat-y;
+  background-size: 100px;
+}
+
+.doc-type {
+  font-size: 18px;
+  letter-spacing: 4px;
+  color: #797979;
+  margin-bottom: 42px;
+}
+
+.ITU-sector, .doc-identifier {
+  font-size: 42px;
+  font-weight: 800;
+  display: inline;}
+
+.doc-info-left {
+  float: right;
+  padding-right: 42px;
+}
+
+.doc-identifier, .publication-month {
+  display: block;
+  text-align: right;
+}
+
+.publication-month {
+  font-size: 18px;
+  padding-top: 10px;
+  line-height: 1;
+}
+
+.doc-category {
+  text-transform: uppercase;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.coverpage-title {
+  margin-top: 42px;
+}
+
+.coverpage-title span {
+  display: block;
+  font-size: 20px;
+line-height: 1.5;
+}
+
+span.doc-title {
+  font-size: 26px;
+  font-weight: 800;
+  margin-top: 20px;
+  border-top: 2px solid #DA1D52;
+  margin-right: 42px;
+}
+
+.doc-footer {
+  margin-top: 100px;
+}
+
+.doc-footer .keywords {
+  display: block;
+}
+
+.doc-footer div {
+  clear: both;
+}
+
+.doc-footer span, .doc-footer .keywords {
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: black;
+  float: left;
+  padding-right: 10px;
+}
+
+.WordSection11 {
+  padding: 0 2em 0 3em; }
+
+.info-section {
+  padding: 0 }
+
+.prefatory-section {
+  padding: 0 3em 0 6em; }
+
+.zzSTDTitle1, .zzSTDTitle2, .MsoCommentText {
+  display: none; }
+
+.coverpage {
+  text-align: left;
+  padding-left: 1.5em; }
+
+
+/*
+    4.2 Document Identity
+*/
+
+  .coverpage-doc-identity {
+    font-size: 2em;
+    line-height: 2em;
+  }
+
+  .coverpage-title .title-second {
+    display: none;
+  }
+
+  .coverpage-stage-block {
+    font-family: $bodyfont;
+    font-weight: 600;
+    font-size: 1.25em;
+    margin: 2em 0em 2em 0em;
+    text-transform: uppercase;
+  }
+
+/*
+    4.3 Draft Warning
+*/
+
+  .coverpage-warning {
+    border: #f36f36 solid 2px;
+  color: #f36f36!important;
+  margin: 1em 2em;
+  color: #2e81c2;
+  padding: 2em 1em 1em 1em;
+  border-radius: 25px;
+  }
+
+  .coverpage-warning h1 {
+    margin-top: 0em;
+  }
+
+  .coverpage-warning .title {
+    font-family: $bodyfont;
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: 1.2em;
+  }
+
+
+/*
+    4.4 Copyright
+*/
+
+  .copyright {
+    padding: 1em;
+    font-size: 0.9em;
+    text-align: left;
+  }
+
+
+/*  .copyright .name, .copyright .address {color: #2e81c2;} */
+
+
+
+/*
+    5.0 Other styles
+*/
+
+
+
+/*
+To top button
+*/
+
+#myBtn {
+    font-family: $monospacefont;
+    font-variant-ligatures: none;
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 12px;
+    border: none;
+    outline: none;
+    background-color: #00539F;
+    opacity: 0.15;
+    color: white;
+    cursor: pointer;
+    padding: 10px 15px 10px 15px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  #myBtn:hover {
+    opacity: 1;
+  }
+
+  a.anchorjs-link:hover {
+  background: none;
+  color: #2e81c2;
+  box-shadow: none;
 }
 
 @page {
@@ -503,24 +1072,31 @@ a.anchorjs-link {
 }
 
 @media print {
-  .document-info,  nav {
-    page-break-before: always;
+
+
+  .document-info,  nav, .copyright {
+      page-break-before: always;
   }
 
   nav {
     page-break-after: always;
-    line-height: 1;
-    position: relative;
-    width: auto;
-    font-size: 0.9em;
-    overflow: auto;
-    padding: 0;
-    margin-right: 0;
-    background-color: white;
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+    margin-top: 1.2em;
   }
 
   .note, .figure, .Sourcecode, table {
     page-break-inside: avoid;
+  }
+
+  .info-section {
+    display: none;
+  }
+
+  .coverpage {
+      height: 23cm;
   }
 
   .wrapper-top {
@@ -531,17 +1107,79 @@ a.anchorjs-link {
 
   .wrapper-top-bottom {
     margin-top: -5px;
-    display: none;
   }
 
-  .Note {
-    background-color: #fff495;
-    color: #47430c;
-    padding: 5px;
-    margin: 2em 0 1em 0;
 
-    p {
+  #toggle, .document-stage-band,
+  .document-type-band, button#myBtn {
+      display: none;
+  }
+
+  button#myBtn {
+    background-color: white;
+  }
+
+  .container {
+      padding-left: 0;
+  }
+
+  nav {
+      position: relative;
+      width: auto;
+      font-size: 0.9em;
+      overflow: auto;
+      padding: 0;
+      margin-right: 0;
+      background-color: white;
+  }
+
+    #toc .toc-active a {
+    color: #4D7EA5;
+  }
+
+  #toc .toc-active, #toc li:hover {
+    background: white;
+    box-shadow: none !important; }
+
+    #toc li:hover a {
+    color: black; }
+
+
+    h1.content {
+      margin-top: 2em;
+      line-height: 2.5em;
+    }
+
+    h1 {
+      font-size: 1.5em;
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-size: 1.2em
+    }
+
+    h3 {
+      font-size: 1em;
+    }
+
+    .Note {
+        background-color: #fff495;
+        color: #47430c;
+        padding: 5px;
+        margin: 2em 0 1em 0; }
+
+    .Note p {
       padding: 0 5px 0 5px;
     }
-  }
+
+    nav {
+      line-height: 1;
+    }
+
+    .wrapper-top-bottom {
+      display: none;
+    }
+
 }
+

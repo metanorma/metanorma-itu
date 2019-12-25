@@ -1,3 +1,29 @@
+$recBandColor: #a3d88f;
+$tecPaperColor: #53dd6c;
+$doctype-colors-list: (
+  recommendation: $recBandColor,
+  recommendation-amendment: $recBandColor,
+  recommendation-supplement: $recBandColor,
+  recommendation-corrigendum: $recBandColor,
+  recommendation-errata: $recBandColor,
+  recommendation-annex: $recBandColor,
+  technical-paper: $tecPaperColor,
+  technical-report: $tecPaperColor,
+  focus-group: #750697,
+  implementers-guide: #750697,
+  joint-itu-iso-iec: #48a0e7,
+);
+
+
+$docstage-colors-list: (
+  in-force: #d9f39d,
+  in-force-prepublished: #fdf906,
+  superseded: #fd06fd,
+  superseded-draft: #fd06fd,
+  withdrawn: #7e0d13,
+);
+
+
 @import 'base_style/all';
 
 

@@ -383,6 +383,12 @@ p.Biblio, p.NormRef {
 /* Tables */
 
 table {
+  @include table($border: none);
+
+  &, th, td {
+    border: none !important;
+  }
+
   color: #141115;
 
   tr:nth-child(even) {

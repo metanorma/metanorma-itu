@@ -152,36 +152,10 @@ nav {
 }
 
 .document-stage-band {
-  @include docBand($order: 1, $textLength: 160px, $fontWeight: 300);
+  @include docBand($order: 1, $textLength: 160px, $color: black, $fontWeight: 300);
 }
-
 .document-type-band {
-  @include docBand($order: 2, $textLength: 210px, $offset: 180px);
-}
-
-#superseded-draft {
-  border-bottom: solid 3px #fd06fd;
-}
-#superseded-band {
-  background-color: #fd06fd;
-}
-#in-force-prepublished {
-  border-bottom: solid 3px #fdf906;
-}
-#in-force-prepublished-band {
-  background-color: #fdf906;
-}
-#in-force {
-  border-bottom: solid 3px #9ABD48;
-}
-#in-force-band {
-  background-color: #d9f39d;
-}
-#withdrawn {
-  border-bottom: solid 3px #7e0d13;
-}
-#withdrawn-band {
-  background-color: #7e0d13;
+  @include docBand($order: 2, $textLength: 210px, $color: black, $offset: 180px);
 }
 
 .logo-wrapper {
@@ -189,7 +163,6 @@ nav {
   display: block;
   height: 100px;
   padding-top: 75px;
-}
 
 .logo-wrapper img {
   float: right;

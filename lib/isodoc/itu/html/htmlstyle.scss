@@ -56,14 +56,18 @@ nav {
     text-transform: uppercase;
   }
 
-  li:hover a {
-    background: none;
-    box-shadow: none;
-  }
-
-  li:before {
-    content: " ";
-    display: none;
+  li {
+    a {
+      font-size: 14px;
+    }
+    &:hover a {
+      background: none;
+      box-shadow: none;
+    }
+    &:before {
+      content: " ";
+      display: none;
+    }
   }
 
   @media print {

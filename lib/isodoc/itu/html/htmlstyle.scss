@@ -138,11 +138,13 @@ nav {
   @include monospaceBlockStyle();
 
   background-color: #f6f6f6;
+  font-size: 0.8em;
 }
 
 
 .Sourcecode {
   @include sourceBlock(#f6f6f6);
+  font-size: 0.8em;
 }
 
 .example .Sourcecode, .example .pseudocode {

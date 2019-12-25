@@ -158,9 +158,7 @@ nav {
 .document-type-band {
   @include docBand($order: 2, $textLength: 210px, $offset: 180px);
 }
-.coverpage-maturity, .coverpage-stage {
-  @include coverpageStageBlock();
-}
+
 #superseded-draft {
   border-bottom: solid 3px #fd06fd;
 }

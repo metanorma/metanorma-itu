@@ -1,4 +1,18 @@
 <boilerplate>
+  <copyright-statement>
+    <clause>
+      <p>&copy; ITU {{ docyear }}</p>
+<p>All rights reserved. No part of this publication may be reproduced, by any means whatsoever, without the prior written permission of ITU.</p>
+    </clause>
+  </copyright-statement>
+  <license-statement>
+    <clause>
+      <title>INTELLECTUAL PROPERTY RIGHTS</title>
+      <p>ITU draws attention to the possibility that the practice or implementation of this Recommendation may involve the use of a claimed Intellectual Property Right. ITU takes no position concerning the evidence, validity or applicability of claimed Intellectual Property Rights, whether asserted by ITU members or others outside of the Recommendation development process.</p>
+<p>As of the date of approval of this Recommendation, ITU had {% if ip_notice_received %}{% else %}not{% endif %} received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <link target="http://www.itu.int/ITU-T/ipr/"/>.
+</p>
+</clause>
+</license-statement>
   <legal-statement>
     <clause>
       <title>FOREWORD</title>
@@ -26,22 +40,6 @@
     </clause>
     {% endif %}
   </legal-statement>
-
-  <copyright-statement>
-    <clause>
-      <p>&copy; ITU {{ docyear }}</p>
-<p>All rights reserved. No part of this publication may be reproduced, by any means whatsoever, without the prior written permission of ITU.</p>
-    </clause>
-  </copyright-statement>
-
-  <license-statement>
-    <clause>
-      <title>INTELLECTUAL PROPERTY RIGHTS</title>
-      <p>ITU draws attention to the possibility that the practice or implementation of this Recommendation may involve the use of a claimed Intellectual Property Right. ITU takes no position concerning the evidence, validity or applicability of claimed Intellectual Property Rights, whether asserted by ITU members or others outside of the Recommendation development process.</p>
-<p>As of the date of approval of this Recommendation, ITU had {% if ip_notice_received %}{% else %}not{% endif %} received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <link target="http://www.itu.int/ITU-T/ipr/"/>.
-</p>
-</clause>
-</license-statement>
 </boilerplate>
 
 

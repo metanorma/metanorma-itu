@@ -17,7 +17,7 @@ RSpec.describe Asciidoctor::ITU do
   #end
 
   it "processes a blank document" do
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     #{ASCIIDOC_BLANK_HDR}
     INPUT
     #{BLANK_HDR}
@@ -28,7 +28,7 @@ RSpec.describe Asciidoctor::ITU do
 
   it "converts a blank document" do
     FileUtils.rm_f "test.html"
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -558,7 +558,7 @@ OUTPUT
       [bibliography]
       == Second Bibliography
     INPUT
-    #{BLANK_HDR.sub(/<status>/, "<abstract> <p id='_'>Text</p> </abstract><status>")}
+    #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
     <preface><abstract id="_">
   <p id="_">Text</p>
 </abstract></preface><sections><foreword obligation="informative">
@@ -578,7 +578,7 @@ OUTPUT
 </clause>
 <terms id="_" obligation="normative">
   <title>Definitions</title>
-  <p>This Recommendation defines the following terms:</p>
+  <p id="_">This Recommendation defines the following terms:</p>
   <term id="_">
   <preferred>Term1</preferred>
 </term>
@@ -637,7 +637,7 @@ OUTPUT
 </annex><bibliography>
 <references id="_" obligation="informative">
   <title>References</title>
-  <p>There are no normative references in this document.</p>
+  <p id="_">There are no normative references in this document.</p>
 </references>
 <clause id="_" obligation="informative">
   <title>Bibliography</title>
@@ -665,7 +665,7 @@ OUTPUT
       <preface/><sections>
 
 </sections><bibliography><references id="_" obligation="informative">
-  <title>References</title><p>There are no normative references in this document.</p>
+  <title>References</title><p id="_">There are no normative references in this document.</p>
 </references></bibliography>
 </itu-standard>
       OUTPUT
@@ -685,7 +685,7 @@ OUTPUT
 
        </sections><bibliography><references id="_" obligation="informative">
          <title>References</title>
-<p>The following ITU-T Recommendations and other references contain provisions which, through reference in this text, constitute provisions of this Recommendation. At the time of publication, the editions indicated were valid. All Recommendations and other references are subject to revision; users of this Recommendation are therefore encouraged to investigate the possibility of applying the most recent edition of the Recommendations and other references listed below. A list of the currently valid ITU-T Recommendations is regularly published. The reference to a document within this Recommendation does not give it, as a stand-alone document, the status of a Recommendation.</p>
+<p id="_">The following ITU-T Recommendations and other references contain provisions which, through reference in this text, constitute provisions of this Recommendation. At the time of publication, the editions indicated were valid. All Recommendations and other references are subject to revision; users of this Recommendation are therefore encouraged to investigate the possibility of applying the most recent edition of the Recommendations and other references listed below. A list of the currently valid ITU-T Recommendations is regularly published. The reference to a document within this Recommendation does not give it, as a stand-alone document, the status of a Recommendation.</p>
          <bibitem id="a">
          <formattedref format="application/x-isodoc+xml">A</formattedref>
          <docidentifier>b</docidentifier>
@@ -728,14 +728,14 @@ OUTPUT
         <preface/><sections>
          <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative">
          <title>terms defined elsewhere</title>
-         <p>This Recommendation uses the following terms defined elsewhere:</p>
+         <p id="_">This Recommendation uses the following terms defined elsewhere:</p>
          <term id="_">
          <preferred>Term 1</preferred>
        </term>
        </terms>
        <terms id="_" obligation="normative">
          <title>terms defined in this recommendation</title>
-         <p>This Recommendation defines the following terms:</p>
+         <p id="_">This Recommendation defines the following terms:</p>
          <term id="_">
          <preferred>Term 2</preferred>
        </term>
@@ -755,10 +755,10 @@ OUTPUT
         #{BLANK_HDR}
         <preface/><sections>
   <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative">
-  <title>terms defined elsewhere</title><p>None.</p>
+  <title>terms defined elsewhere</title><p id="_">None.</p>
 </terms>
 <terms id="_" obligation="normative">
-  <title>terms defined in this recommendation</title><p>None.</p>
+  <title>terms defined in this recommendation</title><p id="_">None.</p>
 </terms></clause>
 </sections>
 </itu-standard>
@@ -806,7 +806,7 @@ OUTPUT
         INPUT
         #{BLANK_HDR}
         <preface/><sections>
-  <clause id="_" obligation="normative"><title>Definitions</title><p>This Recommendation defines the following terms:</p><terms id="_" obligation="normative">
+  <clause id="_" obligation="normative"><title>Definitions</title><p id="_">This Recommendation defines the following terms:</p><terms id="_" obligation="normative">
   <title>terms defined somewhere</title>
   <term id="_">
   <preferred>Term 1</preferred>

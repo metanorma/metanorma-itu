@@ -166,23 +166,6 @@ module IsoDoc
         @wordstylesheet&.unlink
       end
 
-=begin
-      def eref_parse(node, out)
-        linkend = get_linkend(node)
-        if node["type"] == "footnote"
-          out.sup { |s| s << linkend }
-        else
-          out << linkend
-        end
-      end
-
-      def xref_parse(node, out)
-        #target = /#/.match(node["target"]) ? node["target"].sub(/#/, ".html#") :
-        #  "##{node["target"]}"
-        out << get_linkend(node)
-      end
-=end
-
       def link_parse(node, out)
         out.a **attr_code(href: node["target"], title: node["alt"], class: "url") do |l|
           if node.text.empty?

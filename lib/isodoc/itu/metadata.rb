@@ -8,10 +8,12 @@ module IsoDoc
         super
         here = File.dirname(__FILE__)
         set(:logo_html,
-            File.expand_path(File.join(here, "html", "Logo_ITU.jpg")))
+            #File.expand_path(File.join(here, "html", "Logo_ITU.jpg")))
+            File.expand_path(File.join(here, "html", "International_Telecommunication_Union_Logo.svg")))
         set(:logo_comb,
             File.expand_path(File.join(here, "html", "itu-document-comb.png")))
-        set(:logo_word, File.expand_path(File.join(here, "html", "logo.png")))
+        #set(:logo_word, File.expand_path(File.join(here, "html", "logo.png")))
+        set(:logo_word, File.expand_path(File.join(here, "html", "International_Telecommunication_Union_Logo.svg")))
       end
 
       def title(isoxml, _out)

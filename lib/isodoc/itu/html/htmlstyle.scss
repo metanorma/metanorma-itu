@@ -169,8 +169,9 @@ nav {
   display: block;
   height: 100px;
   padding-top: 75px;
+  position:relative;
 
-  img {
+  img, svg {
     float: right;
     padding-right: 42px;
   }
@@ -179,6 +180,15 @@ nav {
 #ITU-logo {
   width: 200px;
   height: auto;
+  margin-left: auto;
+}
+
+svg {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
 }
 
 .authors-container {

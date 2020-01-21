@@ -183,7 +183,7 @@ module IsoDoc
           end
         end
         %w(copyright license legal).each do |t|
-          docxml&.xpath("//div[@class = '#{t}']").each do |d|
+          docxml&.xpath("//div[@class = 'boilerplate-#{t}']").each do |d|
             p = d&.at("./descendant::h1[2]") and
               p.previous = "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>"
             d.xpath(".//h1 | .//h2").each do |p|
@@ -199,8 +199,8 @@ module IsoDoc
         auth = docxml.at("//div[@id = 'draft-warning']")
         dest and auth and dest.replace(auth.remove)
         %w(copyright license legal).each do |t|
-          dest = docxml.at("//div[@id = '#{t}']")
-          auth = docxml.at("//div[@class = '#{t}']")
+          dest = docxml.at("//div[@id = 'boilerplate-#{t}-destination']")
+          auth = docxml.at("//div[@class = 'boilerplate-#{t}']")
           next unless auth && dest
           t == "copyright" and p = auth&.at(".//p[@class = 'Normalaftertitle']") and
             p["class"] = "boilerplateHdr"

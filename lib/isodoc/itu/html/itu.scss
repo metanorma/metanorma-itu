@@ -829,7 +829,19 @@ div.WordSection1
         margin:54.45pt 54.45pt 54.45pt 54.45pt;
         mso-header-margin:24.1pt;
         mso-footer-margin:24.1pt;
-        mso-page-numbers:roman-lower 1;
+        mso-even-header:url("file:///C:/Doc/FILENAME_files/header.html") eh2;
+        mso-header:url("file:///C:/Doc/FILENAME_files/header.html") h2;
+        mso-even-footer:url("file:///C:/Doc/FILENAME_files/header.html") ef2;
+        mso-footer:url("file:///C:/Doc/FILENAME_files/header.html") f2;
+        mso-first-header:url("file:///C:/Doc/FILENAME_files/header.html") fh2;
+        mso-first-footer:url("file:///C:/Doc/FILENAME_files/header.html") ff2;
+        mso-paper-source:0;}
+@page WordSection2P
+        {
+        size:21.0cm 842.0pt;
+        margin:54.45pt 54.45pt 54.45pt 54.45pt;
+        mso-header-margin:24.1pt;
+        mso-footer-margin:24.1pt;
         mso-even-header:url("file:///C:/Doc/FILENAME_files/header.html") eh2;
         mso-header:url("file:///C:/Doc/FILENAME_files/header.html") h2;
         mso-even-footer:url("file:///C:/Doc/FILENAME_files/header.html") ef2;
@@ -860,7 +872,19 @@ div.WordSection2
         margin:2.0cm 2.0cm 2.0cm 2.0cm;
         mso-header-margin:1.0cm;
         mso-footer-margin:1.0cm;
-        mso-page-numbers:1;
+        mso-even-header:url("file:///C:/Doc/FILENAME_files/header.html") eh2;
+        mso-header:url("file:///C:/Doc/FILENAME_files/header.html") h2;
+        mso-even-footer:url("file:///C:/Doc/FILENAME_files/header.html") ef3;
+        mso-footer:url("file:///C:/Doc/FILENAME_files/header.html") f3;
+        mso-first-header:url("file:///C:/Doc/FILENAME_files/header.html") fh2;
+        mso-first-footer:url("file:///C:/Doc/FILENAME_files/header.html") ff2;
+        mso-paper-source:0;}
+@page WordSection3P
+        {
+        size:21.0cm 842.0pt;
+        margin:2.0cm 2.0cm 2.0cm 2.0cm;
+        mso-header-margin:1.0cm;
+        mso-footer-margin:1.0cm;
         mso-even-header:url("file:///C:/Doc/FILENAME_files/header.html") eh2;
         mso-header:url("file:///C:/Doc/FILENAME_files/header.html") h2;
         mso-even-footer:url("file:///C:/Doc/FILENAME_files/header.html") ef3;

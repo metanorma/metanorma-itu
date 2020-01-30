@@ -88,31 +88,6 @@ module Asciidoctor
           biblio_reorder1(r)
         end
       end
-
-      def boilerplate_cleanup(xmldoc)
-        super
-        initial_boilerplate(xmldoc)
-      end
-
-      def initial_boilerplate(x)
-        return if x.at("//boilerplate")
-        preface = x.at("//preface") || x.at("//sections") || x.at("//annex") ||
-          x.at("//references") || return
-        preface.previous = boilerplate(x)
-      end
-
-       def boilerplate(x_orig)
-        x = x_orig.dup
-        # TODO variable
-        x.root.add_namespace(nil, Metanorma::ITU::DOCUMENT_NAMESPACE)
-        x = Nokogiri::XML(x.to_xml)
-        conv = IsoDoc::ITU::HtmlConvert.new({})
-        conv.metadata_init("en", "Latn", {})
-        conv.info(x, nil)
-        file = @boilerplateauthority ? "#{@localdir}/#{@boilerplateauthority}" :
-          File.join(File.dirname(__FILE__), "itu_intro.xml")
-          conv.populate_template((File.read(file, encoding: "UTF-8")), nil)
-      end
     end
   end
 end

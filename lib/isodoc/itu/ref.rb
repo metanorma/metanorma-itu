@@ -42,9 +42,8 @@ module IsoDoc
       end
 
       def bibitem_ref_code(b)
-        id = b.at(ns("./docidentifier[@type = 'ITU']"))
-        id ||= b.at(ns("./docidentifier[not(@type = 'DOI' or @type = 'metanorma' "\
-                     "or @type = 'ISSN' or @type = 'ISBN')]"))
+        id = b.at(ns("./docidentifier[@type = 'metanorma']"))
+        id ||= b.at(ns("./docidentifier[@type = 'ITU']"))
         id ||= b.at(ns("./docidentifier[not(@type = 'DOI' or @type = 'ISSN' or "\
                        "@type = 'ISBN')]"))
         id ||= b.at(ns("./docidentifier"))
@@ -66,9 +65,10 @@ module IsoDoc
 
       def render_identifiers(ids)
         ids.map do |id|
-          (id["type"] == "ITU" ? titlecase(id.parent&.at(ns("./ext/doctype"))&.text ||
-                                           "recommendation") + " " : "") +
-                                          docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))
+          (id["type"] == "ITU" ?
+           titlecase(id.parent&.at(ns("./ext/doctype"))&.text ||
+                     "recommendation") + " " : "") +
+                    docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))
         end.join(" | ")
       end
 

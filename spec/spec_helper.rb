@@ -72,7 +72,7 @@ HDR
 
 BOILERPLATE =
   HTMLEntities.new.decode(
-  File.read(File.join(File.dirname(__FILE__), "..", "lib", "asciidoctor", "itu", "itu_intro.xml"), encoding: "utf-8").
+  File.read(File.join(File.dirname(__FILE__), "..", "lib", "asciidoctor", "itu", "boilerplate.xml"), encoding: "utf-8").
   gsub(/\{\{ docyear \}\}/, Date.today.year.to_s).
   gsub(/<p>/, '<p id="_">').
   gsub(/\{% if unpublished %\}.+?\{% endif %\}/m, "").

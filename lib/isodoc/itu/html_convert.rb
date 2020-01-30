@@ -58,26 +58,12 @@ module IsoDoc
         end
       end
 
-       def html_preface(docxml)
+      def authority_cleanup(docxml)
+        authority_cleanup1(docxml, "draft-warning")
         super
-        authority_cleanup(docxml)
-        docxml
       end
 
-       def authority_cleanup(docxml)
-         dest = docxml.at("//div[@class = 'draft-warning']")
-         auth = docxml.at("//div[@id = 'draft-warning']")
-         auth&.xpath(".//h1 | .//h2")&.each { |h| h["class"] = "IntroTitle" }
-         dest and auth and dest.replace(auth.remove)
-         %w(copyright license legal).each do |t|
-           dest = docxml.at("//div[@id = '#{t}']")
-           auth = docxml.at("//div[@class = '#{t}']")
-           auth&.xpath(".//h1 | .//h2")&.each { |h| h["class"] = "IntroTitle" }
-           dest and auth and dest.replace(auth.remove)
-         end
-       end
-
-       include BaseConvert
+      include BaseConvert
     end
   end
 end

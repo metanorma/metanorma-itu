@@ -216,6 +216,24 @@ p.FooterQP, li.FooterQP, div.FooterQP
 	mso-fareast-language:EN-US;
 	font-weight:bold;
 	mso-bidi-font-weight:normal;}
+p.FooterQPLandscape, li.FooterQPLandscape, div.FooterQPLandscape
+        {
+        mso-style-unhide:no;
+        margin:0cm;
+        margin-bottom:.0001pt;
+        mso-pagination:widow-orphan;
+        tab-stops:45.35pt right 439.45pt 733.1pt;
+        mso-layout-grid-align:none;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:11.0pt;
+        mso-bidi-font-size:10.0pt;
+        font-family:$bodyfont;
+        mso-fareast-font-family:$bodyfont;
+        mso-ansi-language:EN-GB;
+        mso-fareast-language:EN-US;
+        font-weight:bold;
+        mso-bidi-font-weight:normal;}
 p.FirstFooter, li.FirstFooter, div.FirstFooter
 	{mso-style-name:FirstFooter;
 	mso-style-unhide:no;
@@ -852,12 +870,12 @@ div.WordSection1
         margin:54.45pt 54.45pt 54.45pt 54.45pt;
         mso-header-margin:24.1pt;
         mso-footer-margin:24.1pt;
-        mso-even-header:url("file:///C:/Doc/FILENAME_files/header.html") eh2;
-        mso-header:url("file:///C:/Doc/FILENAME_files/header.html") h2;
-        mso-even-footer:url("file:///C:/Doc/FILENAME_files/header.html") ef2;
-        mso-footer:url("file:///C:/Doc/FILENAME_files/header.html") f2;
-        mso-first-header:url("file:///C:/Doc/FILENAME_files/header.html") fh2;
-        mso-first-footer:url("file:///C:/Doc/FILENAME_files/header.html") ff2;
+        mso-even-header:url("file:///C:/Doc/FILENAME_files/header.html") eh2l;
+        mso-header:url("file:///C:/Doc/FILENAME_files/header.html") h2l;
+        mso-even-footer:url("file:///C:/Doc/FILENAME_files/header.html") ef2l;
+        mso-footer:url("file:///C:/Doc/FILENAME_files/header.html") f2l;
+        mso-first-header:url("file:///C:/Doc/FILENAME_files/header.html") fh2l;
+        mso-first-footer:url("file:///C:/Doc/FILENAME_files/header.html") ff2l;
         mso-paper-source:0;}
 @page WordSection2P
         {
@@ -895,12 +913,12 @@ div.WordSection2
         margin:2.0cm 2.0cm 2.0cm 2.0cm;
         mso-header-margin:1.0cm;
         mso-footer-margin:1.0cm;
-        mso-even-header:url("file:///C:/Doc/FILENAME_files/header.html") eh2;
-        mso-header:url("file:///C:/Doc/FILENAME_files/header.html") h2;
-        mso-even-footer:url("file:///C:/Doc/FILENAME_files/header.html") ef3;
-        mso-footer:url("file:///C:/Doc/FILENAME_files/header.html") f3;
-        mso-first-header:url("file:///C:/Doc/FILENAME_files/header.html") fh2;
-        mso-first-footer:url("file:///C:/Doc/FILENAME_files/header.html") ff2;
+        mso-even-header:url("file:///C:/Doc/FILENAME_files/header.html") eh2l;
+        mso-header:url("file:///C:/Doc/FILENAME_files/header.html") h2l;
+        mso-even-footer:url("file:///C:/Doc/FILENAME_files/header.html") ef3l;
+        mso-footer:url("file:///C:/Doc/FILENAME_files/header.html") f3l;
+        mso-first-header:url("file:///C:/Doc/FILENAME_files/header.html") fh2l;
+        mso-first-footer:url("file:///C:/Doc/FILENAME_files/header.html") ff2l;
         mso-paper-source:0;}
 @page WordSection3P
         {

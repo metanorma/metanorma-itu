@@ -179,6 +179,20 @@ p.MsoHeader, li.MsoHeader, div.MsoHeader
 	mso-fareast-font-family:"Times New Roman";
 	mso-ansi-language:EN-US;
 	mso-fareast-language:EN-US;}
+p.MsoHeaderLandscape, li.MsoHeaderLandscape, div.MsoHeaderLandscape
+        {mso-style-unhide:no;
+        margin:0cm;
+        margin-bottom:.0001pt;
+        mso-pagination:widow-orphan;
+        mso-layout-grid-align:none;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:9.0pt;
+        mso-bidi-font-size:10.0pt;
+        font-family:$bodyfont;
+        mso-fareast-font-family:"Times New Roman";
+        mso-ansi-language:EN-US;
+        mso-fareast-language:EN-US;}
 p.MsoFooter, li.MsoFooter, div.MsoFooter
         {mso-style-unhide:no;
 	margin:0cm;
@@ -197,6 +211,24 @@ p.MsoFooter, li.MsoFooter, div.MsoFooter
 	mso-ansi-language:EN-GB;
 	mso-fareast-language:EN-US;
 	mso-bidi-font-weight:normal;}
+p.MsoFooterLandscape, li.MsoFooterLandscape, div.MsoFooterLandscape
+        {mso-style-unhide:no;
+        margin:0cm;
+        margin-bottom:.0001pt;
+        text-align:justify;
+        text-justify:inter-ideograph;
+        mso-pagination:widow-orphan;
+        tab-stops:366.5pt right 733.1pt
+        mso-layout-grid-align:none;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:8.0pt;
+        mso-bidi-font-size:10.0pt;
+        font-family:$bodyfont;
+        mso-fareast-font-family:"Times New Roman";
+        mso-ansi-language:EN-GB;
+        mso-fareast-language:EN-US;
+        mso-bidi-font-weight:normal;}
 span.MsoCommentReference
 	{mso-style-noshow:yes;
 	mso-style-unhide:no;

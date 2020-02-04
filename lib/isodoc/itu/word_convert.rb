@@ -157,6 +157,11 @@ module IsoDoc
       def toWord(result, filename, dir, header)
         result = populate_template(result, :word)
         result = from_xhtml(word_cleanup(to_xhtml(result)))
+        unless @landscape.nil? || @landscapestyle.empty?
+          @wordstylesheet&.open
+          @wordstylesheet&.write(@landscapestyle)
+          @wordstylesheet&.close
+        end
         Html2Doc.process(result, filename: filename, stylesheet: @wordstylesheet&.path,
                          header_file: header&.path, dir: dir,
                          asciimathdelims: [@openmathdelim, @closemathdelim],

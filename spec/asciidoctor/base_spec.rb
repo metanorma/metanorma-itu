@@ -54,7 +54,7 @@ RSpec.describe Asciidoctor::ITU do
       :title: Main Title
       :draft: 3.4
     INPUT
-    <itu-standard xmlns="https://open.ribose.com/standards/itu">
+    <itu-standard xmlns="https://www.metanorma.com/ns/itu">
 <bibdata type="standard">
   <title language="en" format="text/plain" type="main">Main Title</title>
   <docidentifier type="ITU">ITU-T 1000</docidentifier>
@@ -179,7 +179,7 @@ OUTPUT
 
     INPUT
 <?xml version="1.0" encoding="UTF-8"?>
-<itu-standard xmlns="https://open.ribose.com/standards/itu">
+<itu-standard xmlns="https://www.metanorma.com/ns/itu">
 <bibdata type="standard">
   <title language="en" format="text/plain" type="main">Main Title</title>
   <title language="en" format="text/plain" type="annex">I3</title>
@@ -321,7 +321,7 @@ OUTPUT
       :title: Main Title
     INPUT
        <?xml version="1.0" encoding="UTF-8"?>
-       <itu-standard xmlns="https://open.ribose.com/standards/itu">
+       <itu-standard xmlns="https://www.metanorma.com/ns/itu">
        <bibdata type="standard">
          <title language="en" format="text/plain" type="main">Main Title</title>
          <docidentifier type="ITU">ITU-T 1000</docidentifier>

@@ -13,7 +13,7 @@ module Asciidoctor
     #
     class Converter < Standoc::Converter
       XML_ROOT_TAG = "itu-standard".freeze
-      XML_NAMESPACE = "https://open.ribose.com/standards/itu".freeze
+      XML_NAMESPACE = "https://www.metanorma.com/ns/itu".freeze
 
       register_for "itu"
 

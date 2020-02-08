@@ -8,11 +8,13 @@ require_relative "./macros.rb"
 
 module Asciidoctor
   module ITU
-
     # A {Converter} implementation that generates RSD output, and a document
     # schema encapsulation of the document for validation
     #
     class Converter < Standoc::Converter
+      XML_ROOT_TAG = "itu-standard".freeze
+      XML_NAMESPACE = "https://www.metanorma.com/ns/itu".freeze
+
       register_for "itu"
 
       Asciidoctor::Extensions.register do
@@ -30,16 +32,8 @@ module Asciidoctor
       end
 
       def makexml(node)
-        result = ["<?xml version='1.0' encoding='UTF-8'?>\n<itu-standard>"]
         @draft = node.attributes.has_key?("draft")
-        result << noko { |ixml| front node, ixml }
-        result << noko { |ixml| middle node, ixml }
-        result << "</itu-standard>"
-        result = textcleanup(result)
-        ret1 = cleanup(Nokogiri::XML(result))
-        validate(ret1)
-        ret1.root.add_namespace(nil, Metanorma::ITU::DOCUMENT_NAMESPACE)
-        ret1
+        super
       end
 
       def doctype(node)

@@ -70,9 +70,9 @@ module IsoDoc
       def middle_section_asset_names(d)
         return super unless @hierarchical_assets
         middle_sections = "//clause[title = 'Scope'] | "\
-          "//foreword | //introduction | "\
+          "//foreword | //introduction | //acknowledgements | "\
           "//references[title = 'References' or title = 'references'] | "\
-          "//sections/terms | "\
+          "//sections/terms | //preface/clause | "\
           "//sections/definitions | //clause[parent::sections]"
         d.xpath(ns(middle_sections)).each do |c|
           hierarchical_asset_names(c, @anchors[c["id"]][:label])

@@ -1063,7 +1063,7 @@ OUTPUT
       :novalid:
     INPUT
     #{BLANK_HDR}
-<preface/><sections/>
+<sections/>
 </itu-standard>
     OUTPUT
     html = File.read("test.html", encoding: "utf-8")

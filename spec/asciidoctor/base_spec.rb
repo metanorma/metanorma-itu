@@ -21,7 +21,7 @@ RSpec.describe Asciidoctor::ITU do
     #{ASCIIDOC_BLANK_HDR}
     INPUT
     #{BLANK_HDR}
-<preface/><sections/>
+<sections/>
 </itu-standard>
     OUTPUT
   end
@@ -35,7 +35,7 @@ RSpec.describe Asciidoctor::ITU do
       :novalid:
     INPUT
     #{BLANK_HDR}
-<preface/><sections/>
+<sections/>
 </itu-standard>
     OUTPUT
     expect(File.exist?("test.html")).to be true
@@ -103,7 +103,7 @@ RSpec.describe Asciidoctor::ITU do
 </structuredidentifier>
   </ext>
 </bibdata>
-<preface/><sections/>
+<sections/>
 </itu-standard>
 OUTPUT
     end
@@ -300,7 +300,7 @@ OUTPUT
 </structuredidentifier>
   </ext>
 </bibdata>
-<preface/><sections/>
+<sections/>
 </itu-standard>
     OUTPUT
   end
@@ -366,7 +366,7 @@ OUTPUT
 </structuredidentifier>
          </ext>
        </bibdata>
-       <preface/><sections/>
+       <sections/>
        </itu-standard>
         OUTPUT
     end
@@ -379,10 +379,12 @@ OUTPUT
       == Section 1
       INPUT
     #{BLANK_HDR}
-             <preface/><sections><foreword obligation="informative">
+             <preface><foreword obligation="informative">
          <title>Foreword</title>
          <p id="_">This is a preamble</p>
        </foreword>
+       </preface>
+       <sections>
        <clause id="_" obligation="normative">
          <title>Section 1</title>
        </clause></sections>
@@ -465,7 +467,7 @@ OUTPUT
       text
     INPUT
     #{BLANK_HDR}
-    <preface><clause id="_" obligation="normative">
+    <preface><clause id="_" obligation="informative">
   <title>Prefatory</title>
   <p id="_">section</p>
 </clause></preface><sections>
@@ -561,17 +563,19 @@ OUTPUT
     #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
     <preface><abstract id="_">
   <p id="_">Text</p>
-</abstract></preface><sections><foreword obligation="informative">
-  <title>Foreword</title>
-  <p id="_">Text</p>
-</foreword>
-
-<clause id="_" obligation="normative">
-  <title>Introduction</title>
-  <clause id="_" obligation="normative">
-  <title>Introduction Subsection</title>
-</clause>
-</clause>
+</abstract>
+<foreword obligation='informative'>
+             <title>Foreword</title>
+             <p id='_'>Text</p>
+           </foreword>
+           <introduction id='_' obligation='informative'>
+             <title>Introduction</title>
+             <clause id='_' obligation='informative'>
+               <title>Introduction Subsection</title>
+             </clause>
+           </introduction>
+         </preface>
+         <sections>
 <clause id="_" obligation="normative">
   <title>Scope</title>
   <p id="_">Text</p>
@@ -662,7 +666,7 @@ OUTPUT
 
       INPUT
       #{BLANK_HDR}
-      <preface/><sections>
+      <sections>
 
 </sections><bibliography><references id="_" obligation="informative">
   <title>References</title><p id="_">There are no normative references in this document.</p>
@@ -681,7 +685,7 @@ OUTPUT
 
       INPUT
     #{BLANK_HDR}
-    <preface/><sections>
+    <sections>
 
        </sections><bibliography><references id="_" obligation="informative">
          <title>References</title>
@@ -706,7 +710,7 @@ OUTPUT
       ++++
 INPUT
             #{BLANK_HDR}
-            <preface/><sections>
+            <sections>
          <formula id="_" inequality="true" unnumbered="true">
          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem>
        </formula>
@@ -725,7 +729,7 @@ OUTPUT
         ==== Term 2
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
          <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative">
          <title>terms defined elsewhere</title>
          <p id="_">This Recommendation uses the following terms defined elsewhere:</p>
@@ -753,7 +757,7 @@ OUTPUT
         === terms defined in this recommendation
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
   <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative">
   <title>terms defined elsewhere</title><p id="_">None.</p>
 </terms>
@@ -781,7 +785,7 @@ OUTPUT
         ==== Term 2
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
          <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative"><title>terms defined elsewhere</title><p id="_">Boilerplate</p>
        <term id="_">
          <preferred>Term 1</preferred>
@@ -805,7 +809,7 @@ OUTPUT
         ==== Term 2
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
   <clause id="_" obligation="normative"><title>Definitions</title><p id="_">This Recommendation defines the following terms:</p><terms id="_" obligation="normative">
   <title>terms defined somewhere</title>
   <term id="_">
@@ -836,7 +840,7 @@ OUTPUT
         ==== Term 2
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
   <clause id="_" obligation="normative"><title>Definitions</title><p id="_">Boilerplate</p>
 <terms id="_" obligation="normative">
   <title>terms defined somewhere</title>
@@ -863,7 +867,7 @@ OUTPUT
         a:: b
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
   <definitions id="_">
   <title>Abbreviations and acronyms</title><p id="_">This Recommendation uses the following abbreviations:</p>
   <dl id="_">
@@ -888,7 +892,7 @@ end
         a:: b
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
   <definitions id="_"><title>Abbreviations and acronyms</title><p id="_">Boilerplate</p>
 <dl id="_">
   <dt>a</dt>
@@ -911,7 +915,7 @@ end
         . Second
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
   <clause id="_" obligation="normative">
   <title>Clause</title>
   <ol id="_" class="steps">
@@ -946,7 +950,6 @@ it "does not apply smartquotes by default" do
       “Quotation” A’s
     INPUT
        #{BLANK_HDR}
-       <preface/>
        <sections><clause id="_" obligation="normative">
          <title>"Quotation" A's</title>
          <p id="_">
@@ -1026,7 +1029,6 @@ end
       add:[a <<clause>>] del:[B]
     INPUT
        #{BLANK_HDR}
-       <preface/>
        <sections>
        <clause id='clause' obligation='normative'>
              <title>Clause</title>
@@ -1053,7 +1055,6 @@ end
       &lt;&amp;&gt;
     INPUT
        #{BLANK_HDR}
-       <preface/>
        <sections>
        <clause id='clause' obligation='normative'>
              <title>Clause</title>

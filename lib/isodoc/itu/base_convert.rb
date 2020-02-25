@@ -29,7 +29,7 @@ module IsoDoc
         isoxml.xpath(ns(FRONT_CLAUSE)).each do |c|
           title = c&.at(ns("./title"))
           out.div **attr_code(id: c["id"]) do |s|
-            clause_name(nil, title&.content, s, class: "IntroTitle")
+            clause_name(nil, title, s, class: "IntroTitle")
             c.elements.reject { |c1| c1.name == "title" }.each do |c1|
               parse(c1, s)
             end

@@ -1020,37 +1020,95 @@ OUTPUT
 
             it "post-processes section names (Word)" do
               FileUtils.rm_f "test.doc"
-    IsoDoc::ITU::WordConvert.new({}).convert("test", itudoc("en"), false)
+    IsoDoc::ITU::WordConvert.new({}).convert("test", <<~INPUT, false)
+<itu-standard xmlns="http://riboseinc.com/isoxml">
+               <bibdata type="standard">
+               <title language="en" format="text/plain" type="main">An ITU Standard</title>
+               <docidentifier>12345</docidentifier>
+               <language>en</language>
+               <keyword>A</keyword>
+               <keyword>B</keyword>
+               <ext>
+               </ext>
+               </bibdata>
+      <preface/>
+       <sections>
+       <clause id="D" obligation="normative">
+         <title>Scope</title>
+         <p id="E">Text</p>
+         <figure id="fig-f1-1">
+  <name>Static aspects of SDL‑2010</name>
+  </figure>
+  <p>Hello</p>
+  <figure id="fig-f1-2">
+  <name>Static aspects of SDL‑2010</name>
+  </figure>
+  <note><p>Hello</p></note>
+       </clause>
+       </sections>
+        <annex id="P" inline-header="false" obligation="normative">
+         <title>Annex 1</title>
+         <clause id="Q" inline-header="false" obligation="normative">
+         <title>Annex A.1</title>
+         <p>Hello</p>
+         </clause>
+       </annex>
+           <annex id="P1" inline-header="false" obligation="normative">
+         <title>Annex 2</title>
+         <p>Hello</p>
+         <clause id="Q1" inline-header="false" obligation="normative">
+         <title>Annex A1.1</title>
+         <p>Hello</p>
+         </clause>
+         </clause>
+       </annex>
+       </itu-standard>
+    INPUT
      expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-expect(xmlpp(html.gsub(%r{^.*<div>\s*<a name="abstractbox"}m, %{<div><a name="abstractbox"}).gsub(%r{</div>.*}m, "</div></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-<div><a name="abstractbox" id="abstractbox"></a>
-         <div>
-               <p class="h1Preface">Summary</p>
-               <p class="Normalaftertitle">This is an abstract</p>
-             </div></div>
-OUTPUT
-expect(xmlpp(html.gsub(%r{^.*<div>\s*<a name="keywordsbox"}m, %{<div><a name="keywordsbox"}).gsub(%r{</div>.*}m, "</div></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-<div><a name="keywordsbox" id="keywordsbox"></a>
-    <div>
-        <p class="h1Preface">Keywords</p>
-        <p class="Normalaftertitle">A, B.</p>
-      </div></div>
-OUTPUT
-expect(xmlpp(html.gsub(%r{^.*<div>\s*<a name="historybox"}m, %{<div><a name="historybox"}).gsub(%r{</div>.*}m, "</div></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-<div><a name="historybox" id="historybox"></a>
-   <div><a name="A0" id="A0"></a>
-       <p class="h1Preface">History</p>
-       <p class="Normalaftertitle">history</p>
-     </div></div>
-OUTPUT
-expect(xmlpp(html.gsub(%r{^.*<h1>}m, %{<div><h1>}).gsub(%r{</div>.*}m, "</div></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-<div>
-<h1>5<span style="mso-tab-count:1">&#xA0; </span>Clause 4</h1>
-        <div><a name="N" id="N"></a><h2>5.1<span style="mso-tab-count:1">&#xA0; </span>Introduction</h2>
+expect((html.sub(%r{^.*<div class="WordSection3">}m, %{<body><div class="WordSection3">}).gsub(%r{</body>.*$}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+<body><div class="WordSection3">
+      <p class="zzSTDTitle1">Recommendation 12345</p>
+      <p class="zzSTDTitle2">An ITU Standard</p>
+      <div><a name="D" id="D"></a>
+        <h1>1<span style="mso-tab-count:1">&#xA0; </span>Scope</h1>
+        <p class="MsoNormal"><a name="E" id="E"></a>Text</p>
+        <div class="figure"><a name="fig-f1-1" id="fig-f1-1"></a>
 
- </div>
- </div>
+  <p class="FigureTitle" style="text-align:center;">Figure 1&#xA0;&#x2014; Static aspects of SDL&#x2011;2010</p></div>
+        <p class="Normalaftertitle">Hello</p>
+        <div class="figure"><a name="fig-f1-2" id="fig-f1-2"></a>
+
+  <p class="FigureTitle" style="text-align:center;">Figure 2&#xA0;&#x2014; Static aspects of SDL&#x2011;2010</p></div>
+        <div id="" class="Note">
+          <p class="Note"><span class="note_label">NOTE &#x2013; </span>Hello</p>
+        </div>
+      </div>
+      <p class="MsoNormal">
+        <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+      </p>
+      <div class="Section3"><a name="P" id="P"></a>
+        <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex 1</b></h1>
+        <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
+        <div><a name="Q" id="Q"></a><h2>A.1<span style="mso-tab-count:1">&#xA0; </span>Annex A.1</h2>
+
+         <p class="MsoNormal">Hello</p>
+         </div>
+      </div>
+      <p class="MsoNormal">
+        <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+      </p>
+      <div class="Section3"><a name="P1" id="P1"></a>
+        <h1 class="Annex"><b>Annex B</b> <br/><br/><b>Annex 2</b></h1>
+        <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
+        <p class="Normalaftertitle">Hello</p>
+        <div><a name="Q1" id="Q1"></a><h2>B.1<span style="mso-tab-count:1">&#xA0; </span>Annex A1.1</h2>
+
+         <p class="MsoNormal">Hello</p>
+         </div>
+      </div>
+    </div>
+  <div style="mso-element:footnote-list"/></body>
 OUTPUT
             end
 

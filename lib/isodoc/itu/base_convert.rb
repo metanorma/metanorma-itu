@@ -160,6 +160,13 @@ module IsoDoc
         end
       end
 
+      def make_table_footnote_link(out, fnid, fnref)
+        attrs = { href: "##{fnid}", class: "TableFootnoteRef" }
+        out.a **attrs do |a|
+          a << fnref + ")"
+        end
+      end
+
       def add_parse(node, out)
         out.span **{class: "addition"} do |e|
           node.children.each { |n| parse(n, e) }

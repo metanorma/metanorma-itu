@@ -1447,10 +1447,10 @@ OUTPUT
                      </tr>
                      <tr>
                        <td align="left" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Arborio</td>
-                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Drago<a href="#tableD-1a" class="TableFootnoteRef">a</a><aside><div id="ftntableD-1a"><span><span id="tableD-1a" class="TableFootnoteRef">a)</span><span style="mso-tab-count:1">&#160; </span></span>
+                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Drago<a href="#tableD-1a" class="TableFootnoteRef">a)</a><aside><div id="ftntableD-1a"><span><span id="tableD-1a" class="TableFootnoteRef">a)</span><span style="mso-tab-count:1">&#160; </span></span>
          <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
        </div></aside></td>
-                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a</a></td>
+                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
                        <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Thaibonnet</td>
                      </tr>
                    </thead>
@@ -1543,7 +1543,7 @@ FileUtils.rm_f "test.doc"
                        <td align="left" style="" valign="top">Recommendation</td>
                        <td align="left" style="" valign="top">Approval</td>
                        <td align="left" style="" valign="top">Study Group</td>
-                       <td align="left" style="" valign="top">Unique ID<a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" class="TableFootnoteRef">a</a>.</td>
+                       <td align="left" style="" valign="top">Unique ID<a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" class="TableFootnoteRef">a)</a>.</td>
                      </tr>
                      <tr>
                        <td align="left" style="" valign="top">1.0</td>

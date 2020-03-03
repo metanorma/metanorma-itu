@@ -145,13 +145,16 @@ nav {
   font-size: 0.8em;
 }
 
+.SourceTitle {
+  @include blockTitle();
+}
 
-.Sourcecode {
+pre {
   @include sourceBlock(#f6f6f6);
   font-size: 0.8em;
 }
 
-.example .Sourcecode, .example .pseudocode {
+.example pre, .example .pseudocode {
   background: none;
   margin: 0;
   padding: 0 0 0 2em;
@@ -369,7 +372,7 @@ p.Biblio, p.NormRef {
     margin-left: -1.5em;
   }
 
-  .Sourcecode, .pseudocode {
+  pre, .pseudocode {
     background: none;
     margin: 0;
     padding: 0 0 0 2em;
@@ -556,7 +559,7 @@ a.anchorjs-link {
     background-color: white;
   }
 
-  .note, .figure, .Sourcecode, table {
+  .note, .figure, pre, table {
     page-break-inside: avoid;
   }
 

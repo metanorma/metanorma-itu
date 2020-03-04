@@ -503,6 +503,144 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
     OUTPUT
   end
 
+     it "cleans up footnotes" do
+    FileUtils.rm_f "test.html"
+    IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", false)
+    <itu-standard xmlns="http://riboseinc.com/isoxml">
+    <preface>
+    <foreword>
+    <p>A.<fn reference="2">
+  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
+</fn></p>
+    <p>B.<fn reference="2">
+  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
+</fn></p>
+    <p>C.<fn reference="1">
+  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
+</fn></p>
+<table id="tableD-1" alt="tool tip" summary="long desc">
+  <name>Repeatability and reproducibility of <em>husked</em> rice yield</name>
+  <thead>
+    <tr>
+      <td rowspan="2" align="left">Description</td>
+      <td colspan="4" align="center">Rice sample</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td align="left">Arborio</td>
+      <td align="center">Drago<fn reference="a">
+  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+</fn></td>
+      <td align="center">Balilla<fn reference="a">
+  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+</fn></td>
+      <td align="center">Thaibonnet</td>
+    </tr>
+    </tbody>
+</table>
+    </foreword>
+    </preface>
+    </itu-standard>
+    INPUT
+     expect(File.exist?("test.html")).to be true
+    html = File.read("test.html", encoding: "UTF-8")
+    expect(xmlpp(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ").sub(%r{</main>.*$}m, "</main>").gsub(%r{<script>.+?</script>}, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <main xmlns:epub='epub' class='main-section'>
+  <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
+  <div>
+    <h1 class='IntroTitle' id='toc0'/>
+    <p>
+      A.
+      <a rel='footnote' href='#fn:2' epub:type='footnote' id='fnref:1'>
+        <sup>1</sup>
+      </a>
+    </p>
+    <p>
+      B.
+      <a rel='footnote' href='#fn:2' epub:type='footnote'>
+        <sup>1</sup>
+      </a>
+    </p>
+    <p>
+      C.
+      <a rel='footnote' href='#fn:1' epub:type='footnote' id='fnref:3'>
+        <sup>2</sup>
+      </a>
+    </p>
+    <p class='TableTitle' style='text-align:center;'>
+      Table 1&#xA0;&#x2014; Repeatability and reproducibility of
+      <i>husked</i>
+       rice yield
+    </p>
+    <table id='tableD-1' class='MsoISOTable' style='border-width:1px;border-spacing:0;' title='tool tip'>
+      <caption>
+        <span style='display:none'>long desc</span>
+      </caption>
+      <thead>
+        <tr>
+          <td rowspan='2' style='text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;padding:0;' scope='col'>Description</td>
+          <td colspan='4' style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;' scope='colgroup'>Rice sample</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style='text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;'>Arborio</td>
+          <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;'>
+            Drago
+            <a href='#tableD-1a' class='TableFootnoteRef'>a)</a>
+          </td>
+          <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;'>
+            Balilla
+            <a href='#tableD-1a' class='TableFootnoteRef'>a)</a>
+          </td>
+          <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;'>Thaibonnet</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan='5' style='border-top:0pt;border-bottom:solid windowtext 1.5pt;'>
+            <div class='TableFootnote'>
+              <div id='fn:tableD-1a'>
+                <p id='_0fe65e9a-5531-408e-8295-eeff35f41a55' class='TableFootnote'>
+                  <span>
+                    <span id='tableD-1a' class='TableFootnoteRef'>a)</span>
+                    &#xA0;
+                  </span>
+                  Parboiled rice.
+                </p>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <p class='zzSTDTitle1'/>
+  <p class='zzSTDTitle2'/>
+  <aside id='fn:2' class='footnote'>
+    <p id='_1e228e29-baef-4f38-b048-b05a051747e4'>
+      <a rel='footnote' href='#fn:2' epub:type='footnote'>
+        <sup>1</sup>
+      </a>
+      Formerly denoted as 15 % (m/m).
+    </p>
+    <a href='#fnref:1'>&#x21A9;</a>
+  </aside>
+  <aside id='fn:1' class='footnote'>
+    <p id='_1e228e29-baef-4f38-b048-b05a051747e4'>
+      <a rel='footnote' href='#fn:1' epub:type='footnote'>
+        <sup>2</sup>
+      </a>
+      Hello! denoted as 15 % (m/m).
+    </p>
+    <a href='#fnref:3'>&#x21A9;</a>
+  </aside>
+</main>
+OUTPUT
+  end
+
+
   it "cleans up footnotes (Word)" do
     FileUtils.rm_f "test.doc"
     IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
@@ -518,6 +656,27 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
     <p>C.<fn reference="1">
   <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
 </fn></p>
+<table id="tableD-1" alt="tool tip" summary="long desc">
+  <name>Repeatability and reproducibility of <em>husked</em> rice yield</name>
+  <thead>
+    <tr>
+      <td rowspan="2" align="left">Description</td>
+      <td colspan="4" align="center">Rice sample</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td align="left">Arborio</td>
+      <td align="center">Drago<fn reference="a">
+  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+</fn></td>
+      <td align="center">Balilla<fn reference="a">
+  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+</fn></td>
+      <td align="center">Thaibonnet</td>
+    </tr>
+    </tbody>
+</table>
     </foreword>
     </preface>
     </itu-standard>
@@ -536,6 +695,55 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
        </div>
        </div>
 OUTPUT
+require "byebug"; byebug
+expect(xmlpp(html.sub(%r{^.*<div align="center" class="table_container">}m, '').sub(%r{</table>.*$}m, "</table>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+<table class='MsoISOTable' style='mso-table-lspace:15.0cm;margin-left:423.0pt;mso-table-rspace:15.0cm;margin-right:423.0pt;mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;' title='tool tip'
+  <a name='tableD-1' id='tableD-1'/>
+  <thead>
+    <tr>
+      <td rowspan='2' align='left' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext 1.0pt;' valign='top'>Description</td>
+      <td colspan='4' align='center' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>Rice sample</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align='left' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>Arborio</td>
+      <td align='center' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>
+        Drago
+        <a href='#tableD-1a' class='TableFootnoteRef'>a)</a>
+      </td>
+      <td align='center' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>
+        Balilla
+        <a href='#tableD-1a' class='TableFootnoteRef'>a)</a>
+      </td>
+      <td align='center' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>Thaibonnet</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan='5' style='border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;'>
+        <div class='TableFootnote'>
+          <div>
+            <a name='ftntableD-1a' id='ftntableD-1a'/>
+            <p class='TableFootnote'>
+              <a name='_0fe65e9a-5531-408e-8295-eeff35f41a55' id='_0fe65e9a-5531-408e-8295-eeff35f41a55'/>
+              <span>
+                <span class='TableFootnoteRef'>
+                  <a name='tableD-1a' id='tableD-1a'/>
+                  a)
+                </span>
+                <span style='mso-tab-count:1'>&#xA0; </span>
+              </span>
+              Parboiled rice.
+            </p>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+OUTPUT
+
   end
 
 
@@ -1505,10 +1713,10 @@ OUTPUT
                      </tr>
                      <tr>
                        <td align="left" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Arborio</td>
-                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Drago<a href="#tableD-1a" class="TableFootnoteRef">a)</a><aside><div id="ftntableD-1a"><span><span id="tableD-1a" class="TableFootnoteRef">a)</span><span style="mso-tab-count:1">&#160; </span></span>
+                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Drago<a href="#tableD-1a" class="TableFootnoteRef">a</a><aside><div id="ftntableD-1a"><span><span id="tableD-1a" class="TableFootnoteRef">a</span><span style="mso-tab-count:1">&#160; </span></span>
          <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
        </div></aside></td>
-                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
+                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a</a></td>
                        <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Thaibonnet</td>
                      </tr>
                    </thead>

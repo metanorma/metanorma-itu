@@ -150,23 +150,6 @@ module IsoDoc
         out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
       end
 
-      def make_table_footnote_target(out, fnid, fnref)
-        attrs = { id: fnid, class: "TableFootnoteRef" }
-        out.span do |s|
-          out.span **attrs do |a|
-            a << fnref + ")"
-          end
-          insert_tab(s, 1)
-        end
-      end
-
-      def make_table_footnote_link(out, fnid, fnref)
-        attrs = { href: "##{fnid}", class: "TableFootnoteRef" }
-        out.a **attrs do |a|
-          a << fnref + ")"
-        end
-      end
-
       def add_parse(node, out)
         out.span **{class: "addition"} do |e|
           node.children.each { |n| parse(n, e) }
@@ -206,6 +189,10 @@ module IsoDoc
         end
         node.children.each { |n| parse(n, div) }
       end
+
+      def table_footnote_reference_format(a)
+        a.content = a.content + ")"
+    end
     end
   end
 end

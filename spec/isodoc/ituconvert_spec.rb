@@ -683,21 +683,8 @@ OUTPUT
     INPUT
      expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(xmlpp(html.sub(%r{^.*<div style="mso-element:footnote-list">}m, '<div style="mso-element:footnote-list">').sub(%r{</body>.*$}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-           <div style="mso-element:footnote-list"><div style="mso-element:footnote" id="ftn1">
-
-         <p class="MsoFootnoteText"><a name="_1e228e29-baef-4f38-b048-b05a051747e4" id="_1e228e29-baef-4f38-b048-b05a051747e4"></a><a style="mso-footnote-id:ftn1" href="#_ftn1" name="_ftnref1" title="" id="_ftnref1"><span class="MsoFootnoteReference"><span style="mso-special-character:footnote"></span></span></a><span style="mso-tab-count:1"></span>Formerly denoted as 15 % (m/m).</p>
-       </div>
-       <div style="mso-element:footnote" id="ftn2">
-
-         <p class="MsoFootnoteText"><a name="_1e228e29-baef-4f38-b048-b05a051747e4" id="_1e228e29-baef-4f38-b048-b05a051747e4"></a><a style="mso-footnote-id:ftn2" href="#_ftn2" name="_ftnref2" title="" id="_ftnref2">
-         <span class="MsoFootnoteReference"><span style="mso-special-character:footnote"></span></span></a><span style="mso-tab-count:1"></span>Hello! denoted as 15 % (m/m).</p>
-       </div>
-       </div>
-OUTPUT
-require "byebug"; byebug
 expect(xmlpp(html.sub(%r{^.*<div align="center" class="table_container">}m, '').sub(%r{</table>.*$}m, "</table>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-<table class='MsoISOTable' style='mso-table-lspace:15.0cm;margin-left:423.0pt;mso-table-rspace:15.0cm;margin-right:423.0pt;mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;' title='tool tip'
+<table class='MsoISOTable' style='mso-table-lspace:15.0cm;margin-left:423.0pt;mso-table-rspace:15.0cm;margin-right:423.0pt;mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;' title='tool tip'  summary='long desc'>
   <a name='tableD-1' id='tableD-1'/>
   <thead>
     <tr>

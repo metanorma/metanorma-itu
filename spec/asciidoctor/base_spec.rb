@@ -379,7 +379,7 @@ OUTPUT
       == Section 1
       INPUT
     #{BLANK_HDR}
-             <preface><foreword obligation="informative">
+             <preface><foreword id="_" obligation="informative">
          <title>Foreword</title>
          <p id="_">This is a preamble</p>
        </foreword>
@@ -564,7 +564,7 @@ OUTPUT
     <preface><abstract id="_">
   <p id="_">Text</p>
 </abstract>
-<foreword obligation='informative'>
+<foreword id="_" obligation='informative'>
              <title>Foreword</title>
              <p id='_'>Text</p>
            </foreword>

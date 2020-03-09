@@ -47,12 +47,6 @@ module IsoDoc
         l10n("#{@note_lbl} #{n[:label]} &ndash; ")
       end
 
-      def formula_where(dl, out)
-        return unless dl
-        out.p { |p| p << l10n("#{@where_lbl}:") }
-        parse(dl, out)
-      end
-
       def prefix_container(container, linkend, _target)
         l10n("#{linkend} #{@labels["in"]} #{anchor(container, :xref)}")
       end

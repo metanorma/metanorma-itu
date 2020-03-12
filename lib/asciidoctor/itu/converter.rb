@@ -63,6 +63,7 @@ module Asciidoctor
           word_converter(node).convert filename unless node.attr("nodoc")
           pdf_converter(node).convert filename unless node.attr("nodoc")
         end
+        @log.write(@filename + ".err") unless @novalid
         @files_to_delete.each { |f| FileUtils.rm f }
         ret
       end

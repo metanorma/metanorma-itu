@@ -12,13 +12,13 @@ module Asciidoctor
         recommendation-corrigendum recommendation-errata recommendation-annex 
         focus-group implementers-guide technical-paper technical-report 
         joint-itu-iso-iec).include? doctype or
-          warn "Document Attributes: #{doctype} is not a recognised document type"
+        @log.add("Document Attributes", nil, "#{doctype} is not a recognised document type")
       end
 
       def stage_validate(xmldoc)
         stage = xmldoc&.at("//bibdata/status/stage")&.text
         %w(in-force superseded in-force-prepublished withdrawn draft).include? stage or
-          warn "Document Attributes: #{stage} is not a recognised status"
+          @log.add("Document Attributes", nil, "#{stage} is not a recognised status")
       end
 
       def content_validate(doc)
@@ -33,17 +33,17 @@ module Asciidoctor
         s = xmldoc.at("//bibdata/ext/recommendationstatus/approvalstage") || return
         process = s["process"]
         if process == "aap" and %w(determined in-force).include? s.text
-          warn "Recommendation Status #{s.text} inconsistent with AAP"
+          @log.add("Document Attributes", nil, "Recommendation Status #{s.text} inconsistent with AAP")
         end
         if process == "tap" and !%w(determined in-force).include? s.text
-          warn "Recommendation Status #{s.text} inconsistent with TAP"
+          @log.add("Document Attributes", nil, "Recommendation Status #{s.text} inconsistent with TAP")
         end
       end
 
       def itu_identifier_validate(xmldoc)
         s = xmldoc.xpath("//bibdata/docidentifier[@type = 'ITU']").each do |x|
           /^ITU-[RTF] [AD-VX-Z]\.[0-9]+$/.match(x.text) or
-            warn("#{x.text} does not match ITU document identifier conventions")
+            @log.add("Style", nil, "#{x.text} does not match ITU document identifier conventions")
         end
       end
 
@@ -51,14 +51,14 @@ module Asciidoctor
         xmldoc.xpath("//term").each do |t|
           para = t.at("./definition") || return
           term = t.at("./preferred").text
-          termdef_warn(term, /^[A-Z][a-z]+/, term, "term is not lowercase")
-          termdef_warn(para.text, /^[a-z]/, term, "term definition does not start with capital")
-          termdef_warn(para.text, /[^.]$/, term, "term definition does not end with period")
+          termdef_warn(term, /^[A-Z][a-z]+/, t, term, "term is not lowercase")
+          termdef_warn(para.text, /^[a-z]/, t, term, "term definition does not start with capital")
+          termdef_warn(para.text, /[^.]$/, t, term, "term definition does not end with period")
         end
       end
 
-      def termdef_warn(text, re, term, msg)
-        re.match(text) && warn("ITU style: #{term}: #{msg}")
+      def termdef_warn(text, re, t, term, msg)
+        re.match(text) && @log.add("Style", t, "#{term}: #{msg}")
       end
     end
   end

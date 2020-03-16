@@ -59,6 +59,7 @@ ASCIIDOC_BLANK_HDR = <<~"HDR"
       :docfile: test.adoc
       :nodoc:
       :novalid:
+      :legacy-do-not-insert-missing-sections:
 
 HDR
 

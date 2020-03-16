@@ -9,7 +9,7 @@ external_terms_boilerplate:
 no_terms_boilerplate:
   None.
 symbols_boilerplate:
-  "This Recommendation uses the following abbreviations:"
+  "This Recommendation uses the following abbreviations and acronyms:"
 norm_empty_pref:
   None.
 clause_empty:

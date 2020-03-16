@@ -914,7 +914,7 @@ OUTPUT
         #{BLANK_HDR}
         <sections>
   <definitions id="_">
-  <title>Abbreviations and acronyms</title><p id="_">This Recommendation uses the following abbreviations:</p>
+  <title>Abbreviations and acronyms</title><p id="_">This Recommendation uses the following abbreviations and acronyms:</p>
   <dl id="_">
   <dt>a</dt>
   <dd>

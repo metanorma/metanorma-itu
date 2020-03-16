@@ -29,7 +29,8 @@ module Asciidoctor
       def init(node)
         super
         @smartquotes = node.attr("smartquotes") == "true"
-        @no_insert_missing_sections = node.attr("legacy-do-not-insert-missing-sections")
+        @no_insert_missing_sections = doctype(node) != "recommendation" &&
+          node.attr("legacy-do-not-insert-missing-sections")
       end
 
       def makexml(node)

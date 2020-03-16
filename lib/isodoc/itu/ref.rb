@@ -65,11 +65,19 @@ module IsoDoc
 
       def render_identifiers(ids)
         ids.map do |id|
-          (id["type"] == "ITU" ?
-           titlecase(id.parent&.at(ns("./ext/doctype"))&.text ||
-                     "recommendation") + " " : "") +
-                    docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))
+          id["type"] == "ITU" ? doctype_title(id) : 
+            docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))
         end.join(" | ")
+      end
+
+      def doctype_title(id)
+        type = id.parent&.at(ns("./ext/doctype"))&.text || "recommendation"
+        if type == "recommendation" &&
+            /^(?<prefix>ITU-[A-Z] [A-Z])[ .-]Sup[a-z]*\.[ ]?(?<num>\d+)$/ =~ id.text
+          "#{prefix}-series Recommendations – Supplement #{num}"
+        else
+          "#{titlecase(type)} #{docid_prefix(id["type"], id.text.sub(/^\[/, '').sub(/\]$/, ''))}"
+        end
       end
 
       def reference_format_start(b, r)

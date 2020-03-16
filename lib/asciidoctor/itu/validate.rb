@@ -58,6 +58,19 @@ module Asciidoctor
         end
       end
 
+      def section_validate(doc)
+        super
+        section_check(doc.root)
+      end
+
+      # Editing Guidelines 7.2, 7.3
+      def section_check(xmldoc)
+        xmldoc.at("//bibdata/abstract") or
+          @log.add("Style", nil, "No Summary has been provided")
+        xmldoc.at("//bibdata/keywords") or
+          @log.add("Style", nil, "No Keywords have been provided")
+      end
+
       def termdef_style(xmldoc)
         xmldoc.xpath("//term").each do |t|
           para = t.at("./definition") || return

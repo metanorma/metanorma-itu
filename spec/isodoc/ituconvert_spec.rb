@@ -58,8 +58,8 @@ RSpec.describe Asciidoctor::ITU do
 <series type="tertiary">
   <title>C3</title>
 </series>
-     <keyword>word1</keyword>
- <keyword>word2</keyword>
+     <keyword>word2</keyword>
+ <keyword>word1</keyword>
   <ext>
   <doctype>directive</doctype>
       <editorialgroup>

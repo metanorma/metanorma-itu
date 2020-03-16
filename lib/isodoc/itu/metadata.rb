@@ -92,7 +92,7 @@ module IsoDoc
         isoxml.xpath(ns("//bibdata/keyword")).each do |kw|
           keywords << kw.text
         end
-        set(:keywords, keywords)
+        set(:keywords, keywords.sort)
       end
 
       def ip_notice_received(isoxml, _out)

@@ -33,6 +33,7 @@ RSpec.describe Asciidoctor::ITU do
       Author
       :docfile: test.adoc
       :novalid:
+      :legacy-do-not-insert-missing-sections:
     INPUT
     #{BLANK_HDR}
 <sections/>
@@ -40,6 +41,47 @@ RSpec.describe Asciidoctor::ITU do
     OUTPUT
     expect(File.exist?("test.html")).to be true
   end
+
+  it "converts a blank document and insert missing sections" do
+    FileUtils.rm_f "test.html"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      INPUT
+    #{BLANK_HDR}
+    <sections>
+  <clause obligation='normative'>
+    <title>Scope</title>
+    <p id='_'>This Recommendation defines the following terms:</p>
+    <terms obligation='normative'>
+      <title>Definitions</title>
+      <p id='_'>None.</p>
+    </terms>
+    <definitions>
+      <title>Definitions</title>
+      <p id='_'>None.</p>
+    </definitions>
+    <clause obligation='normative'>
+      <title>Conventions</title>
+      <p id='_'>None.</p>
+    </clause>
+    <p id='_'>None.</p>
+  </clause>
+</sections>
+<bibliography>
+  <references obligation='informative'>
+    <title>References</title>
+    <p id='_'>None.</p>
+    <p id='_'>None.</p>
+  </references>
+</bibliography>
+</itu-standard>
+      OUTPUT
+  end
+
 
     it "processes default metadata" do
     expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true).sub(%r{<boilerplate>.*</boilerplate>}m, ""))).to be_equivalent_to xmlpp(<<~'OUTPUT')
@@ -53,6 +95,7 @@ RSpec.describe Asciidoctor::ITU do
       :copyright-year: 2001
       :title: Main Title
       :draft: 3.4
+      :legacy-do-not-insert-missing-sections:
     INPUT
     <itu-standard xmlns="https://www.metanorma.org/ns/itu">
 <bibdata type="standard">
@@ -176,6 +219,7 @@ OUTPUT
       :annexid: H3
       :annextitle: I3
       :annextitle-fr: J3
+      :legacy-do-not-insert-missing-sections:
 
     INPUT
 <?xml version="1.0" encoding="UTF-8"?>
@@ -319,6 +363,7 @@ OUTPUT
       :iteration: 3
       :language: en
       :title: Main Title
+      :legacy-do-not-insert-missing-sections:
     INPUT
        <?xml version="1.0" encoding="UTF-8"?>
        <itu-standard xmlns="https://www.metanorma.org/ns/itu">
@@ -641,7 +686,7 @@ OUTPUT
 </annex><bibliography>
 <references id="_" obligation="informative">
   <title>References</title>
-  <p id="_">There are no normative references in this document.</p>
+  <p id="_">None.</p>
 </references>
 <clause id="_" obligation="informative">
   <title>Bibliography</title>
@@ -669,7 +714,7 @@ OUTPUT
       <sections>
 
 </sections><bibliography><references id="_" obligation="informative">
-  <title>References</title><p id="_">There are no normative references in this document.</p>
+  <title>References</title><p id="_">None.</p>
 </references></bibliography>
 </itu-standard>
       OUTPUT
@@ -940,6 +985,7 @@ it "does not apply smartquotes by default" do
       :nodoc:
       :novalid:
       :no-isobib:
+      :legacy-do-not-insert-missing-sections:
 
       == "Quotation" A's
 

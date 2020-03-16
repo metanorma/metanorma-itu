@@ -80,7 +80,7 @@ it "Warns if not Recommendation Status determined or in-force, and Process TAP" 
     expect(File.read("test.err")).to include "Recommendation Status undetermined inconsistent with TAP"
 end
 
-it "Warning if term definition does not start with capital" do
+it "Warns if term definition does not start with capital" do
       FileUtils.rm_f "test.err"
   Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
   #{VALIDATING_BLANK_HDR}
@@ -93,7 +93,7 @@ it "Warning if term definition does not start with capital" do
     expect(File.read("test.err")).to include "term definition does not start with capital"
 end
 
-it "Warning if term definition does not end with period" do
+it "Warns if term definition does not end with period" do
       FileUtils.rm_f "test.err"
   Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
   #{VALIDATING_BLANK_HDR}
@@ -106,7 +106,7 @@ it "Warning if term definition does not end with period" do
     expect(File.read("test.err")).to include "term definition does not end with period"
 end
 
-it "Warning if term is not lowercase" do
+it "Warns if term is not lowercase" do
       FileUtils.rm_f "test.err"
   Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
   #{VALIDATING_BLANK_HDR}
@@ -119,5 +119,18 @@ it "Warning if term is not lowercase" do
     expect(File.read("test.err")).to include "Fred: term is not lowercase"
 end
 
+it "Warns if title includes series title" do
+      FileUtils.rm_f "test.err"
+  Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
+  = Transmission Systems and Media, Digital Systems and Networks: Software tools for speech and audio coding standardization
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :series: G: Transmission Systems and Media, Digital Systems and Networks
+
+  Part of the specialized vocabulary of a particular field
+  INPUT
+    expect(File.read("test.err")).to include "Title includes series name"
+end
 
 end

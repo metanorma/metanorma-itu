@@ -27,6 +27,17 @@ module Asciidoctor
         itu_identifier_validate(doc)
         bibdata_validate(doc.root)
         termdef_style(doc.root)
+        title_validate1(doc.root)
+      end
+
+      # Editing Guidelines 6.3
+      def title_validate1(xmldoc)
+        t = xmldoc.at("//bibdata/title")&.text
+        xmldoc.xpath("//bibdata/series/title").each do |s|
+          series = s.text.sub(/^[A-Z]: /, "")
+          t.downcase.include?(series.downcase) and
+            @log.add("Document Attributes", nil, "Title includes series name #{series}")
+        end
       end
 
       def approval_validate(xmldoc)

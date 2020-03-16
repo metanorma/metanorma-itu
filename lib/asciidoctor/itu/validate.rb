@@ -28,6 +28,7 @@ module Asciidoctor
         bibdata_validate(doc.root)
         termdef_style(doc.root)
         title_validate1(doc.root)
+        requirement_validate(doc.root)
       end
 
       # Editing Guidelines 6.3
@@ -37,6 +38,25 @@ module Asciidoctor
           series = s.text.sub(/^[A-Z]: /, "")
           t.downcase.include?(series.downcase) and
             @log.add("Document Attributes", nil, "Title includes series name #{series}")
+        end
+      end
+
+      def extract_text(node)
+        return "" if node.nil?
+        node1 = Nokogiri::XML.fragment(node.to_s)
+        node1.xpath("//link | //locality").each(&:remove)
+        ret = ""
+        node1.traverse { |x| ret += x.text if x.text? }
+        ret
+      end
+
+      # Editing Guidelines 7
+      def requirement_validate(xmldoc)
+        xmldoc.xpath("//preface/*").each do |c|
+          extract_text(c).split(/\.\s+/).each do |t|
+            /\b(shall|must)\b/i.match(t) and
+              @log.add("Style", c, "Requirement possibly in preface: #{t.strip}")
+          end
         end
       end
 

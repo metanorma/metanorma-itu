@@ -181,5 +181,21 @@ it "does not warn if Keywords provided" do
     expect(File.read("test.err")).not_to include "No Keywoerds have been provided"
 end
 
+it "warns if requirement in preface" do
+        FileUtils.rm_f "test.err"
+  Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
+  = Transmission Systems and Media, Digital Systems and Networks: Software tools for speech and audio coding standardization
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :keywords: A
+
+  [abstract]
+  == Abstract
+  This shall not pass.
+  INPUT
+    expect(File.read("test.err")).to include "Requirement possibly in preface"
+end
+
 
 end

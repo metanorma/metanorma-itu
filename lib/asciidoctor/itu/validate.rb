@@ -29,6 +29,7 @@ module Asciidoctor
         termdef_style(doc.root)
         title_validate1(doc.root)
         requirement_validate(doc.root)
+        numbers_validate(doc.root)
       end
 
       # Editing Guidelines 6.3
@@ -56,6 +57,30 @@ module Asciidoctor
           extract_text(c).split(/\.\s+/).each do |t|
             /\b(shall|must)\b/i.match(t) and
               @log.add("Style", c, "Requirement possibly in preface: #{t.strip}")
+          end
+        end
+      end
+
+      # Editing Guidelines 9.4.3
+      def numbers_validate(xmldoc)
+        xmldoc.xpath("//clause | //preface/* | //annex").each do |x|
+          xx = x.dup
+          xx.xpath("./clause").each { |c| c.remove }
+          style_two_regex_not_prev(x, extract_text(xx),
+                                   /^(?<num>-?[0-9][0-9,. ]{3,})$/,
+                                   %r{(\bISO|\bIEC|\bIEEE/)$},
+                                   "number not broken up in threes by apostrophe")
+        end
+      end
+
+      def style_two_regex_not_prev(n, text, re, re_prev, warning)
+        return if text.nil?
+        arr = text.split(/\W+/)
+        arr.each_index do |i|
+          m = re.match arr[i]
+          m_prev = i.zero? ? nil : re_prev.match(arr[i - 1])
+          if !m.nil? && m_prev.nil?
+            @log.add("Style", n, "#{warning}: #{m[:num]}")
           end
         end
       end

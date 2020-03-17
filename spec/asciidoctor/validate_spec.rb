@@ -197,5 +197,17 @@ it "warns if requirement in preface" do
     expect(File.read("test.err")).to include "Requirement possibly in preface"
 end
 
+it "warns if number not broken up by apostrophe" do
+        FileUtils.rm_f "test.err"
+  Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
+  #{VALIDATING_BLANK_HDR}
+
+  [abstract]
+  == Abstract
+  This shall not pass 1,000,000.
+  INPUT
+    expect(File.read("test.err")).to include "number not broken up in threes by apostrophe"
+end
+
 
 end

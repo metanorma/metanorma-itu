@@ -9,6 +9,14 @@ module Asciidoctor
         insert_missing_sections(x) unless @no_insert_missing_sections
       end
 
+      def table_cleanup(xmldoc)
+        super
+        xmldoc.xpath("//thead/tr[1]/th | //thead/tr[1]/td").each do |t|
+          text = t.at("./descendant::text()") or next
+          text.replace(text.text.titlecase)
+        end
+      end
+
       def insert_missing_sections(x)
         insert_scope(x)
         insert_norm_ref(x)

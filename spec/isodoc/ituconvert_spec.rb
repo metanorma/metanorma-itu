@@ -1443,14 +1443,14 @@ OUTPUT
             <div>
                <h1 class="IntroTitle"/>
                <p>
-           <a href="#N1">Equation (1) in Introduction</a>
-           <a href="#N2">Inequality (2) in Preparatory</a>
+           <a href="#N1">Equation (Introduction-1) in Introduction</a>
+           <a href="#N2">Inequality (Introduction-2) in Preparatory</a>
            </p>
              </div>
-             <div id="intro"><h1 class="IntroTitle"/><div id="N1" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (1)</p></div>
+             <div id="intro"><h1 class="IntroTitle"/><div id="N1" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (Introduction-1)</p></div>
 
          <div id="xyz"><h2>Preparatory</h2>
-           <div id="N2" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (2)</p></div>
+           <div id="N2" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (Introduction-2)</p></div>
 
 
        </div></div>
@@ -2058,8 +2058,8 @@ it "processes figures as hierarchical assets" do
     OUTPUT
 end
 
-it "processes formulae as hierarchical assets" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({hierarchical_assets: true}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+it "processes formulae as non-hierarchical assets" do
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <iso-standard xmlns="http://riboseinc.com/isoxml">
         <preface>
     <foreword id="fwd">

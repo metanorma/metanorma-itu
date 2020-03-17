@@ -1111,5 +1111,45 @@ end
     OUTPUT
   end
 
+     it "capitalises table header" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      [headerrows=2]
+      |===
+      |a |b |c
+      |a |b |c
+
+      |a |b |c
+      |===
+
+    INPUT
+       #{BLANK_HDR}
+       <sections><table id="_">
+         <thead>
+           <tr>
+             <th align="left">A</th>
+             <th align="left">B</th>
+             <th align="left">C</th>
+           </tr>
+           <tr>
+             <th align="left">a</th>
+             <th align="left">b</th>
+             <th align="left">c</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr>
+             <td align="left">a</td>
+             <td align="left">b</td>
+             <td align="left">c</td>
+           </tr>
+         </tbody>
+       </table>
+
+       </sections>
+       </itu-standard>
+    OUTPUT
+  end
+
 
 end

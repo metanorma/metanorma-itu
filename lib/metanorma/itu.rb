@@ -6,7 +6,7 @@ module Metanorma
 
     ORGANIZATION_NAME_SHORT = "ITU"
     ORGANIZATION_NAME_LONG = "International Telecommunication Union"
-    DOCUMENT_NAMESPACE = "https://open.ribose.com/standards/itu"
+    DOCUMENT_NAMESPACE = "https://www.metanorma.org/ns/itu"
 
   end
 end

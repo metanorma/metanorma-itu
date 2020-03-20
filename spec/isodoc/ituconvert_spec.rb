@@ -1443,8 +1443,8 @@ OUTPUT
             <div>
                <h1 class="IntroTitle"/>
                <p>
-           <a href="#N1">Equation (Introduction-1) in Introduction</a>
-           <a href="#N2">Inequality (Introduction-2) in Preparatory</a>
+           <a href="#N1">Equation (Introduction-1)</a>
+           <a href="#N2">Inequality (Introduction-2)</a>
            </p>
              </div>
              <div id="intro"><h1 class="IntroTitle"/><div id="N1" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (Introduction-1)</p></div>
@@ -1605,7 +1605,7 @@ INPUT
                <p id="ISO712" class="NormRef">[ISO 712]&#160; ISO 712 (2001), <i>Cereals and cereal products</i>.</p>
                <p id="ITU712" class="NormRef">[ITU 712]&#160; Recommendation ITU 712, <i>Cereals and cereal products</i>.</p>
                <p id="ITU712a" class="NormRef">[ITU 712]&#160; Recommendation ITU 712 | ISO 712 (2016), <i>Cereals and cereal products</i>.</p>
-               <p id='ITU713' class='NormRef'>[ITU-T G Suppl. 41]&#160; ITU-T G-series Recommendations – Supplement 41, <i>Cereals and cereal products</i>.</p>
+               <p id='ITU713' class='NormRef'>[ITU-T G Suppl. 41]&#160; ITU-T G-series Recommendations &#8211; Supplement 41, <i>Cereals and cereal products</i>.</p>
              </div>
            </div>
          </body>
@@ -1632,7 +1632,7 @@ INPUT
     </iso-standard>
     INPUT
     <div>
-    <div id="_be9158af-7e93-4ee2-90c5-26d31c181934" class="formula"><p class="formula"><span style="mso-tab-count:2">&#160; </span><span class="stem">(#(r = 1 %)#)</span></p></div><p>where:</p><table class="dl"><tr><td valign="top" align="left"><p align="left" style="margin-left:0pt;text-align:left;">
+    <div id="_be9158af-7e93-4ee2-90c5-26d31c181934" class="formula"><p class="formula"><span style="mso-tab-count:2">&#160; </span><span class="stem">(#(r = 1 %)#)</span></p></div><p>where:</p><table class="formula_dl"><tr><td valign="top" align="left"><p align="left" style="margin-left:0pt;text-align:left;">
            <span class="stem">(#(r)#)</span>
          </p></td><td valign="top">
            <p id="_1b99995d-ff03-40f5-8f2e-ab9665a69b77">is the repeatability limit.</p>
@@ -1819,7 +1819,7 @@ FileUtils.rm_f "test.doc"
                      </tr>
                    </tbody>
                  <tfoot><tr><td colspan="5" style=""><div class="TableFootnote"><div><a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>
-         <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11.1002/1000/11830-en</a></p>
+         <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11. 1002/1000/11830-en</a></p>
        </div></div></td></tr></tfoot></table>
        </div></div>
       OUTPUT
@@ -1917,6 +1917,13 @@ FileUtils.rm_f "test.doc"
              </div>
              <br/>
              <div id="annex1" class="Section3">
+ <h1 class='Annex'>
+   <b>Annex A</b>
+   <br/>
+   <br/>
+   <b/>
+ </h1>
+ <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
                <div id="annex1a"><h2>A.1&#160; </h2>
          </div>
                <div id="annex1b"><h2>A.2&#160; </h2>
@@ -2038,6 +2045,13 @@ it "processes figures as hierarchical assets" do
              </div>
              <br/>
              <div id="annex1" class="Section3">
+              <h1 class='Annex'>
+   <b>Annex A</b>
+   <br/>
+   <br/>
+   <b/>
+ </h1>
+ <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
                <div id="annex1a"><h2>A.1&#160; </h2>
          </div>
                <div id="annex1b"><h2>A.2&#160; </h2>
@@ -2115,11 +2129,11 @@ it "processes formulae as non-hierarchical assets" do
     <div id='fwd'>
       <h1 class='IntroTitle'/>
       <p>
-        <a href='#note1'>Equation (3-1) in Clause 3.1</a>
-        <a href='#note2'>Equation (3-2) in Clause 3.1</a>
+        <a href='#note1'>Equation (3-1)</a>
+        <a href='#note2'>Equation (3-2)</a>
         <a href='#AN'>[AN]</a>
-        <a href='#Anote1'>Equation (A-1) in Clause A.2</a>
-        <a href='#Anote2'>Equation (A-2) in Clause A.2</a>
+        <a href='#Anote1'>Equation (A-1)</a>
+        <a href='#Anote2'>Equation (A-2)</a>
       </p>
     </div>
     <p class='zzSTDTitle1'/>
@@ -2155,6 +2169,13 @@ it "processes formulae as non-hierarchical assets" do
     </div>
     <br/>
     <div id='annex1' class='Section3'>
+     <h1 class='Annex'>
+   <b>Annex A</b>
+   <br/>
+   <br/>
+   <b/>
+ </h1>
+ <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
       <div id='annex1a'>
         <h2>A.1&#160; </h2>
       </div>
@@ -2517,6 +2538,14 @@ it "cross-references notes" do
              </div>
              <br/>
              <div id="annex1" class="Section3">
+              <h1 class='Annex'>
+   <b>Annex A</b>
+   <br/>
+   <br/>
+   <b/>
+ </h1>
+ <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
+
                <div id="annex1a"><h2>A.1&#160; </h2>
            <div id="AN" class="Note"><p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
            </div>

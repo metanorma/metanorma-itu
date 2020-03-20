@@ -11,9 +11,6 @@ module IsoDoc
         out.div do |div|
           num = num + 1
           clause_name(num, @normref_lbl, div, nil)
-          f.elements.reject do |e|
-            %w(reference title bibitem note).include? e.name
-          end.each { |e| parse(e, div) }
           biblio_list(f, div, false)
         end
         num

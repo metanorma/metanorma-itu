@@ -8,11 +8,9 @@ module IsoDoc
         super
         here = File.dirname(__FILE__)
         set(:logo_html,
-            #File.expand_path(File.join(here, "html", "Logo_ITU.jpg")))
             File.expand_path(File.join(here, "html", "International_Telecommunication_Union_Logo.svg")))
         set(:logo_comb,
             File.expand_path(File.join(here, "html", "itu-document-comb.png")))
-        #set(:logo_word, File.expand_path(File.join(here, "html", "logo.png")))
         set(:logo_word, File.expand_path(File.join(here, "html", "International_Telecommunication_Union_Logo.svg")))
       end
 
@@ -54,27 +52,6 @@ module IsoDoc
       def unpublished(status)
         %w(in-force-prepublished draft).include? status.downcase
       end
-
-      def version(isoxml, _out)
-        super
-        revdate = get[:revdate]
-        set(:revdate_monthyear, monthyr(revdate))
-      end
-
-      MONTHS = {
-        "01": "January",
-        "02": "February",
-        "03": "March",
-        "04": "April",
-        "05": "May",
-        "06": "June",
-        "07": "July",
-        "08": "August",
-        "09": "September",
-        "10": "October",
-        "11": "November",
-        "12": "December",
-      }.freeze
 
       def bibdate(isoxml, _out)
         pubdate = isoxml.xpath(ns("//bibdata/date[@type = 'published']"))

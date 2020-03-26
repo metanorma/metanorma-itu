@@ -1,64 +1,21 @@
-= metanorma-itu: Asciidoctor processor for ITU
+= metanorma-itu: Metanorma for ITU
 
 image:https://img.shields.io/gem/v/metanorma-itu.svg["Gem Version", link="https://rubygems.org/gems/metanorma-itu"]
-image:https://travis-ci.com/metanorma/metanorma-itu.svg["Build Status", link="https://travis-ci.com/metanorma/metanorma-itu"]
-image:https://ci.appveyor.com/api/projects/status/pl6lh4a9224ijbe1?svg=true["Appveyor Build Status", link="https://ci.appveyor.com/project/metanorma/metanorma-itu"]
 image:https://codeclimate.com/github/metanorma/metanorma-itu/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/metanorma-itu"]
 image:https://img.shields.io/github/issues-pr-raw/metanorma/metanorma-itu.svg["Pull Requests", link="https://github.com/metanorma/metanorma-itu/pulls"]
 image:https://img.shields.io/github/commits-since/metanorma/metanorma-itu/latest.svg["Commits since latest",link="https://github.com/metanorma/metanorma-itu/releases"]
 
 == Functionality
 
-This gem processes http://asciidoctor.org/[Asciidoctor] documents following
-a template for generating ITU documents.
+This gem processes Metanorma input for generating ITU (ITU-T, ITU-D) documents.
 
-The gem currently inherits from the https://github.com/metanorma/metanorma-standoc
-gem, and aligns closely to it. Refer to the ISO gem documentation
-for guidance, including https://github.com/metanorma/metanorma-iso/wiki/Guidance-for-authoring
-
-The following outputs are generated.
-
-* an XML representation of the document, intended as a document model for ITU documents.
-* The XML representation is processed in turn to generate the following outputs
-as end deliverable ITU documents.
-** HTML
-** http://asciimath.org[AsciiMathML] is to be used for mathematical formatting.
-The gem uses the https://github.com/asciidoctor/asciimath[Ruby AsciiMath parser],
-which is syntactically stricter than the common MathJax processor;
-if you do not get expected results, try bracketing terms your in AsciiMathML
-expressions.
+The implementation inherits from https://github.com/metanorma/metanorma-standoc.
 
 == Usage
 
-The preferred way to invoke this gem is via the `metanorma` script:
+== Usage and installation
 
-[source,console]
-----
-$ metanorma --type itu a.adoc                   # output HTML
-$ metanorma --type itu --extensions html a.adoc # output just HTML
-$ metanorma --type itu --extensions xml a.adoc  # output RSD XML
-----
-
-The gem translates the document into Metanorma XML format, and then
-validates its output against the Metanorma XML document model; errors are
-reported to console against the XML, and are intended for users to
-check that they have provided all necessary components of the
-document.
-
-The gem then converts the XML into HTML.
-
-=== Installation
-
-If you are using a Mac, the https://github.com/metanorma/metanorma-macos-setup
-repository has instructions on setting up your machine to run Metanorma
-scripts such as this one. You need only run the following in a Terminal console:
-
-[source,console]
-----
-$ bash <(curl -s https://raw.githubusercontent.com/metanorma/metanorma-macos-setup/master/metanorma-setup)
-$ gem install metanorma-acme
-$ gem install metanorma-cli
-----
+See https://www.metanorma.com.
 
 == Documentation
 
@@ -66,6 +23,6 @@ See https://www.metanorma.com/author/itu/[Write ITU-T documents with Metanorma].
 
 == Examples
 
-* Example documents are avalable at the https://github.com/metanorma/mn-samples-itu[mn-samples-itu] repository.
+* Example documents are available at the https://github.com/metanorma/mn-samples-itu[mn-samples-itu] repository.
 * Document templates are available at the https://github.com/metanorma/mn-templates-itu[mn-templates-itu] repository.
 

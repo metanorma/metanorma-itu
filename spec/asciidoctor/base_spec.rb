@@ -53,23 +53,22 @@ RSpec.describe Asciidoctor::ITU do
       INPUT
     #{BLANK_HDR}
     <sections>
-  <clause obligation='normative'>
-    <title>Scope</title>
-    <p id='_'>This Recommendation defines the following terms:</p>
-    <terms obligation='normative'>
-      <title>Definitions</title>
-      <p id='_'>None.</p>
-    </terms>
-    <definitions>
-      <title>Definitions</title>
-      <p id='_'>None.</p>
-    </definitions>
     <clause obligation='normative'>
-      <title>Conventions</title>
-      <p id='_'>None.</p>
-    </clause>
-    <p id='_'>None.</p>
-  </clause>
+             <title>Scope</title>
+             <p id='_'>None.</p>
+           </clause>
+           <terms obligation='normative'>
+             <title>Definitions</title>
+             <p id='_'>None.</p>
+           </terms>
+           <definitions>
+             <title>Definitions</title>
+             <p id='_'>None.</p>
+           </definitions>
+           <clause obligation='normative'>
+             <title>Conventions</title>
+             <p id='_'>None.</p>
+           </clause>
 </sections>
 <bibliography>
   <references obligation='informative'>

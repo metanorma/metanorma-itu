@@ -54,9 +54,8 @@ module IsoDoc
 
       def multi_bibitem_ref_code(b)
         id = b.xpath(ns("./docidentifier[not(@type = 'metanorma' or #{IGNORE_IDS})]"))
-        id.empty? and id = b.xpath(ns("./docidentifier[not(#{IGNORE_IDS})]"))
-        id.empty? and id = b.xpath(ns("./docidentifier"))
-        return ["(NO ID)"] if id.empty?
+        id.empty? and id = b.xpath(ns("./docidentifier[not(@type = 'metanorma')]"))
+        return [] if id.empty?
         id.sort_by { |i| i["type"] == "ITU" ? 0 : 1 }
       end
 
@@ -79,10 +78,11 @@ module IsoDoc
 
       def reference_format_start(b, r)
         id = multi_bibitem_ref_code(b)
-        r << render_identifiers(id)
+        id1 = render_identifiers(id)
+        r << id1
         date = b.at(ns("./date[@type = 'published']")) and
           r << " (#{date.text.sub(/-.*$/, '')})"
-        r << ", "
+        r << ", " if (date || !id1.empty?)
       end
 
       def reference_format_title(b, r)
@@ -95,6 +95,10 @@ module IsoDoc
           end
           /\.$/.match(title&.text) or r << "."
         end
+      end
+
+      def format_ref(ref, prefix, isopub, date, allparts)
+        docid_prefix(prefix, ref).sub(/^\[/, "").sub(/\]$/, "")
       end
     end
   end

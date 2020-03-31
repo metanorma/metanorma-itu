@@ -30,7 +30,7 @@ module Asciidoctor
           x.at("./*/preface | ./*/boilerplate | ./*/bibdata").next =
           "<sections><sentinel/></sections>"
         x.at("./*/sections/*") or x.at("./*/sections") << "<sentinel/>"
-        ins = x.at("//sections").children.first
+        ins = x.at("//sections").elements.first
         unless x.at("//sections/clause/title[text() = 'Scope']")
           ins.previous = "<clause><title>Scope</title><p>"\
             "#{@labels['clause_empty']}</p></clause>"
@@ -41,7 +41,7 @@ module Asciidoctor
       def insert_norm_ref(x)
         x.at("//bibliography") or x.at("./*/annex[last()] | ./*/sections").next =
           "<bibliography><sentinel/></bibliography>"
-        ins = x.at("//bibliography").children.first
+        ins = x.at("//bibliography").elements.first
         unless x.at("//bibliography/references/title[text() = 'References']")
           ins.previous = "<references><title>References</title><p>"\
             "#{@labels['clause_empty']}</p></references>"
@@ -50,7 +50,7 @@ module Asciidoctor
       end
 
       def insert_terms(x)
-        ins =  x.at("//sections/clause/title[text() = 'Scope']")
+        ins =  x.at("//sections/clause/title[text() = 'Scope']/..")
         unless x.at("//sections/terms")
           ins.next = "<terms><title>Definitions</title><p>"\
             "#{@labels['clause_empty']}</p></terms>"
@@ -58,7 +58,7 @@ module Asciidoctor
       end
 
       def insert_symbols(x)
-        ins =  x.at("//terms")
+        ins =  x.at("//sections/terms")
         unless x.at("//sections//definitions")
           ins.next = "<definitions><title>Definitions</title><p>"\
             "#{@labels['clause_empty']}</p></definitions>"

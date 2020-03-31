@@ -39,7 +39,8 @@ module Asciidoctor
       end
 
       def insert_norm_ref(x)
-        x.at("//bibliography") or x.at("./*/annex[last()] | ./*/sections").next =
+        x.at("//bibliography") or
+          x.at("./*/annex[last()] | ./*/sections").next =
           "<bibliography><sentinel/></bibliography>"
         ins = x.at("//bibliography").elements.first
         unless x.at("//bibliography/references/title[text() = 'References']")
@@ -51,14 +52,15 @@ module Asciidoctor
 
       def insert_terms(x)
         ins =  x.at("//sections/clause/title[text() = 'Scope']/..")
-        unless x.at("//sections/terms")
+        unless x.at("//sections//terms")
           ins.next = "<terms><title>Definitions</title><p>"\
             "#{@labels['clause_empty']}</p></terms>"
         end
       end
 
       def insert_symbols(x)
-        ins =  x.at("//sections/terms")
+        ins =  x.at("//sections/terms") ||
+          x.at("//sections/clause[descendant::terms]")
         unless x.at("//sections//definitions")
           ins.next = "<definitions><title>Definitions</title><p>"\
             "#{@labels['clause_empty']}</p></definitions>"
@@ -66,7 +68,8 @@ module Asciidoctor
       end
 
       def insert_conventions(x)
-        ins =  x.at("//sections//definitions")
+        ins =  x.at("//sections//definitions") ||
+          x.at("//sections/clause[descendant::definitions]")
         unless x.at("//sections/clause/title[text() = 'Conventions']")
           ins.next = "<clause><title>Conventions</title><p>"\
             "#{@labels['clause_empty']}</p></clause>"

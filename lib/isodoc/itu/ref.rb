@@ -38,11 +38,13 @@ module IsoDoc
         s.gsub(/ |\_|\-/, " ").split(/ /).map(&:capitalize).join(" ")
       end
 
+      IGNORE_IDS =
+        "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or @type = 'rfc-anchor'".freeze
+
       def bibitem_ref_code(b)
         id = b.at(ns("./docidentifier[@type = 'metanorma']"))
         id ||= b.at(ns("./docidentifier[@type = 'ITU']"))
-        id ||= b.at(ns("./docidentifier[not(@type = 'DOI' or @type = 'ISSN' or "\
-                       "@type = 'ISBN')]"))
+        id ||= b.at(ns("./docidentifier[not(#{IGNORE_IDS})]"))
         id ||= b.at(ns("./docidentifier"))
         return id if id
         id = Nokogiri::XML::Node.new("docidentifier", b.document)
@@ -51,10 +53,8 @@ module IsoDoc
       end
 
       def multi_bibitem_ref_code(b)
-        id = b.xpath(ns("./docidentifier[not(@type = 'DOI' or @type = "\
-                        "'metanorma' or @type = 'ISSN' or @type = 'ISBN')]"))
-        id.empty? and id = b.xpath(ns("./docidentifier[not(@type = 'DOI' or "\
-                                      "@type = 'ISSN' or @type = 'ISBN')]"))
+        id = b.xpath(ns("./docidentifier[not(@type = 'metanorma' or #{IGNORE_IDS})]"))
+        id.empty? and id = b.xpath(ns("./docidentifier[not(#{IGNORE_IDS})]"))
         id.empty? and id = b.xpath(ns("./docidentifier"))
         return ["(NO ID)"] if id.empty?
         id.sort_by { |i| i["type"] == "ITU" ? 0 : 1 }

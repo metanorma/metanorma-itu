@@ -38,6 +38,7 @@ module IsoDoc
         set(:bureau, bureau.text) if bureau
         tc = isoxml.at(ns("//bibdata/ext/editorialgroup/committee"))
         set(:tc, tc.text) if tc
+        super
       end
 
       def docid(isoxml, _out)

@@ -120,8 +120,8 @@ module IsoDoc
 
       def get_eref_linkend(node)
         link = "[#{anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))}]"
-        link += eref_localities(node.xpath(ns("./locality")), link)
-        contents = node.children.select { |c| c.name != "locality" }
+        link += eref_localities(node.xpath(ns("./locality | ./localityStack")), link)
+        contents = node.children.select { |c| !%w{locality localityStack}.include? c.name }
         return link if contents.nil? || contents.empty?
         Nokogiri::XML::NodeSet.new(node.document, contents).to_xml
       end

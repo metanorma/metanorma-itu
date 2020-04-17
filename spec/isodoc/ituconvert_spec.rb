@@ -1360,7 +1360,8 @@ OUTPUT
            <sup><a href="#ISO712">[ISO 712]</a></sup>
         <a href="#ISO712">[ISO 712]</a>
         <sup><a href="#ISO712">[ISO 712], Section 8</a></sup>
-        <a href="#ISO712">[ISO 712], Section 8</a>
+        <a href='#ISO712'>[ISO 712], Section 8</a>
+        <a href="#ISO712">[ISO 712], Section 8; Section 10</a>
 
            </p>
                </div>

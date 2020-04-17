@@ -161,10 +161,14 @@ pre {
 }
 
 .document-stage-band {
-  @include docBand($order: 1, $textLength: 160px, $color: black, $fontWeight: 300);
+  @include docBand($order: 1, $textLength: 160px, $color: white, $fontWeight: 300);
 }
 .document-type-band {
-  @include docBand($order: 2, $textLength: 210px, $color: black, $offset: 180px);
+  @include docBand($order: 2, $offset: 180px);
+
+  .document-type {
+    top: 20px;
+  }
 }
 
 .logo-wrapper {
@@ -316,7 +320,7 @@ ul {
 
     &:before {
       content: "\2014";
-      display: inline-block; 
+      display: inline-block;
       width: 1em;
       margin-left: -1.2em;
     }
@@ -365,7 +369,7 @@ p.Biblio, p.NormRef {
 }
 
 .example {
-  @include exampleBlock(#e1eef1, null, 1.2em, 2em); 
+  @include exampleBlock(#e1eef1, null, 1.2em, 2em);
 
   .example-title {
     margin-top: 0;

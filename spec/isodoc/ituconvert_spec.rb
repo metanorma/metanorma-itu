@@ -1332,6 +1332,7 @@ OUTPUT
     <eref type="inline" bibitemid="ISO712" citeas="ISO 712"></eref>
     <eref type="footnote" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality></eref>
     <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality></eref>
+    <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><localityStack><locality type="section"><referenceFrom>8</referenceFrom></locality></localityStack><localityStack><locality type="section"><referenceFrom>10</referenceFrom></locality></localityStack></eref>
     </p>
     </foreword></preface>
     <bibliography><references id="_normative_references" obligation="informative"><title>References</title>

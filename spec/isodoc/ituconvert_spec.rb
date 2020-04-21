@@ -58,8 +58,8 @@ RSpec.describe Asciidoctor::ITU do
 <series type="tertiary">
   <title>C3</title>
 </series>
-     <keyword>word1</keyword>
- <keyword>word2</keyword>
+     <keyword>word2</keyword>
+ <keyword>word1</keyword>
   <ext>
   <doctype>directive</doctype>
       <editorialgroup>
@@ -134,7 +134,7 @@ RSpec.describe Asciidoctor::ITU do
 </itu-standard>
     INPUT
     expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <<~"OUTPUT"
-    {:accesseddate=>"XXX", :annexid=>"Appendix F1", :annextitle=>"Annex Title", :bureau=>"R", :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docidentifier=>"ABC", :docnumber=>"1000", :doctitle=>"Main Title", :doctype=>"Directive", :docyear=>"2001", :draft=>"3.4", :draftinfo=>" (draft 3.4, 2000-01-01)", :edition=>"2", :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :iteration=>"3", :keywords=>["word1", "word2"], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :receiveddate=>"XXX", :revdate=>"2000-01-01", :revdate_monthyear=>"01/2000", :series=>"A3", :series1=>"B3", :series2=>"C3", :stage=>"Final Draft", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>false, :updateddate=>"XXX"}
+    {:accesseddate=>"XXX", :agency=>"ITU", :annexid=>"Appendix F1", :annextitle=>"Annex Title", :authors=>[], :authors_affiliations=>{}, :bureau=>"R", :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docnumber=>"ITU-R 1000", :docnumeric=>"1000", :doctitle=>"Main Title", :doctype=>"Directive", :docyear=>"2001", :draft=>"3.4", :draftinfo=>" (draft 3.4, 2000-01-01)", :edition=>"2", :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :iteration=>"3", :keywords=>["word1", "word2"], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :publisher=>"International Telecommunication Union", :receiveddate=>"XXX", :revdate=>"2000-01-01", :revdate_monthyear=>"01/2000", :series=>"A3", :series1=>"B3", :series2=>"C3", :stage=>"Final Draft", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>false, :updateddate=>"XXX"}
     OUTPUT
   end
 
@@ -169,7 +169,7 @@ RSpec.describe Asciidoctor::ITU do
   </status>
 INPUT
 expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <<~"OUTPUT"
-    {:accesseddate=>"XXX", :annextitle=>nil, :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docidentifier=>"ABC", :docnumber=>"1000", :doctitle=>"Main Title", :docyear=>nil, :draft=>nil, :draftinfo=>"", :edition=>nil, :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :keywords=>[], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :receiveddate=>"XXX", :revdate=>nil, :revdate_monthyear=>nil, :series=>nil, :series1=>nil, :series2=>nil, :stage=>"In Force Prepublished", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>true, :updateddate=>"XXX"}
+    {:accesseddate=>"XXX", :agency=>"ITU", :annextitle=>nil, :authors=>[], :authors_affiliations=>{}, :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docnumber=>"ITU-R 1000", :docnumeric=>"1000", :doctitle=>"Main Title", :docyear=>nil, :draft=>nil, :draftinfo=>"", :edition=>nil, :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :keywords=>[], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :publisher=>"International Telecommunication Union", :receiveddate=>"XXX", :revdate=>nil, :revdate_monthyear=>nil, :series=>nil, :series1=>nil, :series2=>nil, :stage=>"In Force Prepublished", :stageabbr=>"IFP", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>true, :updateddate=>"XXX"}
     OUTPUT
    end
 
@@ -503,6 +503,144 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
     OUTPUT
   end
 
+     it "cleans up footnotes" do
+    FileUtils.rm_f "test.html"
+    IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", false)
+    <itu-standard xmlns="http://riboseinc.com/isoxml">
+    <preface>
+    <foreword>
+    <p>A.<fn reference="2">
+  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
+</fn></p>
+    <p>B.<fn reference="2">
+  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
+</fn></p>
+    <p>C.<fn reference="1">
+  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
+</fn></p>
+<table id="tableD-1" alt="tool tip" summary="long desc">
+  <name>Repeatability and reproducibility of <em>husked</em> rice yield</name>
+  <thead>
+    <tr>
+      <td rowspan="2" align="left">Description</td>
+      <td colspan="4" align="center">Rice sample</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td align="left">Arborio</td>
+      <td align="center">Drago<fn reference="a">
+  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+</fn></td>
+      <td align="center">Balilla<fn reference="a">
+  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+</fn></td>
+      <td align="center">Thaibonnet</td>
+    </tr>
+    </tbody>
+</table>
+    </foreword>
+    </preface>
+    </itu-standard>
+    INPUT
+     expect(File.exist?("test.html")).to be true
+    html = File.read("test.html", encoding: "UTF-8")
+    expect(xmlpp(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ").sub(%r{</main>.*$}m, "</main>").gsub(%r{<script>.+?</script>}, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <main xmlns:epub='epub' class='main-section'>
+  <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
+  <div>
+    <h1 class='IntroTitle' id='toc0'/>
+    <p>
+      A.
+      <a rel='footnote' href='#fn:2' epub:type='footnote' id='fnref:1'>
+        <sup>1</sup>
+      </a>
+    </p>
+    <p>
+      B.
+      <a rel='footnote' href='#fn:2' epub:type='footnote'>
+        <sup>1</sup>
+      </a>
+    </p>
+    <p>
+      C.
+      <a rel='footnote' href='#fn:1' epub:type='footnote' id='fnref:3'>
+        <sup>2</sup>
+      </a>
+    </p>
+    <p class='TableTitle' style='text-align:center;'>
+      Table 1&#xA0;&#x2014; Repeatability and reproducibility of
+      <i>husked</i>
+       rice yield
+    </p>
+    <table id='tableD-1' class='MsoISOTable' style='border-width:1px;border-spacing:0;' title='tool tip'>
+      <caption>
+        <span style='display:none'>long desc</span>
+      </caption>
+      <thead>
+        <tr>
+          <td rowspan='2' style='text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;padding:0;' scope='col'>Description</td>
+          <td colspan='4' style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;' scope='colgroup'>Rice sample</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style='text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;'>Arborio</td>
+          <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;'>
+            Drago
+            <a href='#tableD-1a' class='TableFootnoteRef'>a)</a>
+          </td>
+          <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;'>
+            Balilla
+            <a href='#tableD-1a' class='TableFootnoteRef'>a)</a>
+          </td>
+          <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;'>Thaibonnet</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan='5' style='border-top:0pt;border-bottom:solid windowtext 1.5pt;'>
+            <div class='TableFootnote'>
+              <div id='fn:tableD-1a'>
+                <p id='_0fe65e9a-5531-408e-8295-eeff35f41a55' class='TableFootnote'>
+                  <span>
+                    <span id='tableD-1a' class='TableFootnoteRef'>a)</span>
+                    &#xA0;
+                  </span>
+                  Parboiled rice.
+                </p>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <p class='zzSTDTitle1'/>
+  <p class='zzSTDTitle2'/>
+  <aside id='fn:2' class='footnote'>
+    <p id='_1e228e29-baef-4f38-b048-b05a051747e4'>
+      <a rel='footnote' href='#fn:2' epub:type='footnote'>
+        <sup>1</sup>
+      </a>
+      Formerly denoted as 15 % (m/m).
+    </p>
+    <a href='#fnref:1'>&#x21A9;</a>
+  </aside>
+  <aside id='fn:1' class='footnote'>
+    <p id='_1e228e29-baef-4f38-b048-b05a051747e4'>
+      <a rel='footnote' href='#fn:1' epub:type='footnote'>
+        <sup>2</sup>
+      </a>
+      Hello! denoted as 15 % (m/m).
+    </p>
+    <a href='#fnref:3'>&#x21A9;</a>
+  </aside>
+</main>
+OUTPUT
+  end
+
+
   it "cleans up footnotes (Word)" do
     FileUtils.rm_f "test.doc"
     IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
@@ -518,24 +656,81 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
     <p>C.<fn reference="1">
   <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
 </fn></p>
+<table id="tableD-1" alt="tool tip" summary="long desc">
+  <name>Repeatability and reproducibility of <em>husked</em> rice yield</name>
+  <thead>
+    <tr>
+      <td rowspan="2" align="left">Description</td>
+      <td colspan="4" align="center">Rice sample</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td align="left">Arborio</td>
+      <td align="center">Drago<fn reference="a">
+  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+</fn></td>
+      <td align="center">Balilla<fn reference="a">
+  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+</fn></td>
+      <td align="center">Thaibonnet</td>
+    </tr>
+    </tbody>
+</table>
     </foreword>
     </preface>
     </itu-standard>
     INPUT
      expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(xmlpp(html.sub(%r{^.*<div style="mso-element:footnote-list">}m, '<div style="mso-element:footnote-list">').sub(%r{</body>.*$}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-           <div style="mso-element:footnote-list"><div style="mso-element:footnote" id="ftn1">
-
-         <p class="MsoFootnoteText"><a name="_1e228e29-baef-4f38-b048-b05a051747e4" id="_1e228e29-baef-4f38-b048-b05a051747e4"></a><a style="mso-footnote-id:ftn1" href="#_ftn1" name="_ftnref1" title="" id="_ftnref1"><span class="MsoFootnoteReference"><span style="mso-special-character:footnote"></span></span></a><span style="mso-tab-count:1"></span>Formerly denoted as 15 % (m/m).</p>
-       </div>
-       <div style="mso-element:footnote" id="ftn2">
-
-         <p class="MsoFootnoteText"><a name="_1e228e29-baef-4f38-b048-b05a051747e4" id="_1e228e29-baef-4f38-b048-b05a051747e4"></a><a style="mso-footnote-id:ftn2" href="#_ftn2" name="_ftnref2" title="" id="_ftnref2">
-         <span class="MsoFootnoteReference"><span style="mso-special-character:footnote"></span></span></a><span style="mso-tab-count:1"></span>Hello! denoted as 15 % (m/m).</p>
-       </div>
-       </div>
+expect(xmlpp(html.sub(%r{^.*<div align="center" class="table_container">}m, '').sub(%r{</table>.*$}m, "</table>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+<table class='MsoISOTable' style='mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;' title='tool tip'  summary='long desc'>
+  <a name='tableD-1' id='tableD-1'/>
+  <thead>
+    <tr>
+      <td rowspan='2' align='left' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext 1.0pt;' valign='top'>Description</td>
+      <td colspan='4' align='center' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>Rice sample</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align='left' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>Arborio</td>
+      <td align='center' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>
+        Drago
+        <a href='#tableD-1a' class='TableFootnoteRef'>a)</a>
+      </td>
+      <td align='center' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>
+        Balilla
+        <a href='#tableD-1a' class='TableFootnoteRef'>a)</a>
+      </td>
+      <td align='center' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>Thaibonnet</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan='5' style='border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;'>
+        <div class='TableFootnote'>
+          <div>
+            <a name='ftntableD-1a' id='ftntableD-1a'/>
+            <p class='TableFootnote'>
+              <a name='_0fe65e9a-5531-408e-8295-eeff35f41a55' id='_0fe65e9a-5531-408e-8295-eeff35f41a55'/>
+              <span>
+                <span class='TableFootnoteRef'>
+                  <a name='tableD-1a' id='tableD-1a'/>
+                  a)
+                </span>
+                <span style='mso-tab-count:1'>&#xA0; </span>
+              </span>
+              Parboiled rice.
+            </p>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tfoot>
+</table>
 OUTPUT
+
   end
 
 
@@ -544,7 +739,7 @@ OUTPUT
                <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
-               <docidentifier>12345</docidentifier>
+               <docidentifier type="ITU">12345</docidentifier>
                <language>#{lang}</language>
                <keyword>A</keyword>
                <keyword>B</keyword>
@@ -615,7 +810,7 @@ OUTPUT
                <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
-               <docidentifier>12345</docidentifier>
+               <docidentifier type="ITU">12345</docidentifier>
                <language>en</language>
                <keyword>A</keyword>
                <keyword>B</keyword>
@@ -1020,52 +1215,106 @@ OUTPUT
 
             it "post-processes section names (Word)" do
               FileUtils.rm_f "test.doc"
-    IsoDoc::ITU::WordConvert.new({}).convert("test", itudoc("en"), false)
+    IsoDoc::ITU::WordConvert.new({}).convert("test", <<~INPUT, false)
+<itu-standard xmlns="http://riboseinc.com/isoxml">
+               <bibdata type="standard">
+               <title language="en" format="text/plain" type="main">An ITU Standard</title>
+               <docidentifier type="ITU">12345</docidentifier>
+               <language>en</language>
+               <keyword>A</keyword>
+               <keyword>B</keyword>
+               <ext>
+               </ext>
+               </bibdata>
+      <preface/>
+       <sections>
+       <clause id="D" obligation="normative">
+         <title>Scope</title>
+         <p id="E">Text</p>
+         <figure id="fig-f1-1">
+  <name>Static aspects of SDL‑2010</name>
+  </figure>
+  <p>Hello</p>
+  <figure id="fig-f1-2">
+  <name>Static aspects of SDL‑2010</name>
+  </figure>
+  <note><p>Hello</p></note>
+       </clause>
+       </sections>
+        <annex id="P" inline-header="false" obligation="normative">
+         <title>Annex 1</title>
+         <clause id="Q" inline-header="false" obligation="normative">
+         <title>Annex A.1</title>
+         <p>Hello</p>
+         </clause>
+       </annex>
+           <annex id="P1" inline-header="false" obligation="normative">
+         <title>Annex 2</title>
+         <p>Hello</p>
+         <clause id="Q1" inline-header="false" obligation="normative">
+         <title>Annex A1.1</title>
+         <p>Hello</p>
+         </clause>
+         </clause>
+       </annex>
+       </itu-standard>
+    INPUT
      expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-expect(xmlpp(html.gsub(%r{^.*<div>\s*<a name="abstractbox"}m, %{<div><a name="abstractbox"}).gsub(%r{</div>.*}m, "</div></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-<div><a name="abstractbox" id="abstractbox"></a>
-         <div>
-               <p class="h1Preface">Summary</p>
-               <p class="Normalaftertitle">This is an abstract</p>
-             </div></div>
-OUTPUT
-expect(xmlpp(html.gsub(%r{^.*<div>\s*<a name="keywordsbox"}m, %{<div><a name="keywordsbox"}).gsub(%r{</div>.*}m, "</div></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-<div><a name="keywordsbox" id="keywordsbox"></a>
-    <div>
-        <p class="h1Preface">Keywords</p>
-        <p class="Normalaftertitle">A, B.</p>
-      </div></div>
-OUTPUT
-expect(xmlpp(html.gsub(%r{^.*<div>\s*<a name="historybox"}m, %{<div><a name="historybox"}).gsub(%r{</div>.*}m, "</div></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-<div><a name="historybox" id="historybox"></a>
-   <div><a name="A0" id="A0"></a>
-       <p class="h1Preface">History</p>
-       <p class="Normalaftertitle">history</p>
-     </div></div>
-OUTPUT
-expect(xmlpp(html.gsub(%r{^.*<h1>}m, %{<div><h1>}).gsub(%r{</div>.*}m, "</div></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-<div>
-<h1>5<span style="mso-tab-count:1">&#xA0; </span>Clause 4</h1>
-        <div><a name="N" id="N"></a><h2>5.1<span style="mso-tab-count:1">&#xA0; </span>Introduction</h2>
+expect((html.sub(%r{^.*<div class="WordSection3">}m, %{<body><div class="WordSection3">}).gsub(%r{</body>.*$}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+<body><div class="WordSection3">
+      <p class="zzSTDTitle1">Recommendation 12345</p>
+      <p class="zzSTDTitle2">An ITU Standard</p>
+      <div><a name="D" id="D"></a>
+        <h1>1<span style="mso-tab-count:1">&#xA0; </span>Scope</h1>
+        <p class="MsoNormal"><a name="E" id="E"></a>Text</p>
+        <div class="figure"><a name="fig-f1-1" id="fig-f1-1"></a>
 
- </div>
- </div>
+  <p class="FigureTitle" style="text-align:center;">Figure 1&#xA0;&#x2014; Static aspects of SDL&#x2011;2010</p></div>
+        <p class="Normalaftertitle">Hello</p>
+        <div class="figure"><a name="fig-f1-2" id="fig-f1-2"></a>
+
+  <p class="FigureTitle" style="text-align:center;">Figure 2&#xA0;&#x2014; Static aspects of SDL&#x2011;2010</p></div>
+        <div id="" class="Note">
+          <p class="Note"><span class="note_label">NOTE &#x2013; </span>Hello</p>
+        </div>
+      </div>
+      <p class="MsoNormal">
+        <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+      </p>
+      <div class="Section3"><a name="P" id="P"></a>
+        <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex 1</b></h1>
+        <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
+        <div><a name="Q" id="Q"></a><h2>A.1<span style="mso-tab-count:1">&#xA0; </span>Annex A.1</h2>
+
+         <p class="MsoNormal">Hello</p>
+         </div>
+      </div>
+      <p class="MsoNormal">
+        <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+      </p>
+      <div class="Section3"><a name="P1" id="P1"></a>
+        <h1 class="Annex"><b>Annex B</b> <br/><br/><b>Annex 2</b></h1>
+        <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
+        <p class="Normalaftertitle">Hello</p>
+        <div><a name="Q1" id="Q1"></a><h2>B.1<span style="mso-tab-count:1">&#xA0; </span>Annex A1.1</h2>
+
+         <p class="MsoNormal">Hello</p>
+         </div>
+      </div>
+    </div>
+  <div style="mso-element:footnote-list"/></body>
 OUTPUT
             end
 
   it "injects JS into blank html" do
     FileUtils.rm_f "test.html"
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
       = Document title
       Author
       :docfile: test.adoc
       :novalid:
     INPUT
-    #{BLANK_HDR}
-<preface/><sections/>
-</itu-standard>
-    OUTPUT
     html = File.read("test.html", encoding: "utf-8")
     expect(html).to match(%r{jquery\.min\.js})
     expect(html).to match(%r{Open Sans})
@@ -1083,6 +1332,7 @@ OUTPUT
     <eref type="inline" bibitemid="ISO712" citeas="ISO 712"></eref>
     <eref type="footnote" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality></eref>
     <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality></eref>
+    <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><localityStack><locality type="section"><referenceFrom>8</referenceFrom></locality></localityStack><localityStack><locality type="section"><referenceFrom>10</referenceFrom></locality></localityStack></eref>
     </p>
     </foreword></preface>
     <bibliography><references id="_normative_references" obligation="informative"><title>References</title>
@@ -1110,7 +1360,8 @@ OUTPUT
            <sup><a href="#ISO712">[ISO 712]</a></sup>
         <a href="#ISO712">[ISO 712]</a>
         <sup><a href="#ISO712">[ISO 712], Section 8</a></sup>
-        <a href="#ISO712">[ISO 712], Section 8</a>
+        <a href='#ISO712'>[ISO 712], Section 8</a>
+        <a href="#ISO712">[ISO 712], Section 8; Section 10</a>
 
            </p>
                </div>
@@ -1130,7 +1381,7 @@ OUTPUT
                <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
-               <docidentifier>12345</docidentifier>
+               <docidentifier type="ITU">12345</docidentifier>
                <language>en</language>
                <keyword>A</keyword>
                <keyword>B</keyword>
@@ -1194,14 +1445,14 @@ OUTPUT
             <div>
                <h1 class="IntroTitle"/>
                <p>
-           <a href="#N1">Equation (1) in Introduction</a>
-           <a href="#N2">Inequality (2) in Preparatory</a>
+           <a href="#N1">Equation (Introduction-1)</a>
+           <a href="#N2">Inequality (Introduction-2)</a>
            </p>
              </div>
-             <div id="intro"><h1 class="IntroTitle"/><div id="N1" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (1)</p></div>
+             <div id="intro"><h1 class="IntroTitle"/><div id="N1" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (Introduction-1)</p></div>
 
          <div id="xyz"><h2>Preparatory</h2>
-           <div id="N2" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (2)</p></div>
+           <div id="N2" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (Introduction-2)</p></div>
 
 
        </div></div>
@@ -1218,7 +1469,7 @@ OUTPUT
         <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
-               <docidentifier>12345</docidentifier>
+               <docidentifier type="ITU">12345</docidentifier>
                <language>en</language>
                <keyword>A</keyword>
                <keyword>B</keyword>
@@ -1312,11 +1563,24 @@ OUTPUT
     </organization>
   </contributor>
 </bibitem>
-<bibitem id="ITU712" type="standard">
+<bibitem id="ITU712a" type="standard">
   <title format="text/plain">Cereals or cereal products</title>
   <title type="main" format="text/plain">Cereals and cereal products</title>
   <docidentifier type="ISO">ISO 712</docidentifier>
   <docidentifier type="ITU">ITU 712</docidentifier>
+  <date type="published"><on>2016</on></date>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <name>International Organization for Standardization</name>
+    </organization>
+  </contributor>
+</bibitem>
+<bibitem id="ITU713" type="standard">
+  <title format="text/plain">Cereals or cereal products</title>
+  <title type="main" format="text/plain">Cereals and cereal products</title>
+  <docidentifier type="ITU">ITU-T G Suppl. 41</docidentifier>
+  <docidentifier type="DOI">DOI 712</docidentifier>
   <contributor>
     <role type="publisher"/>
     <organization>
@@ -1342,7 +1606,8 @@ INPUT
                <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
                <p id="ISO712" class="NormRef">[ISO 712]&#160; ISO 712 (2001), <i>Cereals and cereal products</i>.</p>
                <p id="ITU712" class="NormRef">[ITU 712]&#160; Recommendation ITU 712, <i>Cereals and cereal products</i>.</p>
-               <p id="ITU712" class="NormRef">[ITU 712]&#160; Recommendation ITU 712 | ISO 712, <i>Cereals and cereal products</i>.</p>
+               <p id="ITU712a" class="NormRef">[ITU 712]&#160; Recommendation ITU 712 | ISO 712 (2016), <i>Cereals and cereal products</i>.</p>
+               <p id='ITU713' class='NormRef'>[ITU-T G Suppl. 41]&#160; ITU-T G-series Recommendations &#8211; Supplement 41, <i>Cereals and cereal products</i>.</p>
              </div>
            </div>
          </body>
@@ -1369,7 +1634,7 @@ INPUT
     </iso-standard>
     INPUT
     <div>
-    <div id="_be9158af-7e93-4ee2-90c5-26d31c181934" class="formula"><p class="formula"><span style="mso-tab-count:2">&#160; </span><span class="stem">(#(r = 1 %)#)</span></p></div><p>where:</p><table class="dl"><tr><td valign="top" align="left"><p align="left" style="margin-left:0pt;text-align:left;">
+    <div id="_be9158af-7e93-4ee2-90c5-26d31c181934" class="formula"><p class="formula"><span style="mso-tab-count:2">&#160; </span><span class="stem">(#(r = 1 %)#)</span></p></div><p>where:</p><table class="formula_dl"><tr><td valign="top" align="left"><p align="left" style="margin-left:0pt;text-align:left;">
            <span class="stem">(#(r)#)</span>
          </p></td><td valign="top">
            <p id="_1b99995d-ff03-40f5-8f2e-ab9665a69b77">is the repeatability limit.</p>
@@ -1439,7 +1704,7 @@ OUTPUT
     <div>
 <p class="TableTitle" style="text-align:center;">Table 1&#160;&#8212; Repeatability and reproducibility of <i>husked</i> rice yield</p>
        <div align='center' class='table_container'>
-       <table id='tableD-1' class='MsoISOTable' style='mso-table-lspace:15.0cm;margin-left:423.0pt;mso-table-rspace:15.0cm;margin-right:423.0pt;mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;' title='tool tip' summary='long desc'>
+       <table id='tableD-1' class='MsoISOTable' style='mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;' title='tool tip' summary='long desc'>
                    <thead>
                      <tr>
                        <td rowspan="2" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Description</td>
@@ -1447,7 +1712,7 @@ OUTPUT
                      </tr>
                      <tr>
                        <td align="left" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Arborio</td>
-                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Drago<a href="#tableD-1a" class="TableFootnoteRef">a</a><aside><div id="ftntableD-1a"><span><span id="tableD-1a" class="TableFootnoteRef">a)</span><span style="mso-tab-count:1">&#160; </span></span>
+                       <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Drago<a href="#tableD-1a" class="TableFootnoteRef">a</a><aside><div id="ftntableD-1a"><span><span id="tableD-1a" class="TableFootnoteRef">a</span><span style="mso-tab-count:1">&#160; </span></span>
          <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
        </div></aside></td>
                        <td align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a</a></td>
@@ -1535,7 +1800,7 @@ FileUtils.rm_f "test.doc"
       <p class="h1Preface">History</p>
                <p class="TableTitle" style="text-align:center;">Table 1</p>
                 <div align='center' class='table_container'>
-<table class='MsoNormalTable' style='mso-table-lspace:15.0cm;margin-left:423.0pt;mso-table-rspace:15.0cm;margin-right:423.0pt;mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;'>
+<table class='MsoNormalTable' style='mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;'>
 <a name='_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4' id='_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4'/>
                    <tbody>
                      <tr>
@@ -1543,7 +1808,7 @@ FileUtils.rm_f "test.doc"
                        <td align="left" style="" valign="top">Recommendation</td>
                        <td align="left" style="" valign="top">Approval</td>
                        <td align="left" style="" valign="top">Study Group</td>
-                       <td align="left" style="" valign="top">Unique ID<a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" class="TableFootnoteRef">a</a>.</td>
+                       <td align="left" style="" valign="top">Unique ID<a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" class="TableFootnoteRef">a)</a>.</td>
                      </tr>
                      <tr>
                        <td align="left" style="" valign="top">1.0</td>
@@ -1556,7 +1821,7 @@ FileUtils.rm_f "test.doc"
                      </tr>
                    </tbody>
                  <tfoot><tr><td colspan="5" style=""><div class="TableFootnote"><div><a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>
-         <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11.1002/1000/11830-en</a></p>
+         <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11. 1002/1000/11830-en</a></p>
        </div></div></td></tr></tfoot></table>
        </div></div>
       OUTPUT
@@ -1654,6 +1919,13 @@ FileUtils.rm_f "test.doc"
              </div>
              <br/>
              <div id="annex1" class="Section3">
+ <h1 class='Annex'>
+   <b>Annex A</b>
+   <br/>
+   <br/>
+   <b/>
+ </h1>
+ <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
                <div id="annex1a"><h2>A.1&#160; </h2>
          </div>
                <div id="annex1b"><h2>A.2&#160; </h2>
@@ -1674,7 +1946,7 @@ FileUtils.rm_f "test.doc"
 OUTPUT
       end
 
-it "processes hierarchical assets" do
+it "processes figures as hierarchical assets" do
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({hierarchical_assets: true}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <iso-standard xmlns="http://riboseinc.com/isoxml">
         <preface>
@@ -1775,6 +2047,13 @@ it "processes hierarchical assets" do
              </div>
              <br/>
              <div id="annex1" class="Section3">
+              <h1 class='Annex'>
+   <b>Annex A</b>
+   <br/>
+   <br/>
+   <b/>
+ </h1>
+ <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
                <div id="annex1a"><h2>A.1&#160; </h2>
          </div>
                <div id="annex1b"><h2>A.2&#160; </h2>
@@ -1792,6 +2071,134 @@ it "processes hierarchical assets" do
              </div>
            </div>
          </body>
+    OUTPUT
+end
+
+it "processes formulae as non-hierarchical assets" do
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+        <preface>
+    <foreword id="fwd">
+    <p>
+    <xref target="note1"/>
+    <xref target="note2"/>
+    <xref target="AN"/>
+    <xref target="Anote1"/>
+    <xref target="Anote2"/>
+    </p>
+    </foreword>
+    </preface>
+    <sections>
+    <clause id="scope"><title>Scope</title>
+    </clause>
+    <terms id="terms"/>
+    <clause id="widgets"><title>Widgets</title>
+    <clause id="widgets1">
+        <formula id="note1">
+  <stem type="AsciiMath">r = 1 %</stem>
+  </formula>
+    <formula id="note2">
+  <stem type="AsciiMath">r = 1 %</stem>
+  </formula>
+  <p>    <xref target="note1"/> <xref target="note2"/> </p>
+    </clause>
+    </clause>
+    </sections>
+    <annex id="annex1">
+    <clause id="annex1a">
+    </clause>
+    <clause id="annex1b">
+        <formula id="Anote1">
+  <stem type="AsciiMath">r = 1 %</stem>
+  </formula>
+    <formula id="Anote2">
+  <stem type="AsciiMath">r = 1 %</stem>
+  </formula>
+    </clause>
+    </annex>
+    </iso-standard>
+    INPUT
+    <body lang='EN-US' xml:lang='EN-US' link='blue' vlink='#954F72' class='container'>
+  <div class='title-section'>
+    <p>&#160;</p>
+  </div>
+  <br/>
+  <div class='prefatory-section'>
+    <p>&#160;</p>
+  </div>
+  <br/>
+  <div class='main-section'>
+    <div id='fwd'>
+      <h1 class='IntroTitle'/>
+      <p>
+        <a href='#note1'>Equation (3-1)</a>
+        <a href='#note2'>Equation (3-2)</a>
+        <a href='#AN'>[AN]</a>
+        <a href='#Anote1'>Equation (A-1)</a>
+        <a href='#Anote2'>Equation (A-2)</a>
+      </p>
+    </div>
+    <p class='zzSTDTitle1'/>
+    <p class='zzSTDTitle2'/>
+    <div id='scope'>
+      <h1>1&#160; Scope</h1>
+    </div>
+    <div id='terms'>
+      <h1>2&#160; Definitions</h1>
+      <p>None.</p>
+    </div>
+    <div id='widgets'>
+      <h1>3&#160; Widgets</h1>
+      <div id='widgets1'>
+        <h2>3.1&#160; </h2>
+        <div id='note1' class='formula'>
+          <p>
+            <span class='stem'>(#(r = 1 %)#)</span>
+            &#160; (3-1)
+          </p>
+        </div>
+        <div id='note2' class='formula'>
+          <p>
+            <span class='stem'>(#(r = 1 %)#)</span>
+            &#160; (3-2)
+          </p>
+        </div>
+        <p>
+          <a href='#note1'>Equation (3-1)</a>
+          <a href='#note2'>Equation (3-2)</a>
+        </p>
+      </div>
+    </div>
+    <br/>
+    <div id='annex1' class='Section3'>
+     <h1 class='Annex'>
+   <b>Annex A</b>
+   <br/>
+   <br/>
+   <b/>
+ </h1>
+ <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
+      <div id='annex1a'>
+        <h2>A.1&#160; </h2>
+      </div>
+      <div id='annex1b'>
+        <h2>A.2&#160; </h2>
+        <div id='Anote1' class='formula'>
+          <p>
+            <span class='stem'>(#(r = 1 %)#)</span>
+            &#160; (A-1)
+          </p>
+        </div>
+        <div id='Anote2' class='formula'>
+          <p>
+            <span class='stem'>(#(r = 1 %)#)</span>
+            &#160; (A-2)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
     OUTPUT
 end
 
@@ -2133,6 +2540,14 @@ it "cross-references notes" do
              </div>
              <br/>
              <div id="annex1" class="Section3">
+              <h1 class='Annex'>
+   <b>Annex A</b>
+   <br/>
+   <br/>
+   <b/>
+ </h1>
+ <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
+
                <div id="annex1a"><h2>A.1&#160; </h2>
            <div id="AN" class="Note"><p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
            </div>

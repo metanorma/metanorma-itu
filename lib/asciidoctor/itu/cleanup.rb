@@ -6,6 +6,74 @@ module Asciidoctor
         x.xpath("//*[@inline-header]").each do |h|
           h.delete("inline-header")
         end
+        insert_missing_sections(x) unless @no_insert_missing_sections
+      end
+
+      def table_cleanup(xmldoc)
+        super
+        xmldoc.xpath("//thead/tr[1]/th | //thead/tr[1]/td").each do |t|
+          text = t.at("./descendant::text()") or next
+          text.replace(text.text.titlecase)
+        end
+      end
+
+      def insert_missing_sections(x)
+        insert_scope(x)
+        insert_norm_ref(x)
+        insert_terms(x)
+        insert_symbols(x)
+        insert_conventions(x)
+      end
+
+      def insert_scope(x)
+        x.at("./*/sections") or
+          x.at("./*/preface | ./*/boilerplate | ./*/bibdata").next =
+          "<sections><sentinel/></sections>"
+        x.at("./*/sections/*") or x.at("./*/sections") << "<sentinel/>"
+        ins = x.at("//sections").elements.first
+        unless x.at("//sections/clause/title[text() = 'Scope']")
+          ins.previous = "<clause><title>Scope</title><p>"\
+            "#{@labels['clause_empty']}</p></clause>"
+        end
+        x&.at("//sentinel")&.remove
+      end
+
+      def insert_norm_ref(x)
+        x.at("//bibliography") or
+          x.at("./*/annex[last()] | ./*/sections").next =
+          "<bibliography><sentinel/></bibliography>"
+        ins = x.at("//bibliography").elements.first
+        unless x.at("//bibliography/references/title[text() = 'References']")
+          ins.previous = "<references><title>References</title><p>"\
+            "#{@labels['clause_empty']}</p></references>"
+        end
+        x&.at("//sentinel")&.remove
+      end
+
+      def insert_terms(x)
+        ins =  x.at("//sections/clause/title[text() = 'Scope']/..")
+        unless x.at("//sections//terms")
+          ins.next = "<terms><title>Definitions</title><p>"\
+            "#{@labels['clause_empty']}</p></terms>"
+        end
+      end
+
+      def insert_symbols(x)
+        ins =  x.at("//sections/terms") ||
+          x.at("//sections/clause[descendant::terms]")
+        unless x.at("//sections//definitions")
+          ins.next = "<definitions><title>Definitions</title><p>"\
+            "#{@labels['clause_empty']}</p></definitions>"
+        end
+      end
+
+      def insert_conventions(x)
+        ins =  x.at("//sections//definitions") ||
+          x.at("//sections/clause[descendant::definitions]")
+        unless x.at("//sections/clause/title[text() = 'Conventions']")
+          ins.next = "<clause><title>Conventions</title><p>"\
+            "#{@labels['clause_empty']}</p></clause>"
+        end
       end
 
       def cleanup(xmldoc)
@@ -19,7 +87,7 @@ module Asciidoctor
           next unless n.text?
           n.replace(HTMLEntities.new.encode(
             n.text.gsub(/\u2019|\u2018|\u201a|\u201b/, "'").
-                    gsub(/\u201c|\u201d|\u201e|\u201f/, '"'), :basic))
+            gsub(/\u201c|\u201d|\u201e|\u201f/, '"'), :basic))
         end
         xmldoc
       end
@@ -48,7 +116,8 @@ module Asciidoctor
 
       def pub_class(bib)
         return 1 if bib.at("#{PUBLISHER}[abbreviation = 'ITU']")
-        return 1 if bib.at("#{PUBLISHER}[name = 'International Telecommunication Union']")
+        return 1 if bib.at("#{PUBLISHER}[name = 'International "\
+                           "Telecommunication Union']")
         return 2 if bib.at("#{PUBLISHER}[abbreviation = 'ISO']")
         return 2 if bib.at("#{PUBLISHER}[name = 'International Organization "\
                            "for Standardization']")
@@ -56,7 +125,8 @@ module Asciidoctor
         return 3 if bib.at("#{PUBLISHER}[name = 'International "\
                            "Electrotechnical Commission']")
         return 4 if bib.at("./docidentifier[@type][not(@type = 'DOI' or "\
-                           "@type = 'metanorma' or @type = 'ISSN' or @type = 'ISBN')]")
+                           "@type = 'metanorma' or @type = 'ISSN' or @type = "\
+                           "'ISBN')]")
         5
       end
 
@@ -73,8 +143,8 @@ module Asciidoctor
       def sort_biblio_key(bib)
         pubclass = pub_class(bib)
         num = bib&.at("./docnumber")&.text
-        id = bib&.at("./docidentifier[not(@type = 'DOI' or "\
-                           "@type = 'metanorma' or @type = 'ISSN' or @type = 'ISBN')]")
+        id = bib&.at("./docidentifier[not(@type = 'DOI' or @type = "\
+                     "'metanorma' or @type = 'ISSN' or @type = 'ISBN')]")
         metaid = bib&.at("./docidentifier[@type = 'metanorma']")&.text
         abbrid = metaid unless /^\[\d+\]$/.match(metaid)
         type = id['type'] if id

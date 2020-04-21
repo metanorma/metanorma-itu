@@ -11,9 +11,6 @@ module IsoDoc
         out.div do |div|
           num = num + 1
           clause_name(num, @normref_lbl, div, nil)
-          f.elements.reject do |e|
-            %w(reference title bibitem note).include? e.name
-          end.each { |e| parse(e, div) }
           biblio_list(f, div, false)
         end
         num
@@ -41,11 +38,13 @@ module IsoDoc
         s.gsub(/ |\_|\-/, " ").split(/ /).map(&:capitalize).join(" ")
       end
 
+      IGNORE_IDS =
+        "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or @type = 'rfc-anchor'".freeze
+
       def bibitem_ref_code(b)
         id = b.at(ns("./docidentifier[@type = 'metanorma']"))
         id ||= b.at(ns("./docidentifier[@type = 'ITU']"))
-        id ||= b.at(ns("./docidentifier[not(@type = 'DOI' or @type = 'ISSN' or "\
-                       "@type = 'ISBN')]"))
+        id ||= b.at(ns("./docidentifier[not(#{IGNORE_IDS})]"))
         id ||= b.at(ns("./docidentifier"))
         return id if id
         id = Nokogiri::XML::Node.new("docidentifier", b.document)
@@ -54,30 +53,36 @@ module IsoDoc
       end
 
       def multi_bibitem_ref_code(b)
-        id = b.xpath(ns("./docidentifier[not(@type = 'DOI' or @type = "\
-                        "'metanorma' or @type = 'ISSN' or @type = 'ISBN')]"))
-        id.empty? and id = b.xpath(ns("./docidentifier[not(@type = 'DOI' or "\
-                                      "@type = 'ISSN' or @type = 'ISBN')]"))
-        id.empty? and id = b.xpath(ns("./docidentifier"))
-        return ["(NO ID)"] if id.empty?
+        id = b.xpath(ns("./docidentifier[not(@type = 'metanorma' or #{IGNORE_IDS})]"))
+        id.empty? and id = b.xpath(ns("./docidentifier[not(@type = 'metanorma')]"))
+        return [] if id.empty?
         id.sort_by { |i| i["type"] == "ITU" ? 0 : 1 }
       end
 
       def render_identifiers(ids)
         ids.map do |id|
-          (id["type"] == "ITU" ?
-           titlecase(id.parent&.at(ns("./ext/doctype"))&.text ||
-                     "recommendation") + " " : "") +
-                    docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))
+          id["type"] == "ITU" ? doctype_title(id) : 
+            docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))
         end.join(" | ")
+      end
+
+      def doctype_title(id)
+        type = id.parent&.at(ns("./ext/doctype"))&.text || "recommendation"
+        if type == "recommendation" &&
+            /^(?<prefix>ITU-[A-Z] [A-Z])[ .-]Sup[a-z]*\.[ ]?(?<num>\d+)$/ =~ id.text
+          "#{prefix}-series Recommendations – Supplement #{num}"
+        else
+          "#{titlecase(type)} #{docid_prefix(id["type"], id.text.sub(/^\[/, '').sub(/\]$/, ''))}"
+        end
       end
 
       def reference_format_start(b, r)
         id = multi_bibitem_ref_code(b)
-        r << render_identifiers(id)
+        id1 = render_identifiers(id)
+        r << id1
         date = b.at(ns("./date[@type = 'published']")) and
           r << " (#{date.text.sub(/-.*$/, '')})"
-        r << ", "
+        r << ", " if (date || !id1.empty?)
       end
 
       def reference_format_title(b, r)
@@ -90,6 +95,10 @@ module IsoDoc
           end
           /\.$/.match(title&.text) or r << "."
         end
+      end
+
+      def format_ref(ref, prefix, isopub, date, allparts)
+        docid_prefix(prefix, ref).sub(/^\[/, "").sub(/\]$/, "")
       end
     end
   end

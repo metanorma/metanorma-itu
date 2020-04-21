@@ -59,6 +59,7 @@ ASCIIDOC_BLANK_HDR = <<~"HDR"
       :docfile: test.adoc
       :nodoc:
       :novalid:
+      :legacy-do-not-insert-missing-sections:
 
 HDR
 
@@ -80,7 +81,7 @@ BOILERPLATE =
 
 BLANK_HDR = <<~"HDR"
        <?xml version="1.0" encoding="UTF-8"?>
-       <itu-standard xmlns="https://www.metanorma.com/ns/itu">
+       <itu-standard xmlns="https://www.metanorma.org/ns/itu">
        <bibdata type="standard">
         <title language="en" format="text/plain" type="main">Document title</title>
 

@@ -29,7 +29,7 @@ module IsoDoc
         isoxml.xpath(ns(FRONT_CLAUSE)).each do |c|
           title = c&.at(ns("./title"))
           out.div **attr_code(id: c["id"]) do |s|
-            clause_name(nil, title&.content, s, class: "IntroTitle")
+            clause_name(nil, title, s, class: "IntroTitle")
             c.elements.reject { |c1| c1.name == "title" }.each do |c1|
               parse(c1, s)
             end
@@ -45,12 +45,6 @@ module IsoDoc
         n = get_anchors[node["id"]]
         return "#{@note_lbl} &ndash; " if n.nil? || n[:label].nil? || n[:label].empty?
         l10n("#{@note_lbl} #{n[:label]} &ndash; ")
-      end
-
-      def formula_where(dl, out)
-        return unless dl
-        out.p { |p| p << l10n("#{@where_lbl}:") }
-        parse(dl, out)
       end
 
       def prefix_container(container, linkend, _target)
@@ -126,8 +120,8 @@ module IsoDoc
 
       def get_eref_linkend(node)
         link = "[#{anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))}]"
-        link += eref_localities(node.xpath(ns("./locality")), link)
-        contents = node.children.select { |c| c.name != "locality" }
+        link += eref_localities(node.xpath(ns("./locality | ./localityStack")), link)
+        contents = node.children.select { |c| !%w{locality localityStack}.include? c.name }
         return link if contents.nil? || contents.empty?
         Nokogiri::XML::NodeSet.new(node.document, contents).to_xml
       end
@@ -145,19 +139,9 @@ module IsoDoc
 
       def middle_title(out)
         out.p(**{ class: "zzSTDTitle1" }) do |p|
-          id = @meta.get[:docidentifier] and p << "Recommendation #{id}" 
+          id = @meta.get[:docnumber] and p << "Recommendation #{id}" 
         end
         out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
-      end
-
-      def make_table_footnote_target(out, fnid, fnref)
-        attrs = { id: fnid, class: "TableFootnoteRef" }
-        out.span do |s|
-          out.span **attrs do |a|
-            a << fnref + ")"
-          end
-          insert_tab(s, 1)
-        end
       end
 
       def add_parse(node, out)
@@ -198,6 +182,10 @@ module IsoDoc
           end
         end
         node.children.each { |n| parse(n, div) }
+      end
+
+      def table_footnote_reference_format(a)
+        a.content = a.content + ")"
       end
     end
   end

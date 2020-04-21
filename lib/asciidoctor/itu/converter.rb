@@ -13,7 +13,7 @@ module Asciidoctor
     #
     class Converter < Standoc::Converter
       XML_ROOT_TAG = "itu-standard".freeze
-      XML_NAMESPACE = "https://www.metanorma.com/ns/itu".freeze
+      XML_NAMESPACE = "https://www.metanorma.org/ns/itu".freeze
 
       register_for "itu"
 
@@ -29,6 +29,8 @@ module Asciidoctor
       def init(node)
         super
         @smartquotes = node.attr("smartquotes") == "true"
+        @no_insert_missing_sections = doctype(node) != "recommendation" ||
+          node.attr("legacy-do-not-insert-missing-sections")
       end
 
       def makexml(node)
@@ -43,30 +45,12 @@ module Asciidoctor
       end
 
       def olist(node)
+        id = Asciidoctor::Standoc::Utils::anchor_or_uuid(node)
         noko do |xml|
-          xml.ol **attr_code(id: Asciidoctor::Standoc::Utils::anchor_or_uuid(node),
-                             class: node.attr("class")) do |xml_ol|
+          xml.ol **attr_code(id: id, class: node.attr("class")) do |xml_ol|
             node.items.each { |item| li(xml_ol, item) }
           end
         end.join("\n")
-      end
-
-      def clause_parse(attrs, xml, node)
-        attrs[:preface] = true if node.attr("style") == "preface"
-        super
-      end
-
-      def move_sections_into_preface(x, preface)
-        x.xpath("//clause[@preface]").each do |c|
-          c.delete("preface")
-          preface.add_child c.remove
-        end
-      end
-
-      def make_preface(x, s)
-        s.add_previous_sibling("<preface/>") unless x.at("//preface")
-        make_abstract(x, s)
-        move_sections_into_preface(x, x.at("//preface"))
       end
 
       def document(node)
@@ -81,6 +65,7 @@ module Asciidoctor
           word_converter(node).convert filename unless node.attr("nodoc")
           pdf_converter(node).convert filename unless node.attr("nodoc")
         end
+        @log.write(@localdir + @filename + ".err") unless @novalid
         @files_to_delete.each { |f| FileUtils.rm f }
         ret
       end
@@ -99,38 +84,10 @@ module Asciidoctor
         case ret
         when "definitions" then "terms and definitions"
         when "abbreviations and acronyms" then "symbols and abbreviated terms"
+        when "references" then "normative references"
         else
           super
         end
-      end
-
-      def section(node)
-        a = section_attributes(node)
-        noko do |xml|
-          case sectiontype(node)
-          when "references" then norm_ref_parse(a, xml, node)
-          when "terms and definitions"
-            @term_def = true
-            term_def_parse(a, xml, node, true)
-            @term_def = false
-          when "symbols and abbreviated terms"
-            symbols_parse(a, xml, node)
-          when "bibliography" then bibliography_parse(a, xml, node)
-          else
-            if @term_def then term_def_subclause_parse(a, xml, node)
-            elsif @definitions then symbols_parse(a, xml, node)
-            elsif @biblio then bibliography_parse(a, xml, node)
-            elsif node.attr("style") == "bibliography"
-              bibliography_parse(a, xml, node)
-            elsif node.attr("style") == "abstract"
-              abstract_parse(a, xml, node)
-            elsif node.attr("style") == "appendix" && node.level == 1
-              annex_parse(a, xml, node)
-            else
-              clause_parse(a, xml, node)
-            end
-          end
-        end.join("\n")
       end
 
       def norm_ref_parse(attrs, xml, node)
@@ -192,11 +149,11 @@ module Asciidoctor
       end
 
       def html_extract_attributes(node)
-        super.merge(hierarchical_assets: node.attr("hierarchical-assets"))
+        super.merge(hierarchical_assets: node.attr("hierarchical-object-numbering"))
       end
 
       def doc_extract_attributes(node)
-        super.merge(hierarchical_assets: node.attr("hierarchical-assets"))
+        super.merge(hierarchical_assets: node.attr("hierarchical-object-numbering"))
       end
 
       def html_converter(node)

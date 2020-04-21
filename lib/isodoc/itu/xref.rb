@@ -67,14 +67,15 @@ module IsoDoc
         "-"
       end
 
+      MIDDLE_SECTIONS = "//clause[title = 'Scope'] | "\
+          "//foreword | //introduction | //acknowledgements | "\
+          "//references[title = 'References' or title = 'references'] | "\
+          "//sections/terms | //preface/clause | "\
+          "//sections/definitions | //clause[parent::sections]".freeze
+
       def middle_section_asset_names(d)
         return super unless @hierarchical_assets
-        middle_sections = "//clause[title = 'Scope'] | "\
-          "//foreword | //introduction | "\
-          "//references[title = 'References' or title = 'references'] | "\
-          "//sections/terms | "\
-          "//sections/definitions | //clause[parent::sections]"
-        d.xpath(ns(middle_sections)).each do |c|
+        d.xpath(ns(MIDDLE_SECTIONS)).each do |c|
           hierarchical_asset_names(c, @anchors[c["id"]][:label])
         end
       end
@@ -109,6 +110,16 @@ module IsoDoc
           next if t["id"].nil? || t["id"].empty?
           @anchors[t["id"]] = anchor_struct(label, nil, @figure_lbl, "figure",
                                             t["unnumbered"])
+        end
+      end
+
+      def sequential_formula_names(clause)
+        clause&.first&.xpath(ns(MIDDLE_SECTIONS))&.each do |c|
+          if c["id"] && @anchors[c["id"]]
+          hierarchical_formula_names(c, @anchors[c["id"]][:label] || @anchors[c["id"]][:xref] || "???")
+          else
+            hierarchical_formula_names(c, "???")
+          end
         end
       end
     end

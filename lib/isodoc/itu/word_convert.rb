@@ -84,11 +84,13 @@ module IsoDoc
       end
 
       def word_title_cleanup(docxml)
-        docxml.xpath("p[@class = 'h1Preface'] | p[@class = 'h2Annex'] | "\
-                     "//h1 | //h2 | //h3 | //h4 | //h5 | //h6 | "\
-                     "//p[@class = 'annex_obligation']").each do |h|
+        docxml.xpath("//p[@class = 'annex_obligation']").each do |h|
           h&.next_element&.name == "p" or next
           h.next_element["class"] ||= "Normalaftertitle"
+        end
+        docxml.xpath("//p[@class = 'FigureTitle']").each do |h|
+          h&.parent&.next_element&.name == "p" or next
+          h.parent.next_element["class"] ||= "Normalaftertitle"
         end
       end
 
@@ -207,9 +209,9 @@ module IsoDoc
           dest = docxml.at("//div[@id = 'boilerplate-#{t}-destination']")
           auth = docxml.at("//div[@class = 'boilerplate-#{t}']")
           next unless auth && dest
-          t == "copyright" and p = auth&.at(".//p[@class = 'Normalaftertitle']") and
+          t == "copyright" and p = auth&.at(".//p") and
             p["class"] = "boilerplateHdr"
-          auth&.xpath(".//p[not(@class) or @class = 'Normalaftertitle']")&.each do |p|
+          auth&.xpath(".//p[not(@class)]")&.each do |p|
             p["class"] = "boilerplate"
           end
           auth << "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>" unless t == "copyright"

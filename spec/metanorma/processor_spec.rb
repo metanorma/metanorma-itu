@@ -27,7 +27,7 @@ RSpec.describe Metanorma::ITU::Processor do
     #{ASCIIDOC_BLANK_HDR}
     INPUT
     #{BLANK_HDR}
-<preface/><sections/>
+<sections/>
 </itu-standard>
     OUTPUT
   end

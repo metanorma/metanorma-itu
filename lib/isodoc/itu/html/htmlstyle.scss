@@ -145,23 +145,30 @@ nav {
   font-size: 0.8em;
 }
 
+.SourceTitle {
+  @include blockTitle();
+}
 
-.Sourcecode {
+pre {
   @include sourceBlock(#f6f6f6);
   font-size: 0.8em;
 }
 
-.example .Sourcecode, .example .pseudocode {
+.example pre, .example .pseudocode {
   background: none;
   margin: 0;
   padding: 0 0 0 2em;
 }
 
 .document-stage-band {
-  @include docBand($order: 1, $textLength: 160px, $color: black, $fontWeight: 300);
+  @include docBand($order: 1, $textLength: 160px, $color: white, $fontWeight: 300);
 }
 .document-type-band {
-  @include docBand($order: 2, $textLength: 210px, $color: black, $offset: 180px);
+  @include docBand($order: 2, $offset: 180px);
+
+  .document-type {
+    top: 20px;
+  }
 }
 
 .logo-wrapper {
@@ -313,7 +320,7 @@ ul {
 
     &:before {
       content: "\2014";
-      display: inline-block; 
+      display: inline-block;
       width: 1em;
       margin-left: -1.2em;
     }
@@ -362,14 +369,14 @@ p.Biblio, p.NormRef {
 }
 
 .example {
-  @include exampleBlock(#e1eef1, null, 1.2em, 2em); 
+  @include exampleBlock(#e1eef1, null, 1.2em, 2em);
 
   .example-title {
     margin-top: 0;
     margin-left: -1.5em;
   }
 
-  .Sourcecode, .pseudocode {
+  pre, .pseudocode {
     background: none;
     margin: 0;
     padding: 0 0 0 2em;
@@ -460,6 +467,12 @@ a.footnote-number {
 
 .formula {
   @include formulaBlock(#f6f6f6);
+}
+
+dl.formula_dl {
+background-color: #f6f6f6;
+margin-left: 1.4cm;
+margin-right: 1.4cm;
 }
 
 
@@ -556,7 +569,7 @@ a.anchorjs-link {
     background-color: white;
   }
 
-  .note, .figure, .Sourcecode, table {
+  .note, .figure, pre, table {
     page-break-inside: avoid;
   }
 

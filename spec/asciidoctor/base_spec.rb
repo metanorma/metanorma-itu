@@ -21,7 +21,7 @@ RSpec.describe Asciidoctor::ITU do
     #{ASCIIDOC_BLANK_HDR}
     INPUT
     #{BLANK_HDR}
-<preface/><sections/>
+<sections/>
 </itu-standard>
     OUTPUT
   end
@@ -33,13 +33,54 @@ RSpec.describe Asciidoctor::ITU do
       Author
       :docfile: test.adoc
       :novalid:
+      :legacy-do-not-insert-missing-sections:
     INPUT
     #{BLANK_HDR}
-<preface/><sections/>
+<sections/>
 </itu-standard>
     OUTPUT
     expect(File.exist?("test.html")).to be true
   end
+
+  it "converts a blank document and insert missing sections" do
+    FileUtils.rm_f "test.html"
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      INPUT
+    #{BLANK_HDR}
+    <sections>
+    <clause obligation='normative'>
+             <title>Scope</title>
+             <p id='_'>None.</p>
+           </clause>
+           <terms obligation='normative'>
+             <title>Definitions</title>
+             <p id='_'>None.</p>
+           </terms>
+           <definitions>
+             <title>Definitions</title>
+             <p id='_'>None.</p>
+           </definitions>
+           <clause obligation='normative'>
+             <title>Conventions</title>
+             <p id='_'>None.</p>
+           </clause>
+</sections>
+<bibliography>
+  <references obligation='informative'>
+    <title>References</title>
+    <p id='_'>None.</p>
+    <p id='_'>None.</p>
+  </references>
+</bibliography>
+</itu-standard>
+      OUTPUT
+  end
+
 
     it "processes default metadata" do
     expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true).sub(%r{<boilerplate>.*</boilerplate>}m, ""))).to be_equivalent_to xmlpp(<<~'OUTPUT')
@@ -53,8 +94,9 @@ RSpec.describe Asciidoctor::ITU do
       :copyright-year: 2001
       :title: Main Title
       :draft: 3.4
+      :legacy-do-not-insert-missing-sections:
     INPUT
-    <itu-standard xmlns="https://www.metanorma.com/ns/itu">
+    <itu-standard xmlns="https://www.metanorma.org/ns/itu">
 <bibdata type="standard">
   <title language="en" format="text/plain" type="main">Main Title</title>
   <docidentifier type="ITU">ITU-T 1000</docidentifier>
@@ -103,7 +145,7 @@ RSpec.describe Asciidoctor::ITU do
 </structuredidentifier>
   </ext>
 </bibdata>
-<preface/><sections/>
+<sections/>
 </itu-standard>
 OUTPUT
     end
@@ -176,10 +218,11 @@ OUTPUT
       :annexid: H3
       :annextitle: I3
       :annextitle-fr: J3
+      :legacy-do-not-insert-missing-sections:
 
     INPUT
 <?xml version="1.0" encoding="UTF-8"?>
-<itu-standard xmlns="https://www.metanorma.com/ns/itu">
+<itu-standard xmlns="https://www.metanorma.org/ns/itu">
 <bibdata type="standard">
   <title language="en" format="text/plain" type="main">Main Title</title>
   <title language="en" format="text/plain" type="annex">I3</title>
@@ -300,7 +343,7 @@ OUTPUT
 </structuredidentifier>
   </ext>
 </bibdata>
-<preface/><sections/>
+<sections/>
 </itu-standard>
     OUTPUT
   end
@@ -319,9 +362,10 @@ OUTPUT
       :iteration: 3
       :language: en
       :title: Main Title
+      :legacy-do-not-insert-missing-sections:
     INPUT
        <?xml version="1.0" encoding="UTF-8"?>
-       <itu-standard xmlns="https://www.metanorma.com/ns/itu">
+       <itu-standard xmlns="https://www.metanorma.org/ns/itu">
        <bibdata type="standard">
          <title language="en" format="text/plain" type="main">Main Title</title>
          <docidentifier type="ITU">ITU-T 1000</docidentifier>
@@ -366,7 +410,7 @@ OUTPUT
 </structuredidentifier>
          </ext>
        </bibdata>
-       <preface/><sections/>
+       <sections/>
        </itu-standard>
         OUTPUT
     end
@@ -379,10 +423,12 @@ OUTPUT
       == Section 1
       INPUT
     #{BLANK_HDR}
-             <preface/><sections><foreword obligation="informative">
+             <preface><foreword id="_" obligation="informative">
          <title>Foreword</title>
          <p id="_">This is a preamble</p>
        </foreword>
+       </preface>
+       <sections>
        <clause id="_" obligation="normative">
          <title>Section 1</title>
        </clause></sections>
@@ -399,7 +445,7 @@ OUTPUT
       :novalid:
     INPUT
     html = File.read("test.html", encoding: "utf-8")
-    expect(html).to match(%r[\.Sourcecode[^{]+\{[^}]+font-family: "Space Mono", monospace;]m)
+    expect(html).to match(%r[\bpre[^{]+\{[^}]+font-family: "Space Mono", monospace;]m)
     expect(html).to match(%r[ div[^{]+\{[^}]+font-family: "Open Sans", sans-serif;]m)
     expect(html).to match(%r[h1, h2, h3, h4, h5, h6 \{[^}]+font-family: "Open Sans", sans-serif;]m)
   end
@@ -413,7 +459,7 @@ OUTPUT
       :novalid:
     INPUT
     html = File.read("test.doc", encoding: "utf-8")
-    expect(html).to match(%r[\.Sourcecode[^{]+\{[^}]+font-family: "Courier New", monospace;]m)
+    expect(html).to match(%r[\bpre[^{]+\{[^}]+font-family: "Courier New", monospace;]m)
     expect(html).to match(%r[ div[^{]+\{[^}]+font-family: "Times New Roman", serif;]m)
     expect(html).to match(%r[h1 \{[^}]+font-family: "Times New Roman", serif;]m)
   end
@@ -428,7 +474,7 @@ OUTPUT
       :script: Hans
     INPUT
     html = File.read("test.html", encoding: "utf-8")
-    expect(html).to match(%r[\.Sourcecode[^{]+\{[^}]+font-family: "Space Mono", monospace;]m)
+    expect(html).to match(%r[\bpre[^{]+\{[^}]+font-family: "Space Mono", monospace;]m)
     expect(html).to match(%r[ div[^{]+\{[^}]+font-family: "SimSun", serif;]m)
     expect(html).to match(%r[h1, h2, h3, h4, h5, h6 \{[^}]+font-family: "SimHei", sans-serif;]m)
   end
@@ -446,7 +492,7 @@ OUTPUT
       :monospace-font: Andale Mono
     INPUT
     html = File.read("test.html", encoding: "utf-8")
-    expect(html).to match(%r[\.Sourcecode[^{]+\{[^{]+font-family: Andale Mono;]m)
+    expect(html).to match(%r[\bpre[^{]+\{[^{]+font-family: Andale Mono;]m)
     expect(html).to match(%r[ div,[^{]+\{[^}]+font-family: Zapf Chancery;]m)
     expect(html).to match(%r[h1, h2, h3, h4, h5, h6 \{[^}]+font-family: Comic Sans;]m)
   end
@@ -465,7 +511,7 @@ OUTPUT
       text
     INPUT
     #{BLANK_HDR}
-    <preface><clause id="_" obligation="normative">
+    <preface><clause id="_" obligation="informative">
   <title>Prefatory</title>
   <p id="_">section</p>
 </clause></preface><sections>
@@ -561,17 +607,19 @@ OUTPUT
     #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
     <preface><abstract id="_">
   <p id="_">Text</p>
-</abstract></preface><sections><foreword obligation="informative">
-  <title>Foreword</title>
-  <p id="_">Text</p>
-</foreword>
-
-<clause id="_" obligation="normative">
-  <title>Introduction</title>
-  <clause id="_" obligation="normative">
-  <title>Introduction Subsection</title>
-</clause>
-</clause>
+</abstract>
+<foreword id="_" obligation='informative'>
+             <title>Foreword</title>
+             <p id='_'>Text</p>
+           </foreword>
+           <introduction id='_' obligation='informative'>
+             <title>Introduction</title>
+             <clause id='_' obligation='informative'>
+               <title>Introduction Subsection</title>
+             </clause>
+           </introduction>
+         </preface>
+         <sections>
 <clause id="_" obligation="normative">
   <title>Scope</title>
   <p id="_">Text</p>
@@ -637,7 +685,7 @@ OUTPUT
 </annex><bibliography>
 <references id="_" obligation="informative">
   <title>References</title>
-  <p id="_">There are no normative references in this document.</p>
+  <p id="_">None.</p>
 </references>
 <clause id="_" obligation="informative">
   <title>Bibliography</title>
@@ -662,10 +710,10 @@ OUTPUT
 
       INPUT
       #{BLANK_HDR}
-      <preface/><sections>
+      <sections>
 
 </sections><bibliography><references id="_" obligation="informative">
-  <title>References</title><p id="_">There are no normative references in this document.</p>
+  <title>References</title><p id="_">None.</p>
 </references></bibliography>
 </itu-standard>
       OUTPUT
@@ -681,7 +729,7 @@ OUTPUT
 
       INPUT
     #{BLANK_HDR}
-    <preface/><sections>
+    <sections>
 
        </sections><bibliography><references id="_" obligation="informative">
          <title>References</title>
@@ -706,7 +754,7 @@ OUTPUT
       ++++
 INPUT
             #{BLANK_HDR}
-            <preface/><sections>
+            <sections>
          <formula id="_" inequality="true" unnumbered="true">
          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem>
        </formula>
@@ -725,7 +773,7 @@ OUTPUT
         ==== Term 2
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
          <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative">
          <title>terms defined elsewhere</title>
          <p id="_">This Recommendation uses the following terms defined elsewhere:</p>
@@ -753,7 +801,7 @@ OUTPUT
         === terms defined in this recommendation
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
   <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative">
   <title>terms defined elsewhere</title><p id="_">None.</p>
 </terms>
@@ -781,7 +829,7 @@ OUTPUT
         ==== Term 2
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
          <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative"><title>terms defined elsewhere</title><p id="_">Boilerplate</p>
        <term id="_">
          <preferred>Term 1</preferred>
@@ -805,7 +853,7 @@ OUTPUT
         ==== Term 2
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
   <clause id="_" obligation="normative"><title>Definitions</title><p id="_">This Recommendation defines the following terms:</p><terms id="_" obligation="normative">
   <title>terms defined somewhere</title>
   <term id="_">
@@ -836,7 +884,7 @@ OUTPUT
         ==== Term 2
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
   <clause id="_" obligation="normative"><title>Definitions</title><p id="_">Boilerplate</p>
 <terms id="_" obligation="normative">
   <title>terms defined somewhere</title>
@@ -863,9 +911,9 @@ OUTPUT
         a:: b
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
   <definitions id="_">
-  <title>Abbreviations and acronyms</title><p id="_">This Recommendation uses the following abbreviations:</p>
+  <title>Abbreviations and acronyms</title><p id="_">This Recommendation uses the following abbreviations and acronyms:</p>
   <dl id="_">
   <dt>a</dt>
   <dd>
@@ -888,7 +936,7 @@ end
         a:: b
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
   <definitions id="_"><title>Abbreviations and acronyms</title><p id="_">Boilerplate</p>
 <dl id="_">
   <dt>a</dt>
@@ -911,7 +959,7 @@ end
         . Second
         INPUT
         #{BLANK_HDR}
-        <preface/><sections>
+        <sections>
   <clause id="_" obligation="normative">
   <title>Clause</title>
   <ol id="_" class="steps">
@@ -936,6 +984,7 @@ it "does not apply smartquotes by default" do
       :nodoc:
       :novalid:
       :no-isobib:
+      :legacy-do-not-insert-missing-sections:
 
       == "Quotation" A's
 
@@ -946,7 +995,6 @@ it "does not apply smartquotes by default" do
       “Quotation” A’s
     INPUT
        #{BLANK_HDR}
-       <preface/>
        <sections><clause id="_" obligation="normative">
          <title>"Quotation" A's</title>
          <p id="_">
@@ -1026,7 +1074,6 @@ end
       add:[a <<clause>>] del:[B]
     INPUT
        #{BLANK_HDR}
-       <preface/>
        <sections>
        <clause id='clause' obligation='normative'>
              <title>Clause</title>
@@ -1053,13 +1100,52 @@ end
       &lt;&amp;&gt;
     INPUT
        #{BLANK_HDR}
-       <preface/>
        <sections>
        <clause id='clause' obligation='normative'>
              <title>Clause</title>
              <p id='_'>&lt;&amp;&gt;</p>
            </clause>
 </sections>
+       </itu-standard>
+    OUTPUT
+  end
+
+     it "capitalises table header" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      [headerrows=2]
+      |===
+      |a |b |c
+      |a |b |c
+
+      |a |b |c
+      |===
+
+    INPUT
+       #{BLANK_HDR}
+       <sections><table id="_">
+         <thead>
+           <tr>
+             <th align="left">A</th>
+             <th align="left">B</th>
+             <th align="left">C</th>
+           </tr>
+           <tr>
+             <th align="left">a</th>
+             <th align="left">b</th>
+             <th align="left">c</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr>
+             <td align="left">a</td>
+             <td align="left">b</td>
+             <td align="left">c</td>
+           </tr>
+         </tbody>
+       </table>
+
+       </sections>
        </itu-standard>
     OUTPUT
   end

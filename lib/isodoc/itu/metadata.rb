@@ -8,11 +8,9 @@ module IsoDoc
         super
         here = File.dirname(__FILE__)
         set(:logo_html,
-            #File.expand_path(File.join(here, "html", "Logo_ITU.jpg")))
             File.expand_path(File.join(here, "html", "International_Telecommunication_Union_Logo.svg")))
         set(:logo_comb,
             File.expand_path(File.join(here, "html", "itu-document-comb.png")))
-        #set(:logo_word, File.expand_path(File.join(here, "html", "logo.png")))
         set(:logo_word, File.expand_path(File.join(here, "html", "International_Telecommunication_Union_Logo.svg")))
       end
 
@@ -40,13 +38,12 @@ module IsoDoc
         set(:bureau, bureau.text) if bureau
         tc = isoxml.at(ns("//bibdata/ext/editorialgroup/committee"))
         set(:tc, tc.text) if tc
+        super
       end
 
       def docid(isoxml, _out)
-        dn = isoxml.at(ns("//bibdata/docnumber"))
+        dn = isoxml.at(ns("//bibdata/docidentifier[@type = 'ITU']"))
         set(:docnumber, dn&.text)
-        dn = isoxml.at(ns("//bibdata/docidentifier"))
-        set(:docidentifier, dn&.text)
         dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/annexid"))
         oblig = isoxml&.at(ns("//annex/@obligation"))&.text
         lbl = oblig == "informative" ? @labels["appendix"] : @labels["annex"]
@@ -56,27 +53,6 @@ module IsoDoc
       def unpublished(status)
         %w(in-force-prepublished draft).include? status.downcase
       end
-
-      def version(isoxml, _out)
-        super
-        revdate = get[:revdate]
-        set(:revdate_monthyear, monthyr(revdate))
-      end
-
-      MONTHS = {
-        "01": "January",
-        "02": "February",
-        "03": "March",
-        "04": "April",
-        "05": "May",
-        "06": "June",
-        "07": "July",
-        "08": "August",
-        "09": "September",
-        "10": "October",
-        "11": "November",
-        "12": "December",
-      }.freeze
 
       def bibdate(isoxml, _out)
         pubdate = isoxml.xpath(ns("//bibdata/date[@type = 'published']"))
@@ -94,7 +70,7 @@ module IsoDoc
         isoxml.xpath(ns("//bibdata/keyword")).each do |kw|
           keywords << kw.text
         end
-        set(:keywords, keywords)
+        set(:keywords, keywords.sort)
       end
 
       def ip_notice_received(isoxml, _out)

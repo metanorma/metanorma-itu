@@ -4,36 +4,38 @@ require "fileutils"
 
 module Asciidoctor
   module ITU
-
-    # A {Converter} implementation that generates RSD output, and a document
-    # schema encapsulation of the document for validation
-    #
     class Converter < Standoc::Converter
       def metadata_status(node, xml)
         xml.status do |s|
           s.stage (node.attributes.has_key?("draft") ? "draft" :
-                   (node.attr("status") || node.attr("docstage") || "published" ))
+                   (node.attr("status") || node.attr("docstage") ||
+                    "published" ))
         end
       end
 
       def title_english(node, xml)
-        ["en"].each do |lang|
-          at = { language: lang, format: "text/plain", type: "main" }
-          a = node.attr("title") || node.attr("title-en") || node.title
-          xml.title Asciidoctor::Standoc::Utils::asciidoc_sub(a), **attr_code(at)
-          if a = node.attr("annextitle") || node.attr("annextitle-en")
-            at[:type] = "annex"
-            xml.title Asciidoctor::Standoc::Utils::asciidoc_sub(a), **attr_code(at)
+        at = { language: "en", format: "text/plain", type: "main" }
+        a = node.attr("title") || node.attr("title-en")
+        xml.title **attr_code(at) do |t|
+          t << (Asciidoctor::Standoc::Utils::asciidoc_sub(a) || node.title)
+        end
+        if a = node.attr("annextitle") || node.attr("annextitle-en")
+          at[:type] = "annex"
+          xml.title **attr_code(at) do |t|
+            t << Asciidoctor::Standoc::Utils::asciidoc_sub(a)
           end
         end
       end
 
       def title_otherlangs(node, xml)
         node.attributes.each do |k, v|
-          next unless /^(annex)?title-(?<titlelang>.+)$/ =~ k
-          next if titlelang == "en"
-          xml.title v, { language: titlelang, format: "text/plain",
-                         type: /^annex/.match(k) ? "annex" : "main" }
+          next unless /^(annex)?title-(?<lang>.+)$/ =~ k
+          next if lang == "en"
+          type = /^annex/.match(k) ? "annex" : "main"
+          xml.title **attr_code(language: lang, format: "text/plain",
+                                type: type) do |t|
+            t << v
+          end
         end
       end
 
@@ -89,11 +91,13 @@ module Asciidoctor
 
       def metadata_committee2(node, g, suffix, prefix)
         g.name node.attr("#{prefix}group#{suffix}")
-        g.acronym node.attr("#{prefix}groupacronym#{suffix}") if node.attr("#{prefix}groupacronym#{suffix}")
+        node.attr("#{prefix}groupacronym#{suffix}") and
+          g.acronym node.attr("#{prefix}groupacronym#{suffix}")
         if node.attr("#{prefix}groupyearstart#{suffix}")
           g.period do |p|
             p.start node.attr("#{prefix}groupyearstart#{suffix}")
-            p.end node.attr("#{prefix}groupyearend#{suffix}") if node.attr("#{prefix}groupacronym#{suffix}")
+            node.attr("#{prefix}groupacronym#{suffix}") and
+              p.end node.attr("#{prefix}groupyearend#{suffix}")
           end
         end
       end

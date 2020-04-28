@@ -61,7 +61,7 @@
 	
 	<xsl:template match="/">
 		<xsl:message>INFO: Document namespace: '<xsl:value-of select="namespace-uri(/*)"/>'</xsl:message>
-		<fo:root font-family="Times New Roman, Cambria Math" font-size="12pt" xml:lang="{$lang}">
+		<fo:root font-family="Times New Roman, STIX2Math" font-size="12pt" xml:lang="{$lang}">
 			<fo:layout-master-set>
 				<!-- cover page -->
 				<fo:simple-page-master master-name="cover-page" page-width="{$pageWidth}" page-height="{$pageHeight}">
@@ -411,18 +411,18 @@
 														</xsl:if>
 														<fo:block>
 															<xsl:if test="@section and not(@display-section = 'false')"> <!--   -->
-																<xsl:if test="@type = 'annex'">
+																<!-- <xsl:if test="@type = 'annex'">
 																	<xsl:attribute name="font-weight">bold</xsl:attribute>
-																</xsl:if>
+																</xsl:if> -->
 																<xsl:value-of select="@section"/>
 															</xsl:if>
 														</fo:block>
 													</fo:list-item-label>
 														<fo:list-item-body start-indent="body-start()">
-															<fo:block text-align-last="justify" margin-left="12mm" text-indent="-12mm">
-																<xsl:if test="@type = 'annex'">
+															<fo:block text-align-last="justify"> <!-- margin-left="12mm" text-indent="-12mm" -->
+																<!-- <xsl:if test="@type = 'annex'">
 																	<xsl:attribute name="font-weight">bold</xsl:attribute>
-																</xsl:if>
+																</xsl:if> -->
 																<fo:basic-link internal-destination="{@id}" fox:alt-text="text()">
 																	<xsl:value-of select="text()"/>
 																	<fo:inline keep-together.within-line="always">
@@ -685,8 +685,16 @@
 					<xsl:otherwise/>
 				</xsl:choose>
 			</xsl:attribute>
+			<xsl:variable name="itemNumber">
+				<xsl:call-template name="getItemNumber">
+				<xsl:with-param name="sectionNum" select="$sectionNum"/>
+			</xsl:call-template>
+			</xsl:variable>
+			<xsl:attribute name="number">
+				<xsl:value-of select="$itemNumber"/>
+			</xsl:attribute>
 			<xsl:value-of select="$title"/>
-			<xsl:call-template name="getItemNumber"/>
+			<xsl:value-of select="$itemNumber"/>
 		</item>
 		<xsl:apply-templates mode="contents">
 			<xsl:with-param name="sectionNum" select="$sectionNum"/>
@@ -695,6 +703,7 @@
 
 	<xsl:template name="getItemNumber">
 		<xsl:param name="brackets" select="'true'"/>
+		<xsl:param name="sectionNum"/>
 		<xsl:variable name="name" select="local-name()"/>
 		<xsl:choose>
 			<xsl:when test="@unnumbered = 'true'"/>
@@ -727,17 +736,30 @@
 				</xsl:if>
 			</xsl:when>
 			<xsl:when test="ancestor::*[local-name()=$name]"> <!-- figure in figure for example -->
-					<xsl:if test="$brackets = 'true'">
-						<xsl:text>(</xsl:text>
-					</xsl:if>
-					<xsl:for-each select="parent::*[1]">
-						<xsl:number format="1" level="any" count="*[local-name()=$name][not(parent::*[local-name()=$name])]"/> <!-- itu:figure[not(parent::itu:figure)] -->
-					</xsl:for-each>
-					<xsl:number format="-a" count="*[local-name()=$name]"/>
-					<xsl:if test="$brackets = 'true'">
-						<xsl:text>)</xsl:text>
-					</xsl:if>
-				</xsl:when>
+				<xsl:if test="$brackets = 'true'">
+					<xsl:text>(</xsl:text>
+				</xsl:if>
+				<xsl:for-each select="parent::*[1]">
+					<xsl:number format="1" level="any" count="*[local-name()=$name][not(parent::*[local-name()=$name])]"/> <!-- itu:figure[not(parent::itu:figure)] -->
+				</xsl:for-each>
+				<xsl:number format="-a" count="*[local-name()=$name]"/>
+				<xsl:if test="$brackets = 'true'">
+					<xsl:text>)</xsl:text>
+				</xsl:if>
+			</xsl:when>
+			<xsl:when test="ancestor::itu:sections and $name = 'formula'">
+				<xsl:if test="$brackets = 'true'">
+					<xsl:text>(</xsl:text>
+				</xsl:if>
+				<xsl:value-of select="$sectionNum"/>
+				<xsl:text>-</xsl:text>
+				<xsl:variable name="parent_id" select="ancestor::itu:clause[last()]/@id"/>
+				<!-- count equation in current section (1st level) -->
+				<xsl:number format="1" level="any" count="*[local-name()=$name][not(@unnumbered) or @unnumbered != 'true'][not(parent::*[local-name()=$name])][ancestor::itu:clause[last()]/@id = $parent_id]"/>
+				<xsl:if test="$brackets = 'true'">
+					<xsl:text>)</xsl:text>
+				</xsl:if>
+			</xsl:when>
 			<xsl:otherwise>
 				<xsl:if test="$brackets = 'true'">
 					<xsl:text>(</xsl:text>
@@ -833,6 +855,53 @@
 			<xsl:with-param name="sectionNum" select="$sectionNum"/>
 		</xsl:apply-templates>
 	</xsl:template>
+
+	<xsl:template match="itu:li" mode="contents">
+		<xsl:param name="sectionNum"/>
+		<item level="" id="{@id}" display="false" type="li">
+			<xsl:attribute name="section">
+				<xsl:call-template name="getListItemFormat"/>
+			</xsl:attribute>
+		</item>
+		<xsl:apply-templates mode="contents">
+			<xsl:with-param name="sectionNum" select="$sectionNum"/>
+		</xsl:apply-templates>
+	</xsl:template>
+
+	<xsl:template name="getListItemFormat">
+		<xsl:variable name="level">
+			<xsl:variable name="numtmp">
+				<xsl:number level="multiple" count="itu:ol"/>
+			</xsl:variable>
+			<!-- level example: 1.1 
+				calculate counts of '.' in numtmp value - level of nested lists
+			-->
+			<xsl:value-of select="string-length($numtmp) - string-length(translate($numtmp, '.', '')) + 1"/>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="local-name(..) = 'ul'">–</xsl:when> <!-- dash &#x2014; -->
+			<xsl:otherwise>
+				<!-- for Ordered Lists -->
+				<xsl:choose>
+					<xsl:when test="../@type = 'arabic'">
+						<xsl:number format="a)"/>
+					</xsl:when>
+					<xsl:when test="../@class = 'steps'">
+						<xsl:number format="1)"/>
+					</xsl:when>
+					<xsl:when test="$level = 1">
+						<xsl:number format="a)"/>
+					</xsl:when>
+					<xsl:when test="$level = 2">
+						<xsl:number format="i)"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:number format="1.)"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
 	
 	<!-- ============================= -->
 	<!-- ============================= -->
@@ -897,8 +966,8 @@
 		<fo:block font-size="11pt" space-before="4pt" text-align="justify">
 			<xsl:text>NOTE </xsl:text>
 			<!-- <xsl:if test="../following-sibling::itu:note or ../preceding-sibling::itu:note"> -->
-			<xsl:if test="count(//itu:note[ancestor::*[@id = $id] and not (ancestor::itu:table)]) &gt; 1">
-				<xsl:number count="itu:note[ancestor::*[@id = $id] and not (ancestor::itu:table)]" level="any"/>
+			<xsl:if test="count(//itu:note[ancestor::*[local-name() = 'clause'][1][@id = $id] and not (ancestor::itu:table)]) &gt; 1">
+				<xsl:number count="itu:note[ancestor::*[local-name() = 'clause'][1][@id = $id] and not (ancestor::itu:table)]" level="any"/>
 			</xsl:if>
 				<!-- <xsl:number count="itu:note"/> --><xsl:text> </xsl:text>
 			<!-- </xsl:if> -->
@@ -919,10 +988,31 @@
 	<!-- Example: [ITU-T A.23]	ITU-T A.23, Recommendation ITU-T A.23, Annex A (2014), Guide for ITU-T and ISO/IEC JTC 1 cooperation. -->
 	<xsl:template match="itu:bibitem">
 		<fo:block id="{@id}" margin-top="6pt" margin-left="14mm" text-indent="-14mm">
-			<fo:inline padding-right="5mm">[<xsl:value-of select="itu:docidentifier"/>]</fo:inline><xsl:value-of select="itu:docidentifier"/>
-				<xsl:if test="itu:title">
-				<fo:inline font-style="italic">
+		
+			<xsl:choose>
+				<xsl:when test="itu:docidentifier[@type = 'metanorma']">
+					<xsl:value-of select="itu:docidentifier[@type = 'metanorma']"/>
+					<xsl:text> </xsl:text>
+					<xsl:if test="itu:docidentifier[not(@type) or not(@type = 'metanorma')]">
+						<xsl:value-of select="itu:docidentifier[not(@type) or not(@type = 'metanorma')]"/>
 						<xsl:text>, </xsl:text>
+					</xsl:if>
+				</xsl:when>
+				<xsl:otherwise>
+					<fo:inline padding-right="5mm">
+						<xsl:text>[</xsl:text>
+							<xsl:value-of select="itu:docidentifier"/>
+						<xsl:text>] </xsl:text>
+					</fo:inline>
+					<xsl:value-of select="itu:docidentifier"/>
+					<xsl:if test="itu:title">
+						<xsl:text>, </xsl:text>
+					</xsl:if>
+				</xsl:otherwise>
+			</xsl:choose>
+			
+			<xsl:if test="itu:title">
+				<fo:inline font-style="italic">
 						<xsl:choose>
 							<xsl:when test="itu:title[@type = 'main' and @language = 'en']">
 								<xsl:value-of select="itu:title[@type = 'main' and @language = 'en']"/>
@@ -933,6 +1023,7 @@
 						</xsl:choose>
 					</fo:inline>
 				</xsl:if>
+				<xsl:if test="itu:formattedref and not(itu:docidentifier[@type = 'metanorma'])">, </xsl:if>
 				<xsl:apply-templates select="itu:formattedref"/>
 			</fo:block>
 	</xsl:template>
@@ -941,7 +1032,7 @@
 	<xsl:template match="itu:bibitem/itu:title"/>
 	
 	<xsl:template match="itu:formattedref">
-		<xsl:text>, </xsl:text><xsl:apply-templates/>
+		<xsl:apply-templates/>
 	</xsl:template>
 	
 	
@@ -990,6 +1081,7 @@
 	
 	<xsl:template match="itu:title">
 		<xsl:param name="sectionNum"/>
+
 		<xsl:variable name="id">
 			<xsl:call-template name="getId"/>
 		</xsl:variable>
@@ -1062,6 +1154,8 @@
 					<fo:inline>
 						<xsl:attribute name="padding-right">
 							<xsl:choose>
+								<xsl:when test="$level = 5">6mm</xsl:when>
+								<xsl:when test="$level = 4">9mm</xsl:when>
 								<xsl:when test="$level = 3">5mm</xsl:when>
 								<xsl:when test="$level = 2">8mm</xsl:when>
 								<xsl:otherwise>11mm</xsl:otherwise>
@@ -1148,6 +1242,7 @@
 	<xsl:template match="itu:definition/itu:formula"/>
 	
 	<xsl:template match="itu:definition/itu:p" mode="process"> <!--   -->
+		<xsl:param name="sectionNum"/>
 		<xsl:choose>
 			<xsl:when test="position() = 1">
 				<fo:inline>
@@ -1156,7 +1251,9 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<fo:block margin-top="6pt" text-align="justify">
-					<xsl:apply-templates/>
+					<xsl:apply-templates>
+						<xsl:with-param name="sectionNum" select="$sectionNum"/>
+					</xsl:apply-templates>
 				</fo:block>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -1319,65 +1416,25 @@
 	</xsl:template>
 	
 	<xsl:template match="itu:li">
-		<xsl:variable name="level">
-			<xsl:variable name="numtmp">
-				<xsl:number level="multiple" count="itu:ol"/>
-			</xsl:variable>
-			<!-- level example: 1.1 
-				calculate counts of '.' in numtmp value - level of nested lists
-			-->
-			<xsl:value-of select="string-length($numtmp) - string-length(translate($numtmp, '.', '')) + 1"/>
-		</xsl:variable>
-		<fo:list-item>
+		<fo:list-item id="{@id}">
 			<fo:list-item-label end-indent="label-end()">
 				<fo:block>
-					<xsl:choose>
-						<xsl:when test="local-name(..) = 'ul'">–</xsl:when> <!-- dash &#x2014; -->
-						<xsl:otherwise> <!-- for ordered lists -->
-							<xsl:choose>
-								<xsl:when test="../@type = 'arabic'">
-									<xsl:number format="a)"/>
-								</xsl:when>
-								<xsl:when test="ancestor::*[itu:annex]">
-									<!-- <xsl:variable name="level">
-										<xsl:number level="multiple" count="itu:ol"/>
-									</xsl:variable> -->
-									<xsl:choose>
-										<xsl:when test="../@class = 'steps'">
-											<xsl:number format="1)"/>
-										</xsl:when>
-										<xsl:when test="$level = 1">
-											<xsl:number format="a)"/>
-										</xsl:when>
-										<xsl:when test="$level = 2">
-											<xsl:number format="i)"/>
-										</xsl:when>
-										<xsl:otherwise>
-											<xsl:number format="1.)"/>
-										</xsl:otherwise>
-									</xsl:choose>
-									
-								</xsl:when>
-								<xsl:when test="../@class = 'steps'">
-									<xsl:number format="1)"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:number format="1."/>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:otherwise>
-					</xsl:choose>
+					<xsl:call-template name="getListItemFormat"/>
 				</fo:block>
 			</fo:list-item-label>
 			<fo:list-item-body start-indent="body-start()">
-				<xsl:if test="../preceding-sibling::*[1][local-name() = 'title']">
-					<xsl:attribute name="margin-left">18mm</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="local-name(..) = 'ul'">
-					<xsl:attribute name="margin-left">15mm</xsl:attribute>
-				</xsl:if>
-				<xsl:apply-templates/>
-				<xsl:apply-templates select=".//itu:note" mode="process"/>
+				<fo:block-container>
+					<xsl:if test="../preceding-sibling::*[1][local-name() = 'title']">
+						<xsl:attribute name="margin-left">18mm</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="local-name(..) = 'ul'">
+						<xsl:attribute name="margin-left">15mm</xsl:attribute>
+					</xsl:if>
+					<fo:block-container margin-left="0mm">
+						<xsl:apply-templates/>
+						<xsl:apply-templates select=".//itu:note" mode="process"/>
+					</fo:block-container>
+				</fo:block-container>
 			</fo:list-item-body>
 		</fo:list-item>
 	</xsl:template>
@@ -1396,6 +1453,9 @@
 			<xsl:if test="local-name(..) = 'formattedref' or ancestor::itu:preface">
 				<xsl:attribute name="font-family">Arial</xsl:attribute>
 				<xsl:attribute name="font-size">8pt</xsl:attribute>
+				<xsl:if test="local-name(..) = 'formattedref'">
+					<xsl:attribute name="text-decoration">underline</xsl:attribute>
+				</xsl:if>
 			</xsl:if>
 			<fo:basic-link external-destination="{@target}" fox:alt-text="{@target}">
 				<xsl:choose>
@@ -1455,39 +1515,47 @@
 	</xsl:template>
 	
 	<xsl:template match="itu:formula" name="formula">
+		<xsl:param name="sectionNum"/>
 		<fo:block id="{@id}" margin-top="6pt"> <!--  text-align="center" -->
-			<fo:table table-layout="fixed" width="100%">
-				<fo:table-column column-width="95%"/>
-				<fo:table-column column-width="5%"/>
-				<fo:table-body>
-					<fo:table-row>
-						<fo:table-cell display-align="center">
-							<fo:block text-align="center">
-								<xsl:apply-templates/>
-							</fo:block>
-						</fo:table-cell>
-						<fo:table-cell display-align="center">
-							<fo:block text-align="right">
-								<xsl:call-template name="getItemNumber"/>
-							</fo:block>
-						</fo:table-cell>
-					</fo:table-row>
-				</fo:table-body>
-			</fo:table>
+			<xsl:apply-templates/>
 			<fo:inline keep-together.within-line="always">
 			</fo:inline>
 		</fo:block>
 	</xsl:template>
 	
-	<xsl:template match="itu:formula" mode="process">
-		<xsl:call-template name="formula"/>
+	<xsl:template match="itu:formula/itu:stem">
+		<fo:table table-layout="fixed" width="100%">
+			<fo:table-column column-width="95%"/>
+			<fo:table-column column-width="5%"/>
+			<fo:table-body>
+				<fo:table-row>
+					<fo:table-cell display-align="center">
+						<fo:block text-align="center" margin-left="0mm">
+							<xsl:apply-templates/>
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell display-align="center">
+						<fo:block text-align="right" margin-left="0mm">
+							<xsl:value-of select="xalan:nodeset($contents)//item[@id = current()/ancestor::itu:formula[1]/@id]/@number"/>
+							<!-- <xsl:call-template name="getItemNumber">
+								<xsl:with-param name="sectionNum" select="$sectionNum"/>
+							</xsl:call-template> -->
+						</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
 	</xsl:template>
 	
-	<xsl:template match="mathml:math">
-		<!-- <fo:inline font-size="12pt" color="red">
-			MathML: 
-		</fo:inline> -->
-		<fo:inline font-family="Cambria Math" font-size="11pt">
+	<xsl:template match="itu:formula" mode="process">
+		<xsl:param name="sectionNum"/>
+		<xsl:call-template name="formula">
+			<xsl:with-param name="sectionNum" select="$sectionNum"/>
+		</xsl:call-template>
+	</xsl:template>
+	
+	<xsl:template match="mathml:math" priority="2">
+		<fo:inline font-family="STIX2Math" font-size="11pt">
 			<fo:instream-foreign-object fox:alt-text="Math"> 
 				<xsl:copy-of select="."/>
 			</fo:instream-foreign-object>
@@ -1550,8 +1618,13 @@
 				</xsl:when>
 				
 				<xsl:when test="$type = 'note'">
-					<xsl:text> in Clause </xsl:text>
-					<xsl:value-of select="$section"/>
+					<xsl:variable name="currentSection">
+						<xsl:call-template name="getSection"/>
+					</xsl:variable>
+					<xsl:if test="not(contains($section, $currentSection))">
+						<xsl:text> in Clause </xsl:text>
+						<xsl:value-of select="$section"/>
+					</xsl:if>
 				</xsl:when>
 				<!-- <xsl:when test="$type = 'formula'">
 				
@@ -1616,7 +1689,14 @@
 				<xsl:attribute name="vertical-align">super</xsl:attribute>
 			</xsl:if>
 			<fo:basic-link internal-destination="{@bibitemid}" color="blue" text-decoration="underline" fox:alt-text="{@citeas}">
-				<xsl:text>[</xsl:text><xsl:value-of select="@citeas" disable-output-escaping="yes"/><xsl:text>]</xsl:text>
+				<xsl:choose>
+					<xsl:when test="contains(@citeas, '[')">
+						<xsl:value-of select="@citeas" disable-output-escaping="yes"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>[</xsl:text><xsl:value-of select="@citeas" disable-output-escaping="yes"/><xsl:text>]</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
 				<xsl:if test="itu:locality">
 					<xsl:text>, </xsl:text>
 					<xsl:choose>
@@ -2204,7 +2284,7 @@
 						</xsl:when>
 						<xsl:when test="$level &gt;= 2">
 							<xsl:variable name="num">
-								<xsl:number format=".1" level="multiple" count="itu:clause/itu:clause | itu:clause/itu:terms | itu:terms/itu:term | itu:clause/itu:term"/>
+								<xsl:number format=".1" level="multiple" count="itu:clause/itu:clause | itu:clause/itu:terms | itu:terms/itu:term | itu:clause/itu:term | itu:clause/itu:definitions"/>
 							</xsl:variable>
 							<xsl:value-of select="concat($sectionNum, $num)"/>
 						</xsl:when>
@@ -2308,6 +2388,7 @@
 			<fo:block space-before="18pt"> </fo:block>				
 		
 		
+		
 		<xsl:choose>
 			<xsl:when test="@unnumbered = 'true'"/>
 			<xsl:otherwise>
@@ -2315,6 +2396,7 @@
 				
 				
 					<fo:block font-weight="bold" text-align="center" margin-bottom="6pt" keep-with-next="always">
+						
 						
 						
 						
@@ -2348,10 +2430,11 @@
 								
 							</xsl:when>
 							<xsl:otherwise>
-								<!-- <xsl:number format="1"/> -->
-								<xsl:number format="A." count="*[local-name()='annex']"/>
-								<!-- <xsl:number format="1" level="any" count="*[local-name()='sections']//*[local-name()='table'][not(@unnumbered) or @unnumbered != 'true']"/> -->
-								<xsl:number format="1" level="any" count="//*[local-name()='table']                                          [not(ancestor::*[local-name()='annex'])                                           and not(ancestor::*[local-name()='executivesummary'])                                          and not(ancestor::*[local-name()='bibdata'])]                                          [not(@unnumbered) or @unnumbered != 'true']"/>
+								
+								
+									<xsl:number format="A." count="*[local-name()='annex']"/>
+									<xsl:number format="1" level="any" count="//*[local-name()='table']                                           [not(ancestor::*[local-name()='annex'])                                            and not(ancestor::*[local-name()='executivesummary'])                                           and not(ancestor::*[local-name()='bibdata'])]                                           [not(@unnumbered) or @unnumbered != 'true']"/>
+									
 							</xsl:otherwise>
 						</xsl:choose>
 						<xsl:if test="*[local-name()='name']">
@@ -2422,12 +2505,14 @@
 			
 			
 			
+			
 				<xsl:attribute name="margin-left">0mm</xsl:attribute>
 				<xsl:attribute name="margin-right">0mm</xsl:attribute>
 				<xsl:attribute name="space-after">18pt</xsl:attribute>
 			
 			
 			<fo:table id="{@id}" table-layout="fixed" width="100%" margin-left="{$margin-left}mm" margin-right="{$margin-left}mm">
+				
 				
 				
 					<xsl:attribute name="margin-left">0mm</xsl:attribute>
@@ -2584,12 +2669,19 @@
 					<fo:table-cell border="solid black 1pt" padding-left="1mm" padding-right="1mm" padding-top="1mm" number-columns-spanned="{$cols-count}">
 						
 						
+						
 							<xsl:if test="ancestor::*[local-name()='preface']">
 								<xsl:attribute name="border">solid black 0pt</xsl:attribute>
 							</xsl:if>
 						
 						<!-- fn will be processed inside 'note' processing -->
+						
+						
 						<xsl:apply-templates select="../*[local-name()='note']" mode="process"/>
+						
+						<!-- horizontal row separator -->
+						
+						
 						<!-- fn processing -->
 						<xsl:call-template name="fn_display"/>
 						
@@ -2608,8 +2700,10 @@
 					
 					
 					
+					
 				</xsl:if>
 				<xsl:if test="$parent-name = 'tfoot'">
+					
 					
 				</xsl:if>
 				
@@ -2617,6 +2711,7 @@
 		</fo:table-row>
 	</xsl:template><xsl:template xmlns:iso="https://www.metanorma.org/ns/iso" xmlns:iec="https://www.metanorma.org/ns/iec" xmlns:nist="https://www.metanorma.org/ns/nist" xmlns:un="https://www.metanorma.org/ns/un" xmlns:csd="https://www.metanorma.org/ns/csd" xmlns:ogc="https://www.metanorma.org/ns/ogc" match="*[local-name()='th']">
 		<fo:table-cell text-align="{@align}" font-weight="bold" border="solid black 1pt" padding-left="1mm" display-align="center">
+			
 			
 			
 				<xsl:if test="ancestor::*[local-name()='preface']">
@@ -2654,6 +2749,7 @@
 			
 			
 			
+			
 			<xsl:if test="@colspan">
 				<xsl:attribute name="number-columns-spanned">
 					<xsl:value-of select="@colspan"/>
@@ -2685,12 +2781,13 @@
 		
 			<fo:block font-size="10pt" margin-bottom="12pt">
 				
+				
 				<fo:inline padding-right="2mm">
 					<xsl:text>NOTE </xsl:text>
 					
 						<xsl:variable name="id" select="ancestor::*[local-name() = 'table'][1]/@id"/>
-						<xsl:if test="count(//itu:note[ancestor::*[@id = $id]]) &gt; 1">
-							<xsl:number count="itu:note[ancestor::*[@id = $id]]" level="any"/>
+						<xsl:if test="count(//*[local-name()='note'][ancestor::*[@id = $id]]) &gt; 1">
+							<xsl:number count="*[local-name()='note'][ancestor::*[@id = $id]]" level="any"/>
 						</xsl:if>
 					
 					
@@ -2719,9 +2816,11 @@
 			<xsl:if test="not(preceding-sibling::*[@reference = $reference])"> <!-- only unique reference puts in note-->
 				<fo:block margin-bottom="12pt">
 					
+					
 					<fo:inline font-size="80%" padding-right="5mm" id="{@id}">
 						
 							<xsl:attribute name="vertical-align">super</xsl:attribute>
+						
 						
 						
 						
@@ -2774,6 +2873,7 @@
 				<fo:table width="95%" table-layout="fixed">
 					<xsl:if test="normalize-space($key_iso) = 'true'">
 						<xsl:attribute name="font-size">10pt</xsl:attribute>
+						
 					</xsl:if>
 					<fo:table-column column-width="15%"/>
 					<fo:table-column column-width="85%"/>
@@ -2859,6 +2959,7 @@
 			<xsl:when test="$parent = 'figure' and  (not(../@class) or ../@class !='pseudocode')">
 				<fo:block font-weight="bold" text-align="left" margin-bottom="12pt">
 					
+					
 					<xsl:text>Key</xsl:text>
 				</fo:block>
 			</xsl:when>
@@ -2902,6 +3003,7 @@
 							</xsl:when>
 							<xsl:when test="normalize-space($key_iso) = 'true'">
 								<xsl:attribute name="font-size">10pt</xsl:attribute>
+								
 							</xsl:when>
 						</xsl:choose>
 						<xsl:choose>
@@ -2993,6 +3095,7 @@
 		<fo:table-row>
 			<fo:table-cell>
 				<fo:block margin-top="6pt">
+					
 					<xsl:if test="normalize-space($key_iso) = 'true'">
 						<xsl:attribute name="margin-top">0</xsl:attribute>
 						
@@ -3339,4 +3442,10 @@
 				<xsl:value-of select="substring($str2, 2)"/>
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template><xsl:template xmlns:iso="https://www.metanorma.org/ns/iso" xmlns:iec="https://www.metanorma.org/ns/iec" xmlns:nist="https://www.metanorma.org/ns/nist" xmlns:un="https://www.metanorma.org/ns/un" xmlns:csd="https://www.metanorma.org/ns/csd" xmlns:ogc="https://www.metanorma.org/ns/ogc" match="mathml:math">
+		<fo:inline font-family="STIX2Math">
+			<fo:instream-foreign-object fox:alt-text="Math"> 
+				<xsl:copy-of select="."/>
+			</fo:instream-foreign-object>
+		</fo:inline>
 	</xsl:template></xsl:stylesheet>

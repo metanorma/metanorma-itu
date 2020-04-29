@@ -89,7 +89,7 @@ module IsoDoc
             j = 0
             c.increment(t)
           end
-          label = c.print + (j.zero? ? "" : "-#{(97 + j).chr.to_s}")
+          label = c.print + (j.zero? ? "" : "-#{(96 + j).chr.to_s}")
           next if t["id"].nil? || t["id"].empty?
           @anchors[t["id"]] =
             anchor_struct(label, nil, @figure_lbl, "figure", t["unnumbered"])
@@ -106,7 +106,7 @@ module IsoDoc
             c.increment(t)
           end
           label = "#{num}#{hiersep}#{c.print}" +
-            (j.zero? ? "" : "#{hierfigsep}#{(97 + j).chr.to_s}")
+            (j.zero? ? "" : "#{hierfigsep}#{(96 + j).chr.to_s}")
           next if t["id"].nil? || t["id"].empty?
           @anchors[t["id"]] = anchor_struct(label, nil, @figure_lbl, "figure",
                                             t["unnumbered"])

@@ -1885,11 +1885,11 @@ FileUtils.rm_f "test.doc"
                <h1 class="IntroTitle"/>
                <p>
          <a href="#N">Figure 1</a>
-         <a href="#note1">Figure 1-b</a>
-         <a href="#note2">Figure 1-c</a>
+         <a href="#note1">Figure 1-a</a>
+         <a href="#note2">Figure 1-b</a>
          <a href="#AN">Figure A-1</a>
-         <a href="#Anote1">Figure A-1-b</a>
-         <a href="#Anote2">Figure A-1-c</a>
+         <a href="#Anote1">Figure A-1-a</a>
+         <a href="#Anote2">Figure A-1-b</a>
          </p>
              </div>
              <p class="zzSTDTitle1"/>
@@ -1908,13 +1908,13 @@ FileUtils.rm_f "test.doc"
              <div id="note1" class="figure">
 
        <img src="rice_images/rice_image1.png" height="auto" width="auto"/>
-       <p class="FigureTitle" style="text-align:center;">Figure 1-b&#160;&#8212; Split-it-right sample divider</p></div>
+       <p class="FigureTitle" style="text-align:center;">Figure 1-a&#160;&#8212; Split-it-right sample divider</p></div>
          <div id="note2" class="figure">
 
        <img src="rice_images/rice_image1.png" height="auto" width="auto"/>
-       <p class="FigureTitle" style="text-align:center;">Figure 1-c&#160;&#8212; Split-it-right sample divider</p></div>
+       <p class="FigureTitle" style="text-align:center;">Figure 1-b&#160;&#8212; Split-it-right sample divider</p></div>
        </div>
-       <p>    <a href="#note1">Figure 1-b</a> <a href="#note2">Figure 1-c</a> </p>
+       <p>    <a href="#note1">Figure 1-a</a> <a href="#note2">Figure 1-b</a> </p>
          </div>
              </div>
              <br/>
@@ -1933,11 +1933,11 @@ FileUtils.rm_f "test.doc"
              <div id="Anote1" class="figure">
 
        <img src="rice_images/rice_image1.png" height="auto" width="auto"/>
-       <p class="FigureTitle" style="text-align:center;">Figure A-1-b&#160;&#8212; Split-it-right sample divider</p></div>
+       <p class="FigureTitle" style="text-align:center;">Figure A-1-a&#160;&#8212; Split-it-right sample divider</p></div>
          <div id="Anote2" class="figure">
 
        <img src="rice_images/rice_image1.png" height="auto" width="auto"/>
-       <p class="FigureTitle" style="text-align:center;">Figure A-1-c&#160;&#8212; Split-it-right sample divider</p></div>
+       <p class="FigureTitle" style="text-align:center;">Figure A-1-b&#160;&#8212; Split-it-right sample divider</p></div>
        </div>
          </div>
              </div>
@@ -2013,11 +2013,11 @@ it "processes figures as hierarchical assets" do
                <h1 class="IntroTitle"/>
                <p>
          <a href="#N">Figure 3-1</a>
-         <a href="#note1">Figure 3-1-b</a>
-         <a href="#note2">Figure 3-1-c</a>
+         <a href="#note1">Figure 3-1-a</a>
+         <a href="#note2">Figure 3-1-b</a>
          <a href="#AN">Figure A-1</a>
-         <a href="#Anote1">Figure A-1-b</a>
-         <a href="#Anote2">Figure A-1-c</a>
+         <a href="#Anote1">Figure A-1-a</a>
+         <a href="#Anote2">Figure A-1-b</a>
          </p>
              </div>
              <p class="zzSTDTitle1"/>
@@ -2036,13 +2036,13 @@ it "processes figures as hierarchical assets" do
              <div id="note1" class="figure">
 
        <img src="rice_images/rice_image1.png" height="auto" width="auto"/>
-       <p class="FigureTitle" style="text-align:center;">Figure 3-1-b&#160;&#8212; Split-it-right sample divider</p></div>
+       <p class="FigureTitle" style="text-align:center;">Figure 3-1-a&#160;&#8212; Split-it-right sample divider</p></div>
          <div id="note2" class="figure">
 
        <img src="rice_images/rice_image1.png" height="auto" width="auto"/>
-       <p class="FigureTitle" style="text-align:center;">Figure 3-1-c&#160;&#8212; Split-it-right sample divider</p></div>
+       <p class="FigureTitle" style="text-align:center;">Figure 3-1-b&#160;&#8212; Split-it-right sample divider</p></div>
        </div>
-       <p>    <a href="#note1">Figure 3-1-b</a> <a href="#note2">Figure 3-1-c</a> </p>
+       <p>    <a href="#note1">Figure 3-1-a</a> <a href="#note2">Figure 3-1-b</a> </p>
          </div>
              </div>
              <br/>
@@ -2061,11 +2061,11 @@ it "processes figures as hierarchical assets" do
              <div id="Anote1" class="figure">
 
        <img src="rice_images/rice_image1.png" height="auto" width="auto"/>
-       <p class="FigureTitle" style="text-align:center;">Figure A-1-b&#160;&#8212; Split-it-right sample divider</p></div>
+       <p class="FigureTitle" style="text-align:center;">Figure A-1-a&#160;&#8212; Split-it-right sample divider</p></div>
          <div id="Anote2" class="figure">
 
        <img src="rice_images/rice_image1.png" height="auto" width="auto"/>
-       <p class="FigureTitle" style="text-align:center;">Figure A-1-c&#160;&#8212; Split-it-right sample divider</p></div>
+       <p class="FigureTitle" style="text-align:center;">Figure A-1-b&#160;&#8212; Split-it-right sample divider</p></div>
        </div>
          </div>
              </div>

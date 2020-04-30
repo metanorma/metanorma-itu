@@ -26,7 +26,7 @@
 
         <div class="doc-info-left">
           <div class="doc-identifier">
-            {{ docnumber }}
+            {{ docnumeric }}
             {% if edition %} <div> Revision {{ edition }}</div> {% endif %}
             <div> {{ draftinfo }}</div>
           </div>
@@ -73,7 +73,7 @@
         <div>
           <span class="doc-type">{% if stage == "Draft" %}Draft {% endif %}{{ doctype }}</span>
           <span class="ITU-sector">ITU-{{ bureau }}</span>
-          <span class="doc-identifier">{{ docnumber }}</span>
+          <span class="doc-identifier">{{ docnumeric }}</span>
         </div>
 
       </div>

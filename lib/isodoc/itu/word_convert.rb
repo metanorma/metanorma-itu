@@ -117,7 +117,7 @@ module IsoDoc
       def formula_parse1(node, out)
         out.div **attr_code(id: node["id"], class: "formula") do |div|
           div.p **attr_code(class: "formula") do |p|
-            insert_tab(div, 2)
+            insert_tab(div, 1)
             parse(node.at(ns("./stem")), div)
             lbl = anchor(node['id'], :label, false)
             unless lbl.nil?

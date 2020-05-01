@@ -79,6 +79,8 @@ module Asciidoctor
       def cleanup(xmldoc)
         symbols_cleanup(xmldoc)
         super
+        obligations_cleanup(xmldoc)
+        xmldoc
       end
 
       def smartquotes_cleanup(xmldoc)

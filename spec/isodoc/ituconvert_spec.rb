@@ -134,7 +134,7 @@ RSpec.describe Asciidoctor::ITU do
 </itu-standard>
     INPUT
     expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <<~"OUTPUT"
-    {:accesseddate=>"XXX", :agency=>"ITU", :annexid=>"Appendix F1", :annextitle=>"Annex Title", :authors=>[], :authors_affiliations=>{}, :bureau=>"R", :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docnumber=>"ITU-R 1000", :docnumeric=>"1000", :doctitle=>"Main Title", :doctype=>"Directive", :docyear=>"2001", :draft=>"3.4", :draftinfo=>" (draft 3.4, 2000-01-01)", :edition=>"2", :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :iteration=>"3", :keywords=>["word1", "word2"], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :publisher=>"International Telecommunication Union", :receiveddate=>"XXX", :revdate=>"2000-01-01", :revdate_monthyear=>"01/2000", :series=>"A3", :series1=>"B3", :series2=>"C3", :stage=>"Final Draft", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>false, :updateddate=>"XXX"}
+    {:accesseddate=>"XXX", :agency=>"ITU", :annexid=>"Appendix F1", :annextitle=>"Annex Title", :authors=>[], :authors_affiliations=>{}, :bureau=>"R", :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docnumber=>"ITU-R 1000", :docnumeric=>"1000", :doctitle=>"Main Title", :doctype=>"Directive", :docyear=>"2001", :draft=>"3.4", :draftinfo=>" (draft 3.4, 2000-01-01)", :edition=>"2", :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :iteration=>"3", :keywords=>["word1", "word2"], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :publisher=>"International Telecommunication Union", :receiveddate=>"XXX", :revdate=>"2000-01-01", :revdate_monthyear=>"01/2000", :series=>"A3", :series1=>"B3", :series2=>"C3", :stage=>"Final Draft", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>false, :updateddate=>"XXX", :vote_endeddate=>"XXX", :vote_starteddate=>"XXX"}
     OUTPUT
   end
 
@@ -169,7 +169,7 @@ RSpec.describe Asciidoctor::ITU do
   </status>
 INPUT
 expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <<~"OUTPUT"
-    {:accesseddate=>"XXX", :agency=>"ITU", :annextitle=>nil, :authors=>[], :authors_affiliations=>{}, :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docnumber=>"ITU-R 1000", :docnumeric=>"1000", :doctitle=>"Main Title", :docyear=>nil, :draft=>nil, :draftinfo=>"", :edition=>nil, :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :keywords=>[], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :publisher=>"International Telecommunication Union", :receiveddate=>"XXX", :revdate=>nil, :revdate_monthyear=>nil, :series=>nil, :series1=>nil, :series2=>nil, :stage=>"In Force Prepublished", :stageabbr=>"IFP", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>true, :updateddate=>"XXX"}
+    {:accesseddate=>"XXX", :agency=>"ITU", :annextitle=>nil, :authors=>[], :authors_affiliations=>{}, :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docnumber=>"ITU-R 1000", :docnumeric=>"1000", :doctitle=>"Main Title", :docyear=>nil, :draft=>nil, :draftinfo=>"", :edition=>nil, :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :keywords=>[], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :publisher=>"International Telecommunication Union", :receiveddate=>"XXX", :revdate=>nil, :revdate_monthyear=>nil, :series=>nil, :series1=>nil, :series2=>nil, :stage=>"In Force Prepublished", :stageabbr=>"IFP", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>true, :updateddate=>"XXX", :vote_endeddate=>"XXX", :vote_starteddate=>"XXX"}
     OUTPUT
    end
 
@@ -265,7 +265,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
         #{HTML_HDR}
                <p class="zzSTDTitle1"/>
              <p class="zzSTDTitle2"/>
-               <div id="H"><h1>1&#160; Definitions</h1>
+               <div id="H"><h1>1&#160; </h1>
                <div id='J'>
                <p class='TermNum' id='J'>
                  <b>1.1&#160; Term2</b>
@@ -316,7 +316,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
         <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
              <p class="zzSTDTitle1"></p>
              <p class="zzSTDTitle2"></p>
-             <div id="H"><h1 id="toc0">1&#xA0; Definitions</h1>
+             <div id="H"><h1 id="toc0">1&#xA0; </h1>
          <div id="J"><p class="TermNum" id="J"><b>1.1&#xA0; Term2</b> [XYZ]: This is a journey into sound</p>
 
 
@@ -429,7 +429,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
              <p class="zzSTDTitle2"/>
                   <div id="H"><h1>1.&#xA0; Terms and definitions</h1><p>For the purposes of this document,
               the following terms and definitions apply.</p>
-          <p class="TermNum" id="J">1.1.&#xA0;<p class="Terms" style="text-align:left;">Term2</p></p>
+          <p class="Terms" style='text-align:left;' id="J"><b>1.1.</b>&#xA0;Term2</p>
 
           </div>
                 </div>
@@ -990,7 +990,7 @@ OUTPUT
                  <h1>2&#160; References</h1>
                </div>
                <div id="I">
-               <h1>3&#160; Definitions</h1>
+               <h1>3&#160; </h1>
                <div id="J"><p class="TermNum" id="J"><b>3.1&#160; Term2</b>:</p>
 
         </div>
@@ -1068,7 +1068,7 @@ OUTPUT
                  <h1>2&#160; References</h1>
                </div>
                <div id="I">
-               <h1>3&#160; Definitions</h1>
+               <h1>3&#160; </h1>
                <div id="J"><p class="TermNum" id="J"><b>3.1&#160; Term2</b>:</p>
 
         </div>
@@ -1128,14 +1128,14 @@ OUTPUT
                <h1 class="AbstractTitle">Summary</h1>
                <p>This is an abstract</p>
              </div>
-             <div id="A0">
-  <h1 class="IntroTitle">History</h1>
-  <p>history</p>
-</div>
              <div>
                <h1 class="IntroTitle">Keywords</h1>
                <p>A, B.</p>
              </div>
+             <div id="A0">
+  <h1 class="IntroTitle">History</h1>
+  <p>history</p>
+</div>
              <div>
                <h1 class="IntroTitle">Foreword</h1>
                <p id="A">This is a preamble</p>
@@ -1161,7 +1161,7 @@ OUTPUT
              <div>
                <h1>2<span style="mso-tab-count:1">&#160; </span>References</h1>
              </div>
-             <div id="I"><h1>3<span style="mso-tab-count:1">&#160; </span>Definitions</h1>
+             <div id="I"><h1>3<span style="mso-tab-count:1">&#160; </span></h1>
           <div id="J"><p class="TermNum" id="J"><b>3.1<span style="mso-tab-count:1">&#160; </span>Term2</b>: </p>
      
         </div>
@@ -1821,7 +1821,7 @@ FileUtils.rm_f "test.doc"
                      </tr>
                    </tbody>
                  <tfoot><tr><td colspan="5" style=""><div class="TableFootnote"><div><a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>
-         <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11. 1002/1000/11830-en</a></p>
+         <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11.1002/1000/11830-en</a></p>
        </div></div></td></tr></tfoot></table>
        </div></div>
       OUTPUT
@@ -1898,7 +1898,7 @@ FileUtils.rm_f "test.doc"
                <h1>1&#160; Scope</h1>
              </div>
              <div id="terms">
-               <h1>2&#160; Definitions</h1>
+               <h1>2&#160; </h1>
                <p>None.</p>
              </div>
              <div id="widgets">
@@ -2026,7 +2026,7 @@ it "processes figures as hierarchical assets" do
                <h1>1&#160; Scope</h1>
              </div>
              <div id="terms">
-               <h1>2&#160; Definitions</h1>
+               <h1>2&#160; </h1>
                <p>None.</p>
              </div>
              <div id="widgets">
@@ -2144,7 +2144,7 @@ it "processes formulae as non-hierarchical assets" do
       <h1>1&#160; Scope</h1>
     </div>
     <div id='terms'>
-      <h1>2&#160; Definitions</h1>
+      <h1>2&#160; </h1>
       <p>None.</p>
     </div>
     <div id='widgets'>
@@ -2342,8 +2342,8 @@ it "post-processes steps class of ordered lists (Word)" do
            <div>
          <p class='h1Preface'/>
          <p style='mso-list:l4 level1 lfo1;' class='MsoListParagraphCxSpFirst'> all information necessary for the complete identification of the sample; </p>
-         <p class='MsoListParagraphCxSpFirst'> a reference to this document (i.e. ISO 17301-1); </p>
-         <p class='MsoListParagraphCxSpFirst'> the sampling method used; </p>
+         <p style='mso-list:l4 level1 lfo2;' class='MsoListParagraphCxSpFirst'> a reference to this document (i.e. ISO 17301-1); </p>
+         <p style='mso-list:l4 level1 lfo3;;mso-list:l4 level1 lfo4;' class='MsoListParagraphCxSpFirst'> the sampling method used; </p>
        </div>
     OUTPUT
 end
@@ -2526,7 +2526,7 @@ it "cross-references notes" do
                </p>
              </div>
              <div id="terms">
-               <h1>2&#160; Definitions</h1>
+               <h1>2&#160; </h1>
                <p>None.</p>
              </div>
              <div id="widgets">

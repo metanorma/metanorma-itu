@@ -45,16 +45,21 @@ RSpec.describe Metanorma::ITU::Processor do
         <preface/></sections>
         </itu-standard>
     INPUT
-    expect(File.read("test.html", encoding: "utf-8").gsub(%r{^.*<main}m, "<main").gsub(%r{</main>.*}m, "</main>")).to be_equivalent_to <<~"OUTPUT"
-           <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-             <p class="zzSTDTitle1"></p>
-             <p class="zzSTDTitle2"></p>
-       <div id="H">
-  <h1 id="toc0">1&#xA0; Definitions</h1>
-  <div id="J"><p class="TermNum" id="J"><b>1.1&#xA0; Term2</b>:</p>
-
-       </div>
-           </main>
+    expect(xmlpp(File.read("test.html", encoding: "utf-8").gsub(%r{^.*<main}m, "<main").gsub(%r{</main>.*}m, "</main>"))).to be_equivalent_to (<<~"OUTPUT")
+           <main class='main-section'>
+  <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
+  <p class='zzSTDTitle1'/>
+  <p class='zzSTDTitle2'/>
+  <div id='H'>
+    <h1 id='toc0'>1&#xA0; </h1>
+    <div id='J'>
+      <p class='TermNum' id='J'>
+        <b>1.1&#xA0; Term2</b>
+        : 
+      </p>
+    </div>
+  </div>
+</main>
     OUTPUT
   end
 

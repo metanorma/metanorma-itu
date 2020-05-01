@@ -316,7 +316,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
         <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
              <p class="zzSTDTitle1"></p>
              <p class="zzSTDTitle2"></p>
-             <div id="H"><h1>1&#xA0; Definitions</h1>
+             <div id="H"><h1 id="toc0">1&#xA0; Definitions</h1>
          <div id="J"><p class="TermNum" id="J"><b>1.1&#xA0; Term2</b> [XYZ]: This is a journey into sound</p>
 
 
@@ -549,7 +549,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
     <main xmlns:epub='epub' class='main-section'>
   <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
   <div>
-    <h1 class='IntroTitle' id='toc0'/>
+    <h1 class='IntroTitle'/>
     <p>
       A.
       <a rel='footnote' href='#fn:2' epub:type='footnote' id='fnref:1'>

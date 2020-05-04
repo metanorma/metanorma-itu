@@ -445,9 +445,9 @@ OUTPUT
       :novalid:
     INPUT
     html = File.read("test.html", encoding: "utf-8")
-    expect(html).to match(%r[\bpre[^{]+\{[^}]+font-family: "Space Mono", monospace;]m)
-    expect(html).to match(%r[ div[^{]+\{[^}]+font-family: "Open Sans", sans-serif;]m)
-    expect(html).to match(%r[h1, h2, h3, h4, h5, h6 \{[^}]+font-family: "Open Sans", sans-serif;]m)
+    expect(html).to match(%r[\bpre[^{]+\{[^}]+font-family: "Courier New", monospace;]m)
+    expect(html).to match(%r[ div[^{]+\{[^}]+font-family: "Times New Roman", serif;]m)
+    expect(html).to match(%r[h1, h2, h3, h4, h5, h6 \{[^}]+font-family: "Times New Roman", serif;]m)
   end
 
   it "uses default fonts (Word)" do
@@ -474,7 +474,7 @@ OUTPUT
       :script: Hans
     INPUT
     html = File.read("test.html", encoding: "utf-8")
-    expect(html).to match(%r[\bpre[^{]+\{[^}]+font-family: "Space Mono", monospace;]m)
+    expect(html).to match(%r[\bpre[^{]+\{[^}]+font-family: "Courier New", monospace;]m)
     expect(html).to match(%r[ div[^{]+\{[^}]+font-family: "SimSun", serif;]m)
     expect(html).to match(%r[h1, h2, h3, h4, h5, h6 \{[^}]+font-family: "SimHei", sans-serif;]m)
   end

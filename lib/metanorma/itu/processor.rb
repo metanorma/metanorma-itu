@@ -2,8 +2,8 @@ require "metanorma/processor"
 
 module Metanorma
   module ITU
-    def self.pdf_fonts
-      ["Arial", "Courier", "Times New Roman"]
+    def self.fonts_used
+      ["Arial", "Courier New", "Times New Roman"]
     end
 
     class Processor < Metanorma::Processor

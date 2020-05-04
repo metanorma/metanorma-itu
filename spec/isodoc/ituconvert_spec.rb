@@ -1317,7 +1317,7 @@ OUTPUT
     INPUT
     html = File.read("test.html", encoding: "utf-8")
     expect(html).to match(%r{jquery\.min\.js})
-    expect(html).to match(%r{Open Sans})
+    expect(html).to match(%r{Times New Roman})
     expect(html).to match(%r{<main class="main-section"><button})
   end
 

@@ -15,9 +15,13 @@ module IsoDoc
         @anchors[clause["id"]] =
           { label: annex_name_lbl(clause, num), type: "clause",
             xref: "#{lbl} #{num}", level: 1 }
-        clause.xpath(ns("./clause | ./references | ./terms | ./definitions")).
-          each_with_index do |c, i|
-          annex_names1(c, "#{num}.#{i + 1}", 2)
+        if a = single_annex_special_section(clause)
+          annex_names1(a, "#{num}", 1)
+        else
+          clause.xpath(ns("./clause | ./references | ./terms | ./definitions")).
+            each_with_index do |c, i|
+            annex_names1(c, "#{num}.#{i + 1}", 2)
+          end
         end
         hierarchical_asset_names(clause, num)
       end
@@ -68,10 +72,10 @@ module IsoDoc
       end
 
       MIDDLE_SECTIONS = "//clause[title = 'Scope'] | "\
-          "//foreword | //introduction | //acknowledgements | "\
-          "//references[@normative = 'true'] | "\
-          "//sections/terms | //preface/clause | "\
-          "//sections/definitions | //clause[parent::sections]".freeze
+        "//foreword | //introduction | //acknowledgements | "\
+        "//references[@normative = 'true'] | "\
+        "//sections/terms | //preface/clause | "\
+        "//sections/definitions | //clause[parent::sections]".freeze
 
       def middle_section_asset_names(d)
         return super unless @hierarchical_assets
@@ -116,7 +120,7 @@ module IsoDoc
       def sequential_formula_names(clause)
         clause&.first&.xpath(ns(MIDDLE_SECTIONS))&.each do |c|
           if c["id"] && @anchors[c["id"]]
-          hierarchical_formula_names(c, @anchors[c["id"]][:label] || @anchors[c["id"]][:xref] || "???")
+            hierarchical_formula_names(c, @anchors[c["id"]][:label] || @anchors[c["id"]][:xref] || "???")
           else
             hierarchical_formula_names(c, "???")
           end

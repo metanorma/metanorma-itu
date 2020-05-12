@@ -43,8 +43,8 @@ module Asciidoctor
           x.at("./*/annex[last()] | ./*/sections").next =
           "<bibliography><sentinel/></bibliography>"
         ins = x.at("//bibliography").elements.first
-        unless x.at("//bibliography/references/title[text() = 'References']")
-          ins.previous = "<references><title>References</title><p>"\
+        unless x.at("//bibliography/references[@normative = 'true']")
+          ins.previous = "<references normative='true'><title>References</title><p>"\
             "#{@labels['clause_empty']}</p></references>"
         end
         x&.at("//sentinel")&.remove

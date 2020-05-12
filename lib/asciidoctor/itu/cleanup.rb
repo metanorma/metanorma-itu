@@ -160,6 +160,13 @@ module Asciidoctor
           biblio_reorder1(r)
         end
       end
+
+      def normref_cleanup(xmldoc)
+        super
+        r = xmldoc.at(NORM_REF) || return
+        title = r.at("./title") and
+          title.content = "References"
+      end
     end
   end
 end

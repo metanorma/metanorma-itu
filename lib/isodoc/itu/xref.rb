@@ -69,7 +69,7 @@ module IsoDoc
 
       MIDDLE_SECTIONS = "//clause[title = 'Scope'] | "\
           "//foreword | //introduction | //acknowledgements | "\
-          "//references[title = 'References' or title = 'references'] | "\
+          "//references[@normative = 'true'] | "\
           "//sections/terms | //preface/clause | "\
           "//sections/definitions | //clause[parent::sections]".freeze
 

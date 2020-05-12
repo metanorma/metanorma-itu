@@ -52,8 +52,8 @@ module IsoDoc
           hierarchical_asset_names(d.xpath("//xmlns:preface/child::*"), "Preface") :
           sequential_asset_names(d.xpath("//xmlns:preface/child::*"))
         n = section_names(d.at(ns("//clause[title = 'Scope']")), 0, 1)
-        n = section_names(d.at(ns("//bibliography/clause[title = 'References'] | "\
-                                  "//bibliography/references[title = 'References']")), n, 1)
+        n = section_names(d.at(ns("//bibliography/clause[.//references[@normative = 'true']] | "\
+                                  "//bibliography/references[@normative = 'true']")), n, 1)
         n = section_names(d.at(ns("//sections/terms | "\
                                   "//sections/clause[descendant::terms]")), n, 1)
         n = section_names(d.at(ns("//sections/definitions")), n, 1)

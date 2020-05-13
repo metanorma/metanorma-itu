@@ -71,7 +71,7 @@ RSpec.describe Asciidoctor::ITU do
            </clause>
 </sections>
 <bibliography>
-  <references obligation='informative'>
+  <references obligation='informative' normative="true">
     <title>References</title>
     <p id='_'>None.</p>
     <p id='_'>None.</p>
@@ -683,17 +683,17 @@ OUTPUT
   <title>Annex A.1</title>
 </clause>
 </annex><bibliography>
-<references id="_" obligation="informative">
+<references id="_" obligation="informative" normative="true">
   <title>References</title>
   <p id="_">None.</p>
 </references>
 <clause id="_" obligation="informative">
   <title>Bibliography</title>
-  <references id="_" obligation="informative">
+  <references id="_" obligation="informative" normative="false">
   <title>Bibliography Subsection</title>
 </references>
 </clause>
-<references id="_" obligation="informative">
+<references id="_" obligation="informative" normative="false">
          <title>Bibliography</title>
        </references>
 </bibliography>
@@ -712,7 +712,7 @@ OUTPUT
       #{BLANK_HDR}
       <sections>
 
-</sections><bibliography><references id="_" obligation="informative">
+</sections><bibliography><references id="_" obligation="informative" normative="true">
   <title>References</title><p id="_">None.</p>
 </references></bibliography>
 </itu-standard>
@@ -731,7 +731,7 @@ OUTPUT
     #{BLANK_HDR}
     <sections>
 
-       </sections><bibliography><references id="_" obligation="informative">
+       </sections><bibliography><references id="_" obligation="informative" normative="true">
          <title>References</title>
 <p id="_">The following ITU-T Recommendations and other references contain provisions which, through reference in this text, constitute provisions of this Recommendation. At the time of publication, the editions indicated were valid. All Recommendations and other references are subject to revision; users of this Recommendation are therefore encouraged to investigate the possibility of applying the most recent edition of the Recommendations and other references listed below. A list of the currently valid ITU-T Recommendations is regularly published. The reference to a document within this Recommendation does not give it, as a stand-alone document, the status of a Recommendation.</p>
          <bibitem id="a">

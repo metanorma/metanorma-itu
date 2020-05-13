@@ -15,9 +15,13 @@ module IsoDoc
         @anchors[clause["id"]] =
           { label: annex_name_lbl(clause, num), type: "clause",
             xref: "#{lbl} #{num}", level: 1 }
-        clause.xpath(ns("./clause | ./references | ./terms | ./definitions")).
-          each_with_index do |c, i|
-          annex_names1(c, "#{num}.#{i + 1}", 2)
+        if a = single_annex_special_section(clause)
+          annex_names1(a, "#{num}", 1)
+        else
+          clause.xpath(ns("./clause | ./references | ./terms | ./definitions")).
+            each_with_index do |c, i|
+            annex_names1(c, "#{num}.#{i + 1}", 2)
+          end
         end
         hierarchical_asset_names(clause, num)
       end
@@ -52,8 +56,8 @@ module IsoDoc
           hierarchical_asset_names(d.xpath("//xmlns:preface/child::*"), "Preface") :
           sequential_asset_names(d.xpath("//xmlns:preface/child::*"))
         n = section_names(d.at(ns("//clause[title = 'Scope']")), 0, 1)
-        n = section_names(d.at(ns("//bibliography/clause[title = 'References'] | "\
-                                  "//bibliography/references[title = 'References']")), n, 1)
+        n = section_names(d.at(ns("//bibliography/clause[.//references[@normative = 'true']] | "\
+                                  "//bibliography/references[@normative = 'true']")), n, 1)
         n = section_names(d.at(ns("//sections/terms | "\
                                   "//sections/clause[descendant::terms]")), n, 1)
         n = section_names(d.at(ns("//sections/definitions")), n, 1)
@@ -68,10 +72,10 @@ module IsoDoc
       end
 
       MIDDLE_SECTIONS = "//clause[title = 'Scope'] | "\
-          "//foreword | //introduction | //acknowledgements | "\
-          "//references[title = 'References' or title = 'references'] | "\
-          "//sections/terms | //preface/clause | "\
-          "//sections/definitions | //clause[parent::sections]".freeze
+        "//foreword | //introduction | //acknowledgements | "\
+        "//references[@normative = 'true'] | "\
+        "//sections/terms | //preface/clause | "\
+        "//sections/definitions | //clause[parent::sections]".freeze
 
       def middle_section_asset_names(d)
         return super unless @hierarchical_assets
@@ -116,7 +120,7 @@ module IsoDoc
       def sequential_formula_names(clause)
         clause&.first&.xpath(ns(MIDDLE_SECTIONS))&.each do |c|
           if c["id"] && @anchors[c["id"]]
-          hierarchical_formula_names(c, @anchors[c["id"]][:label] || @anchors[c["id"]][:xref] || "???")
+            hierarchical_formula_names(c, @anchors[c["id"]][:label] || @anchors[c["id"]][:xref] || "???")
           else
             hierarchical_formula_names(c, "???")
           end

@@ -349,7 +349,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
        </clause>
         </sections>
         <bibliography>
-        <references id="_normative_references" obligation="informative"><title>References</title>
+        <references normative="true" id="_normative_references" obligation="informative"><title>References</title>
 <bibitem id="ISO712" type="standard">
   <title format="text/plain">Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</title>
   <docidentifier>ISO 712</docidentifier>
@@ -792,11 +792,11 @@ OUTPUT
          <title>Annex A.1a</title>
          </clause>
        </clause>
-       </annex><bibliography><references id="R" obligation="informative">
+       </annex><bibliography><references id="R" obligation="informative" normative="true">
          <title>References</title>
        </references><clause id="S" obligation="informative">
          <title>Bibliography</title>
-         <references id="T" obligation="informative">
+         <references id="T" obligation="informative" normative="false">
          <title>Bibliography Subsection</title>
        </references>
        </clause>
@@ -1335,7 +1335,7 @@ OUTPUT
     <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><localityStack><locality type="section"><referenceFrom>8</referenceFrom></locality></localityStack><localityStack><locality type="section"><referenceFrom>10</referenceFrom></locality></localityStack></eref>
     </p>
     </foreword></preface>
-    <bibliography><references id="_normative_references" obligation="informative"><title>References</title>
+    <bibliography><references id="_normative_references" obligation="informative" normative="true"><title>References</title>
 <bibitem id="ISO712" type="standard">
   <title format="text/plain">Cereals and cereal products</title>
   <docidentifier>ISO 712</docidentifier>
@@ -1537,7 +1537,7 @@ OUTPUT
   <eref bibitemid="ISO712"/>
   </p>
     </foreword></preface>
-    <bibliography><references id="_normative_references" obligation="informative"><title>References</title>
+    <bibliography><references id="_normative_references" obligation="informative" normative="true"><title>References</title>
     <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
 <bibitem id="ISO712" type="standard">
   <title format="text/plain">Cereals or cereal products</title>
@@ -2360,7 +2360,7 @@ it "processes erefs and xrefs and links (Word)" do
     <link target="http://www.example.com"/>
     </p>
     </foreword></preface>
-    <bibliography><references id="_normative_references" obligation="informative"><title>References</title>
+    <bibliography><references id="_normative_references" obligation="informative" normative="true"><title>References</title>
 <bibitem id="ISO712" type="standard">
   <title format="text/plain">Cereals and cereal products</title>
   <docidentifier>ISO 712</docidentifier>

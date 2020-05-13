@@ -6,7 +6,7 @@ module IsoDoc
   module ITU
     module BaseConvert
       def norm_ref(isoxml, out, num)
-        q = "//bibliography/references[title = 'References']"
+        q = "//bibliography/references[@normative = 'true']"
         f = isoxml.at(ns(q)) or return num
         out.div do |div|
           num = num + 1

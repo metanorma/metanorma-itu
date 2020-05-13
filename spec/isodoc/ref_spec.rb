@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe IsoDoc::ITU do
   it "processes IsoXML bibliographies" do
-    expect((IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).sub(/^.*<body/m, "<body").sub(%r{</body>.*$}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).sub(/^.*<body/m, "<body").sub(%r{</body>.*$}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <iso-standard xmlns="http://riboseinc.com/isoxml">
     <bibdata>
     <language>en</language>
@@ -19,7 +19,7 @@ RSpec.describe IsoDoc::ITU do
   <eref bibitemid="zip_ffs"/>
   </p>
     </foreword></preface>
-    <bibliography><references id="_normative_references" obligation="informative"><title>Normative References</title>
+    <bibliography><references id="_normative_references" obligation="informative" normative="true"><title>Normative References</title>
     <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
 <bibitem id="ISO712" type="standard">
   <title format="text/plain">Cereals or cereal products</title>
@@ -68,7 +68,7 @@ RSpec.describe IsoDoc::ITU do
     <bibitem id="zip_ffs"><formattedref format="application/x-isodoc+xml">Title 5</formattedref><docidentifier type="metanorma">[5]</docidentifier></bibitem>
 
 
-</references><references id="_bibliography" obligation="informative">
+</references><references id="_bibliography" obligation="informative" normative="false">
   <title>Bibliography</title>
 <bibitem id="ISBN" type="ISBN">
   <title format="text/plain">Chemicals for analytical laboratory use</title>
@@ -139,6 +139,51 @@ RSpec.describe IsoDoc::ITU do
              </div>
              <p class="zzSTDTitle1"/>
              <p class="zzSTDTitle2"/>
+             <div>
+  <h1>1&#160; References</h1>
+  <p>
+    The following documents are referred to in the text in such a way that
+    some or all of their content constitutes requirements of this document.
+    For dated references, only the edition cited applies. For undated
+    references, the latest edition of the referenced document (including any
+    amendments) applies.
+  </p>
+  <p id='ISO712' class='NormRef'>
+    [110]&#160; ISO 712,
+    <i>Cereals and cereal products</i>
+    .
+  </p>
+  <p id='ISO16634' class='NormRef'>
+    [ISO 16634:-- (all parts)]&#160; ISO 16634:-- (all parts) (),
+    <i>Cereals, pulses, milled cereal products, oilseeds and animal feeding stuffs</i>
+    .
+  </p>
+  <p id='ISO20483' class='NormRef'>
+    [ISO 20483:2013-2014]&#160; ISO 20483:2013-2014 (20132014),
+    <i>Cereals and pulses</i>
+    .
+  </p>
+  <p id='ref1' class='NormRef'>
+    [ICC 167]&#160; ICC 167,
+    <span style='font-variant:small-caps;'>Standard No I.C.C 167</span>
+    .
+    <i>
+      Determination of the protein content in cereal and cereal products for
+      food and animal feeding stuffs according to the Dumas combustion
+      method
+    </i>
+     (see
+    <a href='http://www.icc.or.at'>http://www.icc.or.at</a>
+    ).
+  </p>
+  <div id='' class='Note'>
+    <p>
+      <span class='note_label'>NOTE &#8211; </span>
+      This is an annotation of ISO 20483:2013-2014
+    </p>
+  </div>
+  <p id='zip_ffs' class='NormRef'>[5]&#160; Title 5.</p>
+</div>
              <br/>
              <div><h1 class="Section3">Bibliography</h1>
      

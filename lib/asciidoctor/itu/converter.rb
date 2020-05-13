@@ -90,15 +90,6 @@ module Asciidoctor
         end
       end
 
-      def norm_ref_parse(attrs, xml, node)
-        @norm_ref = true
-        xml.references **attr_code(attrs) do |xml_section|
-          xml_section.title { |t| t << "References" }
-          xml_section << node.content
-        end
-        @norm_ref = false
-      end
-
       def term_def_title(toplevel, node)
         return node.title unless toplevel
         "Definitions"
@@ -130,8 +121,6 @@ module Asciidoctor
           %w(term terms).include? div&.next_element&.name and
           div.next = "<p>#{@term_def_boilerplate}</p>"
       end
-
-      NORM_REF = "//bibliography/references[title = 'References']".freeze
 
       def load_yaml(lang, script)
         y = if @i18nyaml then YAML.load_file(@i18nyaml)

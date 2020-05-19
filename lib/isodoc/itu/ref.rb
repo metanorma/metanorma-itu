@@ -18,7 +18,8 @@ module IsoDoc
 
       def nonstd_bibitem(list, b, ordinal, biblio)
         list.p **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
-          ref << "[#{render_identifier(bibitem_ref_code(b))}]"
+          id = render_identifier(bibitem_ref_code(b))
+          ref << (id[0] || "[#{id[1]}]")
           date_note_process(b, ref)
           insert_tab(ref, 1)
           reference_format(b, ref)
@@ -29,6 +30,12 @@ module IsoDoc
         nonstd_bibitem(list, b, ordinal, biblio)
       end
 
+      def bracket_if_num(x)
+      return nil if x.nil?
+      x = x.text.sub(/^\[/, "").sub(/\]$/, "")
+      "[#{x}]"
+    end
+
       def reference_format(b, r)
         reference_format_start(b, r)
         reference_format_title(b, r)
@@ -38,19 +45,12 @@ module IsoDoc
         s.gsub(/ |\_|\-/, " ").split(/ /).map(&:capitalize).join(" ")
       end
 
-      IGNORE_IDS =
-        "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or @type = 'rfc-anchor'".freeze
-
-      def bibitem_ref_code(b)
-        id = b.at(ns("./docidentifier[@type = 'metanorma']"))
-        id ||= b.at(ns("./docidentifier[@type = 'ITU']"))
-        id ||= b.at(ns("./docidentifier[not(#{IGNORE_IDS})]"))
-        id ||= b.at(ns("./docidentifier"))
-        return id if id
-        id = Nokogiri::XML::Node.new("docidentifier", b.document)
-        id.text = "(NO ID)"
-        id
+      def pref_ref_code(b)
+        b.at(ns("./docidentifier[@type = 'ITU']")) || super
       end
+
+      IGNORE_IDS =
+  "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or @type = 'rfc-anchor'".freeze
 
       def multi_bibitem_ref_code(b)
         id = b.xpath(ns("./docidentifier[not(@type = 'metanorma' or #{IGNORE_IDS})]"))
@@ -59,7 +59,7 @@ module IsoDoc
         id.sort_by { |i| i["type"] == "ITU" ? 0 : 1 }
       end
 
-      def render_identifiers(ids)
+      def render_multi_identifiers(ids)
         ids.map do |id|
           id["type"] == "ITU" ? doctype_title(id) : 
             docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))
@@ -78,7 +78,7 @@ module IsoDoc
 
       def reference_format_start(b, r)
         id = multi_bibitem_ref_code(b)
-        id1 = render_identifiers(id)
+        id1 = render_multi_identifiers(id)
         r << id1
         date = b.at(ns("./date[@type = 'published']")) and
           r << " (#{date.text.sub(/-.*$/, '')})"
@@ -97,8 +97,9 @@ module IsoDoc
         end
       end
 
-      def format_ref(ref, prefix, isopub, date, allparts)
-        docid_prefix(prefix, ref).sub(/^\[/, "").sub(/\]$/, "")
+      def reference_names(ref)
+        super
+        @anchors[ref["id"]] = { xref: @anchors[ref["id"]][:xref].sub(/^\[/, '').sub(/\]$/, '') }
       end
     end
   end

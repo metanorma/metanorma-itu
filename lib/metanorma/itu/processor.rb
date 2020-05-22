@@ -3,7 +3,11 @@ require "metanorma/processor"
 module Metanorma
   module ITU
     def self.fonts_used
-      ["Arial", "Courier New", "Times New Roman"]
+      {
+        html: ["Arial", "Courier New", "Times New Roman"],
+        doc: ["Arial", "Courier New", "Times New Roman"],
+        pdf: ["Arial", "Courier New", "Times New Roman"]
+      }
     end
 
     class Processor < Metanorma::Processor

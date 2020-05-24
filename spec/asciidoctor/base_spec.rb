@@ -62,10 +62,10 @@ RSpec.describe Asciidoctor::ITU do
              <p id='_'>None.</p>
            </terms>
            <definitions>
-             <title>Definitions</title>
+             <title>Abbreviations and acronyms</title>
              <p id='_'>None.</p>
            </definitions>
-           <clause obligation='normative'>
+           <clause obligation='normative' id='_'>
              <title>Conventions</title>
              <p id='_'>None.</p>
            </clause>

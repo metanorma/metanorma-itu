@@ -74,7 +74,6 @@ RSpec.describe Asciidoctor::ITU do
   <references obligation='informative' normative="true">
     <title>References</title>
     <p id='_'>None.</p>
-    <p id='_'>None.</p>
   </references>
 </bibliography>
 </itu-standard>

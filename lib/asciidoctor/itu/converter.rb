@@ -137,6 +137,13 @@ module Asciidoctor
         super
       end
 
+       def metadata_keywords(node, xml)
+        return unless node.attr("keywords")
+        node.attr("keywords").split(/,[ ]*/).sort.each_with_index do |kw, i|
+          xml.keyword (i == 0 ? kw.capitalize : kw)
+        end
+      end
+
       def html_extract_attributes(node)
         super.merge(hierarchical_assets: node.attr("hierarchical-object-numbering"))
       end

@@ -210,7 +210,7 @@ OUTPUT
       :series: A3
       :series1: B3
       :series2: C3
-      :keywords: word1,word2
+      :keywords: word2,word1
       :recommendation-from: D3
       :recommendation-to: E3
       :approval-process: F3
@@ -272,7 +272,7 @@ OUTPUT
 <series type="tertiary">
   <title>C3</title>
 </series>
-     <keyword>word1</keyword>
+     <keyword>Word1</keyword>
  <keyword>word2</keyword>
   <ext>
   <doctype>directive</doctype>

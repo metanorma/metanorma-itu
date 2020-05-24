@@ -48,7 +48,7 @@ module IsoDoc
         kw.nil? || kw.empty? and return
         out.div do |div|
           clause_name(nil, "Keywords", div,  class: "IntroTitle")
-          div.p kw.sort.join(", ") + "."
+          div.p kw.join(", ") + "."
         end
       end
 

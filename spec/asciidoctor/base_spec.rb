@@ -414,11 +414,12 @@ OUTPUT
         OUTPUT
     end
 
-  it "strips inline header" do
+  it "does not strip inline header" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}
       This is a preamble
 
+      [%inline-header]
       == Section 1
       INPUT
     #{BLANK_HDR}
@@ -428,7 +429,7 @@ OUTPUT
        </foreword>
        </preface>
        <sections>
-       <clause id="_" obligation="normative">
+       <clause id="_" obligation="normative" inline-header="true">
          <title>Section 1</title>
        </clause></sections>
        </itu-standard>
@@ -510,11 +511,11 @@ OUTPUT
       text
     INPUT
     #{BLANK_HDR}
-    <preface><clause id="_" obligation="informative">
+    <preface><clause id="_" obligation="informative" inline-header='false'>
   <title>Prefatory</title>
   <p id="_">section</p>
 </clause></preface><sections>
-<clause id="_" obligation="normative">
+<clause id="_" obligation="normative" inline-header="false">
   <title>Section</title>
   <p id="_">text</p>
 </clause></sections>
@@ -613,13 +614,13 @@ OUTPUT
            </foreword>
            <introduction id='_' obligation='informative'>
              <title>Introduction</title>
-             <clause id='_' obligation='informative'>
+             <clause id='_' obligation='informative' inline-header='false'>
                <title>Introduction Subsection</title>
              </clause>
            </introduction>
          </preface>
          <sections>
-<clause id="_" obligation="normative">
+<clause id="_" obligation="normative" inline-header='false'>
   <title>Scope</title>
   <p id="_">Text</p>
 </clause>
@@ -630,15 +631,15 @@ OUTPUT
   <preferred>Term1</preferred>
 </term>
 </terms>
-<clause id="_" obligation="normative"><title>Definitions</title><clause id="_" obligation="normative">
+<clause id="_" obligation="normative"><title>Definitions</title><clause id="_" obligation="normative" inline-header='false'>
   <title>Introduction</title>
-  <clause id="_" obligation="normative">
+  <clause id="_" obligation="normative" inline-header='false'>
   <title>Intro 1</title>
 </clause>
 </clause>
 <terms id="_" obligation="normative">
   <title>Intro 2</title>
-  <clause id="_" obligation="normative">
+  <clause id="_" obligation="normative" inline-header='false'>
   <title>Intro 3</title>
 </clause>
 </terms>
@@ -657,7 +658,7 @@ OUTPUT
 <terms id="_" obligation="normative">
   <title>Terms defined elsewhere</title>
 </terms></clause>
-<definitions id="_"><title>Symbols and Abbreviated Terms</title><clause id="_" obligation="normative">
+<definitions id="_"><title>Symbols and Abbreviated Terms</title><clause id="_" obligation="normative" inline-header='false'>
   <title>General</title>
 </clause>
 <definitions id="_">
@@ -666,19 +667,19 @@ OUTPUT
 <definitions id="_">
   <title>Abbreviated Terms</title>
 </definitions>
-<clause id="_" obligation="normative"><title>Clause 4</title><clause id="_" obligation="normative">
+<clause id="_" obligation="normative" inline-header='false'><title>Clause 4</title><clause id="_" obligation="normative" inline-header='false'>
   <title>Introduction</title>
 </clause>
-<clause id="_" obligation="normative">
+<clause id="_" obligation="normative" inline-header='false'>
   <title>Clause 4.2</title>
 </clause></clause>
-<clause id="_" obligation="normative">
+<clause id="_" obligation="normative" inline-header='false'>
   <title>Terms and Definitions</title>
 </clause>
 
-</sections><annex id="_" obligation="normative">
+</sections><annex id="_" obligation="normative" inline-header='false'>
   <title>Annex</title>
-  <clause id="_" obligation="normative">
+  <clause id="_" obligation="normative" inline-header='false'>
   <title>Annex A.1</title>
 </clause>
 </annex><bibliography>
@@ -959,7 +960,7 @@ end
         INPUT
         #{BLANK_HDR}
         <sections>
-  <clause id="_" obligation="normative">
+  <clause id="_" obligation="normative" inline-header='false'>
   <title>Clause</title>
   <ol id="_" class="steps">
   <li>
@@ -994,13 +995,13 @@ it "does not apply smartquotes by default" do
       “Quotation” A’s
     INPUT
        #{BLANK_HDR}
-       <sections><clause id="_" obligation="normative">
+       <sections><clause id="_" obligation="normative" inline-header='false'>
          <title>"Quotation" A's</title>
          <p id="_">
          <tt>"quote" A's</tt>
        </p>
        </clause>
-       <clause id="_" obligation="normative">
+       <clause id="_" obligation="normative" inline-header='false'>
          <title>"Quotation" A's</title>
          <p id="_">"Quotation" A's</p>
        </clause></sections>
@@ -1074,7 +1075,7 @@ end
     INPUT
        #{BLANK_HDR}
        <sections>
-       <clause id='clause' obligation='normative'>
+       <clause id='clause' obligation='normative' inline-header='false'>
              <title>Clause</title>
              <p id='_'>
                <add>
@@ -1100,7 +1101,7 @@ end
     INPUT
        #{BLANK_HDR}
        <sections>
-       <clause id='clause' obligation='normative'>
+       <clause id='clause' obligation='normative' inline-header='false'>
              <title>Clause</title>
              <p id='_'>&lt;&amp;&gt;</p>
            </clause>

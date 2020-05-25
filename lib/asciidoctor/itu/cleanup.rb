@@ -3,9 +3,6 @@ module Asciidoctor
     class Converter < Standoc::Converter
       def sections_cleanup(x)
         super
-        x.xpath("//*[@inline-header]").each do |h|
-          h.delete("inline-header")
-        end
         insert_missing_sections(x) unless @no_insert_missing_sections
       end
 

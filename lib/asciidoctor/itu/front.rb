@@ -39,6 +39,31 @@ module Asciidoctor
         end
       end
 
+      def title(node, xml)
+        super
+        subtitle_english(node, xml)
+        subtitle_otherlangs(node, xml)
+      end
+
+      def subtitle_english(node, xml)
+        at = { language: "en", format: "text/plain", type: "subtitle" }
+        a = node.attr("subtitle") || node.attr("subtitle-en")
+        xml.title **attr_code(at) do |t|
+          t << Asciidoctor::Standoc::Utils::asciidoc_sub(a)
+        end
+      end
+
+      def subtitle_otherlangs(node, xml)
+        node.attributes.each do |k, v|
+          next unless /^subtitle-(?<lang>.+)$/ =~ k
+          next if lang == "en"
+          xml.title **attr_code(language: lang, format: "text/plain",
+                                type: "subtitle") do |t|
+            t << v
+          end
+        end
+      end
+
       def metadata_author(node, xml)
         xml.contributor do |c|
           c.role **{ type: "author" }

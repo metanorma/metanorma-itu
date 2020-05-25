@@ -15,8 +15,10 @@ module IsoDoc
       end
 
       def title(isoxml, _out)
-        main = isoxml&.at(ns("//bibdata/title[@language='en']"))&.text
+        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}'][@type = 'main']"))&.text
         set(:doctitle, main)
+        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}'][@type = 'subtitle']"))&.text
+        set(:docsubtitle, main)
         series = isoxml&.at(ns("//bibdata/series[@type='main']/title"))&.text
         set(:series, series)
         series1 =

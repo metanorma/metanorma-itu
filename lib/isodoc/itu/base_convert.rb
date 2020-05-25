@@ -143,6 +143,8 @@ module IsoDoc
           id = @meta.get[:docnumber] and p << "Recommendation #{id}" 
         end
         out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
+        s = @meta.get[:docsubtitle] and
+          out.p(**{ class: "zzSTDTitle3" }) { |p| p << s }
       end
 
       def add_parse(node, out)

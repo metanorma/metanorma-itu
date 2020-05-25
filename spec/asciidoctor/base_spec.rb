@@ -92,12 +92,14 @@ RSpec.describe Asciidoctor::ITU do
       :revdate: 2000-01-01
       :copyright-year: 2001
       :title: Main Title
+      :subtitle: Subtitle
       :draft: 3.4
       :legacy-do-not-insert-missing-sections:
     INPUT
     <itu-standard xmlns="https://www.metanorma.org/ns/itu">
 <bibdata type="standard">
   <title language="en" format="text/plain" type="main">Main Title</title>
+  <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
   <docidentifier type="ITU">ITU-T 1000</docidentifier>
   <docnumber>1000</docnumber>
   <contributor>
@@ -169,6 +171,8 @@ OUTPUT
       :language: en
       :title-en: Main Title
       :title-fr: Titre Principal
+      :subtitle-en: Subtitle
+      :subtitle-fr: Soustitre
       :fullname: Fred Flintstone
       :role: author
       :surname_2: Rubble
@@ -227,6 +231,8 @@ OUTPUT
   <title language="en" format="text/plain" type="annex">I3</title>
   <title language="fr" format="text/plain" type="main">Titre Principal</title>
   <title language="fr" format="text/plain" type="annex">J3</title>
+  <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+<title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
   <docidentifier type="ITU-provisional">ABC</docidentifier>
   <docidentifier type="ITU">ITU-R 1000</docidentifier>
   <docnumber>1000</docnumber>

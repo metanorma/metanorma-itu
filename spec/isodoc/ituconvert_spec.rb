@@ -581,22 +581,22 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
       </caption>
       <thead>
         <tr>
-          <td rowspan='2' style='text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;padding:0;' scope='col'>Description</td>
-          <td colspan='4' style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;' scope='colgroup'>Rice sample</td>
+          <td rowspan='2' style='text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.0pt;' scope='col'>Description</td>
+          <td colspan='4' style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;' scope='colgroup'>Rice sample</td>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style='text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;'>Arborio</td>
-          <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;'>
+          <td style='text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;'>Arborio</td>
+          <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;'>
             Drago
             <a href='#tableD-1a' class='TableFootnoteRef'>a)</a>
           </td>
-          <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;'>
+          <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;'>
             Balilla
             <a href='#tableD-1a' class='TableFootnoteRef'>a)</a>
           </td>
-          <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;padding:0;'>Thaibonnet</td>
+          <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;'>Thaibonnet</td>
         </tr>
       </tbody>
       <tfoot>

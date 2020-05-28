@@ -39,7 +39,7 @@ module IsoDoc
             insert_tab(b, 1)
             term.children.each { |n| parse(n, b) }
           end
-          source and p << " [#{source.value}]"
+          source and p << " #{bracket_opt(source.value)}"
           p << ": "
         end
         defn and defn.children.each { |n| parse(n, div) }

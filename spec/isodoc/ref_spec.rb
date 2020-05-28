@@ -1,8 +1,10 @@
 require "spec_helper"
+require "fileutils"
 
 RSpec.describe IsoDoc::ITU do
   it "processes IsoXML bibliographies" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).sub(/^.*<body/m, "<body").sub(%r{</body>.*$}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    FileUtils.rm_f "test.html"
+    IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", false)
     <iso-standard xmlns="http://riboseinc.com/isoxml">
     <bibdata>
     <language>en</language>
@@ -123,9 +125,10 @@ RSpec.describe IsoDoc::ITU do
 </bibliography>
     </iso-standard>
     INPUT
-    #{HTML_HDR}
-         <div>
-               <h1 class="IntroTitle"/>
+    expect(xmlpp(File.read("test.html", encoding: "utf-8").sub(/^.*<main/m, "<main").sub(%r{</main>.*$}m, "</main>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+           <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+             <div>
+               <h1 class="IntroTitle"></h1>
                <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">
          <a href="#ISO712">[110]</a>
          <a href="#ISBN">[1]</a>
@@ -137,69 +140,86 @@ RSpec.describe IsoDoc::ITU do
          <a href="#zip_ffs">[5]</a>
          </p>
              </div>
-             <p class="zzSTDTitle1"/>
-             <p class="zzSTDTitle2"/>
+             <p class="zzSTDTitle1"></p>
+             <p class="zzSTDTitle2"></p>
              <div>
-  <h1>1&#160; References</h1>
-  <p>
-    The following documents are referred to in the text in such a way that
-    some or all of their content constitutes requirements of this document.
-    For dated references, only the edition cited applies. For undated
-    references, the latest edition of the referenced document (including any
-    amendments) applies.
-  </p>
-  <p id='ISO712' class='NormRef'>
-    [110]&#160; ISO 712,
-    <i>Cereals and cereal products</i>
-    .
-  </p>
-  <p id='ISO16634' class='NormRef'>
-    [ISO 16634:-- (all parts)]&#160; ISO 16634:-- (all parts) (),
-    <i>Cereals, pulses, milled cereal products, oilseeds and animal feeding stuffs</i>
-    .
-  </p>
-  <p id='ISO20483' class='NormRef'>
-    [ISO 20483:2013-2014]&#160; ISO 20483:2013-2014 (20132014),
-    <i>Cereals and pulses</i>
-    .
-  </p>
-  <p id='ref1' class='NormRef'>
-    [ICC 167]&#160; ICC 167,
-    <span style='font-variant:small-caps;'>Standard No I.C.C 167</span>
-    .
-    <i>
-      Determination of the protein content in cereal and cereal products for
-      food and animal feeding stuffs according to the Dumas combustion
-      method
-    </i>
-     (see
-    <a href='http://www.icc.or.at'>http://www.icc.or.at</a>
-    ).
-  </p>
-  <div id='' class='Note'>
-    <p>
-      <span class='note_label'>NOTE &#8211; </span>
-      This is an annotation of ISO 20483:2013-2014
-    </p>
-  </div>
-  <p id='zip_ffs' class='NormRef'>[5]&#160; Title 5.</p>
-</div>
-             <br/>
-             <div><h1 class="Section3">Bibliography</h1>
-     
-       <p id="ISBN" class="Biblio">[1]&#160; ISBN ISBN, <i>Chemicals for analytical laboratory use</i>.</p>
-       <p id="ISSN" class="Biblio">[2]&#160; ISSN ISSN, <i>Instruments for analytical laboratory use</i>.</p>
-       <div id="" class="Note"><p><span class="note_label">NOTE &#8211; </span>This is an annotation of document ISSN.</p></div>
-       <div id="" class="Note"><p><span class="note_label">NOTE &#8211; </span>This is another annotation of document ISSN.</p></div>
-       <p id="ISO3696" class="Biblio">[ISO 3696]&#160; ISO 3696, <i>Water for analytical laboratory use</i>.</p>
-       <p id="ref10" class="Biblio">[10]&#160; <span style="font-variant:small-caps;">Standard No I.C.C 167</span>. <i>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</i> (see <a href="http://www.icc.or.at">http://www.icc.or.at</a>).</p>
-       <p id="ref11" class="Biblio">[IETF RFC 10]&#160; IETF RFC 10, <i>Internet Calendaring and Scheduling Core Object Specification (iCalendar)</i>.</p>
-       <p id="ref12" class="Biblio">[Citn]&#160; IETF RFC 20, CitationWorks. 2019. <i>How to cite a reference</i>.</p>
-     
-     
-       </div>
-           </div>
-         </body>
+               <h1 id="toc0">1&#xA0; References</h1>
+               <table class="biblio" border="0">
+                 <tbody>
+                   <tr><td rowspan="2">
+                     <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+
+                     <td>[110]</td>
+                     <td>ISO 712, <i>Cereals and cereal products</i>.</td>
+                   </td></tr>
+
+                   <tr id="ISO16634" class="NormRef">
+                     <td>[ISO 16634:-- (all parts)]</td>
+                     <td>ISO 16634:-- (all parts) (), <i>Cereals, pulses, milled cereal products, oilseeds and animal feeding stuffs</i>.</td>
+                   </tr>
+                   <tr id="ISO20483" class="NormRef">
+                     <td>[ISO 20483:2013-2014]</td>
+                     <td>ISO 20483:2013-2014 (20132014), <i>Cereals and pulses</i>.</td>
+                   </tr>
+                   <tr id="ref1" class="NormRef">
+                     <td>[ICC 167]</td>
+                     <td>ICC 167, <span style="font-variant:small-caps;">Standard No I.C.C 167</span>. <i>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</i> (see <a href="http://www.icc.or.at">http://www.icc.or.at</a>).</td>
+                   </tr>
+                   <tr><td rowspan="2">
+                     <div id="" class="Note">
+                       <p><span class="note_label">NOTE &#x2013; </span>This is an annotation of ISO 20483:2013-2014</p>
+                     </div>
+                   </td></tr>
+                   <tr id="zip_ffs" class="NormRef">
+                     <td>[5]</td>
+                     <td>Title 5.</td>
+                   </tr>
+                 </tbody>
+               </table>
+             </div>
+             <br />
+             <div>
+               <h1 class="Section3" id="toc1">Bibliography</h1>
+               <table class="biblio" border="0">
+                 <tbody>
+                   <tr id="ISBN" class="Biblio">
+                     <td>[1]</td>
+                     <td>ISBN ISBN, <i>Chemicals for analytical laboratory use</i>.</td>
+                   </tr>
+                   <tr id="ISSN" class="Biblio">
+                     <td>[2]</td>
+                     <td>ISSN ISSN, <i>Instruments for analytical laboratory use</i>.</td>
+                   </tr>
+                   <tr><td rowspan="2">
+                     <div id="" class="Note">
+                       <p><span class="note_label">NOTE &#x2013; </span>This is an annotation of document ISSN.</p>
+                     </div>
+
+                     <div id="" class="Note">
+                       <p><span class="note_label">NOTE &#x2013; </span>This is another annotation of document ISSN.</p>
+                     </div>
+                   </td></tr>
+
+                   <tr id="ISO3696" class="Biblio">
+                     <td>[ISO 3696]</td>
+                     <td>ISO 3696, <i>Water for analytical laboratory use</i>.</td>
+                   </tr>
+                   <tr id="ref10" class="Biblio">
+                     <td>[10]</td>
+                     <td><span style="font-variant:small-caps;">Standard No I.C.C 167</span>. <i>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</i> (see <a href="http://www.icc.or.at">http://www.icc.or.at</a>).</td>
+                   </tr>
+                   <tr id="ref11" class="Biblio">
+                     <td>[IETF RFC 10]</td>
+                     <td>IETF RFC 10, <i>Internet Calendaring and Scheduling Core Object Specification (iCalendar)</i>.</td>
+                   </tr>
+                   <tr id="ref12" class="Biblio">
+                     <td>[Citn]</td>
+                     <td>IETF RFC 20, CitationWorks. 2019. <i>How to cite a reference</i>.</td>
+                   </tr>
+                 </tbody>
+               </table>
+             </div>
+           </main>
     OUTPUT
   end
 

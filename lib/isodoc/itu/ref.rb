@@ -17,12 +17,15 @@ module IsoDoc
       end
 
       def nonstd_bibitem(list, b, ordinal, biblio)
-        list.p **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
+        list.tr **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
           id = render_identifier(bibitem_ref_code(b))
-          ref << (id[0] || "[#{id[1]}]")
-          date_note_process(b, ref)
-          insert_tab(ref, 1)
-          reference_format(b, ref)
+          ref.td do |td|
+            td << (id[0] || "[#{id[1]}]")
+            date_note_process(b, td)
+          end
+          ref.td do |td|
+            reference_format(b, td)
+          end
         end
       end
 
@@ -30,11 +33,35 @@ module IsoDoc
         nonstd_bibitem(list, b, ordinal, biblio)
       end
 
+      def biblio_list(f, div, biblio)
+        div.table **{ class: "biblio", border: "0" } do |t|
+          i = 0
+          t.tbody do |tbody|
+            f.elements.each do |b|
+              if b.name == "bibitem"
+                next if implicit_reference(b)
+                i += 1
+                nonstd_bibitem(tbody, b, i, biblio)
+              else
+                unless %w(title clause references).include? b.name
+                  tbody.tx do |tx|
+                    parse(b, tx)
+                  end
+                end
+              end
+            end
+          end
+        end
+        f.xpath(ns("./clause | ./references")).each do |x|
+          parse(x, div)
+        end
+      end
+
       def bracket_if_num(x)
-      return nil if x.nil?
-      x = x.text.sub(/^\[/, "").sub(/\]$/, "")
-      "[#{x}]"
-    end
+        return nil if x.nil?
+        x = x.text.sub(/^\[/, "").sub(/\]$/, "")
+        "[#{x}]"
+      end
 
       def reference_format(b, r)
         reference_format_start(b, r)
@@ -50,7 +77,7 @@ module IsoDoc
       end
 
       IGNORE_IDS =
-  "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or @type = 'rfc-anchor'".freeze
+        "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or @type = 'rfc-anchor'".freeze
 
       def multi_bibitem_ref_code(b)
         id = b.xpath(ns("./docidentifier[not(@type = 'metanorma' or #{IGNORE_IDS})]"))

@@ -370,7 +370,14 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
              <p class="zzSTDTitle2"/>
                <div>
                  <h1>1&#160; References</h1>
-                 <p id="ISO712" class="NormRef">[ISO 712]&#160; ISO 712, <i>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</i>.</p>
+                 <table class='biblio' border='0'>
+  <tbody>
+    <tr id='ISO712' class='NormRef'>
+      <td>[ISO 712]</td>
+                 <td>ISO 712, <i>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</i>.</td>
+                 </tr>
+                 </tbody>
+                 </table>
                </div>
 
 <div id="G"><h1>2&#160; Terms, Definitions, Symbols and Abbreviated Terms</h1>
@@ -991,6 +998,9 @@ OUTPUT
                </div>
                <div>
                  <h1>2&#160; References</h1>
+                 <table class='biblio' border='0'>
+  <tbody/>
+</table>
                </div>
                <div id="I">
                <h1>3&#160; </h1>
@@ -1030,8 +1040,14 @@ OUTPUT
                <br/>
                <div>
                  <h1 class="Section3">Bibliography</h1>
+                 <table class='biblio' border='0'>
+  <tbody/>
+</table>
                  <div>
                    <h2 class="Section3">Bibliography Subsection</h2>
+                   <table class='biblio' border='0'>
+  <tbody/>
+</table>
                  </div>
                </div>
              </div>
@@ -1069,6 +1085,10 @@ OUTPUT
                </div>
                <div>
                  <h1>2&#160; References</h1>
+                 <table class='biblio' border='0'>
+  <tbody/>
+</table>
+
                </div>
                <div id="I">
                <h1>3&#160; </h1>
@@ -1108,8 +1128,14 @@ OUTPUT
                <br/>
                <div>
                  <h1 class="Section3">Bibliographie</h1>
+                 <table class='biblio' border='0'>
+  <tbody/>
+</table>
                  <div>
                    <h2 class="Section3">Bibliography Subsection</h2>
+                   <table class='biblio' border='0'>
+  <tbody/>
+</table>
                  </div>
                </div>
              </div>
@@ -1163,6 +1189,9 @@ OUTPUT
              </div>
              <div>
                <h1>2<span style="mso-tab-count:1">&#160; </span>References</h1>
+                <table class='biblio' border='0'>
+   <tbody/>
+ </table>
              </div>
              <div id="I"><h1>3<span style="mso-tab-count:1">&#160; </span></h1>
           <div id="J"><p class="TermNum" id="J"><b>3.1<span style="mso-tab-count:1">&#160; </span>Term2</b>: </p>
@@ -1207,8 +1236,14 @@ OUTPUT
              </p>
              <div>
                <h1 class="Section3">Bibliography</h1>
+               <table class='biblio' border='0'>
+  <tbody/>
+</table>
                <div>
                  <h2 class="Section3">Bibliography Subsection</h2>
+                 <table class='biblio' border='0'>
+  <tbody/>
+</table>
                </div>
              </div>
            </div>
@@ -1372,7 +1407,18 @@ OUTPUT
                <p class="zzSTDTitle2"/>
                <div>
                               <h1>1&#160; References</h1>
-               <p id="ISO712" class="NormRef">[ISO 712]&#160; ISO 712 (2019), <i>Cereals and cereal products</i>.</p>
+                                 <table class='biblio' border='0'>
+     <tbody>
+       <tr id='ISO712' class='NormRef'>
+         <td>[ISO 712]</td>
+         <td>
+           ISO 712 (2019),
+           <i>Cereals and cereal products</i>
+           .
+         </td>
+       </tr>
+     </tbody>
+   </table>
              </div>
            </div>
          </body>
@@ -1608,11 +1654,51 @@ INPUT
              <p class="zzSTDTitle2"/>
              <div>
                <h1>1&#160; References</h1>
-               <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-               <p id="ISO712" class="NormRef">[ISO 712]&#160; ISO 712 (2001), <i>Cereals and cereal products</i>.</p>
-               <p id="ITU712" class="NormRef">[ITU 712]&#160; Recommendation ITU 712, <i>Cereals and cereal products</i>.</p>
-               <p id="ITU712a" class="NormRef">[ITU 712]&#160; Recommendation ITU 712 | ISO 712 (2016), <i>Cereals and cereal products</i>.</p>
-               <p id='ITU713' class='NormRef'>[ITU-T G Suppl. 41]&#160; ITU-T G-series Recommendations &#8211; Supplement 41, <i>Cereals and cereal products</i>.</p>
+                     <table class='biblio' border='0'>
+        <tbody>
+          <tx>
+            <p>
+              The following documents are referred to in the text in such a way
+              that some or all of their content constitutes requirements of this
+              document. For dated references, only the edition cited applies.
+              For undated references, the latest edition of the referenced
+              document (including any amendments) applies.
+            </p>
+          </tx>
+          <tr id='ISO712' class='NormRef'>
+            <td>[ISO 712]</td>
+            <td>
+              ISO 712 (2001),
+              <i>Cereals and cereal products</i>
+              .
+            </td>
+          </tr>
+          <tr id='ITU712' class='NormRef'>
+            <td>[ITU 712]</td>
+            <td>
+              Recommendation ITU 712,
+              <i>Cereals and cereal products</i>
+              .
+            </td>
+          </tr>
+          <tr id='ITU712a' class='NormRef'>
+            <td>[ITU 712]</td>
+            <td>
+              Recommendation ITU 712 | ISO 712 (2016),
+              <i>Cereals and cereal products</i>
+              .
+            </td>
+          </tr>
+          <tr id='ITU713' class='NormRef'>
+            <td>[ITU-T G Suppl. 41]</td>
+            <td>
+              ITU-T G-series Recommendations &#8211; Supplement 41,
+              <i>Cereals and cereal products</i>
+              .
+            </td>
+          </tr>
+        </tbody>
+      </table>
              </div>
            </div>
          </body>
@@ -2417,13 +2503,18 @@ it "processes erefs and xrefs and links (Word)" do
         <span style='mso-tab-count:1'>&#160; </span>
         References
       </h1>
-      <p id='ISO712' class='NormRef'>
-        [ISO 712]
-        <span style='mso-tab-count:1'>&#160; </span>
-        ISO 712,
-        <i>Cereals and cereal products</i>
-        .
-      </p>
+       <table class='biblio' border='0'>
+   <tbody>
+     <tr id='ISO712' class='NormRef'>
+       <td>[ISO 712]</td>
+       <td>
+         ISO 712,
+         <i>Cereals and cereal products</i>
+         .
+       </td>
+     </tr>
+   </tbody>
+ </table>
     </div>
   </div>
 </body>

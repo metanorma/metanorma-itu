@@ -102,6 +102,7 @@ module IsoDoc
       def cleanup(docxml)
         super
         term_cleanup(docxml)
+        refs_cleanup(docxml)
       end
 
       def term_cleanup(docxml)
@@ -115,6 +116,18 @@ module IsoDoc
           d1 = d.next_element and d1.name == "p" or next
           d1.children.each { |e| e.parent = d }
           d1.remove
+        end
+        docxml
+      end
+
+      def refs_cleanup(docxml)
+        docxml.xpath("//tx[following-sibling::tx]").each do |tx|
+          tx << tx.next_element.remove.children
+        end
+        docxml.xpath("//tx").each do |tx|
+          tx.name = "td"
+          tx["rowspan"] = "2"
+          tx.wrap("<tr></tr>")
         end
         docxml
       end

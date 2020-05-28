@@ -419,7 +419,11 @@ p.Biblio, p.NormRef {
 
 /* Tables */
 
-table {
+table.biblio td {
+  padding-right: 0.5em;
+}
+
+table:not(.biblio) {
   @include table($border: none);
 
   &, th, td {

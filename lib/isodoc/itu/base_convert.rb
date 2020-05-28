@@ -37,6 +37,12 @@ module IsoDoc
         end
       end
 
+      def bracket_opt(b)
+        return b if b.nil?
+        return b if /^\[.+\]$/.match(b)
+        "[#{b}]"
+      end
+
       def clausedelim
         ""
       end
@@ -120,7 +126,8 @@ module IsoDoc
       end
 
       def get_eref_linkend(node)
-        link = "[#{anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))}]"
+        link = anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))
+        link && !/^\[.*\]$/.match(link) and link = "[#{link}]"
         link += eref_localities(node.xpath(ns("./locality | ./localityStack")), link)
         contents = node.children.select { |c| !%w{locality localityStack}.include? c.name }
         return link if contents.nil? || contents.empty?

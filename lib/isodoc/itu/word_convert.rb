@@ -214,8 +214,9 @@ module IsoDoc
           next unless auth && dest
           t == "copyright" and p = auth&.at(".//p") and
             p["class"] = "boilerplateHdr"
-          auth&.xpath(".//p[not(@class)]")&.each do |p|
+          auth&.xpath(".//p[not(@class)]")&.each_with_index do |p, i|
             p["class"] = "boilerplate"
+            i == 0 && t == "copyright" and p["style"] = "text-align:center;"
           end
           auth << "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>" unless t == "copyright"
           dest.replace(auth.remove)

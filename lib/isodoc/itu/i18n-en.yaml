@@ -9,7 +9,8 @@ norm_annex: (This annex forms an integral part of this %.)
 inform_annex: (This appendix does not form an integral part of this %.)
 formula: Equation
 inequality: Inequality
-annex_subclause: Clause
+clause: clause
+annex_subclause: clause
 in: in
 where: "where:"
 blankclause: This clause is intentionally left blank.

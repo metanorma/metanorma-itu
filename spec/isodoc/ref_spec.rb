@@ -146,7 +146,7 @@ RSpec.describe IsoDoc::ITU do
                <h1 id="toc0">1&#xA0; References</h1>
                <table class="biblio" border="0">
                  <tbody>
-                   <tr><td rowspan="2">
+                   <tr><td colspan="2">
                      <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
 
                      <td>[110]</td>
@@ -165,7 +165,7 @@ RSpec.describe IsoDoc::ITU do
                      <td>[ICC 167]</td>
                      <td>ICC 167, <span style="font-variant:small-caps;">Standard No I.C.C 167</span>. <i>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</i> (see <a href="http://www.icc.or.at">http://www.icc.or.at</a>).</td>
                    </tr>
-                   <tr><td rowspan="2">
+                   <tr><td colspan="2">
                      <div id="" class="Note">
                        <p><span class="note_label">NOTE &#x2013; </span>This is an annotation of ISO 20483:2013-2014</p>
                      </div>
@@ -190,7 +190,7 @@ RSpec.describe IsoDoc::ITU do
                      <td>[2]</td>
                      <td>ISSN ISSN, <i>Instruments for analytical laboratory use</i>.</td>
                    </tr>
-                   <tr><td rowspan="2">
+                   <tr><td colspan="2">
                      <div id="" class="Note">
                        <p><span class="note_label">NOTE &#x2013; </span>This is an annotation of document ISSN.</p>
                      </div>

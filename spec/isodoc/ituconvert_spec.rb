@@ -1551,7 +1551,7 @@ OUTPUT
                <h1 class="AbstractTitle">Abstract</h1>
                <p>
          <a href="#A1">Annex F2</a>
-       <a href="#A2">Clause F2.1</a>
+       <a href="#A2">clause F2.1</a>
        </p>
              </div>
              <div>
@@ -2593,12 +2593,12 @@ it "cross-references notes" do
                <p>
            <a href="#N1">Note in Introduction</a>
            <a href="#N2">Note in Preparatory</a>
-           <a href="#N">Note in Clause 1</a>
-           <a href="#note1">Note  1 in Clause 3.1</a>
-           <a href="#note2">Note  2 in Clause 3.1</a>
-           <a href="#AN">Note in Clause A.1</a>
-           <a href="#Anote1">Note  1 in Clause A.2</a>
-           <a href="#Anote2">Note  2 in Clause A.2</a>
+           <a href="#N">Note in clause 1</a>
+           <a href="#note1">Note  1 in clause 3.1</a>
+           <a href="#note2">Note  2 in clause 3.1</a>
+           <a href="#AN">Note in clause A.1</a>
+           <a href="#Anote1">Note  1 in clause A.2</a>
+           <a href="#Anote2">Note  2 in clause A.2</a>
            </p>
              </div>
              <div id="intro">

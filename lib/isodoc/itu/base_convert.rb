@@ -126,7 +126,7 @@ module IsoDoc
         end
         docxml.xpath("//tx").each do |tx|
           tx.name = "td"
-          tx["rowspan"] = "2"
+          tx["colspan"] = "2"
           tx.wrap("<tr></tr>")
         end
         docxml

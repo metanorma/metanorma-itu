@@ -19,7 +19,7 @@ module IsoDoc
       def nonstd_bibitem(list, b, ordinal, biblio)
         list.tr **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
           id = render_identifier(bibitem_ref_code(b))
-          ref.td do |td|
+          ref.td **{style: "vertical-align:top"} do |td|
             td << (id[0] || "[#{id[1]}]")&.
               gsub(/-/, "&#x2011;")&.gsub(/ /, "&#xa0;")
             date_note_process(b, td)

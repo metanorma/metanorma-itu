@@ -154,15 +154,15 @@ RSpec.describe IsoDoc::ITU do
                    </td></tr>
 
                    <tr id="ISO16634" class="NormRef">
-                     <td>[ISO 16634:-- (all parts)]</td>
+                     <td>[ISO&#xA0;16634:&#x2011;&#x2011;&#xA0;(all&#xA0;parts)]</td>
                      <td>ISO 16634:-- (all parts) (), <i>Cereals, pulses, milled cereal products, oilseeds and animal feeding stuffs</i>.</td>
                    </tr>
                    <tr id="ISO20483" class="NormRef">
-                     <td>[ISO 20483:2013-2014]</td>
+                     <td>[ISO&#xA0;20483:2013&#x2011;2014]</td>
                      <td>ISO 20483:2013-2014 (20132014), <i>Cereals and pulses</i>.</td>
                    </tr>
                    <tr id="ref1" class="NormRef">
-                     <td>[ICC 167]</td>
+                     <td>[ICC&#xA0;167]</td>
                      <td>ICC 167, <span style="font-variant:small-caps;">Standard No I.C.C 167</span>. <i>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</i> (see <a href="http://www.icc.or.at">http://www.icc.or.at</a>).</td>
                    </tr>
                    <tr><td colspan="2">
@@ -201,7 +201,7 @@ RSpec.describe IsoDoc::ITU do
                    </td></tr>
 
                    <tr id="ISO3696" class="Biblio">
-                     <td>[ISO 3696]</td>
+                     <td>[ISO&#xA0;3696]</td>
                      <td>ISO 3696, <i>Water for analytical laboratory use</i>.</td>
                    </tr>
                    <tr id="ref10" class="Biblio">
@@ -209,7 +209,7 @@ RSpec.describe IsoDoc::ITU do
                      <td><span style="font-variant:small-caps;">Standard No I.C.C 167</span>. <i>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</i> (see <a href="http://www.icc.or.at">http://www.icc.or.at</a>).</td>
                    </tr>
                    <tr id="ref11" class="Biblio">
-                     <td>[IETF RFC 10]</td>
+                     <td>[IETF&#xA0;RFC&#xA0;10]</td>
                      <td>IETF RFC 10, <i>Internet Calendaring and Scheduling Core Object Specification (iCalendar)</i>.</td>
                    </tr>
                    <tr id="ref12" class="Biblio">
@@ -222,5 +222,135 @@ RSpec.describe IsoDoc::ITU do
            </main>
     OUTPUT
   end
+
+      it "processes IsoXML bibliographies" do
+       expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <itu-standard xmlns="http://riboseinc.com/isoxml">
+    <bibdata>
+    <language>en</language>
+    </bibdata>
+    <preface><foreword>
+  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">
+  <eref bibitemid="ISO712"/>
+  </p>
+    </foreword></preface>
+    <bibliography><references id="_normative_references" obligation="informative" normative="true"><title>References</title>
+    <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+<bibitem id="ISO712" type="standard">
+  <title format="text/plain">Cereals or cereal products</title>
+  <title type="main" format="text/plain">Cereals and cereal products</title>
+  <docidentifier type="ISO">ISO 712</docidentifier>
+  <date type="published">2001-01</date>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <name>International Organization for Standardization</name>
+    </organization>
+  </contributor>
+</bibitem>
+<bibitem id="ITU712" type="standard">
+  <title format="text/plain">Cereals or cereal products</title>
+  <title type="main" format="text/plain">Cereals and cereal products</title>
+  <docidentifier type="ITU">ITU 712</docidentifier>
+  <docidentifier type="DOI">DOI 712</docidentifier>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <name>International Organization for Standardization</name>
+    </organization>
+  </contributor>
+</bibitem>
+<bibitem id="ITU712a" type="standard">
+  <title format="text/plain">Cereals or cereal products</title>
+  <title type="main" format="text/plain">Cereals and cereal products</title>
+  <docidentifier type="ISO">ISO 712</docidentifier>
+  <docidentifier type="ITU">ITU 712</docidentifier>
+  <date type="published"><on>2016</on></date>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <name>International Organization for Standardization</name>
+    </organization>
+  </contributor>
+</bibitem>
+<bibitem id="ITU713" type="standard">
+  <title format="text/plain">Cereals or cereal products</title>
+  <title type="main" format="text/plain">Cereals and cereal products</title>
+  <docidentifier type="ITU">ITU-T G Suppl. 41</docidentifier>
+  <docidentifier type="DOI">DOI 712</docidentifier>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <name>International Organization for Standardization</name>
+    </organization>
+  </contributor>
+</bibitem>
+</references>
+</bibliography>
+</itu-standard>
+INPUT
+            #{HTML_HDR}
+    <div>
+               <h1 class="IntroTitle"/>
+               <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">
+         <a href="#ISO712">[ISO 712]</a>
+         </p>
+             </div>
+             <p class="zzSTDTitle1"/>
+             <p class="zzSTDTitle2"/>
+             <div>
+               <h1>1&#160; References</h1>
+                     <table class='biblio' border='0'>
+        <tbody>
+          <tx>
+            <p>
+              The following documents are referred to in the text in such a way
+              that some or all of their content constitutes requirements of this
+              document. For dated references, only the edition cited applies.
+              For undated references, the latest edition of the referenced
+              document (including any amendments) applies.
+            </p>
+          </tx>
+          <tr id='ISO712' class='NormRef'>
+            <td>[ISO&#160;712]</td>
+            <td>
+              ISO 712 (2001),
+              <i>Cereals and cereal products</i>
+              .
+            </td>
+          </tr>
+          <tr id='ITU712' class='NormRef'>
+            <td>[ITU&#160;712]</td>
+            <td>
+              Recommendation ITU 712,
+              <i>Cereals and cereal products</i>
+              .
+            </td>
+          </tr>
+          <tr id='ITU712a' class='NormRef'>
+            <td>[ITU&#160;712]</td>
+            <td>
+              Recommendation ITU 712 | ISO 712 (2016),
+              <i>Cereals and cereal products</i>
+              .
+            </td>
+          </tr>
+          <tr id='ITU713' class='NormRef'>
+            <td>[ITU&#8209;T&#160;G&#160;Suppl.&#160;41]</td>
+            <td>
+              ITU-T G-series Recommendations &#8211; Supplement 41,
+              <i>Cereals and cereal products</i>
+              .
+            </td>
+          </tr>
+        </tbody>
+      </table>
+             </div>
+           </div>
+         </body>
+
+            OUTPUT
+                end
+
 
 end

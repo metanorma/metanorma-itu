@@ -373,7 +373,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
                  <table class='biblio' border='0'>
   <tbody>
     <tr id='ISO712' class='NormRef'>
-      <td>[ISO&#160;712]</td>
+      <td  style='vertical-align:top'>[ISO&#160;712]</td>
                  <td>ISO 712, <i>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</i>.</td>
                  </tr>
                  </tbody>
@@ -1410,7 +1410,7 @@ OUTPUT
                                  <table class='biblio' border='0'>
      <tbody>
        <tr id='ISO712' class='NormRef'>
-         <td>[ISO&#160;712]</td>
+         <td  style='vertical-align:top'>[ISO&#160;712]</td>
          <td>
            ISO 712 (2019),
            <i>Cereals and cereal products</i>
@@ -2377,7 +2377,7 @@ it "processes erefs and xrefs and links (Word)" do
        <table class='biblio' border='0'>
    <tbody>
      <tr id='ISO712' class='NormRef'>
-       <td>[ISO&#160;712]</td>
+       <td  style='vertical-align:top'>[ISO&#160;712]</td>
        <td>
          ISO 712,
          <i>Cereals and cereal products</i>

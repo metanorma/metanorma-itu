@@ -149,20 +149,20 @@ RSpec.describe IsoDoc::ITU do
                    <tr><td colspan="2">
                      <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
 
-                     <td>[110]</td>
+                     <td style='vertical-align:top'>[110]</td>
                      <td>ISO 712, <i>Cereals and cereal products</i>.</td>
                    </td></tr>
 
                    <tr id="ISO16634" class="NormRef">
-                     <td>[ISO&#xA0;16634:&#x2011;&#x2011;&#xA0;(all&#xA0;parts)]</td>
+                     <td style='vertical-align:top'>[ISO&#xA0;16634:&#x2011;&#x2011;&#xA0;(all&#xA0;parts)]</td>
                      <td>ISO 16634:-- (all parts) (), <i>Cereals, pulses, milled cereal products, oilseeds and animal feeding stuffs</i>.</td>
                    </tr>
                    <tr id="ISO20483" class="NormRef">
-                     <td>[ISO&#xA0;20483:2013&#x2011;2014]</td>
+                     <td style='vertical-align:top'>[ISO&#xA0;20483:2013&#x2011;2014]</td>
                      <td>ISO 20483:2013-2014 (20132014), <i>Cereals and pulses</i>.</td>
                    </tr>
                    <tr id="ref1" class="NormRef">
-                     <td>[ICC&#xA0;167]</td>
+                     <td style='vertical-align:top'>[ICC&#xA0;167]</td>
                      <td>ICC 167, <span style="font-variant:small-caps;">Standard No I.C.C 167</span>. <i>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</i> (see <a href="http://www.icc.or.at">http://www.icc.or.at</a>).</td>
                    </tr>
                    <tr><td colspan="2">
@@ -171,7 +171,7 @@ RSpec.describe IsoDoc::ITU do
                      </div>
                    </td></tr>
                    <tr id="zip_ffs" class="NormRef">
-                     <td>[5]</td>
+                     <td style='vertical-align:top'>[5]</td>
                      <td>Title 5.</td>
                    </tr>
                  </tbody>
@@ -183,11 +183,11 @@ RSpec.describe IsoDoc::ITU do
                <table class="biblio" border="0">
                  <tbody>
                    <tr id="ISBN" class="Biblio">
-                     <td>[1]</td>
+                     <td style='vertical-align:top'>[1]</td>
                      <td>ISBN ISBN, <i>Chemicals for analytical laboratory use</i>.</td>
                    </tr>
                    <tr id="ISSN" class="Biblio">
-                     <td>[2]</td>
+                     <td style='vertical-align:top'>[2]</td>
                      <td>ISSN ISSN, <i>Instruments for analytical laboratory use</i>.</td>
                    </tr>
                    <tr><td colspan="2">
@@ -201,19 +201,19 @@ RSpec.describe IsoDoc::ITU do
                    </td></tr>
 
                    <tr id="ISO3696" class="Biblio">
-                     <td>[ISO&#xA0;3696]</td>
+                     <td style='vertical-align:top'>[ISO&#xA0;3696]</td>
                      <td>ISO 3696, <i>Water for analytical laboratory use</i>.</td>
                    </tr>
                    <tr id="ref10" class="Biblio">
-                     <td>[10]</td>
+                     <td style='vertical-align:top'>[10]</td>
                      <td><span style="font-variant:small-caps;">Standard No I.C.C 167</span>. <i>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</i> (see <a href="http://www.icc.or.at">http://www.icc.or.at</a>).</td>
                    </tr>
                    <tr id="ref11" class="Biblio">
-                     <td>[IETF&#xA0;RFC&#xA0;10]</td>
+                     <td style='vertical-align:top'>[IETF&#xA0;RFC&#xA0;10]</td>
                      <td>IETF RFC 10, <i>Internet Calendaring and Scheduling Core Object Specification (iCalendar)</i>.</td>
                    </tr>
                    <tr id="ref12" class="Biblio">
-                     <td>[Citn]</td>
+                     <td style='vertical-align:top'>[Citn]</td>
                      <td>IETF RFC 20, CitationWorks. 2019. <i>How to cite a reference</i>.</td>
                    </tr>
                  </tbody>
@@ -312,7 +312,7 @@ INPUT
             </p>
           </tx>
           <tr id='ISO712' class='NormRef'>
-            <td>[ISO&#160;712]</td>
+            <td style='vertical-align:top'>[ISO&#160;712]</td>
             <td>
               ISO 712 (2001),
               <i>Cereals and cereal products</i>
@@ -320,7 +320,7 @@ INPUT
             </td>
           </tr>
           <tr id='ITU712' class='NormRef'>
-            <td>[ITU&#160;712]</td>
+            <td style='vertical-align:top'>[ITU&#160;712]</td>
             <td>
               Recommendation ITU 712,
               <i>Cereals and cereal products</i>
@@ -328,7 +328,7 @@ INPUT
             </td>
           </tr>
           <tr id='ITU712a' class='NormRef'>
-            <td>[ITU&#160;712]</td>
+            <td style='vertical-align:top'>[ITU&#160;712]</td>
             <td>
               Recommendation ITU 712 | ISO 712 (2016),
               <i>Cereals and cereal products</i>
@@ -336,7 +336,7 @@ INPUT
             </td>
           </tr>
           <tr id='ITU713' class='NormRef'>
-            <td>[ITU&#8209;T&#160;G&#160;Suppl.&#160;41]</td>
+            <td style='vertical-align:top'>[ITU&#8209;T&#160;G&#160;Suppl.&#160;41]</td>
             <td>
               ITU-T G-series Recommendations &#8211; Supplement 41,
               <i>Cereals and cereal products</i>

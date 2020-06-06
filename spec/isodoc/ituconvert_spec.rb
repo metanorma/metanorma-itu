@@ -136,11 +136,11 @@ RSpec.describe Asciidoctor::ITU do
 </itu-standard>
     INPUT
     expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <<~"OUTPUT"
-    {:accesseddate=>"XXX", :agency=>"ITU", :annexid=>"Appendix F1", :annextitle=>"Annex Title", :authors=>[], :authors_affiliations=>{}, :bureau=>"R", :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docnumber=>"ITU-R 1000", :docnumeric=>"1000", :docsubtitle=>"Subtitle", :doctitle=>"Main Title", :doctype=>"Directive", :docyear=>"2001", :draft=>"3.4", :draftinfo=>" (draft 3.4, 2000-01-01)", :edition=>"2", :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :iteration=>"3", :keywords=>["word1", "word2"], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :publisher=>"International Telecommunication Union", :receiveddate=>"XXX", :revdate=>"2000-01-01", :revdate_monthyear=>"01/2000", :series=>"A3", :series1=>"B3", :series2=>"C3", :stage=>"Final Draft", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>false, :updateddate=>"XXX", :vote_endeddate=>"XXX", :vote_starteddate=>"XXX"}
+    {:accesseddate=>"XXX", :agency=>"ITU", :annexid=>"Appendix F1", :annextitle=>"Annex Title", :authors=>[], :authors_affiliations=>{}, :bureau=>"R", :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docnumber=>"ITU-R 1000", :docnumeric=>"1000", :docsubtitle=>"Subtitle", :doctitle=>"Main Title", :doctype=>"Directive", :doctype_original=>"directive", :docyear=>"2001", :draft=>"3.4", :draftinfo=>" (draft 3.4, 2000-01-01)", :edition=>"2", :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :iteration=>"3", :keywords=>["word1", "word2"], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :publisher=>"International Telecommunication Union", :receiveddate=>"XXX", :revdate=>"2000-01-01", :revdate_monthyear=>"01/2000", :series=>"A3", :series1=>"B3", :series2=>"C3", :stage=>"Final Draft", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>false, :updateddate=>"XXX", :vote_endeddate=>"XXX", :vote_starteddate=>"XXX"}
     OUTPUT
   end
 
-   it "processes metadata for in-force-prepublished" do
+   it "processes metadata for in-force-prepublished, recommendation annex" do
     csdc = IsoDoc::ITU::HtmlConvert.new({})
     docxml, filename, dir = csdc.convert_init(<<~"INPUT", "test", true)
 <itu-standard xmlns="https://www.calconnect.org/standards/itu">
@@ -169,9 +169,17 @@ RSpec.describe Asciidoctor::ITU do
   <status>
     <stage>in-force-prepublished</stage>
   </status>
+  <ext>
+  <doctype>recommendation-annex</doctype>
+  </ext>
+  </bibdata>
+<preface/><sections/>
+<annex obligation="informative"/>
+</itu-standard>
+
 INPUT
 expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <<~"OUTPUT"
-    {:accesseddate=>"XXX", :agency=>"ITU", :annextitle=>nil, :authors=>[], :authors_affiliations=>{}, :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docnumber=>"ITU-R 1000", :docnumeric=>"1000", :docsubtitle=>nil, :doctitle=>"Main Title", :docyear=>nil, :draft=>nil, :draftinfo=>"", :edition=>nil, :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :keywords=>[], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :publisher=>"International Telecommunication Union", :receiveddate=>"XXX", :revdate=>nil, :revdate_monthyear=>nil, :series=>nil, :series1=>nil, :series2=>nil, :stage=>"In Force Prepublished", :stageabbr=>"IFP", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>true, :updateddate=>"XXX", :vote_endeddate=>"XXX", :vote_starteddate=>"XXX"}
+    {:accesseddate=>"XXX", :agency=>"ITU", :annextitle=>nil, :authors=>[], :authors_affiliations=>{}, :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docnumber=>"ITU-R 1000", :docnumeric=>"1000", :docsubtitle=>nil, :doctitle=>"Main Title", :doctype=>"Recommendation", :doctype_original=>"recommendation-annex", :docyear=>nil, :draft=>nil, :draftinfo=>"", :edition=>nil, :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :keywords=>[], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :publisher=>"International Telecommunication Union", :receiveddate=>"XXX", :revdate=>nil, :revdate_monthyear=>nil, :series=>nil, :series1=>nil, :series2=>nil, :stage=>"In Force Prepublished", :stageabbr=>"IFP", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>true, :updateddate=>"XXX", :vote_endeddate=>"XXX", :vote_starteddate=>"XXX"}
     OUTPUT
    end
 
@@ -754,6 +762,7 @@ OUTPUT
                <keyword>A</keyword>
                <keyword>B</keyword>
                <ext>
+               <doctype>recommendation</doctype>
                </ext>
                </bibdata>
       <preface>
@@ -825,6 +834,7 @@ OUTPUT
                <keyword>A</keyword>
                <keyword>B</keyword>
                <ext>
+               <doctype>recommendation</doctype>
                </ext>
                </bibdata>
                <preface>
@@ -1262,6 +1272,7 @@ OUTPUT
                <keyword>A</keyword>
                <keyword>B</keyword>
                <ext>
+               <doctype>recommendation</doctype>
                </ext>
                </bibdata>
       <preface/>
@@ -1299,7 +1310,7 @@ OUTPUT
     INPUT
      expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-expect((html.sub(%r{^.*<div class="WordSection3">}m, %{<body><div class="WordSection3">}).gsub(%r{</body>.*$}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+expect(xmlpp(html.sub(%r{^.*<div class="WordSection3">}m, %{<body><div class="WordSection3">}).gsub(%r{</body>.*$}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 <body><div class="WordSection3">
       <p class="zzSTDTitle1">Recommendation 12345</p>
       <p class="zzSTDTitle2">An ITU Standard</p>
@@ -1426,7 +1437,8 @@ OUTPUT
   end
 
            it "processes annex with supplied annexid" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+             FileUtils.rm_f "test.html"
+             IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", false)
                <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
@@ -1436,6 +1448,7 @@ OUTPUT
                <keyword>A</keyword>
                <keyword>B</keyword>
                <ext>
+               <doctype>recommendation-annex</doctype>
                <structuredidentifier>
                <annexid>F2</annexid>
                </structuredidentifier>
@@ -1450,132 +1463,90 @@ OUTPUT
                 </clause>
         </annex>
     INPUT
-        #{HTML_HDR}
-        <p class="zzSTDTitle1">Recommendation 12345</p>
-             <p class="zzSTDTitle2">An ITU Standard</p>
-             <p class="zzSTDTitle3">Subtitle</p>
+             html = File.read("test.html", encoding: "utf-8")
+    expect(xmlpp(html.gsub(%r{^.*<main}m, "<main").gsub(%r{</main>.*}m, "</main>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <main class='main-section'>
+         <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
+         <p class='zzSTDTitle1'>Recommendation 12345</p>
+         <p class='zzSTDTitle2'>An ITU Standard</p>
+         <p class='zzSTDTitle3'>Subtitle</p>
+         <div id='A1' class='Section3'>
+           <p class='h1Annex'>
+             <b>Annex F2</b>
              <br/>
-             <div id="A1" class="Section3">
-               <h1 class="Annex"><b>Annex F2</b> <br/><br/><b>Annex</b></h1>
-                <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
-               <div id="A2"><h2>F2.1&#160; Subtitle</h2>
-               <p class="TableTitle" style="text-align:center;">Table F2.1</p><table id="T" class="MsoISOTable" style="border-width:1px;border-spacing:0;"/>
-               <div id="U" class="figure"><p class="FigureTitle" style="text-align:center;">Figure F2.1</p></div>
-               <div id="V" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (F2-1)</p></div>
-               </div>
+             <br/>
+             <b>Annex</b>
+           </p>
+           <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
+           <div id='A2'>
+             <h2 id='toc0'>F2.1&#xA0; Subtitle</h2>
+             <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
+             <table id='T' class='MsoISOTable' style='border-width:1px;border-spacing:0;'/>
+             <div id='U' class='figure'>
+               <p class='FigureTitle' style='text-align:center;'>Figure F2.1</p>
+             </div>
+             <div id='V' class='formula'>
+               <p>
+                 <span class='stem'>(#(r = 1 %)#)</span>
+                 &#xA0; (F2-1)
+               </p>
              </div>
            </div>
-         </body>
-
+         </div>
+       </main>
 OUTPUT
            end
 
-       it "cross-references formulae" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-            <itu-standard xmlns="http://riboseinc.com/isoxml">
-            <preface>
-    <foreword>
-    <p>
-    <xref target="N1"/>
-    <xref target="N2"/>
-    </p>
-    </foreword>
-    <introduction id="intro">
-    <formula id="N1">
-  <stem type="AsciiMath">r = 1 %</stem>
-  </formula>
-  <clause id="xyz"><title>Preparatory</title>
-    <formula id="N2" inequality="true">
-  <stem type="AsciiMath">r = 1 %</stem>
-  </formula>
-</clause>
-    </introduction>
-    </itu-standard>
-    INPUT
-            #{HTML_HDR}
-            <div>
-               <h1 class="IntroTitle"/>
-               <p>
-           <a href="#N1">Equation (Introduction-1)</a>
-           <a href="#N2">Inequality (Introduction-2)</a>
-           </p>
-             </div>
-             <div id="intro"><h1 class="IntroTitle"/><div id="N1" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (Introduction-1)</p></div>
-
-         <div id="xyz"><h2>Preparatory</h2>
-           <div id="N2" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (Introduction-2)</p></div>
-
-
-       </div></div>
-             <p class="zzSTDTitle1"/>
-             <p class="zzSTDTitle2"/>
-           </div>
-         </body>
-
-    OUTPUT
-       end
-
-              it "cross-references annex subclauses" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-        <itu-standard xmlns="http://riboseinc.com/isoxml">
+    it "processes annex with supplied annexid (Word)" do
+             FileUtils.rm_f "test.doc"
+             IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
+               <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
+               <title language="en" format="text/plain" type="subtitle">Subtitle</title>
                <docidentifier type="ITU">12345</docidentifier>
                <language>en</language>
                <keyword>A</keyword>
                <keyword>B</keyword>
                <ext>
+               <doctype>recommendation-annex</doctype>
                <structuredidentifier>
                <annexid>F2</annexid>
                </structuredidentifier>
                </ext>
                </bibdata>
-               <preface>
-      <abstract><title>Abstract</title>
-      <p>
-      <xref target="A1"/>
-    <xref target="A2"/>
-    </p>
-      </abstract>
-               <sections>
-               </sections>
         <annex id="A1" obligation="normative">
                 <title>Annex</title>
                 <clause id="A2"><title>Subtitle</title>
+                <table id="T"/>
+                <figure id="U"/>
+                <formula id="V"><stem type="AsciiMath">r = 1 %</stem></formula>
                 </clause>
         </annex>
     INPUT
-            #{HTML_HDR}
-             <br/>
-             <div>
-               <h1 class="AbstractTitle">Abstract</h1>
-               <p>
-         <a href="#A1">Annex F2</a>
-       <a href="#A2">clause F2.1</a>
-       </p>
-             </div>
-             <div>
-               <h1 class="IntroTitle"/>
-             </div>
-             <div id="A1">
-               <h1 class="IntroTitle">Annex</h1>
-               <div id="A2"><h2>F2.1&#160; Subtitle</h2>
-                   </div>
-             </div>
+             html = File.read("test.doc", encoding: "utf-8")
+    expect((html.gsub(%r{^.*<div class="WordSection3">}m, '<div class="WordSection3" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">').gsub(%r{<div style="mso-element:footnote-list"/>.*}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <div class="WordSection3" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">
              <p class="zzSTDTitle1">Recommendation 12345</p>
              <p class="zzSTDTitle2">An ITU Standard</p>
-             <br/>
-             <div id="A1" class="Section3">
-               <h1 class="Annex"><b>Annex F2</b> <br/><br/><b>Annex</b></h1>
-<p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
-               <div id="A2"><h2>F2.1&#160; Subtitle</h2>
-                   </div>
+             <p class="zzSTDTitle3">Subtitle</p>
+             <div class="Section3"><a name="A1" id="A1"></a>
+               <p class="h1Annex"><b>Annex F2</b> <br/><br/><b>Annex</b></p>
+               <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
+               <div><a name="A2" id="A2"></a><h2>F2.1<span style="mso-tab-count:1">&#xA0; </span>Subtitle</h2>
+               <p class="TableTitle" style="text-align:center;">Table F2.1</p><div align="center" class="table_container"><table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;"><a name="T" id="T"></a></table></div>
+               <div class="figure"><a name="U" id="U"></a><p class="FigureTitle" style="text-align:center;">Figure F2.1</p></div>
+               <div class="formula"><a name="V" id="V"></a><p class="formula"><span style="mso-tab-count:1">&#xA0; </span><span class="stem"><m:oMath>
+         <m:r><m:t>r=1%</m:t></m:r>
+       </m:oMath>
+       </span><span style="mso-tab-count:1">&#xA0; </span>(F2-1)</p></div>
+               </div>
              </div>
            </div>
-         </body>
+OUTPUT
+           end
 
-    OUTPUT
-       end
+
 
   it "processes formulae (Word)" do
     expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(/.*<h1 class="IntroTitle"\/>/m, "<div>").sub(/<p>&#160;<\/p>.*$/m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
@@ -1789,124 +1760,6 @@ FileUtils.rm_f "test.doc"
       OUTPUT
     end
 
-      it "cross-references subfigures" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-        <iso-standard xmlns="http://riboseinc.com/isoxml">
-        <preface>
-    <foreword id="fwd">
-    <p>
-    <xref target="N"/>
-    <xref target="note1"/>
-    <xref target="note2"/>
-    <xref target="AN"/>
-    <xref target="Anote1"/>
-    <xref target="Anote2"/>
-    </p>
-    </foreword>
-    </preface>
-    <sections>
-    <clause id="scope"><title>Scope</title>
-    </clause>
-    <terms id="terms"/>
-    <clause id="widgets"><title>Widgets</title>
-    <clause id="widgets1">
-    <figure id="N">
-        <figure id="note1">
-  <name>Split-it-right sample divider</name>
-  <image src="rice_images/rice_image1.png" id="_8357ede4-6d44-4672-bac4-9a85e82ab7f0" mimetype="image/png"/>
-  </figure>
-    <figure id="note2">
-  <name>Split-it-right sample divider</name>
-  <image src="rice_images/rice_image1.png" id="_8357ede4-6d44-4672-bac4-9a85e82ab7f0" mimetype="image/png"/>
-  </figure>
-  </figure>
-  <p>    <xref target="note1"/> <xref target="note2"/> </p>
-    </clause>
-    </clause>
-    </sections>
-    <annex id="annex1">
-    <clause id="annex1a">
-    </clause>
-    <clause id="annex1b">
-    <figure id="AN">
-        <figure id="Anote1">
-  <name>Split-it-right sample divider</name>
-  <image src="rice_images/rice_image1.png" id="_8357ede4-6d44-4672-bac4-9a85e82ab7f0" mimetype="image/png"/>
-  </figure>
-    <figure id="Anote2">
-  <name>Split-it-right sample divider</name>
-  <image src="rice_images/rice_image1.png" id="_8357ede4-6d44-4672-bac4-9a85e82ab7f0" mimetype="image/png"/>
-  </figure>
-  </figure>
-    </clause>
-    </annex>
-    </iso-standard>
-    INPUT
-        #{HTML_HDR}
-        <div id="fwd">
-               <h1 class="IntroTitle"/>
-               <p>
-         <a href="#N">Figure 1</a>
-         <a href="#note1">Figure 1-a</a>
-         <a href="#note2">Figure 1-b</a>
-         <a href="#AN">Figure A.1</a>
-         <a href="#Anote1">Figure A.1-a</a>
-         <a href="#Anote2">Figure A.1-b</a>
-         </p>
-             </div>
-             <p class="zzSTDTitle1"/>
-             <p class="zzSTDTitle2"/>
-             <div id="scope">
-               <h1>1&#160; Scope</h1>
-             </div>
-             <div id="terms">
-               <h1>2&#160; </h1>
-               <p>None.</p>
-             </div>
-             <div id="widgets">
-               <h1>3&#160; Widgets</h1>
-               <div id="widgets1"><h2>3.1&#160; </h2>
-         <div id="N" class="figure">
-             <div id="note1" class="figure">
-
-       <img src="rice_images/rice_image1.png" height="auto" width="auto"/>
-       <p class="FigureTitle" style="text-align:center;">Figure 1-a&#160;&#8212; Split-it-right sample divider</p></div>
-         <div id="note2" class="figure">
-
-       <img src="rice_images/rice_image1.png" height="auto" width="auto"/>
-       <p class="FigureTitle" style="text-align:center;">Figure 1-b&#160;&#8212; Split-it-right sample divider</p></div>
-       </div>
-       <p>    <a href="#note1">Figure 1-a</a> <a href="#note2">Figure 1-b</a> </p>
-         </div>
-             </div>
-             <br/>
-             <div id="annex1" class="Section3">
- <h1 class='Annex'>
-   <b>Annex A</b>
-   <br/>
-   <br/>
-   <b/>
- </h1>
- <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
-               <div id="annex1a"><h2>A.1&#160; </h2>
-         </div>
-               <div id="annex1b"><h2>A.2&#160; </h2>
-         <div id="AN" class="figure">
-             <div id="Anote1" class="figure">
-
-       <img src="rice_images/rice_image1.png" height="auto" width="auto"/>
-       <p class="FigureTitle" style="text-align:center;">Figure A.1-a&#160;&#8212; Split-it-right sample divider</p></div>
-         <div id="Anote2" class="figure">
-
-       <img src="rice_images/rice_image1.png" height="auto" width="auto"/>
-       <p class="FigureTitle" style="text-align:center;">Figure A.1-b&#160;&#8212; Split-it-right sample divider</p></div>
-       </div>
-         </div>
-             </div>
-           </div>
-         </body>
-OUTPUT
-      end
 
 it "processes figures as hierarchical assets" do
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({hierarchical_assets: true}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
@@ -2015,7 +1868,7 @@ it "processes figures as hierarchical assets" do
    <br/>
    <b/>
  </h1>
- <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
+ <p class='annex_obligation'>(This annex forms an integral part of this .)</p>
                <div id="annex1a"><h2>A.1&#160; </h2>
          </div>
                <div id="annex1b"><h2>A.2&#160; </h2>
@@ -2139,7 +1992,7 @@ it "processes formulae as non-hierarchical assets" do
    <br/>
    <b/>
  </h1>
- <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
+ <p class='annex_obligation'>(This annex forms an integral part of this .)</p>
       <div id='annex1a'>
         <h2>A.1&#160; </h2>
       </div>
@@ -2392,142 +2245,6 @@ it "processes erefs and xrefs and links (Word)" do
 OUTPUT
 end
 
-it "cross-references notes" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-    <iso-standard xmlns="http://riboseinc.com/isoxml">
-    <preface>
-    <foreword>
-    <p>
-    <xref target="N1"/>
-    <xref target="N2"/>
-    <xref target="N"/>
-    <xref target="note1"/>
-    <xref target="note2"/>
-    <xref target="AN"/>
-    <xref target="Anote1"/>
-    <xref target="Anote2"/>
-    </p>
-    </foreword>
-    <introduction id="intro">
-    <note id="N1">
-  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83e">These results are based on a study carried out on three different types of kernel.</p>
-</note>
-<clause id="xyz"><title>Preparatory</title>
-    <note id="N2">
-  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83d">These results are based on a study carried out on three different types of kernel.</p>
-</note>
-</clause>
-    </introduction>
-    </preface>
-    <sections>
-    <clause id="scope"><title>Scope</title>
-    <note id="N">
-  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
-</note>
-<p><xref target="N"/></p>
-
-    </clause>
-    <terms id="terms"/>
-    <clause id="widgets"><title>Widgets</title>
-    <clause id="widgets1">
-    <note id="note1">
-  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
-</note>
-    <note id="note2">
-  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83a">These results are based on a study carried out on three different types of kernel.</p>
-</note>
-<p>    <xref target="note1"/> <xref target="note2"/> </p>
-
-    </clause>
-    </clause>
-    </sections>
-    <annex id="annex1">
-    <clause id="annex1a">
-    <note id="AN">
-  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
-</note>
-    </clause>
-    <clause id="annex1b">
-    <note id="Anote1">
-<p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
-</note>
-    <note id="Anote2">
-  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83a">These results are based on a study carried out on three different types of kernel.</p>
-</note>
-    </clause>
-    </annex>
-    </iso-standard>
-    INPUT
-    #{HTML_HDR}
-             <div>
-               <h1 class="IntroTitle"/>
-               <p>
-           <a href="#N1">Note in Introduction</a>
-           <a href="#N2">Note in Preparatory</a>
-           <a href="#N">Note in clause 1</a>
-           <a href="#note1">Note  1 in clause 3.1</a>
-           <a href="#note2">Note  2 in clause 3.1</a>
-           <a href="#AN">Note in clause A.1</a>
-           <a href="#Anote1">Note  1 in clause A.2</a>
-           <a href="#Anote2">Note  2 in clause A.2</a>
-           </p>
-             </div>
-             <div id="intro">
-               <h1 class="IntroTitle"/>
-               <div id="N1" class="Note">
-                 <p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p>
-               </div>
-               <div id="xyz"><h2>Preparatory</h2>
-           <div id="N2" class="Note"><p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
-       </div>
-             </div>
-             <p class="zzSTDTitle1"/>
-             <p class="zzSTDTitle2"/>
-             <div id="scope">
-               <h1>1&#160; Scope</h1>
-               <div id="N" class="Note">
-                 <p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p>
-               </div>
-               <p>
-                 <a href="#N">Note</a>
-               </p>
-             </div>
-             <div id="terms">
-               <h1>2&#160; </h1>
-               <p>None.</p>
-             </div>
-             <div id="widgets">
-               <h1>3&#160; Widgets</h1>
-               <div id="widgets1"><h2>3.1&#160; </h2>
-           <div id="note1" class="Note"><p><span class="note_label">NOTE  1 &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
-           <div id="note2" class="Note"><p><span class="note_label">NOTE  2 &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
-       <p>    <a href="#note1">Note  1</a> <a href="#note2">Note  2</a> </p>
-
-           </div>
-             </div>
-             <br/>
-             <div id="annex1" class="Section3">
-              <h1 class='Annex'>
-   <b>Annex A</b>
-   <br/>
-   <br/>
-   <b/>
- </h1>
- <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
-
-               <div id="annex1a"><h2>A.1&#160; </h2>
-           <div id="AN" class="Note"><p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
-           </div>
-               <div id="annex1b"><h2>A.2&#160; </h2>
-           <div id="Anote1" class="Note"><p><span class="note_label">NOTE  1 &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
-           <div id="Anote2" class="Note"><p><span class="note_label">NOTE  2 &#8211; </span>These results are based on a study carried out on three different types of kernel.</p></div>
-           </div>
-             </div>
-           </div>
-         </body>
-
-OUTPUT
-end
 
 it "processes unlabelled notes" do
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")

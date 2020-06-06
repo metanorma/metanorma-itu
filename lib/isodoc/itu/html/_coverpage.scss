@@ -62,13 +62,17 @@
   @include coverpageStageBlock();
 }
 
-span.doc-title {
+span.doc-title, span.doc-annextitle {
   font-size: 26px;
   font-weight: 800;
   margin-top: 20px;
-  border-top: 2px solid #DA1D52;
   margin-right: 42px;
 }
+
+span.doc-title {
+  border-top: 2px solid #DA1D52;
+}
+
 
 .doc-footer {
   margin-top: 100px;

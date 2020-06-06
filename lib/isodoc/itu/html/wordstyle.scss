@@ -512,7 +512,7 @@ p.h1Preface
         mso-ansi-language:EN-GB;
         mso-fareast-language:JA;
         mso-bidi-font-weight:normal;}
-h1.Annex
+h1.Annex, .h1Annex
 	{mso-style-priority:1;
 	mso-style-unhide:no;
 	mso-style-qformat:yes;
@@ -527,15 +527,12 @@ h1.Annex
 	text-align:center;
 	mso-pagination:widow-orphan lines-together;
 	page-break-after:avoid;
-	mso-outline-level:1;
 	tab-stops:39.7pt 59.55pt 79.4pt 99.25pt;
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
 	font-size:14.0pt;
 	mso-bidi-font-size:10.0pt;
-	mso-outline-level:1;
-	mso-list:l1 level1 lfo6;
 	mso-hyphenate:none;
 	mso-bidi-font-size:11.0pt;
 	font-family:$headerfont;
@@ -545,6 +542,10 @@ h1.Annex
 	mso-ansi-language:EN-GB;
 	mso-fareast-language:JA;
 	mso-bidi-font-weight:normal;}
+h1.Annex {
+	mso-outline-level:1;
+	mso-list:l1 level1 lfo6;
+}
 .h2Annex
         {mso-style-priority:2;
         mso-style-unhide:no;

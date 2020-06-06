@@ -11,7 +11,8 @@ module IsoDoc
             File.expand_path(File.join(here, "html", "International_Telecommunication_Union_Logo.svg")))
         set(:logo_comb,
             File.expand_path(File.join(here, "html", "itu-document-comb.png")))
-        set(:logo_word, File.expand_path(File.join(here, "html", "International_Telecommunication_Union_Logo.svg")))
+        set(:logo_word,
+            File.expand_path(File.join(here, "html", "International_Telecommunication_Union_Logo.svg")))
       end
 
       def title(isoxml, _out)
@@ -73,6 +74,16 @@ module IsoDoc
           keywords << kw.text
         end
         set(:keywords, keywords.sort)
+      end
+
+      def doctype(isoxml, _out)
+        d = isoxml&.at(ns("//bibdata/ext/doctype"))&.text
+        set(:doctype_original, d)
+        if d == "recommendation-annex"
+          set(:doctype, "Recommendation")
+        else
+          super
+        end
       end
 
       def ip_notice_received(isoxml, _out)

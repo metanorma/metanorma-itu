@@ -49,7 +49,8 @@ module IsoDoc
 
       def note_label(node)
         n = get_anchors[node["id"]]
-        return "#{@note_lbl} &ndash; " if n.nil? || n[:label].nil? || n[:label].empty?
+        (n.nil? || n[:label].nil? || n[:label].empty?) and
+          return "#{@note_lbl} &ndash; "
         l10n("#{@note_lbl} #{n[:label]} &ndash; ")
       end
 
@@ -70,7 +71,8 @@ module IsoDoc
       end
 
       def annex_name(annex, name, div)
-        div.h1 **{ class: "Annex" } do |t|
+        r_a = @meta.get[:doctype_original] == "recommendation-annex"
+        div.h1 **{ class: r_a ? "RecommendationAnnex" : "Annex" } do |t|
           t << "#{anchor(annex['id'], :label)} "
           t.br
           t.br
@@ -82,14 +84,28 @@ module IsoDoc
       end
 
       def annex_obligation_subtitle(annex, div)
-        type = annex&.document&.root&.at("//bibdata/ext/doctype")&.text ||
-          "recommendation"
-        type = type.split(" ").map {|w| w.capitalize }.join(" ")
         info = annex["obligation"] == "informative"
         div.p **{class: "annex_obligation" } do |p|
-          p << (info ? @inform_annex_lbl : @norm_annex_lbl).sub(/%/, type)
+          p << (info ? @inform_annex_lbl : @norm_annex_lbl).
+            sub(/%/, @meta.get[:doctype] || "")
         end
       end
+
+      def annex(isoxml, out)
+      isoxml.xpath(ns("//annex")).each do |c|
+        @meta.get[:doctype_original] == "recommendation-annex" or
+          page_break(out)
+        out.div **attr_code(id: c["id"], class: "Section3") do |s|
+          annex_name(c, nil, s) unless c.at(ns("./title"))
+          c.elements.each do |c1|
+            if c1.name == "title" then annex_name(c, c1, s)
+            else
+              parse(c1, s)
+            end
+          end
+        end
+      end
+    end
 
       def i18n_init(lang, script)
         super
@@ -103,6 +119,15 @@ module IsoDoc
         super
         term_cleanup(docxml)
         refs_cleanup(docxml)
+        title_cleanup(docxml)
+      end
+
+      def title_cleanup(docxml)
+        docxml.xpath("//h1[@class = 'RecommendationAnnex']").each do |h|
+          h.name = "p"
+          h["class"] = "h1Annex"
+        end
+        docxml
       end
 
       def term_cleanup(docxml)
@@ -139,11 +164,13 @@ module IsoDoc
       end
 
       def get_eref_linkend(node)
-        link = anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))
-        link && !/^\[.*\]$/.match(link) and link = "[#{link}]"
-        link += eref_localities(node.xpath(ns("./locality | ./localityStack")), link)
-        contents = node.children.select { |c| !%w{locality localityStack}.include? c.name }
-        return link if contents.nil? || contents.empty?
+        l = anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))
+        l && !/^\[.*\]$/.match(l) and l = "[#{l}]"
+        l += eref_localities(node.xpath(ns("./locality | ./localityStack")), l)
+        contents = node.children.select do |c|
+          !%w{locality localityStack}.include? c.name
+        end
+        return l if contents.nil? || contents.empty?
         Nokogiri::XML::NodeSet.new(node.document, contents).to_xml
       end
 
@@ -160,7 +187,7 @@ module IsoDoc
 
       def middle_title(out)
         out.p(**{ class: "zzSTDTitle1" }) do |p|
-          id = @meta.get[:docnumber] and p << "Recommendation #{id}" 
+          id = @meta.get[:docnumber] and p << "#{@meta.get[:doctype]} #{id}" 
         end
         out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
         s = @meta.get[:docsubtitle] and

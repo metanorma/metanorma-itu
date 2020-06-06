@@ -4,9 +4,17 @@
  <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
   <td width=663 valign=top style='width:497.25pt;padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=RecNo><span style='mso-bookmark:_Hlk526346232'><a name=irecnoe></a><span
-      lang=FR-CH style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>Recommendation ITU-{{ bureau }} {{ docnumber }}<o:p></o:p></span></span></p>
+      lang=FR-CH style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>{{ doctype}} {{ docnumber }}<o:p></o:p></span></span></p>
   <p class=Rectitle align="center"><span style='mso-bookmark:_Hlk526346232'><span lang=FR-CH
       style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>{{ doctitle }}<o:p></o:p></span></span></p>
+  {% if annexid %}
+  <p class=Rectitle align="center"><span style='mso-bookmark:_Hlk526346232'><span lang=FR-CH
+      style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>{{ annexid }}<o:p></o:p></span></span></p>
+  {% endif %}
+  {% if annextitle %}
+  <p class=Rectitle align="center"><span style='mso-bookmark:_Hlk526346232'><span lang=FR-CH
+      style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>{{ annextitle }}<o:p></o:p></span></span></p>
+  {% endif %}
   <span style='mso-bookmark:_Hlk526346232'></span>
   <p class=MsoNormal><span style='mso-bookmark:_Hlk526346232'><span lang=FR-CH
   style='mso-ansi-language:FR-CH'><o:p>&nbsp;</o:p></span></span></p>

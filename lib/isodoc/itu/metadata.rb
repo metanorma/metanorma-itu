@@ -69,11 +69,7 @@ module IsoDoc
       end
 
       def keywords(isoxml, _out)
-        keywords = []
-        isoxml.xpath(ns("//bibdata/keyword")).each do |kw|
-          keywords << kw.text
-        end
-        set(:keywords, keywords.sort)
+        set(:keywords, get[:keywords].sort)
       end
 
       def doctype(isoxml, _out)

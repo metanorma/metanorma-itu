@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:itu="https://www.metanorma.org/ns/itu" xmlns:mathml="http://www.w3.org/1998/Math/MathML" xmlns:xalan="http://xml.apache.org/xalan" xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" version="1.0">
+<?xml version="1.0" encoding="UTF-8"?><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:itu="https://www.metanorma.org/ns/itu" xmlns:mathml="http://www.w3.org/1998/Math/MathML" xmlns:xalan="http://xml.apache.org/xalan" xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" xmlns:java="http://xml.apache.org/xalan/java" exclude-result-prefixes="java" version="1.0">
 
 	<xsl:output method="xml" encoding="UTF-8" indent="no"/>
 
@@ -339,7 +339,7 @@
 							<xsl:value-of select="$linebreak"/>
 						</fo:block>
 						<fo:block font-weight="bold" margin-top="18pt" margin-bottom="18pt">
-							<xsl:text>Keywords</xsl:text>
+							<xsl:value-of select="$title-keywords"/>
 						</fo:block>
 						<fo:block>
 							<xsl:call-template name="insertKeywords"/>
@@ -365,8 +365,8 @@
 					<xsl:if test="xalan:nodeset($contents)//item">
 						<fo:block break-after="page"/>
 						<fo:block-container>
-							<fo:block margin-top="6pt" text-align="center" font-weight="bold">Table of Contents</fo:block>
-							<fo:block margin-top="6pt" text-align="right" font-weight="bold">Page</fo:block>
+							<fo:block margin-top="6pt" text-align="center" font-weight="bold"><xsl:value-of select="$title-toc"/></fo:block>
+							<fo:block margin-top="6pt" text-align="right" font-weight="bold"><xsl:value-of select="$title-page"/></fo:block>
 							
 								<xsl:for-each select="xalan:nodeset($contents)//item">
 									<xsl:if test="@display = 'true'">
@@ -668,8 +668,8 @@
 		<item level="" id="{@id}" display="false" type="formula">
 			<xsl:variable name="title">
 				<xsl:choose>
-					<xsl:when test="@inequality = 'true'">Inequality </xsl:when>
-					<xsl:otherwise>Equation </xsl:otherwise>
+					<xsl:when test="@inequality = 'true'"><xsl:value-of select="$title-inequality"/></xsl:when>
+					<xsl:otherwise><xsl:value-of select="$title-equation"/></xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
 			<xsl:variable name="section">
@@ -683,7 +683,7 @@
 			<xsl:variable name="parent-element" select="local-name(..)"/>
 			<xsl:attribute name="parent">
 				<xsl:choose>
-					<xsl:when test="$parent-element = 'clause'">Clause</xsl:when>
+					<xsl:when test="$parent-element = 'clause'"><xsl:value-of select="normalize-space($title-clause)"/></xsl:when>
 					<xsl:otherwise/>
 				</xsl:choose>
 			</xsl:attribute>
@@ -796,7 +796,7 @@
 		<item level="" id="{@id}" display="false" type="example" section="{$section}">
 			<xsl:attribute name="parent">
 				<xsl:choose>
-					<xsl:when test="$parent-element = 'clause'">Clause</xsl:when>
+					<xsl:when test="$parent-element = 'clause'"><xsl:value-of select="normalize-space($title-clause)"/></xsl:when>
 					<xsl:otherwise/>
 				</xsl:choose>
 			</xsl:attribute>
@@ -969,6 +969,12 @@
 			<xsl:attribute name="text-align">
 				<xsl:choose>
 					<xsl:when test="@align"><xsl:value-of select="@align"/></xsl:when>
+					<xsl:when test="ancestor::*[1][local-name() = 'td']/@align">
+						<xsl:value-of select="ancestor::*[1][local-name() = 'td']/@align"/>
+					</xsl:when>
+					<xsl:when test="ancestor::*[1][local-name() = 'th']/@align">
+						<xsl:value-of select="ancestor::*[1][local-name() = 'th']/@align"/>
+					</xsl:when>
 					<xsl:otherwise>justify</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
@@ -1254,7 +1260,15 @@
 				<xsl:apply-templates/>
 			</fo:inline>
 			<xsl:if test="../itu:termsource/itu:origin">
-				<xsl:text> [</xsl:text><xsl:value-of select="../itu:termsource/itu:origin/@citeas"/><xsl:text>]</xsl:text>
+				<xsl:variable name="citeas" select="../itu:termsource/itu:origin/@citeas"/>
+				<xsl:choose>
+					<xsl:when test="contains($citeas, '[')">
+						<xsl:text> </xsl:text><xsl:value-of select="$citeas" disable-output-escaping="yes"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text> [</xsl:text><xsl:value-of select="$citeas"/><xsl:text>]</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:if>
 			<xsl:text>: </xsl:text>
 			<xsl:apply-templates select="following-sibling::itu:definition/node()" mode="process"/> <!--   -->
@@ -1434,18 +1448,6 @@
 	<xsl:template match="itu:docidentifier"/>
 	
 	
-	
-	<xsl:template match="itu:annex2//itu:note/itu:p">
-		<fo:block font-size="11pt" margin-top="4pt">			
-			<xsl:value-of select="$title-note"/>
-			<!-- <xsl:if test="../following-sibling::itu:note or ../preceding-sibling::itu:note"> -->
-				<xsl:number count="itu:note"/><xsl:text> </xsl:text>
-			<!-- </xsl:if> -->
-			<xsl:text>– </xsl:text>
-			<xsl:apply-templates/>
-		</fo:block>
-	</xsl:template>
-	
 	<xsl:template match="itu:ul | itu:ol | itu:sections/itu:ul | itu:sections/itu:ol">
 		<xsl:if test="preceding-sibling::*[1][local-name() = 'title']">
 			<fo:block padding-top="-8pt" font-size="1pt"> </fo:block>
@@ -1457,6 +1459,11 @@
 	</xsl:template>
 	
 	<xsl:template match="itu:ul//itu:note |  itu:ol//itu:note"/>
+	<xsl:template match="itu:ul//itu:note  | itu:ol//itu:note" mode="process">
+		<fo:block id="{@id}">
+			<xsl:apply-templates mode="process"/>
+		</fo:block>
+	</xsl:template>
 	<xsl:template match="itu:ul//itu:note/itu:p  | itu:ol//itu:note/itu:p" mode="process">
 		<xsl:variable name="id" select="ancestor::*[local-name() = 'clause'][1]/@id"/>
 		<fo:block font-size="11pt" margin-top="4pt">			
@@ -1502,7 +1509,7 @@
 		</fo:list-item>
 	</xsl:template>
 	
-	<xsl:template match="itu:li//itu:p">
+	<xsl:template match="itu:li//itu:p[not(parent::itu:dd)]">
 		<fo:block margin-bottom="0pt"> <!-- margin-bottom="6pt" -->
 			<!-- <xsl:if test="local-name(ancestor::itu:li[1]/..) = 'ul'">
 				<xsl:attribute name="margin-bottom">0pt</xsl:attribute>
@@ -1568,7 +1575,7 @@
 	
 	<xsl:template match="itu:formula" name="formula">
 		<xsl:param name="sectionNum"/>
-		<fo:block id="{@id}" margin-top="6pt"> <!--  text-align="center" -->
+		<fo:block id="{@id}" margin-top="6pt" margin-bottom="6pt"> <!--  text-align="center" -->
 			<xsl:apply-templates/>
 			<fo:inline keep-together.within-line="always">
 			</fo:inline>
@@ -1729,8 +1736,8 @@
 	</xsl:template>
 	
 	<xsl:template match="itu:example/itu:name">
-		<fo:block font-weight="bold">
-			<xsl:text>EXAMPLE</xsl:text>
+		<fo:block font-weight="bold">			
+			<xsl:value-of select="normalize-space($title-example)"/>
 			<xsl:if test="count(ancestor::itu:clause[1]/itu:example) &gt; 1">
 				<xsl:text> </xsl:text><xsl:number count="itu:example"/>
 			</xsl:if>
@@ -2384,8 +2391,8 @@
 				</xsl:when>
 				<xsl:when test="ancestor::itu:annex[@obligation = 'informative']">
 					<xsl:choose>
-						<xsl:when test="$level = 1">
-							<xsl:text>Appendix  </xsl:text>
+						<xsl:when test="$level = 1">							
+							<xsl:value-of select="$title-appendix"/><xsl:text> </xsl:text>
 							<xsl:number format="I" level="any" count="itu:annex[@obligation = 'informative']"/>
 						</xsl:when>
 						<xsl:otherwise>
@@ -2395,8 +2402,8 @@
 				</xsl:when>
 				<xsl:when test="ancestor::itu:annex[not(@obligation) or @obligation != 'informative']">
 					<xsl:choose>
-						<xsl:when test="$level = 1">
-							<xsl:text>Annex </xsl:text>
+						<xsl:when test="$level = 1">							
+							<xsl:value-of select="$title-annex"/>
 							<xsl:choose>
 								<xsl:when test="count(//itu:annex) = 1">
 									<xsl:choose>
@@ -2472,46 +2479,47 @@
 		</xsl:choose>
 	</xsl:template>
 	
-<xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="title-table">
+<xsl:variable name="title-table">
 		
 			<xsl:text>Table </xsl:text>
-									
 		
-	</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="title-note">
+		
+	</xsl:variable><xsl:variable name="title-note">
 		
 			<xsl:text>NOTE </xsl:text>
 		
 		
-	</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="title-figure">
+	</xsl:variable><xsl:variable name="title-figure">
 		
 			<xsl:text>Figure </xsl:text>
 		
 		
-	</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="title-example">
+	</xsl:variable><xsl:variable name="title-example">
 		
 			<xsl:text>EXAMPLE </xsl:text>
 		
 		
-	</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="title-annex">
+	</xsl:variable><xsl:variable name="title-inequality">Inequality </xsl:variable><xsl:variable name="title-equation">Equation </xsl:variable><xsl:variable name="title-annex">
 		
 			<xsl:text>Annex </xsl:text>
 		
 		
-	</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="title-appendix">
+	</xsl:variable><xsl:variable name="title-appendix">
 		<xsl:text>Appendix </xsl:text>
-	</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="title-clause">
+	</xsl:variable><xsl:variable name="title-clause">
 		
 			<xsl:text>Clause </xsl:text>
 		
 		
-	</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="title-edition">
+	</xsl:variable><xsl:variable name="title-edition">
 		<xsl:text>Edition </xsl:text>
-	</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="title-toc">
+	</xsl:variable><xsl:variable name="title-toc">
 		
-	</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="title-key">Key</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="title-where">where</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="title-descriptors">Descriptors</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="lower">abcdefghijklmnopqrstuvwxyz</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="upper">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="en_chars" select="concat($lower,$upper,',.`1234567890-=~!@#$%^*()_+[]{}\|?/')"/><xsl:variable xmlns:java="http://xml.apache.org/xalan/java" name="linebreak" select="'&#8232;'"/><xsl:attribute-set xmlns:java="http://xml.apache.org/xalan/java" name="link-style">
+		Table of Contents
+	</xsl:variable><xsl:variable name="title-page">Page</xsl:variable><xsl:variable name="title-key">Key</xsl:variable><xsl:variable name="title-where">where</xsl:variable><xsl:variable name="title-descriptors">Descriptors</xsl:variable><xsl:variable name="title-part-en">Part </xsl:variable><xsl:variable name="title-part-fr">Partie </xsl:variable><xsl:variable name="title-note-to-entry">Note # to entry: </xsl:variable><xsl:variable name="title-modified">modified</xsl:variable><xsl:variable name="title-source">SOURCE</xsl:variable><xsl:variable name="title-keywords">Keywords</xsl:variable><xsl:variable name="lower">abcdefghijklmnopqrstuvwxyz</xsl:variable><xsl:variable name="upper">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable><xsl:variable name="en_chars" select="concat($lower,$upper,',.`1234567890-=~!@#$%^*()_+[]{}\|?/')"/><xsl:variable name="linebreak" select="'&#8232;'"/><xsl:attribute-set name="link-style">
 		
 		
-	</xsl:attribute-set><xsl:attribute-set xmlns:java="http://xml.apache.org/xalan/java" name="sourcecode-style">
+	</xsl:attribute-set><xsl:attribute-set name="sourcecode-style">
 		
 		
 		
@@ -2525,22 +2533,22 @@
 				
 		
 		
-	</xsl:attribute-set><xsl:attribute-set xmlns:java="http://xml.apache.org/xalan/java" name="appendix-style">
+	</xsl:attribute-set><xsl:attribute-set name="appendix-style">
 		
 		
 		
-	</xsl:attribute-set><xsl:attribute-set xmlns:java="http://xml.apache.org/xalan/java" name="appendix-example-style">
+	</xsl:attribute-set><xsl:attribute-set name="appendix-example-style">
 		
 		
 		
-	</xsl:attribute-set><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="text()">
+	</xsl:attribute-set><xsl:template match="text()">
 		<xsl:value-of select="."/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='br']">
+	</xsl:template><xsl:template match="*[local-name()='br']">
 		<xsl:value-of select="$linebreak"/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='td']//text() | *[local-name()='th']//text() | *[local-name()='dt']//text() | *[local-name()='dd']//text()" priority="1">
+	</xsl:template><xsl:template match="*[local-name()='td']//text() | *[local-name()='th']//text() | *[local-name()='dt']//text() | *[local-name()='dd']//text()" priority="1">
 		<!-- <xsl:call-template name="add-zero-spaces"/> -->
 		<xsl:call-template name="add-zero-spaces-java"/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='table']">
+	</xsl:template><xsl:template match="*[local-name()='table']">
 	
 		<xsl:variable name="simple-table">
 			<!-- <xsl:copy> -->
@@ -2690,7 +2698,7 @@
 			
 			
 		</fo:block-container>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="getTableNumber">
+	</xsl:template><xsl:template name="getTableNumber">
 		<xsl:choose>
 			<xsl:when test="ancestor::*[local-name()='executivesummary']"> <!-- NIST -->
 				<xsl:text>ES-</xsl:text><xsl:number format="1" count="*[local-name()='executivesummary']//*[local-name()='table'][not(@unnumbered) or @unnumbered != 'true']"/>
@@ -2728,15 +2736,15 @@
 					
 			</xsl:otherwise>
 		</xsl:choose>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='table']/*[local-name()='name']"/><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='table']/*[local-name()='name']" mode="process">
+	</xsl:template><xsl:template match="*[local-name()='table']/*[local-name()='name']"/><xsl:template match="*[local-name()='table']/*[local-name()='name']" mode="process">
 		<xsl:apply-templates/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="calculate-columns-numbers">
+	</xsl:template><xsl:template name="calculate-columns-numbers">
 		<xsl:param name="table-row"/>
 		<xsl:variable name="columns-count" select="count($table-row/*)"/>
 		<xsl:variable name="sum-colspans" select="sum($table-row/*/@colspan)"/>
 		<xsl:variable name="columns-with-colspan" select="count($table-row/*[@colspan])"/>
 		<xsl:value-of select="$columns-count + $sum-colspans - $columns-with-colspan"/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="calculate-column-widths">
+	</xsl:template><xsl:template name="calculate-column-widths">
 		<xsl:param name="table"/>
 		<xsl:param name="cols-count"/>
 		<xsl:param name="curr-col" select="1"/>
@@ -2834,21 +2842,24 @@
 				<xsl:with-param name="table" select="$table"/>
 			</xsl:call-template>
 		</xsl:if>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="text()" mode="td_text">
+	</xsl:template><xsl:template match="text()" mode="td_text">
 		<xsl:variable name="zero-space">​</xsl:variable>
 		<xsl:value-of select="translate(., $zero-space, ' ')"/><xsl:text> </xsl:text>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='termsource']" mode="td_text">
+	</xsl:template><xsl:template match="*[local-name()='termsource']" mode="td_text">
 		<xsl:value-of select="*[local-name()='origin']/@citeas"/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='link']" mode="td_text">
+	</xsl:template><xsl:template match="*[local-name()='link']" mode="td_text">
 		<xsl:value-of select="@target"/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='table2']"/><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='thead']"/><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='thead']" mode="process">
+	</xsl:template><xsl:template match="*[local-name()='table2']"/><xsl:template match="*[local-name()='thead']"/><xsl:template match="*[local-name()='thead']" mode="process">
+		<xsl:param name="cols-count"/>
 		<!-- font-weight="bold" -->
-		<fo:table-header>
+		<fo:table-header>			
+			
 			<xsl:apply-templates/>
 		</fo:table-header>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='tfoot']"/><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='tfoot']" mode="process">
+	</xsl:template><xsl:template match="*[local-name()='tfoot']"/><xsl:template match="*[local-name()='tfoot']" mode="process">
 		<xsl:apply-templates/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="insertTableFooter">
+	</xsl:template><xsl:template name="insertTableFooter">
+		<xsl:param name="cols-count"/>
 		<xsl:variable name="isNoteOrFnExist" select="../*[local-name()='note'] or ..//*[local-name()='fn'][local-name(..) != 'name']"/>
 		<xsl:if test="../*[local-name()='tfoot'] or           $isNoteOrFnExist = 'true'">
 		
@@ -2859,22 +2870,7 @@
 				<!-- if there are note(s) or fn(s) then create footer row -->
 				<xsl:if test="$isNoteOrFnExist = 'true'">
 				
-					<xsl:variable name="cols-count">
-						<xsl:choose>
-							<xsl:when test="../*[local-name()='thead']">
-								<!-- <xsl:value-of select="count(../*[local-name()='thead']/*[local-name()='tr']/*[local-name()='th'])"/> -->
-								<xsl:call-template name="calculate-columns-numbers">
-									<xsl:with-param name="table-row" select="../*[local-name()='thead']/*[local-name()='tr'][1]"/>
-								</xsl:call-template>
-							</xsl:when>
-							<xsl:otherwise>
-								<!-- <xsl:value-of select="count(./*[local-name()='tr'][1]/*[local-name()='td'])"/> -->
-								<xsl:call-template name="calculate-columns-numbers">
-									<xsl:with-param name="table-row" select="./*[local-name()='tr'][1]"/>
-								</xsl:call-template>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:variable>
+					
 				
 					<fo:table-row>
 						<fo:table-cell border="solid black 1pt" padding-left="1mm" padding-right="1mm" padding-top="1mm" number-columns-spanned="{$cols-count}">
@@ -2906,11 +2902,30 @@
 			</fo:table-footer>
 		
 		</xsl:if>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='tbody']">
+	</xsl:template><xsl:template match="*[local-name()='tbody']">
 		
-		<xsl:apply-templates select="../*[local-name()='thead']" mode="process"/>
+		<xsl:variable name="cols-count">
+			<xsl:choose>
+				<xsl:when test="../*[local-name()='thead']">					
+					<xsl:call-template name="calculate-columns-numbers">
+						<xsl:with-param name="table-row" select="../*[local-name()='thead']/*[local-name()='tr'][1]"/>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>					
+					<xsl:call-template name="calculate-columns-numbers">
+						<xsl:with-param name="table-row" select="./*[local-name()='tr'][1]"/>
+					</xsl:call-template>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		
-		<xsl:call-template name="insertTableFooter"/>
+		<xsl:apply-templates select="../*[local-name()='thead']" mode="process">
+			<xsl:with-param name="cols-count" select="$cols-count"/>
+		</xsl:apply-templates>
+		
+		<xsl:call-template name="insertTableFooter">
+			<xsl:with-param name="cols-count" select="$cols-count"/>
+		</xsl:call-template>
 		
 		<fo:table-body>
 			<xsl:apply-templates/>
@@ -2918,7 +2933,7 @@
 		
 		</fo:table-body>
 		
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='tr']">
+	</xsl:template><xsl:template match="*[local-name()='tr']">
 		<xsl:variable name="parent-name" select="local-name(..)"/>
 		<!-- <xsl:variable name="namespace" select="substring-before(name(/*), '-')"/> -->
 		<fo:table-row min-height="4mm">
@@ -2938,7 +2953,7 @@
 				
 			<xsl:apply-templates/>
 		</fo:table-row>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='th']">
+	</xsl:template><xsl:template match="*[local-name()='th']">
 		<fo:table-cell text-align="{@align}" font-weight="bold" border="solid black 1pt" padding-left="1mm" display-align="center">
 			
 			
@@ -2965,7 +2980,7 @@
 				<xsl:apply-templates/>
 			</fo:block>
 		</fo:table-cell>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='td']">
+	</xsl:template><xsl:template match="*[local-name()='td']">
 		<fo:table-cell text-align="{@align}" display-align="center" border="solid black 1pt" padding-left="1mm">
 			
 			
@@ -2992,6 +3007,7 @@
 				</xsl:attribute>
 			</xsl:if>
 			<fo:block>
+								
 				<xsl:apply-templates/>
 			</fo:block>
 			<!-- <xsl:choose>
@@ -3007,7 +3023,7 @@
 			
 			
 		</fo:table-cell>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='table']/*[local-name()='note']"/><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='table']/*[local-name()='note']" mode="process">
+	</xsl:template><xsl:template match="*[local-name()='table']/*[local-name()='note']"/><xsl:template match="*[local-name()='table']/*[local-name()='note']" mode="process">
 		
 		
 			<fo:block font-size="10pt" margin-bottom="12pt">
@@ -3032,9 +3048,9 @@
 				<xsl:apply-templates mode="process"/>
 			</fo:block>
 		
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='table']/*[local-name()='note']/*[local-name()='p']" mode="process">
+	</xsl:template><xsl:template match="*[local-name()='table']/*[local-name()='note']/*[local-name()='p']" mode="process">
 		<xsl:apply-templates/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="fn_display">
+	</xsl:template><xsl:template name="fn_display">
 		<xsl:variable name="references">
 			<xsl:for-each select="..//*[local-name()='fn'][local-name(..) != 'name']">
 				<fn reference="{@reference}" id="{@reference}_{ancestor::*[@id][1]/@id}">
@@ -3087,7 +3103,7 @@
 				</fo:block>
 			</xsl:if>
 		</xsl:for-each>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="fn_name_display">
+	</xsl:template><xsl:template name="fn_name_display">
 		<!-- <xsl:variable name="references">
 			<xsl:for-each select="*[local-name()='name']//*[local-name()='fn']">
 				<fn reference="{@reference}" id="{@reference}_{ancestor::*[@id][1]/@id}">
@@ -3103,7 +3119,7 @@
 				<xsl:apply-templates/>
 			</fo:block>
 		</xsl:for-each>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="fn_display_figure">
+	</xsl:template><xsl:template name="fn_display_figure">
 		<xsl:variable name="key_iso">
 			 <!-- and (not(@class) or @class !='pseudocode') -->
 		</xsl:variable>
@@ -3154,7 +3170,7 @@
 			</fo:block>
 		</xsl:if>
 		
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='fn']">
+	</xsl:template><xsl:template match="*[local-name()='fn']">
 		<!-- <xsl:variable name="namespace" select="substring-before(name(/*), '-')"/> -->
 		<fo:inline font-size="80%" keep-with-previous.within-line="always">
 			
@@ -3169,11 +3185,11 @@
 				<xsl:value-of select="@reference"/>
 			</fo:basic-link>
 		</fo:inline>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='fn']/*[local-name()='p']">
+	</xsl:template><xsl:template match="*[local-name()='fn']/*[local-name()='p']">
 		<fo:inline>
 			<xsl:apply-templates/>
 		</fo:inline>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='dl']">
+	</xsl:template><xsl:template match="*[local-name()='dl']">
 		<xsl:variable name="parent" select="local-name(..)"/>
 		
 		<xsl:variable name="key_iso">
@@ -3185,7 +3201,7 @@
 				
 				
 					<fo:block margin-bottom="12pt" text-align="left">
-												
+						
 						<xsl:value-of select="$title-where"/><xsl:text> </xsl:text>
 						<xsl:apply-templates select="*[local-name()='dt']/*"/>
 						<xsl:text/>
@@ -3200,7 +3216,7 @@
 					
 						<xsl:attribute name="margin-bottom">6pt</xsl:attribute>
 					
-										
+					
 					<xsl:value-of select="$title-where"/>:
 				</fo:block>
 			</xsl:when>
@@ -3223,8 +3239,8 @@
 						<xsl:attribute name="margin-left">7.4mm</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="$parent = 'li'">
-						<xsl:attribute name="margin-left">-4mm</xsl:attribute>
-					</xsl:if>
+						<!-- <xsl:attribute name="margin-left">-4mm</xsl:attribute> -->						
+					</xsl:if>					
 				
 				
 				
@@ -3306,7 +3322,7 @@
 				</fo:block>
 			</fo:block>
 		</xsl:if>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='dl']/*[local-name()='note']">
+	</xsl:template><xsl:template match="*[local-name()='dl']/*[local-name()='note']">
 		<xsl:param name="key_iso"/>
 		
 		<!-- <tr>
@@ -3331,7 +3347,7 @@
 				</fo:block>
 			</fo:table-cell>
 		</fo:table-row>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='dt']" mode="dl">
+	</xsl:template><xsl:template match="*[local-name()='dt']" mode="dl">
 		<tr>
 			<td>
 				<xsl:apply-templates/>
@@ -3344,11 +3360,16 @@
 			</td>
 		</tr>
 		
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='dt']">
+	</xsl:template><xsl:template match="*[local-name()='dt']">
 		<xsl:param name="key_iso"/>
 		
 		<fo:table-row>
 			<fo:table-cell>
+				
+					<xsl:if test="ancestor::*[1][local-name() = 'dl']/preceding-sibling::*[1][local-name() = 'formula']">						
+						<xsl:attribute name="padding-right">3mm</xsl:attribute>
+					</xsl:if>
+				
 				<fo:block margin-top="6pt">
 					
 					
@@ -3359,8 +3380,14 @@
 					
 					
 					
+					
+						<xsl:if test="ancestor::*[1][local-name() = 'dl']/preceding-sibling::*[1][local-name() = 'formula']">
+							<xsl:attribute name="text-align">right</xsl:attribute>							
+						</xsl:if>
+					
+					
 					<xsl:apply-templates/>
-										
+					
 				</fo:block>
 			</fo:table-cell>
 			<fo:table-cell>
@@ -3376,37 +3403,37 @@
 			</fo:table-cell>
 		</fo:table-row>
 		
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='dd']" mode="dl"/><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='dd']" mode="dl_process">
+	</xsl:template><xsl:template match="*[local-name()='dd']" mode="dl"/><xsl:template match="*[local-name()='dd']" mode="dl_process">
 		<xsl:apply-templates/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='dd']"/><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='dd']" mode="process">
+	</xsl:template><xsl:template match="*[local-name()='dd']"/><xsl:template match="*[local-name()='dd']" mode="process">
 		<xsl:apply-templates/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='dd']/*[local-name()='p']" mode="inline">
+	</xsl:template><xsl:template match="*[local-name()='dd']/*[local-name()='p']" mode="inline">
 		<fo:inline><xsl:text> </xsl:text><xsl:apply-templates/></fo:inline>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='em']">
+	</xsl:template><xsl:template match="*[local-name()='em']">
 		<fo:inline font-style="italic">
 			<xsl:apply-templates/>
 		</fo:inline>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='strong']">
+	</xsl:template><xsl:template match="*[local-name()='strong']">
 		<fo:inline font-weight="bold">
 			<xsl:apply-templates/>
 		</fo:inline>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='sup']">
+	</xsl:template><xsl:template match="*[local-name()='sup']">
 		<fo:inline font-size="80%" vertical-align="super">
 			<xsl:apply-templates/>
 		</fo:inline>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='sub']">
+	</xsl:template><xsl:template match="*[local-name()='sub']">
 		<fo:inline font-size="80%" vertical-align="sub">
 			<xsl:apply-templates/>
 		</fo:inline>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='tt']">
+	</xsl:template><xsl:template match="*[local-name()='tt']">
 		<fo:inline font-family="Courier" font-size="10pt">			
 			<xsl:apply-templates/>
 		</fo:inline>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='del']">
+	</xsl:template><xsl:template match="*[local-name()='del']">
 		<fo:inline font-size="10pt" color="red" text-decoration="line-through">
 			<xsl:apply-templates/>
 		</fo:inline>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="text()[ancestor::*[local-name()='smallcap']]">
+	</xsl:template><xsl:template match="text()[ancestor::*[local-name()='smallcap']]">
 		<xsl:variable name="text" select="normalize-space(.)"/>
 		<fo:inline font-size="75%">
 				<xsl:if test="string-length($text) &gt; 0">
@@ -3415,7 +3442,7 @@
 					</xsl:call-template>
 				</xsl:if>
 			</fo:inline> 
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="recursiveSmallCaps">
+	</xsl:template><xsl:template name="recursiveSmallCaps">
     <xsl:param name="text"/>
     <xsl:variable name="char" select="substring($text,1,1)"/>
     <xsl:variable name="upperCase" select="translate($char, $lower, $upper)"/>
@@ -3434,7 +3461,7 @@
         <xsl:with-param name="text" select="substring($text,2)"/>
       </xsl:call-template>
     </xsl:if>
-  </xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="tokenize">
+  </xsl:template><xsl:template name="tokenize">
 		<xsl:param name="text"/>
 		<xsl:param name="separator" select="' '"/>
 		<xsl:choose>
@@ -3482,7 +3509,7 @@
 				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="max_length">
+	</xsl:template><xsl:template name="max_length">
 		<xsl:param name="words"/>
 		<xsl:for-each select="$words//word">
 				<xsl:sort select="." data-type="number" order="descending"/>
@@ -3490,11 +3517,11 @@
 						<xsl:value-of select="."/>
 				</xsl:if>
 		</xsl:for-each>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="add-zero-spaces-java">
+	</xsl:template><xsl:template name="add-zero-spaces-java">
 		<xsl:param name="text" select="."/>
 		<!-- add zero-width space (#x200B) after characters: dash, dot, colon, equal, underscore, em dash, thin space  -->
 		<xsl:value-of select="java:replaceAll(java:java.lang.String.new($text),'(-|\.|:|=|_|—| )','$1​')"/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="add-zero-spaces">
+	</xsl:template><xsl:template name="add-zero-spaces">
 		<xsl:param name="text" select="."/>
 		<xsl:variable name="zero-space-after-chars">-</xsl:variable>
 		<xsl:variable name="zero-space-after-dot">.</xsl:variable>
@@ -3547,7 +3574,7 @@
 				<xsl:value-of select="$text"/>
 			</xsl:otherwise>
 		</xsl:choose>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="add-zero-spaces-equal">
+	</xsl:template><xsl:template name="add-zero-spaces-equal">
 		<xsl:param name="text" select="."/>
 		<xsl:variable name="zero-space-after-equals">==========</xsl:variable>
 		<xsl:variable name="zero-space-after-equal">=</xsl:variable>
@@ -3573,7 +3600,7 @@
 				<xsl:value-of select="$text"/>
 			</xsl:otherwise>
 		</xsl:choose>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="getSimpleTable">
+	</xsl:template><xsl:template name="getSimpleTable">
 		<xsl:variable name="simple-table">
 		
 			<!-- Step 1. colspan processing -->
@@ -3600,9 +3627,9 @@
 			</xsl:choose> -->
 		</xsl:variable>
 		<xsl:copy-of select="$simple-table"/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='thead'] | *[local-name()='tbody']" mode="simple-table-colspan">
+	</xsl:template><xsl:template match="*[local-name()='thead'] | *[local-name()='tbody']" mode="simple-table-colspan">
 		<xsl:apply-templates mode="simple-table-colspan"/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='fn']" mode="simple-table-colspan"/><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='th'] | *[local-name()='td']" mode="simple-table-colspan">
+	</xsl:template><xsl:template match="*[local-name()='fn']" mode="simple-table-colspan"/><xsl:template match="*[local-name()='th'] | *[local-name()='td']" mode="simple-table-colspan">
 		<xsl:choose>
 			<xsl:when test="@colspan">
 				<xsl:variable name="td">
@@ -3624,16 +3651,16 @@
 				</xsl:element>
 			</xsl:otherwise>
 		</xsl:choose>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="@colspan" mode="simple-table-colspan"/><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='tr']" mode="simple-table-colspan">
+	</xsl:template><xsl:template match="@colspan" mode="simple-table-colspan"/><xsl:template match="*[local-name()='tr']" mode="simple-table-colspan">
 		<xsl:element name="tr">
 			<xsl:apply-templates select="@*" mode="simple-table-colspan"/>
 			<xsl:apply-templates mode="simple-table-colspan"/>
 		</xsl:element>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="@*|node()" mode="simple-table-colspan">
+	</xsl:template><xsl:template match="@*|node()" mode="simple-table-colspan">
 		<xsl:copy>
 				<xsl:apply-templates select="@*|node()" mode="simple-table-colspan"/>
 		</xsl:copy>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="repeatNode">
+	</xsl:template><xsl:template name="repeatNode">
 		<xsl:param name="count"/>
 		<xsl:param name="node"/>
 		
@@ -3644,18 +3671,18 @@
 			</xsl:call-template>
 			<xsl:copy-of select="$node"/>
 		</xsl:if>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="@*|node()" mode="simple-table-rowspan">
+	</xsl:template><xsl:template match="@*|node()" mode="simple-table-rowspan">
 		<xsl:copy>
 				<xsl:apply-templates select="@*|node()" mode="simple-table-rowspan"/>
 		</xsl:copy>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="tbody" mode="simple-table-rowspan">
+	</xsl:template><xsl:template match="tbody" mode="simple-table-rowspan">
 		<xsl:copy>
 				<xsl:copy-of select="tr[1]"/>
 				<xsl:apply-templates select="tr[2]" mode="simple-table-rowspan">
 						<xsl:with-param name="previousRow" select="tr[1]"/>
 				</xsl:apply-templates>
 		</xsl:copy>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="tr" mode="simple-table-rowspan">
+	</xsl:template><xsl:template match="tr" mode="simple-table-rowspan">
 		<xsl:param name="previousRow"/>
 		<xsl:variable name="currentRow" select="."/>
 	
@@ -3689,13 +3716,13 @@
 		<xsl:apply-templates select="following-sibling::tr[1]" mode="simple-table-rowspan">
 				<xsl:with-param name="previousRow" select="$newRow"/>
 		</xsl:apply-templates>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="getLang">
+	</xsl:template><xsl:template name="getLang">
 		<xsl:variable name="language" select="//*[local-name()='bibdata']//*[local-name()='language']"/>
 		<xsl:choose>
 			<xsl:when test="$language = 'English'">en</xsl:when>
 			<xsl:otherwise><xsl:value-of select="$language"/></xsl:otherwise>
 		</xsl:choose>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="capitalizeWords">
+	</xsl:template><xsl:template name="capitalizeWords">
 		<xsl:param name="str"/>
 		<xsl:variable name="str2" select="translate($str, '-', ' ')"/>
 		<xsl:choose>
@@ -3713,19 +3740,19 @@
 				<xsl:value-of select="substring($str2, 2)"/>
 			</xsl:otherwise>
 		</xsl:choose>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="mathml:math">
+	</xsl:template><xsl:template match="mathml:math">
 		<fo:inline font-family="STIX2Math">
 			<fo:instream-foreign-object fox:alt-text="Math"> 
 				<xsl:copy-of select="."/>
 			</fo:instream-foreign-object>
 		</fo:inline>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='localityStack']">
+	</xsl:template><xsl:template match="*[local-name()='localityStack']">
 		<xsl:for-each select="*[local-name()='locality']">
 			<xsl:if test="position() =1"><xsl:text>, </xsl:text></xsl:if>
 			<xsl:apply-templates select="."/>
 			<xsl:if test="position() != last()"><xsl:text>; </xsl:text></xsl:if>
 		</xsl:for-each>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='link']" name="link">
+	</xsl:template><xsl:template match="*[local-name()='link']" name="link">
 		<xsl:variable name="target">
 			<xsl:choose>
 				<xsl:when test="starts-with(normalize-space(@target), 'mailto:')">
@@ -3755,7 +3782,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</fo:inline>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='sourcecode']" name="sourcecode">
+	</xsl:template><xsl:template match="*[local-name()='sourcecode']" name="sourcecode">
 		<fo:block xsl:use-attribute-sets="sourcecode-style">
 			<!-- <xsl:choose>
 				<xsl:when test="@lang = 'en'"></xsl:when>
@@ -3766,17 +3793,17 @@
 			</xsl:choose> -->
 			<xsl:apply-templates/>
 		</fo:block>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='bookmark']">
+	</xsl:template><xsl:template match="*[local-name()='bookmark']">
 		<fo:inline id="{@id}"/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='appendix']">
+	</xsl:template><xsl:template match="*[local-name()='appendix']">
 		<fo:block id="{@id}" xsl:use-attribute-sets="appendix-style">
 			<fo:inline padding-right="5mm"><xsl:value-of select="$title-appendix"/> <xsl:number/></fo:inline>
 			<xsl:apply-templates select="*[local-name()='title']" mode="process"/>
 		</fo:block>
 		<xsl:apply-templates/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='appendix']/*[local-name()='title']"/><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='appendix']/*[local-name()='title']" mode="process">
+	</xsl:template><xsl:template match="*[local-name()='appendix']/*[local-name()='title']"/><xsl:template match="*[local-name()='appendix']/*[local-name()='title']" mode="process">
 		<fo:inline><xsl:apply-templates/></fo:inline>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='appendix']//*[local-name()='example']">
+	</xsl:template><xsl:template match="*[local-name()='appendix']//*[local-name()='example']">
 		<fo:block xsl:use-attribute-sets="appendix-example-style">
 			<xsl:variable name="claims_id" select="ancestor::*[local-name()='clause'][1]/@id"/>
 			<xsl:value-of select="$title-example"/>
@@ -3788,11 +3815,11 @@
 			</xsl:if>
 		</fo:block>
 		<xsl:apply-templates/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='appendix']//*[local-name()='example']/*[local-name()='name']"/><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name()='appendix']//*[local-name()='example']/*[local-name()='name']" mode="process">
+	</xsl:template><xsl:template match="*[local-name()='appendix']//*[local-name()='example']/*[local-name()='name']"/><xsl:template match="*[local-name()='appendix']//*[local-name()='example']/*[local-name()='name']" mode="process">
 		<fo:inline><xsl:apply-templates/></fo:inline>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name() = 'callout']">		
+	</xsl:template><xsl:template match="*[local-name() = 'callout']">		
 		<fo:basic-link internal-destination="{@target}" fox:alt-text="{@target}">&lt;<xsl:apply-templates/>&gt;</fo:basic-link>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name() = 'annotation']">
+	</xsl:template><xsl:template match="*[local-name() = 'annotation']">
 		<xsl:variable name="annotation-id" select="@id"/>
 		<xsl:variable name="callout" select="//*[@target = $annotation-id]/text()"/>		
 		<fo:block id="{$annotation-id}" white-space="nowrap">			
@@ -3802,14 +3829,14 @@
 				</xsl:apply-templates>
 			</fo:inline>
 		</fo:block>		
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" match="*[local-name() = 'annotation']/*[local-name() = 'p']">
+	</xsl:template><xsl:template match="*[local-name() = 'annotation']/*[local-name() = 'p']">
 		<xsl:param name="callout"/>
 		<fo:inline id="{@id}">
 			<!-- for first p in annotation, put <x> -->
 			<xsl:if test="not(preceding-sibling::*[local-name() = 'p'])"><xsl:value-of select="$callout"/></xsl:if>
 			<xsl:apply-templates/>
 		</fo:inline>		
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="convertDate">
+	</xsl:template><xsl:template name="convertDate">
 		<xsl:param name="date"/>
 		<xsl:param name="format" select="'short'"/>
 		<xsl:variable name="year" select="substring($date, 1, 4)"/>
@@ -3842,7 +3869,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:value-of select="$result"/>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="insertKeywords">
+	</xsl:template><xsl:template name="insertKeywords">
 		<xsl:param name="sorting" select="'true'"/>
 		<xsl:param name="charAtEnd" select="'.'"/>
 		<xsl:param name="charDelim" select="', '"/>
@@ -3865,7 +3892,7 @@
 				</xsl:for-each>
 			</xsl:otherwise>
 		</xsl:choose>
-	</xsl:template><xsl:template xmlns:java="http://xml.apache.org/xalan/java" name="insertKeyword">
+	</xsl:template><xsl:template name="insertKeyword">
 		<xsl:param name="charAtEnd"/>
 		<xsl:param name="charDelim"/>
 		<xsl:apply-templates/>

@@ -69,6 +69,7 @@ module IsoDoc
       end
 
       def keywords(isoxml, _out)
+        super
         set(:keywords, get[:keywords].sort)
       end
 

@@ -135,8 +135,53 @@ RSpec.describe Asciidoctor::ITU do
 <annex obligation="informative"/>
 </itu-standard>
     INPUT
-    expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <<~"OUTPUT"
-    {:accesseddate=>"XXX", :agency=>"ITU", :annexid=>"Appendix F1", :annextitle=>"Annex Title", :authors=>[], :authors_affiliations=>{}, :bureau=>"R", :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docnumber=>"ITU-R 1000", :docnumeric=>"1000", :docsubtitle=>"Subtitle", :doctitle=>"Main Title", :doctype=>"Directive", :doctype_original=>"directive", :docyear=>"2001", :draft=>"3.4", :draftinfo=>" (draft 3.4, 2000-01-01)", :edition=>"2", :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :iteration=>"3", :keywords=>["word1", "word2"], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :publisher=>"International Telecommunication Union", :receiveddate=>"XXX", :revdate=>"2000-01-01", :revdate_monthyear=>"01/2000", :series=>"A3", :series1=>"B3", :series2=>"C3", :stage=>"Final Draft", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>false, :updateddate=>"XXX", :vote_endeddate=>"XXX", :vote_starteddate=>"XXX"}
+    expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s.gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
+{:accesseddate=>"XXX",
+:agency=>"ITU",
+:annexid=>"Appendix F1",
+:annextitle=>"Annex Title",
+:authors=>[],
+:authors_affiliations=>{},
+:bureau=>"R",
+:circulateddate=>"XXX",
+:confirmeddate=>"XXX",
+:copieddate=>"XXX",
+:createddate=>"XXX",
+:docnumber=>"ITU-R 1000",
+:docnumeric=>"1000",
+:docsubtitle=>"Subtitle",
+:doctitle=>"Main Title",
+:doctype=>"Directive",
+:doctype_original=>"directive",
+:docyear=>"2001",
+:draft=>"3.4",
+:draftinfo=>" (draft 3.4, 2000-01-01)",
+:edition=>"2",
+:implementeddate=>"XXX",
+:ip_notice_received=>"false",
+:issueddate=>"XXX",
+:iteration=>"3",
+:keywords=>["word1", "word2"],
+:logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}",
+:logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}",
+:logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
+:obsoleteddate=>"XXX",
+:pubdate_monthyear=>"",
+:publisheddate=>"XXX",
+:publisher=>"International Telecommunication Union",
+:receiveddate=>"XXX",
+:revdate=>"2000-01-01",
+:revdate_monthyear=>"01/2000",
+:series=>"A3",
+:series1=>"B3",
+:series2=>"C3",
+:stage=>"Final Draft",
+:transmitteddate=>"XXX",
+:unchangeddate=>"XXX",
+:unpublished=>false,
+:updateddate=>"XXX",
+:vote_endeddate=>"XXX",
+:vote_starteddate=>"XXX"}
     OUTPUT
   end
 
@@ -178,8 +223,51 @@ RSpec.describe Asciidoctor::ITU do
 </itu-standard>
 
 INPUT
-expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <<~"OUTPUT"
-    {:accesseddate=>"XXX", :agency=>"ITU", :annextitle=>nil, :authors=>[], :authors_affiliations=>{}, :circulateddate=>"XXX", :confirmeddate=>"XXX", :copieddate=>"XXX", :createddate=>"XXX", :docnumber=>"ITU-R 1000", :docnumeric=>"1000", :docsubtitle=>nil, :doctitle=>"Main Title", :doctype=>"Recommendation", :doctype_original=>"recommendation-annex", :docyear=>nil, :draft=>nil, :draftinfo=>"", :edition=>nil, :implementeddate=>"XXX", :ip_notice_received=>"false", :issueddate=>"XXX", :keywords=>[], :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}", :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}", :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}", :obsoleteddate=>"XXX", :pubdate_monthyear=>"", :publisheddate=>"XXX", :publisher=>"International Telecommunication Union", :receiveddate=>"XXX", :revdate=>nil, :revdate_monthyear=>nil, :series=>nil, :series1=>nil, :series2=>nil, :stage=>"In Force Prepublished", :stageabbr=>"IFP", :transmitteddate=>"XXX", :unchangeddate=>"XXX", :unpublished=>true, :updateddate=>"XXX", :vote_endeddate=>"XXX", :vote_starteddate=>"XXX"}
+expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).to be_equivalent_to <<~"OUTPUT"
+{:accesseddate=>"XXX",
+:agency=>"ITU",
+:annextitle=>nil,
+:authors=>[],
+:authors_affiliations=>{},
+:circulateddate=>"XXX",
+:confirmeddate=>"XXX",
+:copieddate=>"XXX",
+:createddate=>"XXX",
+:docnumber=>"ITU-R 1000",
+:docnumeric=>"1000",
+:docsubtitle=>nil,
+:doctitle=>"Main Title",
+:doctype=>"Recommendation",
+:doctype_original=>"recommendation-annex",
+:docyear=>nil,
+:draft=>nil,
+:draftinfo=>"",
+:edition=>nil,
+:implementeddate=>"XXX",
+:ip_notice_received=>"false",
+:issueddate=>"XXX",
+:keywords=>[],
+:logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}",
+:logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}",
+:logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
+:obsoleteddate=>"XXX",
+:pubdate_monthyear=>"",
+:publisheddate=>"XXX",
+:publisher=>"International Telecommunication Union",
+:receiveddate=>"XXX",
+:revdate=>nil,
+:revdate_monthyear=>nil,
+:series=>nil,
+:series1=>nil,
+:series2=>nil,
+:stage=>"In Force Prepublished",
+:stageabbr=>"IFP",
+:transmitteddate=>"XXX",
+:unchangeddate=>"XXX",
+:unpublished=>true,
+:updateddate=>"XXX",
+:vote_endeddate=>"XXX",
+:vote_starteddate=>"XXX"}
     OUTPUT
    end
 
@@ -464,7 +552,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
              <div>
                <h1 class="IntroTitle"/>
                <p>A.<span style='mso-bookmark:_Ref'>
-  <a href='#ftn2' epub:type='footnote'>
+  <a href='#ftn2' class='FootnoteRef' epub:type='footnote'>
     <sup>2</sup>
   </a>
 </span></p>
@@ -475,7 +563,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
 <span style='mso-element:field-end'/>
 </p>
                <p>C.<span style='mso-bookmark:_Ref'>
-  <a href='#ftn1' epub:type='footnote'>
+  <a href='#ftn1' class='FootnoteRef' epub:type='footnote'>
     <sup>1</sup>
   </a>
 </span>
@@ -549,19 +637,19 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
     <h1 class='IntroTitle'/>
     <p>
       A.
-      <a rel='footnote' href='#fn:2' epub:type='footnote' id='fnref:1'>
+      <a class='FootnoteRef' href='#fn:2' id='fnref:1'>
         <sup>1</sup>
       </a>
     </p>
     <p>
       B.
-      <a rel='footnote' href='#fn:2' epub:type='footnote'>
+      <a class='FootnoteRef' href='#fn:2'>
         <sup>1</sup>
       </a>
     </p>
     <p>
       C.
-      <a rel='footnote' href='#fn:1' epub:type='footnote' id='fnref:3'>
+      <a class='FootnoteRef' href='#fn:1' id='fnref:3'>
         <sup>2</sup>
       </a>
     </p>
@@ -617,7 +705,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
   <p class='zzSTDTitle2'/>
   <aside id='fn:2' class='footnote'>
     <p id='_1e228e29-baef-4f38-b048-b05a051747e4'>
-      <a rel='footnote' href='#fn:2' epub:type='footnote'>
+      <a class='FootnoteRef' href='#fn:2'>
         <sup>1</sup>
       </a>
       Formerly denoted as 15 % (m/m).
@@ -626,7 +714,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s)).to be_equivalent_to <
   </aside>
   <aside id='fn:1' class='footnote'>
     <p id='_1e228e29-baef-4f38-b048-b05a051747e4'>
-      <a rel='footnote' href='#fn:1' epub:type='footnote'>
+      <a class='FootnoteRef' href='#fn:1'>
         <sup>2</sup>
       </a>
       Hello! denoted as 15 % (m/m).

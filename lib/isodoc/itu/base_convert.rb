@@ -175,12 +175,13 @@ module IsoDoc
 
       def eref_parse(node, out)
         linkend = get_eref_linkend(node)
+        href = eref_target(node)
         if node["type"] == "footnote"
           out.sup do |s|
-            s.a(**{ "href": "#" + node["bibitemid"] }) { |l| l << linkend }
+            s.a(**{ "href": href }) { |l| l << linkend }
           end
         else
-          out.a(**{ "href": "#" + node["bibitemid"] }) { |l| l << linkend }
+          out.a(**{ "href": href }) { |l| l << linkend }
         end
       end
 

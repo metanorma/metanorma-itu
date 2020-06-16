@@ -118,7 +118,7 @@ module IsoDoc
       end
 
       def formula_parse1(node, out)
-        out.div **attr_code(id: node["id"], class: "formula") do |div|
+        out.div **attr_code(class: "formula") do |div|
           div.p **attr_code(class: "formula") do |p|
             insert_tab(div, 1)
             parse(node.at(ns("./stem")), div)

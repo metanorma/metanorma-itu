@@ -60,7 +60,7 @@ module IsoDoc
       end
 
       def termnote_parse(node, out)
-      out.div **{ class: "Note" } do |div|
+      out.div **note_attrs(node) do |div|
         first = node.first_element_child
         div.p do |p|
           p << note_label(node) # "#{anchor(node['id'], :label) || '???'}: "

@@ -153,10 +153,8 @@ module IsoDoc
         super.merge(valign: "top")
       end
 
-      def ol_parse(node, out)
-        out.ol **attr_code(class: node["class"], id: node["id"] ) do |ol|
-          node.children.each { |n| parse(n, ol) }
-        end
+      def ol_attrs(node)
+        { class: node["class"], id: node["id"], style: keep_style(node) }
       end
 
       def toWord(result, filename, dir, header)

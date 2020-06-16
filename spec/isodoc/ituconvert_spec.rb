@@ -327,7 +327,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
          <preferred>Term2</preferred>
          <definition><p>This is a journey into sound</p></definition>
          <termsource><origin citeas="XYZ">x y z</origin></termsource>
-         <termnote id="J1"><p>This is a note</p></termnote>
+         <termnote id="J1" keep-with-next="true" keep-lines-together="true"><p>This is a note</p></termnote>
        </term>
          <term id="K">
          <preferred>Term3</preferred>

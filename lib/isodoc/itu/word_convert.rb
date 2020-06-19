@@ -118,7 +118,7 @@ module IsoDoc
       end
 
       def formula_parse1(node, out)
-        out.div **attr_code(id: node["id"], class: "formula") do |div|
+        out.div **attr_code(class: "formula") do |div|
           div.p **attr_code(class: "formula") do |p|
             insert_tab(div, 1)
             parse(node.at(ns("./stem")), div)
@@ -153,10 +153,8 @@ module IsoDoc
         super.merge(valign: "top")
       end
 
-      def ol_parse(node, out)
-        out.ol **attr_code(class: node["class"], id: node["id"] ) do |ol|
-          node.children.each { |n| parse(n, ol) }
-        end
+      def ol_attrs(node)
+        { class: node["class"], id: node["id"], style: keep_style(node) }
       end
 
       def toWord(result, filename, dir, header)

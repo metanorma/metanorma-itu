@@ -288,10 +288,11 @@ OUTPUT
            <a href="#N2">Inequality (Introduction-2)</a>
            </p>
              </div>
-             <div id="intro"><h1 class="IntroTitle"/><div id="N1" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (Introduction-1)</p></div>
+             <div id="intro"><h1 class="IntroTitle"/>
+        <div id="N1"><div class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (Introduction-1)</p></div></div>
 
          <div id="xyz"><h2>Preparatory</h2>
-           <div id="N2" class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (Introduction-2)</p></div>
+           <div id="N2"><div class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (Introduction-2)</p></div></div>
 
 
        </div></div>
@@ -570,17 +571,19 @@ it "processes formulae as non-hierarchical assets" do
       <h1>3&#160; Widgets</h1>
       <div id='widgets1'>
         <h2>3.1&#160; </h2>
-        <div id='note1' class='formula'>
+        <div id='note1'><div class='formula'>
           <p>
             <span class='stem'>(#(r = 1 %)#)</span>
             &#160; (3-1)
           </p>
         </div>
-        <div id='note2' class='formula'>
+        </div>
+        <div id='note2'><div class='formula'>
           <p>
             <span class='stem'>(#(r = 1 %)#)</span>
             &#160; (3-2)
           </p>
+        </div>
         </div>
         <p>
           <a href='#note1'>Equation (3-1)</a>
@@ -602,17 +605,19 @@ it "processes formulae as non-hierarchical assets" do
       </div>
       <div id='annex1b'>
         <h2>A.2&#160; </h2>
-        <div id='Anote1' class='formula'>
+        <div id='Anote1'><div class='formula'>
           <p>
             <span class='stem'>(#(r = 1 %)#)</span>
             &#160; (A-1)
           </p>
         </div>
-        <div id='Anote2' class='formula'>
+        </div>
+        <div id='Anote2'><div class='formula'>
           <p>
             <span class='stem'>(#(r = 1 %)#)</span>
             &#160; (A-2)
           </p>
+        </div>
         </div>
       </div>
     </div>

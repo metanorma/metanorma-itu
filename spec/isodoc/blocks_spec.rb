@@ -41,13 +41,13 @@ RSpec.describe Asciidoctor::ITU do
     </iso-standard>
     INPUT
     <div>
-    <div id="_be9158af-7e93-4ee2-90c5-26d31c181934" class="formula"><p class="formula"><span style="mso-tab-count:1">&#160; </span><span class="stem">(#(r = 1 %)#)</span></p></div><p>where:</p><table class="formula_dl"><tr><td valign="top" align="left"><p align="left" style="margin-left:0pt;text-align:left;">
+    <div id="_be9158af-7e93-4ee2-90c5-26d31c181934"><div class="formula"><p class="formula"><span style="mso-tab-count:1">&#160; </span><span class="stem">(#(r = 1 %)#)</span></p></div><p>where:</p><table class="formula_dl"><tr><td valign="top" align="left"><p align="left" style="margin-left:0pt;text-align:left;">
            <span class="stem">(#(r)#)</span>
          </p></td><td valign="top">
            <p id="_1b99995d-ff03-40f5-8f2e-ab9665a69b77">is the repeatability limit.</p>
          </td></tr></table>
 
-
+</div>
            </div>
 OUTPUT
   end
@@ -159,7 +159,7 @@ OUTPUT
                        <td valign="top">A type of rice</td>
                      </tr>
                    </table>
-                   <div id="" class="Note">
+                   <div class="Note">
                      <p><span class="note_label">NOTE &#8211; </span>This is a table about rice</p>
                    </div>
                  </table>
@@ -327,7 +327,7 @@ it "processes unlabelled notes" do
     #{HTML_HDR}
                <div>
                <h1 class='IntroTitle'/>
-                 <div id="" class="Note">
+                 <div class="Note">
                    <p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p>
                  </div>
                </div>
@@ -358,7 +358,7 @@ it "processes unlabelled notes (Word)" do
          <div class='WordSection2'>
            <div>
              <h1 class='IntroTitle'/>
-             <div id='' class='Note'>
+             <div class='Note'>
                <p>
                  <span class='note_label'>NOTE &#8211; </span>
                  These results are based on a study carried out on three different

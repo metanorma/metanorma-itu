@@ -350,7 +350,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
                   [XYZ]: 
                </p>
                <p>This is a journey into sound</p>
-               <div class='Note'>
+               <div id="J1" class='Note' style='page-break-after: avoid;page-break-inside: avoid;'>
                  <p>NOTE &#8211; This is a note</p>
                </div>
              </div>
@@ -360,10 +360,10 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
                   [XYZ]: 
                </p>
                <p>This is a journey into sound</p>
-               <div class='Note'>
+               <div id="J2" class='Note'>
                  <p>NOTE 1 &#8211; This is a note</p>
                </div>
-               <div class='Note'>
+               <div id="J3" class='Note'>
                  <p>NOTE 2 &#8211; This is a note</p>
                </div>
              </div>
@@ -399,7 +399,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
 
 
 
-         <div class="Note"><p>NOTE &#x2013; This is a note</p></div>
+         <div id="J1" class="Note"><p>NOTE &#x2013; This is a note</p></div>
        </div>
         </div>
            </main>
@@ -1392,7 +1392,7 @@ expect(xmlpp(html.sub(%r{^.*<div class="WordSection3">}m, %{<body><div class="Wo
         <div class="figure"><a name="fig-f1-2" id="fig-f1-2"></a>
 
   <p class="FigureTitle" style="text-align:center;">Figure 2&#xA0;&#x2014; Static aspects of SDL&#x2011;2010</p></div>
-        <div id="" class="Note">
+        <div class="Note">
           <p class="Note"><span class="note_label">NOTE &#x2013; </span>Hello</p>
         </div>
       </div>
@@ -1553,11 +1553,12 @@ OUTPUT
              <div id='U' class='figure'>
                <p class='FigureTitle' style='text-align:center;'>Figure F2.1</p>
              </div>
-             <div id='V' class='formula'>
+             <div id='V'><div class='formula'>
                <p>
                  <span class='stem'>(#(r = 1 %)#)</span>
                  &#xA0; (F2-1)
                </p>
+             </div>
              </div>
            </div>
          </div>
@@ -1593,7 +1594,7 @@ OUTPUT
         </annex>
     INPUT
              html = File.read("test.doc", encoding: "utf-8")
-    expect((html.gsub(%r{^.*<div class="WordSection3">}m, '<div class="WordSection3" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">').gsub(%r{<div style="mso-element:footnote-list"/>.*}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(html.gsub(%r{^.*<div class="WordSection3">}m, '<div class="WordSection3" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">').gsub(%r{<div style="mso-element:footnote-list"/>.*}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <div class="WordSection3" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">
              <p class="zzSTDTitle1">Recommendation 12345</p>
              <p class="zzSTDTitle2">An ITU Standard</p>
@@ -1604,10 +1605,11 @@ OUTPUT
                <div><a name="A2" id="A2"></a><h2>F2.1<span style="mso-tab-count:1">&#xA0; </span>Subtitle</h2>
                <p class="TableTitle" style="text-align:center;">Table F2.1</p><div align="center" class="table_container"><table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;"><a name="T" id="T"></a></table></div>
                <div class="figure"><a name="U" id="U"></a><p class="FigureTitle" style="text-align:center;">Figure F2.1</p></div>
-               <div class="formula"><a name="V" id="V"></a><p class="formula"><span style="mso-tab-count:1">&#xA0; </span><span class="stem"><m:oMath>
+               <div><a name="V" id="V"></a><div class="formula"><p class="formula"><span style="mso-tab-count:1">&#xA0; </span><span class="stem"><m:oMath>
          <m:r><m:t>r=1%</m:t></m:r>
        </m:oMath>
        </span><span style="mso-tab-count:1">&#xA0; </span>(F2-1)</p></div>
+               </div>
                </div>
              </div>
            </div>

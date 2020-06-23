@@ -34,14 +34,16 @@ module Metanorma
         Metanorma::Input::Asciidoc.new.process(file, filename, @asciidoctor_backend)
       end
 
-      def output(isodoc_node, outname, format, options={})
+      def output(isodoc_node, inname, outname, format, options={})
         case format
         when :html
-          IsoDoc::ITU::HtmlConvert.new(options).convert(outname, isodoc_node)
+          IsoDoc::ITU::HtmlConvert.new(options).convert(inname, isodoc_node, nil, outname)
         when :doc
-          IsoDoc::ITU::WordConvert.new(options).convert(outname, isodoc_node)
+          IsoDoc::ITU::WordConvert.new(options).convert(inname, isodoc_node, nil, outname)
         when :pdf
-          IsoDoc::ITU::PdfConvert.new(options).convert(outname, isodoc_node)
+          IsoDoc::ITU::PdfConvert.new(options).convert(inname, isodoc_node, nil, outname)
+        when :presentation
+          IsoDoc::ITU::PresentationXMLConvert.new(options).convert(inname, isodoc_node, nil, outname)
         else
           super
         end

@@ -4,14 +4,19 @@ require "fileutils"
 
 module IsoDoc
   module ITU
-    module BaseConvert
+    class Xref < IsoDoc::Xref
+      def initialize(lang, script, klass, labels, options)
+        super
+        @hierarchical_assets = options[:hierarchical_assets]
+      end
+
       def annex_name_lbl(clause, num)
-        lbl = clause["obligation"] == "informative" ? @appendix_lbl : @annex_lbl
+        lbl = clause["obligation"] == "informative" ? @labels["appendix"] : @labels["annex"]
         l10n("<b>#{lbl} #{num}</b>")
       end
 
       def annex_names(clause, num)
-        lbl = clause["obligation"] == "informative" ? @appendix_lbl : @annex_lbl
+        lbl = clause["obligation"] == "informative" ? @labels["appendix"] : @labels["annex"]
         @anchors[clause["id"]] =
           { label: annex_name_lbl(clause, num), type: "clause",
             xref: "#{lbl} #{num}", level: 1 }
@@ -81,7 +86,7 @@ module IsoDoc
       end
 
       def sequential_figure_names(clause)
-        c = IsoDoc::Function::XrefGen::Counter.new
+        c = IsoDoc::XrefGen::Counter.new
         j = 0
         clause.xpath(ns(".//figure | .//sourcecode[not(ancestor::example)]")).each do |t|
           if t.parent.name == "figure" then j += 1
@@ -92,12 +97,12 @@ module IsoDoc
           label = c.print + (j.zero? ? "" : "-#{(96 + j).chr.to_s}")
           next if t["id"].nil? || t["id"].empty?
           @anchors[t["id"]] =
-            anchor_struct(label, nil, @figure_lbl, "figure", t["unnumbered"])
+            anchor_struct(label, nil, @labels["figure"], "figure", t["unnumbered"])
         end
       end
 
       def hierarchical_figure_names(clause, num)
-        c = IsoDoc::Function::XrefGen::Counter.new
+        c = IsoDoc::XrefGen::Counter.new
         j = 0
         clause.xpath(ns(".//figure | .//sourcecode[not(ancestor::example)]")).each do |t|
           if t.parent.name == "figure" then j += 1
@@ -108,7 +113,7 @@ module IsoDoc
           label = "#{num}#{hiersep}#{c.print}" +
             (j.zero? ? "" : "#{hierfigsep}#{(96 + j).chr.to_s}")
           next if t["id"].nil? || t["id"].empty?
-          @anchors[t["id"]] = anchor_struct(label, nil, @figure_lbl, "figure",
+          @anchors[t["id"]] = anchor_struct(label, nil, @labels["figure"], "figure",
                                             t["unnumbered"])
         end
       end
@@ -116,7 +121,8 @@ module IsoDoc
       def sequential_formula_names(clause)
         clause&.first&.xpath(ns(MIDDLE_SECTIONS))&.each do |c|
           if c["id"] && @anchors[c["id"]]
-            hierarchical_formula_names(c, @anchors[c["id"]][:label] || @anchors[c["id"]][:xref] || "???")
+            hierarchical_formula_names(c, @anchors[c["id"]][:label] ||
+                                       @anchors[c["id"]][:xref] || "???")
           else
             hierarchical_formula_names(c, "???")
           end
@@ -124,15 +130,33 @@ module IsoDoc
       end
 
       def hierarchical_formula_names(clause, num)
-      c = IsoDoc::Function::XrefGen::Counter.new
-      clause.xpath(ns(".//formula")).each do |t|
-        next if t["id"].nil? || t["id"].empty?
-        @anchors[t["id"]] =
-          anchor_struct("#{num}-#{c.increment(t).print}", nil,
-                        t["inequality"] ? @inequality_lbl : @formula_lbl,
-                        "formula", t["unnumbered"])
+        c = IsoDoc::XrefGen::Counter.new
+        clause.xpath(ns(".//formula")).each do |t|
+          next if t["id"].nil? || t["id"].empty?
+          @anchors[t["id"]] =
+            anchor_struct("#{num}-#{c.increment(t).print}", nil,
+                          t["inequality"] ? @labels["inequality"] : @labels["formula"],
+                          "formula", t["unnumbered"])
+        end
       end
-    end
+
+      def reference_names(ref)
+        super
+        @anchors[ref["id"]] = { xref: @anchors[ref["id"]][:xref].sub(/^\[/, '').sub(/\]$/, '') }
+      end
+
+      def termnote_anchor_names(docxml)
+        docxml.xpath(ns("//term[descendant::termnote]")).each do |t|
+          c = IsoDoc::XrefGen::Counter.new
+          notes = t.xpath(ns(".//termnote"))
+          notes.each do |n|
+            return if n["id"].nil? || n["id"].empty?
+            idx = notes.size == 1 ? "" : " #{c.increment(n).print}"
+            @anchors[n["id"]] = anchor_struct(idx, n, @labels["note_xref"],
+                                              "termnote", false)
+          end
+        end
+      end
     end
   end
 end

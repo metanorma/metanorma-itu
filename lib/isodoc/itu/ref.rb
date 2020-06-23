@@ -122,11 +122,6 @@ module IsoDoc
           /\.$/.match(title&.text) or r << "."
         end
       end
-
-      def reference_names(ref)
-        super
-        @anchors[ref["id"]] = { xref: @anchors[ref["id"]][:xref].sub(/^\[/, '').sub(/\]$/, '') }
-      end
     end
   end
 end

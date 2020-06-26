@@ -22,6 +22,11 @@ module IsoDoc
         @meta = Metadata.new(lang, script, labels)
       end
 
+      def xref_init(lang, script, klass, labels, options)
+        @xrefs = Xref.new(lang, script, klass, labels,
+                          options.merge(hierarchical_assets: @hierarchical_assets))
+      end
+
       FRONT_CLAUSE = "//*[parent::preface]"\
         "[not(local-name() = 'abstract')]".freeze
 
@@ -48,14 +53,14 @@ module IsoDoc
       end
 
       def note_label(node)
-        n = get_anchors[node["id"]]
+        n = @xrefs.get[node["id"]]
         (n.nil? || n[:label].nil? || n[:label].empty?) and
           return "#{@note_lbl} &ndash; "
         l10n("#{@note_lbl} #{n[:label]} &ndash; ")
       end
 
       def prefix_container(container, linkend, _target)
-        l10n("#{linkend} #{@labels["in"]} #{anchor(container, :xref)}")
+        l10n("#{linkend} #{@labels["in"]} #{@xrefs.anchor(container, :xref)}")
       end
 
       def ol_depth(node)
@@ -73,7 +78,7 @@ module IsoDoc
       def annex_name(annex, name, div)
         r_a = @meta.get[:doctype_original] == "recommendation-annex"
         div.h1 **{ class: r_a ? "RecommendationAnnex" : "Annex" } do |t|
-          t << "#{anchor(annex['id'], :label)} "
+          t << "#{@xrefs.anchor(annex['id'], :label)} "
           t.br
           t.br
           t.b do |b|

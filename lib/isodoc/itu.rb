@@ -3,6 +3,7 @@ require "isodoc/itu/base_convert"
 require "isodoc/itu/html_convert"
 require "isodoc/itu/pdf_convert"
 require "isodoc/itu/word_convert"
+require "isodoc/itu/presentation_xml_convert"
 
 module IsoDoc
   module ITU

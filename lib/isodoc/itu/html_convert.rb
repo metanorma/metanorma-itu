@@ -1,5 +1,5 @@
 require "isodoc"
-require_relative "metadata"
+require_relative "init"
 require "fileutils"
 
 module IsoDoc
@@ -64,6 +64,7 @@ module IsoDoc
       end
 
       include BaseConvert
+      include Init
     end
   end
 end

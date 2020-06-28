@@ -1387,11 +1387,11 @@ expect(xmlpp(html.sub(%r{^.*<div class="WordSection3">}m, %{<body><div class="Wo
         <p class="MsoNormal"><a name="E" id="E"></a>Text</p>
         <div class="figure"><a name="fig-f1-1" id="fig-f1-1"></a>
 
-  <p class="FigureTitle" style="text-align:center;">Figure 1&#xA0;&#x2014; Static aspects of SDL&#x2011;2010</p></div>
+  <p class="FigureTitle" style="text-align:center;">Static aspects of SDL&#x2011;2010</p></div>
         <p class="Normalaftertitle">Hello</p>
         <div class="figure"><a name="fig-f1-2" id="fig-f1-2"></a>
 
-  <p class="FigureTitle" style="text-align:center;">Figure 2&#xA0;&#x2014; Static aspects of SDL&#x2011;2010</p></div>
+  <p class="FigureTitle" style="text-align:center;">Static aspects of SDL&#x2011;2010</p></div>
         <div class="Note">
           <p class="Note"><span class="note_label">NOTE &#x2013; </span>Hello</p>
         </div>
@@ -1550,9 +1550,7 @@ OUTPUT
              <h2 id='toc0'>F2.1&#xA0; Subtitle</h2>
              <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
              <table id='T' class='MsoISOTable' style='border-width:1px;border-spacing:0;'/>
-             <div id='U' class='figure'>
-               <p class='FigureTitle' style='text-align:center;'>Figure F2.1</p>
-             </div>
+             <div id='U' class='figure'/>
              <div id='V'><div class='formula'>
                <p>
                  <span class='stem'>(#(r = 1 %)#)</span>
@@ -1604,7 +1602,7 @@ OUTPUT
                <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
                <div><a name="A2" id="A2"></a><h2>F2.1<span style="mso-tab-count:1">&#xA0; </span>Subtitle</h2>
                <p class="TableTitle" style="text-align:center;">Table F2.1</p><div align="center" class="table_container"><table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;"><a name="T" id="T"></a></table></div>
-               <div class="figure"><a name="U" id="U"></a><p class="FigureTitle" style="text-align:center;">Figure F2.1</p></div>
+               <div class="figure"><a name="U" id="U"></a></div>
                <div><a name="V" id="V"></a><div class="formula"><p class="formula"><span style="mso-tab-count:1">&#xA0; </span><span class="stem"><m:oMath>
          <m:r><m:t>r=1%</m:t></m:r>
        </m:oMath>

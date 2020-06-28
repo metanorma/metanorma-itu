@@ -1,5 +1,4 @@
 require "isodoc"
-require_relative "metadata"
 require "fileutils"
 require_relative "./ref.rb"
 require_relative "./xref.rb"
@@ -16,15 +15,6 @@ module IsoDoc
               YAML.load_file(File.join(File.dirname(__FILE__), "i18n-en.yaml"))
             end
         super.merge(y)
-      end
-
-      def metadata_init(lang, script, labels)
-        @meta = Metadata.new(lang, script, labels)
-      end
-
-      def xref_init(lang, script, klass, labels, options)
-        @xrefs = Xref.new(lang, script, klass, labels,
-                          options.merge(hierarchical_assets: @hierarchical_assets))
       end
 
       FRONT_CLAUSE = "//*[parent::preface]"\

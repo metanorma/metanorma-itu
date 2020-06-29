@@ -59,14 +59,8 @@ module IsoDoc
         end
       end
 
-      def termnote_parse(node, out)
-        out.div **note_attrs(node) do |div|
-          first = node.first_element_child
-          div.p do |p|
-            p << note_label(node) # "#{@xrefs.anchor(node['id'], :label) || '???'}: "
-            para_then_remainder(first, node, p, div)
-          end
-        end
+      def termnote_delim
+        " &ndash; "
       end
     end
   end

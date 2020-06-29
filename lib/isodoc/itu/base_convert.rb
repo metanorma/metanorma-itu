@@ -32,11 +32,8 @@ module IsoDoc
         ""
       end
 
-      def note_label(node)
-        n = @xrefs.get[node["id"]]
-        (n.nil? || n[:label].nil? || n[:label].empty?) and
-          return "#{@note_lbl} &ndash; "
-        l10n("#{@note_lbl} #{n[:label]} &ndash; ")
+      def note_delim
+        " &ndash; "
       end
 
       def prefix_container(container, linkend, _target)
@@ -197,9 +194,11 @@ module IsoDoc
       end
 
       def note_p_parse(node, div)
+        name = node&.at(ns("./name"))&.remove
         div.p do |p|
-          p.span **{ class: "note_label" } do |s|
-            s << note_label(node)
+          name and p.span **{ class: "note_label" } do |s|
+            name.children.each { |n| parse(n, s) }
+            s << note_delim
           end
           node.first_element_child.children.each { |n| parse(n, p) }
         end
@@ -207,9 +206,11 @@ module IsoDoc
       end
 
       def note_parse1(node, div)
+        name = node&.at(ns("./name"))&.remove
         div.p do |p|
-          p.span **{ class: "note_label" } do |s|
-            s << note_label(node)
+          name and p.span **{ class: "note_label" } do |s|
+            name.children.each { |n| parse(n, s) }
+            #s << note_delim
           end
         end
         node.children.each { |n| parse(n, div) }

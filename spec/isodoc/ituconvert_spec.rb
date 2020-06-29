@@ -327,14 +327,14 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
          <preferred>Term2</preferred>
          <definition><p>This is a journey into sound</p></definition>
          <termsource><origin citeas="XYZ">x y z</origin></termsource>
-         <termnote id="J1" keep-with-next="true" keep-lines-together="true"><p>This is a note</p></termnote>
+         <termnote id="J1" keep-with-next="true" keep-lines-together="true"><name>NOTE</name><p>This is a note</p></termnote>
        </term>
          <term id="K">
          <preferred>Term3</preferred>
          <definition><p>This is a journey into sound</p></definition>
          <termsource><origin citeas="XYZ">x y z</origin></termsource>
-         <termnote id="J2"><p>This is a note</p></termnote>
-         <termnote id="J3"><p>This is a note</p></termnote>
+         <termnote id="J2"><name>NOTE 1</name><p>This is a note</p></termnote>
+         <termnote id="J3"><name>NOTE 2</name><p>This is a note</p></termnote>
        </term>
         </terms>
         </sections>
@@ -384,7 +384,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
          <preferred>Term2</preferred>
          <definition><p>This is a journey into sound</p></definition>
          <termsource><origin citeas="XYZ">x y z</origin></termsource>
-         <termnote id="J1"><p>This is a note</p></termnote>
+         <termnote id="J1"><name>NOTE</name><p>This is a note</p></termnote>
        </term>
         </terms>
         </sections>
@@ -1393,7 +1393,7 @@ expect(xmlpp(html.sub(%r{^.*<div class="WordSection3">}m, %{<body><div class="Wo
 
   <p class="FigureTitle" style="text-align:center;">Static aspects of SDL&#x2011;2010</p></div>
         <div class="Note">
-          <p class="Note"><span class="note_label">NOTE &#x2013; </span>Hello</p>
+          <p class="Note">Hello</p>
         </div>
       </div>
       <p class="MsoNormal">

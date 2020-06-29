@@ -7,16 +7,6 @@ require_relative "./terms.rb"
 module IsoDoc
   module ITU
     module BaseConvert
-      def load_yaml(lang, script)
-        y = if @i18nyaml then YAML.load_file(@i18nyaml)
-            elsif lang == "en"
-              YAML.load_file(File.join(File.dirname(__FILE__), "i18n-en.yaml"))
-            else
-              YAML.load_file(File.join(File.dirname(__FILE__), "i18n-en.yaml"))
-            end
-        super.merge(y)
-      end
-
       FRONT_CLAUSE = "//*[parent::preface]"\
         "[not(local-name() = 'abstract')]".freeze
 
@@ -87,23 +77,19 @@ module IsoDoc
       end
 
       def annex(isoxml, out)
-      isoxml.xpath(ns("//annex")).each do |c|
-        @meta.get[:doctype_original] == "recommendation-annex" or
-          page_break(out)
-        out.div **attr_code(id: c["id"], class: "Section3") do |s|
-          annex_name(c, nil, s) unless c.at(ns("./title"))
-          c.elements.each do |c1|
-            if c1.name == "title" then annex_name(c, c1, s)
-            else
-              parse(c1, s)
+        isoxml.xpath(ns("//annex")).each do |c|
+          @meta.get[:doctype_original] == "recommendation-annex" or
+            page_break(out)
+          out.div **attr_code(id: c["id"], class: "Section3") do |s|
+            annex_name(c, nil, s) unless c.at(ns("./title"))
+            c.elements.each do |c1|
+              if c1.name == "title" then annex_name(c, c1, s)
+              else
+                parse(c1, s)
+              end
             end
           end
         end
-      end
-    end
-
-      def i18n_init(lang, script)
-        super
       end
 
       def fileloc(loc)

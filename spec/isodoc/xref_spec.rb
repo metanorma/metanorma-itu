@@ -375,7 +375,7 @@ OUTPUT
       end
 
              it "cross-references formulae" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
             <itu-standard xmlns="http://riboseinc.com/isoxml">
             <preface>
     <foreword>
@@ -396,27 +396,34 @@ OUTPUT
     </introduction>
     </itu-standard>
     INPUT
-            #{HTML_HDR}
-            <div>
-               <h1 class="IntroTitle"/>
-               <p>
+    <!--
            <a href="#N1">Equation (Introduction-1)</a>
            <a href="#N2">Inequality (Introduction-2)</a>
-           </p>
-             </div>
-             <div id="intro"><h1 class="IntroTitle"/>
-        <div id="N1"><div class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (Introduction-1)</p></div></div>
-
-         <div id="xyz"><h2>Preparatory</h2>
-           <div id="N2"><div class="formula"><p><span class="stem">(#(r = 1 %)#)</span>&#160; (Introduction-2)</p></div></div>
-
-
-       </div></div>
-             <p class="zzSTDTitle1"/>
-             <p class="zzSTDTitle2"/>
-           </div>
-         </body>
-
+           -->
+<?xml version='1.0'?>
+<itu-standard xmlns='http://riboseinc.com/isoxml'>
+  <preface>
+    <foreword>
+      <p>
+        <xref target='N1'/>
+        <xref target='N2'/>
+      </p>
+    </foreword>
+    <introduction id='intro'>
+      <formula id='N1'>
+        <name>Introduction-1</name>
+        <stem type='AsciiMath'>r = 1 %</stem>
+      </formula>
+      <clause id='xyz'>
+        <title>Preparatory</title>
+        <formula id='N2' inequality='true'>
+          <name>Introduction-2</name>
+          <stem type='AsciiMath'>r = 1 %</stem>
+        </formula>
+      </clause>
+    </introduction>
+  </preface>
+</itu-standard>
     OUTPUT
        end
 
@@ -594,7 +601,7 @@ OUTPUT
 end
 
 it "processes formulae as non-hierarchical assets" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <iso-standard xmlns="http://riboseinc.com/isoxml">
         <preface>
     <foreword id="fwd">
@@ -637,91 +644,56 @@ it "processes formulae as non-hierarchical assets" do
     </annex>
     </iso-standard>
     INPUT
-    <body lang='EN-US' xml:lang='EN-US' link='blue' vlink='#954F72' class='container'>
-  <div class='title-section'>
-    <p>&#160;</p>
-  </div>
-  <br/>
-  <div class='prefatory-section'>
-    <p>&#160;</p>
-  </div>
-  <br/>
-  <div class='main-section'>
-    <div id='fwd'>
-      <h1 class='IntroTitle'/>
-      <p>
-        <a href='#note1'>Equation (3-1)</a>
-        <a href='#note2'>Equation (3-2)</a>
-        <a href='#AN'>[AN]</a>
-        <a href='#Anote1'>Equation (A-1)</a>
-        <a href='#Anote2'>Equation (A-2)</a>
-      </p>
-    </div>
-    <p class='zzSTDTitle1'/>
-    <p class='zzSTDTitle2'/>
-    <div id='scope'>
-      <h1>1&#160; Scope</h1>
-    </div>
-    <div id='terms'>
-      <h1>2&#160; </h1>
-      <p>None.</p>
-    </div>
-    <div id='widgets'>
-      <h1>3&#160; Widgets</h1>
-      <div id='widgets1'>
-        <h2>3.1&#160; </h2>
-        <div id='note1'><div class='formula'>
-          <p>
-            <span class='stem'>(#(r = 1 %)#)</span>
-            &#160; (3-1)
-          </p>
-        </div>
-        </div>
-        <div id='note2'><div class='formula'>
-          <p>
-            <span class='stem'>(#(r = 1 %)#)</span>
-            &#160; (3-2)
-          </p>
-        </div>
-        </div>
-        <p>
-          <a href='#note1'>Equation (3-1)</a>
-          <a href='#note2'>Equation (3-2)</a>
-        </p>
-      </div>
-    </div>
-    <br/>
-    <div id='annex1' class='Section3'>
-     <h1 class='Annex'>
-   <b>Annex A</b>
-   <br/>
-   <br/>
-   <b/>
- </h1>
- <p class='annex_obligation'>(This annex forms an integral part of this .)</p>
-      <div id='annex1a'>
-        <h2>A.1&#160; </h2>
-      </div>
-      <div id='annex1b'>
-        <h2>A.2&#160; </h2>
-        <div id='Anote1'><div class='formula'>
-          <p>
-            <span class='stem'>(#(r = 1 %)#)</span>
-            &#160; (A-1)
-          </p>
-        </div>
-        </div>
-        <div id='Anote2'><div class='formula'>
-          <p>
-            <span class='stem'>(#(r = 1 %)#)</span>
-            &#160; (A-2)
-          </p>
-        </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</body>
+     <?xml version='1.0'?>
+ <iso-standard xmlns='http://riboseinc.com/isoxml'>
+   <preface>
+     <foreword id='fwd'>
+       <p>
+         <xref target='note1'/>
+         <xref target='note2'/>
+         <xref target='AN'/>
+         <xref target='Anote1'/>
+         <xref target='Anote2'/>
+       </p>
+     </foreword>
+   </preface>
+   <sections>
+     <clause id='scope'>
+       <title>Scope</title>
+     </clause>
+     <terms id='terms'/>
+     <clause id='widgets'>
+       <title>Widgets</title>
+       <clause id='widgets1'>
+         <formula id='note1'>
+           <name>3-1</name>
+           <stem type='AsciiMath'>r = 1 %</stem>
+         </formula>
+         <formula id='note2'>
+           <name>3-2</name>
+           <stem type='AsciiMath'>r = 1 %</stem>
+         </formula>
+         <p>
+           <xref target='note1'/>
+           <xref target='note2'/>
+         </p>
+       </clause>
+     </clause>
+   </sections>
+   <annex id='annex1'>
+     <clause id='annex1a'> </clause>
+     <clause id='annex1b'>
+       <formula id='Anote1'>
+         <name>A-1</name>
+         <stem type='AsciiMath'>r = 1 %</stem>
+       </formula>
+       <formula id='Anote2'>
+         <name>A-2</name>
+         <stem type='AsciiMath'>r = 1 %</stem>
+       </formula>
+     </clause>
+   </annex>
+ </iso-standard>
     OUTPUT
 end
 

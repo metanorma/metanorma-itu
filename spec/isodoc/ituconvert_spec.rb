@@ -604,7 +604,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
   <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
 </fn></p>
 <table id="tableD-1" alt="tool tip" summary="long desc">
-  <name>Repeatability and reproducibility of <em>husked</em> rice yield</name>
+  <name>Table 1&#xA0;&#x2014; Repeatability and reproducibility of <em>husked</em> rice yield</name>
   <thead>
     <tr>
       <td rowspan="2" align="left">Description</td>
@@ -1548,7 +1548,6 @@ OUTPUT
            <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
            <div id='A2'>
              <h2 id='toc0'>F2.1&#xA0; Subtitle</h2>
-             <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
              <table id='T' class='MsoISOTable' style='border-width:1px;border-spacing:0;'/>
              <div id='U' class='figure'/>
              <div id='V'><div class='formula'>
@@ -1600,7 +1599,7 @@ OUTPUT
                <p class="h1Annex"><b>Annex F2</b> <br/><br/><b>Annex</b></p>
                <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
                <div><a name="A2" id="A2"></a><h2>F2.1<span style="mso-tab-count:1">&#xA0; </span>Subtitle</h2>
-               <p class="TableTitle" style="text-align:center;">Table F2.1</p><div align="center" class="table_container"><table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;"><a name="T" id="T"></a></table></div>
+               <div align="center" class="table_container"><table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;"><a name="T" id="T"></a></table></div>
                <div class="figure"><a name="U" id="U"></a></div>
                <div><a name="V" id="V"></a><div class="formula"><p class="formula"><span style="mso-tab-count:1">&#xA0; </span><span class="stem"><m:oMath>
          <m:r><m:t>r=1%</m:t></m:r>
@@ -1623,6 +1622,7 @@ FileUtils.rm_f "test.doc"
       <preface><clause id="_history" obligation="normative">
   <title>History</title>
   <table id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4">
+  <name>Table 1</name>
   <tbody>
     <tr>
       <td align="left">Edition</td>

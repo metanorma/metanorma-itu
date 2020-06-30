@@ -57,7 +57,7 @@ OUTPUT
     <iso-standard xmlns="http://riboseinc.com/isoxml">
     <preface><foreword>
     <table id="tableD-1" alt="tool tip" summary="long desc">
-  <name>Repeatability and reproducibility of <em>husked</em> rice yield</name>
+  <name>Table 1&#xA0;&#x2014; Repeatability and reproducibility of <em>husked</em> rice yield</name>
   <thead>
     <tr>
       <td rowspan="2" align="left">Description</td>

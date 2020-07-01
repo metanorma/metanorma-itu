@@ -36,10 +36,6 @@ module IsoDoc
         " &ndash; "
       end
 
-      def prefix_container(container, linkend, _target)
-        l10n("#{linkend} #{@labels["in"]} #{@xrefs.anchor(container, :xref)}")
-      end
-
       def ol_depth(node)
         return super unless node["class"] == "steps" or
           node.at(".//ancestor::xmlns:ol[@class = 'steps']")
@@ -138,29 +134,6 @@ module IsoDoc
       def info(isoxml, out)
         @meta.ip_notice_received isoxml, out
         super
-      end
-
-      def get_eref_linkend(node)
-        l = anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))
-        l && !/^\[.*\]$/.match(l) and l = "[#{l}]"
-        l += eref_localities(node.xpath(ns("./locality | ./localityStack")), l)
-        contents = node.children.select do |c|
-          !%w{locality localityStack}.include? c.name
-        end
-        return l if contents.nil? || contents.empty?
-        Nokogiri::XML::NodeSet.new(node.document, contents).to_xml
-      end
-
-      def eref_parse(node, out)
-        linkend = get_eref_linkend(node)
-        href = eref_target(node)
-        if node["type"] == "footnote"
-          out.sup do |s|
-            s.a(**{ "href": href }) { |l| l << linkend }
-          end
-        else
-          out.a(**{ "href": href }) { |l| l << linkend }
-        end
       end
 
       def middle_title(out)

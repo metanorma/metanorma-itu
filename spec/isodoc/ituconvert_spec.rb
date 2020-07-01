@@ -304,7 +304,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
              <h1 class='IntroTitle'/>
   <span class='addition'>
                ABC 
-               <a href='#A'>Foreword</a>
+               <a href='#A'/>
                <span class='deletion'>
                  <b>B</b>
                </span>
@@ -892,8 +892,8 @@ OUTPUT
     INPUT
  end
 
-       it "processes annexes and appendixes" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+   it "processes annexes and appendixes" do
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
                <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
@@ -932,12 +932,130 @@ OUTPUT
         <annex id="B9" obligation="informative"><title>Annex</title></annex>
         <annex id="B10" obligation="informative"><title>Annex</title></annex>
     INPUT
+    <?xml version='1.0'?>
+       <itu-standard xmlns='http://riboseinc.com/isoxml'>
+         <bibdata type='standard'>
+           <title language='en' format='text/plain' type='main'>An ITU Standard</title>
+           <docidentifier type='ITU'>12345</docidentifier>
+           <language>en</language>
+           <keyword>A</keyword>
+           <keyword>B</keyword>
+           <ext>
+             <doctype>recommendation</doctype>
+           </ext>
+         </bibdata>
+         <preface>
+           <abstract>
+             <xref target='A1'>Annex A</xref>
+             <xref target='B1'>Appendix I</xref>
+           </abstract>
+         </preface>
+         <annex id='A1' obligation='normative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='A2' obligation='normative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='A3' obligation='normative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='A4' obligation='normative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='A5' obligation='normative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='A6' obligation='normative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='A7' obligation='normative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='A8' obligation='normative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='A9' obligation='normative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='A10' obligation='normative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='B1' obligation='informative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='B2' obligation='informative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='B3' obligation='informative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='B4' obligation='informative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='B5' obligation='informative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='B6' obligation='informative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='B7' obligation='informative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='B8' obligation='informative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='B9' obligation='informative'>
+           <title>Annex</title>
+         </annex>
+         <annex id='B10' obligation='informative'>
+           <title>Annex</title>
+         </annex>
+       </itu-standard>
+OUTPUT
+   end
+
+       it "processes annexes and appendixes (HTML)" do
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+               <itu-standard xmlns="http://riboseinc.com/isoxml">
+               <bibdata type="standard">
+               <title language="en" format="text/plain" type="main">An ITU Standard</title>
+               <docidentifier type="ITU">12345</docidentifier>
+               <language>en</language>
+               <keyword>A</keyword>
+               <keyword>B</keyword>
+               <ext>
+               <doctype>recommendation</doctype>
+               </ext>
+               </bibdata>
+               <preface>
+               <abstract>
+               </abstract>
+               </preface>
+        <annex id="A1" obligation="normative"><title>Annex</title></annex>
+        <annex id="A2" obligation="normative"><title>Annex</title></annex>
+        <annex id="A3" obligation="normative"><title>Annex</title></annex>
+        <annex id="A4" obligation="normative"><title>Annex</title></annex>
+        <annex id="A5" obligation="normative"><title>Annex</title></annex>
+        <annex id="A6" obligation="normative"><title>Annex</title></annex>
+        <annex id="A7" obligation="normative"><title>Annex</title></annex>
+        <annex id="A8" obligation="normative"><title>Annex</title></annex>
+        <annex id="A9" obligation="normative"><title>Annex</title></annex>
+        <annex id="A10" obligation="normative"><title>Annex</title></annex>
+        <annex id="B1" obligation="informative"><title>Annex</title></annex>
+        <annex id="B2" obligation="informative"><title>Annex</title></annex>
+        <annex id="B3" obligation="informative"><title>Annex</title></annex>
+        <annex id="B4" obligation="informative"><title>Annex</title></annex>
+        <annex id="B5" obligation="informative"><title>Annex</title></annex>
+        <annex id="B6" obligation="informative"><title>Annex</title></annex>
+        <annex id="B7" obligation="informative"><title>Annex</title></annex>
+        <annex id="B8" obligation="informative"><title>Annex</title></annex>
+        <annex id="B9" obligation="informative"><title>Annex</title></annex>
+        <annex id="B10" obligation="informative"><title>Annex</title></annex>
+    INPUT
         #{HTML_HDR}
         <br/>
         <div>
                <h1 class="AbstractTitle">Abstract</h1>
-               <a href="#A1">Annex A</a>
-               <a href="#B1">Appendix I</a>
              </div>
         <p class="zzSTDTitle1">Recommendation 12345</p>
              <p class="zzSTDTitle2">An ITU Standard</p>
@@ -1439,7 +1557,7 @@ OUTPUT
   end
 
     it "processes eref types" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <itu-standard xmlns="http://riboseinc.com/isoxml">
     <preface><foreword>
     <p>
@@ -1468,39 +1586,60 @@ OUTPUT
     </bibliography>
     </itu-standard>
     INPUT
-    #{HTML_HDR}
-               <div>
-                 <h1 class="IntroTitle"/>
-                 <p>
-           <sup><a href="#ISO712">A</a></sup>
-           <a href="#ISO712">A</a>
-           <sup><a href="#ISO712">[ISO 712]</a></sup>
-        <a href="#ISO712">[ISO 712]</a>
-        <sup><a href="#ISO712">[ISO 712], Section 8</a></sup>
-        <a href='#ISO712'>[ISO 712], Section 8</a>
-        <a href="#ISO712">[ISO 712], Section 8; Section 10</a>
-
-           </p>
-               </div>
-               <p class="zzSTDTitle1"/>
-               <p class="zzSTDTitle2"/>
-               <div>
-                              <h1>1&#160; References</h1>
-                                 <table class='biblio' border='0'>
-     <tbody>
-       <tr id='ISO712' class='NormRef'>
-         <td  style='vertical-align:top'>[ISO&#160;712]</td>
-         <td>
-           ISO 712 (2019),
-           <i>Cereals and cereal products</i>
-           .
-         </td>
-       </tr>
-     </tbody>
-   </table>
-             </div>
-           </div>
-         </body>
+          <?xml version='1.0'?>
+ <itu-standard xmlns='http://riboseinc.com/isoxml'>
+   <preface>
+     <foreword>
+       <p>
+         <eref type='footnote' bibitemid='ISO712' citeas='ISO 712'>A</eref>
+         <eref type='inline' bibitemid='ISO712' citeas='ISO 712'>A</eref>
+         <eref type='footnote' bibitemid='ISO712' citeas='ISO 712'>[ISO 712]</eref>
+         <eref type='inline' bibitemid='ISO712' citeas='ISO 712'>[ISO 712]</eref>
+         <eref type='footnote' bibitemid='ISO712' citeas='ISO 712'>
+           <locality type='section'>
+             <referenceFrom>8</referenceFrom>
+           </locality>
+           [ISO 712], Section 8
+         </eref>
+         <eref type='inline' bibitemid='ISO712' citeas='ISO 712'>
+           <locality type='section'>
+             <referenceFrom>8</referenceFrom>
+           </locality>
+           [ISO 712], Section 8
+         </eref>
+         <eref type='inline' bibitemid='ISO712' citeas='ISO 712'>
+           <localityStack>
+             <locality type='section'>
+               <referenceFrom>8</referenceFrom>
+             </locality>
+           </localityStack>
+           <localityStack>
+             <locality type='section'>
+               <referenceFrom>10</referenceFrom>
+             </locality>
+           </localityStack>
+           [ISO 712], Section 8; Section 10
+         </eref>
+       </p>
+     </foreword>
+   </preface>
+   <bibliography>
+     <references id='_normative_references' obligation='informative' normative='true'>
+       <title>References</title>
+       <bibitem id='ISO712' type='standard'>
+         <title format='text/plain'>Cereals and cereal products</title>
+         <docidentifier>ISO 712</docidentifier>
+         <date type='published'>2019-01-01</date>
+         <contributor>
+           <role type='publisher'/>
+           <organization>
+             <abbreviation>ISO</abbreviation>
+           </organization>
+         </contributor>
+       </bibitem>
+     </references>
+   </bibliography>
+ </itu-standard>
     OUTPUT
   end
 

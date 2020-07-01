@@ -9,6 +9,46 @@ module IsoDoc
         super
       end
 
+      def prefix_container(container, linkend, _target)
+        l10n("#{linkend} #{@labels["in"]} #{@xrefs.anchor(container, :xref)}")
+      end
+
+      def eref(docxml)
+        docxml.xpath(ns("//eref")).each do |f|
+          eref1(f)
+        end
+      end
+
+      def origin(docxml)
+        docxml.xpath(ns("//origin[not(termref)]")).each do |f|
+          eref1(f)
+        end
+      end
+
+      def quotesource(docxml)
+        docxml.xpath(ns("//quote/source")).each do |f|
+          eref1(f)
+        end
+      end
+
+      def eref1(f)
+        get_eref_linkend(f)
+      end
+
+      def get_eref_linkend(node)
+        contents = node.children.select do |c|
+          !%w{locality localityStack}.include? c.name
+        end.select { |c| !c.text? || /\S/.match(c) }
+        return unless contents.empty?
+        link = anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))
+        link && !/^\[.*\]$/.match(link) and link = "[#{link}]"
+        link += eref_localities(node.xpath(ns("./locality | ./localityStack")), link)
+        node.children.select do |c|
+          !%w{locality localityStack}.include? c.name
+        end.each { |n| n.remove }
+        node.add_child(link)
+      end
+
       include Init
     end
   end

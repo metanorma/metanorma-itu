@@ -68,29 +68,19 @@ it "cross-references notes" do
     </annex>
     </iso-standard>
     INPUT
-    <!--
-           <a href="#N1">Note in Introduction</a>
-           <a href="#N2">Note in Preparatory</a>
-           <a href="#N">Note in clause 1</a>
-           <a href="#note1">Note  1 in clause 3.1</a>
-           <a href="#note2">Note  2 in clause 3.1</a>
-           <a href="#AN">Note in clause A.1</a>
-           <a href="#Anote1">Note  1 in clause A.2</a>
-           <a href="#Anote2">Note  2 in clause A.2</a>
-           -->
            <?xml version='1.0'?>
 <iso-standard xmlns='http://riboseinc.com/isoxml'>
   <preface>
     <foreword>
       <p>
-        <xref target='N1'/>
-        <xref target='N2'/>
-        <xref target='N'/>
-        <xref target='note1'/>
-        <xref target='note2'/>
-        <xref target='AN'/>
-        <xref target='Anote1'/>
-        <xref target='Anote2'/>
+        <xref target='N1'>Note in Introduction</xref>
+<xref target='N2'>Note in Preparatory</xref>
+<xref target='N'>Note in clause 1</xref>
+<xref target='note1'>Note 1 in clause 3.1</xref>
+<xref target='note2'>Note 2 in clause 3.1</xref>
+<xref target='AN'>Note in clause A.1</xref>
+<xref target='Anote1'>Note 1 in clause A.2</xref>
+<xref target='Anote2'>Note 2 in clause A.2</xref>
       </p>
     </foreword>
     <introduction id='intro'>
@@ -124,7 +114,7 @@ it "cross-references notes" do
         </p>
       </note>
       <p>
-        <xref target='N'/>
+      <xref target='N'>Note</xref>
       </p>
     </clause>
     <terms id='terms'/>
@@ -146,8 +136,8 @@ it "cross-references notes" do
           </p>
         </note>
         <p>
-          <xref target='note1'/>
-          <xref target='note2'/>
+          <xref target='note1'>Note 1</xref>
+<xref target='note2'>Note 2</xref>
         </p>
       </clause>
     </clause>
@@ -241,12 +231,12 @@ end
   <preface>
     <foreword id='fwd'>
       <p>
-        <xref target='N'/>
-        <xref target='note1'/>
-        <xref target='note2'/>
-        <xref target='AN'/>
-        <xref target='Anote1'/>
-        <xref target='Anote2'/>
+        <xref target='N'>Figure 1</xref>
+<xref target='note1'>Figure 1-a</xref>
+<xref target='note2'>Figure 1-b</xref>
+<xref target='AN'>Figure A.1</xref>
+<xref target='Anote1'>Figure A.1-a</xref>
+<xref target='Anote2'>Figure A.1-b</xref>
       </p>
     </foreword>
   </preface>
@@ -269,8 +259,8 @@ end
           </figure>
         </figure>
         <p>
-          <xref target='note1'/>
-          <xref target='note2'/>
+          <xref target='note1'>Figure 1-a</xref>
+<xref target='note2'>Figure 1-b</xref>
         </p>
       </clause>
     </clause>
@@ -301,12 +291,6 @@ OUTPUT
   <preface>
     <foreword id='fwd'>
       <p>
-        <xref target='N'/>
-        <xref target='note1'/>
-        <xref target='note2'/>
-        <xref target='AN'/>
-        <xref target='Anote1'/>
-        <xref target='Anote2'/>
       </p>
     </foreword>
   </preface>
@@ -329,8 +313,6 @@ OUTPUT
           </figure>
         </figure>
         <p>
-          <xref target='note1'/>
-          <xref target='note2'/>
         </p>
       </clause>
     </clause>
@@ -356,12 +338,6 @@ OUTPUT
         <div id="fwd">
                <h1 class="IntroTitle"/>
                <p>
-         <a href="#N">Figure 1</a>
-         <a href="#note1">Figure 1-a</a>
-         <a href="#note2">Figure 1-b</a>
-         <a href="#AN">Figure A.1</a>
-         <a href="#Anote1">Figure A.1-a</a>
-         <a href="#Anote2">Figure A.1-b</a>
          </p>
              </div>
              <p class="zzSTDTitle1"/>
@@ -386,7 +362,7 @@ OUTPUT
        <img src="rice_images/rice_image1.png" height="auto" width="auto"/>
        <p class="FigureTitle" style="text-align:center;">Figure 1-b&#160;&#8212; Split-it-right sample divider</p></div>
        </div>
-       <p>    <a href="#note1">Figure 1-a</a> <a href="#note2">Figure 1-b</a> </p>
+       <p>    </p>
          </div>
              </div>
              <br/>
@@ -440,17 +416,13 @@ OUTPUT
     </introduction>
     </itu-standard>
     INPUT
-    <!--
-           <a href="#N1">Equation (Introduction-1)</a>
-           <a href="#N2">Inequality (Introduction-2)</a>
-           -->
 <?xml version='1.0'?>
 <itu-standard xmlns='http://riboseinc.com/isoxml'>
   <preface>
     <foreword>
       <p>
-        <xref target='N1'/>
-        <xref target='N2'/>
+        <xref target='N1'>Equation (Introduction-1)</xref>
+<xref target='N2'>Inequality (Introduction-2)</xref>
       </p>
     </foreword>
     <introduction id='intro'>
@@ -472,7 +444,7 @@ OUTPUT
        end
 
               it "cross-references annex subclauses" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
@@ -502,34 +474,38 @@ OUTPUT
                 </clause>
         </annex>
     INPUT
-            #{HTML_HDR}
-             <br/>
-             <div>
-               <h1 class="AbstractTitle">Abstract</h1>
-               <p>
-         <a href="#A1">Annex F2</a>
-       <a href="#A2">clause F2.1</a>
-       </p>
-             </div>
-             <div>
-               <h1 class="IntroTitle"/>
-             </div>
-             <div id="A1">
-               <h1 class="IntroTitle">Annex</h1>
-               <div id="A2"><h2>F2.1&#160; Subtitle</h2>
-                   </div>
-             </div>
-             <p class="zzSTDTitle1">Recommendation 12345</p>
-             <p class="zzSTDTitle2">An ITU Standard</p>
-             <div id="A1" class="Section3">
-               <h1 class="RecommendationAnnex"><b>Annex F2</b> <br/><br/><b>Annex</b></h1>
-<p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
-               <div id="A2"><h2>F2.1&#160; Subtitle</h2>
-                   </div>
-             </div>
-           </div>
-         </body>
-
+    <?xml version='1.0'?>
+<itu-standard xmlns='http://riboseinc.com/isoxml'>
+  <bibdata type='standard'>
+    <title language='en' format='text/plain' type='main'>An ITU Standard</title>
+    <docidentifier type='ITU'>12345</docidentifier>
+    <language>en</language>
+    <keyword>A</keyword>
+    <keyword>B</keyword>
+    <ext>
+      <doctype>recommendation-annex</doctype>
+      <structuredidentifier>
+        <annexid>F2</annexid>
+      </structuredidentifier>
+    </ext>
+  </bibdata>
+  <preface>
+    <abstract>
+      <title>Abstract</title>
+      <p>
+        <xref target='A1'>Annex F2</xref>
+        <xref target='A2'>clause F2.1</xref>
+      </p>
+    </abstract>
+    <sections> </sections>
+    <annex id='A1' obligation='normative'>
+      <title>Annex</title>
+      <clause id='A2'>
+        <title>Subtitle</title>
+      </clause>
+    </annex>
+  </preface>
+</itu-standard>
     OUTPUT
        end
 
@@ -591,12 +567,12 @@ OUTPUT
    <preface>
      <foreword id='fwd'>
        <p>
-         <xref target='N'/>
-         <xref target='note1'/>
-         <xref target='note2'/>
-         <xref target='AN'/>
-         <xref target='Anote1'/>
-         <xref target='Anote2'/>
+         <xref target='N'>Figure 3.1</xref>
+<xref target='note1'>Figure 3.1-a</xref>
+<xref target='note2'>Figure 3.1-b</xref>
+<xref target='AN'>Figure A.1</xref>
+<xref target='Anote1'>Figure A.1-a</xref>
+<xref target='Anote2'>Figure A.1-b</xref>
        </p>
      </foreword>
    </preface>
@@ -619,8 +595,8 @@ OUTPUT
            </figure>
          </figure>
          <p>
-           <xref target='note1'/>
-           <xref target='note2'/>
+           <xref target='note1'>Figure 3.1-a</xref>
+<xref target='note2'>Figure 3.1-b</xref>
          </p>
        </clause>
      </clause>
@@ -693,11 +669,11 @@ it "processes formulae as non-hierarchical assets" do
    <preface>
      <foreword id='fwd'>
        <p>
-         <xref target='note1'/>
-         <xref target='note2'/>
-         <xref target='AN'/>
-         <xref target='Anote1'/>
-         <xref target='Anote2'/>
+         <xref target='note1'>Equation (3-1)</xref>
+<xref target='note2'>Equation (3-2)</xref>
+<xref target='AN'>[AN]</xref>
+<xref target='Anote1'>Equation (A-1)</xref>
+<xref target='Anote2'>Equation (A-2)</xref>
        </p>
      </foreword>
    </preface>
@@ -718,8 +694,8 @@ it "processes formulae as non-hierarchical assets" do
            <stem type='AsciiMath'>r = 1 %</stem>
          </formula>
          <p>
-           <xref target='note1'/>
-           <xref target='note2'/>
+           <xref target='note1'>Equation (3-1)</xref>
+<xref target='note2'>Equation (3-2)</xref>
          </p>
        </clause>
      </clause>

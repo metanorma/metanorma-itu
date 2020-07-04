@@ -28,8 +28,8 @@ module Asciidoctor
           "<sections><sentinel/></sections>"
         x.at("./*/sections/*") or x.at("./*/sections") << "<sentinel/>"
         ins = x.at("//sections").elements.first
-        unless x.at("//sections/clause/title[text() = 'Scope']")
-          ins.previous = "<clause><title>Scope</title><p>"\
+        unless x.at("//sections/clause[@type = 'scope']")
+          ins.previous = "<clause type='scope'><title>Scope</title><p>"\
             "#{@labels['clause_empty']}</p></clause>"
         end
         x&.at("//sentinel")&.remove
@@ -50,7 +50,7 @@ module Asciidoctor
       end
 
       def insert_terms(x)
-        ins =  x.at("//sections/clause/title[text() = 'Scope']/..")
+        ins =  x.at("//sections/clause[@type = 'scope']")
         unless x.at("//sections//terms")
           ins.next = "<terms><title>Definitions</title><p>"\
             "#{@labels['clause_empty']}</p></terms>"

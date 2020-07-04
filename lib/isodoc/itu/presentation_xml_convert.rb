@@ -36,16 +36,12 @@ module IsoDoc
       end
 
       def get_eref_linkend(node)
-        contents = node.children.select do |c|
-          !%w{locality localityStack}.include? c.name
-        end.select { |c| !c.text? || /\S/.match(c) }
+        contents = non_locality_elems(node).select { |c| !c.text? || /\S/.match(c) }
         return unless contents.empty?
         link = anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))
         link && !/^\[.*\]$/.match(link) and link = "[#{link}]"
         link += eref_localities(node.xpath(ns("./locality | ./localityStack")), link)
-        node.children.select do |c|
-          !%w{locality localityStack}.include? c.name
-        end.each { |n| n.remove }
+        non_locality_elems(node).each { |n| n.remove }
         node.add_child(link)
       end
 

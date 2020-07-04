@@ -30,7 +30,7 @@ it "cross-references notes" do
     </introduction>
     </preface>
     <sections>
-    <clause id="scope"><title>Scope</title>
+    <clause id="scope" type="scope"><title>Scope</title>
     <note id="N">
   <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
 </note>
@@ -104,7 +104,7 @@ it "cross-references notes" do
     </introduction>
   </preface>
   <sections>
-    <clause id='scope'>
+    <clause id='scope' type="scope">
       <title>Scope</title>
       <note id='N'>
         <name>NOTE</name>
@@ -189,7 +189,7 @@ end
     </foreword>
     </preface>
     <sections>
-    <clause id="scope"><title>Scope</title>
+    <clause id="scope" type="scope"><title>Scope</title>
     </clause>
     <terms id="terms"/>
     <clause id="widgets"><title>Widgets</title>
@@ -241,7 +241,7 @@ end
     </foreword>
   </preface>
   <sections>
-    <clause id='scope'>
+    <clause id='scope' type="scope">
       <title>Scope</title>
     </clause>
     <terms id='terms'/>
@@ -295,7 +295,7 @@ OUTPUT
     </foreword>
   </preface>
   <sections>
-    <clause id='scope'>
+    <clause id='scope' type="scope">
       <title>Scope</title>
     </clause>
     <terms id='terms'/>
@@ -525,7 +525,7 @@ OUTPUT
     </foreword>
     </preface>
     <sections>
-    <clause id="scope"><title>Scope</title>
+    <clause id="scope" type="scope"><title>Scope</title>
     </clause>
     <terms id="terms"/>
     <clause id="widgets"><title>Widgets</title>
@@ -577,7 +577,7 @@ OUTPUT
      </foreword>
    </preface>
    <sections>
-     <clause id='scope'>
+     <clause id='scope' type="scope">
        <title>Scope</title>
      </clause>
      <terms id='terms'/>
@@ -635,7 +635,7 @@ it "processes formulae as non-hierarchical assets" do
     </foreword>
     </preface>
     <sections>
-    <clause id="scope"><title>Scope</title>
+    <clause id="scope" type="scope"><title>Scope</title>
     </clause>
     <terms id="terms"/>
     <clause id="widgets"><title>Widgets</title>
@@ -678,7 +678,7 @@ it "processes formulae as non-hierarchical assets" do
      </foreword>
    </preface>
    <sections>
-     <clause id='scope'>
+     <clause id='scope' type="scope">
        <title>Scope</title>
      </clause>
      <terms id='terms'/>

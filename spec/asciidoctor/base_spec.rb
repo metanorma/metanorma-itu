@@ -53,7 +53,7 @@ RSpec.describe Asciidoctor::ITU do
       INPUT
     #{BLANK_HDR}
     <sections>
-    <clause obligation='normative'>
+    <clause obligation='normative' type="scope">
              <title>Scope</title>
              <p id='_'>None.</p>
            </clause>
@@ -626,7 +626,7 @@ OUTPUT
            </introduction>
          </preface>
          <sections>
-<clause id="_" obligation="normative" inline-header='false'>
+<clause id="_" obligation="normative" inline-header='false' type="scope">
   <title>Scope</title>
   <p id="_">Text</p>
 </clause>

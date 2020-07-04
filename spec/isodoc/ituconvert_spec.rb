@@ -848,7 +848,7 @@ OUTPUT
          <title>Introduction Subsection</title>
        </clause>
        </introduction></preface><sections>
-       <clause id="D" obligation="normative">
+       <clause id="D" obligation="normative" type="scope">
          <title>Scope</title>
          <p id="E">Text</p>
        </clause>
@@ -1463,7 +1463,7 @@ OUTPUT
                </bibdata>
       <preface/>
        <sections>
-       <clause id="D" obligation="normative">
+       <clause id="D" obligation="normative" type="scope">
          <title>Scope</title>
          <p id="E">Text</p>
          <figure id="fig-f1-1">

@@ -59,7 +59,7 @@ module IsoDoc
         @hierarchical_assets ?
           hierarchical_asset_names(d.xpath("//xmlns:preface/child::*"), "Preface") :
           sequential_asset_names(d.xpath("//xmlns:preface/child::*"))
-        n = section_names(d.at(ns("//clause[title = 'Scope']")), 0, 1)
+        n = section_names(d.at(ns("//clause[@type = 'scope']")), 0, 1)
         n = section_names(d.at(ns("//bibliography/clause[.//references[@normative = 'true']] | "\
                                   "//bibliography/references[@normative = 'true']")), n, 1)
         n = section_names(d.at(ns("//sections/terms | "\
@@ -71,7 +71,7 @@ module IsoDoc
         termexample_anchor_names(d)
       end
 
-      MIDDLE_SECTIONS = "//clause[title = 'Scope'] | "\
+      MIDDLE_SECTIONS = "//clause[@type = 'scope'] | "\
         "//foreword | //introduction | //acknowledgements | "\
         "//references[@normative = 'true'] | "\
         "//sections/terms | //preface/clause | "\

@@ -164,16 +164,19 @@ module IsoDoc
           @wordstylesheet&.write(@landscapestyle)
           @wordstylesheet&.close
         end
-        Html2Doc.process(result, filename: filename, stylesheet: @wordstylesheet&.path,
+        Html2Doc.process(result, filename: filename, 
+                         stylesheet: @wordstylesheet&.path,
                          header_file: header&.path, dir: dir,
                          asciimathdelims: [@openmathdelim, @closemathdelim],
-                         liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" })
+                         liststyles: { ul: @ulstyle, ol: @olstyle, 
+                                       steps: "l4" })
         header&.unlink
         @wordstylesheet&.unlink
       end
 
       def link_parse(node, out)
-        out.a **attr_code(href: node["target"], title: node["alt"], class: "url") do |l|
+        out.a **attr_code(href: node["target"], title: node["alt"], 
+                          class: "url") do |l|
           if node.text.empty?
             l << node["target"].sub(/^mailto:/, "")
           else
@@ -213,16 +216,18 @@ module IsoDoc
             p["class"] = "boilerplateHdr"
           auth&.xpath(".//p[not(@class)]")&.each_with_index do |p, i|
             p["class"] = "boilerplate"
-            i == 0 && t == "copyright" and p["style"] = "text-align:center;"
+            #i == 0 && t == "copyright" and p["style"] = "text-align:center;"
           end
-          auth << "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>" unless t == "copyright"
+          t == "copyright" or
+            auth << "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>" 
           dest.replace(auth.remove)
         end
       end
 
       def clause_attrs(node)
         ret = {}
-        ret = { class: node["type"] } if %w(source history).include?(node["type"])
+        %w(source history).include?(node["type"]) and
+          ret = { class: node["type"] }
         super.merge(ret)
       end
 

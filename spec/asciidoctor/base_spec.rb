@@ -61,11 +61,11 @@ RSpec.describe Asciidoctor::ITU do
              <title>Definitions</title>
              <p id='_'>None.</p>
            </terms>
-           <definitions>
+           <definitions obligation='normative'>
              <title>Abbreviations and acronyms</title>
              <p id='_'>None.</p>
            </definitions>
-           <clause obligation='normative' id='_'>
+           <clause obligation='normative' id='_' type="conventions">
              <title>Conventions</title>
              <p id='_'>None.</p>
            </clause>
@@ -682,13 +682,13 @@ OUTPUT
 <terms id="_" obligation="normative">
   <title>Terms defined elsewhere</title>
 </terms></clause>
-<definitions id="_"><title>Symbols and Abbreviated Terms</title><clause id="_" obligation="normative" inline-header='false'>
+<definitions id="_" obligation='normative'><title>Symbols and Abbreviated Terms</title><clause id="_" obligation="normative" inline-header='false'>
   <title>General</title>
 </clause>
-<definitions id="_">
+<definitions id="_" obligation='normative'>
   <title>Symbols 1</title>
 </definitions></definitions></clause>
-<definitions id="_">
+<definitions id="_" obligation='normative'>
   <title>Abbreviated Terms</title>
 </definitions>
 <clause id='_' type='conventions' inline-header='false' obligation='normative'>
@@ -945,7 +945,7 @@ OUTPUT
         INPUT
         #{BLANK_HDR}
         <sections>
-  <definitions id="_">
+  <definitions id="_" obligation='normative'>
   <title>Abbreviations and acronyms</title><p id="_">This Recommendation uses the following abbreviations and acronyms:</p>
   <dl id="_">
   <dt>a</dt>
@@ -970,7 +970,7 @@ end
         INPUT
         #{BLANK_HDR}
         <sections>
-  <definitions id="_"><title>Abbreviations and acronyms</title><p id="_">Boilerplate</p>
+  <definitions id="_" obligation='normative'><title>Abbreviations and acronyms</title><p id="_">Boilerplate</p>
 <dl id="_">
   <dt>a</dt>
   <dd>

@@ -37,8 +37,9 @@ RSpec.describe Metanorma::ITU::Processor do
     processor.output(<<~"INPUT", "test.xml", "test.html", :html)
                <itu-standard xmlns="http://riboseinc.com/isoxml">
        <sections>
-       <terms id="H" obligation="normative">
+       <terms id="H" obligation="normative"><title>Terms</title>
          <term id="J">
+         <name>1.1.</name>
          <preferred>Term2</preferred>
        </term>
         </terms>
@@ -51,10 +52,10 @@ RSpec.describe Metanorma::ITU::Processor do
   <p class='zzSTDTitle1'/>
   <p class='zzSTDTitle2'/>
   <div id='H'>
-    <h1 id='toc0'>1&#xA0; </h1>
+  <h1 id='toc0'>Terms</h1>
     <div id='J'>
       <p class='TermNum' id='J'>
-        <b>1.1&#xA0; Term2</b>
+        <b>1.1.&#xA0; Term2</b>
         : 
       </p>
     </div>

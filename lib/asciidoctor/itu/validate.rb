@@ -12,13 +12,16 @@ module Asciidoctor
         recommendation-corrigendum recommendation-errata recommendation-annex 
         focus-group implementers-guide technical-paper technical-report 
         joint-itu-iso-iec).include? doctype or
-        @log.add("Document Attributes", nil, "#{doctype} is not a recognised document type")
+        @log.add("Document Attributes", nil, 
+                 "#{doctype} is not a recognised document type")
       end
 
       def stage_validate(xmldoc)
         stage = xmldoc&.at("//bibdata/status/stage")&.text
-        %w(in-force superseded in-force-prepublished withdrawn draft).include? stage or
-          @log.add("Document Attributes", nil, "#{stage} is not a recognised status")
+        %w(in-force superseded in-force-prepublished withdrawn 
+        draft).include? stage or
+          @log.add("Document Attributes", nil, 
+                   "#{stage} is not a recognised status")
       end
 
       def content_validate(doc)
@@ -38,7 +41,8 @@ module Asciidoctor
         xmldoc.xpath("//bibdata/series/title").each do |s|
           series = s.text.sub(/^[A-Z]: /, "")
           t.downcase.include?(series.downcase) and
-            @log.add("Document Attributes", nil, "Title includes series name #{series}")
+            @log.add("Document Attributes", nil, 
+                     "Title includes series name #{series}")
         end
       end
 
@@ -56,7 +60,8 @@ module Asciidoctor
         xmldoc.xpath("//preface/*").each do |c|
           extract_text(c).split(/\.\s+/).each do |t|
             /\b(shall|must)\b/i.match(t) and
-              @log.add("Style", c, "Requirement possibly in preface: #{t.strip}")
+              @log.add("Style", c, 
+                       "Requirement possibly in preface: #{t.strip}")
           end
         end
       end
@@ -86,20 +91,24 @@ module Asciidoctor
       end
 
       def approval_validate(xmldoc)
-        s = xmldoc.at("//bibdata/ext/recommendationstatus/approvalstage") || return
+        s = xmldoc.at("//bibdata/ext/recommendationstatus/approvalstage") or
+          return
         process = s["process"]
         if process == "aap" and %w(determined in-force).include? s.text
-          @log.add("Document Attributes", nil, "Recommendation Status #{s.text} inconsistent with AAP")
+          @log.add("Document Attributes", nil, 
+                   "Recommendation Status #{s.text} inconsistent with AAP")
         end
         if process == "tap" and !%w(determined in-force).include? s.text
-          @log.add("Document Attributes", nil, "Recommendation Status #{s.text} inconsistent with TAP")
+          @log.add("Document Attributes", nil, 
+                   "Recommendation Status #{s.text} inconsistent with TAP")
         end
       end
 
       def itu_identifier_validate(xmldoc)
         s = xmldoc.xpath("//bibdata/docidentifier[@type = 'ITU']").each do |x|
           /^ITU-[RTF] [AD-VX-Z]\.[0-9]+$/.match(x.text) or
-            @log.add("Style", nil, "#{x.text} does not match ITU document identifier conventions")
+            @log.add("Style", nil, "#{x.text} does not match ITU document "\
+                     "identifier conventions")
         end
       end
 
@@ -121,8 +130,10 @@ module Asciidoctor
           para = t.at("./definition") || return
           term = t.at("./preferred").text
           termdef_warn(term, /^[A-Z][a-z]+/, t, term, "term is not lowercase")
-          termdef_warn(para.text, /^[a-z]/, t, term, "term definition does not start with capital")
-          termdef_warn(para.text, /[^.]$/, t, term, "term definition does not end with period")
+          termdef_warn(para.text, /^[a-z]/, t, term, 
+                       "term definition does not start with capital")
+          termdef_warn(para.text, /[^.]$/, t, term, 
+                       "term definition does not end with period")
         end
       end
 

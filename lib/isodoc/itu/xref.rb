@@ -10,12 +10,14 @@ module IsoDoc
       end
 
       def annex_name_lbl(clause, num)
-        lbl = clause["obligation"] == "informative" ? @labels["appendix"] : @labels["annex"]
+        lbl = clause["obligation"] == "informative" ? 
+          @labels["appendix"] : @labels["annex"]
         l10n("<strong>#{lbl} #{num}</strong>")
       end
 
       def annex_names(clause, num)
-        lbl = clause["obligation"] == "informative" ? @labels["appendix"] : @labels["annex"]
+        lbl = clause["obligation"] == "informative" ? 
+          @labels["appendix"] : @labels["annex"]
         @anchors[clause["id"]] =
           { label: annex_name_lbl(clause, num), type: "clause",
             xref: "#{lbl} #{num}", level: 1 }
@@ -32,13 +34,16 @@ module IsoDoc
 
       def back_anchor_names(docxml)
         super
-        if annexid = docxml&.at(ns("//bibdata/ext/structuredidentifier/annexid"))&.text
+        if annexid =
+            docxml&.at(ns("//bibdata/ext/structuredidentifier/annexid"))&.text
           docxml.xpath(ns("//annex")).each { |c| annex_names(c, annexid) }
         else
-          docxml.xpath(ns("//annex[@obligation = 'informative']")).each_with_index do |c, i|
+          docxml.xpath(ns("//annex[@obligation = 'informative']"))
+            .each_with_index do |c, i|
             annex_names(c, RomanNumerals.to_roman(i + 1))
           end
-          docxml.xpath(ns("//annex[not(@obligation = 'informative')]")).each_with_index do |c, i|
+          docxml.xpath(ns("//annex[not(@obligation = 'informative')]"))
+            .each_with_index do |c, i|
             annex_names(c, (65 + i + (i > 7 ? 1 : 0)).chr.to_s)
           end
         end
@@ -48,7 +53,8 @@ module IsoDoc
         @anchors[clause["id"]] =
           { label: num, xref: "#{@labels["annex_subclause"]} #{num}",
             level: level, type: "clause" }
-        clause.xpath(ns("./clause | ./references | ./terms | ./definitions")).each_with_index do |c, i|
+        clause.xpath(ns("./clause | ./references | ./terms | ./definitions"))
+          .each_with_index do |c, i|
           annex_names1(c, "#{num}.#{i + 1}", level + 1)
         end
       end
@@ -57,11 +63,13 @@ module IsoDoc
         d.xpath(ns("//boilerplate//clause")).each { |c| preface_names(c) }
         d.xpath("//xmlns:preface/child::*").each { |c| preface_names(c) }
         @hierarchical_assets ?
-          hierarchical_asset_names(d.xpath("//xmlns:preface/child::*"), "Preface") :
-          sequential_asset_names(d.xpath("//xmlns:preface/child::*"))
+          hierarchical_asset_names(d.xpath("//xmlns:preface/child::*"), 
+                                   "Preface") :
+                                  sequential_asset_names(d.xpath("//xmlns:preface/child::*"))
         n = section_names(d.at(ns("//clause[@type = 'scope']")), 0, 1)
-        n = section_names(d.at(ns("//bibliography/clause[.//references[@normative = 'true']] | "\
-                                  "//bibliography/references[@normative = 'true']")), n, 1)
+        n = section_names(d.at(ns(
+          "//bibliography/clause[.//references[@normative = 'true']] | "\
+          "//bibliography/references[@normative = 'true']")), n, 1)
         n = section_names(d.at(ns("//sections/terms | "\
                                   "//sections/clause[descendant::terms]")), n, 1)
         n = section_names(d.at(ns("//sections/definitions")), n, 1)
@@ -103,7 +111,8 @@ module IsoDoc
       def hierarchical_figure_names(clause, num)
         c = IsoDoc::XrefGen::Counter.new
         j = 0
-        clause.xpath(ns(".//figure | .//sourcecode[not(ancestor::example)]")).each do |t|
+        clause.xpath(ns(".//figure | "\
+                        ".//sourcecode[not(ancestor::example)]")).each do |t|
           if t.parent.name == "figure" then j += 1
           else
             j = 0
@@ -112,8 +121,9 @@ module IsoDoc
           label = "#{num}#{hiersep}#{c.print}" +
             (j.zero? ? "" : "#{hierfigsep}#{(96 + j).chr.to_s}")
           next if t["id"].nil? || t["id"].empty?
-          @anchors[t["id"]] = anchor_struct(label, nil, @labels["figure"], "figure",
-                                            t["unnumbered"])
+          @anchors[t["id"]] = 
+            anchor_struct(label, nil, @labels["figure"], "figure",
+                          t["unnumbered"])
         end
       end
 
@@ -132,16 +142,17 @@ module IsoDoc
         c = IsoDoc::XrefGen::Counter.new
         clause.xpath(ns(".//formula")).each do |t|
           next if t["id"].nil? || t["id"].empty?
-          @anchors[t["id"]] =
-            anchor_struct("#{num}-#{c.increment(t).print}", nil,
-                          t["inequality"] ? @labels["inequality"] : @labels["formula"],
-                          "formula", t["unnumbered"])
+          @anchors[t["id"]] = anchor_struct(
+            "#{num}-#{c.increment(t).print}", nil,
+            t["inequality"] ? @labels["inequality"] : @labels["formula"],
+            "formula", t["unnumbered"])
         end
       end
 
       def reference_names(ref)
         super
-        @anchors[ref["id"]] = { xref: @anchors[ref["id"]][:xref].sub(/^\[/, '').sub(/\]$/, '') }
+        @anchors[ref["id"]] = 
+          { xref: @anchors[ref["id"]][:xref].sub(/^\[/, '').sub(/\]$/, '') }
       end
 
       def termnote_anchor_names(docxml)

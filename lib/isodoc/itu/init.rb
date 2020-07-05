@@ -10,8 +10,9 @@ module IsoDoc
       end
 
       def xref_init(lang, script, klass, labels, options)
-        @xrefs = Xref.new(lang, script, HtmlConvert.new(language: lang, script: script), labels,
-                          options.merge(hierarchical_assets: @hierarchical_assets))
+        html = HtmlConvert.new(language: lang, script: script)
+        options = options.merge(hierarchical_assets: @hierarchical_assets)
+        @xrefs = Xref.new(lang, script, html, labels, options)
       end
 
       def load_yaml(lang, script)

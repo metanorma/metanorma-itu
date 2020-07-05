@@ -37,7 +37,7 @@ module IsoDoc
 
       def abstract(isoxml, out)
         f = isoxml.at(ns("//preface/abstract")) || return
-        out.div **attr_code(id: f["id"]) do |s|
+        out.div **attr_code(id: f["id"], class: "Abstract") do |s|
           clause_name(nil, "Summary", s, class: "AbstractTitle")
           f.elements.each { |e| parse(e, s) unless e.name == "title" }
         end
@@ -46,7 +46,7 @@ module IsoDoc
       def keywords(_docxml, out)
         kw = @meta.get[:keywords]
         kw.nil? || kw.empty? and return
-        out.div do |div|
+        out.div **attr_code(class: "Keyword") do |div|
           clause_name(nil, "Keywords", div,  class: "IntroTitle")
           div.p kw.join(", ") + "."
         end
@@ -107,10 +107,10 @@ module IsoDoc
         historybox = docxml.at("//div[@id='historybox']")
         sourcebox = docxml.at("//div[@id='sourcebox']")
         keywordsbox = docxml.at("//div[@id='keywordsbox']")
-        abstract = docxml.at("//p[@class = 'h1Preface' and text() = 'Summary']/..")
-        history = docxml.at("//p[@class = 'h1Preface' and text() = 'History']/..")
-        source = docxml.at("//p[@class = 'h1Preface' and text() = 'Source']/..")
-        keywords = docxml.at("//p[@class = 'h1Preface' and text() = 'Keywords']/..")
+        abstract = docxml.at("//div[@class = 'Abstract']")
+        history = docxml.at("//div[@class = 'history']")
+        source = docxml.at("//div[@class = 'source']")
+        keywords = docxml.at("//div[@class = 'Keywords']")
         abstract.parent = abstractbox if abstract && abstractbox
         history.parent = historybox if history && historybox
         source.parent = sourcebox if source && sourcebox
@@ -218,6 +218,12 @@ module IsoDoc
           auth << "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>" unless t == "copyright"
           dest.replace(auth.remove)
         end
+      end
+
+      def clause_attrs(node)
+        ret = {}
+        ret = { class: node["type"] } if %w(source history).include?(node["type"])
+        super.merge(ret)
       end
 
       include BaseConvert

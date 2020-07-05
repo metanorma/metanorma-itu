@@ -546,6 +546,12 @@ OUTPUT
 
       === Introduction Subsection
 
+      [preface]
+      == History
+
+      [preface]
+      == Source
+
       == Scope
 
       Text
@@ -590,6 +596,8 @@ OUTPUT
 
       == Abbreviated Terms
 
+      == Conventions
+
       == Clause 4
 
       === Introduction
@@ -597,6 +605,10 @@ OUTPUT
       === Clause 4.2
 
       == Terms and Definitions
+
+      == History
+
+      == Source
 
       [appendix]
       == Annex
@@ -624,6 +636,12 @@ OUTPUT
                <title>Introduction Subsection</title>
              </clause>
            </introduction>
+           <clause id='_' type='history' inline-header='false' obligation='informative'>
+  <title>History</title>
+</clause>
+<clause id='_' type='source' inline-header='false' obligation='informative'>
+  <title>Source</title>
+</clause>
          </preface>
          <sections>
 <clause id="_" obligation="normative" inline-header='false' type="scope">
@@ -673,6 +691,9 @@ OUTPUT
 <definitions id="_">
   <title>Abbreviated Terms</title>
 </definitions>
+<clause id='_' type='conventions' inline-header='false' obligation='normative'>
+  <title>Conventions</title>
+</clause>
 <clause id="_" obligation="normative" inline-header='false'><title>Clause 4</title><clause id="_" obligation="normative" inline-header='false'>
   <title>Introduction</title>
 </clause>
@@ -681,6 +702,12 @@ OUTPUT
 </clause></clause>
 <clause id="_" obligation="normative" inline-header='false'>
   <title>Terms and Definitions</title>
+</clause>
+<clause id='_' inline-header='false' obligation='normative'>
+  <title>History</title>
+</clause>
+<clause id='_' inline-header='false' obligation='normative'>
+  <title>Source</title>
 </clause>
 
 </sections><annex id="_" obligation="normative" inline-header='false'>

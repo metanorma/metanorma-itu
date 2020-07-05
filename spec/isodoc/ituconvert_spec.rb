@@ -4,6 +4,28 @@ require "fileutils"
 logoloc = File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "lib", "isodoc", "itu", "html"))
 
 RSpec.describe Asciidoctor::ITU do
+    it "processes history and source clauses (Word)" do
+          expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~INPUT, true).gsub(%r{^.*<div class="WordSection2">}m, '<div class="WordSection2">').gsub(%r{<p>\s*<br clear="all" class="section"/>\s*</p>\s*<div class="WordSection3">.*}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface>
+    <clause type="history" id="H"><title>History</title></clause>
+    <clause type="source" id="I"><title>Source</title></clause>
+    </preface>
+    </iso-standard>
+    INPUT
+    <div class='WordSection2'>
+  <div id='H' class="history">
+    <h1 class='IntroTitle'>History</h1>
+  </div>
+  <div id='I' class="source">
+    <h1 class='IntroTitle'>Source</h1>
+  </div>
+  <p>&#160;</p>
+</div>
+    OUTPUT
+   end
+
+
   it "processes default metadata" do
     csdc = IsoDoc::ITU::HtmlConvert.new({})
     docxml, filename, dir = csdc.convert_init(<<~"INPUT", "test", true)

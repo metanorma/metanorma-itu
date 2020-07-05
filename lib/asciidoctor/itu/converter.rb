@@ -56,9 +56,12 @@ module Asciidoctor
       def outputs(node, ret)
         File.open(@filename + ".xml", "w:UTF-8") { |f| f.write(ret) }
         presentation_xml_converter(node).convert(@filename + ".xml")
-        html_converter(node).convert(@filename + ".presentation.xml", nil, false, "#{@filename}.html")
-        doc_converter(node).convert(@filename + ".presentation.xml", nil, false, "#{@filename}.doc")
-        pdf_converter(node)&.convert(@filename + ".presentation.xml", nil, false, "#{@filename}.pdf")
+        html_converter(node).convert(@filename + ".presentation.xml", 
+                                     nil, false, "#{@filename}.html")
+        doc_converter(node).convert(@filename + ".presentation.xml", 
+                                    nil, false, "#{@filename}.doc")
+        pdf_converter(node)&.convert(@filename + ".presentation.xml", 
+                                     nil, false, "#{@filename}.pdf")
       end
 
       def validate(doc)
@@ -133,6 +136,17 @@ module Asciidoctor
         node.attr("keywords").split(/,[ ]*/).sort.each_with_index do |kw, i|
           xml.keyword (i == 0 ? kw.capitalize : kw)
         end
+      end
+
+      def clause_parse(attrs, xml, node)
+        case clausetype = node&.attr("heading")&.downcase || node.title.downcase
+        when "conventions" then attrs = attrs.merge(type: "conventions")
+        when "history" 
+          attrs[:preface] and attrs = attrs.merge(type: "history")
+        when "source" 
+          attrs[:preface] and attrs = attrs.merge(type: "source")
+        end
+        super
       end
 
       def html_extract_attributes(node)

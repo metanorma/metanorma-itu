@@ -51,12 +51,7 @@ module IsoDoc
       def annex_name(annex, name, div)
         r_a = @meta.get[:doctype_original] == "recommendation-annex"
         div.h1 **{ class: r_a ? "RecommendationAnnex" : "Annex" } do |t|
-          t << "#{@xrefs.anchor(annex['id'], :label)} "
-          t.br
-          t.br
-          t.b do |b|
-            name&.children&.each { |c2| parse(c2, b) }
-          end
+          name&.children&.each { |c2| parse(c2, t) }
         end
         annex_obligation_subtitle(annex, div)
       end
@@ -105,18 +100,26 @@ module IsoDoc
       end
 
       def term_cleanup(docxml)
+        term_cleanup1(docxml)
+        term_cleanup2(docxml)
+        docxml
+      end
+
+      def term_cleanup1(docxml)
         docxml.xpath("//p[@class = 'Terms']").each do |d|
           h2 = d.at("./preceding-sibling::*[@class = 'TermNum'][1]")
           d.children.first.previous = "<b>#{h2.children.to_xml}</b>&nbsp;"
           d["id"] = h2["id"]
           h2.remove
         end
+      end
+
+      def term_cleanup2(docxml)
         docxml.xpath("//p[@class = 'TermNum']").each do |d|
           d1 = d.next_element and d1.name == "p" or next
           d1.children.each { |e| e.parent = d }
           d1.remove
         end
-        docxml
       end
 
       def refs_cleanup(docxml)

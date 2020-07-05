@@ -344,14 +344,16 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
                <itu-standard xmlns="http://riboseinc.com/isoxml">
        <preface/><sections>
-       <terms id="H" obligation="normative">
+       <terms id="H" obligation="normative"><title>1<tab/>Terms</title>
          <term id="J">
+         <name>1.1</name>
          <preferred>Term2</preferred>
          <definition><p>This is a journey into sound</p></definition>
          <termsource><origin citeas="XYZ">x y z</origin></termsource>
          <termnote id="J1" keep-with-next="true" keep-lines-together="true"><name>NOTE</name><p>This is a note</p></termnote>
        </term>
          <term id="K">
+         <name>1.2</name>
          <preferred>Term3</preferred>
          <definition><p>This is a journey into sound</p></definition>
          <termsource><origin citeas="XYZ">x y z</origin></termsource>
@@ -365,7 +367,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
         #{HTML_HDR}
                <p class="zzSTDTitle1"/>
              <p class="zzSTDTitle2"/>
-               <div id="H"><h1>1&#160; </h1>
+               <div id="H"><h1>1&#160; Terms</h1>
                <div id='J'>
                <p class='TermNum' id='J'>
                  <b>1.1&#160; Term2</b>
@@ -401,8 +403,9 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", false)
                <itu-standard xmlns="http://riboseinc.com/isoxml">
        <preface/><sections>
-       <terms id="H" obligation="normative">
+       <terms id="H" obligation="normative"><title>1<tab/>Terms</title>
          <term id="J">
+         <name>1.1</name>
          <preferred>Term2</preferred>
          <definition><p>This is a journey into sound</p></definition>
          <termsource><origin citeas="XYZ">x y z</origin></termsource>
@@ -416,7 +419,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
         <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
              <p class="zzSTDTitle1"></p>
              <p class="zzSTDTitle2"></p>
-             <div id="H"><h1 id="toc0">1&#xA0; </h1>
+             <div id="H"><h1 id="toc0">1&#xA0; Terms</h1>
          <div id="J"><p class="TermNum" id="J"><b>1.1&#xA0; Term2</b> [XYZ]: This is a journey into sound</p>
 
 
@@ -433,23 +436,25 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
                <itu-standard xmlns="http://riboseinc.com/isoxml">
          <termdocsource type="inline" bibitemid="ISO712"/>
        <preface/><sections>
-       <clause id="G"><title>Terms, Definitions, Symbols and Abbreviated Terms</title>
-       <terms id="H" obligation="normative"><title>Terms defined in this recommendation</title>
+       <clause id="G"><title>2<tab/>Terms, Definitions, Symbols and Abbreviated Terms</title>
+       <terms id="H" obligation="normative"><title>2.1<tab/>Terms defined in this recommendation</title>
          <term id="J">
+         <name>2.1.1</name>
          <preferred>Term2</preferred>
        </term>
        </terms>
-       <terms id="I" obligation="normative"><title>Terms defined elsewhere</title>
+       <terms id="I" obligation="normative"><title>2.2<tab/>Terms defined elsewhere</title>
          <term id="K">
+         <name>2.2.1</name>
          <preferred>Term2</preferred>
        </term>
        </terms>
-       <terms id="L" obligation="normative"><title>Other terms</title>
+       <terms id="L" obligation="normative"><title>2.3<tab/>Other terms</title>
        </terms>
        </clause>
         </sections>
         <bibliography>
-        <references id="_normative_references" obligation="informative" normative="true"><title>References</title>
+        <references id="_normative_references" obligation="informative" normative="true"><title>1<tab/>References</title>
 <bibitem id="ISO712" type="standard">
   <title format="text/plain">Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</title>
   <docidentifier>ISO 712</docidentifier>
@@ -915,7 +920,7 @@ OUTPUT
  end
 
    it "processes annexes and appendixes" do
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+     input = <<~INPUT
                <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
@@ -954,130 +959,54 @@ OUTPUT
         <annex id="B9" obligation="informative"><title>Annex</title></annex>
         <annex id="B10" obligation="informative"><title>Annex</title></annex>
     INPUT
-    <?xml version='1.0'?>
-       <itu-standard xmlns='http://riboseinc.com/isoxml'>
-         <bibdata type='standard'>
-           <title language='en' format='text/plain' type='main'>An ITU Standard</title>
-           <docidentifier type='ITU'>12345</docidentifier>
-           <language>en</language>
-           <keyword>A</keyword>
-           <keyword>B</keyword>
-           <ext>
-             <doctype>recommendation</doctype>
-           </ext>
-         </bibdata>
-         <preface>
-           <abstract>
-             <xref target='A1'>Annex A</xref>
-             <xref target='B1'>Appendix I</xref>
-           </abstract>
-         </preface>
-         <annex id='A1' obligation='normative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='A2' obligation='normative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='A3' obligation='normative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='A4' obligation='normative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='A5' obligation='normative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='A6' obligation='normative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='A7' obligation='normative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='A8' obligation='normative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='A9' obligation='normative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='A10' obligation='normative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='B1' obligation='informative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='B2' obligation='informative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='B3' obligation='informative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='B4' obligation='informative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='B5' obligation='informative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='B6' obligation='informative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='B7' obligation='informative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='B8' obligation='informative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='B9' obligation='informative'>
-           <title>Annex</title>
-         </annex>
-         <annex id='B10' obligation='informative'>
-           <title>Annex</title>
-         </annex>
+    presxml = <<~OUTPUT
+<itu-standard xmlns="http://riboseinc.com/isoxml">
+              <bibdata type="standard">
+              <title language="en" format="text/plain" type="main">An ITU Standard</title>
+              <docidentifier type="ITU">12345</docidentifier>
+              <language>en</language>
+              <keyword>A</keyword>
+              <keyword>B</keyword>
+              <ext>
+              <doctype>recommendation</doctype>
+              </ext>
+              </bibdata>
+              <preface>
+              <abstract>
+                  <xref target="A1">Annex A</xref>
+                  <xref target="B1">Appendix I</xref>
+              </abstract>
+              </preface>
+       <annex id="A1" obligation="normative"><title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A2" obligation="normative"><title><strong>Annex B</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A3" obligation="normative"><title><strong>Annex C</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A4" obligation="normative"><title><strong>Annex D</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A5" obligation="normative"><title><strong>Annex E</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A6" obligation="normative"><title><strong>Annex F</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A7" obligation="normative"><title><strong>Annex G</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A8" obligation="normative"><title><strong>Annex H</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A9" obligation="normative"><title><strong>Annex J</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A10" obligation="normative"><title><strong>Annex K</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B1" obligation="informative"><title><strong>Appendix I</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B2" obligation="informative"><title><strong>Appendix II</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B3" obligation="informative"><title><strong>Appendix III</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B4" obligation="informative"><title><strong>Appendix IV</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B5" obligation="informative"><title><strong>Appendix V</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B6" obligation="informative"><title><strong>Appendix VI</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B7" obligation="informative"><title><strong>Appendix VII</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B8" obligation="informative"><title><strong>Appendix VIII</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B9" obligation="informative"><title><strong>Appendix IX</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B10" obligation="informative"><title><strong>Appendix X</strong><br/><br/><strong>Annex</strong></title></annex>
        </itu-standard>
 OUTPUT
-   end
 
-       it "processes annexes and appendixes (HTML)" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-               <itu-standard xmlns="http://riboseinc.com/isoxml">
-               <bibdata type="standard">
-               <title language="en" format="text/plain" type="main">An ITU Standard</title>
-               <docidentifier type="ITU">12345</docidentifier>
-               <language>en</language>
-               <keyword>A</keyword>
-               <keyword>B</keyword>
-               <ext>
-               <doctype>recommendation</doctype>
-               </ext>
-               </bibdata>
-               <preface>
-               <abstract>
-               </abstract>
-               </preface>
-        <annex id="A1" obligation="normative"><title>Annex</title></annex>
-        <annex id="A2" obligation="normative"><title>Annex</title></annex>
-        <annex id="A3" obligation="normative"><title>Annex</title></annex>
-        <annex id="A4" obligation="normative"><title>Annex</title></annex>
-        <annex id="A5" obligation="normative"><title>Annex</title></annex>
-        <annex id="A6" obligation="normative"><title>Annex</title></annex>
-        <annex id="A7" obligation="normative"><title>Annex</title></annex>
-        <annex id="A8" obligation="normative"><title>Annex</title></annex>
-        <annex id="A9" obligation="normative"><title>Annex</title></annex>
-        <annex id="A10" obligation="normative"><title>Annex</title></annex>
-        <annex id="B1" obligation="informative"><title>Annex</title></annex>
-        <annex id="B2" obligation="informative"><title>Annex</title></annex>
-        <annex id="B3" obligation="informative"><title>Annex</title></annex>
-        <annex id="B4" obligation="informative"><title>Annex</title></annex>
-        <annex id="B5" obligation="informative"><title>Annex</title></annex>
-        <annex id="B6" obligation="informative"><title>Annex</title></annex>
-        <annex id="B7" obligation="informative"><title>Annex</title></annex>
-        <annex id="B8" obligation="informative"><title>Annex</title></annex>
-        <annex id="B9" obligation="informative"><title>Annex</title></annex>
-        <annex id="B10" obligation="informative"><title>Annex</title></annex>
-    INPUT
+html = <<~OUTPUT
         #{HTML_HDR}
         <br/>
         <div>
                <h1 class="AbstractTitle">Abstract</h1>
+               <a href='#A1'>Annex A</a>
+<a href='#B1'>Appendix I</a>
              </div>
         <p class="zzSTDTitle1">Recommendation 12345</p>
              <p class="zzSTDTitle2">An ITU Standard</p>
@@ -1184,10 +1113,84 @@ OUTPUT
            </div>
          </body>
 OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
        end
 
       it "processes section names" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", itudoc("en"), true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+
+        presxml = <<~OUTPUT
+        <itu-standard xmlns="http://riboseinc.com/isoxml">
+                <bibdata type="standard">
+                <title language="en" format="text/plain" type="main">An ITU Standard</title>
+                <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+                <docidentifier type="ITU">12345</docidentifier>
+                <language>en</language>
+                <keyword>A</keyword>
+                <keyword>B</keyword>
+                <ext>
+                <doctype>recommendation</doctype>
+                </ext>
+                </bibdata>
+       <preface>
+       <abstract><title>Abstract</title>
+       <p>This is an abstract</p>
+       </abstract>
+       <clause id="A0"><title depth="1">History</title>
+       <p>history</p>
+       </clause>
+       <foreword obligation="informative">
+          <title>Foreword</title>
+          <p id="A">This is a preamble</p>
+        </foreword>
+         <introduction id="B" obligation="informative"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+          <title depth="2">Introduction Subsection</title>
+        </clause>
+        </introduction></preface><sections>
+        <clause id="D" obligation="normative" type="scope">
+          <title depth="1">1.<tab/>Scope</title>
+          <p id="E">Text</p>
+        </clause>
+
+        <terms id="I" obligation="normative"><title>3.</title>
+          <term id="J"><name>3.1.</name>
+          <preferred>Term2</preferred>
+        </term>
+        </terms>
+        <definitions id="L"><title>4.</title>
+          <dl>
+          <dt>Symbol</dt>
+          <dd>Definition</dd>
+          </dl>
+        </definitions>
+        <clause id="M" inline-header="false" obligation="normative"><title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
+          <title depth="2">5.1.<tab/>Introduction</title>
+        </clause>
+        <clause id="O" inline-header="false" obligation="normative">
+          <title depth="2">5.2.<tab/>Clause 4.2</title>
+        </clause></clause>
+
+        </sections><annex id="P" inline-header="false" obligation="normative">
+          <title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title>
+          <clause id="Q" inline-header="false" obligation="normative">
+          <title depth="2">A.1.<tab/>Annex A.1</title>
+          <clause id="Q1" inline-header="false" obligation="normative">
+          <title depth="3">A.1.1.<tab/>Annex A.1a</title>
+          </clause>
+        </clause>
+        </annex><bibliography><references id="R" obligation="informative" normative="true">
+          <title depth="1">2.<tab/>References</title>
+        </references><clause id="S" obligation="informative">
+          <title depth="1">Bibliography</title>
+          <references id="T" obligation="informative" normative="false">
+          <title depth="2">Bibliography Subsection</title>
+        </references>
+        </clause>
+        </bibliography>
+        </itu-standard>
+       OUTPUT
+     
+        html = <<~OUTPUT
         #{HTML_HDR}
         <br/>
         <div>
@@ -1211,23 +1214,23 @@ OUTPUT
                <p class="zzSTDTitle1">Recommendation 12345</p>
                <p class="zzSTDTitle2">An ITU Standard</p>
                <div id="D">
-                 <h1>1&#160; Scope</h1>
+                 <h1>1.&#160; Scope</h1>
                  <p id="E">Text</p>
                </div>
                <div>
-                 <h1>2&#160; References</h1>
+                 <h1>2.&#160; References</h1>
                  <table class='biblio' border='0'>
   <tbody/>
 </table>
                </div>
                <div id="I">
-               <h1>3&#160; </h1>
-               <div id="J"><p class="TermNum" id="J"><b>3.1&#160; Term2</b>:</p>
+               <h1>3.</h1>
+               <div id="J"><p class="TermNum" id="J"><b>3.1.&#160; Term2</b>:</p>
 
         </div>
              </div>
                <div id="L" class="Symbols">
-                 <h1>4&#160; Symbols and abbreviated terms</h1>
+                 <h1>4.</h1>
                  <dl>
                    <dt>
                      <p>Symbol</p>
@@ -1236,12 +1239,12 @@ OUTPUT
                  </dl>
                </div>
                <div id="M">
-                 <h1>5&#160; Clause 4</h1>
+                 <h1>5.&#160; Clause 4</h1>
                  <div id="N">
-          <h2>5.1&#160; Introduction</h2>
+          <h2>5.1.&#160; Introduction</h2>
         </div>
                  <div id="O">
-          <h2>5.2&#160; Clause 4.2</h2>
+          <h2>5.2.&#160; Clause 4.2</h2>
         </div>
                </div>
                <br/>
@@ -1249,9 +1252,9 @@ OUTPUT
                  <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b></h1>
                  <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
                  <div id="Q">
-          <h2>A.1&#160; Annex A.1</h2>
+          <h2>A.1.&#160; Annex A.1</h2>
           <div id="Q1">
-          <h3>A.1.1&#160; Annex A.1a</h3>
+          <h3>A.1.1.&#160; Annex A.1a</h3>
           </div>
         </div>
                </div>
@@ -1271,98 +1274,8 @@ OUTPUT
              </div>
            </body>
     OUTPUT
-  end
 
-            it "processes section names in French" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", itudoc("fr"), true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-        #{HTML_HDR}
-        <br/>
-        <div>
-  <h1 class="AbstractTitle">R&#233;sum&#233;</h1>
-  <p>This is an abstract</p>
-</div>
-<div id="A0">
-  <h1 class="IntroTitle">History</h1>
-  <p>history</p>
-</div>
-             <div>
-                 <h1 class="IntroTitle">Foreword</h1>
-                 <p id="A">This is a preamble</p>
-               </div>
-               <div id="B">
-                 <h1 class="IntroTitle">Introduction</h1>
-                 <div id="C">
-          <h2>Introduction Subsection</h2>
-        </div>
-               </div>
-               <p class="zzSTDTitle1">Recommendation 12345</p>
-               <p class="zzSTDTitle2">Un Standard ITU</p>
-               <div id="D">
-                 <h1>1&#160; Domaine d'application</h1>
-                 <p id="E">Text</p>
-               </div>
-               <div>
-                 <h1>2&#160; References</h1>
-                 <table class='biblio' border='0'>
-  <tbody/>
-</table>
-
-               </div>
-               <div id="I">
-               <h1>3&#160; </h1>
-               <div id="J"><p class="TermNum" id="J"><b>3.1&#160; Term2</b>:</p>
-
-        </div>
-             </div>
-               <div id="L" class="Symbols">
-                 <h1>4&#160; Symboles et termes abr&#233;g&#233;s</h1>
-                 <dl>
-                   <dt>
-                     <p>Symbol</p>
-                   </dt>
-                   <dd>Definition</dd>
-                 </dl>
-               </div>
-               <div id="M">
-                 <h1>5&#160; Clause 4</h1>
-                 <div id="N">
-          <h2>5.1&#160; Introduction</h2>
-        </div>
-                 <div id="O">
-          <h2>5.2&#160; Clause 4.2</h2>
-        </div>
-               </div>
-               <br/>
-               <div id="P" class="Section3">
-                 <h1 class="Annex"><b>Annexe A</b> <br/><br/><b>Annex</b></h1>
-                <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
-                 <div id="Q">
-          <h2>A.1&#160; Annex A.1</h2>
-          <div id="Q1">
-          <h3>A.1.1&#160; Annex A.1a</h3>
-          </div>
-        </div>
-               </div>
-               <br/>
-               <div>
-                 <h1 class="Section3">Bibliographie</h1>
-                 <table class='biblio' border='0'>
-  <tbody/>
-</table>
-                 <div>
-                   <h2 class="Section3">Bibliography Subsection</h2>
-                   <table class='biblio' border='0'>
-  <tbody/>
-</table>
-                 </div>
-               </div>
-             </div>
-           </body>
-    OUTPUT
-  end
-
-      it "processes section names (Word)" do
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", itudoc("en"), true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    word = <<~OUTPUT
            <body lang="EN-US" link="blue" vlink="#954F72">
            <div class="WordSection1">
              <p>&#160;</p>
@@ -1371,11 +1284,11 @@ OUTPUT
              <br clear="all" class="section"/>
            </p>
            <div class="WordSection2">
-             <div>
+           <div class='Abstract'>
                <h1 class="AbstractTitle">Summary</h1>
                <p>This is an abstract</p>
              </div>
-             <div>
+             <div class='Keyword'>
                <h1 class="IntroTitle">Keywords</h1>
                <p>A, B.</p>
              </div>
@@ -1402,22 +1315,22 @@ OUTPUT
              <p class="zzSTDTitle1">Recommendation 12345</p>
              <p class="zzSTDTitle2">An ITU Standard</p>
              <div id="D">
-               <h1>1<span style="mso-tab-count:1">&#160; </span>Scope</h1>
+               <h1>1.<span style="mso-tab-count:1">&#160; </span>Scope</h1>
                <p id="E">Text</p>
              </div>
              <div>
-               <h1>2<span style="mso-tab-count:1">&#160; </span>References</h1>
+               <h1>2.<span style="mso-tab-count:1">&#160; </span>References</h1>
                 <table class='biblio' border='0'>
    <tbody/>
  </table>
              </div>
-             <div id="I"><h1>3<span style="mso-tab-count:1">&#160; </span></h1>
-          <div id="J"><p class="TermNum" id="J"><b>3.1<span style="mso-tab-count:1">&#160; </span>Term2</b>: </p>
+             <div id="I"><h1>3.</h1>
+          <div id="J"><p class="TermNum" id="J"><b>3.1.<span style="mso-tab-count:1">&#160; </span>Term2</b>: </p>
      
         </div>
         </div>
              <div id="L" class="Symbols">
-               <h1>4<span style="mso-tab-count:1">&#160; </span>Symbols and abbreviated terms</h1>
+               <h1>4.</h1>
                <table class="dl">
                  <tr>
                    <td valign="top" align="left">
@@ -1428,11 +1341,11 @@ OUTPUT
                </table>
              </div>
              <div id="M">
-               <h1>5<span style="mso-tab-count:1">&#160; </span>Clause 4</h1>
-               <div id="N"><h2>5.1<span style="mso-tab-count:1">&#160; </span>Introduction</h2>
+               <h1>5.<span style="mso-tab-count:1">&#160; </span>Clause 4</h1>
+               <div id="N"><h2>5.1.<span style="mso-tab-count:1">&#160; </span>Introduction</h2>
      
         </div>
-               <div id="O"><h2>5.2<span style="mso-tab-count:1">&#160; </span>Clause 4.2</h2>
+               <div id="O"><h2>5.2.<span style="mso-tab-count:1">&#160; </span>Clause 4.2</h2>
      
         </div>
              </div>
@@ -1442,9 +1355,9 @@ OUTPUT
              <div id="P" class="Section3">
                <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b></h1>
                 <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
-               <div id="Q"><h2>A.1<span style="mso-tab-count:1">&#160; </span>Annex A.1</h2>
+               <div id="Q"><h2>A.1.<span style="mso-tab-count:1">&#160; </span>Annex A.1</h2>
      
-          <div id="Q1"><h3>A.1.1<span style="mso-tab-count:1">&#160; </span>Annex A.1a</h3>
+          <div id="Q1"><h3>A.1.1.<span style="mso-tab-count:1">&#160; </span>Annex A.1a</h3>
      
           </div>
         </div>
@@ -1467,7 +1380,171 @@ OUTPUT
            </div>
          </body>
     OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", itudoc("en"), true))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(word)
       end
+
+            it "processes section names in French" do
+              presxml = <<~OUTPUT
+              <itu-standard xmlns="http://riboseinc.com/isoxml">
+                 <bibdata type="standard">
+                 <title language="en" format="text/plain" type="main">An ITU Standard</title>
+                 <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+                 <docidentifier type="ITU">12345</docidentifier>
+                 <language>fr</language>
+                 <keyword>A</keyword>
+                 <keyword>B</keyword>
+                 <ext>
+                 <doctype>recommendation</doctype>
+                 </ext>
+                 </bibdata>
+        <preface>
+        <abstract><title>Abstract</title>
+        <p>This is an abstract</p>
+        </abstract>
+        <clause id="A0"><title depth="1">History</title>
+        <p>history</p>
+        </clause>
+        <foreword obligation="informative">
+           <title>Foreword</title>
+           <p id="A">This is a preamble</p>
+         </foreword>
+          <introduction id="B" obligation="informative"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+           <title depth="2">Introduction Subsection</title>
+         </clause>
+         </introduction></preface><sections>
+         <clause id="D" obligation="normative" type="scope">
+           <title depth="1">1.<tab/>Scope</title>
+           <p id="E">Text</p>
+         </clause>
+
+         <terms id="I" obligation="normative"><title>3.</title>
+           <term id="J"><name>3.1.</name>
+           <preferred>Term2</preferred>
+         </term>
+         </terms>
+         <definitions id="L"><title>4.</title>
+           <dl>
+           <dt>Symbol</dt>
+           <dd>Definition</dd>
+           </dl>
+         </definitions>
+         <clause id="M" inline-header="false" obligation="normative"><title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
+           <title depth="2">5.1.<tab/>Introduction</title>
+         </clause>
+         <clause id="O" inline-header="false" obligation="normative">
+           <title depth="2">5.2.<tab/>Clause 4.2</title>
+         </clause></clause>
+
+         </sections><annex id="P" inline-header="false" obligation="normative">
+           <title><strong>Annexe A</strong><br/><br/><strong>Annex</strong></title>
+           <clause id="Q" inline-header="false" obligation="normative">
+           <title depth="2">A.1.<tab/>Annex A.1</title>
+           <clause id="Q1" inline-header="false" obligation="normative">
+           <title depth="3">A.1.1.<tab/>Annex A.1a</title>
+           </clause>
+         </clause>
+         </annex><bibliography><references id="R" obligation="informative" normative="true">
+           <title depth="1">2.<tab/>References</title>
+         </references><clause id="S" obligation="informative">
+           <title depth="1">Bibliography</title>
+           <references id="T" obligation="informative" normative="false">
+           <title depth="2">Bibliography Subsection</title>
+         </references>
+         </clause>
+         </bibliography>
+         </itu-standard>
+        OUTPUT
+
+              html = <<~OUTPUT
+        #{HTML_HDR}
+        <br/>
+        <div>
+  <h1 class="AbstractTitle">R&#233;sum&#233;</h1>
+  <p>This is an abstract</p>
+</div>
+<div id="A0">
+  <h1 class="IntroTitle">History</h1>
+  <p>history</p>
+</div>
+             <div>
+                 <h1 class="IntroTitle">Foreword</h1>
+                 <p id="A">This is a preamble</p>
+               </div>
+               <div id="B">
+                 <h1 class="IntroTitle">Introduction</h1>
+                 <div id="C">
+          <h2>Introduction Subsection</h2>
+        </div>
+               </div>
+               <p class="zzSTDTitle1">Recommendation 12345</p>
+               <p class="zzSTDTitle2">Un Standard ITU</p>
+               <div id="D">
+               <h1>1.&#160; Scope</h1>
+                 <p id="E">Text</p>
+               </div>
+               <div>
+               <h1>2.&#160; References</h1>
+                 <table class='biblio' border='0'>
+  <tbody/>
+</table>
+
+               </div>
+               <div id="I">
+               <h1>3.</h1>
+               <div id="J"><p class="TermNum" id="J"><b>3.1.&#160; Term2</b>:</p>
+
+        </div>
+             </div>
+               <div id="L" class="Symbols">
+                 <h1>4.</h1>
+                 <dl>
+                   <dt>
+                     <p>Symbol</p>
+                   </dt>
+                   <dd>Definition</dd>
+                 </dl>
+               </div>
+               <div id="M">
+                 <h1>5.&#160; Clause 4</h1>
+                 <div id="N">
+          <h2>5.1.&#160; Introduction</h2>
+        </div>
+                 <div id="O">
+          <h2>5.2.&#160; Clause 4.2</h2>
+        </div>
+               </div>
+               <br/>
+               <div id="P" class="Section3">
+                 <h1 class="Annex"><b>Annexe A</b> <br/><br/><b>Annex</b></h1>
+                <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
+                 <div id="Q">
+          <h2>A.1.&#160; Annex A.1</h2>
+          <div id="Q1">
+          <h3>A.1.1.&#160; Annex A.1a</h3>
+          </div>
+        </div>
+               </div>
+               <br/>
+               <div>
+                 <h1 class="Section3">Bibliographie</h1>
+                 <table class='biblio' border='0'>
+  <tbody/>
+</table>
+                 <div>
+                   <h2 class="Section3">Bibliography Subsection</h2>
+                   <table class='biblio' border='0'>
+  <tbody/>
+</table>
+                 </div>
+               </div>
+             </div>
+           </body>
+    OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", itudoc("fr"), true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
+  end
 
             it "post-processes section names (Word)" do
               FileUtils.rm_f "test.doc"
@@ -1486,7 +1563,7 @@ OUTPUT
       <preface/>
        <sections>
        <clause id="D" obligation="normative" type="scope">
-         <title>Scope</title>
+         <title>1<tab/>Scope</title>
          <p id="E">Text</p>
          <figure id="fig-f1-1">
   <name>Static aspects of SDL‑2010</name>
@@ -1499,17 +1576,17 @@ OUTPUT
        </clause>
        </sections>
         <annex id="P" inline-header="false" obligation="normative">
-         <title>Annex 1</title>
+         <title><strong>Annex A</strong><br/><br/><strong>Annex 1</strong></title>
          <clause id="Q" inline-header="false" obligation="normative">
-         <title>Annex A.1</title>
+         <title>A.1<tab/>Annex A.1</title>
          <p>Hello</p>
          </clause>
        </annex>
            <annex id="P1" inline-header="false" obligation="normative">
-         <title>Annex 2</title>
+         <title><strong>Annex B</strong><br/><br/><strong>Annex 2</strong></title>
          <p>Hello</p>
          <clause id="Q1" inline-header="false" obligation="normative">
-         <title>Annex A1.1</title>
+         <title>B.1<tab/>Annex A1.1</title>
          <p>Hello</p>
          </clause>
          </clause>
@@ -1647,7 +1724,11 @@ OUTPUT
    </preface>
    <bibliography>
      <references id='_normative_references' obligation='informative' normative='true'>
-       <title>References</title>
+     <title depth='1'>
+  1.
+  <tab/>
+  References
+</title>
        <bibitem id='ISO712' type='standard'>
          <title format='text/plain'>Cereals and cereal products</title>
          <docidentifier>ISO 712</docidentifier>
@@ -1665,9 +1746,10 @@ OUTPUT
     OUTPUT
   end
 
-           it "processes annex with supplied annexid" do
+    it "processes annex with supplied annexid" do
              FileUtils.rm_f "test.html"
-             IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", false)
+             FileUtils.rm_f "test.doc"
+             input = <<~INPUT
                <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
@@ -1691,7 +1773,50 @@ OUTPUT
                 <formula id="V"><stem type="AsciiMath">r = 1 %</stem></formula>
                 </clause>
         </annex>
+        </itu-standard>
     INPUT
+
+    presxml = <<~OUTPUT
+    <itu-standard xmlns='http://riboseinc.com/isoxml'>
+          <bibdata type='standard'>
+            <title language='en' format='text/plain' type='main'>An ITU Standard</title>
+            <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+            <docidentifier type='ITU'>12345</docidentifier>
+            <language>en</language>
+            <keyword>A</keyword>
+            <keyword>B</keyword>
+            <ext>
+              <doctype>recommendation-annex</doctype>
+              <structuredidentifier>
+                <annexid>F2</annexid>
+              </structuredidentifier>
+            </ext>
+          </bibdata>
+          <annex id='A1' obligation='normative'>
+            <title>
+              <strong>Annex F2</strong>
+              <br/>
+              <br/>
+              <strong>Annex</strong>
+            </title>
+            <clause id='A2'>
+              <title depth='2'>F2.1.<tab/>Subtitle</title>
+              <table id='T'>
+                <name>Table F2.1</name>
+              </table>
+              <figure id='U'>
+                <name>Figure F2.1</name>
+              </figure>
+              <formula id='V'>
+                <name>F2-1</name>
+                <stem type='AsciiMath'>r = 1 %</stem>
+              </formula>
+            </clause>
+          </annex>
+        </itu-standard>
+OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true))).to be_equivalent_to xmlpp(presxml)
+             IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, false)
              html = File.read("test.html", encoding: "utf-8")
     expect(xmlpp(html.gsub(%r{^.*<main}m, "<main").gsub(%r{</main>.*}m, "</main>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <main class='main-section'>
@@ -1708,12 +1833,16 @@ OUTPUT
            </p>
            <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
            <div id='A2'>
-             <h2 id='toc0'>F2.1&#xA0; Subtitle</h2>
+             <h2 id='toc0'>F2.1.&#xA0; Subtitle</h2>
+             <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
              <table id='T' class='MsoISOTable' style='border-width:1px;border-spacing:0;'/>
-             <div id='U' class='figure'/>
+             <div id='U' class='figure'>
+  <p class='FigureTitle' style='text-align:center;'>Figure F2.1</p>
+</div>
              <div id='V'><div class='formula'>
                <p>
                  <span class='stem'>(#(r = 1 %)#)</span>
+                 &#xA0; (F2-1)
                </p>
              </div>
              </div>
@@ -1721,55 +1850,60 @@ OUTPUT
          </div>
        </main>
 OUTPUT
-           end
 
-    it "processes annex with supplied annexid (Word)" do
-             FileUtils.rm_f "test.doc"
-             IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
-               <itu-standard xmlns="http://riboseinc.com/isoxml">
-               <bibdata type="standard">
-               <title language="en" format="text/plain" type="main">An ITU Standard</title>
-               <title language="en" format="text/plain" type="subtitle">Subtitle</title>
-               <docidentifier type="ITU">12345</docidentifier>
-               <language>en</language>
-               <keyword>A</keyword>
-               <keyword>B</keyword>
-               <ext>
-               <doctype>recommendation-annex</doctype>
-               <structuredidentifier>
-               <annexid>F2</annexid>
-               </structuredidentifier>
-               </ext>
-               </bibdata>
-        <annex id="A1" obligation="normative">
-                <title>Annex</title>
-                <clause id="A2"><title>Subtitle</title>
-                <table id="T"/>
-                <figure id="U"/>
-                <formula id="V"><stem type="AsciiMath">r = 1 %</stem></formula>
-                </clause>
-        </annex>
-    INPUT
+             IsoDoc::ITU::WordConvert.new({}).convert("test", presxml, false)
              html = File.read("test.doc", encoding: "utf-8")
     expect(xmlpp(html.gsub(%r{^.*<div class="WordSection3">}m, '<div class="WordSection3" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">').gsub(%r{<div style="mso-element:footnote-list"/>.*}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-    <div class="WordSection3" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">
-             <p class="zzSTDTitle1">Recommendation 12345</p>
-             <p class="zzSTDTitle2">An ITU Standard</p>
-             <p class="zzSTDTitle3">Subtitle</p>
-             <div class="Section3"><a name="A1" id="A1"></a>
-               <p class="h1Annex"><b>Annex F2</b> <br/><br/><b>Annex</b></p>
-               <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
-               <div><a name="A2" id="A2"></a><h2>F2.1<span style="mso-tab-count:1">&#xA0; </span>Subtitle</h2>
-               <div align="center" class="table_container"><table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;"><a name="T" id="T"></a></table></div>
-               <div class="figure"><a name="U" id="U"></a></div>
-               <div><a name="V" id="V"></a><div class="formula"><p class="formula"><span style="mso-tab-count:1">&#xA0; </span><span class="stem"><m:oMath>
-         <m:r><m:t>r=1%</m:t></m:r>
-       </m:oMath>
-       </span></p></div>
-               </div>
-               </div>
-             </div>
-           </div>
+    <div class='WordSection3' xmlns:m='http://schemas.microsoft.com/office/2004/12/omml'>
+          <p class='zzSTDTitle1'>Recommendation 12345</p>
+          <p class='zzSTDTitle2'>An ITU Standard</p>
+          <p class='zzSTDTitle3'>Subtitle</p>
+          <div class='Section3'>
+            <a name='A1' id='A1'/>
+            <p class='h1Annex'>
+              <b>Annex F2</b>
+              <br/>
+              <br/>
+              <b>Annex</b>
+            </p>
+            <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
+            <div>
+              <a name='A2' id='A2'/>
+              <h2>
+                F2.1.
+                <span style='mso-tab-count:1'>&#xA0; </span>
+                Subtitle
+              </h2>
+              <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
+              <div align='center' class='table_container'>
+                <table class='MsoISOTable' style='mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;'>
+                  <a name='T' id='T'/>
+                </table>
+              </div>
+              <div class='figure'>
+                <a name='U' id='U'/>
+                <p class='FigureTitle' style='text-align:center;'>Figure F2.1</p>
+              </div>
+              <div>
+                <a name='V' id='V'/>
+                <div class='formula'>
+                  <p class='formula'>
+                    <span style='mso-tab-count:1'>&#xA0; </span>
+                    <span class='stem'>
+                      <m:oMath>
+                        <m:r>
+                          <m:t>r=1%</m:t>
+                        </m:r>
+                      </m:oMath>
+                    </span>
+                    <span style='mso-tab-count:1'>&#xA0; </span>
+                    (F2-1)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 OUTPUT
            end
 
@@ -1905,11 +2039,7 @@ it "processes erefs and xrefs and links (Word)" do
     <p class='zzSTDTitle1'/>
     <p class='zzSTDTitle2'/>
     <div>
-      <h1>
-        1
-        <span style='mso-tab-count:1'>&#160; </span>
-        References
-      </h1>
+      <h1>References</h1>
        <table class='biblio' border='0'>
    <tbody>
      <tr id='ISO712' class='NormRef'>
@@ -1966,7 +2096,7 @@ end
                with ISO and IEC.
              </p>
              <div>
-               <h1 class='IntroTitle'>NOTE</h1>
+               <h2 class='IntroTitle'>NOTE</h2>
                <p id='_'>
                  In this Recommendation, the expression "Administration" is used for
                  conciseness to indicate both a telecommunication administration and a
@@ -2051,9 +2181,6 @@ end
                with ISO and IEC.
              </p>
              <div>
-               <p class='boilerplate'>&#xA0;</p>
-               <p class='boilerplate'>&#xA0;</p>
-               <p class='boilerplate'>&#xA0;</p>
                <p class='boilerplateHdr'>NOTE</p>
                <p class='boilerplate'>
                  <a name='_' id='_'/>
@@ -2107,8 +2234,7 @@ end
          </div>
          <div class='boilerplate-copyright'>
            <div>
-             <p class='boilerplateHdr'/>
-             <p class='boilerplate' style='text-align:center;'>
+             <p class='boilerplateHdr'>
                <a name='_' id='_'/>
                &#xA9; ITU 2020
              </p>

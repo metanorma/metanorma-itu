@@ -32,12 +32,12 @@ module IsoDoc
         end
       end
 
-      def termdef_parse1(node, div, term, defn, source)
+      def termdef_parse1(node, div, defn, source)
         div.p **{ class: "TermNum", id: node["id"] } do |p|
           p.b do |b|
-            b << @xrefs.anchor(node["id"], :label)
+            node&.at(ns("./name"))&.children&.each { |n| parse(n, b) }
             insert_tab(b, 1)
-            term.children.each { |n| parse(n, b) }
+            node&.at(ns("./preferred"))&.children&.each { |n| parse(n, b) }
           end
           source and p << " #{bracket_opt(source.value)}"
           p << ": "
@@ -46,14 +46,13 @@ module IsoDoc
       end
 
       def termdef_parse(node, out)
-        term = node.at(ns("./preferred"))
         defn = node.at(ns("./definition"))
         source = node.at(ns("./termsource/origin/@citeas"))
         out.div **attr_code(id: node["id"]) do |div|
-          termdef_parse1(node, div, term, defn, source)
+          termdef_parse1(node, div, defn, source)
           set_termdomain("")
           node.children.each do |n|
-            next if %w(preferred definition termsource title).include? n.name
+            next if %w(preferred definition termsource title name).include? n.name
             parse(n, out)
           end
         end

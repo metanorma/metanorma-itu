@@ -10,7 +10,7 @@ module IsoDoc
         f = isoxml.at(ns(q)) or return num
         out.div do |div|
           num = num + 1
-          clause_name(num, @normref_lbl, div, nil)
+          clause_name(num, f.at(ns("./title")), div, nil)
           biblio_list(f, div, false)
         end
         num
@@ -43,9 +43,7 @@ module IsoDoc
                 nonstd_bibitem(tbody, b, i, biblio)
               else
                 unless %w(title clause references).include? b.name
-                  tbody.tx do |tx|
-                    parse(b, tx)
-                  end
+                  tbody.tx { |tx| parse(b, tx) }
                 end
               end
             end
@@ -75,12 +73,14 @@ module IsoDoc
         b.at(ns("./docidentifier[@type = 'ITU']")) || super
       end
 
-      IGNORE_IDS =
-        "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or @type = 'rfc-anchor'".freeze
+      IGNORE_IDS = "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or "\
+        "@type = 'rfc-anchor'".freeze
 
       def multi_bibitem_ref_code(b)
-        id = b.xpath(ns("./docidentifier[not(@type = 'metanorma' or #{IGNORE_IDS})]"))
-        id.empty? and id = b.xpath(ns("./docidentifier[not(@type = 'metanorma')]"))
+        id = b.xpath(ns("./docidentifier[not(@type = 'metanorma' or "\
+                        "#{IGNORE_IDS})]"))
+        id.empty? and
+          id = b.xpath(ns("./docidentifier[not(@type = 'metanorma')]"))
         return [] if id.empty?
         id.sort_by { |i| i["type"] == "ITU" ? 0 : 1 }
       end
@@ -98,7 +98,8 @@ module IsoDoc
             /^(?<prefix>ITU-[A-Z] [A-Z])[ .-]Sup[a-z]*\.[ ]?(?<num>\d+)$/ =~ id.text
           "#{prefix}-series Recommendations – Supplement #{num}"
         else
-          "#{titlecase(type)} #{docid_prefix(id["type"], id.text.sub(/^\[/, '').sub(/\]$/, ''))}"
+          d = docid_prefix(id["type"], id.text.sub(/^\[/, '').sub(/\]$/, ''))
+          "#{titlecase(type)} #{d}"
         end
       end
 

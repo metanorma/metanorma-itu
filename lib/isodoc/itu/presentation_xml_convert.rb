@@ -36,11 +36,14 @@ module IsoDoc
       end
 
       def get_eref_linkend(node)
-        contents = non_locality_elems(node).select { |c| !c.text? || /\S/.match(c) }
+        contents = non_locality_elems(node).select do |c|
+          !c.text? || /\S/.match(c)
+        end
         return unless contents.empty?
         link = anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))
         link && !/^\[.*\]$/.match(link) and link = "[#{link}]"
-        link += eref_localities(node.xpath(ns("./locality | ./localityStack")), link)
+        link += eref_localities(node.xpath(ns("./locality | ./localityStack")),
+                                link)
         non_locality_elems(node).each { |n| n.remove }
         node.add_child(link)
       end

@@ -17,8 +17,10 @@ module IsoDoc
 
       def default_fonts(options)
         {
-          bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' : '"Times New Roman",serif'),
-          headerfont: (options[:script] == "Hans" ? '"SimHei",sans-serif' : '"Times New Roman",serif'),
+          bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' : 
+                     '"Times New Roman",serif'),
+          headerfont: (options[:script] == "Hans" ? '"SimHei",sans-serif' : 
+                       '"Times New Roman",serif'),
           monospacefont: '"Courier New",monospace'
         }
       end
@@ -39,7 +41,8 @@ module IsoDoc
       end
 
       def make_body(xml, docxml)
-        body_attr = { lang: "EN-US", link: "blue", vlink: "#954F72", "xml:lang": "EN-US", class: "container" }
+        body_attr = { lang: "EN-US", link: "blue", vlink: "#954F72", 
+                      "xml:lang": "EN-US", class: "container" }
         xml.body **body_attr do |body|
           make_body1(body, docxml)
           make_body2(body, docxml)

@@ -7,18 +7,21 @@ module IsoDoc
       def initialize(lang, script, labels)
         super
         here = File.dirname(__FILE__)
+        n = "International_Telecommunication_Union_Logo.svg"
         set(:logo_html,
-            File.expand_path(File.join(here, "html", "International_Telecommunication_Union_Logo.svg")))
+            File.expand_path(File.join(here, "html", n)))
         set(:logo_comb,
             File.expand_path(File.join(here, "html", "itu-document-comb.png")))
         set(:logo_word,
-            File.expand_path(File.join(here, "html", "International_Telecommunication_Union_Logo.svg")))
+            File.expand_path(File.join(here, "html", n)))
       end
 
       def title(isoxml, _out)
-        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}'][@type = 'main']"))&.text
+        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}']"\
+                             "[@type = 'main']"))&.text
         set(:doctitle, main)
-        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}'][@type = 'subtitle']"))&.text
+        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}']"\
+                             "[@type = 'subtitle']"))&.text
         set(:docsubtitle, main)
         series = isoxml&.at(ns("//bibdata/series[@type='main']/title"))&.text
         set(:series, series)

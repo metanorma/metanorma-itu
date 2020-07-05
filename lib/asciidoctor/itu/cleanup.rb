@@ -41,8 +41,6 @@ module Asciidoctor
           "<bibliography><sentinel/></bibliography>"
         ins = x.at("//bibliography").elements.first
         unless x.at("//bibliography/references[@normative = 'true']")
-          #ins.previous = "<references normative='true'><title>References</title><p>"\
-          #  "#{@labels['clause_empty']}</p></references>"
           ins.previous = "<references normative='true'><title>References</title>"\
             "</references>"
         end
@@ -69,8 +67,8 @@ module Asciidoctor
       def insert_conventions(x)
         ins =  x.at("//sections//definitions") ||
           x.at("//sections/clause[descendant::definitions]")
-        unless x.at("//sections/clause/title[text() = 'Conventions']")
-          ins.next = "<clause id='_#{UUIDTools::UUID.random_create}'>"\
+        unless x.at("//sections/clause[@type = 'conventions']")
+          ins.next = "<clause id='_#{UUIDTools::UUID.random_create}' type='conventions'>"\
             "<title>Conventions</title><p>"\
             "#{@labels['clause_empty']}</p></clause>"
         end

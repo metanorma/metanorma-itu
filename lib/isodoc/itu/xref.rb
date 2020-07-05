@@ -11,7 +11,7 @@ module IsoDoc
 
       def annex_name_lbl(clause, num)
         lbl = clause["obligation"] == "informative" ? @labels["appendix"] : @labels["annex"]
-        l10n("<b>#{lbl} #{num}</b>")
+        l10n("<strong>#{lbl} #{num}</strong>")
       end
 
       def annex_names(clause, num)

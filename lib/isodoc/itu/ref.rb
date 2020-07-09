@@ -6,6 +6,7 @@ module IsoDoc
   module ITU
     module BaseConvert
       def norm_ref(isoxml, out, num)
+=begin
         q = "//bibliography/references[@normative = 'true']"
         f = isoxml.at(ns(q)) or return num
         out.div do |div|
@@ -15,6 +16,7 @@ module IsoDoc
         end
         num
       end
+=end
 
       def nonstd_bibitem(list, b, ordinal, biblio)
         list.tr **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|

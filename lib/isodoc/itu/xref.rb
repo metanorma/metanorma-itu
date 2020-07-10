@@ -77,15 +77,17 @@ module IsoDoc
         termexample_anchor_names(d)
       end
 
-      MIDDLE_SECTIONS = "//clause[@type = 'scope'] | "\
-        "//foreword | //introduction | //acknowledgements | "\
-        " #{@klass.norm_ref_xpath} | "\
-        "//sections/terms | //preface/clause | "\
-        "//sections/definitions | //clause[parent::sections]".freeze
+      def middle_sections
+        "//clause[@type = 'scope'] | "\
+          "//foreword | //introduction | //acknowledgements | "\
+          " #{@klass.norm_ref_xpath} | "\
+          "//sections/terms | //preface/clause | "\
+          "//sections/definitions | //clause[parent::sections]"
+      end
 
       def middle_section_asset_names(d)
         return super unless @hierarchical_assets
-        d.xpath(ns(MIDDLE_SECTIONS)).each do |c|
+        d.xpath(ns(middle_sections)).each do |c|
           hierarchical_asset_names(c, @anchors[c["id"]][:label])
         end
       end
@@ -126,7 +128,7 @@ module IsoDoc
       end
 
       def sequential_formula_names(clause)
-        clause&.first&.xpath(ns(MIDDLE_SECTIONS))&.each do |c|
+        clause&.first&.xpath(ns(middle_sections))&.each do |c|
           if c["id"] && @anchors[c["id"]]
             hierarchical_formula_names(c, @anchors[c["id"]][:label] ||
                                        @anchors[c["id"]][:xref] || "???")

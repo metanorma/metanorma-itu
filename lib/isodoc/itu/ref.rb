@@ -5,8 +5,8 @@ require "fileutils"
 module IsoDoc
   module ITU
     module BaseConvert
-      def norm_ref(isoxml, out, num)
 =begin
+      def norm_ref(isoxml, out, num)
         q = "//bibliography/references[@normative = 'true']"
         f = isoxml.at(ns(q)) or return num
         out.div do |div|

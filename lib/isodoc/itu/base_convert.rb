@@ -59,7 +59,7 @@ module IsoDoc
       def annex_obligation_subtitle(annex, div)
         info = annex["obligation"] == "informative"
         div.p **{class: "annex_obligation" } do |p|
-          p << (info ? @inform_annex_lbl : @norm_annex_lbl).
+          p << (info ? @i18n.inform_annex : @i18n.norm_annex).
             sub(/%/, @meta.get[:doctype] || "")
         end
       end
@@ -78,10 +78,6 @@ module IsoDoc
             end
           end
         end
-      end
-
-      def fileloc(loc)
-        File.join(File.dirname(__FILE__), loc)
       end
 
       def cleanup(docxml)

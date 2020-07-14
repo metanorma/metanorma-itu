@@ -53,7 +53,7 @@ module IsoDoc
         dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/annexid"))
         oblig = isoxml&.at(ns("//annex/@obligation"))&.text
         lbl = oblig == "informative" ? @labels["appendix"] : @labels["annex"]
-        dn and set(:annexid, IsoDoc::Function::I18n::l10n("#{lbl} #{dn&.text}"))
+        dn and set(:annexid, @i18n.l10n("#{lbl} #{dn&.text}"))
       end
 
       def unpublished(status)

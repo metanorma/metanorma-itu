@@ -104,31 +104,16 @@ module Asciidoctor
       def term_defs_boilerplate(div, source, term, preface, isodoc)
         internal, external = terms_extract(div)
         internal&.next_element&.name == "term" and
-          internal.next = "<p>#{@internal_terms_boilerplate}</p>"
+          internal.next = "<p>#{@i18n.internal_terms_boilerplate}</p>"
         internal and internal&.next_element == nil and
-          internal.next = "<p>#{@no_terms_boilerplate}</p>"
+          internal.next = "<p>#{@i18n.no_terms_boilerplate}</p>"
         external&.next_element&.name == "term" and
-          external.next = "<p>#{@external_terms_boilerplate}</p>"
+          external.next = "<p>#{@i18n.external_terms_boilerplate}</p>"
         external and external&.next_element == nil and
-          external.next = "<p>#{@no_terms_boilerplate}</p>"
+          external.next = "<p>#{@i18n.no_terms_boilerplate}</p>"
         !internal and !external and
           %w(term terms).include? div&.next_element&.name and
-          div.next = "<p>#{@term_def_boilerplate}</p>"
-      end
-
-      def load_yaml(lang, script)
-        y = if @i18nyaml then YAML.load_file(@i18nyaml)
-            elsif lang == "en"
-              YAML.load_file(File.join(File.dirname(__FILE__), "i18n-en.yaml"))
-            else
-              YAML.load_file(File.join(File.dirname(__FILE__), "i18n-en.yaml"))
-            end
-        @symbols_boilerplate = y["symbols_boilerplate"] || ""
-        super.merge(y)
-      end
-
-      def i18n_init(lang, script)
-        super
+          div.next = "<p>#{@i18n.term_def_boilerplate}</p>"
       end
 
       def metadata_keywords(node, xml)

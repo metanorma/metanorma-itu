@@ -1528,7 +1528,7 @@ OUTPUT
                </div>
                <br/>
                <div>
-                 <h1 class="Section3">Bibliographie</h1>
+                 <h1 class="Section3">Bibliography</h1>
                  <table class='biblio' border='0'>
   <tbody/>
 </table>

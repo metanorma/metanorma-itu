@@ -30,7 +30,7 @@ module Asciidoctor
         ins = x.at("//sections").elements.first
         unless x.at("//sections/clause[@type = 'scope']")
           ins.previous = "<clause type='scope'><title>Scope</title><p>"\
-            "#{@labels['clause_empty']}</p></clause>"
+            "#{@i18n.clause_empty}</p></clause>"
         end
         x&.at("//sentinel")&.remove
       end
@@ -51,7 +51,7 @@ module Asciidoctor
         ins =  x.at("//sections/clause[@type = 'scope']")
         unless x.at("//sections//terms")
           ins.next = "<terms><title>Definitions</title><p>"\
-            "#{@labels['clause_empty']}</p></terms>"
+            "#{@i18n.clause_empty}</p></terms>"
         end
       end
 
@@ -60,7 +60,7 @@ module Asciidoctor
           x.at("//sections/clause[descendant::terms]")
         unless x.at("//sections//definitions")
           ins.next = "<definitions><title>Abbreviations and acronyms</title><p>"\
-            "#{@labels['clause_empty']}</p></definitions>"
+            "#{@i18n.clause_empty}</p></definitions>"
         end
       end
 
@@ -70,7 +70,7 @@ module Asciidoctor
         unless x.at("//sections/clause[@type = 'conventions']")
           ins.next = "<clause id='_#{UUIDTools::UUID.random_create}' type='conventions'>"\
             "<title>Conventions</title><p>"\
-            "#{@labels['clause_empty']}</p></clause>"
+            "#{@i18n.clause_empty}</p></clause>"
         end
       end
 
@@ -109,7 +109,7 @@ module Asciidoctor
       def symbols_cleanup(xmldoc)
         sym = xmldoc.at("//definitions/title")
         sym and sym&.next_element&.name == "dl" and
-          sym.next = "<p>#{@symbols_boilerplate}</p>"
+          sym.next = "<p>#{@i18n.symbols_boilerplate}</p>"
       end
 
       PUBLISHER = "./contributor[role/@type = 'publisher']/organization".freeze

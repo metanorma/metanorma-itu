@@ -1,30 +1,28 @@
 require "isodoc"
 require_relative "metadata"
 require_relative "xref"
+require_relative "i18n"
 
 module IsoDoc
   module ITU
     module Init
-      def metadata_init(lang, script, labels)
-        @meta = Metadata.new(lang, script, labels)
+      def metadata_init(lang, script, i18n)
+        @meta = Metadata.new(lang, script, i18n)
       end
 
-      def xref_init(lang, script, klass, labels, options)
+      def xref_init(lang, script, klass, i18n, options)
         html = HtmlConvert.new(language: lang, script: script)
         options = options.merge(hierarchical_assets: @hierarchical_assets)
-        @xrefs = Xref.new(lang, script, html, labels, options)
+        @xrefs = Xref.new(lang, script, html, i18n, options)
       end
 
-      def load_yaml(lang, script)
-        y = if @i18nyaml then YAML.load_file(@i18nyaml)
-            elsif lang == "en"
-              YAML.load_file(File.join(File.dirname(__FILE__), "i18n-en.yaml"))
-            else
-              YAML.load_file(File.join(File.dirname(__FILE__), "i18n-en.yaml"))
-            end
-        super.merge(y)
+      def i18n_init(lang, script, i18nyaml = nil)
+        @i18n = I18n.new(lang, script, i18nyaml || @i18nyaml)
       end
 
+      def fileloc(loc)
+        File.join(File.dirname(__FILE__), loc)
+      end
     end
   end
 end

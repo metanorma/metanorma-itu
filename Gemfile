@@ -3,7 +3,10 @@ Encoding.default_internal = Encoding::UTF_8
 
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}" }
-
+gem 'isodoc',
+    git: 'https://github.com/metanorma/isodoc.git',
+    branch: 'feature/sassc-gem-dependecey-removal',
+    ref: '536191fb46f9334e749bb56579901d784b25b751'
 gemspec
 
 if File.exist? 'Gemfile.devel'

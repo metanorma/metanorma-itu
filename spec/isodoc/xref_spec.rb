@@ -314,7 +314,6 @@ html = <<~OUTPUT
             </div>
             <div id='terms'>
               <h1>2.</h1>
-              <p>None.</p>
             </div>
             <div id='widgets'>
               <h1>3.&#160; Widgets</h1>

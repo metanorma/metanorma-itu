@@ -494,7 +494,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
      
               </div>
               </div>
-              <div id="L"><h2>2.3&#160; Other terms</h2><p>None.</p></div>
+              <div id="L"><h2>2.3&#160; Other terms</h2></div>
               </div>
            </div>
            </body>
@@ -934,6 +934,7 @@ OUTPUT
                </bibdata>
                <preface>
                <abstract>
+               <title>Abstract</title>
                    <xref target="A1"/>
                    <xref target="B1"/>
                </abstract>
@@ -973,6 +974,7 @@ OUTPUT
               </bibdata>
               <preface>
               <abstract>
+              <title>Abstract</title>
                   <xref target="A1">Annex A</xref>
                   <xref target="B1">Appendix I</xref>
               </abstract>
@@ -1461,7 +1463,7 @@ OUTPUT
         #{HTML_HDR}
         <br/>
         <div>
-  <h1 class="AbstractTitle">R&#233;sum&#233;</h1>
+  <h1 class="AbstractTitle">Abstract</h1>
   <p>This is an abstract</p>
 </div>
 <div id="A0">

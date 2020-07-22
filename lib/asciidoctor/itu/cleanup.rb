@@ -4,6 +4,7 @@ module Asciidoctor
       def sections_cleanup(x)
         super
         insert_missing_sections(x) unless @no_insert_missing_sections
+        insert_empty_clauses(x)
       end
 
       def table_cleanup(xmldoc)
@@ -29,7 +30,7 @@ module Asciidoctor
         x.at("./*/sections/*") or x.at("./*/sections") << "<sentinel/>"
         ins = x.at("//sections").elements.first
         unless x.at("//sections/clause[@type = 'scope']")
-          ins.previous = "<clause type='scope'><title>Scope</title><p>"\
+          ins.previous = "<clause type='scope'><title>#{@i18n.scope}</title><p>"\
             "#{@i18n.clause_empty}</p></clause>"
         end
         x&.at("//sentinel")&.remove
@@ -41,7 +42,7 @@ module Asciidoctor
           "<bibliography><sentinel/></bibliography>"
         ins = x.at("//bibliography").elements.first
         unless x.at("//bibliography/references[@normative = 'true']")
-          ins.previous = "<references normative='true'><title>References</title>"\
+          ins.previous = "<references normative='true'><title>#{@i18n.normref}</title>"\
             "</references>"
         end
         x&.at("//sentinel")&.remove
@@ -50,8 +51,7 @@ module Asciidoctor
       def insert_terms(x)
         ins =  x.at("//sections/clause[@type = 'scope']")
         unless x.at("//sections//terms")
-          ins.next = "<terms><title>Definitions</title><p>"\
-            "#{@i18n.clause_empty}</p></terms>"
+          ins.next = "<terms><title>#{@i18n.termsdef}</title></terms>"
         end
       end
 
@@ -59,8 +59,7 @@ module Asciidoctor
         ins =  x.at("//sections/terms") ||
           x.at("//sections/clause[descendant::terms]")
         unless x.at("//sections//definitions")
-          ins.next = "<definitions><title>Abbreviations and acronyms</title><p>"\
-            "#{@i18n.clause_empty}</p></definitions>"
+          ins.next = "<definitions><title>#{@i18n.symbolsabbrev}</title></definitions>"
         end
       end
 
@@ -69,9 +68,24 @@ module Asciidoctor
           x.at("//sections/clause[descendant::definitions]")
         unless x.at("//sections/clause[@type = 'conventions']")
           ins.next = "<clause id='_#{UUIDTools::UUID.random_create}' type='conventions'>"\
-            "<title>Conventions</title><p>"\
+            "<title>#{@i18n.conventions}</title><p>"\
             "#{@i18n.clause_empty}</p></clause>"
         end
+      end
+
+      def insert_empty_clauses(x)
+        x.xpath("//terms[not(./term)][not(.//terms)]").each do |c|
+          insert_empty_clauses1(c, @i18n.clause_empty)
+        end
+        x.xpath("//definitions[not(./dl)]").each do |c|
+          insert_empty_clauses1(c, @i18n.clause_empty)
+        end
+      end
+
+      def insert_empty_clauses1(c, text)
+        c.at("./p") and return
+        ins = c.at("./title") or return
+        ins.next = "<p>#{text}</p>"
       end
 
       def cleanup(xmldoc)
@@ -92,18 +106,40 @@ module Asciidoctor
         xmldoc
       end
 
-      def termdef_cleanup(xmldoc)
-        xmldoc.xpath("//term/preferred").each do |p|
-          if ["terms defined elsewhere",
-              "terms defined in this recommendation"].include? p.text.downcase
-            p.name = "title"
-            p.parent.name = "terms"
-          end
-        end
-        super
+      def termdef_boilerplate_cleanup(xmldoc)
       end
 
-      def termdef_boilerplate_cleanup(xmldoc)
+      def terms_extract(div)
+        internal = div.at("./terms[@type = 'internal']/title")
+        external = div.at("./terms[@type = 'external']/title")
+        [internal, external]
+      end
+
+      def term_defs_boilerplate(div, source, term, preface, isodoc)
+        internal, external = terms_extract(div.parent)
+        internal&.next_element&.name == "term" and
+          internal.next = "<p>#{@i18n.internal_terms_boilerplate}</p>"
+        internal and internal&.next_element == nil and
+          internal.next = "<p>#{@i18n.no_terms_boilerplate}</p>"
+        external&.next_element&.name == "term" and
+          external.next = "<p>#{@i18n.external_terms_boilerplate}</p>"
+        external and external&.next_element == nil and
+          external.next = "<p>#{@i18n.no_terms_boilerplate}</p>"
+        !internal and !external and
+          %w(term terms).include? div&.next_element&.name and
+          div.next = "<p>#{@i18n.term_def_boilerplate}</p>"
+      end
+
+      def section_names_terms_cleanup(x)
+        super
+        replace_title(
+          x, "//terms[@type = 'internal'] | "\
+          "//clause[./terms[@type = 'internal']][not(./terms[@type = 'external'])]", 
+          @i18n&.internal_termsdef)
+        replace_title(
+          x, "//terms[@type = 'external'] | "\
+          "//clause[./terms[@type = 'external']][not(./terms[@type = 'internal'])]", 
+          @i18n&.external_termsdef)
       end
 
       def symbols_cleanup(xmldoc)
@@ -157,13 +193,6 @@ module Asciidoctor
         xmldoc.xpath("//references").each do |r|
           biblio_reorder1(r)
         end
-      end
-
-      def normref_cleanup(xmldoc)
-        super
-        r = xmldoc.at(NORM_REF) || return
-        title = r.at("./title") and
-          title.content = "References"
       end
     end
   end

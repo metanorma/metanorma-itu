@@ -79,41 +79,22 @@ module Asciidoctor
         when "definitions" then "terms and definitions"
         when "abbreviations and acronyms" then "symbols and abbreviated terms"
         when "references" then "normative references"
+        when "terms defined elsewhere" then "terms and definitions"
+        when "terms defined in this recommendation" then "terms and definitions"
         else
           super
         end
       end
 
-      def term_def_title(toplevel, node)
-        return node.title unless toplevel
-        "Definitions"
-      end
-
-      def terms_extract(div)
-        internal = nil
-        external = nil
-        div.parent.xpath("./terms/title").each do |t|
-          case t&.text&.downcase
-          when "terms defined elsewhere" then external = t
-          when "terms defined in this recommendation" then internal = t
-          end
+      def term_def_subclause_parse(attrs, xml, node)
+        case clausetype = sectiontype1(node)
+        when "terms defined in this recommendation"
+          term_def_parse(attrs.merge(type: "internal"), xml, node, false)
+        when "terms defined elsewhere"
+          term_def_parse(attrs.merge(type: "external"), xml, node, false)
+        else
+          super
         end
-        [internal, external]
-      end
-
-      def term_defs_boilerplate(div, source, term, preface, isodoc)
-        internal, external = terms_extract(div)
-        internal&.next_element&.name == "term" and
-          internal.next = "<p>#{@i18n.internal_terms_boilerplate}</p>"
-        internal and internal&.next_element == nil and
-          internal.next = "<p>#{@i18n.no_terms_boilerplate}</p>"
-        external&.next_element&.name == "term" and
-          external.next = "<p>#{@i18n.external_terms_boilerplate}</p>"
-        external and external&.next_element == nil and
-          external.next = "<p>#{@i18n.no_terms_boilerplate}</p>"
-        !internal and !external and
-          %w(term terms).include? div&.next_element&.name and
-          div.next = "<p>#{@i18n.term_def_boilerplate}</p>"
       end
 
       def metadata_keywords(node, xml)
@@ -124,7 +105,7 @@ module Asciidoctor
       end
 
       def clause_parse(attrs, xml, node)
-        case clausetype = node&.attr("heading")&.downcase || node.title.downcase
+        case clausetype = sectiontype1(node)
         when "conventions" then attrs = attrs.merge(type: "conventions")
         when "history" 
           attrs[:preface] and attrs = attrs.merge(type: "history")

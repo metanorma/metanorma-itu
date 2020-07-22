@@ -15,7 +15,7 @@ RSpec.describe Asciidoctor::ITU do
   #  expect(xmlpp(File.exist?("spec/examples/rfc6350.html"))).to be true
   #  expect(xmlpp(File.exist?("spec/examples/rfc6350.pdf"))).to be true
   #end
-
+  
   it "processes a blank document" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     #{ASCIIDOC_BLANK_HDR}
@@ -623,114 +623,134 @@ OUTPUT
       == Second Bibliography
     INPUT
     #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
-    <preface><abstract id="_">
-  <p id="_">Text</p>
-</abstract>
-<foreword id="_" obligation='informative'>
+    <preface>
+           <abstract id='_'>
+             <title>Abstract</title>
+             <p id='_'>Text</p>
+           </abstract>
+           <foreword id='_' obligation='informative'>
              <title>Foreword</title>
              <p id='_'>Text</p>
            </foreword>
            <introduction id='_' obligation='informative'>
              <title>Introduction</title>
-             <clause id='_' obligation='informative' inline-header='false'>
+             <clause id='_' inline-header='false' obligation='informative'>
                <title>Introduction Subsection</title>
              </clause>
            </introduction>
            <clause id='_' type='history' inline-header='false' obligation='informative'>
-  <title>History</title>
-</clause>
-<clause id='_' type='source' inline-header='false' obligation='informative'>
-  <title>Source</title>
-</clause>
+             <title>History</title>
+           </clause>
+           <clause id='_' type='source' inline-header='false' obligation='informative'>
+             <title>Source</title>
+           </clause>
          </preface>
          <sections>
-<clause id="_" obligation="normative" inline-header='false' type="scope">
-  <title>Scope</title>
-  <p id="_">Text</p>
-</clause>
-<terms id="_" obligation="normative">
-  <title>Definitions</title>
-  <p id="_">This Recommendation defines the following terms:</p>
-  <term id="_">
-  <preferred>Term1</preferred>
-</term>
-</terms>
-<clause id="_" obligation="normative"><title>Definitions</title><clause id="_" obligation="normative" inline-header='false'>
-  <title>Introduction</title>
-  <clause id="_" obligation="normative" inline-header='false'>
-  <title>Intro 1</title>
-</clause>
-</clause>
-<terms id="_" obligation="normative">
-  <title>Intro 2</title>
-  <clause id="_" obligation="normative" inline-header='false'>
-  <title>Intro 3</title>
-</clause>
-</terms>
-<clause id="_" obligation="normative">
-  <title>Intro 4</title>
-  <terms id="_" obligation="normative">
-  <title>Intro 5</title>
-  <term id="_">
-  <preferred>Term1</preferred>
-</term>
-</terms>
-</clause>
-<clause id="_" obligation="normative"><title>Normal Terms</title><term id="_">
-  <preferred>Term2</preferred>
-</term>
-<terms id="_" obligation="normative">
-  <title>Terms defined elsewhere</title>
-</terms></clause>
-<definitions id="_" obligation='normative'><title>Symbols and Abbreviated Terms</title><clause id="_" obligation="normative" inline-header='false'>
-  <title>General</title>
-</clause>
-<definitions id="_" obligation='normative'>
-  <title>Symbols 1</title>
-</definitions></definitions></clause>
-<definitions id="_" obligation='normative'>
-  <title>Abbreviated Terms</title>
-</definitions>
-<clause id='_' type='conventions' inline-header='false' obligation='normative'>
-  <title>Conventions</title>
-</clause>
-<clause id="_" obligation="normative" inline-header='false'><title>Clause 4</title><clause id="_" obligation="normative" inline-header='false'>
-  <title>Introduction</title>
-</clause>
-<clause id="_" obligation="normative" inline-header='false'>
-  <title>Clause 4.2</title>
-</clause></clause>
-<clause id="_" obligation="normative" inline-header='false'>
-  <title>Terms and Definitions</title>
-</clause>
-<clause id='_' inline-header='false' obligation='normative'>
-  <title>History</title>
-</clause>
-<clause id='_' inline-header='false' obligation='normative'>
-  <title>Source</title>
-</clause>
-
-</sections><annex id="_" obligation="normative" inline-header='false'>
-  <title>Annex</title>
-  <clause id="_" obligation="normative" inline-header='false'>
-  <title>Annex A.1</title>
-</clause>
-</annex><bibliography>
-<references id="_" obligation="informative" normative="true">
-  <title>References</title>
-  <p id="_">None.</p>
-</references>
-<clause id="_" obligation="informative">
-  <title>Bibliography</title>
-  <references id="_" obligation="informative" normative="false">
-  <title>Bibliography Subsection</title>
-</references>
-</clause>
-<references id="_" obligation="informative" normative="false">
-         <title>Bibliography</title>
-       </references>
-</bibliography>
-</itu-standard>
+           <clause id='_' type='scope' inline-header='false' obligation='normative'>
+             <title>Scope</title>
+             <p id='_'>Text</p>
+           </clause>
+           <terms id='_' obligation='normative'>
+             <title>Definitions</title>
+             <p id='_'>This Recommendation defines the following terms:</p>
+             <term id='_'>
+               <preferred>Term1</preferred>
+             </term>
+           </terms>
+           <clause id='_' obligation='normative'>
+             <title>Definitions</title>
+             <clause id='_' inline-header='false' obligation='normative'>
+               <title>Introduction</title>
+               <clause id='_' inline-header='false' obligation='normative'>
+                 <title>Intro 1</title>
+               </clause>
+             </clause>
+             <terms id='_' obligation='normative'>
+               <title>Intro 2</title>
+               <p id='_'>None.</p>
+               <clause id='_' inline-header='false' obligation='normative'>
+                 <title>Intro 3</title>
+               </clause>
+             </terms>
+             <clause id='_' obligation='normative'>
+               <title>Intro 4</title>
+               <terms id='_' obligation='normative'>
+                 <title>Intro 5</title>
+                 <term id='_'>
+                   <preferred>Term1</preferred>
+                 </term>
+               </terms>
+             </clause>
+             <clause id='_' obligation='normative'>
+               <title>Normal Terms</title>
+               <term id='_'>
+                 <preferred>Term2</preferred>
+               </term>
+               <terms id='_' type='external' obligation='normative'>
+                 <title>Terms defined elsewhere</title>
+                 <p id='_'>None.</p>
+               </terms>
+             </clause>
+             <definitions id='_' obligation='normative'>
+               <title>Abbreviations and acronyms</title>
+               <p id='_'>None.</p>
+               <clause id='_' inline-header='false' obligation='normative'>
+                 <title>General</title>
+               </clause>
+               <definitions id='_' obligation='normative'>
+                 <title>Abbreviations and acronyms</title>
+                 <p id='_'>None.</p>
+               </definitions>
+             </definitions>
+           </clause>
+           <definitions id='_' type='abbreviated_terms' obligation='normative'>
+             <title>Abbreviations and acronyms</title>
+             <p id='_'>None.</p>
+           </definitions>
+           <clause id='_' type='conventions' inline-header='false' obligation='normative'>
+             <title>Conventions</title>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause 4</title>
+             <clause id='_' inline-header='false' obligation='normative'>
+               <title>Introduction</title>
+             </clause>
+             <clause id='_' inline-header='false' obligation='normative'>
+               <title>Clause 4.2</title>
+             </clause>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Terms and Definitions</title>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>History</title>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Source</title>
+           </clause>
+         </sections>
+         <annex id='_' inline-header='false' obligation='normative'>
+           <title>Annex</title>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Annex A.1</title>
+           </clause>
+         </annex>
+         <bibliography>
+           <references id='_' normative='true' obligation='informative'>
+             <title>References</title>
+             <p id='_'>None.</p>
+           </references>
+           <clause id='_' obligation='informative'>
+             <title>Bibliography</title>
+             <references id='_' normative='false' obligation='informative'>
+               <title>Bibliography Subsection</title>
+             </references>
+           </clause>
+           <references id='_' normative='false' obligation='informative'>
+             <title>Bibliography</title>
+           </references>
+         </bibliography>
+       </itu-standard>
 OUTPUT
   end
 
@@ -806,22 +826,25 @@ OUTPUT
         ==== Term 2
         INPUT
         #{BLANK_HDR}
-        <sections>
-         <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative">
-         <title>terms defined elsewhere</title>
-         <p id="_">This Recommendation uses the following terms defined elsewhere:</p>
-         <term id="_">
-         <preferred>Term 1</preferred>
-       </term>
-       </terms>
-       <terms id="_" obligation="normative">
-         <title>terms defined in this recommendation</title>
-         <p id="_">This Recommendation defines the following terms:</p>
-         <term id="_">
-         <preferred>Term 2</preferred>
-       </term>
-       </terms></clause>
-       </sections>
+       <sections>
+           <clause id='_' obligation='normative'>
+             <title>Definitions</title>
+             <terms id='_' type='external' obligation='normative'>
+               <title>Terms defined elsewhere</title>
+               <p id='_'>This Recommendation uses the following terms defined elsewhere:</p>
+               <term id='_'>
+                 <preferred>Term 1</preferred>
+               </term>
+             </terms>
+             <terms id='_' type='internal' obligation='normative'>
+               <title>Terms defined in this recommendation</title>
+               <p id='_'>This Recommendation defines the following terms:</p>
+               <term id='_'>
+                 <preferred>Term 2</preferred>
+               </term>
+             </terms>
+           </clause>
+         </sections>
        </itu-standard>
         OUTPUT
    end
@@ -834,15 +857,20 @@ OUTPUT
         === terms defined in this recommendation
         INPUT
         #{BLANK_HDR}
-        <sections>
-  <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative">
-  <title>terms defined elsewhere</title><p id="_">None.</p>
-</terms>
-<terms id="_" obligation="normative">
-  <title>terms defined in this recommendation</title><p id="_">None.</p>
-</terms></clause>
-</sections>
-</itu-standard>
+<sections>
+           <clause id='_' obligation='normative'>
+             <title>Definitions</title>
+             <terms id='_' type='external' obligation='normative'>
+               <title>Terms defined elsewhere</title>
+               <p id='_'>None.</p>
+             </terms>
+             <terms id='_' type='internal' obligation='normative'>
+               <title>Terms defined in this recommendation</title>
+               <p id='_'>None.</p>
+             </terms>
+           </clause>
+         </sections>
+       </itu-standard>
         OUTPUT
    end
 
@@ -863,15 +891,24 @@ OUTPUT
         INPUT
         #{BLANK_HDR}
         <sections>
-         <clause id="_" obligation="normative"><title>Definitions</title><terms id="_" obligation="normative"><title>terms defined elsewhere</title><p id="_">Boilerplate</p>
-       <term id="_">
-         <preferred>Term 1</preferred>
-       </term></terms>
-       <terms id="_" obligation="normative"><title>terms defined in this recommendation</title><p id="_">Boilerplate</p>
-       <term id="_">
-         <preferred>Term 2</preferred>
-       </term></terms></clause>
-       </sections>
+           <clause id='_' obligation='normative'>
+             <title>Definitions</title>
+             <terms id='_' type='external' obligation='normative'>
+               <title>Terms defined elsewhere</title>
+               <p id='_'>Boilerplate</p>
+               <term id='_'>
+                 <preferred>Term 1</preferred>
+               </term>
+             </terms>
+             <terms id='_' type='internal' obligation='normative'>
+               <title>Terms defined in this recommendation</title>
+               <p id='_'>Boilerplate</p>
+               <term id='_'>
+                 <preferred>Term 2</preferred>
+               </term>
+             </terms>
+           </clause>
+         </sections>
        </itu-standard>
         OUTPUT
    end
@@ -981,6 +1018,33 @@ end
 </itu-standard>
 OUTPUT
 end
+
+  it "inserts empty clause boilerplate" do
+           expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+        #{ASCIIDOC_BLANK_HDR}
+        == Terms and definitions
+
+        [bibliography]
+        == Normative References
+
+        INPUT
+        #{BLANK_HDR}
+        <sections>
+           <terms id='_' obligation='normative'>
+             <title>Definitions</title>
+             <p id='_'>None.</p>
+           </terms>
+         </sections>
+         <bibliography>
+           <references id='_' normative='true' obligation='informative'>
+             <title>References</title>
+             <p id='_'>None.</p>
+           </references>
+         </bibliography>
+       </itu-standard>
+OUTPUT
+end
+
 
   it "processes steps class of ordered lists" do
            expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")

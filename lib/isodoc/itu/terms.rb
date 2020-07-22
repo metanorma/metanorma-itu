@@ -1,15 +1,12 @@
 module IsoDoc
   module ITU
     module BaseConvert
-      def term_def_title(node)
-        node
-      end
-
+=begin
       def terms_defs(node, out, num)
         f = node.at(ns(IsoDoc::Convert::TERM_CLAUSE)) or return num
         out.div **attr_code(id: f["id"]) do |div|
           num = num + 1
-          clause_name(num, term_def_title(f.at(ns("./title"))), div, nil)
+          clause_name(num, f.at(ns("./title")), div, nil)
           if f.at(ns("./clause | ./terms | ./term")).nil? then out.p "None."
           else
             f.children.reject { |c1| c1.name == "title" }.each do |c1|
@@ -31,6 +28,7 @@ module IsoDoc
           end
         end
       end
+=end
 
       def termdef_parse1(node, div, defn, source)
         div.p **{ class: "TermNum", id: node["id"] } do |p|

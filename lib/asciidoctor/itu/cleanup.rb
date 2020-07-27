@@ -23,6 +23,10 @@ module Asciidoctor
         insert_conventions(x)
       end
 
+      def add_id
+        %(id="_#{UUIDTools::UUID.random_create}")
+      end
+
       def insert_scope(x)
         x.at("./*/sections") or
           x.at("./*/preface | ./*/boilerplate | ./*/bibdata").next =
@@ -30,7 +34,8 @@ module Asciidoctor
         x.at("./*/sections/*") or x.at("./*/sections") << "<sentinel/>"
         ins = x.at("//sections").elements.first
         unless x.at("//sections/clause[@type = 'scope']")
-          ins.previous = "<clause type='scope'><title>#{@i18n.scope}</title><p>"\
+          ins.previous =
+            "<clause type='scope' #{add_id}><title>#{@i18n.scope}</title><p>"\
             "#{@i18n.clause_empty}</p></clause>"
         end
         x&.at("//sentinel")&.remove
@@ -42,8 +47,8 @@ module Asciidoctor
           "<bibliography><sentinel/></bibliography>"
         ins = x.at("//bibliography").elements.first
         unless x.at("//bibliography/references[@normative = 'true']")
-          ins.previous = "<references normative='true'><title>#{@i18n.normref}</title>"\
-            "</references>"
+          ins.previous = "<references #{add_id} normative='true'>"\
+            "<title>#{@i18n.normref}</title></references>"
         end
         x&.at("//sentinel")&.remove
       end
@@ -51,7 +56,7 @@ module Asciidoctor
       def insert_terms(x)
         ins =  x.at("//sections/clause[@type = 'scope']")
         unless x.at("//sections//terms")
-          ins.next = "<terms><title>#{@i18n.termsdef}</title></terms>"
+          ins.next = "<terms #{add_id}><title>#{@i18n.termsdef}</title></terms>"
         end
       end
 
@@ -59,7 +64,8 @@ module Asciidoctor
         ins =  x.at("//sections/terms") ||
           x.at("//sections/clause[descendant::terms]")
         unless x.at("//sections//definitions")
-          ins.next = "<definitions><title>#{@i18n.symbolsabbrev}</title></definitions>"
+          ins.next = "<definitions #{add_id}>"\
+            "<title>#{@i18n.symbolsabbrev}</title></definitions>"
         end
       end
 
@@ -67,7 +73,7 @@ module Asciidoctor
         ins =  x.at("//sections//definitions") ||
           x.at("//sections/clause[descendant::definitions]")
         unless x.at("//sections/clause[@type = 'conventions']")
-          ins.next = "<clause id='_#{UUIDTools::UUID.random_create}' type='conventions'>"\
+          ins.next = "<clause #{add_id} type='conventions'>"\
             "<title>#{@i18n.conventions}</title><p>"\
             "#{@i18n.clause_empty}</p></clause>"
         end

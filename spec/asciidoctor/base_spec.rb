@@ -53,15 +53,15 @@ RSpec.describe Asciidoctor::ITU do
       INPUT
     #{BLANK_HDR}
     <sections>
-    <clause obligation='normative' type="scope">
+    <clause obligation='normative' type="scope" id="_">
              <title>Scope</title>
              <p id='_'>None.</p>
            </clause>
-           <terms obligation='normative'>
+           <terms obligation='normative' id="_">
              <title>Definitions</title>
              <p id='_'>None.</p>
            </terms>
-           <definitions obligation='normative'>
+           <definitions obligation='normative' id="_">
              <title>Abbreviations and acronyms</title>
              <p id='_'>None.</p>
            </definitions>
@@ -71,7 +71,7 @@ RSpec.describe Asciidoctor::ITU do
            </clause>
 </sections>
 <bibliography>
-  <references obligation='informative' normative="true">
+  <references obligation='informative' normative="true" id="_">
     <title>References</title>
     <p id='_'>None.</p>
   </references>

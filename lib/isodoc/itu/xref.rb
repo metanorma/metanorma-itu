@@ -162,8 +162,11 @@ module IsoDoc
           notes.each do |n|
             return if n["id"].nil? || n["id"].empty?
             idx = notes.size == 1 ? "" : " #{c.increment(n).print}"
-            @anchors[n["id"]] = anchor_struct(idx, n, @labels["note_xref"],
-                                              "termnote", false)
+            @anchors[n["id"]] = 
+              { label: termnote_label(idx).strip, type: "termnote",
+              xref: l10n("#{anchor(t['id'], :xref)}, "\
+                         "#{@labels["note_xref"]} #{c.print}") }
+
           end
         end
       end

@@ -341,19 +341,41 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
 
 
   it "processes simple terms & definitions" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
                <itu-standard xmlns="http://riboseinc.com/isoxml">
        <preface/><sections>
-       <terms id="H" obligation="normative"><title>1<tab/>Terms</title>
+       <terms id="H" obligation="normative"><title>Terms</title>
          <term id="J">
-         <name>1.1</name>
+         <preferred>Term2</preferred>
+         <definition><p>This is a journey into sound</p></definition>
+         <termsource><origin citeas="XYZ">x y z</origin></termsource>
+         <termnote id="J1" keep-with-next="true" keep-lines-together="true"><p>This is a note</p></termnote>
+       </term>
+         <term id="K">
+         <preferred>Term3</preferred>
+         <definition><p>This is a journey into sound</p></definition>
+         <termsource><origin citeas="XYZ">x y z</origin></termsource>
+         <termnote id="J2"><p>This is a note</p></termnote>
+         <termnote id="J3"><p>This is a note</p></termnote>
+       </term>
+        </terms>
+        </sections>
+        </itu-standard>
+    INPUT
+
+    presxml = <<~INPUT
+               <itu-standard xmlns="http://riboseinc.com/isoxml">
+       <preface/><sections>
+       <terms id="H" obligation="normative"><title depth="1">1.<tab/>Terms</title>
+         <term id="J">
+         <name>1.1.</name>
          <preferred>Term2</preferred>
          <definition><p>This is a journey into sound</p></definition>
          <termsource><origin citeas="XYZ">x y z</origin></termsource>
          <termnote id="J1" keep-with-next="true" keep-lines-together="true"><name>NOTE</name><p>This is a note</p></termnote>
        </term>
          <term id="K">
-         <name>1.2</name>
+         <name>1.2.</name>
          <preferred>Term3</preferred>
          <definition><p>This is a journey into sound</p></definition>
          <termsource><origin citeas="XYZ">x y z</origin></termsource>
@@ -364,37 +386,42 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
         </sections>
         </itu-standard>
     INPUT
+
+    output = <<~OUTPUT
         #{HTML_HDR}
-               <p class="zzSTDTitle1"/>
-             <p class="zzSTDTitle2"/>
-               <div id="H"><h1>1&#160; Terms</h1>
-               <div id='J'>
+           <p class='zzSTDTitle1'/>
+           <p class='zzSTDTitle2'/>
+           <div id='H'>
+             <h1>1.&#160; Terms</h1>
+             <div id='J'>
                <p class='TermNum' id='J'>
-                 <b>1.1&#160; Term2</b>
-                  [XYZ]: 
+                 <b>1.1.&#160; Term2</b>
+                  [XYZ]:
                </p>
                <p>This is a journey into sound</p>
-               <div id="J1" class='Note' style='page-break-after: avoid;page-break-inside: avoid;'>
+               <div id='J1' class='Note' style='page-break-after: avoid;page-break-inside: avoid;'>
                  <p>NOTE &#8211; This is a note</p>
                </div>
              </div>
              <div id='K'>
                <p class='TermNum' id='K'>
-                 <b>1.2&#160; Term3</b>
-                  [XYZ]: 
+                 <b>1.2.&#160; Term3</b>
+                  [XYZ]:
                </p>
                <p>This is a journey into sound</p>
-               <div id="J2" class='Note'>
+               <div id='J2' class='Note'>
                  <p>NOTE 1 &#8211; This is a note</p>
                </div>
-               <div id="J3" class='Note'>
+               <div id='J3' class='Note'>
                  <p>NOTE 2 &#8211; This is a note</p>
                </div>
              </div>
            </div>
          </div>
-         </body>
+       </body>
     OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(output)
   end
 
   it "postprocesses simple terms & definitions" do

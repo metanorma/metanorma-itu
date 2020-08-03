@@ -33,11 +33,10 @@ module Asciidoctor
           "<sections><sentinel/></sections>"
         x.at("./*/sections/*") or x.at("./*/sections") << "<sentinel/>"
         ins = x.at("//sections").elements.first
-        unless x.at("//sections/clause[@type = 'scope']")
+        x.at("//sections/clause[@type = 'scope']") or
           ins.previous =
             "<clause type='scope' #{add_id}><title>#{@i18n.scope}</title><p>"\
             "#{@i18n.clause_empty}</p></clause>"
-        end
         x&.at("//sentinel")&.remove
       end
 
@@ -46,18 +45,16 @@ module Asciidoctor
           x.at("./*/annex[last()] | ./*/sections").next =
           "<bibliography><sentinel/></bibliography>"
         ins = x.at("//bibliography").elements.first
-        unless x.at("//bibliography/references[@normative = 'true']")
+        x.at("//bibliography/references[@normative = 'true']") or
           ins.previous = "<references #{add_id} normative='true'>"\
-            "<title>#{@i18n.normref}</title></references>"
-        end
+          "<title>#{@i18n.normref}</title></references>"
         x&.at("//sentinel")&.remove
       end
 
       def insert_terms(x)
         ins =  x.at("//sections/clause[@type = 'scope']")
-        unless x.at("//sections//terms")
+        x.at("//sections//terms") or
           ins.next = "<terms #{add_id}><title>#{@i18n.termsdef}</title></terms>"
-        end
       end
 
       def insert_symbols(x)

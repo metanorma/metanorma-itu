@@ -658,7 +658,7 @@ OUTPUT
              </term>
            </terms>
            <clause id='_' obligation='normative'>
-             <title>Definitions</title>
+             <title>Terms, Definitions, Symbols and Abbreviated Terms</title>
              <clause id='_' inline-header='false' obligation='normative'>
                <title>Introduction</title>
                <clause id='_' inline-header='false' obligation='normative'>
@@ -691,17 +691,15 @@ OUTPUT
                  <p id='_'>None.</p>
                </terms>
              </clause>
-             <definitions id='_' obligation='normative'>
-               <title>Abbreviations and acronyms</title>
-               <p id='_'>None.</p>
+             <terms id='_' obligation='normative'>
+               <title>Symbols and Abbreviated Terms</title>
                <clause id='_' inline-header='false' obligation='normative'>
                  <title>General</title>
                </clause>
-               <definitions id='_' obligation='normative'>
-                 <title>Abbreviations and acronyms</title>
-                 <p id='_'>None.</p>
-               </definitions>
-             </definitions>
+               <term id='_'>
+                 <preferred>Symbols 1</preferred>
+               </term>
+             </terms>
            </clause>
            <definitions id='_' type='abbreviated_terms' obligation='normative'>
              <title>Abbreviations and acronyms</title>
@@ -1246,6 +1244,102 @@ end
        </itu-standard>
     OUTPUT
   end
+
+     it "has unique terms and definitions clauses" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      #{ASCIIDOC_BLANK_HDR}
+      
+      == Definitions
+
+      === Term 1
+
+      == Abbreviations and acronyms
+
+      a:: b
+
+      == Clause
+
+      === Definitions
+
+      ==== Term 1
+
+      === Abbreviations and acronyms
+
+      a:: b
+
+      == Clause 2
+
+      [heading=Definitions]
+      === Definitions
+
+      ==== Term 1
+
+      [heading=Abbreviations and acronyms]
+      === Abbreviations and acronyms
+
+      a:: b
+
+
+    INPUT
+    #{BLANK_HDR}
+         <sections>
+           <terms id='_' obligation='normative'>
+             <title>Definitions</title>
+             <p id='_'>This Recommendation defines the following terms:</p>
+             <term id='_'>
+               <preferred>Term 1</preferred>
+             </term>
+           </terms>
+           <definitions id='_' obligation='normative'>
+             <title>Abbreviations and acronyms</title>
+             <p id='_'>This Recommendation uses the following abbreviations and acronyms:</p>
+             <dl id='_'>
+               <dt>a</dt>
+               <dd>
+                 <p id='_'>b</p>
+               </dd>
+             </dl>
+           </definitions>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause</title>
+             <clause id='_' inline-header='false' obligation='normative'>
+               <title>Definitions</title>
+               <clause id='_' inline-header='false' obligation='normative'>
+                 <title>Term 1</title>
+               </clause>
+             </clause>
+             <clause id='_' inline-header='false' obligation='normative'>
+               <title>Abbreviations and acronyms</title>
+               <dl id='_'>
+                 <dt>a</dt>
+                 <dd>
+                   <p id='_'>b</p>
+                 </dd>
+               </dl>
+             </clause>
+           </clause>
+           <clause id='_' inline-header='false' obligation='normative'>
+             <title>Clause 2</title>
+             <clause id='_' inline-header='false' obligation='normative'>
+               <title>Definitions</title>
+               <clause id='_' inline-header='false' obligation='normative'>
+                 <title>Term 1</title>
+               </clause>
+             </clause>
+             <definitions id='_' obligation='normative'>
+               <title>Abbreviations and acronyms</title>
+               <dl id='_'>
+                 <dt>a</dt>
+                 <dd>
+                   <p id='_'>b</p>
+                 </dd>
+               </dl>
+             </definitions>
+           </clause>
+         </sections>
+       </itu-standard>
+OUTPUT
+     end
 
 
 end

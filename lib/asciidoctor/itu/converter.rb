@@ -86,6 +86,16 @@ module Asciidoctor
         end
       end
 
+      def sectiontype(node, level = true)
+        ret = super
+        hdr = sectiontype_streamline(node&.attr("heading")&.downcase)
+        return nil if ret == "terms and definitions" && 
+          hdr != "terms and definitions" && node.level > 1
+        return nil if ret == "symbols and abbreviated terms" && 
+          hdr != "symbols and abbreviated terms" && node.level > 1
+        ret
+      end
+
       def term_def_subclause_parse(attrs, xml, node)
         case clausetype = sectiontype1(node)
         when "terms defined in this recommendation"

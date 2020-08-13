@@ -106,14 +106,12 @@ RSpec.describe Asciidoctor::ITU do
     <role type="author"/>
     <organization>
       <name>International Telecommunication Union</name>
-      <abbreviation>ITU</abbreviation>
     </organization>
   </contributor>
   <contributor>
     <role type="publisher"/>
     <organization>
       <name>International Telecommunication Union</name>
-      <abbreviation>ITU</abbreviation>
     </organization>
   </contributor>
   <version>
@@ -130,7 +128,6 @@ RSpec.describe Asciidoctor::ITU do
     <owner>
       <organization>
         <name>International Telecommunication Union</name>
-        <abbreviation>ITU</abbreviation>
       </organization>
     </owner>
   </copyright>
@@ -240,14 +237,29 @@ OUTPUT
     <role type="author"/>
     <organization>
       <name>International Telecommunication Union</name>
-      <abbreviation>ITU</abbreviation>
     </organization>
+  </contributor>
+  <contributor>
+      <role type='author'/>
+    <person>
+      <name>
+        <completename>Fred Flintstone</completename>
+      </name>
+    </person>
+  </contributor>
+  <contributor>
+    <role type='editor'/>
+    <person>
+      <name>
+        <forename>Barney</forename>
+        <surname>Rubble</surname>
+      </name>
+    </person>
   </contributor>
   <contributor>
     <role type="publisher"/>
     <organization>
       <name>International Telecommunication Union</name>
-      <abbreviation>ITU</abbreviation>
     </organization>
   </contributor>
   <edition>2</edition>
@@ -264,7 +276,6 @@ OUTPUT
     <owner>
       <organization>
       <name>International Telecommunication Union</name>
-      <abbreviation>ITU</abbreviation>
       </organization>
     </owner>
   </copyright>
@@ -379,14 +390,12 @@ OUTPUT
            <role type="author"/>
            <organization>
       <name>International Telecommunication Union</name>
-      <abbreviation>ITU</abbreviation>
            </organization>
          </contributor>
          <contributor>
            <role type="publisher"/>
            <organization>
       <name>International Telecommunication Union</name>
-      <abbreviation>ITU</abbreviation>
            </organization>
          </contributor>
          <language>en</language>
@@ -399,7 +408,6 @@ OUTPUT
            <owner>
              <organization>
       <name>International Telecommunication Union</name>
-      <abbreviation>ITU</abbreviation>
              </organization>
            </owner>
          </copyright>

@@ -64,24 +64,8 @@ module Asciidoctor
         end
       end
 
-      def metadata_author(node, xml)
-        xml.contributor do |c|
-          c.role **{ type: "author" }
-          c.organization do |a|
-            a.name "International Telecommunication Union"
-            a.abbreviation "ITU"
-          end
-        end
-      end
-
-      def metadata_publisher(node, xml)
-        xml.contributor do |c|
-          c.role **{ type: "publisher" }
-          c.organization do |a|
-            a.name "International Telecommunication Union"
-            a.abbreviation "ITU"
-          end
-        end
+      def default_publisher
+        "International Telecommunication Union"
       end
 
       def metadata_committee(node, xml)
@@ -147,19 +131,6 @@ module Asciidoctor
             "#{node.attr("docnumber")}"
         end
         xml.docnumber { |i| i << node.attr("docnumber") }
-      end
-
-      def metadata_copyright(node, xml)
-        from = node.attr("copyright-year") || Date.today.year
-        xml.copyright do |c|
-          c.from from
-          c.owner do |owner|
-            owner.organization do |o|
-              o.name "International Telecommunication Union"
-              o.abbreviation "ITU"
-            end
-          end
-        end
       end
 
       def metadata_series(node, xml)

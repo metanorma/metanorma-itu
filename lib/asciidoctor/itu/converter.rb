@@ -39,7 +39,7 @@ module Asciidoctor
       end
 
       def doctype(node)
-        ret = node.attr("doctype") || "recommendation"
+        ret = super || "recommendation"
         ret = "recommendation" if ret == "article"
         ret
       end

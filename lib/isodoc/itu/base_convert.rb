@@ -12,6 +12,7 @@ module IsoDoc
 
       def preface(isoxml, out)
         isoxml.xpath(ns(FRONT_CLAUSE)).each do |c|
+          next unless is_clause?(c.name)
           title = c&.at(ns("./title"))
           out.div **attr_code(clause_attrs(c)) do |s|
             clause_name(nil, title, s, class: "IntroTitle")

@@ -27,6 +27,7 @@ module IsoDoc
         body.div **{ class: "WordSection2" } do |div2|
           info docxml, div2 
           boilerplate docxml, div2
+          preface_block docxml, div2
           abstract docxml, div2
           keywords docxml, div2
           preface docxml, div2

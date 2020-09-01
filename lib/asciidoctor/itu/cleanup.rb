@@ -11,7 +11,7 @@ module Asciidoctor
         super
         xmldoc.xpath("//thead/tr[1]/th | //thead/tr[1]/td").each do |t|
           text = t.at("./descendant::text()") or next
-          text.replace(text.text.titlecase)
+          text.replace(text.text.capitalize)
         end
       end
 

@@ -1218,7 +1218,7 @@ end
       #{ASCIIDOC_BLANK_HDR}
       [headerrows=2]
       |===
-      |a |b |c
+      |a b |b c |c
       |a |b |c
 
       |a |b |c
@@ -1229,8 +1229,8 @@ end
        <sections><table id="_">
          <thead>
            <tr>
-             <th align="left">A</th>
-             <th align="left">B</th>
+             <th align="left">A b</th>
+             <th align="left">B c</th>
              <th align="left">C</th>
            </tr>
            <tr>

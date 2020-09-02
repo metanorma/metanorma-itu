@@ -2286,4 +2286,85 @@ end
     OUTPUT
     end
 
+        it "processes lists within tables (Word)" do
+            FileUtils.rm_f "test.doc"
+    IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
+    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <preface>
+    <clause id="A">
+          <table id="_2a8bd899-ab80-483a-90dc-002b6f497f54">
+<thead>
+<tr>
+<th align="left">A</th>
+<th align="left">B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">C</td>
+<td align="left">
+<ul id="_7c74d800-bac5-48d9-919a-fcf0a56b6891">
+<li>
+<p id="_32b6b048-26ad-4bce-a544-b3862aa5fa19">A</p>
+<ul id="_62c437de-18c8-44b0-8c2c-749946c54b4e">
+<li>
+<p id="_7289e3c0-ad96-4f5f-ba55-d91b2349f1b5">B</p>
+<ul id="_a3a4be14-120c-4d88-a298-5f9130d0bb9a">
+<li>
+<p id="_41ac8144-9892-4510-a538-4a1b8de72884">C</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+<note id="_cf69f8ff-21f2-4ce9-aefb-0bebf988b8fa">
+<p id="_a510f7c5-1d32-47b2-8937-e827c7bf459a">B</p>
+</note></table>
+</clause>
+</preface>
+    </iso-standard>
+    INPUT
+    expect(File.exist?("test.doc")).to be true
+    html = File.read("test.doc", encoding: "UTF-8")
+expect(xmlpp(html.sub(%r{^.*<div align="center" class="table_container">}m, '').sub(%r{</table>.*$}m, "</table>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+<table class='MsoISOTable' style='mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;'>
+  <a name='_2a8bd899-ab80-483a-90dc-002b6f497f54' id='_2a8bd899-ab80-483a-90dc-002b6f497f54'/>
+  <thead>
+    <tr>
+      <th align='left' style='font-weight:bold;border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>A</th>
+      <th align='left' style='font-weight:bold;border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align='left' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>C</td>
+      <td align='left' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;' valign='top'>
+        <p style='margin-left: 0.5cm;text-indent: -0.5cm;;mso-list:l3 level1 lfo1;' class='MsoListParagraphCxSpFirst'>
+           A
+          <p style='margin-left: 1.0cm;text-indent: -0.5cm;;mso-list:l3 level2 lfo1;' class='MsoListParagraphCxSpFirst'>
+             B
+            <p style='margin-left: 1.5cm;text-indent: -0.5cm;;mso-list:l3 level3 lfo1;' class='MsoListParagraphCxSpFirst'> C </p>
+          </p>
+        </p>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan='2' style='border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;'>
+        <div class='Note'>
+          <a name='_cf69f8ff-21f2-4ce9-aefb-0bebf988b8fa' id='_cf69f8ff-21f2-4ce9-aefb-0bebf988b8fa'/>
+          <p class='Note'>B</p>
+        </div>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+    OUTPUT
+   end
+
 end

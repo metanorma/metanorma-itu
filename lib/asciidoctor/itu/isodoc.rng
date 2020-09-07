@@ -581,6 +581,8 @@
             <ref name="ol"/>
             <ref name="dl"/>
             <ref name="formula"/>
+            <ref name="quote"/>
+            <ref name="sourcecode"/>
           </choice>
         </oneOrMore>
       </element>
@@ -664,6 +666,16 @@
             </choice>
           </attribute>
         </optional>
+        <optional>
+          <attribute name="valign">
+            <choice>
+              <value>top</value>
+              <value>middle</value>
+              <value>bottom</value>
+              <value>baseline</value>
+            </choice>
+          </attribute>
+        </optional>
         <choice>
           <zeroOrMore>
             <choice>
@@ -697,6 +709,16 @@
               <value>left</value>
               <value>right</value>
               <value>center</value>
+            </choice>
+          </attribute>
+        </optional>
+        <optional>
+          <attribute name="valign">
+            <choice>
+              <value>top</value>
+              <value>middle</value>
+              <value>bottom</value>
+              <value>baseline</value>
             </choice>
           </attribute>
         </optional>

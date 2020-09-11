@@ -1229,21 +1229,21 @@ end
        <sections><table id="_">
          <thead>
            <tr>
-             <th align="left">A b</th>
-             <th align="left">B c</th>
-             <th align="left">C</th>
+             <th valign="top" align="left">A b</th>
+             <th valign="top" align="left">B c</th>
+             <th valign="top" align="left">C</th>
            </tr>
            <tr>
-             <th align="left">a</th>
-             <th align="left">b</th>
-             <th align="left">c</th>
+             <th valign="top" align="left">a</th>
+             <th valign="top" align="left">b</th>
+             <th valign="top" align="left">c</th>
            </tr>
          </thead>
          <tbody>
            <tr>
-             <td align="left">a</td>
-             <td align="left">b</td>
-             <td align="left">c</td>
+             <td valign="top" align="left">a</td>
+             <td valign="top" align="left">b</td>
+             <td valign="top" align="left">c</td>
            </tr>
          </tbody>
        </table>

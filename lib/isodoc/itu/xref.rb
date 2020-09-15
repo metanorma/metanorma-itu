@@ -20,7 +20,7 @@ module IsoDoc
           @labels["appendix"] : @labels["annex"]
         @anchors[clause["id"]] =
           { label: annex_name_lbl(clause, num), type: "clause",
-            xref: "#{lbl} #{num}", level: 1 }
+            xref: "#{lbl} #{num}", level: 1, value: num }
         if a = single_annex_special_section(clause)
           annex_names1(a, "#{num}", 1)
         else
@@ -164,6 +164,7 @@ module IsoDoc
             idx = notes.size == 1 ? "" : " #{c.increment(n).print}"
             @anchors[n["id"]] = 
               { label: termnote_label(idx).strip, type: "termnote",
+                value: idx,
               xref: l10n("#{anchor(t['id'], :xref)}, "\
                          "#{@labels["note_xref"]} #{c.print}") }
 

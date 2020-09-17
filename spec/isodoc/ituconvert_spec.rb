@@ -364,7 +364,7 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
     INPUT
 
     presxml = <<~INPUT
-               <itu-standard xmlns="http://riboseinc.com/isoxml">
+               <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
        <preface/><sections>
        <terms id="H" obligation="normative"><title depth="1">1.<tab/>Terms</title>
          <term id="J">
@@ -988,7 +988,7 @@ OUTPUT
         <annex id="B10" obligation="informative"><title>Annex</title></annex>
     INPUT
     presxml = <<~OUTPUT
-<itu-standard xmlns="http://riboseinc.com/isoxml">
+<itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
               <bibdata type="standard">
               <title language="en" format="text/plain" type="main">An ITU Standard</title>
               <docidentifier type="ITU">12345</docidentifier>
@@ -1149,7 +1149,7 @@ OUTPUT
       it "processes section names" do
 
         presxml = <<~OUTPUT
-        <itu-standard xmlns="http://riboseinc.com/isoxml">
+        <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
                 <bibdata type="standard">
                 <title language="en" format="text/plain" type="main">An ITU Standard</title>
                 <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
@@ -1416,7 +1416,7 @@ OUTPUT
 
             it "processes section names in French" do
               presxml = <<~OUTPUT
-              <itu-standard xmlns="http://riboseinc.com/isoxml">
+              <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
                  <bibdata type="standard">
                  <title language="en" format="text/plain" type="main">An ITU Standard</title>
                  <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
@@ -1715,7 +1715,7 @@ OUTPUT
     </itu-standard>
     INPUT
           <?xml version='1.0'?>
- <itu-standard xmlns='http://riboseinc.com/isoxml'>
+ <itu-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
    <preface>
      <foreword>
        <p>
@@ -1806,7 +1806,7 @@ OUTPUT
     INPUT
 
     presxml = <<~OUTPUT
-    <itu-standard xmlns='http://riboseinc.com/isoxml'>
+    <itu-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
           <bibdata type='standard'>
             <title language='en' format='text/plain' type='main'>An ITU Standard</title>
             <title language='en' format='text/plain' type='subtitle'>Subtitle</title>

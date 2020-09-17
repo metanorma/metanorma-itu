@@ -244,6 +244,13 @@
   </define>
   <define name="itu">
     <element name="itu-standard">
+      <attribute name="version"/>
+      <attribute name="type">
+        <choice>
+          <value>semantic</value>
+          <value>presentation</value>
+        </choice>
+      </attribute>
       <ref name="bibdata"/>
       <zeroOrMore>
         <ref name="termdocsource"/>

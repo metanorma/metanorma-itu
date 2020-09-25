@@ -172,7 +172,7 @@ OUTPUT
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <iso-standard xmlns="http://riboseinc.com/isoxml">
     <preface><foreword>
-    <ol id="_ae34a226-aab4-496d-987b-1aa7b6314026" class="steps">
+    <ol id="_ae34a226-aab4-496d-987b-1aa7b6314026" class="steps" start="3">
   <li>
     <p id="_0091a277-fb0e-424a-aea8-f0001303fe78">all information necessary for the complete identification of the sample;</p>
   </li>
@@ -193,7 +193,7 @@ OUTPUT
     #{HTML_HDR}
       <div>
         <h1 class="IntroTitle"/>
-        <ol type="1" id="_ae34a226-aab4-496d-987b-1aa7b6314026">
+        <ol type="1" id="_ae34a226-aab4-496d-987b-1aa7b6314026" start="3">
   <li>
     <p id="_0091a277-fb0e-424a-aea8-f0001303fe78">all information necessary for the complete identification of the sample;</p>
   </li>

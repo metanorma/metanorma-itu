@@ -130,6 +130,9 @@ input = <<~INPUT
            <bibdata>
            <language>en</language>
            </bibdata>
+           <local_bibdata>
+           <language>en</language>
+           </local_bibdata>
            <preface><foreword>
          <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">
          <eref bibitemid="ISO712">[110]</eref>
@@ -419,6 +422,9 @@ presxml = <<~OUTPUT
          <bibdata>
            <language>en</language>
          </bibdata>
+         <local_bibdata>
+           <language>en</language>
+         </local_bibdata>
          <preface>
            <foreword>
              <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f'>

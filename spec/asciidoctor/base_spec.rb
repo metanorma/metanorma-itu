@@ -82,7 +82,7 @@ RSpec.describe Asciidoctor::ITU do
 
 
     it "processes default metadata" do
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true).sub(%r{<boilerplate>.*</boilerplate>}m, ""))).to be_equivalent_to xmlpp(<<~'OUTPUT')
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true).sub(%r{<boilerplate>.*</boilerplate>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -96,7 +96,7 @@ RSpec.describe Asciidoctor::ITU do
       :draft: 3.4
       :legacy-do-not-insert-missing-sections:
     INPUT
-    <itu-standard xmlns="https://www.metanorma.org/ns/itu">
+    <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
 <bibdata type="standard">
   <title language="en" format="text/plain" type="main">Main Title</title>
   <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
@@ -149,7 +149,7 @@ OUTPUT
     end
 
   it "processes explicit metadata" do
-    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true).sub(%r{<boilerplate>.*</boilerplate>}m, ""))).to be_equivalent_to xmlpp(<<~'OUTPUT')
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true).sub(%r{<boilerplate>.*</boilerplate>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title
       Author
       :docfile: test.adoc
@@ -222,7 +222,7 @@ OUTPUT
 
     INPUT
 <?xml version="1.0" encoding="UTF-8"?>
-<itu-standard xmlns="https://www.metanorma.org/ns/itu">
+<itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
 <bibdata type="standard">
   <title language="en" format="text/plain" type="main">Main Title</title>
   <title language="en" format="text/plain" type="annex">I3</title>
@@ -381,7 +381,7 @@ OUTPUT
       :legacy-do-not-insert-missing-sections:
     INPUT
        <?xml version="1.0" encoding="UTF-8"?>
-       <itu-standard xmlns="https://www.metanorma.org/ns/itu">
+       <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
        <bibdata type="standard">
          <title language="en" format="text/plain" type="main">Main Title</title>
          <docidentifier type="ITU">ITU-T 1000</docidentifier>
@@ -1120,7 +1120,7 @@ it "does not apply smartquotes by default" do
     FileUtils.rm_rf "relaton/cache"
     FileUtils.rm_rf "test.iev.pstore"
 
-  VCR.use_cassette "multi-standards sort" do
+  VCR.use_cassette "multi-standards sort", :re_record_interval => 25200 do
     xml = Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
     = Document title
     Author

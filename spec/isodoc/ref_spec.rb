@@ -126,7 +126,7 @@ input = <<~INPUT
     INPUT
 
     presxml = <<~OUTPUT
-    <iso-standard xmlns="http://riboseinc.com/isoxml">
+    <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
            <bibdata>
            <language>en</language>
            </bibdata>
@@ -415,7 +415,7 @@ OUTPUT
 </itu-standard>
 INPUT
 presxml = <<~OUTPUT
-       <itu-standard xmlns='http://riboseinc.com/isoxml'>
+       <itu-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
          <bibdata>
            <language>en</language>
          </bibdata>

@@ -81,7 +81,7 @@ BOILERPLATE =
 
 BLANK_HDR = <<~"HDR"
        <?xml version="1.0" encoding="UTF-8"?>
-       <itu-standard xmlns="https://www.metanorma.org/ns/itu">
+       <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
        <bibdata type="standard">
         <title language="en" format="text/plain" type="main">Document title</title>
 

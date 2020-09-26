@@ -68,7 +68,7 @@ it "cross-references notes" do
     </annex>
     </iso-standard>
     INPUT
-    <iso-standard xmlns='http://riboseinc.com/isoxml'>
+    <iso-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
           <preface>
             <foreword>
               <p>
@@ -242,7 +242,7 @@ end
     </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-<iso-standard xmlns="http://riboseinc.com/isoxml">
+<iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
               <preface>
           <foreword id="fwd">
           <p>
@@ -388,7 +388,7 @@ OUTPUT
     </itu-standard>
     INPUT
 <?xml version='1.0'?>
-<itu-standard xmlns='http://riboseinc.com/isoxml'>
+<itu-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
   <preface>
     <foreword>
       <p>
@@ -445,7 +445,7 @@ OUTPUT
                 </clause>
         </annex>
     INPUT
-<itu-standard xmlns='http://riboseinc.com/isoxml'>
+<itu-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
           <bibdata type='standard'>
             <title language='en' format='text/plain' type='main'>An ITU Standard</title>
             <docidentifier type='ITU'>12345</docidentifier>
@@ -541,7 +541,7 @@ OUTPUT
     </annex>
     </iso-standard>
     INPUT
-    <iso-standard xmlns='http://riboseinc.com/isoxml'>
+    <iso-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
           <preface>
             <foreword id='fwd'>
               <p>
@@ -659,7 +659,7 @@ it "processes formulae as non-hierarchical assets" do
     </annex>
     </iso-standard>
     INPUT
- <iso-standard xmlns='http://riboseinc.com/isoxml'>
+ <iso-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
           <preface>
             <foreword id='fwd'>
               <p>

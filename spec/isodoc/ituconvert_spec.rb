@@ -999,6 +999,16 @@ OUTPUT
               <doctype>recommendation</doctype>
               </ext>
               </bibdata>
+              <local_bibdata type='standard'>
+  <title language='en' format='text/plain' type='main'>An ITU Standard</title>
+              <docidentifier type="ITU">12345</docidentifier>
+              <language>en</language>
+              <keyword>A</keyword>
+              <keyword>B</keyword>
+              <ext>
+              <doctype>recommendation</doctype>
+              </ext>
+              </local_bibdata>
               <preface>
               <abstract>
               <title>Abstract</title>
@@ -1161,6 +1171,17 @@ OUTPUT
                 <doctype>recommendation</doctype>
                 </ext>
                 </bibdata>
+                <local_bibdata type='standard'>
+  <title language='en' format='text/plain' type='main'>An ITU Standard</title>
+  <title language='fr' format='text/plain' type='main'>Un Standard ITU</title>
+  <docidentifier type='ITU'>12345</docidentifier>
+  <language>en</language>
+  <keyword>A</keyword>
+  <keyword>B</keyword>
+  <ext>
+    <doctype>recommendation</doctype>
+  </ext>
+</local_bibdata>
        <preface>
        <abstract><title>Abstract</title>
        <p>This is an abstract</p>
@@ -1428,6 +1449,17 @@ OUTPUT
                  <doctype>recommendation</doctype>
                  </ext>
                  </bibdata>
+                 <local_bibdata type='standard'>
+  <title language='en' format='text/plain' type='main'>An ITU Standard</title>
+  <title language='fr' format='text/plain' type='main'>Un Standard ITU</title>
+  <docidentifier type='ITU'>12345</docidentifier>
+  <language>fr</language>
+  <keyword>A</keyword>
+  <keyword>B</keyword>
+  <ext>
+    <doctype>recommendation</doctype>
+  </ext>
+</local_bibdata>
         <preface>
         <abstract><title>Abstract</title>
         <p>This is an abstract</p>
@@ -1821,6 +1853,20 @@ OUTPUT
               </structuredidentifier>
             </ext>
           </bibdata>
+          <local_bibdata type='standard'>
+            <title language='en' format='text/plain' type='main'>An ITU Standard</title>
+            <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+            <docidentifier type='ITU'>12345</docidentifier>
+            <language>en</language>
+            <keyword>A</keyword>
+            <keyword>B</keyword>
+            <ext>
+              <doctype>recommendation-annex</doctype>
+              <structuredidentifier>
+                <annexid>F2</annexid>
+              </structuredidentifier>
+            </ext>
+          </local_bibdata>
           <annex id='A1' obligation='normative'>
             <title>
               <strong>Annex F2</strong>

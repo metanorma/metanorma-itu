@@ -1151,13 +1151,16 @@ it "does not apply smartquotes by default" do
     xpath = Nokogiri::XML(xml).xpath("//xmlns:references/xmlns:bibitem/xmlns:docidentifier")
     expect(xmlpp("<div>#{xpath.to_xml}</div>")).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <div>
-  <docidentifier type='ITU'>ITU-T Y.1001</docidentifier>
-  <docidentifier type='ITU'>ITU-T Y.140</docidentifier>
-  <docidentifier type='ITU'>ITU-T Z.100</docidentifier>
-  <docidentifier type='ISO'>ISO 55000:2014</docidentifier>
-  <docidentifier type='ISO'>ISO/IEC 27001 (all parts)</docidentifier>
-  <docidentifier type='IEC'>IEC 60027-1+AMD1:1997+AMD2:2005 CSV</docidentifier>
-  <docidentifier type='Chinese Standard'>GB 12663-2019</docidentifier>
+    <docidentifier type='ITU'>ITU-T Y.1001</docidentifier>
+<docidentifier type='ITU'>ITU-T Y.140</docidentifier>
+<docidentifier type='ITU'>ITU-T Z.100</docidentifier>
+<docidentifier type='ISO'>ISO 55000:2014</docidentifier>
+<docidentifier type='URN'>urn:iso:std:iso:55000:stage-90.20:ed-1:en,fr</docidentifier>
+<docidentifier type='ISO'>ISO/IEC 27001 (all parts)</docidentifier>
+<docidentifier type='URN'>urn:iso:std:iso-iec:27001</docidentifier>
+<docidentifier type='IEC'>IEC 60027-1+AMD1:1997+AMD2:2005 CSV</docidentifier>
+<docidentifier type='URN'>urn:iec:std:iec:60027-1:::csv:en:plus:amd:1:1997:plus:amd:2:2005</docidentifier>
+<docidentifier type='Chinese Standard'>GB 12663-2019</docidentifier>
 </div>
     OUTPUT
     FileUtils.rm_rf File.expand_path("~/.relaton/cache")

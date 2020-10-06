@@ -36,6 +36,10 @@ RSpec.describe Asciidoctor::ITU do
   <title language="fr" format="text/plain" type="main">Titre Principal</title>
   <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
 <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+<title language='en' format='text/plain' type='amendment'>Amendment Title</title>
+<title language='fr' format='text/plain' type='amendment'>Titre de Amendment</title>
+<title language='en' format='text/plain' type='corrigendum'>Corrigendum Title</title>
+<title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
   <docidentifier type="ITU-provisional">ABC</docidentifier>
   <docidentifier type="ITU">ITU-R 1000</docidentifier>
   <docnumber>1000</docnumber>
@@ -150,6 +154,8 @@ RSpec.describe Asciidoctor::ITU do
 <bureau>R</bureau>
 <docnumber>1000</docnumber>
 <annexid>F1</annexid>
+<amendment>2</amendment>
+<corrigendum>3</corrigendum>
 </structuredidentifier>
   </ext>
 </bibdata>
@@ -160,6 +166,8 @@ RSpec.describe Asciidoctor::ITU do
     expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s.gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
 {:accesseddate=>"XXX",
 :agency=>"ITU",
+:amendmentid=>"Amendment 2",
+:amendmenttitle=>"Amendment Title",
 :annexid=>"Appendix F1",
 :annextitle=>"Annex Title",
 :authors=>[],
@@ -168,6 +176,8 @@ RSpec.describe Asciidoctor::ITU do
 :circulateddate=>"XXX",
 :confirmeddate=>"XXX",
 :copieddate=>"XXX",
+:corrigendumid=>"Corrigendum 3",
+:corrigendumtitle=>"Corrigendum Title",
 :createddate=>"XXX",
 :docnumber=>"ITU-R 1000",
 :docnumeric=>"1000",
@@ -248,12 +258,14 @@ INPUT
 expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).to be_equivalent_to <<~"OUTPUT"
 {:accesseddate=>"XXX",
 :agency=>"ITU",
+:amendmenttitle=>nil,
 :annextitle=>nil,
 :authors=>[],
 :authors_affiliations=>{},
 :circulateddate=>"XXX",
 :confirmeddate=>"XXX",
 :copieddate=>"XXX",
+:corrigendumtitle=>nil,
 :createddate=>"XXX",
 :docnumber=>"ITU-R 1000",
 :docnumeric=>"1000",
@@ -292,6 +304,47 @@ expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s).gsub(/, :/, ",\n:")).t
 :vote_starteddate=>"XXX"}
     OUTPUT
    end
+
+     it "processes amendments and corrigenda" do
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+<itu-standard xmlns="https://www.calconnect.org/standards/itu">
+<bibdata>
+<language>en</language>
+<script>Latn</script>
+<ext>
+<structuredidentifier>
+<amendment>1</amendment>
+<corrigendum>2</corrigendum >
+</structuredidentifier>
+</ext>
+</bibdata>
+</itu-standard>
+    INPUT
+    <itu-standard xmlns='https://www.calconnect.org/standards/itu' type='presentation'>
+  <bibdata>
+    <language>en</language>
+    <script>Latn</script>
+    <ext>
+      <structuredidentifier>
+        <amendment>1</amendment>
+        <corrigendum>2</corrigendum>
+      </structuredidentifier>
+    </ext>
+  </bibdata>
+  <local_bibdata>
+    <language>en</language>
+    <script>Latn</script>
+    <ext>
+      <structuredidentifier>
+        <amendment>Amendment 1</amendment>
+        <corrigendum>Corrigendum 2</corrigendum>
+      </structuredidentifier>
+    </ext>
+  </local_bibdata>
+</itu-standard>
+    OUTPUT
+  end
+
 
   it "processes keyword" do
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")

@@ -142,6 +142,18 @@
   <span style='mso-bookmark:_Hlk526346232'></span>
   <td width="265" valign="top" style='width:198.55pt;padding:0cm 4.25pt 0cm 4.25pt;
   height:48.7pt'>
+  {% if amendmentid %}
+<p class="MsoNormal" align="right" style='margin-top:12.0pt;text-align:right'><span
+  style='mso-bookmark:_Hlk526346232'><a name="dnume"><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US" style='font-size:16.0pt;mso-bidi-font-size:10.0pt;
+  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{{ amendmentid }}<o:p></o:p></span></b></a></span></p>
+  {% endif %}
+  {% if corrigendumid %}
+<p class="MsoNormal" align="right" style='margin-top:12.0pt;text-align:right'><span
+  style='mso-bookmark:_Hlk526346232'><a name="dnume"><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US" style='font-size:16.0pt;mso-bidi-font-size:10.0pt;
+  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{{ corrigendumid }}<o:p></o:p></span></b></a></span></p>
+  {% endif %}
   <p class="MsoNormal" align="right" style='margin-top:0cm;text-align:right'>
   <span
   style='mso-bookmark:_Hlk526346232'><a name="ddatee"><span lang="EN-US"
@@ -195,7 +207,11 @@
   style='mso-bookmark:_Hlk526346232'><a name="c1tite">
     <span lang="EN-GB"
   style='font-size:18.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
-  mso-bidi-font-family:"Times New Roman"'>{% if annextitle %}{{ doctitle }}<br/><b>{{ annexid }}{% if annexid and annextitle %}: {% endif %}{{ annextitle }}</b>{% else %}<b>{{ doctitle }}</b>{% endif %}</span>
+  mso-bidi-font-family:"Times New Roman"'>{% if annexid or amendmentid or corrigendumid %}{{ doctitle }}
+  {% if annexid %}<br/><b>{{ annexid }}{% if annextitle %}: {{ annextitle }}{% endif %}</b>{% endif %}
+  {% if amendmentid %}<br/><b>{{ amendmentid }}{% if amendmenttitle %}: {{ amendmenttitle }}{% endif %}</b>{% endif %}
+  {% if corrigendumid %}<br/><b>{{ corrigendumid }}{% if corrigendumtitle %}: {{ corrigendumtitle }}{% endif %}</b>{% endif %}
+  {% else %}<b>{{ doctitle }}</b>{% endif %}</span>
   </a></span><span
   style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:c1tite'><b><span
   lang="EN-US" style='font-size:18.0pt;mso-bidi-font-size:10.0pt;font-family:

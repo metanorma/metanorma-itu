@@ -219,6 +219,12 @@ OUTPUT
       :annextitle: I3
       :annextitle-fr: J3
       :legacy-do-not-insert-missing-sections:
+      :amendment-number: 88
+      :corrigendum-number: 88
+      :amendment-title: Amendment Title
+      :corrigendum-title: Corrigendum Title
+      :amendment-title-fr: Titre de Amendment
+      :corrigendum-title-fr: Titre de Corrigendum
 
     INPUT
 <?xml version="1.0" encoding="UTF-8"?>
@@ -230,6 +236,10 @@ OUTPUT
   <title language="fr" format="text/plain" type="annex">J3</title>
   <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
 <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+<title language='en' format='text/plain' type='amendment'>Amendment Title</title>
+<title language='fr' format='text/plain' type='amendment'>Titre de Amendment</title>
+<title language='en' format='text/plain' type='corrigendum'>Corrigendum Title</title>
+<title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
   <docidentifier type="ITU-provisional">ABC</docidentifier>
   <docidentifier type="ITU">ITU-R 1000</docidentifier>
   <docnumber>1000</docnumber>
@@ -356,6 +366,8 @@ OUTPUT
   <bureau>R</bureau>
   <docnumber>1000</docnumber>
   <annexid>H3</annexid>
+  <amendment>88</amendment>
+<corrigendum>88</corrigendum>
 </structuredidentifier>
   </ext>
 </bibdata>

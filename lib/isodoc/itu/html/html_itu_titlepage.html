@@ -27,6 +27,8 @@
         <div class="doc-info-left">
           <div class="doc-identifier">
             {{ docnumeric }}
+            {% if amendmentid %}<div class="doc-subidentifier">{{ amendmentid }}</div>{% endif %} 
+            {% if corrigendumid %}<div class="doc-subidentifier">{{ corrigendumid }}</div>{% endif %}       
             {% if edition %} <div> Revision {{ edition }}</div> {% endif %}
             <div> {{ draftinfo }}</div>
           </div>
@@ -54,6 +56,12 @@
           {% if annextitle %}
           <br/><span class="doc-annextitle">{{ annexid }}{% if annexid and annextitle %}: {% endif %}{{ annextitle }}</span>
           {% endif %}
+          {% if amendmentid %}
+          <br/><span class="doc-annextitle">{{ amendmentid }}{% if amendmenttitle %}: {{ amendmenttitle}}{% endif %}</span>
+          {% endif %} 
+          {% if corrigendumid %}
+          <br/><span class="doc-annextitle">{{ corrigendumid }}{% if corrigendumtitle %}: {{ corrigendumtitle}}{% endif %}</span>
+          {% endif %} 
         </div>
 
 

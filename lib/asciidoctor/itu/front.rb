@@ -34,32 +34,34 @@ module Asciidoctor
           type = /^annex/.match(k) ? "annex" : "main"
           xml.title **attr_code(language: lang, format: "text/plain",
                                 type: type) do |t|
-            t << v
+            t << Asciidoctor::Standoc::Utils::asciidoc_sub(v)
           end
         end
       end
 
       def title(node, xml)
         super
-        subtitle_english(node, xml)
-        subtitle_otherlangs(node, xml)
+        %w(subtitle amendment-title corrigendum-title).each do |t|
+        other_title_english(node, xml, t)
+        other_title_otherlangs(node, xml, t)
+        end
       end
 
-      def subtitle_english(node, xml)
-        at = { language: "en", format: "text/plain", type: "subtitle" }
-        a = node.attr("subtitle") || node.attr("subtitle-en")
+      def other_title_english(node, xml, type)
+        at = { language: "en", format: "text/plain", type: type.sub(/-title/, "") }
+        a = node.attr(type) || node.attr("#{type}-en")
         xml.title **attr_code(at) do |t|
           t << Asciidoctor::Standoc::Utils::asciidoc_sub(a)
         end
       end
 
-      def subtitle_otherlangs(node, xml)
+      def other_title_otherlangs(node, xml, type)
         node.attributes.each do |k, v|
-          next unless /^subtitle-(?<lang>.+)$/ =~ k
-          next if lang == "en"
-          xml.title **attr_code(language: lang, format: "text/plain",
-                                type: "subtitle") do |t|
-            t << v
+          next unless m = /^#{type}-(?<lang>.+)$/.match(k)
+          next if m[:lang] == "en"
+          xml.title **attr_code(language: m[:lang], format: "text/plain",
+                                type: type.sub(/-title/, "")) do |t|
+            t << Asciidoctor::Standoc::Utils::asciidoc_sub(v)
           end
         end
       end
@@ -171,6 +173,8 @@ module Asciidoctor
           i.bureau node.attr("bureau") || "T"
           i.docnumber node.attr("docnumber")
           a = node.attr("annexid") and i.annexid a
+          a = node.attr("amendment-number") and i.amendment a
+          a = node.attr("corrigendum-number") and i.corrigendum a
         end
       end
 

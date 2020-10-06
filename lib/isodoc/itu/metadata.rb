@@ -23,6 +23,12 @@ module IsoDoc
         main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}']"\
                              "[@type = 'subtitle']"))&.text
         set(:docsubtitle, main)
+        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}']"\
+                             "[@type = 'amendment']"))&.text
+        set(:amendmenttitle, main)
+        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}']"\
+                             "[@type = 'corrigendum']"))&.text
+        set(:corrigendumtitle, main)
         series = isoxml&.at(ns("//bibdata/series[@type='main']/title"))&.text
         set(:series, series)
         series1 =
@@ -54,6 +60,10 @@ module IsoDoc
         oblig = isoxml&.at(ns("//annex/@obligation"))&.text
         lbl = oblig == "informative" ? @labels["appendix"] : @labels["annex"]
         dn and set(:annexid, @i18n.l10n("#{lbl} #{dn&.text}"))
+        dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/amendment")) and
+          set(:amendmentid, @i18n.l10n("#{@labels["amendment"]} #{dn&.text}"))
+        dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/corrigendum")) and
+          set(:corrigendumid, @i18n.l10n("#{@labels["corrigendum"]} #{dn&.text}"))
       end
 
       def unpublished(status)

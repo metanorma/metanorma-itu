@@ -68,6 +68,16 @@
             <text/>
           </element>
         </optional>
+        <optional>
+          <element name="amendment">
+            <data type="int"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="corrigendum">
+            <data type="int"/>
+          </element>
+        </optional>
       </element>
     </define>
     <define name="BibDataExtensionType">

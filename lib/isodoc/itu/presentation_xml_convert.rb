@@ -48,6 +48,14 @@ module IsoDoc
         node.add_child(link)
       end
 
+      def bibdata_i18n(b)
+        super
+        dn = b.at(ns("./ext/structuredidentifier/amendment")) and
+          dn.children = @i18n.l10n("#{@i18n.get["amendment"]} #{dn&.text}")
+        dn = b.at(ns("./ext/structuredidentifier/corrigendum")) and
+          dn.children = @i18n.l10n("#{@i18n.get["corrigendum"]} #{dn&.text}")
+      end
+
       include Init
     end
   end

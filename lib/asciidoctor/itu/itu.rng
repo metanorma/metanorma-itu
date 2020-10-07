@@ -95,6 +95,18 @@
         <ref name="ipnoticereceived"/>
       </optional>
       <optional>
+        <ref name="meeting"/>
+      </optional>
+      <optional>
+        <ref name="meeting-date"/>
+      </optional>
+      <optional>
+        <ref name="intended-type"/>
+      </optional>
+      <optional>
+        <ref name="ext_source"/>
+      </optional>
+      <optional>
         <ref name="structuredidentifier"/>
       </optional>
     </define>
@@ -113,6 +125,44 @@
       </element>
     </define>
   </include>
+  <define name="meeting">
+    <element name="meeting">
+      <text/>
+    </element>
+  </define>
+  <define name="meeting-date">
+    <element name="meeting-date">
+      <choice>
+        <group>
+          <element name="from">
+            <ref name="ISO8601Date"/>
+          </element>
+          <optional>
+            <element name="to">
+              <ref name="ISO8601Date"/>
+            </element>
+          </optional>
+        </group>
+        <element name="on">
+          <ref name="ISO8601Date"/>
+        </element>
+      </choice>
+    </element>
+  </define>
+  <define name="intended-type">
+    <element name="intended-type">
+      <choice>
+        <value>R</value>
+        <value>C</value>
+        <value>TD</value>
+      </choice>
+    </element>
+  </define>
+  <define name="ext_source">
+    <element name="source">
+      <text/>
+    </element>
+  </define>
   <define name="TextElement" combine="choice">
     <choice>
       <ref name="add"/>

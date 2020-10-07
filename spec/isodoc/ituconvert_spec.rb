@@ -217,6 +217,188 @@ RSpec.describe Asciidoctor::ITU do
     OUTPUT
   end
 
+  it "processes default metadata for technical report" do
+    csdc = IsoDoc::ITU::HtmlConvert.new({})
+    docxml, filename, dir = csdc.convert_init(<<~"INPUT", "test", true)
+    <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='1.2.4'>
+         <bibdata type='standard'>
+           <title language='en' format='text/plain' type='main'>Main Title</title>
+           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
+           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+           <docidentifier type='ITU-provisional'>ABC</docidentifier>
+           <docidentifier type='ITU'>ITU-R 1000</docidentifier>
+           <docnumber>1000</docnumber>
+           <contributor>
+             <role type='author'/>
+             <organization>
+               <name>International Telecommunication Union</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type='author'/>
+             <person>
+               <name>
+                 <completename>Fred Flintstone</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry</name>
+                   <address>
+                     <formattedAddress>Canada</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>555</phone>
+               <phone type='fax'>556</phone>
+               <email>x@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type='editor'/>
+             <person>
+               <name>
+                 <completename>Barney Rubble</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry 2</name>
+                   <address>
+                     <formattedAddress>USA</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>557</phone>
+               <phone type='fax'>558</phone>
+               <email>y@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type='publisher'/>
+             <organization>
+               <name>International Telecommunication Union</name>
+             </organization>
+           </contributor>
+           <edition>2</edition>
+           <version>
+             <revision-date>2000-01-01</revision-date>
+             <draft>5</draft>
+           </version>
+           <language>en</language>
+           <script>Latn</script>
+           <status>
+             <stage>draft</stage>
+           </status>
+           <copyright>
+             <from>2001</from>
+             <owner>
+               <organization>
+                 <name>International Telecommunication Union</name>
+               </organization>
+             </owner>
+           </copyright>
+           <series type='main'>
+             <title>A3</title>
+           </series>
+           <series type='secondary'>
+             <title>B3</title>
+           </series>
+           <series type='tertiary'>
+             <title>C3</title>
+           </series>
+           <keyword>Word1</keyword>
+           <keyword>word2</keyword>
+           <ext>
+             <doctype>technical-report</doctype>
+             <editorialgroup>
+               <bureau>R</bureau>
+               <group>
+                 <name>I</name>
+               </group>
+               <subgroup>
+                 <name>I1</name>
+               </subgroup>
+               <workgroup>
+                 <name>I2</name>
+               </workgroup>
+             </editorialgroup>
+             <ip-notice-received>false</ip-notice-received>
+             <meeting>Meeting X</meeting>
+             <meeting-date>
+               <from>2000-01-01</from>
+               <to>2000-01-02</to>
+             </meeting-date>
+             <intended-type>TD</intended-type>
+             <source>Source</source>
+             <structuredidentifier>
+               <bureau>R</bureau>
+               <docnumber>1000</docnumber>
+             </structuredidentifier>
+           </ext>
+         </bibdata>
+         <sections> </sections>
+       </itu-standard>
+INPUT
+expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s.gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
+{:accesseddate=>"XXX",
+:addresses=>["Canada", "USA"],
+:affiliations=>["Bedrock Quarry", "Bedrock Quarry 2"],
+:agency=>"International Telecommunication Union",
+:amendmenttitle=>nil,
+:annextitle=>nil,
+:authors=>["Fred Flintstone", "Barney Rubble"],
+:authors_affiliations=>{"Bedrock Quarry, Canada"=>["Fred Flintstone"], "Bedrock Quarry 2, USA"=>["Barney Rubble"]},
+:bureau=>"R",
+:circulateddate=>"XXX",
+:confirmeddate=>"XXX",
+:copieddate=>"XXX",
+:corrigendumtitle=>nil,
+:createddate=>"XXX",
+:docnumber=>"ITU-R 1000",
+:docnumeric=>"1000",
+:docsubtitle=>"Subtitle",
+:doctitle=>"Main Title",
+:doctype=>"Technical Report",
+:doctype_original=>"technical-report",
+:docyear=>"2001",
+:draft=>"5",
+:draftinfo=>" (draft 5, 2000-01-01)",
+:edition=>"2",
+:emails=>["x@example.com", "y@example.com"],
+:faxes=>["556", "558"],
+:implementeddate=>"XXX",
+:intended_type=>"TD",
+:ip_notice_received=>"false",
+:issueddate=>"XXX",
+:keywords=>["Word1", "word2"],
+:logo_comb=>"/Users/nickn/Documents/Arbeit/upwork/ribose/metanorma-itu/lib/isodoc/itu/html/itu-document-comb.png",
+:logo_html=>"/Users/nickn/Documents/Arbeit/upwork/ribose/metanorma-itu/lib/isodoc/itu/html/International_Telecommunication_Union_Logo.svg",
+:logo_word=>"/Users/nickn/Documents/Arbeit/upwork/ribose/metanorma-itu/lib/isodoc/itu/html/International_Telecommunication_Union_Logo.svg",
+:meeting=>"Meeting X",
+:meeting_date=>"01 Dec 2000/02 Jan 2000",
+:obsoleteddate=>"XXX",
+:phones=>["555", "557"],
+:pubdate_monthyear=>"",
+:publisheddate=>"XXX",
+:publisher=>"International Telecommunication Union",
+:receiveddate=>"XXX",
+:revdate=>"2000-01-01",
+:revdate_monthyear=>"01/2000",
+:series=>"A3",
+:series1=>"B3",
+:series2=>"C3",
+:source=>"Source",
+:stage=>"Draft",
+:stageabbr=>"D",
+:transmitteddate=>"XXX",
+:unchangeddate=>"XXX",
+:unpublished=>true,
+:updateddate=>"XXX",
+:vote_endeddate=>"XXX",
+:vote_starteddate=>"XXX"}
+OUTPUT
+  end
+
    it "processes metadata for in-force-prepublished, recommendation annex" do
     csdc = IsoDoc::ITU::HtmlConvert.new({})
     docxml, filename, dir = csdc.convert_init(<<~"INPUT", "test", true)

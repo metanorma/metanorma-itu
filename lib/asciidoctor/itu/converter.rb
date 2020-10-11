@@ -60,8 +60,9 @@ module Asciidoctor
                                      nil, false, "#{@filename}.html")
         doc_converter(node).convert(@filename + ".presentation.xml", 
                                     nil, false, "#{@filename}.doc")
-        pdf_converter(node)&.convert(@filename + ".presentation.xml", 
-                                     nil, false, "#{@filename}.pdf")
+        node.attr("no-pdf") or
+          pdf_converter(node)&.convert(@filename + ".presentation.xml", 
+                                       nil, false, "#{@filename}.pdf")
       end
 
       def validate(doc)

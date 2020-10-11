@@ -33,6 +33,7 @@ RSpec.describe Asciidoctor::ITU do
       Author
       :docfile: test.adoc
       :novalid:
+      :no-pdf:
       :legacy-do-not-insert-missing-sections:
     INPUT
     #{BLANK_HDR}
@@ -50,6 +51,7 @@ RSpec.describe Asciidoctor::ITU do
       :docfile: test.adoc
       :nodoc:
       :novalid:
+      :no-pdf:
       INPUT
     #{BLANK_HDR}
     <sections>
@@ -468,6 +470,7 @@ OUTPUT
       = Document title
       Author
       :docfile: test.adoc
+      :no-pdf:
       :novalid:
     INPUT
     html = File.read("test.html", encoding: "utf-8")
@@ -482,6 +485,7 @@ OUTPUT
       = Document title
       Author
       :docfile: test.adoc
+      :no-pdf:
       :novalid:
     INPUT
     html = File.read("test.doc", encoding: "utf-8")
@@ -497,6 +501,7 @@ OUTPUT
       Author
       :docfile: test.adoc
       :novalid:
+      :no-pdf:
       :script: Hans
     INPUT
     html = File.read("test.html", encoding: "utf-8")
@@ -512,6 +517,7 @@ OUTPUT
       Author
       :docfile: test.adoc
       :novalid:
+      :no-pdf:
       :script: Hans
       :body-font: Zapf Chancery
       :header-font: Comic Sans
@@ -1167,7 +1173,7 @@ it "does not apply smartquotes by default" do
 <docidentifier type='ITU'>ITU-T Y.140</docidentifier>
 <docidentifier type='ITU'>ITU-T Z.100</docidentifier>
 <docidentifier type='ISO'>ISO 55000:2014</docidentifier>
-<docidentifier type='URN'>urn:iso:std:iso:55000:stage-90.20:ed-1:en,fr</docidentifier>
+<docidentifier type='URN'>urn:iso:std:iso:55000:stage-90.20:ed-1:en</docidentifier>
 <docidentifier type='ISO'>ISO/IEC 27001 (all parts)</docidentifier>
 <docidentifier type='URN'>urn:iso:std:iso-iec:27001</docidentifier>
 <docidentifier type='IEC'>IEC 60027-1+AMD1:1997+AMD2:2005 CSV</docidentifier>

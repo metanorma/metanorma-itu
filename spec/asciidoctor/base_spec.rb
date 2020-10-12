@@ -378,6 +378,297 @@ OUTPUT
     OUTPUT
   end
 
+  it "processes explicit metadata, technical report" do
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true).sub(%r{<boilerplate>.*</boilerplate>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :docnumber: 1000
+      :provisional-name: ABC
+      :doctype: technical-report
+      :edition: 2
+      :revdate: 2000-01-01
+      :technical-committee: TC
+      :technical-committee-type: provisional
+      :copyright-year: 2001
+      :status: final-draft
+      :iteration: 3
+      :language: en
+      :title-en: Main Title
+      :title-fr: Titre Principal
+      :subtitle-en: Subtitle
+      :subtitle-fr: Soustitre
+      :bureau: R
+      :group: I
+      :subgroup: I1
+      :workgroup: I2
+      :series: A3
+      :series1: B3
+      :series2: C3
+      :keywords: word2,word1
+      :meeting: Meeting X
+      :meeting-date: 2000-01-01/2000-01-02
+      :intended-type: TD
+      :source: Source
+      :draft: 5
+      :role: author
+      :fullname: Fred Flintstone
+      :affiliation: Bedrock Quarry
+      :address: Canada
+      :phone: 555
+      :fax: 556
+      :email: x@example.com
+      :role_2: editor
+      :fullname_2: Barney Rubble
+      :affiliation_2: Bedrock Quarry 2
+      :address_2: USA
+      :phone_2: 557
+      :fax_2: 558
+      :email_2: y@example.com
+
+    INPUT
+    <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+         <bibdata type='standard'>
+           <title language='en' format='text/plain' type='main'>Main Title</title>
+           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
+           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+           <docidentifier type='ITU-provisional'>ABC</docidentifier>
+           <docidentifier type='ITU'>ITU-R 1000</docidentifier>
+           <docnumber>1000</docnumber>
+           <contributor>
+             <role type='author'/>
+             <organization>
+               <name>International Telecommunication Union</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type='author'/>
+             <person>
+               <name>
+                 <completename>Fred Flintstone</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry</name>
+                   <address>
+                     <formattedAddress>Canada</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>555</phone>
+               <phone type='fax'>556</phone>
+               <email>x@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type='editor'/>
+             <person>
+               <name>
+                 <completename>Barney Rubble</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry 2</name>
+                   <address>
+                     <formattedAddress>USA</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>557</phone>
+               <phone type='fax'>558</phone>
+               <email>y@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type='publisher'/>
+             <organization>
+               <name>International Telecommunication Union</name>
+             </organization>
+           </contributor>
+           <edition>2</edition>
+           <version>
+             <revision-date>2000-01-01</revision-date>
+             <draft>5</draft>
+           </version>
+           <language>en</language>
+           <script>Latn</script>
+           <status>
+             <stage>draft</stage>
+           </status>
+           <copyright>
+             <from>2001</from>
+             <owner>
+               <organization>
+                 <name>International Telecommunication Union</name>
+               </organization>
+             </owner>
+           </copyright>
+           <series type='main'>
+             <title>A3</title>
+           </series>
+           <series type='secondary'>
+             <title>B3</title>
+           </series>
+           <series type='tertiary'>
+             <title>C3</title>
+           </series>
+           <keyword>Word1</keyword>
+           <keyword>word2</keyword>
+           <ext>
+             <doctype>technical-report</doctype>
+             <editorialgroup>
+               <bureau>R</bureau>
+               <group>
+                 <name>I</name>
+               </group>
+               <subgroup>
+                 <name>I1</name>
+               </subgroup>
+               <workgroup>
+                 <name>I2</name>
+               </workgroup>
+             </editorialgroup>
+             <ip-notice-received>false</ip-notice-received>
+             <meeting>Meeting X</meeting>
+             <meeting-date>
+               <from>2000-01-01</from>
+               <to>2000-01-02</to>
+             </meeting-date>
+             <intended-type>TD</intended-type>
+             <source>Source</source>
+             <structuredidentifier>
+               <bureau>R</bureau>
+               <docnumber>1000</docnumber>
+             </structuredidentifier>
+           </ext>
+         </bibdata>
+         <sections> </sections>
+       </itu-standard>
+OUTPUT
+  end
+
+   it "processes explicit metadata, technical report #2" do
+    expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true).sub(%r{<boilerplate>.*</boilerplate>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :docnumber: 1000
+      :provisional-name: ABC
+      :doctype: technical-report
+      :edition: 2
+      :revdate: 2000-01-01
+      :technical-committee: TC
+      :technical-committee-type: provisional
+      :copyright-year: 2001
+      :status: final-draft
+      :iteration: 3
+      :language: en
+      :title-en: Main Title
+      :title-fr: Titre Principal
+      :subtitle-en: Subtitle
+      :subtitle-fr: Soustitre
+      :bureau: R
+      :group: I
+      :subgroup: I1
+      :workgroup: I2
+      :series: A3
+      :series1: B3
+      :series2: C3
+      :keywords: word2,word1
+      :meeting: Meeting X
+      :meeting-date: 2000-01-01
+      :intended-type: TD
+      :source: Source
+      :draft: 5
+
+    INPUT
+    <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+         <bibdata type='standard'>
+           <title language='en' format='text/plain' type='main'>Main Title</title>
+           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
+           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+           <docidentifier type='ITU-provisional'>ABC</docidentifier>
+           <docidentifier type='ITU'>ITU-R 1000</docidentifier>
+           <docnumber>1000</docnumber>
+           <contributor>
+             <role type='author'/>
+             <organization>
+               <name>International Telecommunication Union</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type='publisher'/>
+             <organization>
+               <name>International Telecommunication Union</name>
+             </organization>
+           </contributor>
+           <edition>2</edition>
+           <version>
+             <revision-date>2000-01-01</revision-date>
+             <draft>5</draft>
+           </version>
+           <language>en</language>
+           <script>Latn</script>
+           <status>
+             <stage>draft</stage>
+           </status>
+           <copyright>
+             <from>2001</from>
+             <owner>
+               <organization>
+                 <name>International Telecommunication Union</name>
+               </organization>
+             </owner>
+           </copyright>
+           <series type='main'>
+             <title>A3</title>
+           </series>
+           <series type='secondary'>
+             <title>B3</title>
+           </series>
+           <series type='tertiary'>
+             <title>C3</title>
+           </series>
+           <keyword>Word1</keyword>
+           <keyword>word2</keyword>
+           <ext>
+             <doctype>technical-report</doctype>
+             <editorialgroup>
+               <bureau>R</bureau>
+               <group>
+                 <name>I</name>
+               </group>
+               <subgroup>
+                 <name>I1</name>
+               </subgroup>
+               <workgroup>
+                 <name>I2</name>
+               </workgroup>
+             </editorialgroup>
+             <ip-notice-received>false</ip-notice-received>
+             <meeting>Meeting X</meeting>
+             <meeting-date>
+               <on>2000-01-01</on>
+             </meeting-date>
+             <intended-type>TD</intended-type>
+             <source>Source</source>
+             <structuredidentifier>
+               <bureau>R</bureau>
+               <docnumber>1000</docnumber>
+             </structuredidentifier>
+           </ext>
+         </bibdata>
+         <sections> </sections>
+       </itu-standard>
+OUTPUT
+   end
+
   it "ignores unrecognised status" do
     expect(xmlpp(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true).sub(%r{<boilerplate>.*</boilerplate>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       = Document title

@@ -63,7 +63,9 @@ module IsoDoc
       end
 
       def authority_cleanup(docxml)
-        authority_cleanup1(docxml, "draft-warning")
+        dest = docxml.at("//div[@id = 'draft-warning-destination']")
+        auth = docxml.at("//div[@id = 'draft-warning']")
+        dest and auth and dest.replace(auth.remove)
         super
       end
 

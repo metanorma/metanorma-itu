@@ -133,7 +133,7 @@ module IsoDoc
       def ddMMMYYYY(isodate)
         m = /(?<yr>\d\d\d\d)-(?<mo>\d\d)-(?<dd>\d\d)/.match isodate
         return isodate unless m && m[:yr] && m[:mo] && m[:dd]
-        mmm = DateTime.parse(isodate).localize(@lang.to_sym).with_timezone("UCT").
+        mmm = DateTime.parse(isodate).localize(@lang.to_sym).#with_timezone("UCT").
           to_additional_s("MMM")
         @i18n.l10n("#{m[:dd]} #{mmm} #{m[:yr]}")
       end

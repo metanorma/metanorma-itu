@@ -178,12 +178,32 @@ module Asciidoctor
         end
       end
 
+      def metadata_techreport(node, xml)
+        a = node.attr("meeting") and xml.meeting a
+        a = node.attr("meeting-date") and metadata_meeting_date(a, xml)
+        a = node.attr("intended-type") and xml.intended_type a
+        a = node.attr("source") and xml.source a
+      end
+
+      def metadata_meeting_date(a, xml)
+        xml.meeting_date do |m|
+          d = a.split("/")
+          if d.size > 1
+            m.from d[0]
+            m.to d[1]
+          else
+            m.on d[0]
+          end
+        end
+      end
+
       def metadata_ext(node, xml)
         metadata_doctype(node, xml)
         metadata_committee(node, xml)
         metadata_ics(node, xml)
         metadata_recommendationstatus(node, xml)
         metadata_ip_notice(node, xml)
+        metadata_techreport(node, xml)
         structured_id(node, xml)
       end
     end

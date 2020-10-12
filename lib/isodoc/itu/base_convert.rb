@@ -133,6 +133,7 @@ module IsoDoc
 
       def info(isoxml, out)
         @meta.ip_notice_received isoxml, out
+        @meta.techreport isoxml, out
         super
       end
 

@@ -1,4 +1,5 @@
 require "isodoc"
+require "twitter_cldr"
 
 module IsoDoc
   module ITU
@@ -45,12 +46,38 @@ module IsoDoc
         nil
       end
 
-      def author(isoxml, _out)
-        bureau = isoxml.at(ns("//bibdata/ext/editorialgroup/bureau"))
+      def author(xml, _out)
+        bureau = xml.at(ns("//bibdata/ext/editorialgroup/bureau"))
         set(:bureau, bureau.text) if bureau
-        tc = isoxml.at(ns("//bibdata/ext/editorialgroup/committee"))
+        tc = xml.at(ns("//bibdata/ext/editorialgroup/committee"))
         set(:tc, tc.text) if tc
+        tc = xml.at(ns("//bibdata/ext/editorialgroup/group/name"))
+        set(:group, tc.text) if tc
+        tc = xml.at(ns("//bibdata/ext/editorialgroup/subgroup/name"))
+        set(:subgroup, tc.text) if tc
+        tc = xml.at(ns("//bibdata/ext/editorialgroup/workgroup/name"))
+        set(:workgroup, tc.text) if tc
         super
+        authors = xml.xpath(ns("//bibdata/contributor[role/@type = 'author' "\
+                                "or xmlns:role/@type = 'editor']/person"))
+        person_attributes(authors) unless authors.empty?
+      end
+
+      def append(key, value)
+        @metadata[key] << value
+      end
+
+      def person_attributes(authors)
+        %i(affiliations addresses emails faxes phones).each { |i| set(i, []) }
+        authors.each do |a|
+          append(:affiliations, 
+                 a&.at(ns("./affiliation/organization/name"))&.text)
+          append(:addresses, a&.at(ns("./affiliation/organization/address/"\
+                                      "formattedAddress"))&.text)
+          append(:emails, a&.at(ns("./email"))&.text)
+          append(:faxes, a&.at(ns("./phone[@type = 'fax']"))&.text)
+          append(:phones, a&.at(ns("./phone[not(@type = 'fax')]"))&.text)
+        end
       end
 
       def docid(isoxml, _out)
@@ -63,7 +90,8 @@ module IsoDoc
         dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/amendment")) and
           set(:amendmentid, @i18n.l10n("#{@labels["amendment"]} #{dn&.text}"))
         dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/corrigendum")) and
-          set(:corrigendumid, @i18n.l10n("#{@labels["corrigendum"]} #{dn&.text}"))
+          set(:corrigendumid,
+              @i18n.l10n("#{@labels["corrigendum"]} #{dn&.text}"))
       end
 
       def unpublished(status)
@@ -100,6 +128,27 @@ module IsoDoc
         received = isoxml.at(ns("//bibdata/ext/ip-notice-received"))&.text ||
           "false"
         set(:ip_notice_received, received)
+      end
+
+      def ddMMMYYYY(isodate)
+        m = /(?<yr>\d\d\d\d)-(?<mo>\d\d)-(?<dd>\d\d)/.match isodate
+        return isodate unless m && m[:yr] && m[:mo] && m[:dd]
+        mmm = DateTime.parse(isodate).localize(@lang.to_sym).#with_timezone("UCT").
+          to_additional_s("MMM")
+        @i18n.l10n("#{m[:dd]} #{mmm} #{m[:yr]}")
+      end
+
+      def techreport(isoxml, _out)
+        a = isoxml&.at(ns("//bibdata/ext/meeting"))&.text and set(:meeting, a)
+        a = isoxml&.at(ns("//bibdata/ext/intended-type"))&.text and
+          set(:intended_type, a)
+        a = isoxml&.at(ns("//bibdata/ext/source"))&.text and set(:source, a)
+        if o = isoxml&.at(ns("//bibdata/ext/meeting-date/on"))&.text
+          set(:meeting_date, ddMMMYYYY(o))
+        elsif f = isoxml&.at(ns("//bibdata/ext/meeting-date/from"))&.text
+          t = isoxml&.at(ns("//bibdata/ext/meeting-date/to"))&.text
+          set(:meeting_date, "#{ddMMMYYYY(f)}/#{ddMMMYYYY(t)}")
+        end
       end
     end
   end

@@ -336,7 +336,7 @@ RSpec.describe Asciidoctor::ITU do
          <sections> </sections>
        </itu-standard>
 INPUT
-expect(htmlencode(Hash[csdc.info(docxml, nil).sort].to_s.gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
+    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s.gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
 {:accesseddate=>"XXX",
 :addresses=>["Canada", "USA"],
 :affiliations=>["Bedrock Quarry", "Bedrock Quarry 2"],

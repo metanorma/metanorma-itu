@@ -429,7 +429,7 @@ OUTPUT
       :email_2: y@example.com
 
     INPUT
-    <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION'>
+    <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
          <bibdata type='standard'>
            <title language='en' format='text/plain' type='main'>Main Title</title>
            <title language='fr' format='text/plain' type='main'>Titre Principal</title>

@@ -1,3 +1,120 @@
+{% if doctype == "Technical Report" and unpublished %}
+
+<table class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0" width="662"
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0cm 2.85pt 0cm 2.85pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;page-break-inside:avoid;
+  height:17.85pt'>
+  <td width="108" valign="top" style='width:80.85pt;border:none;border-top:solid windowtext 1.5pt;
+  padding:0cm 2.85pt 0cm 2.85pt;height:17.85pt'>
+  <p class="MsoNormal"><b><span lang="EN-US">Question(s):</span></b></p>
+  </td>
+  <td width="170" colspan="2" valign="top" style='width:127.55pt;border:none;
+  border-top:solid windowtext 1.5pt;padding:0cm 2.85pt 0cm 2.85pt;height:17.85pt'>
+    <p class="MsoNormal"><span lang="EN-US">{{ group }}</span></p>
+  </td>
+  <td width="113" colspan="2" valign="top" style='width:3.0cm;border:none;border-top:
+  solid windowtext 1.5pt;padding:0cm 2.85pt 0cm 2.85pt;height:17.85pt'>
+  <p class="MsoNormal"><b><span lang="EN-US">Meeting, date:<o:p></o:p></span></b></p>
+  </td>
+  <td width="270" colspan="2" valign="top" style='width:202.7pt;border:none;
+  border-top:solid windowtext 1.5pt;padding:0cm 2.85pt 0cm 2.85pt;height:17.85pt'>
+  <p class="MsoNormal" align="right" style='text-align:right'><span lang="EN-US">{{ meeting }}{% if meeting and meeting_date %}, {% endif %}{{ meeting_date }}</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;page-break-inside:avoid;height:17.85pt'>
+  <td width="108" valign="top" style='width:80.85pt;padding:0cm 2.85pt 0cm 2.85pt;
+  height:17.85pt'>
+  <p class="MsoNormal"><b><span lang="EN-US">Study Group:<o:p></o:p></span></b></p>
+  </td>
+  <td width="38" valign="top" style='width:1.0cm;padding:0cm 2.85pt 0cm 2.85pt;
+  height:17.85pt'>
+    <p class="MsoNormal"><span lang="EN-US">{{ subgroup }}</span></p>
+  </td>
+  <td width="132" valign="top" style='width:99.2pt;padding:0cm 2.85pt 0cm 2.85pt;
+  height:17.85pt'>
+  <p class="MsoNormal"><b><span lang="EN-US">Working Party:<o:p></o:p></span></b></p>
+  </td>
+  <td width="38" valign="top" style='width:1.0cm;padding:0cm 2.85pt 0cm 2.85pt;
+  height:17.85pt'>
+    <p class="MsoNormal"><span lang="EN-US">{{ workgroup }}</span></p>
+  </td>
+  <td width="312" colspan="2" valign="top" style='width:233.9pt;padding:0cm 2.85pt 0cm 2.85pt;
+  height:17.85pt'>
+  <p class="MsoNormal"><b><span lang="EN-US">Intended type of document</span></b><span
+  lang="EN-US"> (R-C-TD):</span></p>
+  </td>
+  <td width="34" valign="top" style='width:25.5pt;padding:0cm 2.85pt 0cm 2.85pt;
+  height:17.85pt'>
+    <p class="MsoNormal"><span lang="EN-US">{{ intended_type }}</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;page-break-inside:avoid;height:17.85pt'>
+  <td width="108" valign="top" style='width:80.85pt;padding:0cm 2.85pt 0cm 2.85pt;
+  height:17.85pt'>
+  <p class="MsoNormal"><b><span lang="EN-US">Source:<o:p></o:p></span></b></p>
+  </td>
+  <td width="554" colspan="6" valign="top" style='width:415.3pt;padding:0cm 2.85pt 0cm 2.85pt;
+  height:17.85pt'>
+    <p class="MsoNormal"><span lang="EN-US">{{ source }}</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3;page-break-inside:avoid;height:17.85pt'>
+  <td width="108" valign="top" style='width:80.85pt;border:none;border-bottom:solid windowtext 1.5pt;
+  padding:0cm 2.85pt 0cm 2.85pt;height:17.85pt'>
+  <p class="MsoNormal"><b><span lang="EN-US">Title: <o:p></o:p></span></b></p>
+  </td>
+  <td width="554" colspan="6" valign="top" style='width:415.3pt;border:none;
+  border-bottom:solid windowtext 1.5pt;padding:0cm 2.85pt 0cm 2.85pt;
+  height:17.85pt'>
+    <p class="MsoNormal"><span lang="EN-US">{{ doctitle }}</span></p>
+  </td>
+ </tr>
+         {% for author in authors %}
+ <tr style='mso-yfti-irow:4;page-break-inside:avoid;height:10.2pt'>
+  <td width="108" valign="top" style='width:80.85pt;border:none;mso-border-top-alt:
+  solid windowtext 1.5pt;padding:0cm 2.85pt 0cm 2.85pt;height:10.2pt'>
+  <p class="MsoNormal"><a name="dcontact"><b><span lang="EN-US">Contact:<o:p></o:p></span></b></a></p>
+  </td>
+  <span style='mso-bookmark:dcontact'></span>
+  <td width="283" colspan="4" valign="top" style='width:212.6pt;border:none;
+  mso-border-top-alt:solid windowtext 1.5pt;padding:0cm 2.85pt 0cm 2.85pt;
+  height:10.2pt'>
+    <p class="MsoNormal" style="text-align:left;"><span style='mso-bookmark:dcontact'><span lang="EN-US">{{ author }}<br/>
+  {{ affiliations[forloop.index0] }}<br/>
+  {{ addresses[forloop.index0] }}</span></span></p>
+  </td>
+  <span style='mso-bookmark:dcontact'></span>
+  <td width="270" colspan="2" valign="top" style='width:202.7pt;border:none;
+  mso-border-top-alt:solid windowtext 1.5pt;padding:0cm 2.85pt 0cm 2.85pt;
+  height:10.2pt'>
+    <p class="MsoNormal" style="text-align:left;"><span style='mso-bookmark:dcontact'><span lang="EN-US">Tel: {{ phones[forloop.index0] }}<br/>
+  Fax: {{ faxes[forloop.index0] }}<br/>
+  E-mail: {{ emails[forloop.index0] }}</span></span></p>
+  </td>
+  <span style='mso-bookmark:dcontact'></span>
+ </tr>
+ {% endfor %}
+ <tr style='mso-yfti-irow:6;mso-yfti-lastrow:yes;page-break-inside:avoid;
+  height:10.2pt'>
+  <td width="662" colspan="7" valign="top" style='width:496.15pt;border:none;
+  border-top:solid windowtext 1.5pt;padding:0cm 2.85pt 0cm 2.85pt;height:10.2pt'>
+  <p class="MsoNormal" style='margin-top:0cm'><span lang="EN-US" style='font-size:
+  9.0pt'>Please do not change the structure of this table, just insert the
+  necessary information.<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class="MsoNormal"><span lang="EN-US">&lt;INSERT TEXT&gt;</span></p>
+
+<p><br clear="all" style="page-break-before:always"/></p>
+
+{% endif %}
+
+
+
+
 <table class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0" width="663"
  style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
  0cm 5.4pt 0cm 5.4pt'>
@@ -89,7 +206,7 @@
   <p class="MsoNormal" align="right" style='margin-top:12.0pt;text-align:right'><span
   style='mso-bookmark:_Hlk526346232'><a name="dnume"><b style='mso-bidi-font-weight:
   normal'><span lang="EN-US" style='font-size:30.0pt;mso-bidi-font-size:10.0pt;
-  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{{ docnumeric }}<o:p></o:p></span></b></a></span></p>
+  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{% if doctype == "Recommendation" %}{{ docnumeric }}{% else %}{{ doctype }}{% endif %}<o:p></o:p></span></b></a></span></p>
   </td>
   <span style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dnume'></span></span>
  </tr>
@@ -158,7 +275,7 @@
   <span
   style='mso-bookmark:_Hlk526346232'><a name="ddatee"><span lang="EN-US"
   style='font-size:14.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
-  mso-ansi-language:EN-US'>{% if pubdate_monthyear %}({{ pubdate_monthyear }}){% endif %}<span style='mso-spacerun:yes'>   </span><o:p></o:p></span></a></span></p>
+  mso-ansi-language:EN-US'>{% if pubdate_monthyear %}({{ pubdate_monthyear }}){% else %}{% if revdate %}({{ revdate }}){% endif %}{% endif %}<span style='mso-spacerun:yes'>   </span><o:p></o:p></span></a></span></p>
   </td>
   <span style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:ddatee'></span></span>
  </tr>
@@ -207,11 +324,11 @@
   style='mso-bookmark:_Hlk526346232'><a name="c1tite">
     <span lang="EN-GB"
   style='font-size:18.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
-  mso-bidi-font-family:"Times New Roman"'>{% if annexid or amendmentid or corrigendumid %}{{ doctitle }}
+  mso-bidi-font-family:"Times New Roman"'>{% if annexid or amendmentid or corrigendumid %}{% if doctype != "Recommendation" %}{{ docnumeric }}<br/>{% endif %}{{ doctitle }}
   {% if annexid %}<br/><b>{{ annexid }}{% if annextitle %}: {{ annextitle }}{% endif %}</b>{% endif %}
   {% if amendmentid %}<br/><b>{{ amendmentid }}{% if amendmenttitle %}: {{ amendmenttitle }}{% endif %}</b>{% endif %}
   {% if corrigendumid %}<br/><b>{{ corrigendumid }}{% if corrigendumtitle %}: {{ corrigendumtitle }}{% endif %}</b>{% endif %}
-  {% else %}<b>{{ doctitle }}</b>{% endif %}</span>
+  {% else %}<b>{% if doctype != "Recommendation" %}{{ docnumeric }}<br/>{% endif %}{{ doctitle }}</b>{% endif %}</span>
   </a></span><span
   style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:c1tite'><b><span
   lang="EN-US" style='font-size:18.0pt;mso-bidi-font-size:10.0pt;font-family:

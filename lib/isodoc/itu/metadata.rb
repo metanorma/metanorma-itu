@@ -51,6 +51,12 @@ module IsoDoc
         set(:bureau, bureau.text) if bureau
         tc = xml.at(ns("//bibdata/ext/editorialgroup/committee"))
         set(:tc, tc.text) if tc
+        tc = xml.at(ns("//bibdata/ext/editorialgroup/group/name"))
+        set(:group, tc.text) if tc
+        tc = xml.at(ns("//bibdata/ext/editorialgroup/subgroup/name"))
+        set(:subgroup, tc.text) if tc
+        tc = xml.at(ns("//bibdata/ext/editorialgroup/workgroup/name"))
+        set(:workgroup, tc.text) if tc
         super
         authors = xml.xpath(ns("//bibdata/contributor[role/@type = 'author' "\
                                 "or xmlns:role/@type = 'editor']/person"))

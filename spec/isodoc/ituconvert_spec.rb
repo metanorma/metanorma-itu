@@ -187,6 +187,7 @@ RSpec.describe Asciidoctor::ITU do
 :draft=>"3.4",
 :draftinfo=>" (draft 3.4, 2000-01-01)",
 :edition=>"2",
+:group=>"I",
 :implementeddate=>"XXX",
 :ip_notice_received=>"false",
 :issueddate=>"XXX",
@@ -205,12 +206,14 @@ RSpec.describe Asciidoctor::ITU do
 :series1=>"B3",
 :series2=>"C3",
 :stage=>"Final Draft",
+:subgroup=>"I1",
 :transmitteddate=>"XXX",
 :unchangeddate=>"XXX",
 :unpublished=>false,
 :updateddate=>"XXX",
 :vote_endeddate=>"XXX",
-:vote_starteddate=>"XXX"}
+:vote_starteddate=>"XXX",
+:workgroup=>"I2"}
     OUTPUT
   end
 
@@ -341,15 +344,12 @@ INPUT
 :addresses=>["Canada", "USA"],
 :affiliations=>["Bedrock Quarry", "Bedrock Quarry 2"],
 :agency=>"International Telecommunication Union",
-:amendmenttitle=>nil,
-:annextitle=>nil,
 :authors=>["Fred Flintstone", "Barney Rubble"],
 :authors_affiliations=>{"Bedrock Quarry, Canada"=>["Fred Flintstone"], "Bedrock Quarry 2, USA"=>["Barney Rubble"]},
 :bureau=>"R",
 :circulateddate=>"XXX",
 :confirmeddate=>"XXX",
 :copieddate=>"XXX",
-:corrigendumtitle=>nil,
 :createddate=>"XXX",
 :docnumber=>"ITU-R 1000",
 :docnumeric=>"1000",
@@ -363,6 +363,7 @@ INPUT
 :edition=>"2",
 :emails=>["x@example.com", "y@example.com"],
 :faxes=>["556", "558"],
+:group=>"I",    
 :implementeddate=>"XXX",
 :intended_type=>"TD",
 :ip_notice_received=>"false",
@@ -375,7 +376,6 @@ INPUT
 :meeting_date=>"01 Dec 2000/02 Jan 2000",
 :obsoleteddate=>"XXX",
 :phones=>["555", "557"],
-:pubdate_monthyear=>"",
 :publisheddate=>"XXX",
 :publisher=>"International Telecommunication Union",
 :receiveddate=>"XXX",
@@ -387,12 +387,14 @@ INPUT
 :source=>"Source",
 :stage=>"Draft",
 :stageabbr=>"D",
+:subgroup=>"I1",
 :transmitteddate=>"XXX",
 :unchangeddate=>"XXX",
 :unpublished=>true,
 :updateddate=>"XXX",
 :vote_endeddate=>"XXX",
-:vote_starteddate=>"XXX"}
+:vote_starteddate=>"XXX",
+:workgroup=>"I2"}
 OUTPUT
   end
 

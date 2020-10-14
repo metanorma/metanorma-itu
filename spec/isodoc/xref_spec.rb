@@ -415,7 +415,7 @@ OUTPUT
        end
 
               it "cross-references annex subclauses" do
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+                expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<i18nyaml>.*</i18nyaml>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>

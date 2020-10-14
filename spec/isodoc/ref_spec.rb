@@ -251,7 +251,7 @@ input = <<~INPUT
 OUTPUT
 
     FileUtils.rm_f "test.html"
-       expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(presxml)
+       expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<i18nyaml>.*</i18nyaml>}m, ""))).to be_equivalent_to xmlpp(presxml)
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, false)
     expect(xmlpp(File.read("test.html", encoding: "utf-8").sub(/^.*<main/m, "<main").sub(%r{</main>.*$}m, "</main>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
            <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
@@ -558,7 +558,7 @@ html = <<~OUTPUT
          </body>
 
             OUTPUT
-       expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(presxml)
+       expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<i18nyaml>.*</i18nyaml>}m, ""))).to be_equivalent_to xmlpp(presxml)
        expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
                 end
 

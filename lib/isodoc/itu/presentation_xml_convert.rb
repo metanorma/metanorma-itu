@@ -50,10 +50,14 @@ module IsoDoc
 
       def bibdata_i18n(b)
         super
-        dn = b.at(ns("./ext/structuredidentifier/amendment")) and
-          dn.children = @i18n.l10n("#{@i18n.get["amendment"]} #{dn&.text}")
-        dn = b.at(ns("./ext/structuredidentifier/corrigendum")) and
-          dn.children = @i18n.l10n("#{@i18n.get["corrigendum"]} #{dn&.text}")
+        %w(amendment corrigendum).each do |w|
+          if dn = b.at(ns("./ext/structuredidentifier/#{w}"))
+            dn["language"] = ""
+            dn.next = dn.dup
+            dn.next["language"] = @lang
+            dn.next.children = @i18n.l10n("#{@i18n.get[w]} #{dn&.text}")
+          end
+        end
       end
 
       include Init

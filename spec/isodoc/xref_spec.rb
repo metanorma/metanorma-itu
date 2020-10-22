@@ -415,7 +415,7 @@ OUTPUT
        end
 
               it "cross-references annex subclauses" do
-                expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<i18nyaml>.*</i18nyaml>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+                expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
         <itu-standard xmlns="http://riboseinc.com/isoxml">
                <bibdata type="standard">
                <title language="en" format="text/plain" type="main">An ITU Standard</title>
@@ -449,29 +449,16 @@ OUTPUT
           <bibdata type='standard'>
             <title language='en' format='text/plain' type='main'>An ITU Standard</title>
             <docidentifier type='ITU'>12345</docidentifier>
-            <language>en</language>
+            <language current="true">en</language>
             <keyword>A</keyword>
             <keyword>B</keyword>
             <ext>
-              <doctype>recommendation-annex</doctype>
+              <doctype language="">recommendation-annex</doctype>
               <structuredidentifier>
                 <annexid>F2</annexid>
               </structuredidentifier>
             </ext>
           </bibdata>
-          <local_bibdata type='standard'>
-            <title language='en' format='text/plain' type='main'>An ITU Standard</title>
-            <docidentifier type='ITU'>12345</docidentifier>
-            <language>en</language>
-            <keyword>A</keyword>
-            <keyword>B</keyword>
-            <ext>
-              <doctype>recommendation-annex</doctype>
-              <structuredidentifier>
-                <annexid>F2</annexid>
-              </structuredidentifier>
-            </ext>
-          </local_bibdata>
           <preface>
             <abstract>
               <title>Abstract</title>

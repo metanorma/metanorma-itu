@@ -128,11 +128,8 @@ input = <<~INPUT
     presxml = <<~OUTPUT
     <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
            <bibdata>
-           <language>en</language>
+           <language current="true">en</language>
            </bibdata>
-           <local_bibdata>
-           <language>en</language>
-           </local_bibdata>
            <preface><foreword>
          <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">
          <eref bibitemid="ISO712">[110]</eref>
@@ -251,7 +248,7 @@ input = <<~INPUT
 OUTPUT
 
     FileUtils.rm_f "test.html"
-       expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<i18nyaml>.*</i18nyaml>}m, ""))).to be_equivalent_to xmlpp(presxml)
+       expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, false)
     expect(xmlpp(File.read("test.html", encoding: "utf-8").sub(/^.*<main/m, "<main").sub(%r{</main>.*$}m, "</main>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
            <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
@@ -420,11 +417,8 @@ INPUT
 presxml = <<~OUTPUT
        <itu-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
          <bibdata>
-           <language>en</language>
+           <language current="true">en</language>
          </bibdata>
-         <local_bibdata>
-           <language>en</language>
-         </local_bibdata>
          <preface>
            <foreword>
              <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f'>
@@ -558,7 +552,7 @@ html = <<~OUTPUT
          </body>
 
             OUTPUT
-       expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<i18nyaml>.*</i18nyaml>}m, ""))).to be_equivalent_to xmlpp(presxml)
+       expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
        expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
                 end
 

@@ -182,6 +182,7 @@ RSpec.describe Asciidoctor::ITU do
 :docsubtitle=>"Subtitle",
 :doctitle=>"Main Title",
 :doctype=>"Directive",
+:doctype_display=>"Directive",
 :doctype_original=>"directive",
 :docyear=>"2001",
 :draft=>"3.4",
@@ -193,6 +194,7 @@ RSpec.describe Asciidoctor::ITU do
 :issueddate=>"XXX",
 :iteration=>"3",
 :keywords=>["word1", "word2"],
+:lang=>"en",
 :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}",
 :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}",
 :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
@@ -202,10 +204,12 @@ RSpec.describe Asciidoctor::ITU do
 :receiveddate=>"XXX",
 :revdate=>"2000-01-01",
 :revdate_monthyear=>"01/2000",
+:script=>"Latn",
 :series=>"A3",
 :series1=>"B3",
 :series2=>"C3",
 :stage=>"Final Draft",
+:stage_display=>"Final Draft",
 :subgroup=>"I1",
 :transmitteddate=>"XXX",
 :unchangeddate=>"XXX",
@@ -356,6 +360,7 @@ INPUT
 :docsubtitle=>"Subtitle",
 :doctitle=>"Main Title",
 :doctype=>"Technical Report",
+:doctype_display=>"Technical Report",
 :doctype_original=>"technical-report",
 :docyear=>"2001",
 :draft=>"5",
@@ -369,6 +374,7 @@ INPUT
 :ip_notice_received=>"false",
 :issueddate=>"XXX",
 :keywords=>["Word1", "word2"],
+:lang=>"en",
 :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}",
 :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}",
 :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
@@ -381,11 +387,13 @@ INPUT
 :receiveddate=>"XXX",
 :revdate=>"2000-01-01",
 :revdate_monthyear=>"01/2000",
+:script=>"Latn",
 :series=>"A3",
 :series1=>"B3",
 :series2=>"C3",
 :source=>"Source",
 :stage=>"Draft",
+:stage_display=>"Draft",
 :stageabbr=>"D",
 :subgroup=>"I1",
 :transmitteddate=>"XXX",
@@ -451,6 +459,7 @@ INPUT
 :implementeddate=>"XXX",
 :ip_notice_received=>"false",
 :issueddate=>"XXX",
+:lang=>"en",
 :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}",
 :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}",
 :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
@@ -458,7 +467,9 @@ INPUT
 :publisheddate=>"XXX",
 :publisher=>"International Telecommunication Union",
 :receiveddate=>"XXX",
+:script=>"Latn",
 :stage=>"In Force Prepublished",
+:stage_display=>"In Force Prepublished",
 :stageabbr=>"IFP",
 :transmitteddate=>"XXX",
 :unchangeddate=>"XXX",
@@ -470,15 +481,15 @@ INPUT
    end
 
      it "processes amendments and corrigenda" do
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<i18nyaml>.*</i18nyaml>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 <itu-standard xmlns="https://www.calconnect.org/standards/itu">
 <bibdata>
 <language>en</language>
 <script>Latn</script>
 <ext>
 <structuredidentifier>
-<amendment>1</amendment>
-<corrigendum>2</corrigendum >
+        <amendment>1</amendment>
+        <corrigendum>2</corrigendum>
 </structuredidentifier>
 </ext>
 </bibdata>
@@ -486,25 +497,17 @@ INPUT
     INPUT
     <itu-standard xmlns='https://www.calconnect.org/standards/itu' type='presentation'>
   <bibdata>
-    <language>en</language>
-    <script>Latn</script>
+    <language current="true">en</language>
+    <script current="true">Latn</script>
     <ext>
       <structuredidentifier>
-        <amendment>1</amendment>
-        <corrigendum>2</corrigendum>
+<amendment language=''>1</amendment>
+<amendment language='en'>Amendment 1</amendment>
+<corrigendum language=''>2</corrigendum>
+<corrigendum language='en'>Corrigendum 2</corrigendum>
       </structuredidentifier>
     </ext>
   </bibdata>
-  <local_bibdata>
-    <language>en</language>
-    <script>Latn</script>
-    <ext>
-      <structuredidentifier>
-        <amendment>Amendment 1</amendment>
-        <corrigendum>Corrigendum 2</corrigendum>
-      </structuredidentifier>
-    </ext>
-  </local_bibdata>
 </itu-standard>
     OUTPUT
   end
@@ -637,7 +640,7 @@ INPUT
          </div>
        </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<i18nyaml>.*</i18nyaml>}m, ""))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(output)
   end
 
@@ -1209,23 +1212,13 @@ OUTPUT
               <bibdata type="standard">
               <title language="en" format="text/plain" type="main">An ITU Standard</title>
               <docidentifier type="ITU">12345</docidentifier>
-              <language>en</language>
+              <language current="true">en</language>
               <keyword>A</keyword>
               <keyword>B</keyword>
               <ext>
-              <doctype>recommendation</doctype>
+              <doctype language="">recommendation</doctype>
               </ext>
               </bibdata>
-              <local_bibdata type='standard'>
-  <title language='en' format='text/plain' type='main'>An ITU Standard</title>
-              <docidentifier type="ITU">12345</docidentifier>
-              <language>en</language>
-              <keyword>A</keyword>
-              <keyword>B</keyword>
-              <ext>
-              <doctype>recommendation</doctype>
-              </ext>
-              </local_bibdata>
               <preface>
               <abstract>
               <title>Abstract</title>
@@ -1369,7 +1362,7 @@ html = <<~OUTPUT
            </div>
          </body>
 OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<i18nyaml>.*</i18nyaml>}m, ""))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
        end
 
@@ -1381,24 +1374,13 @@ OUTPUT
                 <title language="en" format="text/plain" type="main">An ITU Standard</title>
                 <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
                 <docidentifier type="ITU">12345</docidentifier>
-                <language>en</language>
+                <language current="true">en</language>
                 <keyword>A</keyword>
                 <keyword>B</keyword>
                 <ext>
-                <doctype>recommendation</doctype>
+                <doctype language="">recommendation</doctype>
                 </ext>
                 </bibdata>
-                <local_bibdata type='standard'>
-  <title language='en' format='text/plain' type='main'>An ITU Standard</title>
-  <title language='fr' format='text/plain' type='main'>Un Standard ITU</title>
-  <docidentifier type='ITU'>12345</docidentifier>
-  <language>en</language>
-  <keyword>A</keyword>
-  <keyword>B</keyword>
-  <ext>
-    <doctype>recommendation</doctype>
-  </ext>
-</local_bibdata>
        <preface>
        <abstract><title>Abstract</title>
        <p>This is an abstract</p>
@@ -1647,7 +1629,7 @@ OUTPUT
            </div>
          </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", itudoc("en"), true).gsub(%r{<i18nyaml>.*</i18nyaml>}m, ""))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", itudoc("en"), true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
     expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(word)
       end
@@ -1659,24 +1641,13 @@ OUTPUT
                  <title language="en" format="text/plain" type="main">An ITU Standard</title>
                  <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
                  <docidentifier type="ITU">12345</docidentifier>
-                 <language>fr</language>
+                 <language current="true">fr</language>
                  <keyword>A</keyword>
                  <keyword>B</keyword>
                  <ext>
-                 <doctype>recommendation</doctype>
+                 <doctype language="">recommendation</doctype>
                  </ext>
                  </bibdata>
-                 <local_bibdata type='standard'>
-  <title language='en' format='text/plain' type='main'>An ITU Standard</title>
-  <title language='fr' format='text/plain' type='main'>Un Standard ITU</title>
-  <docidentifier type='ITU'>12345</docidentifier>
-  <language>fr</language>
-  <keyword>A</keyword>
-  <keyword>B</keyword>
-  <ext>
-    <doctype>recommendation</doctype>
-  </ext>
-</local_bibdata>
         <preface>
         <abstract><title>Abstract</title>
         <p>This is an abstract</p>
@@ -1820,7 +1791,7 @@ OUTPUT
              </div>
            </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", itudoc("fr"), true).gsub(%r{<i18nyaml>.*</i18nyaml>}m, ""))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", itudoc("fr"), true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
   end
 
@@ -1935,7 +1906,7 @@ OUTPUT
   end
 
     it "processes eref types" do
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<i18nyaml>.*</i18nyaml>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <itu-standard xmlns="http://riboseinc.com/isoxml">
     <preface><foreword>
     <p>
@@ -2061,30 +2032,16 @@ OUTPUT
             <title language='en' format='text/plain' type='main'>An ITU Standard</title>
             <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
             <docidentifier type='ITU'>12345</docidentifier>
-            <language>en</language>
+            <language current="true">en</language>
             <keyword>A</keyword>
             <keyword>B</keyword>
             <ext>
-              <doctype>recommendation-annex</doctype>
+              <doctype language="">recommendation-annex</doctype>
               <structuredidentifier>
                 <annexid>F2</annexid>
               </structuredidentifier>
             </ext>
           </bibdata>
-          <local_bibdata type='standard'>
-            <title language='en' format='text/plain' type='main'>An ITU Standard</title>
-            <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-            <docidentifier type='ITU'>12345</docidentifier>
-            <language>en</language>
-            <keyword>A</keyword>
-            <keyword>B</keyword>
-            <ext>
-              <doctype>recommendation-annex</doctype>
-              <structuredidentifier>
-                <annexid>F2</annexid>
-              </structuredidentifier>
-            </ext>
-          </local_bibdata>
           <annex id='A1' obligation='normative'>
             <title>
               <strong>Annex F2</strong>
@@ -2108,7 +2065,7 @@ OUTPUT
           </annex>
         </itu-standard>
 OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<i18nyaml>.*</i18nyaml>}m, ""))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
              IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, false)
              html = File.read("test.html", encoding: "utf-8")
     expect(xmlpp(html.gsub(%r{^.*<main}m, "<main").gsub(%r{</main>.*}m, "</main>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")

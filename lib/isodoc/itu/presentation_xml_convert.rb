@@ -60,6 +60,10 @@ module IsoDoc
         end
       end
 
+      def twitter_cldr_localiser_symbols
+        {group: "'"}
+      end
+
       include Init
     end
   end

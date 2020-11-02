@@ -23,12 +23,6 @@ module IsoDoc
         end
       end
 
-      def bracket_opt(b)
-        return b if b.nil?
-        return b if /^\[.+\]$/.match(b)
-        "[#{b}]"
-      end
-
       def clausedelim
         ""
       end

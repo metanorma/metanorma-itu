@@ -1,35 +1,6 @@
 module IsoDoc
   module ITU
     module BaseConvert
-=begin
-      def terms_defs(node, out, num)
-        f = node.at(ns(IsoDoc::Convert::TERM_CLAUSE)) or return num
-        out.div **attr_code(id: f["id"]) do |div|
-          num = num + 1
-          clause_name(num, f.at(ns("./title")), div, nil)
-          if f.at(ns("./clause | ./terms | ./term")).nil? then out.p "None."
-          else
-            f.children.reject { |c1| c1.name == "title" }.each do |c1|
-              parse(c1, div)
-            end
-          end
-        end
-        num
-      end
-
-      def terms_parse(node, out)
-        out.div **attr_code(id: node["id"]) do |div|
-          clause_parse_title(node, div, node.at(ns("./title")), out)
-          if node.at(ns("./clause | ./term")).nil? then out.p "None."
-          else
-            node.children.reject { |c1| c1.name == "title" }.each do |c1|
-              parse(c1, div)
-            end
-          end
-        end
-      end
-=end
-
       def termdef_parse1(node, div, defn, source)
         div.p **{ class: "TermNum", id: node["id"] } do |p|
           p.b do |b|
@@ -37,8 +8,8 @@ module IsoDoc
             insert_tab(b, 1)
             node&.at(ns("./preferred"))&.children&.each { |n| parse(n, b) }
           end
-          source and p << " #{bracket_opt(source.value)}"
           p << ": "
+          source and p << "#{bracket_opt(source.value)} "
         end
         defn and defn.children.each { |n| parse(n, div) }
       end
@@ -54,6 +25,12 @@ module IsoDoc
             parse(n, out)
           end
         end
+      end
+
+      def bracket_opt(b)
+        return b if b.nil?
+        return b if /^\[.+\]$/.match(b)
+        "[#{b}]"
       end
 
       def termnote_delim

@@ -10,7 +10,8 @@ image:https://img.shields.io/github/commits-since/metanorma/metanorma-itu/latest
 
 == Functionality
 
-This gem processes Metanorma input for generating ITU (ITU-T, ITU-D) documents.
+This gem processes https://www.metanorma.com[Metanorma documents] following a template for generating ITU
+standards and documents.
 
 The implementation inherits from https://github.com/metanorma/metanorma-standoc.
 

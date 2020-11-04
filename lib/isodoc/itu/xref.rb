@@ -20,7 +20,7 @@ module IsoDoc
           @labels["appendix"] : @labels["annex"]
         @anchors[clause["id"]] =
           { label: annex_name_lbl(clause, num), type: "clause",
-            xref: "#{lbl} #{num}", level: 1, value: num }
+            xref: l10n("#{lbl} #{num}"), level: 1, value: num }
         if a = single_annex_special_section(clause)
           annex_names1(a, "#{num}", 1)
         else
@@ -51,7 +51,7 @@ module IsoDoc
 
       def annex_names1(clause, num, level)
         @anchors[clause["id"]] =
-          { label: num, xref: "#{@labels["annex_subclause"]} #{num}",
+          { label: num, xref: l10n("#{@labels["annex_subclause"]} #{num}"),
             level: level, type: "clause" }
         clause.xpath(ns("./clause | ./references | ./terms | ./definitions"))
           .each_with_index do |c, i|

@@ -67,15 +67,8 @@ module Asciidoctor
       end
 
       # Editing Guidelines 9.4.3
+      # Supplanted by rendering
       def numbers_validate(xmldoc)
-        xmldoc.xpath("//clause | //preface/* | //annex").each do |x|
-          xx = x.dup
-          xx.xpath("./clause").each { |c| c.remove }
-          style_two_regex_not_prev(x, extract_text(xx),
-                                   /^(?<num>-?[0-9][0-9,. ]{3,})$/,
-                                   %r{(\bISO|\bIEC|\bIEEE/)$},
-                                   "number not broken up in threes by apostrophe")
-        end
       end
 
       def style_two_regex_not_prev(n, text, re, re_prev, warning)

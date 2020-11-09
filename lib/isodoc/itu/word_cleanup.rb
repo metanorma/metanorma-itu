@@ -55,14 +55,17 @@ module IsoDoc
         historybox = docxml.at("//div[@id='historybox']")
         sourcebox = docxml.at("//div[@id='sourcebox']")
         keywordsbox = docxml.at("//div[@id='keywordsbox']")
+        changelogbox = docxml.at("//div[@id='change_logbox']")
         abstract = docxml.at("//div[@class = 'Abstract']")
         history = docxml.at("//div[@class = 'history']")
         source = docxml.at("//div[@class = 'source']")
-        keywords = docxml.at("//div[@class = 'Keywords']")
+        keywords = docxml.at("//div[@class = 'Keyword']")
+        changelog = docxml.at("//div[@id = 'change_log']")
         abstract.parent = abstractbox if abstract && abstractbox
         history.parent = historybox if history && historybox
         source.parent = sourcebox if source && sourcebox
         keywords.parent = keywordsbox if keywords && keywordsbox
+        changelog.parent = changelogbox if changelog && changelogbox
       end
 
       def toWord(result, filename, dir, header)

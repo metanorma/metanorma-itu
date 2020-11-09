@@ -178,6 +178,7 @@ module Asciidoctor
         end
       end
 
+      # also used in tech paper
       def metadata_techreport(node, xml)
         a = node.attr("meeting") and xml.meeting a
         a = node.attr("meeting-date") and metadata_meeting_date(a, xml)

@@ -64,6 +64,14 @@ module IsoDoc
         end
       end
 
+      def convert1(docxml, filename, dir)
+        if docxml&.at(ns("//bibdata/ext/doctype"))&.text == "service-publication"
+          require "byebug"; byebug
+          @wordcoverpage = html_doc_path("word_itu_titlepage_sp.html")
+        end
+        super
+      end
+
       def default_fonts(options)
         { bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' :
                      '"Times New Roman",serif'),

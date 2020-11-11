@@ -150,6 +150,7 @@ style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></span></p>
 <p class=MsoNormal><span style='mso-bookmark:_Hlk526346232'><span lang=EN-US
 style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></span></p>
 
+  {% if doctype != "Service Publication" %}
 <p><br clear=all
          style='page-break-before:always'></p>
 
@@ -164,8 +165,10 @@ mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always'>
 </span></b>
 
 <p class=MsoNormal align=center style='text-align:center'>
-<b>Table of Contents</b></p>
+<b>{{ table_of_contents }}</b></p>
 <p class=MsoNormal style='tab-stops:right 17.0cm'><span style='mso-tab-count:1'/>
-<b>Page</b></p>
+  <b>{{ page }}</b></p>
 
 WORDTOC
+
+{% endif %}

@@ -454,6 +454,7 @@ OUTPUT
             <keyword>B</keyword>
             <ext>
               <doctype language="">recommendation-annex</doctype>
+              <doctype language="en">Recommendation Annex</doctype>
               <structuredidentifier>
                 <annexid>F2</annexid>
               </structuredidentifier>

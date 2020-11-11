@@ -231,6 +231,7 @@ RSpec.describe Asciidoctor::ITU do
            <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
            <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
            <docidentifier type='ITU-provisional'>ABC</docidentifier>
+           <docidentifier type='ITU-Recommendation'>DEF</docidentifier>
            <docidentifier type='ITU'>ITU-R 1000</docidentifier>
            <docnumber>1000</docnumber>
            <contributor>
@@ -385,6 +386,7 @@ INPUT
 :publisheddate=>"XXX",
 :publisher=>"International Telecommunication Union",
 :receiveddate=>"XXX",
+:recommendationnumber=>"DEF",
 :revdate=>"2000-01-01",
 :revdate_monthyear=>"01/2000",
 :script=>"Latn",
@@ -1217,6 +1219,7 @@ OUTPUT
               <keyword>B</keyword>
               <ext>
               <doctype language="">recommendation</doctype>
+              <doctype language='en'>Recommendation</doctype>
               </ext>
               </bibdata>
               <preface>
@@ -1379,6 +1382,7 @@ OUTPUT
                 <keyword>B</keyword>
                 <ext>
                 <doctype language="">recommendation</doctype>
+                <doctype language='en'>Recommendation</doctype>
                 </ext>
                 </bibdata>
        <preface>
@@ -1646,6 +1650,7 @@ OUTPUT
                  <keyword>B</keyword>
                  <ext>
                  <doctype language="">recommendation</doctype>
+                 <doctype language='fr'>Recommendation</doctype>
                  </ext>
                  </bibdata>
         <preface>
@@ -2037,6 +2042,7 @@ OUTPUT
             <keyword>B</keyword>
             <ext>
               <doctype language="">recommendation-annex</doctype>
+              <doctype language="en">Recommendation Annex</doctype>
               <structuredidentifier>
                 <annexid>F2</annexid>
               </structuredidentifier>

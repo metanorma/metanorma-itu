@@ -66,8 +66,9 @@ module IsoDoc
 
       def convert1(docxml, filename, dir)
         if docxml&.at(ns("//bibdata/ext/doctype"))&.text == "service-publication"
-          require "byebug"; byebug
           @wordcoverpage = html_doc_path("word_itu_titlepage_sp.html")
+          options[:bodyfont] = "Arial"
+          options[:headerfont] = "Arial"
         end
         super
       end

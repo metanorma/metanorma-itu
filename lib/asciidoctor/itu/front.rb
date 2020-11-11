@@ -116,6 +116,7 @@ module Asciidoctor
       def metadata_id(node, xml)
         provisional_id(node, xml)
         itu_id(node, xml)
+        recommendation_id(node, xml)
       end
 
       def provisional_id(node, xml)
@@ -133,6 +134,15 @@ module Asciidoctor
             "#{node.attr("docnumber")}"
         end
         xml.docnumber { |i| i << node.attr("docnumber") }
+      end
+
+      def recommendation_id(node, xml)
+        return unless node.attr("recommendationnumber")
+        node.attr("recommendationnumber").split("/").each do |s|
+          xml.docidentifier **{type: "ITU-Recommendation"} do |i|
+            i << s
+          end
+        end
       end
 
       def metadata_series(node, xml)
@@ -195,6 +205,14 @@ module Asciidoctor
           else
             m.on d[0]
           end
+        end
+      end
+
+      def personal_role(node, c, suffix)
+        if node.attr("role#{suffix}")&.downcase == "rapporteur"
+          c.role "raporteur", **{ type: "editor" }
+        else
+          super
         end
       end
 

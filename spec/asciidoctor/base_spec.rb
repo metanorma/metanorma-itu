@@ -217,6 +217,7 @@ OUTPUT
       :corrigendum-title: Corrigendum Title
       :amendment-title-fr: Titre de Amendment
       :corrigendum-title-fr: Titre de Corrigendum
+      :recommendationnumber: G.7713.1/Y.1704.1
 
     INPUT
 <?xml version="1.0" encoding="UTF-8"?>
@@ -234,6 +235,8 @@ OUTPUT
 <title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
   <docidentifier type="ITU-provisional">ABC</docidentifier>
   <docidentifier type="ITU">ITU-R 1000</docidentifier>
+  <docidentifier type='ITU-Recommendation'>G.7713.1</docidentifier>
+<docidentifier type='ITU-Recommendation'>Y.1704.1</docidentifier>
   <docnumber>1000</docnumber>
   <contributor>
     <role type="author"/>
@@ -403,7 +406,7 @@ OUTPUT
       :intended-type: TD
       :source: Source
       :draft: 5
-      :role: author
+      :role: rapporteur
       :fullname: Fred Flintstone
       :affiliation: Bedrock Quarry
       :address: Canada
@@ -435,7 +438,7 @@ OUTPUT
              </organization>
            </contributor>
            <contributor>
-             <role type='author'/>
+           <role type='editor'>raporteur</role>
              <person>
                <name>
                  <completename>Fred Flintstone</completename>

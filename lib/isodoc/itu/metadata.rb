@@ -83,6 +83,8 @@ module IsoDoc
       def docid(isoxml, _out)
         dn = isoxml.at(ns("//bibdata/docidentifier[@type = 'ITU']"))
         set(:docnumber, dn&.text)
+        dn = isoxml.at(ns("//bibdata/docidentifier[@type = 'ITU-Recommendation']"))
+        dn and set(:recommendationnumber, dn&.text)
         dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/annexid"))
         oblig = isoxml&.at(ns("//annex/@obligation"))&.text
         lbl = oblig == "informative" ? @labels["appendix"] : @labels["annex"]

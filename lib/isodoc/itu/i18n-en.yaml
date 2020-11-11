@@ -41,3 +41,15 @@ clause_empty:
   None.
 amendment: Amendment
 corrigendum: Corrigendum
+doctype_dict:
+  recommendation: Recommendation
+  recommendation-supplement: Recommendation Supplement
+  recommendation-amendment: Recommendation Amendment
+  recommendation-corrigendum: Recommendation Corrigendum
+  recommendation-errata: Recommendation Errata
+  recommendation-annex: Recommendation Annex
+  focus-group: Focus Group
+  implementers-guide: Implementers’ Guide
+  technical-paper: Technical Paper
+  technical-report: Technical Report
+  joint-itu-iso-iec: Joint ITU/ISO/IEC

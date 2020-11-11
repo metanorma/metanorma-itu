@@ -101,8 +101,16 @@ module IsoDoc
       end
 
       def bibdate(isoxml, _out)
-        pubdate = isoxml.xpath(ns("//bibdata/date[@type = 'published']"))
+        pubdate = isoxml.xpath(ns("//bibdata/date[not(@format)][@type = 'published']"))
         pubdate and set(:pubdate_monthyear, monthyr(pubdate.text))
+        pubdate = isoxml.xpath(ns("//bibdata/date[@format = 'ddMMMyyyy'][@type = 'published']"))
+        pubdate and set(:pubdate_ddMMMyyyy, monthyr(pubdate.text))
+      end
+
+      def version(isoxml, _out)
+        super
+        y = get[:docyear] and
+          set(:placedate_year, @labels["placedate"].sub(/%/, y))
       end
 
       def monthyr(isodate)
@@ -121,6 +129,7 @@ module IsoDoc
         set(:doctype_original, d)
         if d == "recommendation-annex"
           set(:doctype, "Recommendation")
+          set(:doctype_display, "Recommendation")
         else
           super
         end

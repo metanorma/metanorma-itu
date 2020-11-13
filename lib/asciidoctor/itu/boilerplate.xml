@@ -1,4 +1,6 @@
 <boilerplate>
+  {% if doctype == "Service Publication %}
+  {% else %}
   <copyright-statement>
     <clause>
       <p>&copy; ITU {{ docyear }}</p>
@@ -40,6 +42,7 @@
     </clause>
     {% endif %}
   </legal-statement>
+  {% endif %}
 </boilerplate>
 
 

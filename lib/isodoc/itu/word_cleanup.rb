@@ -112,6 +112,7 @@ module IsoDoc
         %w(copyright license legal).each do |t|
           dest = docxml.at("//div[@id = 'boilerplate-#{t}-destination']")
           auth = docxml.at("//div[@class = 'boilerplate-#{t}']")
+          auth.remove if auth && !dest
           next unless auth && dest
           t == "copyright" and p = auth&.at(".//p") and
             p["class"] = "boilerplateHdr"

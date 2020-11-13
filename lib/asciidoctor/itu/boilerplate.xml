@@ -1,5 +1,5 @@
 <boilerplate>
-  {% if doctype == "Service Publication %}
+  {% if doctype == "Service Publication" %}
   {% else %}
   <copyright-statement>
     <clause>

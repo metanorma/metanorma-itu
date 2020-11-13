@@ -23,14 +23,15 @@ lang="EN-GB" style='font-size:10.0pt'>{{ number_abbrev }} {{ docnumeric }} – {
  0cm 0cm 0cm 0cm'>
  <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;page-break-inside:avoid;
   height:3.0cm;mso-height-rule:exactly'>
-  <td width="95" style='width:70.9pt;padding:0cm 0cm 0cm 0cm;height:3.0cm;
-  mso-height-rule:exactly'>
+  <td width="85" valign="top" style='width:63.95pt;padding:0cm 5.4pt 0cm 5.4pt'>
   <p class="MsoNormal" style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
   margin-left:0pt;margin-bottom:.0001pt'><span lang="EN-GB" style='font-family:FrugalSans;mso-fareast-language:ZH-CN;mso-no-proof:yes'><v:shape
  id="Picture_x0020_1" o:spid="_x0000_i1033" type="#_x0000_t75" alt="logo_E"
- style='width:68pt;height:75pt;visibility:visible;mso-wrap-style:square'>
-<v:imagedata src="{{ logo_word }}" o:title="logo_E"/>
-</v:shape></span></p>
+ style='width:46pt;height:52pt;visibility:visible;
+   mso-wrap-style:square'>
+<v:imagedata src="{{ logo_sp }}" o:title="logo_E"/>
+</v:shape>
+</span></p>
   </td>
   <td width="548" style='width:411.1pt;padding:0cm 0cm 0cm 0cm;height:3.0cm;mso-height-rule:exactly'>
   <p class="MsoNormal" style='margin-top:0cm'><b style='mso-bidi-font-weight:
@@ -85,7 +86,8 @@ normal'><span lang="EN-GB" style='font-size:14.0pt;mso-bidi-font-size:10.0pt'>{{
   </td>
   <td width="548" style='width:411.1pt;padding:0cm 0cm 0cm 0cm'>
   <p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-GB"  style='font-size:14.0pt;mso-bidi-font-size:10.0pt'>{{ doctitle }}</span></b></p>
-  <p class="MsoNormal" style='margin-top:30.0pt'><span lang="EN-GB"  style='font-size:14.0pt;mso-bidi-font-size:10.0pt'>{{ title_sp_position }}<o:p></o:p></span></p>
+  {% if positiontitle %}<p class="MsoNormal"/>
+  <p class="MsoNormal" style='font-size:14.0pt'>{{ positiontitle | upcase }}</p>{% endif %}
   </td>
  </tr>
  <tr style='mso-yfti-irow:2;mso-yfti-lastrow:yes;page-break-inside:avoid;height:2.0cm;mso-height-rule:exactly'>

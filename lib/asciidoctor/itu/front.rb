@@ -126,12 +126,28 @@ module Asciidoctor
         end
       end
 
-      def itu_id(node, xml)
+      ITULANG = {
+        "en" => "E", "fr" => "F", "ar" => "A",
+        "es" => "S", "zh" => "C", "ru" => "R"
+      }.freeze
+
+      def itu_id1(node, lang)
         bureau = node.attr("bureau") || "T"
+        id = if doctype(node) == "service-publication"
+               @i18n.annex_to_itu_ob_abbrev.sub(/%/, node.attr("docnumber"))
+             else
+               "ITU-#{bureau} #{node.attr("docnumber")}"
+             end
+        id + (lang ? "-#{ITULANG[@lang]}" : "")
+      end
+
+      def itu_id(node, xml)
         return unless node.attr("docnumber")
         xml.docidentifier **{type: "ITU"} do |i|
-          i << "ITU-#{bureau} "\
-            "#{node.attr("docnumber")}"
+          i << itu_id1(node, false)
+        end
+        xml.docidentifier **{type: "ITU-lang"} do |i|
+          i << itu_id1(node, true)
         end
         xml.docnumber { |i| i << node.attr("docnumber") }
       end

@@ -42,6 +42,7 @@ RSpec.describe Asciidoctor::ITU do
 <title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
   <docidentifier type="ITU-provisional">ABC</docidentifier>
   <docidentifier type="ITU">ITU-R 1000</docidentifier>
+  <docidentifier type="ITU-lang">ITU-R 1000-E</docidentifier>
   <docnumber>1000</docnumber>
   <date type='published'>2018-09-01</date>
            <date type='published' format='ddMMMyyyy'>1.IX.2018</date>
@@ -180,6 +181,7 @@ RSpec.describe Asciidoctor::ITU do
 :corrigendumtitle=>"Corrigendum Title",
 :createddate=>"XXX",
 :docnumber=>"ITU-R 1000",
+:docnumber_lang=>"ITU-R 1000-E",
 :docnumeric=>"1000",
 :docsubtitle=>"Subtitle",
 :doctitle=>"Main Title",
@@ -199,9 +201,10 @@ RSpec.describe Asciidoctor::ITU do
 :lang=>"en",
 :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}",
 :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}",
+:logo_sp=>"#{File.join(logoloc, "/logo-sp.png")}",
 :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
 :obsoleteddate=>"XXX",
-:placedate_year=>"Geneva, 2001",
+:placedate_year=>"Geneva, 2018",
 :pubdate_ddMMMyyyy=>"1.IX.2018",
 :pubdate_monthyear=>"09/2018",
 :publisheddate=>"XXX",
@@ -366,6 +369,7 @@ INPUT
 :docsubtitle=>"Subtitle",
 :doctitle=>"Main Title",
 :doctype=>"Technical Report",
+:doctype_abbreviated=>"TR",
 :doctype_display=>"Technical Report",
 :doctype_original=>"technical-report",
 :docyear=>"2001",
@@ -383,6 +387,7 @@ INPUT
 :lang=>"en",
 :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}",
 :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}",
+:logo_sp=>"#{File.join(logoloc, "/logo-sp.png")}",
 :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
 :meeting=>"Meeting X",
 :meeting_date=>"01 Jan 2000/02 Jan 2000",
@@ -423,6 +428,7 @@ OUTPUT
            <title language='fr' format='text/plain' type='main'>Titre Principal</title>
            <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
            <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+           <title language='en' format='text/plain' type='position-sp'>Position on 8 September 2010</title>
            <docidentifier type='ITU-provisional'>ABC</docidentifier>
            <docidentifier type='ITU-Recommendation'>DEF</docidentifier>
            <docidentifier type='ITU'>ITU-R 1000</docidentifier>
@@ -554,6 +560,7 @@ INPUT
 :docsubtitle=>"Subtitle",
 :doctitle=>"Main Title",
 :doctype=>"Technical Report",
+:doctype_abbreviated=>"TR",
 :doctype_display=>"Technical Report",
 :doctype_original=>"technical-report",
 :docyear=>"2001",
@@ -571,12 +578,14 @@ INPUT
 :lang=>"en",
 :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}",
 :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}",
+:logo_sp=>"#{File.join(logoloc, "/logo-sp.png")}",
 :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
 :meeting=>"Meeting X",
 :meeting_date=>"01 Jan 2000/02 Jan 2000",
 :obsoleteddate=>"XXX",
 :phones=>["555", "557"],
 :placedate_year=>"Geneva, 2001",
+:positiontitle=>"Position on 8 September 2010",
 :publisheddate=>"XXX",
 :publisher=>"International Telecommunication Union",
 :receiveddate=>"XXX",
@@ -651,6 +660,7 @@ INPUT
 :docnumeric=>"1000",
 :doctitle=>"Main Title",
 :doctype=>"Recommendation",
+:doctype_abbreviated=>"Rec.",
 :doctype_display=>"Recommendation",
 :doctype_original=>"recommendation-annex",
 :implementeddate=>"XXX",
@@ -659,6 +669,7 @@ INPUT
 :lang=>"en",
 :logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}",
 :logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}",
+:logo_sp=>"#{File.join(logoloc, "/logo-sp.png")}",
 :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
 :obsoleteddate=>"XXX",
 :publisheddate=>"XXX",
@@ -728,11 +739,12 @@ INPUT
     <language current='true'>en</language>
            <script current='true'>Latn</script>
            <title type='main'>Title</title>
-           <title language='en' format='text/plain' type='position-sp'>Position on 8 September 2010</title>
+           <title language='en' format='text/plain' type='position-sp'>(Position on 8 September 2010)</title>
            <date type='published'>2010-09-08</date>
            <date type='published' format='ddMMMyyyy'>8.IX.2010</date>
            <ext>
              <doctype language=''>service-publication</doctype>
+             <doctype language='en'>Service Publication</doctype>
            </ext>
   </bibdata>
 </itu-standard>

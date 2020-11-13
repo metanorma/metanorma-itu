@@ -87,7 +87,7 @@ BOILERPLATE =
   gsub(/<p>/, '<p id="_">').
   gsub(/\{% if unpublished %\}.+?\{% endif %\}/m, "").
   gsub(/\{% if ip_notice_received %\}\{% else %\}not\{% endif %\}/m, "").
-  gsub(/\{% if doctype != "Service Publication" %\}(.*?)\{% endif %\}/m, "\\1")
+  gsub(/\{% if doctype == "Service Publication" %\}\s*{% else %}(.*?)\{% endif %\}/m, "\\1")
 )
 
 

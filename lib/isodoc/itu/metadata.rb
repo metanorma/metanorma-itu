@@ -15,6 +15,8 @@ module IsoDoc
             File.expand_path(File.join(here, "html", "itu-document-comb.png")))
         set(:logo_word,
             File.expand_path(File.join(here, "html", n)))
+        set(:logo_sp,
+            File.expand_path(File.join(here, "html", "logo-sp.png")))
       end
 
       def title(isoxml, _out)
@@ -40,6 +42,8 @@ module IsoDoc
         set(:series2, series2)
         annext = isoxml&.at(ns("//bibdata/title[@type='annex']"))&.text
         set(:annextitle, annext)
+        annext = isoxml&.at(ns("//bibdata/title[@type='position-sp']"))&.text
+        set(:positiontitle, annext)
       end
 
       def subtitle(_isoxml, _out)
@@ -59,7 +63,7 @@ module IsoDoc
         set(:workgroup, tc.text) if tc
         super
         authors = xml.xpath(ns("//bibdata/contributor[role/@type = 'author' "\
-                                "or xmlns:role/@type = 'editor']/person"))
+                               "or xmlns:role/@type = 'editor']/person"))
         person_attributes(authors) unless authors.empty?
       end
 
@@ -85,6 +89,8 @@ module IsoDoc
         set(:docnumber, dn&.text)
         dn = isoxml.at(ns("//bibdata/docidentifier[@type = 'ITU-Recommendation']"))
         dn and set(:recommendationnumber, dn&.text)
+        dn = isoxml.at(ns("//bibdata/docidentifier[@type = 'ITU-lang']"))
+        dn and set(:docnumber_lang, dn&.text)
         dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/annexid"))
         oblig = isoxml&.at(ns("//annex/@obligation"))&.text
         lbl = oblig == "informative" ? @labels["appendix"] : @labels["annex"]
@@ -101,16 +107,14 @@ module IsoDoc
       end
 
       def bibdate(isoxml, _out)
-        pubdate = isoxml.xpath(ns("//bibdata/date[not(@format)][@type = 'published']"))
+        pubdate = isoxml.at(ns("//bibdata/date[not(@format)][@type = 'published']"))
         pubdate and set(:pubdate_monthyear, monthyr(pubdate.text))
-        pubdate = isoxml.xpath(ns("//bibdata/date[@format = 'ddMMMyyyy'][@type = 'published']"))
+        pubdate = isoxml.at(ns("//bibdata/date[@format = 'ddMMMyyyy'][@type = 'published']"))
         pubdate and set(:pubdate_ddMMMyyyy, monthyr(pubdate.text))
-      end
-
-      def version(isoxml, _out)
-        super
-        y = get[:docyear] and
-          set(:placedate_year, @labels["placedate"].sub(/%/, y))
+        pubdate = isoxml.at(ns("//bibdata/date[not(@format)][@type = 'published']")) ||
+          isoxml.at(ns("//bibdata/copyright/from"))
+        pubdate and set(:placedate_year,
+                        @labels["placedate"].sub(/%/, pubdate.text.sub(/^(\d\d\d\d).*$/, "\\1")))
       end
 
       def monthyr(isodate)
@@ -127,6 +131,7 @@ module IsoDoc
       def doctype(isoxml, _out)
         d = isoxml&.at(ns("//bibdata/ext/doctype"))&.text
         set(:doctype_original, d)
+        set(:doctype_abbreviated, @labels["doctype_abbrev"][d])
         if d == "recommendation-annex"
           set(:doctype, "Recommendation")
           set(:doctype_display, "Recommendation")

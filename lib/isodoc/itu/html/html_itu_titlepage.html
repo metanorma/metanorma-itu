@@ -70,6 +70,9 @@
           {% if docsubtitle %}
           <br/><span class="doc-subtitle">{{ docsubtitle }}</span>
           {% endif %}
+          {% if positiontitle %}
+          <br/><span class="doc-annextitle">{{ positiontitle }}</span>
+          {% endif %}
           {% if annextitle %}
           <br/><span class="doc-annextitle">{{ annexid }}{% if annexid and annextitle %}: {% endif %}{{ annextitle }}</span>
           {% endif %}

@@ -327,10 +327,14 @@
     <span lang="EN-GB"
   style='font-size:18.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
   mso-bidi-font-family:"Times New Roman"'>{% if annexid or amendmentid or corrigendumid %}{% if doctype != "Recommendation" %}{{ docnumeric }}<br/>{% endif %}{{ doctitle }}
+  {% if positiontitle %}<br/>{{ positiontitle | upcase }}{% endif %}
   {% if annexid %}<br/><b>{{ annexid }}{% if annextitle %}: {{ annextitle }}{% endif %}</b>{% endif %}
   {% if amendmentid %}<br/><b>{{ amendmentid }}{% if amendmenttitle %}: {{ amendmenttitle }}{% endif %}</b>{% endif %}
   {% if corrigendumid %}<br/><b>{{ corrigendumid }}{% if corrigendumtitle %}: {{ corrigendumtitle }}{% endif %}</b>{% endif %}
-  {% else %}<b>{% if doctype != "Recommendation" %}{{ docnumeric }}<br/>{% endif %}{{ doctitle }}</b>{% endif %}</span>
+  {% else %}
+  <b>{% if doctype != "Recommendation" %}{{ docnumeric }}<br/>{% endif %}{{ doctitle }}</b>
+  {% if positiontitle %}<br/><br/>{{ positiontitle | upcase }}{% endif %}
+  {% endif %}</span>
   </a></span><span
   style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:c1tite'><b><span
   lang="EN-US" style='font-size:18.0pt;mso-bidi-font-size:10.0pt;font-family:

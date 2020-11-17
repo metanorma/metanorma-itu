@@ -80,7 +80,7 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12pt;
+	font-size:$normalfontsize;
 	font-family:$bodyfont;
 	mso-fareast-font-family:"Times New Roman";
 	mso-ansi-language:EN-US;
@@ -97,7 +97,7 @@ p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
         /* do not put in margin-left, it is specific to list level */
         mso-add-space:auto;
         mso-pagination:widow-orphan;
-        font-size:12pt;
+        font-size:$normalfontsize;
         font-family:$bodyfont;
         mso-ansi-language:EN-AU;
         mso-fareast-language:EN-US;}
@@ -114,7 +114,7 @@ p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphC
         /* do not put in margin-left, it is specific to list level */
         mso-add-space:auto;
         mso-pagination:widow-orphan;
-        font-size:12pt;
+        font-size:$normalfontsize;
         font-family:$bodyfont;
         mso-ansi-language:EN-AU;
         mso-fareast-language:EN-US;}
@@ -131,7 +131,7 @@ p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagrap
         /* do not put in margin-left, it is specific to list level */
         mso-add-space:auto;
         mso-pagination:widow-orphan;
-        font-size:12pt;
+        font-size:$normalfontsize;
         font-family:$bodyfont;
         mso-ansi-language:EN-AU;
         mso-fareast-language:EN-US;}
@@ -148,7 +148,7 @@ p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxS
         /* do not put in margin-left, it is specific to list level */
         mso-add-space:auto;
         mso-pagination:widow-orphan;
-        font-size:12pt;
+        font-size:$normalfontsize;
         font-family:$bodyfont;
         mso-ansi-language:EN-AU;
         mso-fareast-language:EN-US;}
@@ -243,7 +243,7 @@ p.MsoBodyText, li.MsoBodyText, div.MsoBodyText
 	margin-left:0cm;
 	margin-bottom:.0001pt;
 	mso-pagination:widow-orphan;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	font-family:$bodyfont;
 	mso-fareast-font-family:"Times New Roman";
 	mso-bidi-font-family:"Times New Roman";
@@ -355,7 +355,7 @@ p.MsoCommentSubject, li.MsoCommentSubject, div.MsoCommentSubject
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:"Times New Roman";
@@ -406,7 +406,7 @@ p.MsoRMPane, li.MsoRMPane, div.MsoRMPane
 	margin:0cm;
 	margin-bottom:.0001pt;
 	mso-pagination:widow-orphan;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:SimSun;
@@ -447,7 +447,7 @@ h1
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	mso-list:l1 level1 lfo6;
 	mso-hyphenate:none;
@@ -502,7 +502,7 @@ p.h1Preface
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
         font-family:$headerfont;
         mso-fareast-font-family:$headerfont;
@@ -553,7 +553,7 @@ h1.Annex {
         mso-style-parent:"Heading 1";
         mso-style-link:"Heading 2 Char";
         mso-style-next:Normal;
-	margin-top:12.0pt;
+	margin-top:$normalfontsize;
 	margin-right:0cm;
 	margin-bottom:6pt;
 	margin-left:39.7pt;
@@ -566,7 +566,7 @@ h1.Annex {
 	tab-stops:39.7pt 59.55pt 79.4pt 99.25pt;
 	punctuation-wrap:simple;
 	text-autospace:none;
-        font-size:12.0pt;
+        font-size:$normalfontsize;
         font-weight:bold;
         mso-bidi-font-size:10.0pt;
         font-family:$headerfont;
@@ -583,7 +583,7 @@ h2
 	mso-style-parent:"Heading 1";
 	mso-style-link:"Heading 2 Char";
 	mso-style-next:Normal;
-	margin-top:12.0pt;
+	margin-top:$normalfontsize;
 	margin-right:0cm;
 	margin-bottom:6pt;
 	margin-left:39.7pt;
@@ -597,7 +597,7 @@ h2
 	tab-stops:39.7pt 59.55pt 79.4pt 99.25pt;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$headerfont;
 	mso-fareast-font-family:$headerfont;
@@ -625,7 +625,7 @@ h3
 	mso-list:l1 level3 lfo6;
 	mso-hyphenate:none;
 	tab-stops:39.7pt 59.55pt 79.4pt 99.25pt;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$headerfont;
         color:black;
@@ -656,7 +656,7 @@ h4
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$headerfont;
         color:black;
@@ -687,7 +687,7 @@ h5
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-weight:bold;
 	font-family:$headerfont;
@@ -716,7 +716,7 @@ h6
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	mso-list:l1 level6 lfo6;
 	mso-hyphenate:none;
@@ -745,7 +745,7 @@ p.MsoHeading7, li.MsoHeading7, div.MsoHeading7
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$headerfont;
 	mso-fareast-font-family:"Times New Roman";
@@ -771,7 +771,7 @@ p.MsoHeading8, li.MsoHeading8, div.MsoHeading8
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$headerfont;
 	mso-fareast-font-family:"Times New Roman";
@@ -797,7 +797,7 @@ p.MsoHeading9, li.MsoHeading9, div.MsoHeading9
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$headerfont;
 	mso-fareast-font-family:"Times New Roman";
@@ -819,7 +819,7 @@ p.MsoIndex1, li.MsoIndex1, div.MsoIndex1
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:"Times New Roman";
@@ -839,7 +839,7 @@ p.MsoIndex2, li.MsoIndex2, div.MsoIndex2
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:"Times New Roman";
@@ -859,7 +859,7 @@ p.MsoIndex3, li.MsoIndex3, div.MsoIndex3
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:"Times New Roman";
@@ -879,7 +879,7 @@ p.MsoToc1, li.MsoToc1, div.MsoToc1
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:$bodyfont;
@@ -903,7 +903,7 @@ p.MsoToc2, li.MsoToc2, div.MsoToc2
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:$bodyfont;
@@ -927,7 +927,7 @@ p.MsoToc3, li.MsoToc3, div.MsoToc3
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:$bodyfont;
@@ -949,7 +949,7 @@ p.MsoToc4, li.MsoToc4, div.MsoToc4
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:$bodyfont;
@@ -971,7 +971,7 @@ p.MsoToc5, li.MsoToc5, div.MsoToc5
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:$bodyfont;
@@ -993,7 +993,7 @@ p.MsoToc6, li.MsoToc6, div.MsoToc6
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:$bodyfont;
@@ -1015,7 +1015,7 @@ p.MsoToc7, li.MsoToc7, div.MsoToc7
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:$bodyfont;
@@ -1037,7 +1037,7 @@ p.MsoToc8, li.MsoToc8, div.MsoToc8
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:$bodyfont;
@@ -1059,7 +1059,7 @@ p.MsoToc9, li.MsoToc9, div.MsoToc9
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:12.0pt;
+	font-size:$normalfontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:$bodyfont;
@@ -1091,7 +1091,7 @@ p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:11.0pt;
+	font-size:$footnotefontsize;
 	mso-bidi-font-size:10.0pt;
 	font-family:$bodyfont;
 	mso-fareast-font-family:$bodyfont;
@@ -1108,9 +1108,9 @@ p.MsoBodyText, li.MsoBodyText, div.MsoBodyText
 	margin-bottom:6.0pt;
 	margin-left:0cm;
 	text-align:justify;
-	line-height:12.0pt;
+	line-height:$normalfontsize;
 	mso-pagination:widow-orphan;
-	font-size:12pt;
+	font-size:$normalfontsize;
 	font-family:$bodyfont;
 	mso-fareast-font-family:$bodyfont;
 	mso-bidi-font-family:$bodyfont;
@@ -1138,7 +1138,7 @@ span.Heading2Char
 	mso-style-locked:yes;
 	mso-style-parent:"";
 	mso-style-link:"Heading 2";
-	mso-ansi-font-size:12.0pt;
+	mso-ansi-font-size:$normalfontsize;
 	font-family:$headerfont;
 	mso-ascii-font-family:Cambria;
 	mso-fareast-font-family:$headerfont;

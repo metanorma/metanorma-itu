@@ -21,7 +21,10 @@ module IsoDoc
                      '"Times New Roman",serif'),
           headerfont: (options[:script] == "Hans" ? '"SimHei",sans-serif' : 
                        '"Times New Roman",serif'),
-          monospacefont: '"Courier New",monospace'
+                       monospacefont: '"Courier New",monospace',
+                       normalfontsize: "14px",
+                       monospacefontsize: "0.8em",
+                       footnotefontsize: "0.9em",
         }
       end
 

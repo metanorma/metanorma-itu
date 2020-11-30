@@ -309,11 +309,11 @@ OUTPUT
                  <tbody>
                    <tr id="ISBN" class="Biblio">
                      <td style='vertical-align:top'>[1]</td>
-                     <td>ISBN ISBN, <i>Chemicals for analytical laboratory use</i>.</td>
+                     <td>ISBN, <i>Chemicals for analytical laboratory use</i>.</td>
                    </tr>
                    <tr id="ISSN" class="Biblio">
                      <td style='vertical-align:top'>[2]</td>
-                     <td>ISSN ISSN, <i>Instruments for analytical laboratory use</i>.</td>
+                     <td>ISSN, <i>Instruments for analytical laboratory use</i>.</td>
                    </tr>
                    <tr><td colspan="2">
                      <div class="Note">

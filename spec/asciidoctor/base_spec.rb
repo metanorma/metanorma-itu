@@ -1055,7 +1055,7 @@ OUTPUT
              </references>
            </clause>
            <references id='_' normative='false' obligation='informative'>
-             <title>Bibliography</title>
+             <title>Second Bibliography</title>
            </references>
          </bibliography>
        </itu-standard>

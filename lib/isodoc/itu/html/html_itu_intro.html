@@ -1,10 +1,11 @@
-<div id="boilerplate-legal-destination"/>
+ {% if doctype != "Service Publication" %}
+ <div id="boilerplate-legal-destination"/>
 <div id="boilerplate-license-destination"/>
-
+  {% endif %}
 
 
 <nav>
-  <h1 id="content">Contents</h1>
+  <h1 id="content">{{ table_of_contents}}</h1>
   <div id="toc"></div>
 
 </nav>

@@ -64,6 +64,15 @@ module IsoDoc
         end
       end
 
+      def convert1(docxml, filename, dir)
+        if docxml&.at(ns("//bibdata/ext/doctype"))&.text == "service-publication"
+          @wordcoverpage = html_doc_path("word_itu_titlepage_sp.html")
+          options[:bodyfont] = "Arial"
+          options[:headerfont] = "Arial"
+        end
+        super
+      end
+
       def default_fonts(options)
         { bodyfont: (options[:script] == "Hans" ? '"SimSun",serif' :
                      '"Times New Roman",serif'),

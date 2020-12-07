@@ -41,6 +41,20 @@ clause_empty:
   None.
 amendment: Amendment
 corrigendum: Corrigendum
+table_of_contents: Table of Contents
+page: Page
+placedate: Geneva, %
+annex_to_itu_ob: Annex to ITU Operational Bulletin
+number_abbrev: No.
+annex_to_itu_ob_abbrev: Annex to ITU OB %
+international_telecommunication_union: International Telecommunication Union
+position_on: (Position on %)
+tsb: TSB
+br: BR
+bdt: BDT
+tsb_full: Telecommunication<br/>Standardization Bureau<br/>of ITU
+br_full: Radiocommunication Bureau<br/>of ITU
+bdt_full: Telecommunication<br/>Development Bureau<br/>of ITU
 doctype_dict:
   recommendation: Recommendation
   recommendation-supplement: Recommendation Supplement
@@ -53,3 +67,17 @@ doctype_dict:
   technical-paper: Technical Paper
   technical-report: Technical Report
   joint-itu-iso-iec: Joint ITU/ISO/IEC
+  service-publication: Service Publication
+doctype_abbrev:
+  recommendation: Rec.
+  recommendation-supplement: Rec.
+  recommendation-amendment: Rec.
+  recommendation-corrigendum: Rec.
+  recommendation-errata: Rec.
+  recommendation-annex: Rec.
+  focus-group: FG
+  implementers-guide: Imp.
+  technical-paper: TP
+  technical-report: TR
+  joint-itu-iso-iec: ITU/ISO/IEC
+  service-publication: 

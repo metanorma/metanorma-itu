@@ -16,6 +16,8 @@ module IsoDoc
         case doctype = docxml&.at(ns("//bibdata/ext/doctype"))&.text
         when "resolution" then "itu.resolution.xsl"
         when "recommendation-annex" then "itu.recommendation-annex.xsl"
+        when "technical-report" then "itu.technical-report.xsl"
+        when "technical-paper" then "itu.technical-paper.xsl"
         else
           "itu.recommendation.xsl"
         end

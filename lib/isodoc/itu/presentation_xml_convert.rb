@@ -1,4 +1,5 @@
 require_relative "init"
+require "roman-numerals"
 require "isodoc"
 
 module IsoDoc
@@ -50,6 +51,57 @@ module IsoDoc
 
       def bibdata_i18n(b)
         super
+        bibdata_dates(b)
+        bibdata_title(b)
+        amendment_id(b)
+      end
+
+      def bibdata_dates(b)
+        b.xpath(ns("./date")).each do |d|
+          d.next = d.dup
+          d.next["format"] = "ddMMMyyyy"
+          d.next.children = ddMMMyyyy(d.text)
+        end
+      end
+
+      def bibdata_title(b)
+        b&.at(ns("./ext/doctype"))&.text == "service-publication" or return
+        date = b&.at(ns("./date[@type = 'published']"))&.text or return
+        text = l10n(@i18n.get["position_on"].sub(/%/, ddmmmmyyyy(date)))
+        ins = b.at(ns("./title"))
+        ins.next = <<~END
+        <title language="#{@lang}" format="text/plain" type="position-sp">#{text}</title>
+        END
+      end
+
+      def ddMMMyyyy(date)
+        d = date.split(/-/).map { |x| x.sub(/^0/, "") }
+        if @lang == "zh"
+          d[0] += "年" if d.dig(0)
+          d[1] += "月" if d.dig(1)
+          d[2] += "日" if d.dig(2)
+          d.join("")
+        elsif @lang == "ar"
+          d[1] = ::RomanNumerals.to_roman(d[1].to_i).upcase if d.dig(1)
+          d.join(".")
+        else
+          d[1] = ::RomanNumerals.to_roman(d[1].to_i).upcase if d.dig(1)
+          d.reverse.join(".")
+        end
+      end
+
+      def ddmmmmyyyy(date)
+        if @lang == "zh"
+          ddMMMyyyy(date)
+        else
+          d = date.split(/-/)
+          d[1] = @meta.months[d[1].to_sym] if d.dig(1)
+          d[2] = d[2].sub(/^0/, "") if d.dig(2)
+          l10n(d.reverse.join(" "))
+        end
+      end
+
+      def amendment_id(b)
         %w(amendment corrigendum).each do |w|
           if dn = b.at(ns("./ext/structuredidentifier/#{w}"))
             dn["language"] = ""

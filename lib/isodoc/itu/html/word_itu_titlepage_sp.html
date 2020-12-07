@@ -1,0 +1,108 @@
+
+<p class="MsoNormal" align="center" dir="RTL" style='margin-top:0cm;text-align:center;
+direction:rtl;unicode-bidi:embed'><i><span lang="EN-GB" dir="LTR" style='font-size:
+10.0pt'><o:p>&#xA0;</o:p></span></i></p>
+
+{%  if lang == "zh" %}
+<p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><i><span
+                     lang="EN-GB" style='font-size:10.0pt'>国际电联{{ pubdate_ddMMMyyyy }}第{{ docnumeric }}期</span></i></p>
+
+<p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><i><span
+lang="EN-GB" style='font-size:10.0pt'>《操作公报》附件</span></i></p>
+{% else %}
+<p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><i><span
+lang="EN-GB" style='font-size:10.0pt'>{{ annex_to_itu_ob }}</span></i></p>
+
+<p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><i><span
+lang="EN-GB" style='font-size:10.0pt'>{{ number_abbrev }} {{ docnumeric }} – {{ pubdate_ddMMMyyyy }}</span></i></p>
+{% endif %}
+
+<p class="MEP"><span lang="EN-GB" style='font-size:10.0pt'><o:p>&#xA0;</o:p></span></p>
+
+<table class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0" width="643" style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0cm 0cm 0cm 0cm'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;page-break-inside:avoid;
+  height:3.0cm;mso-height-rule:exactly'>
+  <td width="85" valign="top" style='width:63.95pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class="MsoNormal" style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;
+  margin-left:0pt;margin-bottom:.0001pt'><span lang="EN-GB" style='font-family:FrugalSans;mso-fareast-language:ZH-CN;mso-no-proof:yes'><v:shape
+ id="Picture_x0020_1" o:spid="_x0000_i1033" type="#_x0000_t75" alt="logo_E"
+ style='width:46pt;height:52pt;visibility:visible;
+   mso-wrap-style:square'>
+<v:imagedata src="{{ logo_sp }}" o:title="logo_E"/>
+</v:shape>
+</span></p>
+  </td>
+  <td width="548" style='width:411.1pt;padding:0cm 0cm 0cm 0cm;height:3.0cm;mso-height-rule:exactly'>
+  <p class="MsoNormal" style='margin-top:0cm'><b style='mso-bidi-font-weight:
+normal'><span lang="EN-GB" style='font-size:14.0pt;mso-bidi-font-size:10.0pt'>{{ international_telecommunication_union | upcase }}</span></b></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;page-break-inside:avoid;height:4.0cm;mso-height-rule:
+  exactly'>
+  <td width="95" style='width:70.9pt;padding:0cm 0cm 0cm 0cm;height:4.0cm;
+  mso-height-rule:exactly'>
+  <p class="MsoNormal" style='margin-top:0cm'><span lang="EN-GB" style='font-size:
+  14.0pt;mso-bidi-font-size:10.0pt'><o:p>&#xA0;</o:p></span></p>
+  </td>
+  <td width="548" style='width:411.1pt;padding:0cm 0cm 0cm 0cm;height:4.0cm;
+  mso-height-rule:exactly'>
+  <p class="MsoNormal" style='margin-top:0cm;text-align:left;'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-GB" style='font-size:18.0pt;mso-bidi-font-size:10.0pt'>{% if bureau == "R" %}{{ br }}{% endif %}{% if bureau == "T" %}{{ tsb }}{% endif %}{% if bureau == "D" %}{{ bdt }}{% endif %}<br/>
+  </span></b><b style='mso-bidi-font-weight:normal'><span lang="EN-GB"  style='font-size:14.0pt;mso-bidi-font-size:10.0pt'>{% if bureau == "R" %}{{ br_full }}{% endif %}{% if bureau == "T" %}{{ tsb_full }}{% endif %}{% if bureau == "D" %}{{ bdt_full }}{% endif %}</span></b><span lang="EN-GB"  style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;mso-yfti-lastrow:yes;page-break-inside:avoid;
+  height:42.55pt;mso-height-rule:exactly'>
+  <td width="95" style='width:70.9pt;padding:0cm 0cm 0cm 0cm;height:42.55pt;
+  mso-height-rule:exactly'>
+  <p class="MsoNormal" style='margin-top:5.0pt;margin-right:0cm;margin-bottom:
+  5.0pt;margin-left:0cm'><span lang="EN-GB" style='font-size:14.0pt;mso-bidi-font-size:
+  10.0pt'><o:p>&#xA0;</o:p></span></p>
+  </td>
+  <td width="548" style='width:411.1pt;border:none;border-bottom:solid windowtext 2.25pt;
+  padding:0cm 0cm 0cm 0cm;height:42.55pt;mso-height-rule:exactly'>
+  <p class="MsoNormal" style='margin-top:5.0pt;margin-right:0cm;margin-bottom:
+  5.0pt;margin-left:0cm'><b style='mso-bidi-font-weight:normal'><span
+  lang="EN-GB" style='font-size:18.0pt;mso-bidi-font-size:10.0pt'><o:p>&#xA0;</o:p></span></b></p>
+  </td>
+ </tr>
+</table>
+<p class="MsoNormal"><span lang="EN-GB"><o:p>&#xA0;</o:p></span></p>
+
+<table class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0" width="643" style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:0cm 0cm 0cm 0cm'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;page-break-inside:avoid;height:2.0cm;mso-height-rule:exactly'>
+  <td width="95" style='width:70.9pt;padding:0cm 0cm 0cm 0cm;height:2.0cm;mso-height-rule:exactly'>
+  <p class="MsoNormal" style='margin-top:5.0pt;margin-right:0cm;margin-bottom:5.0pt;margin-left:0cm'><span lang="EN-GB" style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&#xA0;</o:p></span></p>
+  </td>
+  <td width="548" style='width:411.1pt;padding:0cm 0cm 0cm 0cm;height:2.0cm;mso-height-rule:exactly'>
+  <p class="MsoNormal" style='margin-top:5.0pt;margin-right:0cm;margin-bottom:5.0pt;margin-left:0cm'><b style='mso-bidi-font-weight:normal'><span
+  lang="EN-GB" style='font-size:18.0pt;mso-bidi-font-size:10.0pt'><o:p>&#xA0;</o:p></span></b></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;page-break-inside:avoid'>
+  <td width="95" style='width:70.9pt;padding:0cm 0cm 0cm 0cm'>
+  <p class="MsoNormal"><span lang="EN-GB" style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&#xA0;</o:p></span></p>
+  </td>
+  <td width="548" style='width:411.1pt;padding:0cm 0cm 0cm 0cm'>
+  <p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-GB"  style='font-size:14.0pt;mso-bidi-font-size:10.0pt'>{{ doctitle }}</span></b></p>
+  {% if positiontitle %}<p class="MsoNormal"/>
+  <p class="MsoNormal" style='font-size:14.0pt'>{{ positiontitle | upcase }}</p>{% endif %}
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;mso-yfti-lastrow:yes;page-break-inside:avoid;height:2.0cm;mso-height-rule:exactly'>
+  <td width="95" style='width:70.9pt;padding:0cm 0cm 0cm 0cm;height:2.0cm;mso-height-rule:exactly'>
+  <p class="MsoNormal"><span lang="EN-GB" style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&#xA0;</o:p></span></p>
+  </td>
+  <td width="548" style='width:411.1pt;border:none;border-bottom:solid windowtext 2.25pt;padding:0cm 0cm 0cm 0cm;height:2.0cm;mso-height-rule:exactly'>
+  <p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-GB"  style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&#xA0;</o:p></span></b></p>
+  </td>
+ </tr>
+</table>
+
+<p class="MEP">&#xA0;</p>
+
+<p class="MEP">&#xA0;</p>
+
+<p class="MsoNormal" style='margin-left:2.0cm;text-indent:-2.0cm'><b
+style='mso-bidi-font-weight:normal'><span lang="EN-GB" style='font-size:12.0pt;mso-bidi-font-size:10.0pt'>{{ placedate_year }}</span></b></p>

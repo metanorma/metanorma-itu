@@ -4,7 +4,7 @@
  <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
   <td width=663 valign=top style='width:497.25pt;padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=RecNo><span style='mso-bookmark:_Hlk526346232'><a name=irecnoe></a><span
-      lang=FR-CH style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>{{ doctype}} {{ docnumber }}<o:p></o:p></span></span></p>
+      lang=FR-CH style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>{% if doctype != "Service Publication" %}{{ doctype_display }} {% endif %}{{ docnumber }}<o:p></o:p></span></span></p>
   <p class=Rectitle align="center"><span style='mso-bookmark:_Hlk526346232'><span lang=FR-CH
       style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>{{ doctitle }}<o:p></o:p></span></span></p>
   {% if annexid %}
@@ -41,6 +41,8 @@
 
 <p class=MsoNormal><span style='mso-bookmark:_Hlk526346232'><span lang=FR-CH
 style='mso-ansi-language:FR-CH'><o:p>&nbsp;</o:p></span></span></p>
+
+{% if doctype != "Service Publication" %}
 
 <p class=MsoNormal><o:wrapblock><v:shapetype id="_x0000_t202"
   coordsize="21600,21600" o:spt="202" path="m,l,21600r21600,l21600,xe">
@@ -147,9 +149,13 @@ style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></span></p>
 
 <div id="change_logbox"/>
 
+  {% endif %}
+
 <p class=MsoNormal><span style='mso-bookmark:_Hlk526346232'><span lang=EN-US
 style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></span></p>
 
+  {% if doctype == "Service Publication" %}
+  {% else %}
 <p><br clear=all
          style='page-break-before:always'></p>
 
@@ -164,8 +170,10 @@ mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always'>
 </span></b>
 
 <p class=MsoNormal align=center style='text-align:center'>
-<b>Table of Contents</b></p>
+<b>{{ table_of_contents }}</b></p>
 <p class=MsoNormal style='tab-stops:right 17.0cm'><span style='mso-tab-count:1'/>
-<b>Page</b></p>
+  <b>{{ page }}</b></p>
 
 WORDTOC
+
+{% endif %}

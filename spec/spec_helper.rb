@@ -86,7 +86,10 @@ BOILERPLATE =
   gsub(/\{\{ docyear \}\}/, Date.today.year.to_s).
   gsub(/<p>/, '<p id="_">').
   gsub(/\{% if unpublished %\}.+?\{% endif %\}/m, "").
-  gsub(/\{% if ip_notice_received %\}\{% else %\}not\{% endif %\}/m, ""))
+  gsub(/\{% if ip_notice_received %\}\{% else %\}not\{% endif %\}/m, "").
+  gsub(/\{% if doctype == "Service Publication" %\}\s*{% else %}(.*?)\{% endif %\}/m, "\\1")
+)
+
 
 BLANK_HDR = <<~"HDR"
        <?xml version="1.0" encoding="UTF-8"?>

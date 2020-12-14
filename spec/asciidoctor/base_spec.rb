@@ -1314,7 +1314,7 @@ OUTPUT
            <terms id='_' obligation='normative'>
              <title>Definitions</title>
              <p id='_'>This Recommendation defines the following terms:</p>
-             <term id='_'>
+             <term id='term-term1'>
                <preferred>Term1</preferred>
              </term>
            </terms>
@@ -1337,14 +1337,14 @@ OUTPUT
                <title>Intro 4</title>
                <terms id='_' obligation='normative'>
                  <title>Intro 5</title>
-                 <term id='_'>
+                 <term id='term-term1-1'>
                    <preferred>Term1</preferred>
                  </term>
                </terms>
              </clause>
              <clause id='_' obligation='normative'>
                <title>Normal Terms</title>
-               <term id='_'>
+               <term id='term-term2'>
                  <preferred>Term2</preferred>
                </term>
                <terms id='_' type='external' obligation='normative'>
@@ -1357,7 +1357,7 @@ OUTPUT
                <clause id='_' inline-header='false' obligation='normative'>
                  <title>General</title>
                </clause>
-               <term id='_'>
+               <term id='term-symbols-1'>
                  <preferred>Symbols 1</preferred>
                </term>
              </terms>
@@ -1491,14 +1491,14 @@ OUTPUT
              <terms id='_' type='external' obligation='normative'>
                <title>Terms defined elsewhere</title>
                <p id='_'>This Recommendation uses the following terms defined elsewhere:</p>
-               <term id='_'>
+               <term id='term-term-1'>
                  <preferred>Term 1</preferred>
                </term>
              </terms>
              <terms id='_' type='internal' obligation='normative'>
                <title>Terms defined in this recommendation</title>
                <p id='_'>This Recommendation defines the following terms:</p>
-               <term id='_'>
+               <term id='term-term-2'>
                  <preferred>Term 2</preferred>
                </term>
              </terms>
@@ -1555,14 +1555,14 @@ OUTPUT
              <terms id='_' type='external' obligation='normative'>
                <title>Terms defined elsewhere</title>
                <p id='_'>Boilerplate</p>
-               <term id='_'>
+               <term id='term-term-1'>
                  <preferred>Term 1</preferred>
                </term>
              </terms>
              <terms id='_' type='internal' obligation='normative'>
                <title>Terms defined in this recommendation</title>
                <p id='_'>Boilerplate</p>
-               <term id='_'>
+               <term id='term-term-2'>
                  <preferred>Term 2</preferred>
                </term>
              </terms>
@@ -1585,13 +1585,13 @@ OUTPUT
         <sections>
   <clause id="_" obligation="normative"><title>Definitions</title><p id="_">This Recommendation defines the following terms:</p><terms id="_" obligation="normative">
   <title>terms defined somewhere</title>
-  <term id="_">
+  <term id="term-term-1">
   <preferred>Term 1</preferred>
 </term>
 </terms>
 <terms id="_" obligation="normative">
   <title>terms defined somewhere else</title>
-  <term id="_">
+  <term id="term-term-2">
   <preferred>Term 2</preferred>
 </term>
 </terms></clause>
@@ -1617,13 +1617,13 @@ OUTPUT
   <clause id="_" obligation="normative"><title>Definitions</title><p id="_">Boilerplate</p>
 <terms id="_" obligation="normative">
   <title>terms defined somewhere</title>
-  <term id="_">
+  <term id="term-term-1">
   <preferred>Term 1</preferred>
 </term>
 </terms>
 <terms id="_" obligation="normative">
   <title>terms defined somewhere else</title>
-  <term id="_">
+  <term id="term-term-2">
   <preferred>Term 2</preferred>
 </term>
 </terms></clause>
@@ -1808,11 +1808,11 @@ it "does not apply smartquotes by default" do
 <docidentifier type='ITU'>ITU-T Y.140</docidentifier>
 <docidentifier type='ITU'>ITU-T Z.100</docidentifier>
 <docidentifier type='ISO'>ISO 55000:2014</docidentifier>
-<docidentifier type='URN'>urn:iso:std:iso:55000:stage-90.20:ed-1:en</docidentifier>
+<docidentifier type='URN'>urn:iso:std:iso:55000:stage-90.60:ed-1:en</docidentifier>
 <docidentifier type='ISO'>ISO/IEC 27001 (all parts)</docidentifier>
 <docidentifier type='URN'>urn:iso:std:iso-iec:27001</docidentifier>
-<docidentifier type='IEC'>IEC 60027-1+AMD1:1997+AMD2:2005 CSV</docidentifier>
-<docidentifier type='URN'>urn:iec:std:iec:60027-1:::csv:en:plus:amd:1:1997:plus:amd:2:2005</docidentifier>
+<docidentifier type='IEC'>IEC 60027</docidentifier>
+<docidentifier type='URN'>urn:iec:std:iec:60027::::en</docidentifier>
 <docidentifier type='Chinese Standard'>GB 12663-2019</docidentifier>
 </div>
     OUTPUT
@@ -1950,7 +1950,7 @@ end
            <terms id='_' obligation='normative'>
              <title>Definitions</title>
              <p id='_'>This Recommendation defines the following terms:</p>
-             <term id='_'>
+             <term id='term-term-1'>
                <preferred>Term 1</preferred>
              </term>
            </terms>

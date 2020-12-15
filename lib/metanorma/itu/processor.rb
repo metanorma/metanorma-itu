@@ -18,6 +18,16 @@ module Metanorma
         )
       end
 
+      def fonts_manifest
+        {
+          "Arial" => nil,
+          "Courier" => nil,
+          "Courier New" => nil,
+          "Times New Roman" => nil,
+          "STIX Two Math" => nil,
+        }
+      end
+
       def version
         "Metanorma::ITU #{Metanorma::ITU::VERSION}"
       end

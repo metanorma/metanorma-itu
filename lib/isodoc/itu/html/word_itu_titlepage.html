@@ -206,9 +206,13 @@
   <span style='mso-bookmark:_Hlk526346232'></span>
   <td width="400" colspan="2" valign="top" style='width:300.0pt;padding:0cm 4.25pt 0cm 4.25pt'>
   <p class="MsoNormal" align="right" style='margin-top:12.0pt;text-align:right'><span
-  style='mso-bookmark:_Hlk526346232'><a name="dnume"><b style='mso-bidi-font-weight:
+  style='mso-bookmark:_Hlk526346232'>
+    {% if doctype != "Resolution" %}
+    <a name="dnume"><b style='mso-bidi-font-weight:
   normal'><span lang="EN-US" style='font-size:30.0pt;mso-bidi-font-size:10.0pt;
-  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{% if doctype == "Recommendation" %}{{ docnumeric }}{% else %}{% if recommendationnumber %}{{ recommendationnumber }} {% endif %}{{ doctype_display }}{% endif %}<o:p></o:p></span></b></a></span></p>
+  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{% if doctype == "Recommendation" %}{{ docnumeric }}{% else %}{% if recommendationnumber %}{{ recommendationnumber }} {% endif %}{{ doctype_display }}{% endif %}<o:p></o:p></span></b></a>
+    {% endif %}
+  </span></p>
   </td>
   <span style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dnume'></span></span>
  </tr>
@@ -383,10 +387,14 @@
   height:70.9pt;mso-height-rule:exactly'>
   <p class="MsoNormal" align="left" style='margin-top:3.0pt;margin-right:0cm;
   margin-bottom:12.0pt;margin-left:0cm;text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
-  style='mso-bookmark:_Hlk526346232'><a name="dnum2e"></a><span lang="EN-US"
+  style='mso-bookmark:_Hlk526346232'><a name="dnum2e"></a>
+  {% if doctype != "Resolution" %}
+  <span lang="EN-US"
   style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
   mso-ansi-language:EN-US'>{% if stage == "Draft" %}Draft {% endif %}{% if recommendationnumber %}{{ recommendationnumber }} {% endif %}{{ doctype_display }}<span style='mso-spacerun:yes'> 
-  </span>ITU‑{{ bureau }}<span style='mso-spacerun:yes'>  </span>{{ docnumeric }}<o:p></o:p></span></span></p>
+  </span>ITU‑{{ bureau }}<span style='mso-spacerun:yes'>  </span>{{ docnumeric }}<o:p></o:p></span>
+  {% endif %}
+  </span></p>
   <span style='mso-bookmark:_Hlk526346232'></span>
   <p class="MsoNormal" align="left" style='margin-top:3.0pt;text-align:left;
   tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span style='mso-bookmark:

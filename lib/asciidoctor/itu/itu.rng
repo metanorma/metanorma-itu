@@ -42,6 +42,8 @@
         <value>joint-itu-iso-iec</value>
         <value>resolution</value>
         <value>service-publication</value>
+        <value>handbook</value>
+        <value>question</value>
       </choice>
     </define>
     <define name="editorialgroup">
@@ -99,6 +101,9 @@
         <ref name="meeting"/>
       </optional>
       <optional>
+        <ref name="meeting-place"/>
+      </optional>
+      <optional>
         <ref name="meeting-date"/>
       </optional>
       <optional>
@@ -128,6 +133,14 @@
   </include>
   <define name="meeting">
     <element name="meeting">
+      <optional>
+        <attribute name="acronym"/>
+      </optional>
+      <text/>
+    </element>
+  </define>
+  <define name="meeting-place">
+    <element name="meeting-place">
       <text/>
     </element>
   </define>

@@ -405,6 +405,8 @@ OUTPUT
       :keywords: word2,word1
       :meeting: Meeting X
       :meeting-date: 2000-01-01/2000-01-02
+      :meeting-place: Kronos
+      :meeting-acronym: MX
       :intended-type: TD
       :source: Source
       :draft: 5
@@ -528,7 +530,8 @@ OUTPUT
                </workgroup>
              </editorialgroup>
              <ip-notice-received>false</ip-notice-received>
-             <meeting>Meeting X</meeting>
+             <meeting acronym='MX'>Meeting X</meeting>
+             <meeting-place>Kronos</meeting-place>
              <meeting-date>
                <from>2000-01-01</from>
                <to>2000-01-02</to>

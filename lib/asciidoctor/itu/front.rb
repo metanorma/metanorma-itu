@@ -206,10 +206,17 @@ module Asciidoctor
 
       # also used in tech paper
       def metadata_techreport(node, xml)
-        a = node.attr("meeting") and xml.meeting a
+        a = node.attr("meeting") and metadata_meeting(a, node.attr("meeting-acronym"), xml)
+        a = node.attr("meeting-place") and xml.meeting_place a
         a = node.attr("meeting-date") and metadata_meeting_date(a, xml)
         a = node.attr("intended-type") and xml.intended_type a
         a = node.attr("source") and xml.source a
+      end
+
+      def metadata_meeting(mtg, acronym, xml)
+        xml.meeting **attr_code(acronym: acronym) do |m|
+          m << mtg
+        end
       end
 
       def metadata_meeting_date(a, xml)

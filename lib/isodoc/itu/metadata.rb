@@ -156,6 +156,8 @@ module IsoDoc
 
       def techreport(isoxml, _out)
         a = isoxml&.at(ns("//bibdata/ext/meeting"))&.text and set(:meeting, a)
+        a = isoxml&.at(ns("//bibdata/ext/meeting/@acronym"))&.text and set(:meeting_acronym, a)
+        a = isoxml&.at(ns("//bibdata/ext/meeting-place"))&.text and set(:meeting_place, a)
         a = isoxml&.at(ns("//bibdata/ext/intended-type"))&.text and
           set(:intended_type, a)
         a = isoxml&.at(ns("//bibdata/ext/source"))&.text and set(:source, a)

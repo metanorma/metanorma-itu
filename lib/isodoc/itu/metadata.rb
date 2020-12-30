@@ -162,13 +162,13 @@ module IsoDoc
             dd2 = m2[:dd].sub(/^0/, "")
             if m1[:yr] == m2[:yr]
               if m1[:mo] == m2[:mo]
-                @i18n.l10n("#{dd1}&ndash;#{dd2} #{months[m1[:mo].to_sym]} #{m1[:yr]}")
+                @i18n.l10n("#{dd1}&#x2013;#{dd2} #{months[m1[:mo].to_sym]} #{m1[:yr]}")
               else
-                @i18n.l10n("#{dd1} #{months[m1[:mo].to_sym]} &ndash; "\
+                @i18n.l10n("#{dd1} #{months[m1[:mo].to_sym]} &#x2013; "\
                            "#{dd2} #{months[m2[:mo].to_sym]} #{m1[:yr]}")
               end
             else
-              @i18n.l10n("#{dd1} #{months[m1[:mo].to_sym]} #{m1[:yr]} &ndash; "\
+              @i18n.l10n("#{dd1} #{months[m1[:mo].to_sym]} #{m1[:yr]} &#x2013; "\
                          "#{dd2} #{months[m2[:mo].to_sym]} #{m2[:yr]}")
             end
           else

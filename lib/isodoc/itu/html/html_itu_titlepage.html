@@ -49,9 +49,11 @@
             {% if edition %} <div> Revision {{ edition }}</div> {% endif %}
             <div> {{ draftinfo }}</div>
           </div>
+          {% if pubdate_monthyear %}
           <div class="publication-month">
             ({{ pubdate_monthyear }})
           </div>
+          {% endif %}
         </div>
 
         <div class="doc-category">

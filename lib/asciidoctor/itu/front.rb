@@ -8,8 +8,7 @@ module Asciidoctor
       def metadata_status(node, xml)
         xml.status do |s|
           s.stage (node.attributes.has_key?("draft") ? "draft" :
-                   (node.attr("status") || node.attr("docstage") ||
-                    "published" ))
+                   (node.attr("status") || node.attr("docstage") || "published" ))
         end
       end
 
@@ -32,8 +31,7 @@ module Asciidoctor
           next unless /^(annex)?title-(?<lang>.+)$/ =~ k
           next if lang == "en"
           type = /^annex/.match(k) ? "annex" : "main"
-          xml.title **attr_code(language: lang, format: "text/plain",
-                                type: type) do |t|
+          xml.title **attr_code(language: lang, format: "text/plain", type: type) do |t|
             t << Asciidoctor::Standoc::Utils::asciidoc_sub(v)
           end
         end
@@ -126,18 +124,13 @@ module Asciidoctor
         end
       end
 
-      ITULANG = {
-        "en" => "E", "fr" => "F", "ar" => "A",
-        "es" => "S", "zh" => "C", "ru" => "R"
-      }.freeze
+      ITULANG = { "en" => "E", "fr" => "F", "ar" => "A", "es" => "S", "zh" => "C", "ru" => "R" }.freeze
 
       def itu_id1(node, lang)
         bureau = node.attr("bureau") || "T"
-        id = if doctype(node) == "service-publication"
-               @i18n.annex_to_itu_ob_abbrev.sub(/%/, node.attr("docnumber"))
-             else
-               "ITU-#{bureau} #{node.attr("docnumber")}"
-             end
+        id = doctype(node) == "service-publication" ?
+          @i18n.annex_to_itu_ob_abbrev.sub(/%/, node.attr("docnumber")) :
+          "ITU-#{bureau} #{node.attr("docnumber")}"
         id + (lang ? "-#{ITULANG[@lang]}" : "")
       end
 
@@ -204,7 +197,6 @@ module Asciidoctor
         end
       end
 
-      # also used in tech paper
       def metadata_techreport(node, xml)
         a = node.attr("meeting") and metadata_meeting(a, node.attr("meeting-acronym"), xml)
         a = node.attr("meeting-place") and xml.meeting_place a

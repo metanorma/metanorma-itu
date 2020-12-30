@@ -314,7 +314,7 @@ RSpec.describe Asciidoctor::ITU do
                </workgroup>
              </editorialgroup>
              <ip-notice-received>false</ip-notice-received>
-             <meeting acronym='MX'>Meeting X</meeting>
+             <meeting>Meeting X</meeting>
              <meeting-place>Kronos</meeting-place>
              <meeting-date>
                <from>2000-01-01</from>
@@ -369,7 +369,7 @@ INPUT
 :logo_sp=>"#{File.join(logoloc, "/logo-sp.png")}",
 :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
 :meeting=>"Meeting X",
-:meeting_acronym=>"MX",
+:meeting_acronym=>"Meeting X",
 :meeting_date=>"01 Jan 2000/02 Jan 2000",
 :meeting_place=>"Kronos",
 :obsoleteddate=>"XXX",

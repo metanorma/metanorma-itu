@@ -318,11 +318,8 @@
   {% endif %}
   {% if meeting_place or meeting_date %}
   <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
-  style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dsece'><span
-  lang="EN-US" style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:
-  "Arial",sans-serif;mso-ansi-language:EN-US'>{{ meeting_place }}{% if meeting_place and meeting_date %}, {% endif %}{{ meeting_date }}<o:p></o:p></span></span></span></p>
+  lang="EN-US" style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{{ meeting_place }}{% if meeting_place and meeting_date %}, {% endif %}{{ meeting_date }}</span></p>
   {% endif %}
-
   <span style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dsece'></span></span>
   <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
   style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dsece'><span
@@ -353,7 +350,7 @@
   {% if amendmentid %}<br/><b>{{ amendmentid }}{% if amendmenttitle %}: {{ amendmenttitle }}{% endif %}</b>{% endif %}
   {% if corrigendumid %}<br/><b>{{ corrigendumid }}{% if corrigendumtitle %}: {{ corrigendumtitle }}{% endif %}</b>{% endif %}
   {% else %}
-  <b>{% if doctype != "Recommendation" %}{{ docnumeric }}<br/>{% endif %}{{ doctitle }}</b>
+  <b>{% if doctype != "Recommendation" and doctype != "Resolution" %}{{ docnumeric }}<br/>{% endif %}{{ doctitle }}</b>
   {% if positiontitle %}<br/><br/>{{ positiontitle | upcase }}{% endif %}
   {% endif %}</span>
   </a></span><span

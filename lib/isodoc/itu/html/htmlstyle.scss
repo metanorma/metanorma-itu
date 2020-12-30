@@ -1,5 +1,6 @@
 $recBandColor: #a3d88f;
-$tecPaperColor: #53dd6c;
+$tecPaperColor: #ff6b6b;
+$guidePaperColor: #750697;
 $doctype-colors-list: (
   recommendation: $recBandColor,
   recommendation-amendment: $recBandColor,
@@ -9,10 +10,13 @@ $doctype-colors-list: (
   recommendation-annex: $recBandColor,
   technical-paper: $tecPaperColor,
   technical-report: $tecPaperColor,
-  focus-group: #750697,
-  implementers-guide: #750697,
-  joint-itu-iso-iec: #48a0e7,
-  service-publication: #750697
+  focus-group: $guidePaperColor,
+  implementers-guide: $guidePaperColor,
+  joint-itu-iso-iec: #edc9ff,
+  service-publication: $guidePaperColor,
+  resolution: #f2b79f,
+  handbook: $guidePaperColor,
+  question: $guidePaperColor
 );
 
 

@@ -61,11 +61,21 @@
         </div>
 
         <div class="coverpage-title">
-          <span class="doc-series">{% if series %}Series {{ series }}{% endif %}</span>
-
+          {% if series %}
+          <span class="doc-series">Series {{ series }}</span>
+          {% endif %}
+            {% if series1 %}
           <span class="doc-subSeries">
             {{ series1 }} {% if series2 %}&mdash; {{ series2 }}{% endif %}
           </span>
+            {% endif %}
+        {% if meeting %}
+          <span class="doc-series">{{ meeting | upcase }}</span>
+        {% endif %}
+        {% if meeting_place or meeting_date %}
+        <span class="doc-subSeries">{{ meeting_place }}{% if meeting_place and meeting_date %}, {% endif %}{{ meeting_date }}</span>
+        {% endif %}
+
           <span class="doc-title">{{ doctitle }}</span>
           {% if docsubtitle %}
           <br/><span class="doc-subtitle">{{ docsubtitle }}</span>

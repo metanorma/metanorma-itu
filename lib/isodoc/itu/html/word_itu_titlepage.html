@@ -298,14 +298,31 @@
   <td width="569" colspan="4" valign="bottom" style='width:426.5pt;border:none;
   border-bottom:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:6.0cm;
   mso-height-rule:exactly'>
+    {% if series %}
   <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
   style='mso-bookmark:_Hlk526346232'><a name="dsece"><span lang="EN-US"
   style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
-  mso-ansi-language:EN-US'>{% if series %}SERIES {{ series | upcase }}{% endif %}<o:p></o:p></span></a></span></p>
+  mso-ansi-language:EN-US'>SERIES {{ series | upcase }}<o:p></o:p></span></a></span></p>
+  {% endif %}
+  {% if series1 %}
   <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
   style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dsece'><span
   lang="EN-US" style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:
   "Arial",sans-serif;mso-ansi-language:EN-US'>{{ series1 }}&#xA0;{% if series2 %}&#x2014;{% endif %}{{ series2 }}<o:p></o:p></span></span></span></p>
+  {% endif %}
+      {% if meeting %}
+  <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
+  style='mso-bookmark:_Hlk526346232'><a name="dsece"><span lang="EN-US"
+  style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
+  mso-ansi-language:EN-US'>{{ meeting | upcase }}<o:p></o:p></span></a></span></p>
+  {% endif %}
+  {% if meeting_place or meeting_date %}
+  <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
+  style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dsece'><span
+  lang="EN-US" style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:
+  "Arial",sans-serif;mso-ansi-language:EN-US'>{{ meeting_place }}{% if meeting_place and meeting_date %}, {% endif %}{{ meeting_date }}<o:p></o:p></span></span></span></p>
+  {% endif %}
+
   <span style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dsece'></span></span>
   <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
   style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dsece'><span

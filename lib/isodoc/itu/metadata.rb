@@ -180,7 +180,10 @@ module IsoDoc
       end
 
       def techreport(isoxml, _out)
-        a = isoxml&.at(ns("//bibdata/ext/meeting"))&.text and set(:meeting, a)
+        if a = isoxml&.at(ns("//bibdata/ext/meeting"))&.text
+          set(:meeting, a)
+          set(:meeting_acronym, a)
+        end
         a = isoxml&.at(ns("//bibdata/ext/meeting/@acronym"))&.text and set(:meeting_acronym, a)
         a = isoxml&.at(ns("//bibdata/ext/meeting-place"))&.text and set(:meeting_place, a)
         a = isoxml&.at(ns("//bibdata/ext/intended-type"))&.text and set(:intended_type, a)

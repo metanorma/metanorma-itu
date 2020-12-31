@@ -2,6 +2,10 @@ require "spec_helper"
 require "fileutils"
 
 RSpec.describe Asciidoctor::ITU do
+  before(:all) do
+  @blank_hdr = blank_hdr_gen
+end
+
   it "has a version number" do
     expect(Metanorma::ITU::VERSION).not_to be nil
   end
@@ -10,7 +14,7 @@ RSpec.describe Asciidoctor::ITU do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     #{ASCIIDOC_BLANK_HDR}
     INPUT
-    #{BLANK_HDR}
+    #{@blank_hdr}
 <sections/>
 </itu-standard>
     OUTPUT
@@ -26,7 +30,7 @@ RSpec.describe Asciidoctor::ITU do
       :no-pdf:
       :legacy-do-not-insert-missing-sections:
     INPUT
-    #{BLANK_HDR}
+    #{@blank_hdr}
 <sections/>
 </itu-standard>
     OUTPUT
@@ -43,7 +47,7 @@ RSpec.describe Asciidoctor::ITU do
       :novalid:
       :no-pdf:
       INPUT
-    #{BLANK_HDR}
+    #{@blank_hdr}
     <sections>
     <clause obligation='normative' type="scope" id="_">
              <title>Scope</title>
@@ -1088,7 +1092,7 @@ OUTPUT
       [%inline-header]
       == Section 1
       INPUT
-    #{BLANK_HDR}
+    #{@blank_hdr}
              <preface><foreword id="_" obligation="informative">
          <title>Foreword</title>
          <p id="_">This is a preamble</p>
@@ -1180,7 +1184,7 @@ OUTPUT
 
       text
     INPUT
-    #{BLANK_HDR}
+    #{@blank_hdr}
     <preface><clause id="_" obligation="informative" inline-header='false'>
   <title>Prefatory</title>
   <p id="_">section</p>
@@ -1286,7 +1290,7 @@ OUTPUT
       [bibliography]
       == Second Bibliography
     INPUT
-    #{BLANK_HDR.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
+    #{@blank_hdr.sub(/<status>/, "<abstract> <p>Text</p> </abstract><status>")}
     <preface>
            <abstract id='_'>
              <title>Abstract</title>
@@ -1424,7 +1428,7 @@ OUTPUT
       == References
 
       INPUT
-      #{BLANK_HDR}
+      #{@blank_hdr}
       <sections>
 
 </sections><bibliography><references id="_" obligation="informative" normative="true">
@@ -1443,7 +1447,7 @@ OUTPUT
       * [[[a,b]]] A
 
       INPUT
-    #{BLANK_HDR}
+    #{@blank_hdr}
     <sections>
 
        </sections><bibliography><references id="_" obligation="informative" normative="true">
@@ -1468,7 +1472,7 @@ OUTPUT
       r = 1 %
       ++++
 INPUT
-            #{BLANK_HDR}
+            #{@blank_hdr}
             <sections>
          <formula id="_" inequality="true" unnumbered="true">
          <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem>
@@ -1487,7 +1491,7 @@ OUTPUT
         === terms defined in this recommendation
         ==== Term 2
         INPUT
-        #{BLANK_HDR}
+        #{@blank_hdr}
        <sections>
            <clause id='_' obligation='normative'>
              <title>Definitions</title>
@@ -1518,7 +1522,7 @@ OUTPUT
         === terms defined elsewhere
         === terms defined in this recommendation
         INPUT
-        #{BLANK_HDR}
+        #{@blank_hdr}
 <sections>
            <clause id='_' obligation='normative'>
              <title>Definitions</title>
@@ -1551,7 +1555,7 @@ OUTPUT
 
         ==== Term 2
         INPUT
-        #{BLANK_HDR}
+        #{@blank_hdr}
         <sections>
            <clause id='_' obligation='normative'>
              <title>Definitions</title>
@@ -1584,7 +1588,7 @@ OUTPUT
         === terms defined somewhere else
         ==== Term 2
         INPUT
-        #{BLANK_HDR}
+        #{@blank_hdr}
         <sections>
   <clause id="_" obligation="normative"><title>Definitions</title><p id="_">This Recommendation defines the following terms:</p><terms id="_" obligation="normative">
   <title>terms defined somewhere</title>
@@ -1615,7 +1619,7 @@ OUTPUT
         === terms defined somewhere else
         ==== Term 2
         INPUT
-        #{BLANK_HDR}
+        #{@blank_hdr}
         <sections>
   <clause id="_" obligation="normative"><title>Definitions</title><p id="_">Boilerplate</p>
 <terms id="_" obligation="normative">
@@ -1642,7 +1646,7 @@ OUTPUT
 
         a:: b
         INPUT
-        #{BLANK_HDR}
+        #{@blank_hdr}
         <sections>
   <definitions id="_" obligation='normative'>
   <title>Abbreviations and acronyms</title><p id="_">This Recommendation uses the following abbreviations and acronyms:</p>
@@ -1667,7 +1671,7 @@ end
 
         a:: b
         INPUT
-        #{BLANK_HDR}
+        #{@blank_hdr}
         <sections>
   <definitions id="_" obligation='normative'><title>Abbreviations and acronyms</title><p id="_">Boilerplate</p>
 <dl id="_">
@@ -1690,7 +1694,7 @@ end
         == Normative References
 
         INPUT
-        #{BLANK_HDR}
+        #{@blank_hdr}
         <sections>
            <terms id='_' obligation='normative'>
              <title>Definitions</title>
@@ -1717,7 +1721,7 @@ end
         . First
         . Second
         INPUT
-        #{BLANK_HDR}
+        #{@blank_hdr}
         <sections>
   <clause id="_" obligation="normative" inline-header='false'>
   <title>Clause</title>
@@ -1753,7 +1757,7 @@ it "does not apply smartquotes by default" do
 
       “Quotation” A’s
     INPUT
-       #{BLANK_HDR}
+       #{@blank_hdr}
        <sections><clause id="_" obligation="normative" inline-header='false'>
          <title>"Quotation" A's</title>
          <p id="_">
@@ -1835,7 +1839,7 @@ end
 
       add:[a <<clause>>] del:[B]
     INPUT
-       #{BLANK_HDR}
+       #{@blank_hdr}
        <sections>
        <clause id='clause' obligation='normative' inline-header='false'>
              <title>Clause</title>
@@ -1861,7 +1865,7 @@ end
 
       &lt;&amp;&gt;
     INPUT
-       #{BLANK_HDR}
+       #{@blank_hdr}
        <sections>
        <clause id='clause' obligation='normative' inline-header='false'>
              <title>Clause</title>
@@ -1884,7 +1888,7 @@ end
       |===
 
     INPUT
-       #{BLANK_HDR}
+       #{@blank_hdr}
        <sections><table id="_">
          <thead>
            <tr>
@@ -1948,7 +1952,7 @@ end
 
 
     INPUT
-    #{BLANK_HDR}
+    #{@blank_hdr}
          <sections>
            <terms id='_' obligation='normative'>
              <title>Definitions</title>

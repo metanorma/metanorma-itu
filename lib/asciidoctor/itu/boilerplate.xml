@@ -3,7 +3,7 @@
   {% else %}
   <copyright-statement>
     <clause>
-      <p>&copy; ITU {{ docyear }}</p>
+      <p>&#xa9; ITU {{ docyear }}</p>
 <p>All rights reserved. No part of this publication may be reproduced, by any means whatsoever, without the prior written permission of ITU.</p>
     </clause>
   </copyright-statement>

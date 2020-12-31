@@ -88,6 +88,160 @@ RSpec.describe Asciidoctor::ITU do
     OUTPUT
   end
 
+  it "processes titles for resolutions" do
+    input = <<~INPUT
+<itu-standard xmlns="https://www.calconnect.org/standards/itu">
+<bibdata>
+<docnumber>1</docnumber>
+<edition>1</edition>
+<language>en</language>
+<script>Latn</script>
+<title type="main">Title</title>
+<date type="published">2010-09-08</date>
+<ext>
+<doctype>resolution</doctype>
+<meeting>World Meeting on Stuff</meeting>
+<meeting-place>Andorra</meeting-place>
+<meeting-date><from>1204-04-01</from><to>1207-01-01</to></meeting-date>
+</ext>
+</bibdata>
+<sections>
+<clause id="A">
+<note type="title-footnote" id="A1"><p>One fn</p></note>
+<note type="title-footnote" id="A2"><p>Another fn</p></note>
+<p>Hello.<fn reference="3"><p>Normal footnote</p></fn></p>
+</clause>
+</sections>
+</itu-standard>
+    INPUT
+    presxml = <<~OUTPUT
+    <itu-standard xmlns='https://www.calconnect.org/standards/itu' type='presentation'>
+  <bibdata>
+  <docnumber>1</docnumber>
+<edition>1</edition>
+    <language current='true'>en</language>
+           <script current='true'>Latn</script>
+           <title type='main'>Title</title>
+           <title language='en' format='text/plain' type='resolution'>Resolution 1 (Andorra, 1204)</title>
+<title language='en' format='text/plain' type='resolution-placedate'>Andorra, 1204</title>
+           <date type='published'>2010-09-08</date>
+           <date type='published' format='ddMMMyyyy'>8.IX.2010</date>
+           <ext>
+             <doctype language=''>resolution</doctype>
+             <doctype language='en'>Resolution</doctype>
+<meeting>World Meeting on Stuff</meeting>
+<meeting-place>Andorra</meeting-place>
+<meeting-date><from>1204-04-01</from><to>1207-01-01</to></meeting-date>
+           </ext>
+  </bibdata>
+  <sections>
+  <clause id='A'>
+    <title>1.</title>
+    <note type='title-footnote' id="A1">
+      <p>One fn</p>
+    </note>
+    <note type='title-footnote' id="A2">
+      <p>Another fn</p>
+    </note>
+    <p>Hello.<fn reference='3'><p>Normal footnote</p></fn></p>
+  </clause>
+</sections>
+</itu-standard>
+    OUTPUT
+    html = <<~OUTPUT
+            #{HTML_HDR}
+        <p align='center'>Resolution 1 (Andorra, 1204)</p>
+    <p class='zzSTDTitle2'/>
+    <p align='center'>
+      <i>(Andorra, 1204)</i>
+      <a class='FootnoteRef' href='#fn:_'>
+        <sup>_</sup>
+      </a>
+      <a class='FootnoteRef' href='#fn:_'>
+        <sup>_</sup>
+      </a>
+    </p>
+    <div id='A'>
+      <h1>1.</h1>
+      <p>
+        Hello.
+        <a class='FootnoteRef' href='#fn:3'>
+          <sup>3</sup>
+        </a>
+      </p>
+    </div>
+    <aside id='fn:_' class='footnote'>
+      <p>One fn</p>
+    </aside>
+    <aside id='fn:_' class='footnote'>
+      <p>Another fn</p>
+    </aside>
+    <aside id='fn:3' class='footnote'>
+      <p>Normal footnote</p>
+    </aside>
+  </div>
+</body>
+    OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>").gsub(/fn:[0-9a-f-][0-9a-f-]+/, "fn:_").gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>"))).to be_equivalent_to xmlpp(html)
+  end
+
+   it "processes titles for revised resolutions" do
+    input = <<~INPUT
+<itu-standard xmlns="https://www.calconnect.org/standards/itu">
+<bibdata>
+<docnumber>1</docnumber>
+<edition>2</edition>
+<language>en</language>
+<script>Latn</script>
+<title type="main">Title</title>
+<date type="published">2010-09-08</date>
+<ext>
+<doctype>resolution</doctype>
+<meeting>World Meeting on Stuff</meeting>
+<meeting-place>Andorra</meeting-place>
+<meeting-date><from>1204-04-01</from><to>1207-01-01</to></meeting-date>
+</ext>
+</bibdata>
+</itu-standard>
+    INPUT
+    presxml = <<~OUTPUT
+    <itu-standard xmlns='https://www.calconnect.org/standards/itu' type='presentation'>
+  <bibdata>
+  <docnumber>1</docnumber>
+<edition>2</edition>
+    <language current='true'>en</language>
+           <script current='true'>Latn</script>
+           <title type='main'>Title</title>
+           <title language='en' format='text/plain' type='resolution'>Resolution 1 (Rev. Andorra, 1204)</title>
+<title language='en' format='text/plain' type='resolution-placedate'>Andorra, 1204</title>
+           <date type='published'>2010-09-08</date>
+           <date type='published' format='ddMMMyyyy'>8.IX.2010</date>
+           <ext>
+             <doctype language=''>resolution</doctype>
+             <doctype language='en'>Resolution</doctype>
+<meeting>World Meeting on Stuff</meeting>
+<meeting-place>Andorra</meeting-place>
+<meeting-date><from>1204-04-01</from><to>1207-01-01</to></meeting-date>
+           </ext>
+  </bibdata>
+</itu-standard>
+    OUTPUT
+    html = <<~OUTPUT
+            #{HTML_HDR}
+      <p align='center'>Resolution 1 (Rev. Andorra, 1204)</p>
+      <p class='zzSTDTitle2'/>
+      <p align='center'>
+        <i>(Andorra, 1204)</i>
+      </p>
+    </div>
+  </body>
+    OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
+  end
+
+
   it "processes keyword" do
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 <itu-standard xmlns="https://www.calconnect.org/standards/itu">
@@ -439,10 +593,16 @@ RSpec.describe Asciidoctor::ITU do
 
      it "cleans up footnotes" do
     FileUtils.rm_f "test.html"
-    IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", false)
+    input = <<~"INPUT"
     <itu-standard xmlns="http://riboseinc.com/isoxml">
+    <bibdata>
+    <title language="en" format="text/plain" type="main">An ITU Standard</title>
+    <ext><doctype>recommendation</doctype></ext>
+    </bibdata>
     <preface>
     <foreword>
+<note type="title-footnote" id="A1"><p>One fn</p></note>
+<note type="title-footnote" id="A2"><p>Another fn</p></note>
     <p>A.<fn reference="2">
   <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
 </fn></p>
@@ -477,9 +637,10 @@ RSpec.describe Asciidoctor::ITU do
     </preface>
     </itu-standard>
     INPUT
+    IsoDoc::ITU::HtmlConvert.new({}).convert("test", input, false)
      expect(File.exist?("test.html")).to be true
     html = File.read("test.html", encoding: "UTF-8")
-    expect(xmlpp(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ").sub(%r{</main>.*$}m, "</main>").gsub(%r{<script>.+?</script>}, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ").sub(%r{</main>.*$}m, "</main>").gsub(%r{<script>.+?</script>}, "").gsub(/fn:[0-9a-f][0-9a-f-]+/, "fn:_"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <main xmlns:epub='epub' class='main-section'>
   <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
   <div>
@@ -551,7 +712,15 @@ RSpec.describe Asciidoctor::ITU do
     </table>
   </div>
   <p class='zzSTDTitle1'/>
-  <p class='zzSTDTitle2'/>
+  <p class='zzSTDTitle2'>
+  An ITU Standard
+  <a class='FootnoteRef' href='#fn:_' id='fnref:4'>
+    <sup>3</sup>
+  </a>
+  <a class='FootnoteRef' href='#fn:_' id='fnref:5'>
+    <sup>4</sup>
+  </a>
+</p>
   <aside id='fn:2' class='footnote'>
     <p id='_1e228e29-baef-4f38-b048-b05a051747e4'>
       <a class='FootnoteRef' href='#fn:2'>
@@ -570,51 +739,30 @@ RSpec.describe Asciidoctor::ITU do
     </p>
     <a href='#fnref:3'>&#x21A9;</a>
   </aside>
+  <aside id='fn:_' class='footnote'>
+  <p>
+    <a class='FootnoteRef' href='#fn:_'>
+      <sup>3</sup>
+    </a>
+    One fn
+  </p>
+  <a href='#fnref:4'>&#x21A9;</a>
+</aside>
+<aside id='fn:_' class='footnote'>
+  <p>
+    <a class='FootnoteRef' href='#fn:_'>
+      <sup>4</sup>
+    </a>
+    Another fn
+  </p>
+  <a href='#fnref:5'>&#x21A9;</a>
+</aside>
 </main>
 OUTPUT
-  end
 
 
-  it "cleans up footnotes (Word)" do
     FileUtils.rm_f "test.doc"
-    IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
-    <itu-standard xmlns="http://riboseinc.com/isoxml">
-    <preface>
-    <foreword>
-    <p>A.<fn reference="2">
-  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
-</fn></p>
-    <p>B.<fn reference="2">
-  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
-</fn></p>
-    <p>C.<fn reference="1">
-  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
-</fn></p>
-<table id="tableD-1" alt="tool tip" summary="long desc">
-  <name>Repeatability and reproducibility of <em>husked</em> rice yield</name>
-  <thead>
-    <tr>
-      <td rowspan="2" align="left">Description</td>
-      <td colspan="4" align="center">Rice sample</td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td align="left">Arborio</td>
-      <td align="center">Drago<fn reference="a">
-  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
-</fn></td>
-      <td align="center">Balilla<fn reference="a">
-  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
-</fn></td>
-      <td align="center">Thaibonnet</td>
-    </tr>
-    </tbody>
-</table>
-    </foreword>
-    </preface>
-    </itu-standard>
-    INPUT
+    IsoDoc::ITU::WordConvert.new({}).convert("test", input, false)
      expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
 expect(xmlpp(html.sub(%r{^.*<div align="center" class="table_container">}m, '').sub(%r{</table>.*$}m, "</table>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
@@ -1893,7 +2041,7 @@ end
       FileUtils.rm_f "test.html"
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", false)
     <iso-standard xmlns="http://riboseinc.com/isoxml">
-    #{BOILERPLATE}
+    #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>)))}
     </iso-standard>
     INPUT
         expect(xmlpp(File.read("test.html", encoding: "utf-8").gsub(%r{^.*<div class="prefatory-section">}m, '<div class="prefatory-section">').gsub(%r{<nav>.*}m, "</div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
@@ -1974,7 +2122,7 @@ end
       FileUtils.rm_f "test.doc"
     IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
     <iso-standard xmlns="http://riboseinc.com/isoxml">
-    #{BOILERPLATE}
+    #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>)))}
     </iso-standard>
     INPUT
         expect(xmlpp(File.read("test.doc", encoding: "utf-8").gsub(%r{^.*<div class="boilerplate-legal">}m, '<div><div class="boilerplate-legal">').gsub(%r{<b>Table of Contents</b></p>.*}m, "<b>Table of Contents</b></p></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")

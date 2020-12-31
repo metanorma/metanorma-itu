@@ -43,7 +43,7 @@
 
         <div class="doc-info-left">
           <div class="doc-identifier">
-            {{ docnumeric }}
+            {% if doctype != "Recommendation" %}{{doctype }} {% endif %}{{ docnumeric }}
             {% if amendmentid %}<div class="doc-subidentifier">{{ amendmentid }}</div>{% endif %} 
             {% if corrigendumid %}<div class="doc-subidentifier">{{ corrigendumid }}</div>{% endif %}       
             {% if edition %} <div> Revision {{ edition }}</div> {% endif %}

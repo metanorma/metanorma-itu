@@ -131,11 +131,46 @@ module IsoDoc
         super
       end
 
-      def middle_title(out)
+      def middle_title(isoxml, out)
+        if @meta.get[:doctype] == "Resolution"
+          middle_title_resolution(isoxml, out)
+        else
+          middle_title_recommendation(isoxml, out)
+        end
+      end
+
+      def middle_title_resolution(isoxml, out)
+        res = isoxml.at(ns("//bibdata/title[@type = 'resolution']"))
+        out.p(**{ align: "center" }) do |p|
+          res.children.each { |n| parse(n, p) }
+        end
+        out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
+        middle_title_resolution_subtitle(isoxml, out)
+      end
+
+      def middle_title_resolution_subtitle(isoxml, out)
+        out.p(**{ align: "center" }) do |p|
+          p.i do |i|
+            i << "("
+            isoxml.at(ns("//bibdata/title[@type = 'resolution-placedate']")).children.each { |n| parse(n, i) }
+            i << ")"
+          end
+          isoxml.xpath(ns("//note[@type = 'title-footnote']")).each do |f|
+            footnote_parse(f, p)
+          end
+        end
+      end
+
+      def middle_title_recommendation(isoxml, out)
         out.p(**{ class: "zzSTDTitle1" }) do |p|
           id = @meta.get[:docnumber] and p << "#{@meta.get[:doctype]} #{id}" 
         end
-        out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
+        out.p(**{ class: "zzSTDTitle2" }) do |p|
+          p << @meta.get[:doctitle]
+          isoxml.xpath(ns("//note[@type = 'title-footnote']")).each do |f|
+            footnote_parse(f, p)
+          end
+        end
         s = @meta.get[:docsubtitle] and
           out.p(**{ class: "zzSTDTitle3" }) { |p| p << s }
       end
@@ -186,6 +221,11 @@ module IsoDoc
 
       def table_footnote_reference_format(a)
         a.content = a.content + ")"
+      end
+
+      def note_parse(node, out)
+        return if node["type"] == "title-footnote"
+        super
       end
     end
   end

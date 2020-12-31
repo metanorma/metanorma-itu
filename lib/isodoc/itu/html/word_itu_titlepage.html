@@ -350,7 +350,8 @@
   {% if amendmentid %}<br/><b>{{ amendmentid }}{% if amendmenttitle %}: {{ amendmenttitle }}{% endif %}</b>{% endif %}
   {% if corrigendumid %}<br/><b>{{ corrigendumid }}{% if corrigendumtitle %}: {{ corrigendumtitle }}{% endif %}</b>{% endif %}
   {% else %}
-  <b>{% if doctype != "Recommendation" and doctype != "Resolution" %}{{ docnumeric }}<br/>{% endif %}{{ doctitle }}</b>
+  <b>{% if doctype != "Recommendation" and doctype != "Resolution" %}{{ docnumeric }}
+    <br/>{% endif %}{% if doctype == "Resolution" %}{{ doctype_display }} {% endif %}{{ doctitle }}</b>
   {% if positiontitle %}<br/><br/>{{ positiontitle | upcase }}{% endif %}
   {% endif %}</span>
   </a></span><span

@@ -36,6 +36,11 @@ module IsoDoc
         get_eref_linkend(f)
       end
 
+      def note1(f)
+        return if f["type"] == "title-footnote"
+        super
+      end
+
       def get_eref_linkend(node)
         contents = non_locality_elems(node).select do |c|
           !c.text? || /\S/.match(c)
@@ -43,8 +48,7 @@ module IsoDoc
         return unless contents.empty?
         link = anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))
         link && !/^\[.*\]$/.match(link) and link = "[#{link}]"
-        link += eref_localities(node.xpath(ns("./locality | ./localityStack")),
-                                link)
+        link += eref_localities(node.xpath(ns("./locality | ./localityStack")), link)
         non_locality_elems(node).each { |n| n.remove }
         node.add_child(link)
       end
@@ -65,7 +69,28 @@ module IsoDoc
       end
 
       def bibdata_title(b)
-        b&.at(ns("./ext/doctype"))&.text == "service-publication" or return
+        case b&.at(ns("./ext/doctype"))&.text 
+        when "service-publication" then bibdata_title_service_population(b)
+        when "resolution" then bibdata_title_resolution(b)
+        end
+      end
+
+      def bibdata_title_resolution(b)
+        num = b&.at(ns("./docnumber"))&.text
+        place = b&.at(ns("./ext/meeting-place"))&.text
+        ed = b&.at(ns("./edition"))&.text
+        rev = (ed && ed != "1")  ? "#{@i18n.get["revision_abbreviation"]} " : ""
+        year = b&.at(ns("./ext/meeting-date/from | ./ext/meeting-date/on"))&.text&.gsub(/-.*$/, "")
+        num = b&.at(ns("./docnumber"))&.text
+        text = @i18n.l10n("#{@i18n.get['doctype_dict']['resolution']} #{num} (#{rev}#{place}, #{year})")
+        ins = b.at(ns("./title"))
+        ins.next = <<~END
+        <title language="#{@lang}" format="text/plain" type="resolution">#{text}</title>
+        <title language="#{@lang}" format="text/plain" type="resolution-placedate">#{place}, #{year}</title>
+        END
+      end
+
+      def bibdata_title_service_population(b)
         date = b&.at(ns("./date[@type = 'published']"))&.text or return
         text = l10n(@i18n.get["position_on"].sub(/%/, ddmmmmyyyy(date)))
         ins = b.at(ns("./title"))

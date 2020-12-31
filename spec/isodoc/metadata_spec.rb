@@ -989,6 +989,7 @@ INPUT
 :logo_sp=>"#{File.join(logoloc, "/logo-sp.png")}",
 :logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
 :meeting=>"Meeting X",
+:meeting_acronym=>"Meeting X",
 :meeting_date=>"01 Jan 2000/02 Jan 2000",
 :obsoleteddate=>"XXX",
 :phones=>["555", "557"],

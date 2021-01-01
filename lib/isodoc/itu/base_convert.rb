@@ -141,7 +141,7 @@ module IsoDoc
 
       def middle_title_resolution(isoxml, out)
         res = isoxml.at(ns("//bibdata/title[@type = 'resolution']"))
-        out.p(**{ align: "center" }) do |p|
+        out.p(**{ align: "center", style: "text-align:center;" }) do |p|
           res.children.each { |n| parse(n, p) }
         end
         out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
@@ -149,7 +149,7 @@ module IsoDoc
       end
 
       def middle_title_resolution_subtitle(isoxml, out)
-        out.p(**{ align: "center" }) do |p|
+        out.p(**{ align: "center", style: "text-align:center;" }) do |p|
           p.i do |i|
             i << "("
             isoxml.at(ns("//bibdata/title[@type = 'resolution-placedate']")).children.each { |n| parse(n, i) }

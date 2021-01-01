@@ -130,6 +130,63 @@
         </oneOrMore>
       </element>
     </define>
+    <define name="Clause-Section">
+      <optional>
+        <attribute name="id">
+          <data type="ID"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="language"/>
+      </optional>
+      <optional>
+        <attribute name="script"/>
+      </optional>
+      <optional>
+        <attribute name="inline-header">
+          <data type="boolean"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="obligation">
+          <choice>
+            <value>normative</value>
+            <value>informative</value>
+          </choice>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="type"/>
+      </optional>
+      <optional>
+        <attribute name="unnumbered">
+          <data type="boolean"/>
+        </attribute>
+      </optional>
+      <optional>
+        <ref name="section-title"/>
+      </optional>
+      <group>
+        <choice>
+          <group>
+            <zeroOrMore>
+              <ref name="BasicBlock"/>
+            </zeroOrMore>
+            <zeroOrMore>
+              <ref name="note"/>
+            </zeroOrMore>
+          </group>
+          <ref name="amend"/>
+        </choice>
+        <zeroOrMore>
+          <choice>
+            <ref name="clause-subsection"/>
+            <ref name="terms"/>
+            <ref name="definitions"/>
+          </choice>
+        </zeroOrMore>
+      </group>
+    </define>
   </include>
   <define name="meeting">
     <element name="meeting">

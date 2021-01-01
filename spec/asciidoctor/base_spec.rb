@@ -1220,6 +1220,11 @@ OUTPUT
       [preface]
       == Source
 
+      [%unnumbered]
+      == {blank}
+
+      Initial text
+
       == Scope
 
       Text
@@ -1314,6 +1319,9 @@ OUTPUT
            </clause>
          </preface>
          <sections>
+         <clause id='_' unnumbered='true' inline-header='false' obligation='normative'>
+  <p id='_'>Initial text</p>
+</clause>
            <clause id='_' type='scope' inline-header='false' obligation='normative'>
              <title>Scope</title>
              <p id='_'>Text</p>

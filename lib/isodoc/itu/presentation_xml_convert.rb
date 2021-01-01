@@ -82,7 +82,7 @@ module IsoDoc
         rev = (ed && ed != "1")  ? "#{@i18n.get["revision_abbreviation"]} " : ""
         year = b&.at(ns("./ext/meeting-date/from | ./ext/meeting-date/on"))&.text&.gsub(/-.*$/, "")
         num = b&.at(ns("./docnumber"))&.text
-        text = @i18n.l10n("#{@i18n.get['doctype_dict']['resolution']} #{num} (#{rev}#{place}, #{year})")
+        text = @i18n.l10n("#{@i18n.get['doctype_dict']['resolution'].upcase} #{num} (#{rev}#{place}, #{year})")
         ins = b.at(ns("./title"))
         ins.next = <<~END
         <title language="#{@lang}" format="text/plain" type="resolution">#{text}</title>

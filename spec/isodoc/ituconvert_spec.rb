@@ -122,7 +122,7 @@ RSpec.describe Asciidoctor::ITU do
     <language current='true'>en</language>
            <script current='true'>Latn</script>
            <title type='main'>Title</title>
-           <title language='en' format='text/plain' type='resolution'>Resolution 1 (Andorra, 1204)</title>
+           <title language='en' format='text/plain' type='resolution'>RESOLUTION 1 (Andorra, 1204)</title>
 <title language='en' format='text/plain' type='resolution-placedate'>Andorra, 1204</title>
            <date type='published'>2010-09-08</date>
            <date type='published' format='ddMMMyyyy'>8.IX.2010</date>
@@ -150,9 +150,9 @@ RSpec.describe Asciidoctor::ITU do
     OUTPUT
     html = <<~OUTPUT
             #{HTML_HDR}
-        <p align='center'>Resolution 1 (Andorra, 1204)</p>
+        <p align='center'  style='text-align:center;'>RESOLUTION 1 (Andorra, 1204)</p>
     <p class='zzSTDTitle2'/>
-    <p align='center'>
+    <p align='center'  style='text-align:center;'>
       <i>(Andorra, 1204)</i>
       <a class='FootnoteRef' href='#fn:_'>
         <sup>_</sup>
@@ -213,7 +213,7 @@ RSpec.describe Asciidoctor::ITU do
     <language current='true'>en</language>
            <script current='true'>Latn</script>
            <title type='main'>Title</title>
-           <title language='en' format='text/plain' type='resolution'>Resolution 1 (Rev. Andorra, 1204)</title>
+           <title language='en' format='text/plain' type='resolution'>RESOLUTION 1 (Rev. Andorra, 1204)</title>
 <title language='en' format='text/plain' type='resolution-placedate'>Andorra, 1204</title>
            <date type='published'>2010-09-08</date>
            <date type='published' format='ddMMMyyyy'>8.IX.2010</date>
@@ -229,9 +229,9 @@ RSpec.describe Asciidoctor::ITU do
     OUTPUT
     html = <<~OUTPUT
             #{HTML_HDR}
-      <p align='center'>Resolution 1 (Rev. Andorra, 1204)</p>
+      <p align='center'  style='text-align:center;'>RESOLUTION 1 (Rev. Andorra, 1204)</p>
       <p class='zzSTDTitle2'/>
-      <p align='center'>
+      <p align='center'  style='text-align:center;'>
         <i>(Andorra, 1204)</i>
       </p>
     </div>
@@ -2213,7 +2213,7 @@ end
            <div>
              <p class='boilerplateHdr'>
                <a name='_' id='_'/>
-               &#xA9; ITU 2020
+               &#xA9; ITU #{Time.new.year}
              </p>
              <p class='boilerplate'>
                <a name='_' id='_'/>
@@ -2422,5 +2422,62 @@ it "localises numbers in MathML" do
        </iso-standard>
 OUTPUT
 end
+
+  it "processes unnumbered clauses" do
+             FileUtils.rm_f "test.html"
+             input = <<~INPUT
+               <itu-standard xmlns="http://riboseinc.com/isoxml">
+               <bibdata type="standard">
+               <title language="en" format="text/plain" type="main">An ITU Standard</title>
+               <title language="en" format="text/plain" type="subtitle">Subtitle</title>
+               <docidentifier type="ITU">12345</docidentifier>
+               <language>en</language>
+               <ext>
+               <doctype>resolution</doctype>
+               <structuredidentifier>
+               <annexid>F2</annexid>
+               </structuredidentifier>
+               </ext>
+               </bibdata>
+        <sections>
+        <clause unnumbered="true" id="A"><p>Text</p></clause>
+        <clause id="B"><title>First Clause</title></clause>
+        </sections>
+        </itu-standard>
+    INPUT
+    presxml = <<~OUTPUT
+    <itu-standard xmlns='http://riboseinc.com/isoxml' type='presentation'>
+  <bibdata type='standard'>
+    <title language='en' format='text/plain' type='main'>An ITU Standard</title>
+    <title language='en' format='text/plain' type='resolution'>RESOLUTION (, )</title>
+    <title language='en' format='text/plain' type='resolution-placedate'>, </title>
+    <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+    <docidentifier type='ITU'>12345</docidentifier>
+    <language current='true'>en</language>
+    <ext>
+      <doctype language=''>resolution</doctype>
+      <doctype language='en'>Resolution</doctype>
+      <structuredidentifier>
+        <annexid>F2</annexid>
+      </structuredidentifier>
+    </ext>
+  </bibdata>
+  <sections>
+    <clause unnumbered='true' id='A'>
+      <p>Text</p>
+    </clause>
+    <clause id='B'>
+      <title depth='1'>
+        1.
+        <tab/>
+        First Clause
+      </title>
+    </clause>
+  </sections>
+</itu-standard>
+    OUTPUT
+        expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
+  end
+
 
 end

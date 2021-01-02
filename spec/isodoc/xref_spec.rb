@@ -956,11 +956,14 @@ OUTPUT
 end
 
 it "cross-references sections in resolutions" do
-  expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).sub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+input = <<~INPUT
       <itu-standard xmlns="http://riboseinc.com/isoxml">
       <bibdata>
       <title>X</title>
-      <ext><doctype>resolution</doctype></ext>
+      <ext><doctype>resolution</doctype>
+      <meeting-place>Peoria</meeting-place>
+      <meeting-date><on>1871-02-09</on></meeting-date>
+</ext>
       </bibdata>
       <preface>
       <foreword obligation="informative">
@@ -1021,7 +1024,7 @@ it "cross-references sections in resolutions" do
        </clause></clause>
 
        </sections><annex id="P" inline-header="false" obligation="normative">
-         <title>Annex</title>
+         <title>Annex Title</title>
          <clause id="Q" inline-header="false" obligation="normative">
          <title>Annex A.1</title>
          <clause id="Q1" inline-header="false" obligation="normative">
@@ -1039,15 +1042,21 @@ it "cross-references sections in resolutions" do
        </clause>
        </bibliography>
        </itu-standard>
-    INPUT
+       INPUT
+
+       presxml = <<~OUTPUT
     <itu-standard xmlns='http://riboseinc.com/isoxml' type='presentation'>
          <bibdata>
           <title>X</title>
- <title language='en' format='text/plain' type='resolution'>RESOLUTION (, )</title>
- <title language='en' format='text/plain' type='resolution-placedate'>, </title>
+ <title language='en' format='text/plain' type='resolution'>RESOLUTION (Peoria, 1871)</title>
+      <title language='en' format='text/plain' type='resolution-placedate'>Peoria, 1871</title>
            <ext>
              <doctype language=''>resolution</doctype>
              <doctype language='en'>Resolution</doctype>
+      <meeting-place>Peoria</meeting-place>
+<meeting-date>
+  <on>1871-02-09</on>
+</meeting-date>
            </ext>
          </bibdata>
          <preface>
@@ -1145,11 +1154,12 @@ it "cross-references sections in resolutions" do
            </clause>
          </sections>
          <annex id='P' inline-header='false' obligation='normative'>
+         <p align='center'>ANNEX A
+  <br/>
+  (to Peoria, 1871)
+</p>
            <title>
-             <strong>Annex A</strong>
-             <br/>
-             <br/>
-             <strong>Annex</strong>
+             <strong>Annex Title</strong>
            </title>
            <clause id='Q' inline-header='false' obligation='normative'>
              <title depth='2'>
@@ -1183,6 +1193,126 @@ it "cross-references sections in resolutions" do
          </bibliography>
        </itu-standard>
 OUTPUT
+html = <<~OUTPUT
+         #{HTML_HDR}
+           <div>
+             <h1 class='IntroTitle'>Foreword</h1>
+             <p id='A'>
+                This is a preamble
+               <a href='#C'>Introduction Subsection</a>
+               <a href='#C1'>Introduction, 2</a>
+               <a href='#D'>section 1</a>
+               <a href='#H'>section 3</a>
+               <a href='#I'>3.1</a>
+               <a href='#J'>3.1.1</a>
+               <a href='#K'>3.2</a>
+               <a href='#L'>section 4</a>
+               <a href='#M'>section 5</a>
+               <a href='#N'>5.1</a>
+               <a href='#O'>5.2</a>
+               <a href='#P'>Annex A</a>
+               <a href='#Q'>A.1</a>
+               <a href='#Q1'>A.1.1</a>
+               <a href='#R'>section 2</a>
+               <a href='#S'>Bibliography</a>
+             </p>
+           </div>
+           <div id='B'>
+             <h1 class='IntroTitle'>Introduction</h1>
+             <div id='C'>
+               <h2>Introduction Subsection</h2>
+             </div>
+             <div id='C1'>Text</div>
+           </div>
+           <p align='center' style='text-align:center;'>RESOLUTION (Peoria, 1871)</p>
+           <p class='zzSTDTitle2'/>
+           <p align='center' style='text-align:center;'>
+             <i>(Peoria, 1871)</i>
+           </p>
+           <div id='D'>
+             <h1> 1. &#160; Scope </h1>
+             <p id='E'>Text</p>
+           </div>
+           <div>
+             <h1> 2. &#160; Normative References </h1>
+             <table class='biblio' border='0'>
+               <tbody/>
+             </table>
+           </div>
+           <div id='H'>
+             <h1> 3. &#160; Terms, definitions, symbols and abbreviated terms </h1>
+             <div id='I'>
+               <h2> 3.1. &#160; Normal Terms </h2>
+               <div id='J'>
+                 <p class='TermNum' id='J'>
+                   <b>3.1.1.&#160; Term2</b>
+                   :
+                 </p>
+               </div>
+             </div>
+             <div id='K'>
+               <h2>3.2.</h2>
+               <dl>
+                 <dt>
+                   <p>Symbol</p>
+                 </dt>
+                 <dd>Definition</dd>
+               </dl>
+             </div>
+           </div>
+           <div id='L' class='Symbols'>
+             <h1>4.</h1>
+             <dl>
+               <dt>
+                 <p>Symbol</p>
+               </dt>
+               <dd>Definition</dd>
+             </dl>
+           </div>
+           <div id='M'>
+             <h1> 5. &#160; Clause 4 </h1>
+             <div id='N'>
+               <h2> 5.1. &#160; Introduction </h2>
+             </div>
+             <div id='O'>
+               <h2> 5.2. &#160; Clause 4.2 </h2>
+             </div>
+           </div>
+           <br/>
+           <div id='P' class='Section3'>
+             <p style='text-align:center;'>
+               ANNEX A
+               <br/>
+                (to Peoria, 1871)
+             </p>
+             <h1 class='Annex'>
+               <b>Annex Title</b>
+             </h1>
+             <div id='Q'>
+               <h2> A.1. &#160; Annex A.1 </h2>
+               <div id='Q1'>
+                 <h3> A.1.1. &#160; Annex A.1a </h3>
+               </div>
+             </div>
+           </div>
+           <br/>
+           <div>
+             <h1 class='Section3'>Bibliography</h1>
+             <table class='biblio' border='0'>
+               <tbody/>
+             </table>
+             <div>
+               <h2 class='Section3'>Bibliography Subsection</h2>
+               <table class='biblio' border='0'>
+                 <tbody/>
+               </table>
+             </div>
+           </div>
+         </div>
+       </body>
+OUTPUT
+  expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).sub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
+      expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
 end
 
 end

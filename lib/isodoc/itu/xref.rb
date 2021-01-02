@@ -11,7 +11,8 @@ module IsoDoc
 
       def annex_name_lbl(clause, num)
         lbl = clause["obligation"] == "informative" ?  @labels["appendix"] : @labels["annex"]
-        l10n("<strong>#{lbl} #{num}</strong>")
+        @doctype == "resolution" ? l10n("#{lbl.upcase} #{num}") :
+          l10n("<strong>#{lbl} #{num}</strong>")
       end
 
       def annex_names(clause, num)
@@ -155,7 +156,7 @@ module IsoDoc
 
       def clause_names(docxml, sect_num)
         docxml.xpath(ns("//sections/clause[not(@unnumbered = 'true')][not(@type = 'scope')]")).
-                        each_with_index do |c, i|
+          each_with_index do |c, i|
           section_names(c, (i + sect_num), 1)
         end
         docxml.xpath(ns("//sections/clause[@unnumbered = 'true']")).each do |c|

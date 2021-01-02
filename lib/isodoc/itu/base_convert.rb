@@ -48,7 +48,7 @@ module IsoDoc
         div.h1 **{ class: r_a ? "RecommendationAnnex" : "Annex" } do |t|
           name&.children&.each { |c2| parse(c2, t) }
         end
-        annex_obligation_subtitle(annex, div)
+        annex_obligation_subtitle(annex, div) unless  @meta.get[:doctype_original] == "resolution"
       end
 
       def annex_obligation_subtitle(annex, div)

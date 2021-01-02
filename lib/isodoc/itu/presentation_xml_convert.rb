@@ -147,7 +147,8 @@ module IsoDoc
         return if @suppressheadingnumbers || f["unnumbered"]
         t = f.at(ns("./title")) and t["depth"] = "1"
         lbl = @xrefs.anchor(f['id'], :label, false) or return
-        f.elements.first.previous = "<p align='center'>#{@i18n.get['section'].upcase} #{lbl}</p>"
+        f.elements.first.previous =
+          "<p align='center' keep-with-next='true'>#{@i18n.get['section'].upcase} #{lbl}</p>"
       end
 
       def annex1(f)

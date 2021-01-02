@@ -143,19 +143,19 @@ module IsoDoc
 
       def clause1(f)
         return super unless f&.at(ns("//bibdata/ext/doctype"))&.text == "resolution"
-        return super unless f.parent.name == "section"
+        return super unless %w(sections bibliography).include? f.parent.name
         return if @suppressheadingnumbers || f["unnumbered"]
         t = f.at(ns("./title")) and t["depth"] = "1"
         lbl = @xrefs.anchor(f['id'], :label, false) or return
-        f.elements.first.prev = "<p align='center'>#{@i18n.get['section'].upcase} #{lbl}</p>"
+        f.elements.first.previous = "<p align='center'>#{@i18n.get['section'].upcase} #{lbl}</p>"
       end
 
       def annex1(f)
         return super unless f&.at(ns("//bibdata/ext/doctype"))&.text == "resolution"
         lbl = @xrefs.anchor(f['id'], :label)
-        subhead = @i18n.l10n("(#{@i18n.get['to']} ") +
-          f.at(ns("//bibdata/title[@type = 'resolution-placedate']")).children.to_xml + @i18n.l10n(")")
-          f.elements.first.previous = "<p align='center'>#{lbl}<br/>#{subhead}</p>"
+        subhead = (@i18n.l10n("(#{@i18n.get['to']} ") + 
+                   f.at(ns("//bibdata/title[@type = 'resolution']")).children.to_xml + @i18n.l10n(")"))
+        f.elements.first.previous = "<p align='center'>#{lbl}<br/>#{subhead}</p>"
         if t = f.at(ns("./title"))
           t.children = "<strong>#{t.children.to_xml}</strong>"
         end

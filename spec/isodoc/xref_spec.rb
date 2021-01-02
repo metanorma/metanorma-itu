@@ -972,18 +972,12 @@ input = <<~INPUT
          <xref target="C"/>
          <xref target="C1"/>
          <xref target="D"/>
-         <xref target="H"/>
-         <xref target="I"/>
-         <xref target="J"/>
-         <xref target="K"/>
-         <xref target="L"/>
          <xref target="M"/>
          <xref target="N"/>
          <xref target="O"/>
          <xref target="P"/>
          <xref target="Q"/>
          <xref target="Q1"/>
-         <xref target="R"/>
          <xref target="S"/>
          </p>
        </foreword>
@@ -997,25 +991,6 @@ input = <<~INPUT
          <p id="E">Text</p>
        </clause>
 
-       <terms id="H" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title><terms id="I" obligation="normative">
-         <title>Normal Terms</title>
-         <term id="J">
-         <preferred>Term2</preferred>
-       </term>
-       </terms>
-       <definitions id="K">
-         <dl>
-         <dt>Symbol</dt>
-         <dd>Definition</dd>
-         </dl>
-       </definitions>
-       </terms>
-       <definitions id="L">
-         <dl>
-         <dt>Symbol</dt>
-         <dd>Definition</dd>
-         </dl>
-       </definitions>
        <clause id="M" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
          <title>Introduction</title>
        </clause>
@@ -1032,9 +1007,8 @@ input = <<~INPUT
          </clause>
        </clause>
        </annex>
-        <bibliography><references id="R" obligation="informative" normative="true">
-         <title>Normative References</title>
-       </references><clause id="S" obligation="informative">
+        <bibliography>
+       <clause id="S" obligation="informative">
          <title>Bibliography</title>
          <references id="T" obligation="informative" normative="false">
          <title>Bibliography Subsection</title>
@@ -1067,18 +1041,12 @@ input = <<~INPUT
                <xref target='C'>Introduction Subsection</xref>
                <xref target='C1'>Introduction, 2</xref>
                <xref target='D'>section 1</xref>
-               <xref target='H'>section 3</xref>
-               <xref target='I'>3.1</xref>
-               <xref target='J'>3.1.1</xref>
-               <xref target='K'>3.2</xref>
-               <xref target='L'>section 4</xref>
-               <xref target='M'>section 5</xref>
-               <xref target='N'>5.1</xref>
-               <xref target='O'>5.2</xref>
+               <xref target='M'>section 2</xref>
+               <xref target='N'>2.1</xref>
+               <xref target='O'>2.2</xref>
                <xref target='P'>Annex A</xref>
                <xref target='Q'>A.1</xref>
                <xref target='Q1'>A.1.1</xref>
-               <xref target='R'>section 2</xref>
                <xref target='S'>Bibliography</xref>
              </p>
            </foreword>
@@ -1092,61 +1060,23 @@ input = <<~INPUT
          </preface>
          <sections>
            <clause id='D' obligation='normative' type='scope'>
-             <title depth='1'>
-               1.
-               <tab/>
-               Scope
-             </title>
+             <p align='center'>SECTION 1</p>
+<title depth='1'>Scope</title>
              <p id='E'>Text</p>
            </clause>
-           <terms id='H' obligation='normative'>
-             <title depth='1'>
-               3.
-               <tab/>
-               Terms, definitions, symbols and abbreviated terms
-             </title>
-             <terms id='I' obligation='normative'>
-               <title depth='2'>
-                 3.1.
-                 <tab/>
-                 Normal Terms
-               </title>
-               <term id='J'>
-                 <name>3.1.1.</name>
-                 <preferred>Term2</preferred>
-               </term>
-             </terms>
-             <definitions id='K'>
-               <title>3.2.</title>
-               <dl>
-                 <dt>Symbol</dt>
-                 <dd>Definition</dd>
-               </dl>
-             </definitions>
-           </terms>
-           <definitions id='L'>
-             <title>4.</title>
-             <dl>
-               <dt>Symbol</dt>
-               <dd>Definition</dd>
-             </dl>
-           </definitions>
            <clause id='M' inline-header='false' obligation='normative'>
-             <title depth='1'>
-               5.
-               <tab/>
-               Clause 4
-             </title>
+             <p align='center'>SECTION 2</p>
+<title depth='1'>Clause 4</title>
              <clause id='N' inline-header='false' obligation='normative'>
                <title depth='2'>
-                 5.1.
+                 2.1.
                  <tab/>
                  Introduction
                </title>
              </clause>
              <clause id='O' inline-header='false' obligation='normative'>
                <title depth='2'>
-                 5.2.
+                 2.2.
                  <tab/>
                  Clause 4.2
                </title>
@@ -1156,7 +1086,7 @@ input = <<~INPUT
          <annex id='P' inline-header='false' obligation='normative'>
          <p align='center'>ANNEX A
   <br/>
-  (to Peoria, 1871)
+  (to RESOLUTION (Peoria, 1871))
 </p>
            <title>
              <strong>Annex Title</strong>
@@ -1177,13 +1107,6 @@ input = <<~INPUT
            </clause>
          </annex>
          <bibliography>
-           <references id='R' obligation='informative' normative='true'>
-             <title depth='1'>
-               2.
-               <tab/>
-               Normative References
-             </title>
-           </references>
            <clause id='S' obligation='informative'>
              <title depth='1'>Bibliography</title>
              <references id='T' obligation='informative' normative='false'>
@@ -1202,18 +1125,12 @@ html = <<~OUTPUT
                <a href='#C'>Introduction Subsection</a>
                <a href='#C1'>Introduction, 2</a>
                <a href='#D'>section 1</a>
-               <a href='#H'>section 3</a>
-               <a href='#I'>3.1</a>
-               <a href='#J'>3.1.1</a>
-               <a href='#K'>3.2</a>
-               <a href='#L'>section 4</a>
-               <a href='#M'>section 5</a>
-               <a href='#N'>5.1</a>
-               <a href='#O'>5.2</a>
+               <a href='#M'>section 2</a>
+<a href='#N'>2.1</a>
+<a href='#O'>2.2</a>
                <a href='#P'>Annex A</a>
                <a href='#Q'>A.1</a>
                <a href='#Q1'>A.1.1</a>
-               <a href='#R'>section 2</a>
                <a href='#S'>Bibliography</a>
              </p>
            </div>
@@ -1230,52 +1147,18 @@ html = <<~OUTPUT
              <i>(Peoria, 1871)</i>
            </p>
            <div id='D'>
-             <h1> 1. &#160; Scope </h1>
+           <p style='text-align:center;'>SECTION 1</p>
+<h1>Scope</h1>
              <p id='E'>Text</p>
            </div>
-           <div>
-             <h1> 2. &#160; Normative References </h1>
-             <table class='biblio' border='0'>
-               <tbody/>
-             </table>
-           </div>
-           <div id='H'>
-             <h1> 3. &#160; Terms, definitions, symbols and abbreviated terms </h1>
-             <div id='I'>
-               <h2> 3.1. &#160; Normal Terms </h2>
-               <div id='J'>
-                 <p class='TermNum' id='J'>
-                   <b>3.1.1.&#160; Term2</b>
-                   :
-                 </p>
-               </div>
-             </div>
-             <div id='K'>
-               <h2>3.2.</h2>
-               <dl>
-                 <dt>
-                   <p>Symbol</p>
-                 </dt>
-                 <dd>Definition</dd>
-               </dl>
-             </div>
-           </div>
-           <div id='L' class='Symbols'>
-             <h1>4.</h1>
-             <dl>
-               <dt>
-                 <p>Symbol</p>
-               </dt>
-               <dd>Definition</dd>
-             </dl>
-           </div>
            <div id='M'>
-             <h1> 5. &#160; Clause 4 </h1>
+           <p style='text-align:center;'>SECTION 2</p>
+<h1>Clause 4</h1>
              <div id='N'>
-               <h2> 5.1. &#160; Introduction </h2>
+               <h2> 2.1. &#160; Introduction </h2>
              </div>
              <div id='O'>
-               <h2> 5.2. &#160; Clause 4.2 </h2>
+               <h2> 2.2. &#160; Clause 4.2 </h2>
              </div>
            </div>
            <br/>
@@ -1283,7 +1166,7 @@ html = <<~OUTPUT
              <p style='text-align:center;'>
                ANNEX A
                <br/>
-                (to Peoria, 1871)
+                (to RESOLUTION (Peoria, 1871))
              </p>
              <h1 class='Annex'>
                <b>Annex Title</b>

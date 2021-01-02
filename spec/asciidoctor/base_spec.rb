@@ -1106,6 +1106,67 @@ OUTPUT
     OUTPUT
   end
 
+  it "makes empty subclause titles have inline headers in resolutions" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :legacy-do-not-insert-missing-sections:
+      :doctype: resolution
+
+      This is a preamble
+
+      == {blank}
+      === {blank}
+      INPUT
+      #{BLANK_HDR.sub(/recommendation/, "resolution")}
+#{boilerplate(Nokogiri::XML(BLANK_HDR.sub(/recommendation/, "resolution") + "</itu-standard>"))}
+             <preface><foreword id="_" obligation="informative">
+         <title>Foreword</title>
+         <p id="_">This is a preamble</p>
+       </foreword>
+       </preface>
+       <sections>
+       <clause id='_' inline-header='false' obligation='normative'>
+  <clause id='_' inline-header='true' obligation='normative'> </clause>
+       </clause></sections>
+       </itu-standard>
+    OUTPUT
+  end
+
+   it "does not make empty subclause titles have inline headers outside of resolutions" do
+    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :legacy-do-not-insert-missing-sections:
+      :doctype: recommendation
+
+      This is a preamble
+
+      == {blank}
+      === {blank}
+      INPUT
+    #{@blank_hdr}
+             <preface><foreword id="_" obligation="informative">
+         <title>Foreword</title>
+         <p id="_">This is a preamble</p>
+       </foreword>
+       </preface>
+       <sections>
+       <clause id='_' inline-header='false' obligation='normative'>
+  <clause id='_' inline-header='false' obligation='normative'> </clause>
+  </clause>
+       </sections>
+       </itu-standard>
+    OUTPUT
+  end
+
+
   it "uses default fonts" do
     FileUtils.rm_f "test.html"
     Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)

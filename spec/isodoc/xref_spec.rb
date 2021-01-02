@@ -729,5 +729,460 @@ it "processes formulae as non-hierarchical assets" do
     OUTPUT
 end
 
+it "cross-references sections" do
+  expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).sub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      <itu-standard xmlns="http://riboseinc.com/isoxml">
+      <bibdata>
+      <ext><doctype>recommendation</doctype></ext>
+      </bibdata>
+      <preface>
+      <foreword obligation="informative">
+         <title>Foreword</title>
+         <p id="A">This is a preamble
+         <xref target="C"/>
+         <xref target="C1"/>
+         <xref target="D"/>
+         <xref target="H"/>
+         <xref target="I"/>
+         <xref target="J"/>
+         <xref target="K"/>
+         <xref target="L"/>
+         <xref target="M"/>
+         <xref target="N"/>
+         <xref target="O"/>
+         <xref target="P"/>
+         <xref target="Q"/>
+         <xref target="Q1"/>
+         <xref target="R"/>
+         <xref target="S"/>
+         </p>
+       </foreword>
+        <introduction id="B" obligation="informative"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+         <title>Introduction Subsection</title>
+       </clause>
+       <clause id="C1" inline-header="false" obligation="informative">Text</clause>
+       </introduction></preface><sections>
+       <clause id="D" obligation="normative" type="scope">
+         <title>Scope</title>
+         <p id="E">Text</p>
+       </clause>
+
+       <terms id="H" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title><terms id="I" obligation="normative">
+         <title>Normal Terms</title>
+         <term id="J">
+         <preferred>Term2</preferred>
+       </term>
+       </terms>
+       <definitions id="K">
+         <dl>
+         <dt>Symbol</dt>
+         <dd>Definition</dd>
+         </dl>
+       </definitions>
+       </terms>
+       <definitions id="L">
+         <dl>
+         <dt>Symbol</dt>
+         <dd>Definition</dd>
+         </dl>
+       </definitions>
+       <clause id="M" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
+         <title>Introduction</title>
+       </clause>
+       <clause id="O" inline-header="false" obligation="normative">
+         <title>Clause 4.2</title>
+       </clause></clause>
+
+       </sections><annex id="P" inline-header="false" obligation="normative">
+         <title>Annex</title>
+         <clause id="Q" inline-header="false" obligation="normative">
+         <title>Annex A.1</title>
+         <clause id="Q1" inline-header="false" obligation="normative">
+         <title>Annex A.1a</title>
+         </clause>
+       </clause>
+       </annex>
+        <bibliography><references id="R" obligation="informative" normative="true">
+         <title>Normative References</title>
+       </references><clause id="S" obligation="informative">
+         <title>Bibliography</title>
+         <references id="T" obligation="informative" normative="false">
+         <title>Bibliography Subsection</title>
+       </references>
+       </clause>
+       </bibliography>
+       </itu-standard>
+    INPUT
+    <itu-standard xmlns='http://riboseinc.com/isoxml' type='presentation'>
+         <bibdata>
+           <ext>
+             <doctype language=''>recommendation</doctype>
+             <doctype language='en'>Recommendation</doctype>
+           </ext>
+         </bibdata>
+         <preface>
+           <foreword obligation='informative'>
+             <title>Foreword</title>
+             <p id='A'>
+               This is a preamble
+               <xref target='C'>Introduction Subsection</xref>
+               <xref target='C1'>Introduction, 2</xref>
+               <xref target='D'>clause 1</xref>
+               <xref target='H'>clause 3</xref>
+               <xref target='I'>clause 3.1</xref>
+               <xref target='J'>clause 3.1.1</xref>
+               <xref target='K'>clause 3.2</xref>
+               <xref target='L'>clause 4</xref>
+               <xref target='M'>clause 5</xref>
+               <xref target='N'>clause 5.1</xref>
+               <xref target='O'>clause 5.2</xref>
+               <xref target='P'>Annex A</xref>
+               <xref target='Q'>clause A.1</xref>
+               <xref target='Q1'>clause A.1.1</xref>
+               <xref target='R'>clause 2</xref>
+               <xref target='S'>Bibliography</xref>
+             </p>
+           </foreword>
+           <introduction id='B' obligation='informative'>
+             <title>Introduction</title>
+             <clause id='C' inline-header='false' obligation='informative'>
+               <title depth='2'>Introduction Subsection</title>
+             </clause>
+             <clause id='C1' inline-header='false' obligation='informative'>Text</clause>
+           </introduction>
+         </preface>
+         <sections>
+           <clause id='D' obligation='normative' type='scope'>
+             <title depth='1'>
+               1.
+               <tab/>
+               Scope
+             </title>
+             <p id='E'>Text</p>
+           </clause>
+           <terms id='H' obligation='normative'>
+             <title depth='1'>
+               3.
+               <tab/>
+               Terms, definitions, symbols and abbreviated terms
+             </title>
+             <terms id='I' obligation='normative'>
+               <title depth='2'>
+                 3.1.
+                 <tab/>
+                 Normal Terms
+               </title>
+               <term id='J'>
+                 <name>3.1.1.</name>
+                 <preferred>Term2</preferred>
+               </term>
+             </terms>
+             <definitions id='K'>
+               <title>3.2.</title>
+               <dl>
+                 <dt>Symbol</dt>
+                 <dd>Definition</dd>
+               </dl>
+             </definitions>
+           </terms>
+           <definitions id='L'>
+             <title>4.</title>
+             <dl>
+               <dt>Symbol</dt>
+               <dd>Definition</dd>
+             </dl>
+           </definitions>
+           <clause id='M' inline-header='false' obligation='normative'>
+             <title depth='1'>
+               5.
+               <tab/>
+               Clause 4
+             </title>
+             <clause id='N' inline-header='false' obligation='normative'>
+               <title depth='2'>
+                 5.1.
+                 <tab/>
+                 Introduction
+               </title>
+             </clause>
+             <clause id='O' inline-header='false' obligation='normative'>
+               <title depth='2'>
+                 5.2.
+                 <tab/>
+                 Clause 4.2
+               </title>
+             </clause>
+           </clause>
+         </sections>
+         <annex id='P' inline-header='false' obligation='normative'>
+           <title>
+             <strong>Annex A</strong>
+             <br/>
+             <br/>
+             <strong>Annex</strong>
+           </title>
+           <clause id='Q' inline-header='false' obligation='normative'>
+             <title depth='2'>
+               A.1.
+               <tab/>
+               Annex A.1
+             </title>
+             <clause id='Q1' inline-header='false' obligation='normative'>
+               <title depth='3'>
+                 A.1.1.
+                 <tab/>
+                 Annex A.1a
+               </title>
+             </clause>
+           </clause>
+         </annex>
+         <bibliography>
+           <references id='R' obligation='informative' normative='true'>
+             <title depth='1'>
+               2.
+               <tab/>
+               Normative References
+             </title>
+           </references>
+           <clause id='S' obligation='informative'>
+             <title depth='1'>Bibliography</title>
+             <references id='T' obligation='informative' normative='false'>
+               <title depth='2'>Bibliography Subsection</title>
+             </references>
+           </clause>
+         </bibliography>
+       </itu-standard>
+OUTPUT
+end
+
+it "cross-references sections in resolutions" do
+  expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).sub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+      <itu-standard xmlns="http://riboseinc.com/isoxml">
+      <bibdata>
+      <title>X</title>
+      <ext><doctype>resolution</doctype></ext>
+      </bibdata>
+      <preface>
+      <foreword obligation="informative">
+         <title>Foreword</title>
+         <p id="A">This is a preamble
+         <xref target="C"/>
+         <xref target="C1"/>
+         <xref target="D"/>
+         <xref target="H"/>
+         <xref target="I"/>
+         <xref target="J"/>
+         <xref target="K"/>
+         <xref target="L"/>
+         <xref target="M"/>
+         <xref target="N"/>
+         <xref target="O"/>
+         <xref target="P"/>
+         <xref target="Q"/>
+         <xref target="Q1"/>
+         <xref target="R"/>
+         <xref target="S"/>
+         </p>
+       </foreword>
+        <introduction id="B" obligation="informative"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+         <title>Introduction Subsection</title>
+       </clause>
+       <clause id="C1" inline-header="false" obligation="informative">Text</clause>
+       </introduction></preface><sections>
+       <clause id="D" obligation="normative" type="scope">
+         <title>Scope</title>
+         <p id="E">Text</p>
+       </clause>
+
+       <terms id="H" obligation="normative"><title>Terms, definitions, symbols and abbreviated terms</title><terms id="I" obligation="normative">
+         <title>Normal Terms</title>
+         <term id="J">
+         <preferred>Term2</preferred>
+       </term>
+       </terms>
+       <definitions id="K">
+         <dl>
+         <dt>Symbol</dt>
+         <dd>Definition</dd>
+         </dl>
+       </definitions>
+       </terms>
+       <definitions id="L">
+         <dl>
+         <dt>Symbol</dt>
+         <dd>Definition</dd>
+         </dl>
+       </definitions>
+       <clause id="M" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
+         <title>Introduction</title>
+       </clause>
+       <clause id="O" inline-header="false" obligation="normative">
+         <title>Clause 4.2</title>
+       </clause></clause>
+
+       </sections><annex id="P" inline-header="false" obligation="normative">
+         <title>Annex</title>
+         <clause id="Q" inline-header="false" obligation="normative">
+         <title>Annex A.1</title>
+         <clause id="Q1" inline-header="false" obligation="normative">
+         <title>Annex A.1a</title>
+         </clause>
+       </clause>
+       </annex>
+        <bibliography><references id="R" obligation="informative" normative="true">
+         <title>Normative References</title>
+       </references><clause id="S" obligation="informative">
+         <title>Bibliography</title>
+         <references id="T" obligation="informative" normative="false">
+         <title>Bibliography Subsection</title>
+       </references>
+       </clause>
+       </bibliography>
+       </itu-standard>
+    INPUT
+    <itu-standard xmlns='http://riboseinc.com/isoxml' type='presentation'>
+         <bibdata>
+          <title>X</title>
+ <title language='en' format='text/plain' type='resolution'>RESOLUTION (, )</title>
+ <title language='en' format='text/plain' type='resolution-placedate'>, </title>
+           <ext>
+             <doctype language=''>resolution</doctype>
+             <doctype language='en'>Resolution</doctype>
+           </ext>
+         </bibdata>
+         <preface>
+           <foreword obligation='informative'>
+             <title>Foreword</title>
+             <p id='A'>
+               This is a preamble
+               <xref target='C'>Introduction Subsection</xref>
+               <xref target='C1'>Introduction, 2</xref>
+               <xref target='D'>section 1</xref>
+               <xref target='H'>section 3</xref>
+               <xref target='I'>3.1</xref>
+               <xref target='J'>3.1.1</xref>
+               <xref target='K'>3.2</xref>
+               <xref target='L'>section 4</xref>
+               <xref target='M'>section 5</xref>
+               <xref target='N'>5.1</xref>
+               <xref target='O'>5.2</xref>
+               <xref target='P'>Annex A</xref>
+               <xref target='Q'>A.1</xref>
+               <xref target='Q1'>A.1.1</xref>
+               <xref target='R'>section 2</xref>
+               <xref target='S'>Bibliography</xref>
+             </p>
+           </foreword>
+           <introduction id='B' obligation='informative'>
+             <title>Introduction</title>
+             <clause id='C' inline-header='false' obligation='informative'>
+               <title depth='2'>Introduction Subsection</title>
+             </clause>
+             <clause id='C1' inline-header='false' obligation='informative'>Text</clause>
+           </introduction>
+         </preface>
+         <sections>
+           <clause id='D' obligation='normative' type='scope'>
+             <title depth='1'>
+               1.
+               <tab/>
+               Scope
+             </title>
+             <p id='E'>Text</p>
+           </clause>
+           <terms id='H' obligation='normative'>
+             <title depth='1'>
+               3.
+               <tab/>
+               Terms, definitions, symbols and abbreviated terms
+             </title>
+             <terms id='I' obligation='normative'>
+               <title depth='2'>
+                 3.1.
+                 <tab/>
+                 Normal Terms
+               </title>
+               <term id='J'>
+                 <name>3.1.1.</name>
+                 <preferred>Term2</preferred>
+               </term>
+             </terms>
+             <definitions id='K'>
+               <title>3.2.</title>
+               <dl>
+                 <dt>Symbol</dt>
+                 <dd>Definition</dd>
+               </dl>
+             </definitions>
+           </terms>
+           <definitions id='L'>
+             <title>4.</title>
+             <dl>
+               <dt>Symbol</dt>
+               <dd>Definition</dd>
+             </dl>
+           </definitions>
+           <clause id='M' inline-header='false' obligation='normative'>
+             <title depth='1'>
+               5.
+               <tab/>
+               Clause 4
+             </title>
+             <clause id='N' inline-header='false' obligation='normative'>
+               <title depth='2'>
+                 5.1.
+                 <tab/>
+                 Introduction
+               </title>
+             </clause>
+             <clause id='O' inline-header='false' obligation='normative'>
+               <title depth='2'>
+                 5.2.
+                 <tab/>
+                 Clause 4.2
+               </title>
+             </clause>
+           </clause>
+         </sections>
+         <annex id='P' inline-header='false' obligation='normative'>
+           <title>
+             <strong>Annex A</strong>
+             <br/>
+             <br/>
+             <strong>Annex</strong>
+           </title>
+           <clause id='Q' inline-header='false' obligation='normative'>
+             <title depth='2'>
+               A.1.
+               <tab/>
+               Annex A.1
+             </title>
+             <clause id='Q1' inline-header='false' obligation='normative'>
+               <title depth='3'>
+                 A.1.1.
+                 <tab/>
+                 Annex A.1a
+               </title>
+             </clause>
+           </clause>
+         </annex>
+         <bibliography>
+           <references id='R' obligation='informative' normative='true'>
+             <title depth='1'>
+               2.
+               <tab/>
+               Normative References
+             </title>
+           </references>
+           <clause id='S' obligation='informative'>
+             <title depth='1'>Bibliography</title>
+             <references id='T' obligation='informative' normative='false'>
+               <title depth='2'>Bibliography Subsection</title>
+             </references>
+           </clause>
+         </bibliography>
+       </itu-standard>
+OUTPUT
+end
 
 end

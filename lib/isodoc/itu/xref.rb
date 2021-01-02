@@ -45,13 +45,15 @@ module IsoDoc
 
       def annex_names1(clause, num, level)
         @anchors[clause["id"]] =
-          { label: num, xref: l10n("#{@labels["annex_subclause"]} #{num}"), level: level, type: "clause" }
+          { label: num, xref: @doctype == "resolution" ? num : l10n("#{@labels["annex_subclause"]} #{num}"), 
+            level: level, type: "clause" }
         clause.xpath(ns("./clause | ./references | ./terms | ./definitions")).each_with_index do |c, i|
           annex_names1(c, "#{num}.#{i + 1}", level + 1)
         end
       end
 
       def initial_anchor_names(d)
+        @doctype = d&.at(ns("//bibdata/ext/doctype"))&.text
         d.xpath(ns("//boilerplate//clause")).each { |c| preface_names(c) }
         d.xpath("//xmlns:preface/child::*").each { |c| preface_names(c) }
         @hierarchical_assets ?
@@ -158,6 +160,27 @@ module IsoDoc
         end
         docxml.xpath(ns("//sections/clause[@unnumbered = 'true']")).each do |c|
           unnumbered_section_names(c, 1)
+        end
+      end
+
+      def section_names(clause, num, lvl)
+        return num if clause.nil?
+        num = num + 1
+        lbl = @doctype == "resolution" ? @labels["section"] : @labels["clause"]
+        @anchors[clause["id"]] =
+          { label: num.to_s, xref: l10n("#{lbl} #{num}"), level: lvl, type: "clause" }
+        clause.xpath(ns(SUBCLAUSES)).each_with_index do |c, i|
+          section_names1(c, "#{num}.#{i + 1}", lvl + 1)
+        end
+        num
+      end
+
+      def section_names1(clause, num, level)
+        @anchors[clause["id"]] =
+          { label: num, level: level, 
+            xref: @doctype == "resolution" ? num : l10n("#{@labels["clause"]} #{num}") }
+        clause.xpath(ns(SUBCLAUSES)).each_with_index do |c, i|
+          section_names1(c, "#{num}.#{i + 1}", level + 1)
         end
       end
 

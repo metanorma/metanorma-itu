@@ -136,7 +136,7 @@ RSpec.describe Asciidoctor::ITU do
   </bibdata>
   <sections>
   <clause id='A'>
-    <title>1.</title>
+  <p align='center'>SECTION 1</p>
     <note type='title-footnote' id="A1">
       <p>One fn</p>
     </note>
@@ -162,7 +162,7 @@ RSpec.describe Asciidoctor::ITU do
       </a>
     </p>
     <div id='A'>
-      <h1>1.</h1>
+      <p style='text-align:center;'>SECTION 1</p>
       <p>
         Hello.
         <a class='FootnoteRef' href='#fn:3'>
@@ -2467,11 +2467,8 @@ end
       <p>Text</p>
     </clause>
     <clause id='B'>
-      <title depth='1'>
-        1.
-        <tab/>
-        First Clause
-      </title>
+      <p align='center'>SECTION 1</p>
+<title depth='1'>First Clause</title>
     </clause>
   </sections>
 </itu-standard>

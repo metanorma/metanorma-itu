@@ -1060,12 +1060,12 @@ input = <<~INPUT
          </preface>
          <sections>
            <clause id='D' obligation='normative' type='scope'>
-             <p align='center'>SECTION 1</p>
+             <p align='center' keep-with-next='true'>SECTION 1</p>
 <title depth='1'>Scope</title>
              <p id='E'>Text</p>
            </clause>
            <clause id='M' inline-header='false' obligation='normative'>
-             <p align='center'>SECTION 2</p>
+             <p align='center' keep-with-next='true'>SECTION 2</p>
 <title depth='1'>Clause 4</title>
              <clause id='N' inline-header='false' obligation='normative'>
                <title depth='2'>
@@ -1147,12 +1147,12 @@ html = <<~OUTPUT
              <i>(Peoria, 1871)</i>
            </p>
            <div id='D'>
-           <p style='text-align:center;'>SECTION 1</p>
+           <p style='text-align:center;page-break-after: avoid;' >SECTION 1</p>
 <h1>Scope</h1>
              <p id='E'>Text</p>
            </div>
            <div id='M'>
-           <p style='text-align:center;'>SECTION 2</p>
+           <p style='text-align:center;page-break-after: avoid;'>SECTION 2</p>
 <h1>Clause 4</h1>
              <div id='N'>
                <h2> 2.1. &#160; Introduction </h2>

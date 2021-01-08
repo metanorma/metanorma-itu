@@ -3,6 +3,9 @@ require "fileutils"
 
 module IsoDoc
   module ITU
+    class Counter < IsoDoc::XrefGen::Counter
+    end
+
     class Xref < IsoDoc::Xref
       def initialize(lang, script, klass, labels, options)
         super
@@ -24,9 +27,11 @@ module IsoDoc
         if a = single_annex_special_section(clause)
           annex_names1(a, "#{num}", 1)
         else
+          i = Counter.new
           clause.xpath(ns("./clause | ./references | ./terms | ./definitions")).
-            each_with_index do |c, i|
-            annex_names1(c, "#{num}.#{i + 1}", 2)
+            each do |c|
+             i.increment(c)
+             annex_names1(c, "#{num}.#{i.print}", 2)
           end
         end
         hierarchical_asset_names(clause, num)
@@ -38,13 +43,18 @@ module IsoDoc
             docxml&.at(ns("//bibdata/ext/structuredidentifier/annexid"))&.text
           docxml.xpath(ns("//annex")).each { |c| annex_names(c, annexid) }
         else
+          i = Counter.new(0, numerals: :roman)
           docxml.xpath(ns("//annex[@obligation = 'informative']"))
-            .each_with_index do |c, i|
-            annex_names(c, RomanNumerals.to_roman(i + 1))
+            .each_with_index do |c|
+            i.increment(c)
+            annex_names(c, i.print.upcase)
           end
+          i = Counter.new("@")
           docxml.xpath(ns("//annex[not(@obligation = 'informative')]"))
-            .each_with_index do |c, i|
-            annex_names(c, (65 + i + (i > 7 ? 1 : 0)).chr.to_s)
+            .each do |c|
+            i.increment(c)
+            i.increment(c) if i.print == "I"
+            annex_names(c, i.print)
           end
         end
       end
@@ -53,9 +63,11 @@ module IsoDoc
         @anchors[clause["id"]] =
           { label: num, xref: l10n("#{@labels["annex_subclause"]} #{num}"),
             level: level, type: "clause" }
+        i = Counter.new
         clause.xpath(ns("./clause | ./references | ./terms | ./definitions"))
-          .each_with_index do |c, i|
-          annex_names1(c, "#{num}.#{i + 1}", level + 1)
+          .each do |c|
+          i.increment(c)
+          annex_names1(c, "#{num}.#{i.print}", level + 1)
         end
       end
 
@@ -66,7 +78,8 @@ module IsoDoc
           hierarchical_asset_names(d.xpath("//xmlns:preface/child::*"), 
                                    "Preface") :
                                   sequential_asset_names(d.xpath("//xmlns:preface/child::*"))
-        n = section_names(d.at(ns("//clause[@type = 'scope']")), 0, 1)
+        n = Counter.new
+        n = section_names(d.at(ns("//clause[@type = 'scope']")), n, 1)
         n = section_names(d.at(ns(@klass.norm_ref_xpath)), n, 1)
         n = section_names(d.at(ns("//sections/terms | "\
                                   "//sections/clause[descendant::terms]")), n, 1)

@@ -131,7 +131,7 @@ module IsoDoc
         super
       end
 
-      def middle_title(out)
+      def middle_title(isoxml, out)
         out.p(**{ class: "zzSTDTitle1" }) do |p|
           id = @meta.get[:docnumber] and p << "#{@meta.get[:doctype]} #{id}" 
         end

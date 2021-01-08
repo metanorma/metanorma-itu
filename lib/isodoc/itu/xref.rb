@@ -104,7 +104,7 @@ module IsoDoc
       end
 
       def sequential_figure_names(clause)
-        c = IsoDoc::XrefGen::Counter.new
+        c = Counter.new
         j = 0
         clause.xpath(ns(".//figure | .//sourcecode[not(ancestor::example)]")).each do |t|
           if t.parent.name == "figure" then j += 1
@@ -119,7 +119,7 @@ module IsoDoc
       end
 
       def hierarchical_figure_names(clause, num)
-        c = IsoDoc::XrefGen::Counter.new
+        c = Counter.new
         j = 0
         clause.xpath(ns(".//figure | .//sourcecode[not(ancestor::example)]")).each do |t|
           if t.parent.name == "figure" then j += 1
@@ -144,7 +144,7 @@ module IsoDoc
       end
 
       def hierarchical_formula_names(clause, num)
-        c = IsoDoc::XrefGen::Counter.new
+        c = Counter.new
         clause.xpath(ns(".//formula")).each do |t|
           next if t["id"].nil? || t["id"].empty?
           @anchors[t["id"]] = anchor_struct(
@@ -160,7 +160,7 @@ module IsoDoc
 
       def termnote_anchor_names(docxml)
         docxml.xpath(ns("//term[descendant::termnote]")).each do |t|
-          c = IsoDoc::XrefGen::Counter.new
+          c = Counter.new
           notes = t.xpath(ns(".//termnote"))
           notes.each do |n|
             return if n["id"].nil? || n["id"].empty?
@@ -173,9 +173,9 @@ module IsoDoc
       end
 
       def clause_names(docxml, sect_num)
-        docxml.xpath(ns("//sections/clause[not(@unnumbered = 'true')][not(@type = 'scope')]")).
-          each_with_index do |c, i|
-          section_names(c, (i + sect_num), 1)
+        docxml.xpath(ns("//sections/clause[not(@unnumbered = 'true')][not(@type = 'scope')][not(descendant::terms)]")).
+          each do |c|
+          section_names(c, sect_num, 1)
         end
         docxml.xpath(ns("//sections/clause[@unnumbered = 'true']")).each do |c|
           unnumbered_section_names(c, 1)
@@ -184,12 +184,14 @@ module IsoDoc
 
       def section_names(clause, num, lvl)
         return num if clause.nil?
-        num = num + 1
+        num.increment(clause)
         lbl = @doctype == "resolution" ? @labels["section"] : @labels["clause"]
         @anchors[clause["id"]] =
-          { label: num.to_s, xref: l10n("#{lbl} #{num}"), level: lvl, type: "clause" }
-        clause.xpath(ns(SUBCLAUSES)).each_with_index do |c, i|
-          section_names1(c, "#{num}.#{i + 1}", lvl + 1)
+          { label: num.print, xref: l10n("#{lbl} #{num.print}"), level: lvl, type: "clause" }
+        i = Counter.new
+        clause.xpath(ns(SUBCLAUSES)).each do |c|
+          i.increment(c)
+          section_names1(c, "#{num.print}.#{i.print}", lvl + 1)
         end
         num
       end
@@ -198,8 +200,10 @@ module IsoDoc
         @anchors[clause["id"]] =
           { label: num, level: level, 
             xref: @doctype == "resolution" ? num : l10n("#{@labels["clause"]} #{num}") }
-        clause.xpath(ns(SUBCLAUSES)).each_with_index do |c, i|
-          section_names1(c, "#{num}.#{i + 1}", level + 1)
+        i = Counter.new
+        clause.xpath(ns(SUBCLAUSES)).each do |c|
+          i.increment(c)
+          section_names1(c, "#{num}.#{i.print}", level + 1)
         end
       end
 
@@ -208,7 +212,7 @@ module IsoDoc
         lbl = clause&.at(ns("./title"))&.text || "[#{clause["id"]}]"
         @anchors[clause["id"]] =
           { label: lbl, xref: l10n(%{"#{lbl}"}), level: lvl, type: "clause" }
-        clause.xpath(ns(SUBCLAUSES)).each_with_index do |c, i|
+        clause.xpath(ns(SUBCLAUSES)).each do |c|
           unnumbered_section_names1(c, lvl + 1)
         end
       end

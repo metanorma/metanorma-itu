@@ -80,16 +80,17 @@ VALIDATING_BLANK_HDR = <<~"HDR"
 
 HDR
 
-BOILERPLATE =
-  HTMLEntities.new.decode(
-  File.read(File.join(File.dirname(__FILE__), "..", "lib", "asciidoctor", "itu", "boilerplate.xml"), encoding: "utf-8").
-  gsub(/\{\{ docyear \}\}/, Date.today.year.to_s).
-  gsub(/<p>/, '<p id="_">').
-  gsub(/\{% if unpublished %\}.+?\{% endif %\}/m, "").
-  gsub(/\{% if ip_notice_received %\}\{% else %\}not\{% endif %\}/m, "").
-  gsub(/\{% if doctype == "Service Publication" %\}\s*{% else %}(.*?)\{% endif %\}/m, "\\1")
-)
-
+def boilerplate(xmldoc)
+  file = File.read(File.join(File.dirname(__FILE__), "..", "lib", "asciidoctor", "itu", "boilerplate.xml"), encoding: "utf-8")
+  conv = Asciidoctor::ITU::Converter.new(nil, backend: :itu, header_footer: true)
+  conv.init(Asciidoctor::Document.new [])
+  ret = Nokogiri::XML(
+    conv.boilerplate_isodoc(xmldoc).populate_template(file, nil).
+    gsub(/<p>/, "<p id='_'>").
+    gsub(/<ol>/, "<ol id='_'>"))
+  conv.smartquotes_cleanup(ret)
+  HTMLEntities.new.decode(ret.to_xml)
+end
 
 BLANK_HDR = <<~"HDR"
        <?xml version="1.0" encoding="UTF-8"?>
@@ -132,8 +133,14 @@ BLANK_HDR = <<~"HDR"
                 <ip-notice-received>false</ip-notice-received>
         </ext>
        </bibdata>
-       #{BOILERPLATE}
 HDR
+
+def blank_hdr_gen
+<<~"HDR"
+#{BLANK_HDR}
+#{boilerplate(Nokogiri::XML(BLANK_HDR + "</itu-standard>"))}
+HDR
+end
 
 HTML_HDR = <<~"HDR"
            <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">

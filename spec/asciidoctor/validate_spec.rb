@@ -217,4 +217,65 @@ it "warns if requirement in preface" do
     expect(File.read("test.err")).to include "Requirement possibly in preface"
 end
 
+it "warns of unnumbered clause not in resolution" do
+        FileUtils.rm_f "test.err"
+  Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
+  = Transmission Systems and Media, Digital Systems and Networks: Software tools for speech and audio coding standardization
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :doctype: recommendation
+
+  [%unnumbered]
+  == Clause
+  INPUT
+    expect(File.read("test.err")).to include "Unnumbered clause out of place"
+
+  FileUtils.rm_f "test.err"
+  Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
+  = Transmission Systems and Media, Digital Systems and Networks: Software tools for speech and audio coding standardization
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :doctype: resolution
+
+  [%unnumbered]
+  == Clause
+  INPUT
+    expect(File.read("test.err")).not_to include "Unnumbered clause out of place"
+end
+
+it "warns of unnumbered clause not first clause in resolution" do
+  FileUtils.rm_f "test.err"
+  Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
+  = Transmission Systems and Media, Digital Systems and Networks: Software tools for speech and audio coding standardization
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :doctype: resolution
+
+  == Clause
+
+  [%unnumbered]
+  === Subclause
+
+  INPUT
+    expect(File.read("test.err")).to include "Unnumbered clause out of place"
+ FileUtils.rm_f "test.err"
+  Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
+  = Transmission Systems and Media, Digital Systems and Networks: Software tools for speech and audio coding standardization
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :doctype: resolution
+
+  == Clause
+
+  [%unnumbered]
+  == {blank}
+  INPUT
+    expect(File.read("test.err")).to include "Unnumbered clause out of place"
+
+end
+
 end

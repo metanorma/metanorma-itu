@@ -3,10 +3,11 @@
   {% else %}
   <copyright-statement>
     <clause>
-      <p>&copy; ITU {{ docyear }}</p>
+      <p>&#xa9; ITU {{ docyear }}</p>
 <p>All rights reserved. No part of this publication may be reproduced, by any means whatsoever, without the prior written permission of ITU.</p>
     </clause>
   </copyright-statement>
+  {% if doctype == "Recommendation" %}
   <license-statement>
     <clause>
       <title>INTELLECTUAL PROPERTY RIGHTS</title>
@@ -15,6 +16,7 @@
 </p>
 </clause>
 </license-statement>
+{% endif %}
   <legal-statement>
     <clause>
       <title>FOREWORD</title>
@@ -23,12 +25,13 @@
 <p>The approval of ITU-T Recommendations is covered by the procedure laid down in WTSA Resolution 1 .</p>
 <p>In some areas of information technology which fall within ITU-T's purview, the necessary standards are prepared on a collaborative basis with ISO and IEC.</p>
 
-
+{% if doctype == "Recommendation" %}
 <clause>
 <title>NOTE</title>
 <p>In this Recommendation, the expression "Administration" is used for conciseness to indicate both a telecommunication administration and a recognized operating agency .</p>
 <p>Compliance with this Recommendation is voluntary. However, the Recommendation may contain certain mandatory provisions (to ensure, e.g., interoperability or applicability) and compliance with the Recommendation is achieved when all of these mandatory provisions are met. The words "shall" or some other obligatory language such as "must" and the negative equivalents are used to express requirements. The use of such words does not suggest that compliance with the Recommendation is required of any party .</p>
 </clause>
+{% endif %}
     </clause>
 
     {% if unpublished %}

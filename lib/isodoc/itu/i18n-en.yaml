@@ -17,8 +17,10 @@ inform_annex: (This appendix does not form an integral part of this %.)
 formula: Equation
 inequality: Inequality
 clause: clause
+section: section
 annex_subclause: clause
 in: in
+to: to
 where: "where:"
 blankclause: This clause is intentionally left blank.
 norm_with_refs_pref:
@@ -49,6 +51,7 @@ number_abbrev: No.
 annex_to_itu_ob_abbrev: Annex to ITU OB %
 international_telecommunication_union: International Telecommunication Union
 position_on: (Position on %)
+revision_abbreviation: Rev.
 tsb: TSB
 br: BR
 bdt: BDT
@@ -56,6 +59,7 @@ tsb_full: Telecommunication<br/>Standardization Bureau<br/>of ITU
 br_full: Radiocommunication Bureau<br/>of ITU
 bdt_full: Telecommunication<br/>Development Bureau<br/>of ITU
 doctype_dict:
+  resolution: Resolution
   recommendation: Recommendation
   recommendation-supplement: Recommendation Supplement
   recommendation-amendment: Recommendation Amendment

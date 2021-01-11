@@ -25,669 +25,6 @@ RSpec.describe Asciidoctor::ITU do
     OUTPUT
    end
 
-
-  it "processes default metadata" do
-    csdc = IsoDoc::ITU::HtmlConvert.new({})
-    docxml, filename, dir = csdc.convert_init(<<~"INPUT", "test", true)
-<itu-standard xmlns="https://www.calconnect.org/standards/itu">
-  <bibdata type="standard">
-  <title language="en" format="text/plain" type="main">Main Title</title>
-  <title language="en" format="text/plain" type="annex">Annex Title</title>
-  <title language="fr" format="text/plain" type="main">Titre Principal</title>
-  <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-<title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
-<title language='en' format='text/plain' type='amendment'>Amendment Title</title>
-<title language='fr' format='text/plain' type='amendment'>Titre de Amendment</title>
-<title language='en' format='text/plain' type='corrigendum'>Corrigendum Title</title>
-<title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
-  <docidentifier type="ITU-provisional">ABC</docidentifier>
-  <docidentifier type="ITU">ITU-R 1000</docidentifier>
-  <docidentifier type="ITU-lang">ITU-R 1000-E</docidentifier>
-  <docnumber>1000</docnumber>
-  <date type='published'>2018-09-01</date>
-           <date type='published' format='ddMMMyyyy'>1.IX.2018</date>
-  <contributor>
-    <role type="author"/>
-    <organization>
-      <name>International Telecommunication Union</name>
-      <abbreviation>ITU</abbreviation>
-    </organization>
-  </contributor>
-  <contributor>
-    <role type="publisher"/>
-    <organization>
-      <name>International Telecommunication Union</name>
-      <abbreviation>ITU</abbreviation>
-    </organization>
-  </contributor>
-  <edition>2</edition>
-<version>
-  <revision-date>2000-01-01</revision-date>
-  <draft>3.4</draft>
-</version>  
-  <language>en</language>
-  <script>Latn</script>
-  <status>
-    <stage>final-draft</stage>
-    <iteration>3</iteration>
-  </status>
-  <copyright>
-    <from>2001</from>
-    <owner>
-      <organization>
-      <name>International Telecommunication Union</name>
-      <abbreviation>ITU</abbreviation>
-      </organization>
-    </owner>
-  </copyright>
-  <series type="main">
-  <title>A3</title>
-</series>
-<series type="secondary">
-  <title>B3</title>
-</series>
-<series type="tertiary">
-  <title>C3</title>
-</series>
-     <keyword>word2</keyword>
- <keyword>word1</keyword>
-  <ext>
-  <doctype>directive</doctype>
-      <editorialgroup>
-      <bureau>R</bureau>
-      <group type="A">
-        <name>I</name>
-        <acronym>C</acronym>
-        <period>
-          <start>E</start>
-          <end>G</end>
-        </period>
-      </group>
-      <subgroup type="A1">
-        <name>I1</name>
-        <acronym>C1</acronym>
-        <period>
-          <start>E1</start>
-          <end>G1</end>
-        </period>
-      </subgroup>
-      <workgroup type="A2">
-        <name>I2</name>
-        <acronym>C2</acronym>
-        <period>
-          <start>E2</start>
-          <end>G2</end>
-        </period>
-      </workgroup>
-    </editorialgroup>
-    <editorialgroup>
-      <bureau>T</bureau>
-      <group type="B">
-        <name>J</name>
-        <acronym>D</acronym>
-        <period>
-          <start>F</start>
-          <end>H</end>
-        </period>
-      </group>
-      <subgroup type="B1">
-        <name>J1</name>
-        <acronym>D1</acronym>
-        <period>
-          <start>F1</start>
-          <end>H1</end>
-        </period>
-      </subgroup>
-      <workgroup type="B2">
-        <name>J2</name>
-        <acronym>D2</acronym>
-        <period>
-          <start>F2</start>
-          <end>H2</end>
-        </period>
-      </workgroup>
-    </editorialgroup>
- <recommendationstatus>
-  <from>D3</from>
-  <to>E3</to>
-  <approvalstage process="F3">G3</approvalstage>
-</recommendationstatus>
-<ip-notice-received>false</ip-notice-received>
-<structuredidentifier>
-<bureau>R</bureau>
-<docnumber>1000</docnumber>
-<annexid>F1</annexid>
-<amendment>2</amendment>
-<corrigendum>3</corrigendum>
-</structuredidentifier>
-  </ext>
-</bibdata>
-<preface/><sections/>
-<annex obligation="informative"/>
-</itu-standard>
-    INPUT
-    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s.gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
-{:accesseddate=>"XXX",
-:agency=>"ITU",
-:amendmentid=>"Amendment 2",
-:amendmenttitle=>"Amendment Title",
-:annexid=>"Appendix F1",
-:annextitle=>"Annex Title",
-:bureau=>"R",
-:circulateddate=>"XXX",
-:confirmeddate=>"XXX",
-:copieddate=>"XXX",
-:corrigendumid=>"Corrigendum 3",
-:corrigendumtitle=>"Corrigendum Title",
-:createddate=>"XXX",
-:docnumber=>"ITU-R 1000",
-:docnumber_lang=>"ITU-R 1000-E",
-:docnumeric=>"1000",
-:docsubtitle=>"Subtitle",
-:doctitle=>"Main Title",
-:doctype=>"Directive",
-:doctype_display=>"Directive",
-:doctype_original=>"directive",
-:docyear=>"2001",
-:draft=>"3.4",
-:draftinfo=>" (draft 3.4, 2000-01-01)",
-:edition=>"2",
-:group=>"I",
-:implementeddate=>"XXX",
-:ip_notice_received=>"false",
-:issueddate=>"XXX",
-:iteration=>"3",
-:keywords=>["word1", "word2"],
-:lang=>"en",
-:logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}",
-:logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}",
-:logo_sp=>"#{File.join(logoloc, "/logo-sp.png")}",
-:logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
-:obsoleteddate=>"XXX",
-:placedate_year=>"Geneva, 2018",
-:pubdate_ddMMMyyyy=>"1.IX.2018",
-:pubdate_monthyear=>"09/2018",
-:publisheddate=>"XXX",
-:publisher=>"International Telecommunication Union",
-:receiveddate=>"XXX",
-:revdate=>"2000-01-01",
-:revdate_monthyear=>"01/2000",
-:script=>"Latn",
-:series=>"A3",
-:series1=>"B3",
-:series2=>"C3",
-:stage=>"Final Draft",
-:stage_display=>"Final Draft",
-:subgroup=>"I1",
-:transmitteddate=>"XXX",
-:unchangeddate=>"XXX",
-:unpublished=>false,
-:updateddate=>"XXX",
-:vote_endeddate=>"XXX",
-:vote_starteddate=>"XXX",
-:workgroup=>"I2"}
-    OUTPUT
-  end
-
-  it "processes default metadata for technical report" do
-    csdc = IsoDoc::ITU::HtmlConvert.new({})
-    docxml, filename, dir = csdc.convert_init(<<~"INPUT", "test", true)
-    <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='1.2.4'>
-         <bibdata type='standard'>
-           <title language='en' format='text/plain' type='main'>Main Title</title>
-           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
-           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
-           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-           <docidentifier type='ITU-Recommendation'>DEF</docidentifier>
-           <docidentifier type='ITU'>ITU-R 1000</docidentifier>
-           <docnumber>1000</docnumber>
-           <contributor>
-             <role type='author'/>
-             <organization>
-               <name>International Telecommunication Union</name>
-             </organization>
-           </contributor>
-           <contributor>
-             <role type='author'/>
-             <person>
-               <name>
-                 <completename>Fred Flintstone</completename>
-               </name>
-               <affiliation>
-                 <organization>
-                   <name>Bedrock Quarry</name>
-                   <address>
-                     <formattedAddress>Canada</formattedAddress>
-                   </address>
-                 </organization>
-               </affiliation>
-               <phone>555</phone>
-               <phone type='fax'>556</phone>
-               <email>x@example.com</email>
-             </person>
-           </contributor>
-           <contributor>
-             <role type='editor'/>
-             <person>
-               <name>
-                 <completename>Barney Rubble</completename>
-               </name>
-               <affiliation>
-                 <organization>
-                   <name>Bedrock Quarry 2</name>
-                   <address>
-                     <formattedAddress>USA</formattedAddress>
-                   </address>
-                 </organization>
-               </affiliation>
-               <phone>557</phone>
-               <phone type='fax'>558</phone>
-               <email>y@example.com</email>
-             </person>
-           </contributor>
-           <contributor>
-             <role type='publisher'/>
-             <organization>
-               <name>International Telecommunication Union</name>
-             </organization>
-           </contributor>
-           <edition>2</edition>
-           <version>
-             <revision-date>2000-01-01</revision-date>
-             <draft>5</draft>
-           </version>
-           <language>en</language>
-           <script>Latn</script>
-           <status>
-             <stage>draft</stage>
-           </status>
-           <copyright>
-             <from>2001</from>
-             <owner>
-               <organization>
-                 <name>International Telecommunication Union</name>
-               </organization>
-             </owner>
-           </copyright>
-           <series type='main'>
-             <title>A3</title>
-           </series>
-           <series type='secondary'>
-             <title>B3</title>
-           </series>
-           <series type='tertiary'>
-             <title>C3</title>
-           </series>
-           <keyword>Word1</keyword>
-           <keyword>word2</keyword>
-           <ext>
-             <doctype>technical-report</doctype>
-             <editorialgroup>
-               <bureau>R</bureau>
-               <group>
-                 <name>I</name>
-               </group>
-               <subgroup>
-                 <name>I1</name>
-               </subgroup>
-               <workgroup>
-                 <name>I2</name>
-               </workgroup>
-             </editorialgroup>
-             <ip-notice-received>false</ip-notice-received>
-             <meeting>Meeting X</meeting>
-             <meeting-date>
-               <from>2000-01-01</from>
-               <to>2000-01-02</to>
-             </meeting-date>
-             <intended-type>TD</intended-type>
-             <source>Source</source>
-             <structuredidentifier>
-               <bureau>R</bureau>
-               <docnumber>1000</docnumber>
-             </structuredidentifier>
-           </ext>
-         </bibdata>
-         <sections> </sections>
-       </itu-standard>
-INPUT
-    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s.gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
-{:accesseddate=>"XXX",
-:addresses=>["Canada", "USA"],
-:affiliations=>["Bedrock Quarry", "Bedrock Quarry 2"],
-:agency=>"International Telecommunication Union",
-:authors=>["Fred Flintstone", "Barney Rubble"],
-:authors_affiliations=>{"Bedrock Quarry, Canada"=>["Fred Flintstone"], "Bedrock Quarry 2, USA"=>["Barney Rubble"]},
-:bureau=>"R",
-:circulateddate=>"XXX",
-:confirmeddate=>"XXX",
-:copieddate=>"XXX",
-:createddate=>"XXX",
-:docnumber=>"ITU-R 1000",
-:docnumeric=>"1000",
-:docsubtitle=>"Subtitle",
-:doctitle=>"Main Title",
-:doctype=>"Technical Report",
-:doctype_abbreviated=>"TR",
-:doctype_display=>"Technical Report",
-:doctype_original=>"technical-report",
-:docyear=>"2001",
-:draft=>"5",
-:draftinfo=>" (draft 5, 2000-01-01)",
-:edition=>"2",
-:emails=>["x@example.com", "y@example.com"],
-:faxes=>["556", "558"],
-:group=>"I",    
-:implementeddate=>"XXX",
-:intended_type=>"TD",
-:ip_notice_received=>"false",
-:issueddate=>"XXX",
-:keywords=>["Word1", "word2"],
-:lang=>"en",
-:logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}",
-:logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}",
-:logo_sp=>"#{File.join(logoloc, "/logo-sp.png")}",
-:logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
-:meeting=>"Meeting X",
-:meeting_date=>"01 Jan 2000/02 Jan 2000",
-:obsoleteddate=>"XXX",
-:phones=>["555", "557"],
-:placedate_year=>"Geneva, 2001",
-:publisheddate=>"XXX",
-:publisher=>"International Telecommunication Union",
-:receiveddate=>"XXX",
-:recommendationnumber=>"DEF",
-:revdate=>"2000-01-01",
-:revdate_monthyear=>"01/2000",
-:script=>"Latn",
-:series=>"A3",
-:series1=>"B3",
-:series2=>"C3",
-:source=>"Source",
-:stage=>"Draft",
-:stage_display=>"Draft",
-:stageabbr=>"D",
-:subgroup=>"I1",
-:transmitteddate=>"XXX",
-:unchangeddate=>"XXX",
-:unpublished=>true,
-:updateddate=>"XXX",
-:vote_endeddate=>"XXX",
-:vote_starteddate=>"XXX",
-:workgroup=>"I2"}
-OUTPUT
-  end
-
-  it "processes default metadata for service publication" do
-    csdc = IsoDoc::ITU::HtmlConvert.new({})
-    docxml, filename, dir = csdc.convert_init(<<~"INPUT", "test", true)
-    <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='1.2.4'>
-         <bibdata type='standard'>
-           <title language='en' format='text/plain' type='main'>Main Title</title>
-           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
-           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
-           <title language='en' format='text/plain' type='position-sp'>Position on 8 September 2010</title>
-           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-           <docidentifier type='ITU-Recommendation'>DEF</docidentifier>
-           <docidentifier type='ITU'>ITU-R 1000</docidentifier>
-           <docnumber>1000</docnumber>
-           <contributor>
-             <role type='author'/>
-             <organization>
-               <name>International Telecommunication Union</name>
-             </organization>
-           </contributor>
-           <contributor>
-             <role type='author'/>
-             <person>
-               <name>
-                 <completename>Fred Flintstone</completename>
-               </name>
-               <affiliation>
-                 <organization>
-                   <name>Bedrock Quarry</name>
-                   <address>
-                     <formattedAddress>Canada</formattedAddress>
-                   </address>
-                 </organization>
-               </affiliation>
-               <phone>555</phone>
-               <phone type='fax'>556</phone>
-               <email>x@example.com</email>
-             </person>
-           </contributor>
-           <contributor>
-             <role type='editor'/>
-             <person>
-               <name>
-                 <completename>Barney Rubble</completename>
-               </name>
-               <affiliation>
-                 <organization>
-                   <name>Bedrock Quarry 2</name>
-                   <address>
-                     <formattedAddress>USA</formattedAddress>
-                   </address>
-                 </organization>
-               </affiliation>
-               <phone>557</phone>
-               <phone type='fax'>558</phone>
-               <email>y@example.com</email>
-             </person>
-           </contributor>
-           <contributor>
-             <role type='publisher'/>
-             <organization>
-               <name>International Telecommunication Union</name>
-             </organization>
-           </contributor>
-           <edition>2</edition>
-           <version>
-             <revision-date>2000-01-01</revision-date>
-             <draft>5</draft>
-           </version>
-           <language>en</language>
-           <script>Latn</script>
-           <status>
-             <stage>draft</stage>
-           </status>
-           <copyright>
-             <from>2001</from>
-             <owner>
-               <organization>
-                 <name>International Telecommunication Union</name>
-               </organization>
-             </owner>
-           </copyright>
-           <series type='main'>
-             <title>A3</title>
-           </series>
-           <series type='secondary'>
-             <title>B3</title>
-           </series>
-           <series type='tertiary'>
-             <title>C3</title>
-           </series>
-           <keyword>Word1</keyword>
-           <keyword>word2</keyword>
-           <ext>
-             <doctype>technical-report</doctype>
-             <editorialgroup>
-               <bureau>R</bureau>
-               <group>
-                 <name>I</name>
-               </group>
-               <subgroup>
-                 <name>I1</name>
-               </subgroup>
-               <workgroup>
-                 <name>I2</name>
-               </workgroup>
-             </editorialgroup>
-             <ip-notice-received>false</ip-notice-received>
-             <meeting>Meeting X</meeting>
-             <meeting-date>
-               <from>2000-01-01</from>
-               <to>2000-01-02</to>
-             </meeting-date>
-             <intended-type>TD</intended-type>
-             <source>Source</source>
-             <structuredidentifier>
-               <bureau>R</bureau>
-               <docnumber>1000</docnumber>
-             </structuredidentifier>
-           </ext>
-         </bibdata>
-         <sections> </sections>
-       </itu-standard>
-INPUT
-    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s.gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
-    {:accesseddate=>"XXX",
-:addresses=>["Canada", "USA"],
-:affiliations=>["Bedrock Quarry", "Bedrock Quarry 2"],
-:agency=>"International Telecommunication Union",
-:authors=>["Fred Flintstone", "Barney Rubble"],
-:authors_affiliations=>{"Bedrock Quarry, Canada"=>["Fred Flintstone"], "Bedrock Quarry 2, USA"=>["Barney Rubble"]},
-:bureau=>"R",
-:circulateddate=>"XXX",
-:confirmeddate=>"XXX",
-:copieddate=>"XXX",
-:createddate=>"XXX",
-:docnumber=>"ITU-R 1000",
-:docnumeric=>"1000",
-:docsubtitle=>"Subtitle",
-:doctitle=>"Main Title",
-:doctype=>"Technical Report",
-:doctype_abbreviated=>"TR",
-:doctype_display=>"Technical Report",
-:doctype_original=>"technical-report",
-:docyear=>"2001",
-:draft=>"5",
-:draftinfo=>" (draft 5, 2000-01-01)",
-:edition=>"2",
-:emails=>["x@example.com", "y@example.com"],
-:faxes=>["556", "558"],
-:group=>"I",
-:implementeddate=>"XXX",
-:intended_type=>"TD",
-:ip_notice_received=>"false",
-:issueddate=>"XXX",
-:keywords=>["Word1", "word2"],
-:lang=>"en",
-:logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}",
-:logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}",
-:logo_sp=>"#{File.join(logoloc, "/logo-sp.png")}",
-:logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
-:meeting=>"Meeting X",
-:meeting_date=>"01 Jan 2000/02 Jan 2000",
-:obsoleteddate=>"XXX",
-:phones=>["555", "557"],
-:placedate_year=>"Geneva, 2001",
-:positiontitle=>"Position on 8 September 2010",
-:publisheddate=>"XXX",
-:publisher=>"International Telecommunication Union",
-:receiveddate=>"XXX",
-:recommendationnumber=>"DEF",
-:revdate=>"2000-01-01",
-:revdate_monthyear=>"01/2000",
-:script=>"Latn",
-:series=>"A3",
-:series1=>"B3",
-:series2=>"C3",
-:source=>"Source",
-:stage=>"Draft",
-:stage_display=>"Draft",
-:stageabbr=>"D",
-:subgroup=>"I1",
-:transmitteddate=>"XXX",
-:unchangeddate=>"XXX",
-:unpublished=>true,
-:updateddate=>"XXX",
-:vote_endeddate=>"XXX",
-:vote_starteddate=>"XXX",
-:workgroup=>"I2"}
-OUTPUT
-  end
-
-   it "processes metadata for in-force-prepublished, recommendation annex" do
-    csdc = IsoDoc::ITU::HtmlConvert.new({})
-    docxml, filename, dir = csdc.convert_init(<<~"INPUT", "test", true)
-<itu-standard xmlns="https://www.calconnect.org/standards/itu">
-  <bibdata type="standard">
-  <title language="en" format="text/plain" type="main">Main Title</title>
-  <title language="fr" format="text/plain" type="main">Titre Principal</title>
-  <docidentifier type="ITU-provisional">ABC</docidentifier>
-  <docidentifier type="ITU">ITU-R 1000</docidentifier>
-  <docnumber>1000</docnumber>
-  <contributor>
-    <role type="author"/>
-    <organization>
-      <name>International Telecommunication Union</name>
-      <abbreviation>ITU</abbreviation>
-    </organization>
-  </contributor>
-  <contributor>
-    <role type="publisher"/>
-    <organization>
-      <name>International Telecommunication Union</name>
-      <abbreviation>ITU</abbreviation>
-    </organization>
-  </contributor>
-  <language>en</language>
-  <script>Latn</script>
-  <status>
-    <stage>in-force-prepublished</stage>
-  </status>
-  <ext>
-  <doctype>recommendation-annex</doctype>
-  </ext>
-  </bibdata>
-<preface/><sections/>
-<annex obligation="informative"/>
-</itu-standard>
-
-INPUT
-    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s.gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
-{:accesseddate=>"XXX",
-:agency=>"ITU",
-:circulateddate=>"XXX",
-:confirmeddate=>"XXX",
-:copieddate=>"XXX",
-:createddate=>"XXX",
-:docnumber=>"ITU-R 1000",
-:docnumeric=>"1000",
-:doctitle=>"Main Title",
-:doctype=>"Recommendation",
-:doctype_abbreviated=>"Rec.",
-:doctype_display=>"Recommendation",
-:doctype_original=>"recommendation-annex",
-:implementeddate=>"XXX",
-:ip_notice_received=>"false",
-:issueddate=>"XXX",
-:lang=>"en",
-:logo_comb=>"#{File.join(logoloc, "itu-document-comb.png")}",
-:logo_html=>"#{File.join(logoloc, "/International_Telecommunication_Union_Logo.svg")}",
-:logo_sp=>"#{File.join(logoloc, "/logo-sp.png")}",
-:logo_word=>"#{File.join(logoloc, "International_Telecommunication_Union_Logo.svg")}",
-:obsoleteddate=>"XXX",
-:publisheddate=>"XXX",
-:publisher=>"International Telecommunication Union",
-:receiveddate=>"XXX",
-:script=>"Latn",
-:stage=>"In Force Prepublished",
-:stage_display=>"In Force Prepublished",
-:stageabbr=>"IFP",
-:transmitteddate=>"XXX",
-:unchangeddate=>"XXX",
-:unpublished=>true,
-:updateddate=>"XXX",
-:vote_endeddate=>"XXX",
-:vote_starteddate=>"XXX"}
-    OUTPUT
-   end
-
      it "processes amendments and corrigenda" do
     expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
 <itu-standard xmlns="https://www.calconnect.org/standards/itu">
@@ -751,84 +88,158 @@ INPUT
     OUTPUT
   end
 
-
-       it "localises dates in English" do
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+  it "processes titles for resolutions" do
+    input = <<~INPUT
 <itu-standard xmlns="https://www.calconnect.org/standards/itu">
 <bibdata>
-<date type="published">2018-09-01</date>
-<date type="published">2018-09</date>
-<date type="published">2018</date>
+<docnumber>1</docnumber>
+<edition>1</edition>
 <language>en</language>
+<script>Latn</script>
+<title type="main">Title</title>
+<date type="published">2010-09-08</date>
+<ext>
+<doctype>resolution</doctype>
+<meeting>World Meeting on Stuff</meeting>
+<meeting-place>Andorra</meeting-place>
+<meeting-date><from>1204-04-01</from><to>1207-01-01</to></meeting-date>
+</ext>
 </bibdata>
+<sections>
+<clause id="A">
+<note type="title-footnote" id="A1"><p>One fn</p></note>
+<note type="title-footnote" id="A2"><p>Another fn</p></note>
+<p>Hello.<fn reference="3"><p>Normal footnote</p></fn></p>
+</clause>
+</sections>
 </itu-standard>
     INPUT
+    presxml = <<~OUTPUT
     <itu-standard xmlns='https://www.calconnect.org/standards/itu' type='presentation'>
   <bibdata>
-  <date type='published'>2018-09-01</date>
-           <date type='published' format='ddMMMyyyy'>1.IX.2018</date>
-           <date type='published'>2018-09</date>
-           <date type='published' format='ddMMMyyyy'>IX.2018</date>
-           <date type='published'>2018</date>
-           <date type='published' format='ddMMMyyyy'>2018</date>
-           <language current='true'>en</language>
+  <docnumber>1</docnumber>
+<edition>1</edition>
+    <language current='true'>en</language>
+           <script current='true'>Latn</script>
+           <title type='main'>Title</title>
+           <title language='en' format='text/plain' type='resolution'>RESOLUTION 1 (Andorra, 1204)</title>
+<title language='en' format='text/plain' type='resolution-placedate'>Andorra, 1204</title>
+           <date type='published'>2010-09-08</date>
+           <date type='published' format='ddMMMyyyy'>8.IX.2010</date>
+           <ext>
+             <doctype language=''>resolution</doctype>
+             <doctype language='en'>Resolution</doctype>
+<meeting>World Meeting on Stuff</meeting>
+<meeting-place>Andorra</meeting-place>
+<meeting-date><from>1204-04-01</from><to>1207-01-01</to></meeting-date>
+           </ext>
   </bibdata>
+  <sections>
+  <clause id='A'>
+  <p align='center' keep-with-next='true'>SECTION 1</p>
+    <note type='title-footnote' id="A1">
+      <p>One fn</p>
+    </note>
+    <note type='title-footnote' id="A2">
+      <p>Another fn</p>
+    </note>
+    <p>Hello.<fn reference='3'><p>Normal footnote</p></fn></p>
+  </clause>
+</sections>
 </itu-standard>
     OUTPUT
+    html = <<~OUTPUT
+            #{HTML_HDR}
+        <p align='center'  style='text-align:center;'>RESOLUTION 1 (Andorra, 1204)</p>
+    <p class='zzSTDTitle2'/>
+    <p align='center'  style='text-align:center;'>
+      <i>(Andorra, 1204)</i>
+      <a class='FootnoteRef' href='#fn:_'>
+        <sup>_</sup>
+      </a>
+      <a class='FootnoteRef' href='#fn:_'>
+        <sup>_</sup>
+      </a>
+    </p>
+    <div id='A'>
+      <p style='text-align:center;page-break-after: avoid;'>SECTION 1</p>
+      <p>
+        Hello.
+        <a class='FootnoteRef' href='#fn:3'>
+          <sup>3</sup>
+        </a>
+      </p>
+    </div>
+    <aside id='fn:_' class='footnote'>
+      <p>One fn</p>
+    </aside>
+    <aside id='fn:_' class='footnote'>
+      <p>Another fn</p>
+    </aside>
+    <aside id='fn:3' class='footnote'>
+      <p>Normal footnote</p>
+    </aside>
+  </div>
+</body>
+    OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>").gsub(/fn:[0-9a-f-][0-9a-f-]+/, "fn:_").gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>"))).to be_equivalent_to xmlpp(html)
   end
 
-              it "localises dates in Arabic" do
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+   it "processes titles for revised resolutions" do
+    input = <<~INPUT
 <itu-standard xmlns="https://www.calconnect.org/standards/itu">
 <bibdata>
-<date type="published">2018-09-01</date>
-<date type="published">2018-09</date>
-<date type="published">2018</date>
-<language>ar</language>
+<docnumber>1</docnumber>
+<edition>2</edition>
+<language>en</language>
+<script>Latn</script>
+<title type="main">Title</title>
+<date type="published">2010-09-08</date>
+<ext>
+<doctype>resolution</doctype>
+<meeting>World Meeting on Stuff</meeting>
+<meeting-place>Andorra</meeting-place>
+<meeting-date><from>1204-04-01</from><to>1207-01-01</to></meeting-date>
+</ext>
 </bibdata>
 </itu-standard>
     INPUT
+    presxml = <<~OUTPUT
     <itu-standard xmlns='https://www.calconnect.org/standards/itu' type='presentation'>
   <bibdata>
-  <date type='published'>2018-09-01</date>
-           <date type='published' format='ddMMMyyyy'>2018.IX.1</date>
-           <date type='published'>2018-09</date>
-           <date type='published' format='ddMMMyyyy'>2018.IX</date>
-           <date type='published'>2018</date>
-           <date type='published' format='ddMMMyyyy'>2018</date>
-           <language current='true'>ar</language>
+  <docnumber>1</docnumber>
+<edition>2</edition>
+    <language current='true'>en</language>
+           <script current='true'>Latn</script>
+           <title type='main'>Title</title>
+           <title language='en' format='text/plain' type='resolution'>RESOLUTION 1 (Rev. Andorra, 1204)</title>
+<title language='en' format='text/plain' type='resolution-placedate'>Andorra, 1204</title>
+           <date type='published'>2010-09-08</date>
+           <date type='published' format='ddMMMyyyy'>8.IX.2010</date>
+           <ext>
+             <doctype language=''>resolution</doctype>
+             <doctype language='en'>Resolution</doctype>
+<meeting>World Meeting on Stuff</meeting>
+<meeting-place>Andorra</meeting-place>
+<meeting-date><from>1204-04-01</from><to>1207-01-01</to></meeting-date>
+           </ext>
   </bibdata>
 </itu-standard>
     OUTPUT
-  end
-
-                     it "localises dates in Chinese" do
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-<itu-standard xmlns="https://www.calconnect.org/standards/itu">
-<bibdata>
-<date type="published">2018-09-01</date>
-<date type="published">2018-09</date>
-<date type="published">2018</date>
-<language>zh</language>
-<script>Hans</script>
-</bibdata>
-</itu-standard>
-    INPUT
-    <itu-standard xmlns='https://www.calconnect.org/standards/itu' type='presentation'>
-  <bibdata>
-    <date type='published'>2018-09-01</date>
-           <date type='published' format='ddMMMyyyy'>2018&#x5E74;9&#x6708;1&#x65E5;</date>
-           <date type='published'>2018-09</date>
-           <date type='published' format='ddMMMyyyy'>2018&#x5E74;9&#x6708;</date>
-           <date type='published'>2018</date>
-           <date type='published' format='ddMMMyyyy'>2018&#x5E74;</date>
-<language current='true'>zh</language>
-<script current='true'>Hans</script>
-  </bibdata>
-</itu-standard>
+    html = <<~OUTPUT
+            #{HTML_HDR}
+      <p align='center'  style='text-align:center;'>RESOLUTION 1 (Rev. Andorra, 1204)</p>
+      <p class='zzSTDTitle2'/>
+      <p align='center'  style='text-align:center;'>
+        <i>(Andorra, 1204)</i>
+      </p>
+    </div>
+  </body>
     OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
   end
-
 
 
   it "processes keyword" do
@@ -1182,10 +593,16 @@ INPUT
 
      it "cleans up footnotes" do
     FileUtils.rm_f "test.html"
-    IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", false)
+    input = <<~"INPUT"
     <itu-standard xmlns="http://riboseinc.com/isoxml">
+    <bibdata>
+    <title language="en" format="text/plain" type="main">An ITU Standard</title>
+    <ext><doctype>recommendation</doctype></ext>
+    </bibdata>
     <preface>
     <foreword>
+<note type="title-footnote" id="A1"><p>One fn</p></note>
+<note type="title-footnote" id="A2"><p>Another fn</p></note>
     <p>A.<fn reference="2">
   <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
 </fn></p>
@@ -1220,9 +637,10 @@ INPUT
     </preface>
     </itu-standard>
     INPUT
+    IsoDoc::ITU::HtmlConvert.new({}).convert("test", input, false)
      expect(File.exist?("test.html")).to be true
     html = File.read("test.html", encoding: "UTF-8")
-    expect(xmlpp(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ").sub(%r{</main>.*$}m, "</main>").gsub(%r{<script>.+?</script>}, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    expect(xmlpp(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ").sub(%r{</main>.*$}m, "</main>").gsub(%r{<script>.+?</script>}, "").gsub(/fn:[0-9a-f][0-9a-f-]+/, "fn:_"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
     <main xmlns:epub='epub' class='main-section'>
   <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
   <div>
@@ -1294,7 +712,15 @@ INPUT
     </table>
   </div>
   <p class='zzSTDTitle1'/>
-  <p class='zzSTDTitle2'/>
+  <p class='zzSTDTitle2'>
+  An ITU Standard
+  <a class='FootnoteRef' href='#fn:_' id='fnref:4'>
+    <sup>3</sup>
+  </a>
+  <a class='FootnoteRef' href='#fn:_' id='fnref:5'>
+    <sup>4</sup>
+  </a>
+</p>
   <aside id='fn:2' class='footnote'>
     <p id='_1e228e29-baef-4f38-b048-b05a051747e4'>
       <a class='FootnoteRef' href='#fn:2'>
@@ -1313,51 +739,30 @@ INPUT
     </p>
     <a href='#fnref:3'>&#x21A9;</a>
   </aside>
+  <aside id='fn:_' class='footnote'>
+  <p>
+    <a class='FootnoteRef' href='#fn:_'>
+      <sup>3</sup>
+    </a>
+    One fn
+  </p>
+  <a href='#fnref:4'>&#x21A9;</a>
+</aside>
+<aside id='fn:_' class='footnote'>
+  <p>
+    <a class='FootnoteRef' href='#fn:_'>
+      <sup>4</sup>
+    </a>
+    Another fn
+  </p>
+  <a href='#fnref:5'>&#x21A9;</a>
+</aside>
 </main>
 OUTPUT
-  end
 
 
-  it "cleans up footnotes (Word)" do
     FileUtils.rm_f "test.doc"
-    IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
-    <itu-standard xmlns="http://riboseinc.com/isoxml">
-    <preface>
-    <foreword>
-    <p>A.<fn reference="2">
-  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
-</fn></p>
-    <p>B.<fn reference="2">
-  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
-</fn></p>
-    <p>C.<fn reference="1">
-  <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
-</fn></p>
-<table id="tableD-1" alt="tool tip" summary="long desc">
-  <name>Repeatability and reproducibility of <em>husked</em> rice yield</name>
-  <thead>
-    <tr>
-      <td rowspan="2" align="left">Description</td>
-      <td colspan="4" align="center">Rice sample</td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td align="left">Arborio</td>
-      <td align="center">Drago<fn reference="a">
-  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
-</fn></td>
-      <td align="center">Balilla<fn reference="a">
-  <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
-</fn></td>
-      <td align="center">Thaibonnet</td>
-    </tr>
-    </tbody>
-</table>
-    </foreword>
-    </preface>
-    </itu-standard>
-    INPUT
+    IsoDoc::ITU::WordConvert.new({}).convert("test", input, false)
      expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
 expect(xmlpp(html.sub(%r{^.*<div align="center" class="table_container">}m, '').sub(%r{</table>.*$}m, "</table>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
@@ -2636,7 +2041,7 @@ end
       FileUtils.rm_f "test.html"
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", false)
     <iso-standard xmlns="http://riboseinc.com/isoxml">
-    #{BOILERPLATE}
+    #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>)))}
     </iso-standard>
     INPUT
         expect(xmlpp(File.read("test.html", encoding: "utf-8").gsub(%r{^.*<div class="prefatory-section">}m, '<div class="prefatory-section">').gsub(%r{<nav>.*}m, "</div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
@@ -2717,7 +2122,7 @@ end
       FileUtils.rm_f "test.doc"
     IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
     <iso-standard xmlns="http://riboseinc.com/isoxml">
-    #{BOILERPLATE}
+    #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>)))}
     </iso-standard>
     INPUT
         expect(xmlpp(File.read("test.doc", encoding: "utf-8").gsub(%r{^.*<div class="boilerplate-legal">}m, '<div><div class="boilerplate-legal">').gsub(%r{<b>Table of Contents</b></p>.*}m, "<b>Table of Contents</b></p></div>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
@@ -2808,7 +2213,7 @@ end
            <div>
              <p class='boilerplateHdr'>
                <a name='_' id='_'/>
-               &#xA9; ITU 2020
+               &#xA9; ITU #{Time.new.year}
              </p>
              <p class='boilerplate'>
                <a name='_' id='_'/>
@@ -3017,5 +2422,59 @@ it "localises numbers in MathML" do
        </iso-standard>
 OUTPUT
 end
+
+  it "processes unnumbered clauses" do
+             FileUtils.rm_f "test.html"
+             input = <<~INPUT
+               <itu-standard xmlns="http://riboseinc.com/isoxml">
+               <bibdata type="standard">
+               <title language="en" format="text/plain" type="main">An ITU Standard</title>
+               <title language="en" format="text/plain" type="subtitle">Subtitle</title>
+               <docidentifier type="ITU">12345</docidentifier>
+               <language>en</language>
+               <ext>
+               <doctype>resolution</doctype>
+               <structuredidentifier>
+               <annexid>F2</annexid>
+               </structuredidentifier>
+               </ext>
+               </bibdata>
+        <sections>
+        <clause unnumbered="true" id="A"><p>Text</p></clause>
+        <clause id="B"><title>First Clause</title></clause>
+        </sections>
+        </itu-standard>
+    INPUT
+    presxml = <<~OUTPUT
+    <itu-standard xmlns='http://riboseinc.com/isoxml' type='presentation'>
+  <bibdata type='standard'>
+    <title language='en' format='text/plain' type='main'>An ITU Standard</title>
+    <title language='en' format='text/plain' type='resolution'>RESOLUTION (, )</title>
+    <title language='en' format='text/plain' type='resolution-placedate'>, </title>
+    <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+    <docidentifier type='ITU'>12345</docidentifier>
+    <language current='true'>en</language>
+    <ext>
+      <doctype language=''>resolution</doctype>
+      <doctype language='en'>Resolution</doctype>
+      <structuredidentifier>
+        <annexid>F2</annexid>
+      </structuredidentifier>
+    </ext>
+  </bibdata>
+  <sections>
+    <clause unnumbered='true' id='A'>
+      <p>Text</p>
+    </clause>
+    <clause id='B'>
+      <p align='center' keep-with-next='true'>SECTION 1</p>
+<title depth='1'>First Clause</title>
+    </clause>
+  </sections>
+</itu-standard>
+    OUTPUT
+        expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
+  end
+
 
 end

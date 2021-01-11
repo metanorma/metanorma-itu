@@ -116,6 +116,7 @@ module Asciidoctor
       end
 
       def clause_parse(attrs, xml, node)
+        node.option?("unnumbered") and attrs[:unnumbered] = true
         case clausetype = sectiontype1(node)
         when "conventions" then attrs = attrs.merge(type: "conventions")
         when "history" 

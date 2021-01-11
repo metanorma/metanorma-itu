@@ -4,6 +4,10 @@ require "fileutils"
 module IsoDoc
   module ITU
     class Counter < IsoDoc::XrefGen::Counter
+      def print
+        super.sub(/([0-9])(bis|ter|quater|quinquies|sexies|septies|octies|nonies)$/,
+                  "\\1<em>\\2</em>")
+      end
     end
 
     class Xref < IsoDoc::Xref

@@ -206,9 +206,13 @@
   <span style='mso-bookmark:_Hlk526346232'></span>
   <td width="400" colspan="2" valign="top" style='width:300.0pt;padding:0cm 4.25pt 0cm 4.25pt'>
   <p class="MsoNormal" align="right" style='margin-top:12.0pt;text-align:right'><span
-  style='mso-bookmark:_Hlk526346232'><a name="dnume"><b style='mso-bidi-font-weight:
+  style='mso-bookmark:_Hlk526346232'>
+    {% if doctype != "Resolution" %}
+    <a name="dnume"><b style='mso-bidi-font-weight:
   normal'><span lang="EN-US" style='font-size:30.0pt;mso-bidi-font-size:10.0pt;
-  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{% if doctype == "Recommendation" %}{{ docnumeric }}{% else %}{% if recommendationnumber %}{{ recommendationnumber }} {% endif %}{{ doctype_display }}{% endif %}<o:p></o:p></span></b></a></span></p>
+  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{% if doctype == "Recommendation" %}{{ docnumeric }}{% else %}{% if recommendationnumber %}{{ recommendationnumber }} {% endif %}{{ doctype_display }}{% endif %}<o:p></o:p></span></b></a>
+    {% endif %}
+  </span></p>
   </td>
   <span style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dnume'></span></span>
  </tr>
@@ -294,14 +298,28 @@
   <td width="569" colspan="4" valign="bottom" style='width:426.5pt;border:none;
   border-bottom:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:6.0cm;
   mso-height-rule:exactly'>
+    {% if series %}
   <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
   style='mso-bookmark:_Hlk526346232'><a name="dsece"><span lang="EN-US"
   style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
-  mso-ansi-language:EN-US'>{% if series %}SERIES {{ series | upcase }}{% endif %}<o:p></o:p></span></a></span></p>
+  mso-ansi-language:EN-US'>SERIES {{ series | upcase }}<o:p></o:p></span></a></span></p>
+  {% endif %}
+  {% if series1 %}
   <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
   style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dsece'><span
   lang="EN-US" style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:
   "Arial",sans-serif;mso-ansi-language:EN-US'>{{ series1 }}&#xA0;{% if series2 %}&#x2014;{% endif %}{{ series2 }}<o:p></o:p></span></span></span></p>
+  {% endif %}
+      {% if meeting %}
+  <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
+  style='mso-bookmark:_Hlk526346232'><a name="dsece"><span lang="EN-US"
+  style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
+  mso-ansi-language:EN-US'>{{ meeting | upcase }}<o:p></o:p></span></a></span></p>
+  {% endif %}
+  {% if meeting_place or meeting_date %}
+  <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
+  lang="EN-US" style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{{ meeting_place }}{% if meeting_place and meeting_date %}, {% endif %}{{ meeting_date }}</span></p>
+  {% endif %}
   <span style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dsece'></span></span>
   <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
   style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dsece'><span
@@ -332,7 +350,8 @@
   {% if amendmentid %}<br/><b>{{ amendmentid }}{% if amendmenttitle %}: {{ amendmenttitle }}{% endif %}</b>{% endif %}
   {% if corrigendumid %}<br/><b>{{ corrigendumid }}{% if corrigendumtitle %}: {{ corrigendumtitle }}{% endif %}</b>{% endif %}
   {% else %}
-  <b>{% if doctype != "Recommendation" %}{{ docnumeric }}<br/>{% endif %}{{ doctitle }}</b>
+  <b>{% if doctype != "Recommendation" and doctype != "Resolution" %}{{ docnumeric }}
+    <br/>{% endif %}{% if doctype == "Resolution" %}{{ doctype_display }} {% endif %}{{ doctitle }}</b>
   {% if positiontitle %}<br/><br/>{{ positiontitle | upcase }}{% endif %}
   {% endif %}</span>
   </a></span><span
@@ -383,10 +402,14 @@
   height:70.9pt;mso-height-rule:exactly'>
   <p class="MsoNormal" align="left" style='margin-top:3.0pt;margin-right:0cm;
   margin-bottom:12.0pt;margin-left:0cm;text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
-  style='mso-bookmark:_Hlk526346232'><a name="dnum2e"></a><span lang="EN-US"
+  style='mso-bookmark:_Hlk526346232'><a name="dnum2e"></a>
+  {% if doctype != "Resolution" %}
+  <span lang="EN-US"
   style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
   mso-ansi-language:EN-US'>{% if stage == "Draft" %}Draft {% endif %}{% if recommendationnumber %}{{ recommendationnumber }} {% endif %}{{ doctype_display }}<span style='mso-spacerun:yes'> 
-  </span>ITU‑{{ bureau }}<span style='mso-spacerun:yes'>  </span>{{ docnumeric }}<o:p></o:p></span></span></p>
+  </span>ITU‑{{ bureau }}<span style='mso-spacerun:yes'>  </span>{{ docnumeric }}<o:p></o:p></span>
+  {% endif %}
+  </span></p>
   <span style='mso-bookmark:_Hlk526346232'></span>
   <p class="MsoNormal" align="left" style='margin-top:3.0pt;text-align:left;
   tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span style='mso-bookmark:

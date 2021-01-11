@@ -5,6 +5,15 @@ module Asciidoctor
         super
         insert_missing_sections(x) unless @no_insert_missing_sections
         insert_empty_clauses(x)
+        resolution_inline_header(x)
+      end
+
+      def resolution_inline_header(x)
+        return unless x&.at("//bibdata/ext/doctype")&.text == "resolution"
+        x.xpath("//clause//clause").each do |c|
+          next if title = c.at("./title") and !title&.text&.empty?
+          c["inline-header"] = true
+        end
       end
 
       def table_cleanup(xmldoc)

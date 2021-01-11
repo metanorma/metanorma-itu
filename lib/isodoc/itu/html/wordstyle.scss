@@ -453,6 +453,9 @@ h1
 	mso-hyphenate:none;
 	font-family:$headerfont;
 	mso-fareast-font-family:$headerfont;
+        {% if doctype == "Resolution" %}
+        text-align: center;
+        {% endif %}
     color:black;
 	font-weight:bold;
 	mso-font-kerning:0pt;

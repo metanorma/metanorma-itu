@@ -12,8 +12,7 @@ module Asciidoctor
         recommendation-corrigendum recommendation-errata recommendation-annex 
         focus-group implementers-guide technical-paper technical-report 
         joint-itu-iso-iec service-publication).include? doctype or
-        @log.add("Document Attributes", nil, 
-                 "#{doctype} is not a recognised document type")
+        @log.add("Document Attributes", nil, "#{doctype} is not a recognised document type")
       end
 
       def stage_validate(xmldoc)
@@ -41,8 +40,7 @@ module Asciidoctor
         xmldoc.xpath("//bibdata/series/title").each do |s|
           series = s.text.sub(/^[A-Z]: /, "")
           t.downcase.include?(series.downcase) and
-            @log.add("Document Attributes", nil, 
-                     "Title includes series name #{series}")
+            @log.add("Document Attributes", nil, "Title includes series name #{series}")
         end
       end
 
@@ -108,6 +106,16 @@ module Asciidoctor
       def section_validate(doc)
         super
         section_check(doc.root)
+        unnumbered_check(doc.root)
+      end
+
+      def unnumbered_check(xmldoc)
+        doctype = xmldoc&.at("//bibdata/ext/doctype")&.text
+        xmldoc.xpath("//clause[@unnumbered = 'true']").each do |c|
+          next if doctype == "resolution" and c.parent.name == "sections" and
+            !c.at("./preceding-sibling::clause")
+          @log.add("Style", c, "Unnumbered clause out of place")
+        end
       end
 
       # Editing Guidelines 7.2, 7.3

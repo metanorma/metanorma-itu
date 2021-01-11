@@ -32,6 +32,11 @@ module IsoDoc
         " &ndash; "
       end
 
+      def para_class(node)
+        return "supertitle" if node["class"] == "supertitle"
+        super
+      end
+
       def ol_depth(node)
         return super unless node["class"] == "steps" or
           node.at(".//ancestor::xmlns:ol[@class = 'steps']")

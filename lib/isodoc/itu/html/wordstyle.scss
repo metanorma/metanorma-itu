@@ -462,6 +462,36 @@ h1
 	mso-ansi-language:EN-GB;
 	mso-fareast-language:JA;
 	mso-bidi-font-weight:normal;}
+p.supertitle
+        {mso-style-priority:1;
+        mso-style-unhide:no;
+        mso-style-qformat:yes;
+        mso-style-next:h1;
+        margin-top:36.0pt;
+        margin-right:0cm;
+        margin-bottom:6pt;
+        margin-left:39.7pt;
+        margin-bottom:.0001pt;
+        text-indent:-39.7pt;
+        mso-pagination:widow-orphan lines-together;
+        page-break-after:avoid;
+        tab-stops:39.7pt 59.55pt 79.4pt 99.25pt;
+        mso-layout-grid-align:none;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:$normalfontsize;
+        mso-bidi-font-size:10.0pt;
+        mso-hyphenate:none;
+        font-family:$bodyfont;
+        mso-fareast-font-family:$bodyfont;
+        {% if doctype == "Resolution" %}
+        text-align: center;
+        {% endif %}
+    color:black;
+        mso-font-kerning:0pt;
+        mso-ansi-language:EN-GB;
+        mso-fareast-language:JA;
+        mso-bidi-font-weight:normal;}
 h1.Section3
 {
 margin-top:36.0pt;

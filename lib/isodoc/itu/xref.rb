@@ -188,7 +188,7 @@ module IsoDoc
         lbl = @doctype == "resolution" ? @labels["section"] : @labels["clause"]
         @anchors[clause["id"]] =
           { label: num.print, xref: l10n("#{lbl} #{num.print}"), level: lvl, type: "clause" }
-        i = Counter.new
+        i = Counter.new()
         clause.xpath(ns(SUBCLAUSES)).each do |c|
           i.increment(c)
           section_names1(c, "#{num.print}.#{i.print}", lvl + 1)
@@ -200,7 +200,7 @@ module IsoDoc
         @anchors[clause["id"]] =
           { label: num, level: level, 
             xref: @doctype == "resolution" ? num : l10n("#{@labels["clause"]} #{num}") }
-        i = Counter.new
+        i = Counter.new()
         clause.xpath(ns(SUBCLAUSES)).each do |c|
           i.increment(c)
           section_names1(c, "#{num}.#{i.print}", level + 1)

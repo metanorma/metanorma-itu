@@ -1084,7 +1084,7 @@ input = <<~INPUT
            </clause>
          </sections>
          <annex id='P' inline-header='false' obligation='normative'>
-         <p align='center'>ANNEX A
+         <p class='supertitle'>ANNEX A
   <br/>
   (to RESOLUTION (Peoria, 1871))
 </p>

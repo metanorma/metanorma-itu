@@ -156,7 +156,7 @@ module IsoDoc
         lbl = @xrefs.anchor(f['id'], :label)
         subhead = (@i18n.l10n("(#{@i18n.get['to']} ") + 
                    f.at(ns("//bibdata/title[@type = 'resolution']")).children.to_xml + @i18n.l10n(")"))
-        f.elements.first.previous = "<p align='center'>#{lbl}<br/>#{subhead}</p>"
+        f.elements.first.previous = "<p class='supertitle'>#{lbl}<br/>#{subhead}</p>"
         if t = f.at(ns("./title"))
           t.children = "<strong>#{t.children.to_xml}</strong>"
         end

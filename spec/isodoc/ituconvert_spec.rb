@@ -2389,7 +2389,7 @@ it "localises numbers in MathML" do
          
          <preface>
            <p>
-             <stem type='MathML'>30'000</stem>
+             30'000
              <stem type='MathML'>
                <math xmlns='http://www.w3.org/1998/Math/MathML'>
                  <mi>P</mi>

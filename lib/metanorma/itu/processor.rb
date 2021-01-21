@@ -24,6 +24,7 @@ module Metanorma
           "Courier" => nil,
           "Courier New" => nil,
           "Times New Roman" => nil,
+          "Source Han Sans" => nil,
           "STIX Two Math" => nil,
         }
       end

@@ -241,6 +241,267 @@ RSpec.describe Asciidoctor::ITU do
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
   end
 
+      it "processes titles for supplements" do
+    input = <<~INPUT
+<itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='1.2.11'>
+  <bibdata type='standard'>
+    <title language='en' format='text/plain' type='main'>Main Title</title>
+    <title language='fr' format='text/plain' type='main'>Titre Principal</title>
+    <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+    <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+    <docidentifier type='ITU-provisional'>ABC</docidentifier>
+    <docidentifier type='ITU'>ITU-R A.Sup1000</docidentifier>
+    <docidentifier type='ITU-lang'>ITU-R A.Sup1000-E</docidentifier>
+    <docnumber>1000</docnumber>
+    <contributor>
+      <role type='author'/>
+      <organization>
+        <name>International Telecommunication Union</name>
+      </organization>
+    </contributor>
+    <contributor>
+      <role type='editor'>raporteur</role>
+      <person>
+        <name>
+          <completename>Fred Flintstone</completename>
+        </name>
+        <affiliation>
+          <organization>
+            <name>Bedrock Quarry</name>
+            <address>
+              <formattedAddress>Canada</formattedAddress>
+            </address>
+          </organization>
+        </affiliation>
+        <phone>555</phone>
+        <phone type='fax'>556</phone>
+        <email>x@example.com</email>
+      </person>
+    </contributor>
+    <contributor>
+      <role type='editor'/>
+      <person>
+        <name>
+          <completename>Barney Rubble</completename>
+        </name>
+        <affiliation>
+          <organization>
+            <name>Bedrock Quarry 2</name>
+            <address>
+              <formattedAddress>USA</formattedAddress>
+            </address>
+          </organization>
+        </affiliation>
+        <phone>557</phone>
+        <phone type='fax'>558</phone>
+        <email>y@example.com</email>
+      </person>
+    </contributor>
+    <contributor>
+      <role type='publisher'/>
+      <organization>
+        <name>International Telecommunication Union</name>
+      </organization>
+    </contributor>
+    <edition>2</edition>
+    <version>
+      <revision-date>2000-01-01</revision-date>
+      <draft>5</draft>
+    </version>
+    <language>en</language>
+    <script>Latn</script>
+    <status>
+      <stage>draft</stage>
+    </status>
+    <copyright>
+      <from>2001</from>
+      <owner>
+        <organization>
+          <name>International Telecommunication Union</name>
+        </organization>
+      </owner>
+    </copyright>
+    <series type='main'>
+      <title type='full'>A3</title>
+      <title type='abbrev'>A</title>
+    </series>
+    <series type='secondary'>
+      <title>B3</title>
+    </series>
+    <series type='tertiary'>
+      <title>C3</title>
+    </series>
+    <keyword>Word1</keyword>
+    <keyword>word2</keyword>
+    <ext>
+      <doctype>recommendation-supplement</doctype>
+      <editorialgroup>
+        <bureau>R</bureau>
+        <group>
+          <name>I</name>
+        </group>
+        <subgroup>
+          <name>I1</name>
+        </subgroup>
+        <workgroup>
+          <name>I2</name>
+        </workgroup>
+      </editorialgroup>
+      <ip-notice-received>false</ip-notice-received>
+      <meeting>Meeting X</meeting>
+      <meeting-date>
+        <from>2000-01-01</from>
+        <to>2000-01-02</to>
+      </meeting-date>
+      <intended-type>TD</intended-type>
+      <source>Source</source>
+      <structuredidentifier>
+        <bureau>R</bureau>
+        <docnumber>1000</docnumber>
+      </structuredidentifier>
+    </ext>
+  </bibdata>
+  <sections> </sections>
+</itu-standard>
+    INPUT
+    presxml = <<~OUTPUT
+<itu-standard xmlns='https://www.metanorma.org/ns/itu' type='presentation' version='1.2.11'>
+         <bibdata type='standard'>
+           <title language='en' format='text/plain' type='main'>Main Title</title>
+           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
+           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+           <docidentifier type='ITU-provisional'>ABC</docidentifier>
+           <docidentifier type='ITU'>ITU-R A.Sup1000</docidentifier>
+           <docidentifier type='ITU-lang'>ITU-R A.Sup1000-E</docidentifier>
+           <docidentifier type='ITU-Supplement-Internal'>Supplement 1000 to ITU-R A-series Recommendations</docidentifier>
+           <docidentifier type='ITU-Supplement-Short'>A-series &#x2013; Supplement 1000</docidentifier>
+           <docidentifier type='ITU-Supplement'>A-series Recommendations &#x2013; Supplement 1000</docidentifier>
+           <docnumber>1000</docnumber>
+           <contributor>
+             <role type='author'/>
+             <organization>
+               <name>International Telecommunication Union</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type='editor'>raporteur</role>
+             <person>
+               <name>
+                 <completename>Fred Flintstone</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry</name>
+                   <address>
+                     <formattedAddress>Canada</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>555</phone>
+               <phone type='fax'>556</phone>
+               <email>x@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type='editor'/>
+             <person>
+               <name>
+                 <completename>Barney Rubble</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry 2</name>
+                   <address>
+                     <formattedAddress>USA</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>557</phone>
+               <phone type='fax'>558</phone>
+               <email>y@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type='publisher'/>
+             <organization>
+               <name>International Telecommunication Union</name>
+             </organization>
+           </contributor>
+           <edition>2</edition>
+           <version>
+             <revision-date>2000-01-01</revision-date>
+             <draft>5</draft>
+           </version>
+           <language current='true'>en</language>
+           <script current='true'>Latn</script>
+           <status>
+             <stage language=''>draft</stage>
+           </status>
+           <copyright>
+             <from>2001</from>
+             <owner>
+               <organization>
+                 <name>International Telecommunication Union</name>
+               </organization>
+             </owner>
+           </copyright>
+           <series type='main'>
+             <title type='full'>A3</title>
+             <title type='abbrev'>A</title>
+           </series>
+           <series type='secondary'>
+             <title>B3</title>
+           </series>
+           <series type='tertiary'>
+             <title>C3</title>
+           </series>
+           <keyword>Word1</keyword>
+           <keyword>word2</keyword>
+           <ext>
+             <doctype language=''>recommendation-supplement</doctype>
+             <doctype language='en'>Supplement</doctype>
+             <editorialgroup>
+               <bureau>R</bureau>
+               <group>
+                 <name>I</name>
+               </group>
+               <subgroup>
+                 <name>I1</name>
+               </subgroup>
+               <workgroup>
+                 <name>I2</name>
+               </workgroup>
+             </editorialgroup>
+             <ip-notice-received>false</ip-notice-received>
+             <meeting>Meeting X</meeting>
+             <meeting-date>
+               <from>2000-01-01</from>
+               <to>2000-01-02</to>
+             </meeting-date>
+             <intended-type>TD</intended-type>
+             <source>Source</source>
+             <structuredidentifier>
+               <bureau>R</bureau>
+               <docnumber>1000</docnumber>
+             </structuredidentifier>
+           </ext>
+         </bibdata>
+         <sections> </sections>
+       </itu-standard>
+    OUTPUT
+    html = <<~OUTPUT
+            #{HTML_HDR}
+      <p class='zzSTDTitle1'>Recommendation Supplement ITU-R A.Sup1000</p>
+<p class='zzSTDTitle2'>Main Title</p>
+<p class='zzSTDTitle3'>Subtitle</p>
+    </div>
+  </body>
+    OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
+  end
+
 
   it "processes keyword" do
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")

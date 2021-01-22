@@ -1,5 +1,5 @@
 {% if unpublished %}
-{% if doctype == "Technical Report" or doctype == "Technical Paper" or doctype == "Implementers Guide" %}
+{% if doctype == "Technical Report" or doctype == "Technical Paper" or doctype == "Implementers Guide" or doctype == "Recommendation Supplement"%}
 
 <table class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0" width="662"
  style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
@@ -210,7 +210,7 @@
     {% if doctype != "Resolution" %}
     <a name="dnume"><b style='mso-bidi-font-weight:
   normal'><span lang="EN-US" style='font-size:30.0pt;mso-bidi-font-size:10.0pt;
-  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{% if doctype == "Recommendation" %}{{ docnumeric }}{% else %}{% if recommendationnumber %}{{ recommendationnumber }} {% endif %}{{ doctype_display }}{% endif %}<o:p></o:p></span></b></a>
+  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{% if doctype == "Recommendation" %}{{ docnumeric }}{% else %}{%if doctype == "Recommendation Supplement" %}{{ labels["series"]}} {{series_abbrev }}{%else%}{% if recommendationnumber %}{{ recommendationnumber }} {% endif %}{{ doctype_display }}{% endif %}{%endif %}<o:p></o:p></span></b></a>
     {% endif %}
   </span></p>
   </td>
@@ -277,6 +277,12 @@
   normal'><span lang="EN-US" style='font-size:16.0pt;mso-bidi-font-size:10.0pt;
   font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{{ corrigendumid }}<o:p></o:p></span></b></a></span></p>
   {% endif %}
+  {% if doctype == "Recommendation Supplement" %}
+<p class="MsoNormal" align="right" style='margin-top:12.0pt;text-align:right'><span
+  style='mso-bookmark:_Hlk526346232'><a name="dnume"><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US" style='font-size:16.0pt;mso-bidi-font-size:10.0pt;
+  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{{ labels["doctype_dict"]["recommendation-supplement"]}} {{ docnumeric }}<o:p></o:p></span></b></a></span></p>
+  {% endif %}
   <p class="MsoNormal" align="right" style='margin-top:0cm;text-align:right'>
   <span
   style='mso-bookmark:_Hlk526346232'><a name="ddatee"><span lang="EN-US"
@@ -302,15 +308,16 @@
   <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
   style='mso-bookmark:_Hlk526346232'><a name="dsece"><span lang="EN-US"
   style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
-  mso-ansi-language:EN-US'>SERIES {{ series | upcase }}<o:p></o:p></span></a></span></p>
+  mso-ansi-language:EN-US'>{{ labels["series"] | upcase }} {{ series | upcase }}<o:p></o:p></span></a></span></p>
   {% endif %}
-  {% if series1 %}
+  {% if series1 and doctype != "Recommendation Supplement" %}
   <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
   style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dsece'><span
   lang="EN-US" style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:
   "Arial",sans-serif;mso-ansi-language:EN-US'>{{ series1 }}&#xA0;{% if series2 %}&#x2014;{% endif %}{{ series2 }}<o:p></o:p></span></span></span></p>
   {% endif %}
-      {% if meeting %}
+  {%if doctype != "Recommendation" and doctype != "Recommendation Supplement" %}
+  {% if meeting  %}
   <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
   style='mso-bookmark:_Hlk526346232'><a name="dsece"><span lang="EN-US"
   style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
@@ -319,6 +326,7 @@
   {% if meeting_place or meeting_date %}
   <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
   lang="EN-US" style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{{ meeting_place }}{% if meeting_place and meeting_date %}, {% endif %}{{ meeting_date }}</span></p>
+  {% endif %}
   {% endif %}
   <span style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dsece'></span></span>
   <p class="MsoNormal" align="left" style='text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
@@ -350,7 +358,7 @@
   {% if amendmentid %}<br/><b>{{ amendmentid }}{% if amendmenttitle %}: {{ amendmenttitle }}{% endif %}</b>{% endif %}
   {% if corrigendumid %}<br/><b>{{ corrigendumid }}{% if corrigendumtitle %}: {{ corrigendumtitle }}{% endif %}</b>{% endif %}
   {% else %}
-  <b>{% if doctype != "Recommendation" and doctype != "Resolution" %}{{ docnumeric }}
+  <b>{% if doctype != "Recommendation" and doctype != "Resolution" and doctype != "Recommendation Supplement" %}{{ docnumeric }}
     <br/>{% endif %}{% if doctype == "Resolution" %}{{ doctype_display }} {% endif %}{{ doctitle }}</b>
   {% if positiontitle %}<br/><br/>{{ positiontitle | upcase }}{% endif %}
   {% endif %}</span>
@@ -403,11 +411,17 @@
   <p class="MsoNormal" align="left" style='margin-top:3.0pt;margin-right:0cm;
   margin-bottom:12.0pt;margin-left:0cm;text-align:left;tab-stops:39.7pt 59.55pt 79.4pt 99.25pt right 17.0cm'><span
   style='mso-bookmark:_Hlk526346232'><a name="dnum2e"></a>
+  {% if doctype == "Recommendation Supplement" %}
+  <span lang="EN-US"
+  style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
+  mso-ansi-language:EN-US'>{% if stage == "Draft" %}Draft {% endif %}ITU‑{{ bureau }} {{ supplementid }}</span>
+  {% else %}
   {% if doctype != "Resolution" %}
   <span lang="EN-US"
   style='font-size:16.0pt;mso-bidi-font-size:10.0pt;font-family:"Arial",sans-serif;
   mso-ansi-language:EN-US'>{% if stage == "Draft" %}Draft {% endif %}{% if recommendationnumber %}{{ recommendationnumber }} {% endif %}{{ doctype_display }}<span style='mso-spacerun:yes'> 
   </span>ITU‑{{ bureau }}<span style='mso-spacerun:yes'>  </span>{{ docnumeric }}<o:p></o:p></span>
+  {% endif %}
   {% endif %}
   </span></p>
   <span style='mso-bookmark:_Hlk526346232'></span>

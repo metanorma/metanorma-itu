@@ -5,7 +5,7 @@
  <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
   <td width=663 valign=top style='width:497.25pt;padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=RecNo><span style='mso-bookmark:_Hlk526346232'><a name=irecnoe></a><span
-      lang=FR-CH style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>{% if doctype != "Service Publication" %}{{ doctype_display }} {% endif %}{{ docnumber }}<o:p></o:p></span></span></p>
+      lang=FR-CH style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>{% if supplementid_internal %}{{supplementid_internal}}{% else %}{% if doctype != "Service Publication" %}{{ doctype_display }} {% endif %}{{ docnumber }}{% endif %}<o:p></o:p></span></span></p>
   <p class=Rectitle align="center"><span style='mso-bookmark:_Hlk526346232'><span lang=FR-CH
       style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>{{ doctitle }}<o:p></o:p></span></span></p>
   {% if annexid %}
@@ -175,9 +175,9 @@ mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always'>
 </span></b>
 
 <p class=MsoNormal align=center style='text-align:center'>
-<b>{{ table_of_contents }}</b></p>
+<b>{{ labels["table_of_contents"] }}</b></p>
 <p class=MsoNormal style='tab-stops:right 17.0cm'><span style='mso-tab-count:1'/>
-  <b>{{ page }}</b></p>
+  <b>{{ labels["page"] }}</b></p>
 
 WORDTOC
 

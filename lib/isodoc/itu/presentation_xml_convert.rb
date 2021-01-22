@@ -58,6 +58,7 @@ module IsoDoc
         bibdata_dates(b)
         bibdata_title(b)
         amendment_id(b)
+        supplement_id(b)
       end
 
       def bibdata_dates(b)
@@ -135,6 +136,24 @@ module IsoDoc
             dn.next.children = @i18n.l10n("#{@i18n.get[w]} #{dn&.text}")
           end
         end
+      end
+
+      # TODO: proper i18n plural
+      def supplement_id(b)
+        return unless b&.at(ns("./ext/doctype"))&.text == "recommendation-supplement"
+        series_abbr = b&.at(ns("./series[@type = 'main']/title[@type = 'abbrev']"))&.text
+        dn = b&.at(ns("./docnumber"))&.text
+        bureau = b&.at(ns("./ext/editorialgroup/bureau"))&.text
+        ins = b.at(ns("./docidentifier[last()]"))
+        series = "#{series_abbr}-#{@i18n.get['series']}"
+        ins.next = "<docidentifier type='ITU-Supplement'>#{series} "\
+          "#{@i18n.get['doctype_dict']['recommendation']}s "\
+          "&#x2013; #{@i18n.get['doctype_dict']['recommendation-supplement']} #{dn}</docidentifier>"
+        ins.next = "<docidentifier type='ITU-Supplement-Short'>#{series} "\
+          "&#x2013; #{@i18n.get['doctype_dict']['recommendation-supplement']} #{dn}</docidentifier>"
+        t = @i18n.get["supplement_internal_title"].sub(/%/, dn).
+          sub(/%/, "ITU-#{bureau} #{series} #{@i18n.get['doctype_dict']['recommendation']}s")
+        ins.next = "<docidentifier type='ITU-Supplement-Internal'>#{t}</docidentifier>"
       end
 
       def twitter_cldr_localiser_symbols

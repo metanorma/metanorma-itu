@@ -20,25 +20,21 @@ module IsoDoc
       end
 
       def title(isoxml, _out)
-        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}']"\
-                             "[@type = 'main']"))&.text
+        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}'][@type = 'main']"))&.text
         set(:doctitle, main)
-        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}']"\
-                             "[@type = 'subtitle']"))&.text
+        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}'][@type = 'subtitle']"))&.text
         set(:docsubtitle, main)
-        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}']"\
-                             "[@type = 'amendment']"))&.text
+        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}'][@type = 'amendment']"))&.text
         set(:amendmenttitle, main)
-        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}']"\
-                             "[@type = 'corrigendum']"))&.text
+        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}'][@type = 'corrigendum']"))&.text
         set(:corrigendumtitle, main)
-        series = isoxml&.at(ns("//bibdata/series[@type='main']/title"))&.text
+        series = isoxml&.at(ns("//bibdata/series[@type='main']/title[@type = 'full']"))&.text
         set(:series, series)
-        series1 =
-          isoxml&.at(ns("//bibdata/series[@type='secondary']/title"))&.text
+        series = isoxml&.at(ns("//bibdata/series[@type='main']/title[@type = 'abbrev']"))&.text
+        set(:series_abbrev, series)
+        series1 = isoxml&.at(ns("//bibdata/series[@type='secondary']/title"))&.text
         set(:series1, series1)
-        series2 =
-          isoxml&.at(ns("//bibdata/series[@type='tertiary']/title"))&.text
+        series2 = isoxml&.at(ns("//bibdata/series[@type='tertiary']/title"))&.text
         set(:series2, series2)
         annext = isoxml&.at(ns("//bibdata/title[@type='annex']"))&.text
         set(:annextitle, annext)
@@ -100,6 +96,12 @@ module IsoDoc
         dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/corrigendum")) and
           set(:corrigendumid,
               @i18n.l10n("#{@labels["corrigendum"]} #{dn&.text}"))
+        dn = isoxml.at(ns("//bibdata/docidentifier[@type = 'ITU-Supplement']")) and
+          set(:supplementid, dn.text)
+        dn = isoxml.at(ns("//bibdata/docidentifier[@type = 'ITU-Supplement-Short']")) and
+          set(:supplementid_short, dn.text)
+        dn = isoxml.at(ns("//bibdata/docidentifier[@type = 'ITU-Supplement-Internal']")) and
+          set(:supplementid_internal, dn.text)
       end
 
       def unpublished(status)

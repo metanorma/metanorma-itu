@@ -128,9 +128,12 @@ module Asciidoctor
 
       def itu_id1(node, lang)
         bureau = node.attr("bureau") || "T"
-        id = doctype(node) == "service-publication" ?
-          @i18n.annex_to_itu_ob_abbrev.sub(/%/, node.attr("docnumber")) :
-          "ITU-#{bureau} #{node.attr("docnumber")}"
+        id = case doctype(node) 
+             when "service-publication" then @i18n.annex_to_itu_ob_abbrev.sub(/%/, node.attr("docnumber"))
+             when "recommendation-supplement" then "ITU-#{bureau} #{series_letter(node)}.Sup#{node.attr('docnumber')}"
+             else
+               "ITU-#{bureau} #{node.attr("docnumber")}"
+             end
         id + (lang ? "-#{ITULANG[@lang]}" : "")
       end
 
@@ -154,10 +157,17 @@ module Asciidoctor
         end
       end
 
+      def series_letter(node)
+        return node.attr("series").sub(/:.+$/, "") if /^[A-Z]+:/.match node.attr("series")
+        return node.attr("series")[0] if node&.attr("series")&.size > 0
+        nil
+      end
+
       def metadata_series(node, xml)
         node.attr("series") and
           xml.series **{ type: "main" } do |s|
-          s.title node.attr("series")
+          s.title node.attr("series"), **{ type: "full" }
+          s.title series_letter(node), **{ type: "abbrev" }
         end
         node.attr("series1") and
           xml.series **{ type: "secondary" } do |s|
@@ -229,6 +239,10 @@ module Asciidoctor
         else
           super
         end
+      end
+
+      def relaton_relations
+        super + %w(complement-of)
       end
 
       def metadata_ext(node, xml)

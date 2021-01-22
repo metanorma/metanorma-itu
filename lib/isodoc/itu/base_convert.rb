@@ -81,11 +81,20 @@ module IsoDoc
       end
 
       def middle_title(isoxml, out)
-        if @meta.get[:doctype] == "Resolution"
-          middle_title_resolution(isoxml, out)
+        case @meta.get[:doctype]
+        when "Resolution" then middle_title_resolution(isoxml, out)
+        when "Recommendation Supplement" then middle_title_supplement(isoxml, out)
         else
           middle_title_recommendation(isoxml, out)
         end
+      end
+
+      def middle_title_supplement(isoxml, out)
+        res = isoxml.at(ns("//bibdata/docidentifier[@type = 'ITU-Supplement-Internal']"))
+        out.p(**{ class: "zzSTDTitle1" }) do |p|
+          res.children.each { |n| parse(n, p) }
+        end
+        out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
       end
 
       def middle_title_resolution(isoxml, out)

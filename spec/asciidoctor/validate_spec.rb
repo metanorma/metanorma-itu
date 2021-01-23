@@ -17,7 +17,7 @@ RSpec.describe Asciidoctor::ITU do
       expect do
         Metanorma::Compile
           .new
-          .compile("spec/assets/xref_error.adoc", type: "itu", :"no-install-fonts" => true)
+          .compile("spec/assets/xref_error.adoc", type: "itu", :"no-install-fonts" => true, :"agree-to-terms" => true)
       end.to(change { File.exist?("spec/assets/xref_error.err") }
               .from(false).to(true))
     end

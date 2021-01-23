@@ -97,7 +97,7 @@ module Asciidoctor
 
       def itu_identifier_validate(xmldoc)
         s = xmldoc.xpath("//bibdata/docidentifier[@type = 'ITU']").each do |x|
-          /^ITU-[RTF] [AD-VX-Z]\.[0-9]+$/.match(x.text) or
+          /^ITU-[RTD] [AD-VX-Z]\.[0-9]+$/.match(x.text) or
             @log.add("Style", nil, "#{x.text} does not match ITU document "\
                      "identifier conventions")
         end

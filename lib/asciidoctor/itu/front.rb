@@ -16,12 +16,12 @@ module Asciidoctor
         at = { language: "en", format: "text/plain", type: "main" }
         a = node.attr("title") || node.attr("title-en")
         xml.title **attr_code(at) do |t|
-          t << (Asciidoctor::Standoc::Utils::asciidoc_sub(a) || node.title)
+          t << (Metanorma::Utils::asciidoc_sub(a) || node.title)
         end
         if a = node.attr("annextitle") || node.attr("annextitle-en")
           at[:type] = "annex"
           xml.title **attr_code(at) do |t|
-            t << Asciidoctor::Standoc::Utils::asciidoc_sub(a)
+            t << Metanorma::Utils::asciidoc_sub(a)
           end
         end
       end
@@ -32,7 +32,7 @@ module Asciidoctor
           next if lang == "en"
           type = /^annex/.match(k) ? "annex" : "main"
           xml.title **attr_code(language: lang, format: "text/plain", type: type) do |t|
-            t << Asciidoctor::Standoc::Utils::asciidoc_sub(v)
+            t << Metanorma::Utils::asciidoc_sub(v)
           end
         end
       end
@@ -49,7 +49,7 @@ module Asciidoctor
         at = { language: "en", format: "text/plain", type: type.sub(/-title/, "") }
         a = node.attr(type) || node.attr("#{type}-en")
         xml.title **attr_code(at) do |t|
-          t << Asciidoctor::Standoc::Utils::asciidoc_sub(a)
+          t << Metanorma::Utils::asciidoc_sub(a)
         end
       end
 
@@ -59,7 +59,7 @@ module Asciidoctor
           next if m[:lang] == "en"
           xml.title **attr_code(language: m[:lang], format: "text/plain",
                                 type: type.sub(/-title/, "")) do |t|
-            t << Asciidoctor::Standoc::Utils::asciidoc_sub(v)
+            t << Metanorma::Utils::asciidoc_sub(v)
           end
         end
       end

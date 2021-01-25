@@ -1163,7 +1163,7 @@ html = <<~OUTPUT
            </div>
            <br/>
            <div id='P' class='Section3'>
-             <p style='text-align:center;'>
+             <p class='supertitle'>
                ANNEX A
                <br/>
                 (to RESOLUTION (Peoria, 1871))

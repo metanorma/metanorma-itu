@@ -136,7 +136,7 @@ RSpec.describe Asciidoctor::ITU do
   </bibdata>
   <sections>
   <clause id='A'>
-  <p align='center' keep-with-next='true'>SECTION 1</p>
+  <p keep-with-next='true' class='supertitle'>SECTION 1</p>
     <note type='title-footnote' id="A1">
       <p>One fn</p>
     </note>
@@ -162,7 +162,7 @@ RSpec.describe Asciidoctor::ITU do
       </a>
     </p>
     <div id='A'>
-      <p style='text-align:center;page-break-after: avoid;'>SECTION 1</p>
+      <p style='page-break-after: avoid;' class='supertitle'>SECTION 1</p>
       <p>
         Hello.
         <a class='FootnoteRef' href='#fn:3'>
@@ -182,8 +182,63 @@ RSpec.describe Asciidoctor::ITU do
   </div>
 </body>
     OUTPUT
+
+    word = <<~OUTPUT
+    <body xmlns:epub='epub' lang='EN-US' link='blue' vlink='#954F72'>
+         <div class='WordSection1'>
+           <p>&#160;</p>
+         </div>
+         <p>
+           <br clear='all' class='section'/>
+         </p>
+         <div class='WordSection2'>
+           <p>&#160;</p>
+         </div>
+         <p>
+           <br clear='all' class='section'/>
+         </p>
+         <div class='WordSection3'>
+           <p align='center' style='text-align:center;'>RESOLUTION 1 (Andorra, 1204)</p>
+           <p class='zzSTDTitle2'/>
+           <p align='center' style='text-align:center;'>
+             <i>(Andorra, 1204)</i>
+             <span style='mso-bookmark:_Ref'>
+               <a class='FootnoteRef' href='#ftn_' epub:type='footnote'>
+                 <sup>_</sup>
+               </a>
+             </span>
+             <span style='mso-bookmark:_Ref'>
+               <a class='FootnoteRef' href='#ftn_' epub:type='footnote'>
+                 <sup>_</sup>
+               </a>
+             </span>
+           </p>
+           <div id='A'>
+             <p class='supertitle' style='page-break-after: avoid;'>SECTION 1</p>
+             <p>
+               Hello.
+               <span style='mso-bookmark:_Ref'>
+                 <a class='FootnoteRef' href='#ftn3' epub:type='footnote'>
+                   <sup>3</sup>
+                 </a>
+               </span>
+             </p>
+           </div>
+           <aside id='ftn_'>
+             <p>One fn</p>
+           </aside>
+           <aside id='ftn_'>
+             <p>Another fn</p>
+           </aside>
+           <aside id='ftn3'>
+             <p>Normal footnote</p>
+           </aside>
+         </div>
+       </body>
+    OUTPUT
     expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>").gsub(/fn:[0-9a-f-][0-9a-f-]+/, "fn:_").gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>"))).to be_equivalent_to xmlpp(html)
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", presxml, true).sub(%r{^.*<body }m, "<body xmlns:epub='epub' ").sub(%r{</body>.*$}m, "</body>").gsub(%r{_Ref\d+}, "_Ref").gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>").gsub(%r{ftn[0-9a-f-][0-9a-f-]+}, "ftn_"))).to be_equivalent_to xmlpp(word)
   end
 
    it "processes titles for revised resolutions" do
@@ -2334,7 +2389,7 @@ it "localises numbers in MathML" do
          
          <preface>
            <p>
-             <stem type='MathML'>30'000</stem>
+             30'000
              <stem type='MathML'>
                <math xmlns='http://www.w3.org/1998/Math/MathML'>
                  <mi>P</mi>
@@ -2467,7 +2522,7 @@ end
       <p>Text</p>
     </clause>
     <clause id='B'>
-      <p align='center' keep-with-next='true'>SECTION 1</p>
+      <p keep-with-next='true' class='supertitle'>SECTION 1</p>
 <title depth='1'>First Clause</title>
     </clause>
   </sections>
@@ -2476,5 +2531,63 @@ end
         expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
   end
 
+  it "processes bis, ter etc clauses" do
+             FileUtils.rm_f "test.html"
+             input = <<~INPUT
+               <itu-standard xmlns="http://riboseinc.com/isoxml">
+               <bibdata type="standard">
+               <title language="en" format="text/plain" type="main">An ITU Standard</title>
+               <title language="en" format="text/plain" type="subtitle">Subtitle</title>
+               <docidentifier type="ITU">12345</docidentifier>
+               <language>en</language>
+               <ext>
+               <doctype>resolution</doctype>
+               <structuredidentifier>
+               <annexid>F2</annexid>
+               </structuredidentifier>
+               </ext>
+               </bibdata>
+        <sections>
+        <clause id="A">
+<p><xref target="B"/>, <xref target="C"/>, <xref target="D"/>, <xref target="E"/></p>
+        </clause>
+        <clause id="B" number="1bis"><title>First Clause</title></clause>
+        <clause id="C" number="10ter"><title>Second Clause</title>
+        <clause id="D" number="10quater"><title>Second Clause Subclause</title></clause>
+</clause>
+        <clause id="E" number="10bit"><title>Non-Clause</title></clause>
+        </sections>
+        </itu-standard>
+    INPUT
+    presxml = <<~OUTPUT
+    <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+                      <bibdata type="standard">
+                      <title language="en" format="text/plain" type="main">An ITU Standard</title><title language="en" format="text/plain" type="resolution">RESOLUTION  (, )</title>
+       <title language="en" format="text/plain" type="resolution-placedate">, </title>
+
+                      <title language="en" format="text/plain" type="subtitle">Subtitle</title>
+                      <docidentifier type="ITU">12345</docidentifier>
+                      <language current="true">en</language>
+                      <ext>
+                      <doctype language="">resolution</doctype><doctype language="en">Resolution</doctype>
+                      <structuredidentifier>
+                      <annexid>F2</annexid>
+                      </structuredidentifier>
+                      </ext>
+                      </bibdata>
+               <sections>
+               <clause id="A">
+       <p keep-with-next="true" class="supertitle">SECTION 1</p><p><xref target="B">Section 1<em>bis</em></xref>, <xref target="C">Section 10<em>ter</em></xref>, <xref target="D">10<em>ter</em>.10<em>quater</em></xref>, <xref target="E">Section 10bit</xref></p>
+               </clause>
+               <clause id="B" number="1bis"><p keep-with-next="true" class="supertitle">SECTION 1<em>bis</em></p><title depth="1">First Clause</title></clause>
+               <clause id="C" number="10ter"><p keep-with-next="true" class="supertitle">SECTION 10<em>ter</em></p><title depth="1">Second Clause</title>
+               <clause id="D" number="10quater"><title depth="2">10<em>ter</em>.10<em>quater</em>.<tab/>Second Clause Subclause</title></clause>
+       </clause>
+               <clause id="E" number="10bit"><p keep-with-next="true" class="supertitle">SECTION 10bit</p><title depth="1">Non-Clause</title></clause>
+               </sections>
+               </itu-standard>
+    OUTPUT
+        expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
+  end
 
 end

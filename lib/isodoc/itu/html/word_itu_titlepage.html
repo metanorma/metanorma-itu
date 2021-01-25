@@ -351,7 +351,7 @@
   {% if corrigendumid %}<br/><b>{{ corrigendumid }}{% if corrigendumtitle %}: {{ corrigendumtitle }}{% endif %}</b>{% endif %}
   {% else %}
   <b>{% if doctype != "Recommendation" and doctype != "Resolution" %}{{ docnumeric }}
-    <br/>{% endif %}{% if doctype == "Resolution" %}{{ doctype_display }} {% endif %}{{ doctitle }}</b>
+    <br/>{% endif %}{% if doctype == "Resolution" %}{{ doctype_display }} {{ docnumeric }} &#x2013; {% endif %}{{ doctitle }}</b>
   {% if positiontitle %}<br/><br/>{{ positiontitle | upcase }}{% endif %}
   {% endif %}</span>
   </a></span><span

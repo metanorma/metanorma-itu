@@ -4,6 +4,10 @@ require "fileutils"
 module IsoDoc
   module ITU
     class Counter < IsoDoc::XrefGen::Counter
+      def print
+        super.sub(/([0-9])(bis|ter|quater|quinquies|sexies|septies|octies|nonies)$/,
+                  "\\1<em>\\2</em>")
+      end
     end
 
     class Xref < IsoDoc::Xref
@@ -104,7 +108,7 @@ module IsoDoc
       end
 
       def sequential_figure_names(clause)
-        c = IsoDoc::XrefGen::Counter.new
+        c = Counter.new
         j = 0
         clause.xpath(ns(".//figure | .//sourcecode[not(ancestor::example)]")).each do |t|
           if t.parent.name == "figure" then j += 1
@@ -119,7 +123,7 @@ module IsoDoc
       end
 
       def hierarchical_figure_names(clause, num)
-        c = IsoDoc::XrefGen::Counter.new
+        c = Counter.new
         j = 0
         clause.xpath(ns(".//figure | .//sourcecode[not(ancestor::example)]")).each do |t|
           if t.parent.name == "figure" then j += 1
@@ -144,7 +148,7 @@ module IsoDoc
       end
 
       def hierarchical_formula_names(clause, num)
-        c = IsoDoc::XrefGen::Counter.new
+        c = Counter.new
         clause.xpath(ns(".//formula")).each do |t|
           next if t["id"].nil? || t["id"].empty?
           @anchors[t["id"]] = anchor_struct(
@@ -160,7 +164,7 @@ module IsoDoc
 
       def termnote_anchor_names(docxml)
         docxml.xpath(ns("//term[descendant::termnote]")).each do |t|
-          c = IsoDoc::XrefGen::Counter.new
+          c = Counter.new
           notes = t.xpath(ns(".//termnote"))
           notes.each do |n|
             return if n["id"].nil? || n["id"].empty?
@@ -173,7 +177,7 @@ module IsoDoc
       end
 
       def clause_names(docxml, sect_num)
-        docxml.xpath(ns("//sections/clause[not(@unnumbered = 'true')][not(@type = 'scope')]")).
+        docxml.xpath(ns("//sections/clause[not(@unnumbered = 'true')][not(@type = 'scope')][not(descendant::terms)]")).
           each do |c|
           section_names(c, sect_num, 1)
         end
@@ -212,7 +216,7 @@ module IsoDoc
         lbl = clause&.at(ns("./title"))&.text || "[#{clause["id"]}]"
         @anchors[clause["id"]] =
           { label: lbl, xref: l10n(%{"#{lbl}"}), level: lvl, type: "clause" }
-        clause.xpath(ns(SUBCLAUSES)).each_with_index do |c, i|
+        clause.xpath(ns(SUBCLAUSES)).each do |c|
           unnumbered_section_names1(c, lvl + 1)
         end
       end

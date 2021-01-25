@@ -1040,8 +1040,8 @@ input = <<~INPUT
                This is a preamble
                <xref target='C'>Introduction Subsection</xref>
                <xref target='C1'>Introduction, 2</xref>
-               <xref target='D'>section 1</xref>
-               <xref target='M'>section 2</xref>
+               <xref target='D'>Section 1</xref>
+               <xref target='M'>Section 2</xref>
                <xref target='N'>2.1</xref>
                <xref target='O'>2.2</xref>
                <xref target='P'>Annex A</xref>
@@ -1060,12 +1060,12 @@ input = <<~INPUT
          </preface>
          <sections>
            <clause id='D' obligation='normative' type='scope'>
-             <p align='center' keep-with-next='true'>SECTION 1</p>
+             <p keep-with-next='true' class='supertitle'>SECTION 1</p>
 <title depth='1'>Scope</title>
              <p id='E'>Text</p>
            </clause>
            <clause id='M' inline-header='false' obligation='normative'>
-             <p align='center' keep-with-next='true'>SECTION 2</p>
+             <p keep-with-next='true' class='supertitle'>SECTION 2</p>
 <title depth='1'>Clause 4</title>
              <clause id='N' inline-header='false' obligation='normative'>
                <title depth='2'>
@@ -1084,7 +1084,7 @@ input = <<~INPUT
            </clause>
          </sections>
          <annex id='P' inline-header='false' obligation='normative'>
-         <p align='center'>ANNEX A
+         <p class='supertitle'>ANNEX A
   <br/>
   (to RESOLUTION (Peoria, 1871))
 </p>
@@ -1124,8 +1124,8 @@ html = <<~OUTPUT
                 This is a preamble
                <a href='#C'>Introduction Subsection</a>
                <a href='#C1'>Introduction, 2</a>
-               <a href='#D'>section 1</a>
-               <a href='#M'>section 2</a>
+               <a href='#D'>Section 1</a>
+               <a href='#M'>Section 2</a>
 <a href='#N'>2.1</a>
 <a href='#O'>2.2</a>
                <a href='#P'>Annex A</a>
@@ -1147,12 +1147,12 @@ html = <<~OUTPUT
              <i>(Peoria, 1871)</i>
            </p>
            <div id='D'>
-           <p style='text-align:center;page-break-after: avoid;' >SECTION 1</p>
+           <p style='page-break-after: avoid;' class="supertitle">SECTION 1</p>
 <h1>Scope</h1>
              <p id='E'>Text</p>
            </div>
            <div id='M'>
-           <p style='text-align:center;page-break-after: avoid;'>SECTION 2</p>
+           <p style='page-break-after: avoid;' class="supertitle">SECTION 2</p>
 <h1>Clause 4</h1>
              <div id='N'>
                <h2> 2.1. &#160; Introduction </h2>

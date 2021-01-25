@@ -2173,7 +2173,7 @@ end
     OUTPUT
     end
 
-        it "processes boilerplate (Word)" do
+    it "processes boilerplate (Word)" do
       FileUtils.rm_f "test.doc"
     IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
     <iso-standard xmlns="http://riboseinc.com/isoxml">

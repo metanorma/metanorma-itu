@@ -639,11 +639,16 @@
 				
 					<xsl:if test="/itu:itu-standard/itu:preface/* or /itu:itu-standard/itu:bibdata/itu:keyword">
 						<fo:block-container font-size="14pt" font-weight="bold">
-							<fo:block>
-								<xsl:value-of select="$doctypeTitle"/>
-								<xsl:text> </xsl:text>
-								<xsl:value-of select="$docname"/>
-							</fo:block>
+							<xsl:choose>
+								<xsl:when test="$doctype = 'implementers-guide'"/>
+								<xsl:otherwise>
+									<fo:block>
+										<xsl:value-of select="$doctypeTitle"/>
+										<xsl:text> </xsl:text>
+										<xsl:value-of select="$docname"/>
+									</fo:block>
+								</xsl:otherwise>
+							</xsl:choose>
 							<fo:block text-align="center" margin-top="15pt" margin-bottom="15pt">
 								<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'main' and @language = 'en']"/>
 							</fo:block>
@@ -1137,31 +1142,44 @@
 	<!-- Example: [ITU-T A.23]	ITU-T A.23, Recommendation ITU-T A.23, Annex A (2014), Guide for ITU-T and ISO/IEC JTC 1 cooperation. -->
 	<xsl:template match="itu:bibitem">
 		<fo:block id="{@id}" margin-top="6pt" margin-left="14mm" text-indent="-14mm">
-		
-			<xsl:choose>
-				<xsl:when test="itu:docidentifier[@type = 'metanorma']">
-					<xsl:value-of select="itu:docidentifier[@type = 'metanorma']"/>
-					<xsl:text> </xsl:text>
-					<xsl:if test="itu:docidentifier[not(@type) or not(@type = 'metanorma')]">
-						<xsl:value-of select="itu:docidentifier[not(@type) or not(@type = 'metanorma')]"/>
-						<xsl:text>, </xsl:text>
-					</xsl:if>
-				</xsl:when>
-				<xsl:otherwise>
-					<fo:inline padding-right="5mm">
-						<xsl:text>[</xsl:text>
-							<xsl:value-of select="itu:docidentifier"/>
-						<xsl:text>] </xsl:text>
-					</fo:inline>
-					<xsl:value-of select="itu:docidentifier"/>
-					<xsl:if test="itu:title">
-						<xsl:text>, </xsl:text>
-					</xsl:if>
-				</xsl:otherwise>
-			</xsl:choose>
+			<xsl:if test="$doctype = 'implementers-guide'">
+				<xsl:attribute name="margin-left">0mm</xsl:attribute>
+				<xsl:attribute name="text-indent">0mm</xsl:attribute>
+			</xsl:if>
 			
-			<xsl:if test="itu:title">
-				<fo:inline font-style="italic">
+			<xsl:variable name="bibitem_label">
+				<xsl:choose>
+					<xsl:when test="itu:docidentifier[@type = 'metanorma']">
+						<xsl:value-of select="itu:docidentifier[@type = 'metanorma']"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<fo:inline padding-right="5mm">
+							<xsl:text>[</xsl:text>
+								<xsl:value-of select="itu:docidentifier"/>
+							<xsl:text>] </xsl:text>
+						</fo:inline>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			
+			<xsl:variable name="bibitem_body">
+				<xsl:text> </xsl:text>
+				<xsl:choose>
+					<xsl:when test="itu:docidentifier[@type = 'metanorma']">
+						<xsl:if test="itu:docidentifier[not(@type) or not(@type = 'metanorma')]">
+							<xsl:value-of select="itu:docidentifier[not(@type) or not(@type = 'metanorma')]"/>
+							<xsl:text>, </xsl:text>
+						</xsl:if>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="itu:docidentifier"/>
+						<xsl:if test="itu:title">
+							<xsl:text>, </xsl:text>
+						</xsl:if>
+					</xsl:otherwise>
+				</xsl:choose>
+				<xsl:if test="itu:title">
+					<fo:inline font-style="italic">
 						<xsl:choose>
 							<xsl:when test="itu:title[@type = 'main' and @language = 'en']">
 								<xsl:value-of select="itu:title[@type = 'main' and @language = 'en']"/>
@@ -1170,11 +1188,32 @@
 								<xsl:value-of select="itu:title"/>
 							</xsl:otherwise>
 						</xsl:choose>
-					</fo:inline>
+						</fo:inline>
 				</xsl:if>
 				<xsl:if test="itu:formattedref and not(itu:docidentifier[@type = 'metanorma'])">, </xsl:if>
 				<xsl:apply-templates select="itu:formattedref"/>
-			</fo:block>
+			</xsl:variable>
+			
+			<xsl:choose>
+				<xsl:when test="$doctype = 'implementers-guide'">
+					<fo:table width="100%" table-layout="fixed">
+						<fo:table-column column-width="20%"/>
+						<fo:table-column column-width="80%"/>
+						<fo:table-body>
+							<fo:table-row>
+								<fo:table-cell><fo:block><xsl:copy-of select="$bibitem_label"/></fo:block></fo:table-cell>
+								<fo:table-cell><fo:block><xsl:copy-of select="$bibitem_body"/></fo:block></fo:table-cell>
+							</fo:table-row>
+						</fo:table-body>
+					</fo:table>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:copy-of select="$bibitem_label"/>
+					<xsl:copy-of select="$bibitem_body"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		
+		</fo:block>
 	</xsl:template>
 	<xsl:template match="itu:bibitem/itu:docidentifier"/>
 	
@@ -1226,8 +1265,13 @@
 	<!-- Bibliography -->
 	<xsl:template match="itu:references[not(@normative='true')]/itu:title">
 		<fo:block font-size="14pt" font-weight="bold" text-align="center" margin-bottom="18pt">
-				<xsl:apply-templates/>
-			</fo:block>
+			<xsl:if test="$doctype = 'implementers-guide'">
+				<xsl:attribute name="text-align">left</xsl:attribute>
+				<xsl:attribute name="font-size">12pt</xsl:attribute>
+				<xsl:attribute name="margin-bottom">12pt</xsl:attribute>
+			</xsl:if>
+			<xsl:apply-templates/>
+		</fo:block>
 	</xsl:template>
 	
 	<xsl:template match="itu:title">

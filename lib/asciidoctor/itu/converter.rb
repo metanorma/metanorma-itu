@@ -45,7 +45,7 @@ module Asciidoctor
       end
 
       def olist(node)
-        id = Asciidoctor::Standoc::Utils::anchor_or_uuid(node)
+        id = Metanorma::Utils::anchor_or_uuid(node)
         noko do |xml|
           xml.ol **attr_code(id: id, class: node.attr("class")) do |xml_ol|
             node.items.each { |item| li(xml_ol, item) }

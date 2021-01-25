@@ -15,6 +15,7 @@ RSpec.describe Asciidoctor::ITU do
 
     it "generates error file" do
       expect do
+        mock_pdf
         Metanorma::Compile
           .new
           .compile("spec/assets/xref_error.adoc", type: "itu", :"no-install-fonts" => true, :"agree-to-terms" => true)

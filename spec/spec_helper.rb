@@ -38,6 +38,12 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.around do |example|
+    Dir.mktmpdir("rspec-") do |dir|
+      Dir.chdir(dir) { example.run }
+    end
+  end
 end
 
 def metadata(x)

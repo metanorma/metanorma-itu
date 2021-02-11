@@ -13,15 +13,11 @@ module IsoDoc
       end
 
       def pdf_stylesheet(docxml)
-        case doctype = docxml&.at(ns("//bibdata/ext/doctype"))&.text
-        when "resolution" then "itu.resolution.xsl"
-        when "recommendation-annex" then "itu.recommendation-annex.xsl"
-        when "recommendation-supplement" then "itu.recommendation-supplement.xsl"
-        when "technical-report" then "itu.technical-report.xsl"
-        when "technical-paper" then "itu.technical-paper.xsl"
-        else
-          "itu.recommendation.xsl"
-        end
+        doctype = docxml&.at(ns("//bibdata/ext/doctype"))&.text
+
+        "itu.#{doctype}.xsl" if File.exist?(File.join(@libdir, "itu.#{doctype}.xsl"))
+
+        "itu.recommendation.xsl"
       end
     end
   end

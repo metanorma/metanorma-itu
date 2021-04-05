@@ -98,6 +98,86 @@ def boilerplate(xmldoc)
   HTMLEntities.new.decode(ret.to_xml)
 end
 
+ def itudoc(lang)
+   script = case lang
+            when "zh" then "Hans"
+            else
+              "Latn"
+            end
+<<~"INPUT"
+               <itu-standard xmlns="http://riboseinc.com/isoxml">
+               <bibdata type="standard">
+               <title language="en" format="text/plain" type="main">An ITU Standard</title>
+               <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+               <docidentifier type="ITU">12345</docidentifier>
+               <language>#{lang}</language>
+               <script>#{script }</script>
+               <keyword>A</keyword>
+               <keyword>B</keyword>
+               <ext>
+               <doctype>recommendation</doctype>
+               </ext>
+               </bibdata>
+      <preface>
+      <abstract><title>Abstract</title>
+      <p>This is an abstract</p>
+      </abstract>
+      <clause id="A0"><title>History</title>
+      <p>history</p>
+      </clause>
+      <foreword obligation="informative">
+         <title>Foreword</title>
+         <p id="A">This is a preamble</p>
+       </foreword>
+        <introduction id="B" obligation="informative"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+         <title>Introduction Subsection</title>
+       </clause>
+       </introduction></preface><sections>
+       <clause id="D" obligation="normative" type="scope">
+         <title>Scope</title>
+         <p id="E">Text</p>
+       </clause>
+
+       <terms id="I" obligation="normative">
+         <term id="J">
+         <preferred>Term2</preferred>
+       </term>
+       </terms>
+       <definitions id="L">
+         <dl>
+         <dt>Symbol</dt>
+         <dd>Definition</dd>
+         </dl>
+       </definitions>
+       <clause id="M" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
+         <title>Introduction</title>
+       </clause>
+       <clause id="O" inline-header="false" obligation="normative">
+         <title>Clause 4.2</title>
+       </clause></clause>
+
+       </sections><annex id="P" inline-header="false" obligation="normative">
+         <title>Annex</title>
+         <clause id="Q" inline-header="false" obligation="normative">
+         <title>Annex A.1</title>
+         <clause id="Q1" inline-header="false" obligation="normative">
+         <title>Annex A.1a</title>
+         </clause>
+       </clause>
+       </annex><bibliography><references id="R" obligation="informative" normative="true">
+         <title>References</title>
+       </references><clause id="S" obligation="informative">
+         <title>Bibliography</title>
+         <references id="T" obligation="informative" normative="false">
+         <title>Bibliography Subsection</title>
+       </references>
+       </clause>
+       </bibliography>
+       </itu-standard>
+    INPUT
+ end
+
+
 BLANK_HDR = <<~"HDR"
        <?xml version="1.0" encoding="UTF-8"?>
        <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">

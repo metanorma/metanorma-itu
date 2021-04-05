@@ -1,0 +1,80 @@
+termsdef: 定义
+termsdefsymbolsabbrev: 定义
+termsdefsymbols: 定义
+termsdefabbrev: 定义
+termnote:  注 %
+normref: 规范性参考文献
+symbolsabbrev: 缩略语与缩写
+abbrev: 缩略语与缩写
+symbols: 缩略语与缩写
+conventions: 惯例
+elsewhere_terms: >-
+  本建议书采用下列他处定义的术语：
+here_terms: >-
+  本建议书定义下列术语：
+norm_annex: （本附件不构成本%的不可或缺部分）
+inform_annex: （本附件构成本%的组成部分）
+formula: 方程式
+inequality: 不等式
+clause: 条款
+section: 节
+annex_subclause: 条款
+in: in
+to: to
+where:  式中：
+blankclause: This clause is intentionally left blank.
+norm_with_refs_pref:
+  下列ITU-T建议书和其他参考文献的条款，通过在本建议书中的引用而构成本建议书的条款。在出版 时，所指出的版本是有效的。所有的建议书和其他参考文献都面临修订，使用本建议书的各方应探讨使用 下列建议书或其他参考文献最新版本的可能性。当前有效的ITU-T建议书清单定期出版。
+internal_termsdef: 本建议书定义的术语
+external_termsdef: 其他地方定义的术语
+term_def_boilerplate: 本建议书定义下列术语：
+internal_terms_boilerplate: 本建议书定义下列术语：
+external_terms_boilerplate: 本建议书采用下列他处定义的术语：
+no_terms_boilerplate: 没有。
+symbols_boilerplate: 本建议书使用以下缩略语与缩写：
+norm_empty_pref: 无
+clause_empty: 无
+amendment: 修正案
+corrigendum: 勘误
+table_of_contents: 目录
+page: 页
+placedate: "%， 日内瓦"
+annex_to_itu_ob: 国际电联操作公报附件
+number_abbrev: 第 % 期国际电联《操作公报》后附的清单
+annex_to_itu_ob_abbrev: 国际电联操作公报附件 第 % 期
+international_telecommunication_union: 国际电信联盟
+position_on: （截至%）
+revision_abbreviation: Rev.
+tsb: TSB
+br: BR
+bdt: BDT
+tsb_full: 国际电信联盟<br/>电信标准化局
+br_full: 国际电信联盟<br/>电信发展部门
+bdt_full: 国际电信联盟<br/>电信发展局
+doctype_dict:
+  resolution: 决议
+  recommendation: 建议书
+  recommendation-supplement: 建议书——增补
+  recommendation-amendment: 建议书——修正
+  recommendation-corrigendum: 建议书——勘误
+  recommendation-errata: 建议书——勘误
+  recommendation-annex: 建议书——附件
+  focus-group: 焦点组
+  implementers-guide: 实施者指南
+  technical-paper: 技术论文
+  technical-report: 技术报告
+  joint-itu-iso-iec: ITU/ISO/IEC 联合出版
+  service-publication: 业务出版物
+doctype_abbrev:
+  recommendation: Rec.
+  recommendation-supplement: Rec.
+  recommendation-amendment: Rec.
+  recommendation-corrigendum: Rec.
+  recommendation-errata: Rec.
+  recommendation-annex: Rec.
+  focus-group: FG
+  implementers-guide: Imp.
+  technical-paper: TP
+  technical-report: TR
+  joint-itu-iso-iec: ITU/ISO/IEC
+  service-publication: 

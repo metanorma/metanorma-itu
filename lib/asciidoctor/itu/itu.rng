@@ -234,36 +234,6 @@
       <text/>
     </element>
   </define>
-  <define name="TextElement" combine="choice">
-    <choice>
-      <ref name="add"/>
-      <ref name="del"/>
-    </choice>
-  </define>
-  <define name="add">
-    <element name="add">
-      <choice>
-        <ref name="PureTextElement"/>
-        <ref name="eref"/>
-        <ref name="stem"/>
-        <ref name="keyword"/>
-        <ref name="xref"/>
-        <ref name="hyperlink"/>
-      </choice>
-    </element>
-  </define>
-  <define name="del">
-    <element name="del">
-      <choice>
-        <ref name="PureTextElement"/>
-        <ref name="eref"/>
-        <ref name="stem"/>
-        <ref name="keyword"/>
-        <ref name="xref"/>
-        <ref name="hyperlink"/>
-      </choice>
-    </element>
-  </define>
   <define name="ipnoticereceived">
     <element name="ip-notice-received">
       <data type="boolean"/>

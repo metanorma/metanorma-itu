@@ -24,12 +24,12 @@ module Asciidoctor
         end
       end
 
-      def insert_missing_sections(x)
-        insert_scope(x)
-        insert_norm_ref(x)
-        insert_terms(x)
-        insert_symbols(x)
-        insert_conventions(x)
+      def insert_missing_sections(xml)
+        insert_scope(xml)
+        insert_norm_ref(xml)
+        insert_terms(xml)
+        insert_symbols(xml)
+        insert_conventions(xml)
       end
 
       def add_id
@@ -109,8 +109,10 @@ module Asciidoctor
 
       def smartquotes_cleanup(xmldoc)
         return super if @smartquotes
+
         xmldoc.traverse do |n|
           next unless n.text?
+
           n.replace(HTMLEntities.new.encode(
             n.text.gsub(/\u2019|\u2018|\u201a|\u201b/, "'").
             gsub(/\u201c|\u201d|\u201e|\u201f/, '"'), :basic))
@@ -175,6 +177,7 @@ module Asciidoctor
         return 4 if bib.at("./docidentifier[@type][not(@type = 'DOI' or "\
                            "@type = 'metanorma' or @type = 'ISSN' or @type = "\
                            "'ISBN')]")
+
         5
       end
 

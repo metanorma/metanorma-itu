@@ -1,10 +1,9 @@
 require "asciidoctor"
 require "asciidoctor/standoc/converter"
 require "fileutils"
-require_relative "./front.rb"
-require_relative "./validate.rb"
-require_relative "./cleanup.rb"
-require_relative "./macros.rb"
+require_relative "./front"
+require_relative "./validate"
+require_relative "./cleanup"
 
 module Asciidoctor
   module ITU
@@ -17,12 +16,7 @@ module Asciidoctor
 
       register_for "itu"
 
-      Asciidoctor::Extensions.register do
-        inline_macro AddMacro
-        inline_macro DelMacro
-      end
-
-      def title_validate(root)
+      def title_validate(_root)
         nil
       end
 
@@ -94,6 +88,7 @@ module Asciidoctor
           hdr != "terms and definitions" && node.level > 1
         return nil if ret == "symbols and abbreviated terms" && 
           hdr != "symbols and abbreviated terms" && node.level > 1
+
         ret
       end
 
@@ -110,6 +105,7 @@ module Asciidoctor
 
       def metadata_keywords(node, xml)
         return unless node.attr("keywords")
+
         node.attr("keywords").split(/,[ ]*/).sort.each_with_index do |kw, i|
           xml.keyword (i == 0 ? kw.capitalize : kw)
         end
@@ -117,22 +113,24 @@ module Asciidoctor
 
       def clause_parse(attrs, xml, node)
         node.option?("unnumbered") and attrs[:unnumbered] = true
-        case clausetype = sectiontype1(node)
+        case sectiontype1(node)
         when "conventions" then attrs = attrs.merge(type: "conventions")
-        when "history" 
+        when "history"
           attrs[:preface] and attrs = attrs.merge(type: "history")
-        when "source" 
+        when "source"
           attrs[:preface] and attrs = attrs.merge(type: "source")
         end
         super
       end
 
       def html_extract_attributes(node)
-        super.merge(hierarchical_assets: node.attr("hierarchical-object-numbering"))
+        super.merge(hierarchical_assets:
+                    node.attr("hierarchical-object-numbering"))
       end
 
       def doc_extract_attributes(node)
-        super.merge(hierarchical_assets: node.attr("hierarchical-object-numbering"))
+        super.merge(hierarchical_assets:
+                    node.attr("hierarchical-object-numbering"))
       end
 
       def presentation_xml_converter(node)

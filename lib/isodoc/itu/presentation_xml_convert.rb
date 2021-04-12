@@ -48,7 +48,7 @@ module IsoDoc
         return unless contents.empty?
         link = anchor_linkend(node, docid_l10n(node["target"] || node["citeas"]))
         link && !/^\[.*\]$/.match(link) and link = "[#{link}]"
-        link += eref_localities(node.xpath(ns("./locality | ./localityStack")), link)
+        link += eref_localities(node.xpath(ns("./locality | ./localityStack")), link, node)
         non_locality_elems(node).each { |n| n.remove }
         node.add_child(link)
       end

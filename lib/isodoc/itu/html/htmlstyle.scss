@@ -551,15 +551,6 @@ p {
   margin-bottom: 1em;
 }
 
-.addition {
-  color: blue;
-}
-
-.deletion {
-  color: red;
-  text-decoration: line-through;
-}
-
 #myBtn {
   @include toTopBtn($color: white, $colorBg: #00539F);
 

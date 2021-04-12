@@ -1,9 +1,9 @@
 require "isodoc"
 require "fileutils"
-require_relative "./ref.rb"
-require_relative "./xref.rb"
-require_relative "./terms.rb"
-require_relative "./cleanup.rb"
+require_relative "./ref"
+require_relative "./xref"
+require_relative "./terms"
+require_relative "./cleanup"
 
 module IsoDoc
   module ITU
@@ -14,6 +14,7 @@ module IsoDoc
       def preface(isoxml, out)
         isoxml.xpath(ns(FRONT_CLAUSE)).each do |c|
           next unless is_clause?(c.name)
+
           title = c&.at(ns("./title"))
           out.div **attr_code(clause_attrs(c)) do |s|
             clause_name(nil, title, s, class: "IntroTitle")
@@ -34,12 +35,14 @@ module IsoDoc
 
       def para_class(node)
         return "supertitle" if node["class"] == "supertitle"
+
         super
       end
 
       def ol_depth(node)
-        return super unless node["class"] == "steps" or
+        return super unless node["class"] == "steps" ||
           node.at(".//ancestor::xmlns:ol[@class = 'steps']")
+
         depth = node.ancestors("ul, ol").size + 1
         type = :arabic
         type = :alphabet if [2, 7].include? depth
@@ -54,19 +57,22 @@ module IsoDoc
         div.h1 **{ class: r_a ? "RecommendationAnnex" : "Annex" } do |t|
           name&.children&.each { |c2| parse(c2, t) }
         end
-        annex_obligation_subtitle(annex, div) unless @meta.get[:doctype_original] == "resolution"
+        @meta.get[:doctype_original] == "resolution" or
+          annex_obligation_subtitle(annex, div)
       end
 
       def annex_obligation_subtitle(annex, div)
         info = annex["obligation"] == "informative"
-        div.p **{class: "annex_obligation" } do |p|
-          p << (info ? @i18n.inform_annex : @i18n.norm_annex).sub(/%/, @meta.get[:doctype] || "")
+        div.p **{ class: "annex_obligation" } do |p|
+          p << (info ? @i18n.inform_annex : @i18n.norm_annex)
+            .sub(/%/, @meta.get[:doctype] || "")
         end
       end
 
       def annex(isoxml, out)
         isoxml.xpath(ns("//annex")).each do |c|
-          @meta.get[:doctype_original] == "recommendation-annex" or page_break(out)
+          @meta.get[:doctype_original] == "recommendation-annex" or
+            page_break(out)
           out.div **attr_code(id: c["id"], class: "Section3") do |s|
             annex_name(c, nil, s) unless c.at(ns("./title"))
             c.elements.each do |c1|
@@ -106,7 +112,8 @@ module IsoDoc
         out.p(**{ align: "center", style: "text-align:center;" }) do |p|
           p.i do |i|
             i << "("
-            isoxml.at(ns("//bibdata/title[@type = 'resolution-placedate']")).children.each { |n| parse(n, i) }
+            isoxml.at(ns("//bibdata/title[@type = 'resolution-placedate']"))
+              .children.each { |n| parse(n, i) }
             i << ")"
           end
           isoxml.xpath(ns("//note[@type = 'title-footnote']")).each do |f|
@@ -117,7 +124,7 @@ module IsoDoc
 
       def middle_title_recommendation(isoxml, out)
         out.p(**{ class: "zzSTDTitle1" }) do |p|
-          id = @meta.get[:docnumber] and p << "#{@meta.get[:doctype]} #{id}" 
+          id = @meta.get[:docnumber] and p << "#{@meta.get[:doctype]} #{id}"
         end
         out.p(**{ class: "zzSTDTitle2" }) do |p|
           p << @meta.get[:doctitle]
@@ -127,27 +134,6 @@ module IsoDoc
         end
         s = @meta.get[:docsubtitle] and
           out.p(**{ class: "zzSTDTitle3" }) { |p| p << s }
-      end
-
-      def add_parse(node, out)
-        out.span **{class: "addition"} do |e|
-          node.children.each { |n| parse(n, e) }
-        end
-      end
-
-      def del_parse(node, out)
-        out.span **{class: "deletion"} do |e|
-          node.children.each { |n| parse(n, e) }
-        end
-      end
-
-      def error_parse(node, out)
-        case node.name
-        when "add" then add_parse(node, out)
-        when "del" then del_parse(node, out)
-        else
-          super
-        end
       end
 
       def note_p_parse(node, div)
@@ -172,12 +158,13 @@ module IsoDoc
         node.children.each { |n| parse(n, div) }
       end
 
-      def table_footnote_reference_format(a)
-        a.content = a.content + ")"
+      def table_footnote_reference_format(node)
+        node.content += ")"
       end
 
       def note_parse(node, out)
         return if node["type"] == "title-footnote"
+
         super
       end
 
@@ -188,9 +175,9 @@ module IsoDoc
         end
       end
 
-      def clause_core(c, out)
-        out.div **attr_code(clause_attrs(c)) do |s|
-          c.elements.each do |c1|
+      def clause_core(clause, out)
+        out.div **attr_code(clause_attrs(clause)) do |s|
+          clause.elements.each do |c1|
             if c1.name == "title" then clause_name(nil, c1, s, nil)
             else
               parse(c1, s)
@@ -201,6 +188,7 @@ module IsoDoc
 
       def scope(isoxml, out, num)
         return super unless @meta.get[:doctype_original] == "resolution"
+
         f = isoxml.at(ns("//clause[@type = 'scope']")) or return num
         clause_core(f, out)
         num + 1

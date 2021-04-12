@@ -1757,32 +1757,6 @@ RSpec.describe Asciidoctor::ITU do
     end
   end
 
-  it "uses add, del macros" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-      #{ASCIIDOC_BLANK_HDR}
-
-      [[clause]]
-      == Clause
-
-      add:[a <<clause>>] del:[B]
-    INPUT
-        #{@blank_hdr}
-        <sections>
-          <clause id='clause' obligation='normative' inline-header='false'>
-            <title>Clause</title>
-            <p id='_'>
-              <add>
-                a
-                <xref target='clause'/>
-              </add>
-              <del>B</del>
-            </p>
-          </clause>
-        </sections>
-      </itu-standard>
-    OUTPUT
-  end
-
   it "preserves &lt; &amp; &gt;" do
     expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       #{ASCIIDOC_BLANK_HDR}

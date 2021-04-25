@@ -6,21 +6,24 @@ module Asciidoctor
   module ITU
     class Converter < Standoc::Converter
       def metadata_status(node, xml)
+        stage = (node.attr("status") || node.attr("docstage") || "published")
+        stage = "draft" if node.attributes.has_key?("draft")
         xml.status do |s|
-          s.stage (node.attributes.has_key?("draft") ? "draft" :
-                   (node.attr("status") || node.attr("docstage") || "published" ))
+          s.stage stage
         end
       end
 
+      def title_attr(type, lang = "en")
+        { language: lang, format: "text/plain", type: type }
+      end
+
       def title_english(node, xml)
-        at = { language: "en", format: "text/plain", type: "main" }
         a = node.attr("title") || node.attr("title-en")
-        xml.title **attr_code(at) do |t|
+        xml.title **attr_code(title_attr("main")) do |t|
           t << (Metanorma::Utils::asciidoc_sub(a) || node.title)
         end
         if a = node.attr("annextitle") || node.attr("annextitle-en")
-          at[:type] = "annex"
-          xml.title **attr_code(at) do |t|
+          xml.title **attr_code(title_attr("annex") do |t|
             t << Metanorma::Utils::asciidoc_sub(a)
           end
         end
@@ -30,8 +33,9 @@ module Asciidoctor
         node.attributes.each do |k, v|
           next unless /^(annex)?title-(?<lang>.+)$/ =~ k
           next if lang == "en"
-          type = /^annex/.match(k) ? "annex" : "main"
-          xml.title **attr_code(language: lang, format: "text/plain", type: type) do |t|
+
+          type = /^annex/.match?(k) ? "annex" : "main"
+          xml.title **attr_code(title_attr(type, lang)) do |t|
             t << Metanorma::Utils::asciidoc_sub(v)
           end
         end
@@ -40,15 +44,14 @@ module Asciidoctor
       def title(node, xml)
         super
         %w(subtitle amendment-title corrigendum-title).each do |t|
-        other_title_english(node, xml, t)
-        other_title_otherlangs(node, xml, t)
+          other_title_english(node, xml, t)
+          other_title_otherlangs(node, xml, t)
         end
       end
 
       def other_title_english(node, xml, type)
-        at = { language: "en", format: "text/plain", type: type.sub(/-title/, "") }
         a = node.attr(type) || node.attr("#{type}-en")
-        xml.title **attr_code(at) do |t|
+        xml.title **attr_code(title_attr(type.sub(/-title/, ""))) do |t|
           t << Metanorma::Utils::asciidoc_sub(a)
         end
       end
@@ -57,8 +60,9 @@ module Asciidoctor
         node.attributes.each do |k, v|
           next unless m = /^#{type}-(?<lang>.+)$/.match(k)
           next if m[:lang] == "en"
-          xml.title **attr_code(language: m[:lang], format: "text/plain",
-                                type: type.sub(/-title/, "")) do |t|
+
+          xml.title **attr_code(title_attr(type.sub(/-title/, "")),
+                               m[:lang]) do |t|
             t << Metanorma::Utils::asciidoc_sub(v)
           end
         end
@@ -79,7 +83,7 @@ module Asciidoctor
 
       def metadata_committee1(node, xml, suffix)
         xml.editorialgroup do |a|
-          a.bureau ( node.attr("bureau#{suffix}") || "T" )
+          a.bureau ( node.attr("bureau#{suffix}") || "T")
           if node.attr("group#{suffix}")
             a.group **attr_code(type: node.attr("grouptype#{suffix}")) do |g|
               metadata_committee2(node, g, suffix, "")
@@ -119,27 +123,30 @@ module Asciidoctor
 
       def provisional_id(node, xml)
         return unless node.attr("provisional-name")
-        xml.docidentifier **{type: "ITU-provisional"} do |i|
+
+        xml.docidentifier **{ type: "ITU-provisional" } do |i|
           i << node.attr("provisional-name")
         end
       end
 
-      ITULANG = { "en" => "E", "fr" => "F", "ar" => "A", "es" => "S", "zh" => "C", "ru" => "R" }.freeze
+      ITULANG = { "en" => "E", "fr" => "F", "ar" => "A", "es" => "S",
+                  "zh" => "C", "ru" => "R" }.freeze
 
       def itu_id1(node, lang)
         bureau = node.attr("bureau") || "T"
         id = doctype(node) == "service-publication" ?
           @i18n.annex_to_itu_ob_abbrev.sub(/%/, node.attr("docnumber")) :
-          "ITU-#{bureau} #{node.attr("docnumber")}"
+          "ITU-#{bureau} #{node.attr('docnumber')}"
         id + (lang ? "-#{ITULANG[@lang]}" : "")
       end
 
       def itu_id(node, xml)
         return unless node.attr("docnumber")
-        xml.docidentifier **{type: "ITU"} do |i|
+
+        xml.docidentifier **{ type: "ITU" } do |i|
           i << itu_id1(node, false)
         end
-        xml.docidentifier **{type: "ITU-lang"} do |i|
+        xml.docidentifier **{ type: "ITU-lang" } do |i|
           i << itu_id1(node, true)
         end
         xml.docnumber { |i| i << node.attr("docnumber") }
@@ -147,8 +154,9 @@ module Asciidoctor
 
       def recommendation_id(node, xml)
         return unless node.attr("recommendationnumber")
+
         node.attr("recommendationnumber").split("/").each do |s|
-          xml.docidentifier **{type: "ITU-Recommendation"} do |i|
+          xml.docidentifier **{ type: "ITU-Recommendation" } do |i|
             i << s
           end
         end
@@ -171,11 +179,12 @@ module Asciidoctor
 
       def metadata_recommendationstatus(node, xml)
         return unless node.attr("recommendation-from")
+
         xml.recommendationstatus do |s|
           s.from node.attr("recommendation-from")
           s.to node.attr("recommendation-to") if node.attr("recommendation-to")
           if node.attr("approval-process")
-            s.approvalstage **{process: node.attr("approval-process")} do |a|
+            s.approvalstage **{ process: node.attr("approval-process") } do |a|
               a << node.attr("approval-status")
             end
           end
@@ -188,6 +197,7 @@ module Asciidoctor
 
       def structured_id(node, xml)
         return unless node.attr("docnumber")
+
         xml.structuredidentifier do |i|
           i.bureau node.attr("bureau") || "T"
           i.docnumber node.attr("docnumber")
@@ -198,7 +208,8 @@ module Asciidoctor
       end
 
       def metadata_techreport(node, xml)
-        a = node.attr("meeting") and metadata_meeting(a, node.attr("meeting-acronym"), xml)
+        a = node.attr("meeting") and
+          metadata_meeting(a, node.attr("meeting-acronym"), xml)
         a = node.attr("meeting-place") and xml.meeting_place a
         a = node.attr("meeting-date") and metadata_meeting_date(a, xml)
         a = node.attr("intended-type") and xml.intended_type a
@@ -233,6 +244,7 @@ module Asciidoctor
 
       def metadata_ext(node, xml)
         metadata_doctype(node, xml)
+        metadata_subdoctype(node, xml)
         metadata_committee(node, xml)
         metadata_ics(node, xml)
         metadata_recommendationstatus(node, xml)

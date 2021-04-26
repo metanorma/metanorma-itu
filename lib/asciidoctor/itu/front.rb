@@ -23,7 +23,7 @@ module Asciidoctor
           t << (Metanorma::Utils::asciidoc_sub(a) || node.title)
         end
         if a = node.attr("annextitle") || node.attr("annextitle-en")
-          xml.title **attr_code(title_attr("annex") do |t|
+          xml.title **attr_code(title_attr("annex")) do |t|
             t << Metanorma::Utils::asciidoc_sub(a)
           end
         end
@@ -61,8 +61,8 @@ module Asciidoctor
           next unless m = /^#{type}-(?<lang>.+)$/.match(k)
           next if m[:lang] == "en"
 
-          xml.title **attr_code(title_attr(type.sub(/-title/, "")),
-                               m[:lang]) do |t|
+          xml.title **attr_code(title_attr(type.sub(/-title/, ""),
+                                           m[:lang])) do |t|
             t << Metanorma::Utils::asciidoc_sub(v)
           end
         end

@@ -118,7 +118,10 @@
 	
 	<xsl:template match="/">
 		<xsl:call-template name="namespaceCheck"/>
-		<fo:root xsl:use-attribute-sets="root-style" xml:lang="{$lang}">
+		<fo:root xsl:use-attribute-sets="root-style">
+			<xsl:if test="$lang != 'ar'">
+				<xsl:attribute name="xml:lang"><xsl:value-of select="$lang"/></xsl:attribute>
+			</xsl:if>
 			<xsl:if test="$doctype = 'resolution'">
 				<xsl:attribute name="font-size">11pt</xsl:attribute>
 			</xsl:if>
@@ -1711,19 +1714,25 @@
 			</fo:list-item-label>
 			<fo:list-item-body start-indent="body-start()">
 				<fo:block-container>
+					<xsl:variable name="attribute-margin">
+					<xsl:choose>
+						<xsl:when test="$lang = 'ar'">margin-right</xsl:when>
+						<xsl:otherwise>margin-left</xsl:otherwise>
+					</xsl:choose>
+					</xsl:variable>
 					<xsl:if test="../preceding-sibling::*[1][local-name() = 'title']">
-						<xsl:attribute name="margin-left">18mm</xsl:attribute>
+						<xsl:attribute name="{$attribute-margin}">18mm</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="local-name(..) = 'ul'">
-						<xsl:attribute name="margin-left">7mm</xsl:attribute><!-- 15mm -->
+						<xsl:attribute name="{$attribute-margin}">7mm</xsl:attribute><!-- 15mm -->
 						<xsl:if test="ancestor::itu:table">
-							<xsl:attribute name="margin-left">4.5mm</xsl:attribute>
+							<xsl:attribute name="{$attribute-margin}">4.5mm</xsl:attribute>
 						</xsl:if>
 						<!-- <xsl:if test="count(ancestor::itu:ol) + count(ancestor::itu:ul) &gt; 1">
 							<xsl:attribute name="margin-left">7mm</xsl:attribute>
 						</xsl:if> -->
 					</xsl:if>
-					<fo:block-container margin-left="0mm">
+					<fo:block-container margin-left="0mm" margin-right="0mm">
 						<fo:block>
 							<xsl:apply-templates/>
 							<xsl:apply-templates select=".//itu:note" mode="process"/>
@@ -5438,9 +5447,8 @@
 				</fo:inline>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:if test="$lang != 'ar'">
-					<fo:inline padding-right="{$padding-right}mm">​</fo:inline>
-				</xsl:if>
+				<xsl:variable name="direction"><xsl:if test="$lang = 'ar'"><xsl:value-of select="$RLM"/></xsl:if></xsl:variable>
+				<fo:inline padding-right="{$padding-right}mm"><xsl:value-of select="$direction"/>​</fo:inline>
 			</xsl:otherwise>
 		</xsl:choose>
 		
@@ -6186,7 +6194,7 @@
 				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
-	</xsl:template><xsl:variable name="LRM" select="'‎'"/><xsl:template name="setWritingMode">
+	</xsl:template><xsl:variable name="LRM" select="'‎'"/><xsl:variable name="RLM" select="'‏'"/><xsl:template name="setWritingMode">
 		<xsl:if test="$lang = 'ar'">
 			<xsl:attribute name="writing-mode">rl-tb</xsl:attribute>
 		</xsl:if>

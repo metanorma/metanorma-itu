@@ -3202,6 +3202,7 @@
 			</xsl:if>
 			
 			
+			
 				<xsl:if test="ancestor::*[local-name()='preface']">
 					<xsl:attribute name="border">solid black 0pt</xsl:attribute>
 				</xsl:if>

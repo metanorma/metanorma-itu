@@ -1,0 +1,86 @@
+termsdef: مصطلحات معرفة
+termsdefsymbolsabbrev: تعريف
+termsdefsymbols: تعريف
+termsdefabbrev: تعريف
+termnote: ملاحظة
+normref: المراجع المعيارية
+symbolsabbrev: اختصار
+abbrev: اختصار
+symbols: اختصار
+conventions: الاصطلاحات
+elsewhere_terms: >-
+  المصطلحات المعرَّفة في أماكن (وثائق) أخرى
+here_terms: >-
+  المصطلحات المعرَّفة في هذه التوصية
+norm_annex: (يشكل هذا الملحق جزءاً أساسياً من هذه التوصية)
+inform_annex: (لا يشكل هذا التذييل جزءاً أساسياً من هذه التوصية)
+formula: معادلة
+inequality: عدم مساواة
+clause: فقرة
+section: قسم
+annex_subclause: فقرة
+in: في
+to: إلى
+where: حيث,
+blankclause: This clause is intentionally left blank.
+norm_with_refs_pref: تتضمن التوصيات التالية لقطاع تقييس الاتصالات وغيرها من المراجع أحكاماً تشكل من خلال الإشارة إليها في هذا النص جزءاً لا يتجزأ من هذه التوصية. وقدكانت جميع الطبعات المذكورة سارية الصلاحية في وقت النشر. ولماكانت جميع التوصيات والمراجع الأخرى تخضع للمراجعة، نحث جميع المستعملين لهذه التوصية على السعي إلى تطبيق أحدث طبعة للتوصيات والمراجع الواردة أدناه. وتُنشر بانتظام قائمة توصيات قطاع تقييس الاتصالات السارية الصلاحية. والإشارة إلى وثيقة في هذه التوصية لا يضفي على الوثيقة في حد ذاتها صفة التوصية.
+internal_termsdef: مصطلحات معّرفة في هذه التوصية
+external_termsdef: المصطلحات المعَّرفة في وثائق أخرى
+term_def_boilerplate:
+  "تعّرف هذه التوصية المصطلحات التالية:"
+internal_terms_boilerplate:
+  "تعّرف هذه التوصية المصطلحات التالية:"
+external_terms_boilerplate:
+  "وتستخدم هذه التوصية المصطلح التالي المعّرف في أماكن أخرى:"
+no_terms_boilerplate:
+  لا توجد.
+symbols_boilerplate:
+  "تستخدم هذه التوصية المختصرات التالية:"
+norm_empty_pref:
+  لا توجد.
+clause_empty:
+  لا توجد.
+amendment: تصويب
+corrigendum: تصويب
+table_of_contents: جدول المحتويات
+page: الصفحة
+placedate: "جنيف، %"
+annex_to_itu_ob: ملحق بالنشرة التشغيلية للاتحاد
+number_abbrev: رقم
+annex_to_itu_ob_abbrev: ملحق بالنشرة التشغيلية للاتحاد رقم
+international_telecommunication_union: الاتحاد الدولي للاتصالات
+position_on: الوضع في
+revision_abbreviation: المراجعة
+tsb: TSB
+br: BR
+bdt: BDT
+tsb_full: مكتب تقييس الاتصالات
+br_full: مكتب الاتصالات الراديوية
+bdt_full: مكتب تنمية الاتصالات
+doctype_dict:
+  resolution: قرار
+  recommendation: توصية
+  recommendation-supplement: مكمل التوصية
+  recommendation-amendment: تعديل التوصية
+  recommendation-corrigendum: تصويب التوصية
+  recommendation-errata: أخطاء التوصية
+  recommendation-annex: ملحق التوصية
+  focus-group: الأفرقة المتخصصة
+  implementers-guide: دليل المنفذين
+  technical-paper: ورقة فنية
+  technical-report: تقرير فني
+  joint-itu-iso-iec: ITU/ISO/IEC مشترك
+  service-publication: منشور خدمي
+doctype_abbrev:
+  recommendation: Rec.
+  recommendation-supplement: Rec.
+  recommendation-amendment: Rec.
+  recommendation-corrigendum: Rec.
+  recommendation-errata: Rec.
+  recommendation-annex: Rec.
+  focus-group: FG
+  implementers-guide: Imp.
+  technical-paper: TP
+  technical-report: TR
+  joint-itu-iso-iec: ITU/ISO/IEC
+  service-publication:

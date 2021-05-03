@@ -1,14 +1,21 @@
 module IsoDoc
   module ITU
     class I18n < IsoDoc::I18n
+      def load_yaml2(str)
+        YAML.load_file(File.join(File.dirname(__FILE__),
+                                 "i18n-#{str}.yaml"))
+      end
+
       def load_yaml1(lang, script)
-        y = if lang == "en"
-              YAML.load_file(File.join(File.dirname(__FILE__), "i18n-en.yaml"))
-            elsif lang == "zh" && script == "Hans"
-              YAML.load_file(File.join(File.dirname(__FILE__),
-                                       "i18n-zh-Hans.yaml"))
+        y = case lang
+            when "en", "fr", "ru", "de", "es", "ar"
+              load_yaml2(lang)
+            when "zh"
+              if script == "Hans" then load_yaml2("zh-Hans")
+              else load_yaml2("en")
+              end
             else
-              YAML.load_file(File.join(File.dirname(__FILE__), "i18n-en.yaml"))
+              load_yaml2("en")
             end
         super.merge(y)
       end

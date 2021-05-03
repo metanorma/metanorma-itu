@@ -1,0 +1,87 @@
+termsdef: Definiciones
+termsdefsymbolsabbrev: Definiciones
+termsdefsymbols: Definiciones
+termsdefabbrev: Definiciones
+termnote: NOTA %
+normref: Referencias
+symbolsabbrev: Abreviaciones y acrónimos
+abbrev: Abreviaciones y acrónimos
+symbols: Abreviaciones y acrónimos
+conventions: Convenciones
+elsewhere_terms: >-
+  Esta Recomendación utiliza los siguientes términos definidos en otro lugar:
+here_terms: >-
+  Esta Recomendación define los siguientes términos:
+norm_annex: (Este anexo forma parte integral de este %.)
+inform_annex: (Este anexo no forma parte integral de este %.)
+formula: Ecuación
+inequality: Inecuación
+clause: cláusula
+section: Sección
+annex_subclause: cláusula
+in: en
+to: a
+where: "donde:"
+blankclause: Esta cláusula se deja en blanco intencionalmente.
+norm_with_refs_pref:
+  Las siguientes Recomendaciones UIT-T y otras referencias contienen disposiciones que, mediante su referencia en este texto, constituyen disposiciones de esta Recomendación. Al momento de publicación, las ediciones indicadas eran válidas. Todas las Recomendaciones y otras referencias están sujectas a revisión; por lo tanto, se exhorta a los usuarios de esta Recomendación a investigar la posibilidad de aplicar la edición más reciente de las Recomendaciones y otras referencias enumeradas a continuación. Se publica periódicamente una lista de las Recomendaciones UIT-T actualmente vigentes. La referencia a un documento en esta Recomendación no le otorga, como documento independiente, el estatus de Recomendación.
+internal_termsdef: Términos definidos en esta recomendación
+external_termsdef: Términos definidos en otro lugar
+term_def_boilerplate:
+  "Esta Recomendación define los siguientes términos:"
+internal_terms_boilerplate:
+  "Esta Recomendación define los siguientes términos:"
+external_terms_boilerplate:
+   "Esta Recomendación utiliza los siguientes términos definidos en otro lugar:"
+no_terms_boilerplate:
+  Ninguna.
+symbols_boilerplate:
+  "Esta Recomendación utiliza las siguientes abreviaturas y acrónimos:"
+norm_empty_pref:
+  Ninguna.
+clause_empty:
+  Ninguna.
+amendment: Enmienda
+corrigendum: Corrección
+table_of_contents: Índice
+page: Página
+placedate: Ginebra, %
+annex_to_itu_ob: Anexo al Boletín de Explotación de la UIT
+number_abbrev: N.°
+annex_to_itu_ob_abbrev: Anexo al BE de la UIT %
+international_telecommunication_union: Unión Internacional de Telecomunicaciones
+position_on: (Posición en %)
+revision_abbreviation: Rev.
+tsb: TSB
+br: BR
+bdt: BDT
+tsb_full: <br/>Oficina de Normalización<br/>de las Telecomunicaciones de la UIT
+br_full: Oficina de Radiocomunicaciones<br/>de la UIT
+bdt_full: <br/>Oficina de Desarrollo<br/>de las Telecomunicaciones de la UIT
+doctype_dict:
+  resolution: Resolución
+  recommendation: Recomendación
+  recommendation-supplement: Suplemento a la Recomendación
+  recommendation-amendment: Enmienda a la Recomendación
+  recommendation-corrigendum: Corrección a la Recomendación
+  recommendation-errata: Errata a la Recomendación
+  recommendation-annex: Anexo a la Recomendación
+  focus-group: Grupo Temático
+  implementers-guide: Guía de Implementación
+  technical-paper: Documento Técnico
+  technical-report: Reporte Técnico
+  joint-itu-iso-iec: Junta UIT/ISO/IEC
+  service-publication: Publicación de Servicio
+doctype_abbrev:
+  recommendation: Rec.
+  recommendation-supplement: Rec.
+  recommendation-amendment: Rec.
+  recommendation-corrigendum: Rec.
+  recommendation-errata: Rec.
+  recommendation-annex: Rec.
+  focus-group: FG
+  implementers-guide: Imp.
+  technical-paper: TP
+  technical-report: TR
+  joint-itu-iso-iec: UIT/ISO/IEC
+  service-publication: 

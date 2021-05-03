@@ -51,6 +51,7 @@ bdt: BDT
 tsb_full: 国际电信联盟<br/>电信标准化局
 br_full: 国际电信联盟<br/>电信发展部门
 bdt_full: 国际电信联盟<br/>电信发展局
+prepub: 预发布版本
 doctype_dict:
   resolution: 决议
   recommendation: 建议书

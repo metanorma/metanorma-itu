@@ -1,0 +1,88 @@
+termsdef: Определения
+termsdefsymbolsabbrev: Определения
+termsdefsymbols: Определения
+termsdefabbrev: Определения
+termnote: ПРИМЕЧАНИЕ %
+normref: Ссылки
+symbolsabbrev: Сокращения и акронимы
+abbrev: Сокращения и акронимы
+symbols: Сокращения и акронимы
+conventions: Соглашения
+elsewhere_terms: >-
+  Эта Рекомендация использует следующие термины, определенные в другом месте:
+here_terms: >-
+  Эта Рекомендация определяет следующие термины:
+norm_annex: (Настоящее Приложение составляет неотъемлемую часть данной %.)
+inform_annex: (Настоящее Приложение не составляет неотъемлемую часть данной %.)
+formula: Уравнение
+inequality: Неравенство
+clause: пункт
+section: Раздел
+annex_subclause: пункт
+in: в
+to: до
+where: "где:"
+blankclause: Этот пункт намеренно оставлен пустым.
+norm_with_refs_pref:
+  Указанные ниже Рекомендации МСЭ-Т и другие справочные документы содержат положения, которые посредством ссылки на них в данном тексте составляют положения настоящей Рекомендации. На момент публикации указанные издания были действующими. Все Рекомендации и другие справочные документы могут подвергаться пересмотру; поэтому пользователям данной Рекомендации предлагается изучить возможность применения последнего по времени издания Рекомендаций и других справочных документов, перечисленных ниже. Список действующих в настоящее время Рекомендаций МСЭ-Т регулярно публикуется. Ссылка на тот или иной документ в настоящей Рекомендации не придает ему как отдельному документу статус Рекомендации.
+internal_termsdef: Термины, определенные в настоящей Рекомендации
+external_termsdef: Термины, определенные в других документах
+term_def_boilerplate:
+  "В настоящей Рекомендации определены следующие термины:"
+internal_terms_boilerplate:
+  "В настоящей Рекомендации определены следующие термины:"
+external_terms_boilerplate:
+   "В настоящей Рекомендации используются следующие термины, определенные в других документах:"
+no_terms_boilerplate:
+  Отсутствуют.
+symbols_boilerplate:
+  "В настоящей Рекомендации используются следующие сокращения и акронимы:"
+norm_empty_pref:
+  Отсутствуют.
+clause_empty:
+  Отсутствуют.
+amendment: Поправка
+corrigendum: Исправление
+table_of_contents: СОДЕРЖАНИЕ
+page: Страница
+placedate: Женева, %
+annex_to_itu_ob: Приложение к Оперативному бюллетеню МСЭ
+number_abbrev: №.
+annex_to_itu_ob_abbrev: Приложение к ОБ МСЭ %
+international_telecommunication_union: Международный Союз Электросвязи
+position_on: (Позиция по %)
+revision_abbreviation: Ред.
+tsb: БСЭ
+br: БР
+bdt: БРЭ
+tsb_full: Бюро стандартизации электросвязи<br/>МСЭ
+br_full: Бюро радиосвязи<br/>МСЭ
+bdt_full: Бюро развития электросвязи<br/>МСЭ
+prepub: Предварительно опубликованная версия
+doctype_dict:
+  resolution: Резолюция
+  recommendation: Рекомендация
+  recommendation-supplement:  Дополнение к Рекомендации
+  recommendation-amendment: Поправка к Рекомендации
+  recommendation-corrigendum: Исправление к Рекомендации
+  recommendation-errata: Опечатки в Рекомендации
+  recommendation-annex: Дополнение к Рекомендации
+  focus-group: Фокус-группа
+  implementers-guide: Руководство пользователя Рекомендации
+  technical-paper: Технический Документ
+  technical-report: Технический Отчет
+  joint-itu-iso-iec: Совместно ITU/ISO/IEC
+  service-publication: Публикация Услуг
+doctype_abbrev:
+  recommendation: Рек.
+  recommendation-supplement: Рек.
+  recommendation-amendment: Рек.
+  recommendation-corrigendum: Рек.
+  recommendation-errata: Рек.
+  recommendation-annex: Рек.
+  focus-group: ФГ
+  implementers-guide: Рук.
+  technical-paper: ТД
+  technical-report: ТО
+  joint-itu-iso-iec: ITU/ISO/IEC
+  service-publication: 

@@ -17,7 +17,7 @@ RSpec.describe Asciidoctor::ITU do
                  <keyword>B</keyword>
                  <ext>
                  <doctype language="">recommendation</doctype>
-                 <doctype language='fr'>Recommendation</doctype>
+                 <doctype language='fr'>Recommandation</doctype>
                  </ext>
                  </bibdata>
         <preface>
@@ -139,7 +139,7 @@ RSpec.describe Asciidoctor::ITU do
                <br/>
                <div id="P" class="Section3">
                  <h1 class="Annex"><b>Annexe A</b> <br/><br/><b>Annex</b></h1>
-                <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
+                <p class="annex_obligation">(Cette annexe fait partie int&#233;grante de ce Recommendation.)</p>
                  <div id="Q">
           <h2>A.1.&#160; Annex A.1</h2>
           <div id="Q1">

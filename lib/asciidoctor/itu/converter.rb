@@ -48,14 +48,14 @@ module Asciidoctor
       end
 
       def outputs(node, ret)
-        File.open(@filename + ".xml", "w:UTF-8") { |f| f.write(ret) }
-        presentation_xml_converter(node).convert(@filename + ".xml")
-        html_converter(node).convert(@filename + ".presentation.xml", 
+        File.open("#{@filename}.xml", "w:UTF-8") { |f| f.write(ret) }
+        presentation_xml_converter(node).convert("#{@filename}.xml")
+        html_converter(node).convert("#{@filename}.presentation.xml",
                                      nil, false, "#{@filename}.html")
-        doc_converter(node).convert(@filename + ".presentation.xml", 
+        doc_converter(node).convert("#{@filename}.presentation.xml",
                                     nil, false, "#{@filename}.doc")
         node.attr("no-pdf") or
-          pdf_converter(node)&.convert(@filename + ".presentation.xml", 
+          pdf_converter(node)&.convert("#{@filename}.presentation.xml",
                                        nil, false, "#{@filename}.pdf")
       end
 
@@ -65,8 +65,8 @@ module Asciidoctor
                         File.join(File.dirname(__FILE__), "itu.rng"))
       end
 
-      def style(n, t)
-        return
+      def style(_node, _text)
+        nil
       end
 
       def sectiontype_streamline(ret)
@@ -84,16 +84,16 @@ module Asciidoctor
       def sectiontype(node, level = true)
         ret = super
         hdr = sectiontype_streamline(node&.attr("heading")&.downcase)
-        return nil if ret == "terms and definitions" && 
+        return nil if ret == "terms and definitions" &&
           hdr != "terms and definitions" && node.level > 1
-        return nil if ret == "symbols and abbreviated terms" && 
+        return nil if ret == "symbols and abbreviated terms" &&
           hdr != "symbols and abbreviated terms" && node.level > 1
 
         ret
       end
 
       def term_def_subclause_parse(attrs, xml, node)
-        case clausetype = sectiontype1(node)
+        case sectiontype1(node)
         when "terms defined in this recommendation"
           term_def_parse(attrs.merge(type: "internal"), xml, node, false)
         when "terms defined elsewhere"
@@ -106,9 +106,15 @@ module Asciidoctor
       def metadata_keywords(node, xml)
         return unless node.attr("keywords")
 
-        node.attr("keywords").split(/,[ ]*/).sort.each_with_index do |kw, i|
-          xml.keyword (i == 0 ? kw.capitalize : kw)
+        node.attr("keywords").split(/, */).sort.each_with_index do |kw, i|
+          xml.keyword (i.zero? ? strict_capitalize(kw) : kw)
         end
+      end
+
+      def strict_capitalize(str)
+        letters = str.split("")
+        letters.first.upcase!
+        letters.join
       end
 
       def clause_parse(attrs, xml, node)

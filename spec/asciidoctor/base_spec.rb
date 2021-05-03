@@ -410,7 +410,7 @@ RSpec.describe Asciidoctor::ITU do
       :series: A3
       :series1: B3
       :series2: C3
-      :keywords: word2,word1
+      :keywords: voIP,word1
       :meeting: Meeting X
       :meeting-date: 2000-01-01/2000-01-02
       :meeting-place: Kronos
@@ -523,8 +523,8 @@ RSpec.describe Asciidoctor::ITU do
             <series type='tertiary'>
               <title>C3</title>
             </series>
-            <keyword>Word1</keyword>
-            <keyword>word2</keyword>
+            <keyword>VoIP</keyword>
+            <keyword>word1</keyword>
             <ext>
               <doctype>technical-report</doctype>
               <editorialgroup>

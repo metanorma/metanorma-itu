@@ -1,0 +1,87 @@
+termsdef: Définitions
+termsdefsymbolsabbrev: Définitions
+termsdefsymbols: Définitions
+termsdefabbrev: Définitions
+termnote: NOTE %
+normref: Références
+symbolsabbrev: Abréviations et acronymes
+abbrev: Abréviations et acronymes
+symbols: Abréviations et acronymes
+conventions: Conventions
+elsewhere_terms: >-
+  La présente Recommandation utilise les termes suivants définis ailleurs:
+here_terms: >-
+  La présente Recommandation définit les termes suivants:
+norm_annex: (Cette annexe fait partie intégrante de ce %.)
+inform_annex: (Cette appendice ne fait pas partie intégrante de ce %.)
+formula: Équation
+inequality: Inégalité
+clause: article
+section: Section
+annex_subclause: article
+in: dans
+to: à
+where: "où:"
+blankclause: Cette clause est laissée en blanc intentionnellement.
+norm_with_refs_pref:
+  Les Recommandations UIT-T suivantes et d’autres références contiennent des dispositions qui, par référence dans ce texte, constituent des dispositions de la présente Recommandation. Au moment de la publication, les éditions indiquées étaient valides. Toutes les recommandations et autres références sont sujettes à révision; les utilisateurs de la présente Recommandation sont donc encouragés à étudier la possibilité d’appliquer l’édition la plus récente des Recommandations et d’autres références énumérées ci-dessous. Une liste des Recommandations UIT-T actuellement en vigueur est régulièrement publiée. La référence à un document dans la présente Recommandation ne lui donne pas, en tant que document autonome, le statut d’une Recommandation.
+internal_termsdef: Termes définis dans cette recommandation
+external_termsdef: Termes définis ailleurs
+term_def_boilerplate:
+  "La présente Recommandation définit les termes suivants:"
+internal_terms_boilerplate:
+  "La présente Recommandation définit les termes suivants:"
+external_terms_boilerplate:
+  "La présente Recommandation utilise les termes suivants définis ailleurs:"
+no_terms_boilerplate:
+  Aucun.
+symbols_boilerplate:
+  "La présente Recommandation utilise les abréviations et acronymes suivants:"
+norm_empty_pref:
+  Aucun.
+clause_empty:
+  Aucun.
+amendment: Amendement
+corrigendum: Rectificatif
+table_of_contents: Table des matières
+page: Page
+placedate: Genève, %
+annex_to_itu_ob: Annexe au Bulletin d’exploitation de l’UIT
+number_abbrev: Nº
+annex_to_itu_ob_abbrev: Annexe au BE de l’UIT %
+international_telecommunication_union: Union internationale des télécommunications
+position_on: (Position sur %)
+revision_abbreviation: Rev.
+tsb: TSB
+br: BR
+bdt: BDT
+tsb_full: Bureau de la normalisation<br/>des télécommunications<br/>de l’UIT
+br_full: Bureau des radiocommunications<br/>de l’UIT
+bdt_full: Bureau de développement<br/>des télécommunications<br/>de l’UIT
+doctype_dict:
+  resolution: Résolution
+  recommendation: Recommandation
+  recommendation-supplement: Supplément de recommandation
+  recommendation-amendment: Amendement de recommandation
+  recommendation-corrigendum: Errata de recommandation
+  recommendation-errata: Recommendation Errata
+  recommendation-annex: Annexe de recommandation
+  focus-group: Groupe de discussion
+  implementers-guide: Guide de mise en œuvre 
+  technical-paper: Document technique
+  technical-report: Rapport technique
+  joint-itu-iso-iec: Joint UIT / ISO / CEI
+  service-publication: Publication de service
+doctype_abbrev:
+  recommendation: Rec.
+  recommendation-supplement: Rec.
+  recommendation-amendment: Rec.
+  recommendation-corrigendum: Rec.
+  recommendation-errata: Rec.
+  recommendation-annex: Rec.
+  focus-group: FG
+  implementers-guide: Imp.
+  technical-paper: TP
+  technical-report: TR
+  joint-itu-iso-iec: ITU/ISO/IEC
+  service-publication: 

@@ -67,8 +67,8 @@ RSpec.describe Asciidoctor::ITU do
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-          <docidentifier type='ITU'>Annex to ITU OB 1000</docidentifier>
-          <docidentifier type='ITU-lang'>Annex to ITU OB 1000-F</docidentifier>
+          <docidentifier type='ITU'>Annexe au BE de l'UIT 1000</docidentifier>
+          <docidentifier type='ITU-lang'>Annexe au BE de l'UIT 1000-F</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>

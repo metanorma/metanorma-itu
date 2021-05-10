@@ -57,6 +57,7 @@ bdt: BDT
 tsb_full: مكتب تقييس الاتصالات
 br_full: مكتب الاتصالات الراديوية
 bdt_full: مكتب تنمية الاتصالات
+prepub: نسخة منشورة مسبقا
 doctype_dict:
   resolution: قرار
   recommendation: توصية

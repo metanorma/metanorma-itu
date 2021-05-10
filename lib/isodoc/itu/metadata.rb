@@ -74,7 +74,7 @@ module IsoDoc
       def person_attributes(authors)
         %i(affiliations addresses emails faxes phones).each { |i| set(i, []) }
         authors.each do |a|
-          append(:affiliations, 
+          append(:affiliations,
                  a&.at(ns("./affiliation/organization/name"))&.text)
           append(:addresses, a&.at(ns("./affiliation/organization/address/"\
                                       "formattedAddress"))&.text)
@@ -131,7 +131,7 @@ module IsoDoc
       def doctype(isoxml, _out)
         d = isoxml&.at(ns("//bibdata/ext/doctype"))&.text
         set(:doctype_original, d)
-        set(:doctype_abbreviated, @labels["doctype_abbrev"][d])
+        set(:doctype_abbreviated, @labels.dig("doctype_abbrev", d))
         if d == "recommendation-annex"
           set(:doctype, "Recommendation")
           set(:doctype_display, "Recommendation")
@@ -197,7 +197,7 @@ module IsoDoc
           set(:meeting_date, resolution ? ddMMMMYYYY(o, nil) : ddMMMYYYY(o))
         elsif f = isoxml&.at(ns("//bibdata/ext/meeting-date/from"))&.text
           t = isoxml&.at(ns("//bibdata/ext/meeting-date/to"))&.text
-          set(:meeting_date, resolution ? ddMMMMYYYY(f, t) :  "#{ddMMMYYYY(f)}/#{ddMMMYYYY(t)}")
+          set(:meeting_date, resolution ? ddMMMMYYYY(f, t) : "#{ddMMMYYYY(f)}/#{ddMMMYYYY(t)}")
         end
       end
     end

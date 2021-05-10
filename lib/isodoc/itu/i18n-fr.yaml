@@ -58,6 +58,7 @@ bdt: BDT
 tsb_full: Bureau de la normalisation<br/>des télécommunications<br/>de l’UIT
 br_full: Bureau des radiocommunications<br/>de l’UIT
 bdt_full: Bureau de développement<br/>des télécommunications<br/>de l’UIT
+prepub: Version pré-publiée
 doctype_dict:
   resolution: Résolution
   recommendation: Recommandation

@@ -2587,6 +2587,7 @@
 				
 				
 				
+				
 				<xsl:variable name="table_width">
 					<!-- for centered table always 100% (@width will be set for middle/second cell of outer table) -->
 					100%
@@ -2755,7 +2756,16 @@
 			<fo:block xsl:use-attribute-sets="table-name-style">
 				
 				
-				<xsl:apply-templates/>				
+				<xsl:choose>
+					<xsl:when test="$continued = 'true'"> 
+						<!-- <xsl:if test="$namespace = 'bsi'"></xsl:if> -->
+						
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:apply-templates/>
+					</xsl:otherwise>
+				</xsl:choose>
+				
 				
 			</fo:block>
 		</xsl:if>
@@ -2896,7 +2906,7 @@
 			<xsl:apply-templates/>
 		</fo:table-header>
 	</xsl:template><xsl:template name="table-header-title">
-		<xsl:param name="cols-count"/>		
+		<xsl:param name="cols-count"/>
 		<!-- row for title -->
 		<fo:table-row>
 			<fo:table-cell number-columns-spanned="{$cols-count}" border-left="1.5pt solid white" border-right="1.5pt solid white" border-top="1.5pt solid white" border-bottom="1.5pt solid black">

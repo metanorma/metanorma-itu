@@ -1742,7 +1742,7 @@ RSpec.describe Asciidoctor::ITU do
           <docidentifier type='ITU'>ITU-T Y.140</docidentifier>
           <docidentifier type='ITU'>ITU-T Z.100</docidentifier>
           <docidentifier type='ISO'>ISO 55000:2014</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso:55000:stage-90.60:ed-1:en</docidentifier>
+          <docidentifier type='URN'>urn:iso:std:iso:55000:stage-90.92:ed-1:en</docidentifier>
           <docidentifier type='ISO'>ISO/IEC 27001 (all parts)</docidentifier>
           <docidentifier type='URN'>urn:iso:std:iso-iec:27001</docidentifier>
           <docidentifier type='IEC'>IEC 60027</docidentifier>

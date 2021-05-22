@@ -1,88 +1,87 @@
-termsdef: Definitions
-termsdefsymbolsabbrev: Definitions
-termsdefsymbols: Definitions
-termsdefabbrev: Definitions
-termnote: NOTE %
-normref: References
-symbolsabbrev: Abbreviations and acronyms
-abbrev: Abbreviations and acronyms
-symbols: Abbreviations and acronyms
-conventions: Conventions
-elsewhere_terms: >-
-  This Recommendation uses the following terms defined elsewhere:
+termsdef: Definitionen
+termsdefsymbolsabbrev: Definitionen
+termsdefsymbols: Definitionen
+termsdefabbrev: Definitionen
+termnote: HINWEIS %
+normref: Referenzen
+symbolsabbrev: Abkürzungen und Akronyme
+abbrev: Abkürzungen und Akronyme
+symbols: Abkürzungen und Akronyme
+conventions: Konventionen
+elsewhere_terms: "In dieser Empfehlung werden die folgenden, an anderer Stelle definierten Begriffe verwendet:"
 here_terms: >-
-  This Recommendation defines the following terms:
-norm_annex: (This annex forms an integral part of this %.)
-inform_annex: (This appendix does not form an integral part of this %.)
-formula: Equation
-inequality: Inequality
-clause: clause
-section: Section
-annex_subclause: clause
+  "In dieser Empfehlung werden die folgenden definierten Begriffe verwendet:"
+norm_annex: (Dieser Anhang ist ein integraler Bestandteil dieses %.)
+inform_annex: (Dieser Anhang ist nicht Bestandteil dieses %.)
+formula: Gleichung
+inequality: Ungleichheit
+clause: Klausel
+section: Abschnitt
+annex_subclause: Klausel
 in: in
-to: to
-where: "where:"
-blankclause: This clause is intentionally left blank.
+to: bis
+where: "wobei:"
+blankclause: Diese Klausel ist absichtlich leer gelassen
 norm_with_refs_pref:
-  The following ITU-T Recommendations and other references contain provisions which, through reference in this text, constitute provisions of this Recommendation. At the time of publication, the editions indicated were valid. All Recommendations and other references are subject to revision; users of this Recommendation are therefore encouraged to investigate the possibility of applying the most recent edition of the Recommendations and other references listed below. A list of the currently valid ITU-T Recommendations is regularly published. The reference to a document within this Recommendation does not give it, as a stand-alone document, the status of a Recommendation.
-internal_termsdef: Terms defined in this recommendation
-external_termsdef: Terms defined elsewhere
+    Die folgenden ITU-T-Empfehlungen und andere Verweise enthalten Bestimmungen, die durch Verweis in diesem Text Bestimmungen dieser Empfehlung darstellen. Zum Zeitpunkt der Veröffentlichung waren die angegebenen Bearbeitungen gültig. Alle Empfehlungen und sonstigen Verweise unterliegen einer Überarbeitung; die Benutzer dieser Empfehlung werden daher aufgefordert, die Möglichkeit der Anwendung der neuesten Ausgabe der unten aufgeführten Empfehlungen und sonstigen Verweise zu prüfen. Eine Liste der aktuell gültigen ITU-T-Empfehlungen wird regelmäßig veröffentlicht. Der Verweis auf ein Dokument innerhalb dieser Empfehlung verleiht ihm als eigenständiges Dokument nicht den Status einer Empfehlung.
+internal_termsdef: In dieser Empfehlung definierte Begriffe
+external_termsdef: An anderer Stelle definierte Begriffe
 term_def_boilerplate:
-  "This Recommendation defines the following terms:"
+  "Diese Empfehlung definiert die folgenden Begriffe:"
 internal_terms_boilerplate:
-  "This Recommendation defines the following terms:"
+  "Diese Empfehlung definiert die folgenden Begriffe:"
 external_terms_boilerplate:
-   "This Recommendation uses the following terms defined elsewhere:"
+  "In dieser Empfehlung werden die folgenden, an anderer Stelle definierten Begriffe verwendet:"
 no_terms_boilerplate:
-  None.
+  Keine.
 symbols_boilerplate:
-  "This Recommendation uses the following abbreviations and acronyms:"
+  "In dieser Empfehlung werden die folgenden, an anderer Stelle definierten Begriffe verwendet:"
 norm_empty_pref:
-  None.
+  Keine.
 clause_empty:
-  None.
-amendment: Amendment
-corrigendum: Corrigendum
-table_of_contents: Table of Contents
-page: Page
-placedate: Geneva, %
-annex_to_itu_ob: Annex to ITU Operational Bulletin
-number_abbrev: No.
-annex_to_itu_ob_abbrev: Annex to ITU OB %
-international_telecommunication_union: International Telecommunication Union
-position_on: (Position on %)
+  Keine.
+amendment: Abänderung
+corrigendum: Berichtigung
+table_of_contents: Inhaltsverzeichnis
+page: Seite
+placedate: Genf, %
+annex_to_itu_ob: Anhang zum ITU Operational Bulletin
+number_abbrev: Nr.
+annex_to_itu_ob_abbrev: Anhang zum ITU OB %
+international_telecommunication_union: Internationale Fernmeldeunion
+position_on: (Position auf %)
 revision_abbreviation: Rev.
 tsb: TSB
 br: BR
 bdt: BDT
-tsb_full: Telecommunication<br/>Standardization Bureau<br/>of ITU
-br_full: Radiocommunication Bureau<br/>of ITU
-bdt_full: Telecommunication<br/>Development Bureau<br/>of ITU
-prepub: Prepublished version
+tsb_full: Büro für Telekommunikations-<br/>Standardisierung<br/>der ITU
+br_full: Büro für Funkkommunikation<br/>der ITU
+bdt_full: Büro für Entwicklungen<br/>in der Telekommunikation<br/>der ITU
+prepub: Vorveröffentlichte Version
 doctype_dict:
-  resolution: Resolution
-  recommendation: Recommendation
-  recommendation-supplement: Recommendation Supplement
-  recommendation-amendment: Recommendation Amendment
-  recommendation-corrigendum: Recommendation Corrigendum
-  recommendation-errata: Recommendation Errata
-  recommendation-annex: Recommendation Annex
-  focus-group: Focus Group
-  implementers-guide: Implementers’ Guide
-  technical-paper: Technical Paper
-  technical-report: Technical Report
-  joint-itu-iso-iec: Joint ITU/ISO/IEC
-  service-publication: Service Publication
+  resolution: Auflösung
+  recommendation: Empfehlung
+  recommendation-supplement: Empfehlungszusatz
+  recommendation-amendment: Empfehlungsänderung
+  recommendation-corrigendum: Empfehlungsberichtigung
+  recommendation-errata: Empfehlungserrata
+  recommendation-annex: Empfehlungsanhang
+  focus-group: Fokusgruppe
+  implementers-guide: Leitfaden für Implementierer
+  technical-paper: Technisches Papier
+  technical-report: Technischer Bericht
+  joint-itu-iso-iec: Gemeinsame ITU/ISO/IEC
+  service-publication: Service Veröffentlichung
 doctype_abbrev:
-  recommendation: Rec.
-  recommendation-supplement: Rec.
-  recommendation-amendment: Rec.
-  recommendation-corrigendum: Rec.
-  recommendation-errata: Rec.
-  recommendation-annex: Rec.
+  recommendation: Empf.
+  recommendation-supplement: Empf.
+  recommendation-amendment: Empf.
+  recommendation-corrigendum: Empf.
+  recommendation-errata: Empf.
+  recommendation-annex: Empf.
   focus-group: FG
   implementers-guide: Imp.
   technical-paper: TP
   technical-report: TR
   joint-itu-iso-iec: ITU/ISO/IEC
-  service-publication: 
+  service-publication:

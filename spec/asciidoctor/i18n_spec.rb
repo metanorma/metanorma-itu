@@ -1725,8 +1725,8 @@ RSpec.describe Asciidoctor::ITU do
     <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
     <title language='de' format='text/plain' type='subtitle'>Soustitre</title>
     <docidentifier type='ITU-provisional'>ABC</docidentifier>
-    <docidentifier type='ITU'>Annex to ITU OB 1000</docidentifier>
-    <docidentifier type='ITU-lang'>Annex to ITU OB 1000-</docidentifier>
+    <docidentifier type='ITU'>Anhang zum  ITU OB 1000</docidentifier>
+    <docidentifier type='ITU-lang'>Anhang zum  ITU OB 1000-</docidentifier>
     <docnumber>1000</docnumber>
     <contributor>
       <role type='author'/>
@@ -1970,8 +1970,8 @@ RSpec.describe Asciidoctor::ITU do
     <p id='_'>Text</p>
   </clause>
   <terms id='_' obligation='normative'>
-    <title>Definitions</title>
-    <p id='_'>This Recommendation defines the following terms:</p>
+    <title>Definitionen</title>
+    <p id='_'>Diese Empfehlung definiert die folgenden Begriffe:</p>
     <term id='term-term1'>
       <preferred>Term1</preferred>
     </term>
@@ -1986,7 +1986,7 @@ RSpec.describe Asciidoctor::ITU do
     </clause>
     <terms id='_' obligation='normative'>
       <title>Intro 2</title>
-      <p id='_'>None.</p>
+      <p id='_'>Keine.</p>
       <clause id='_' inline-header='false' obligation='normative'>
         <title>Intro 3</title>
       </clause>
@@ -2006,8 +2006,8 @@ RSpec.describe Asciidoctor::ITU do
         <preferred>Term2</preferred>
       </term>
       <terms id='_' type='external' obligation='normative'>
-        <title>Terms defined elsewhere</title>
-        <p id='_'>None.</p>
+        <title>An anderer Stelle definierte Begriffe</title>
+        <p id='_'>Keine.</p>
       </terms>
     </clause>
     <terms id='_' obligation='normative'>
@@ -2021,8 +2021,8 @@ RSpec.describe Asciidoctor::ITU do
     </terms>
   </clause>
   <definitions id='_' type='abbreviated_terms' obligation='normative'>
-    <title>Abbreviations and acronyms</title>
-    <p id='_'>None.</p>
+    <title>Abk&#252;rzungen und Akronyme</title>
+    <p id='_'>Keine.</p>
   </definitions>
   <clause id='_' type='conventions' inline-header='false' obligation='normative'>
     <title>Conventions</title>
@@ -2054,8 +2054,8 @@ RSpec.describe Asciidoctor::ITU do
 </annex>
 <bibliography>
   <references id='_' normative='true' obligation='informative'>
-    <title>References</title>
-    <p id='_'>None.</p>
+    <title>Referenzen</title>
+    <p id='_'>Keine.</p>
   </references>
   <clause id='_' obligation='informative'>
     <title>Bibliographie</title>

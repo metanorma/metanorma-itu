@@ -3874,6 +3874,8 @@
 			
 			<xsl:apply-templates/>
 		</fo:inline>
+	</xsl:template><xsl:template match="*[local-name()='padding']">
+		<fo:inline padding-right="{@value}"> </fo:inline>
 	</xsl:template><xsl:template match="*[local-name()='sup']">
 		<fo:inline font-size="80%" vertical-align="super">
 			<xsl:apply-templates/>
@@ -5451,6 +5453,7 @@
 		</xsl:variable>
 		
 		<xsl:variable name="padding">
+			
 			
 			
 			

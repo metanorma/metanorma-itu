@@ -4369,6 +4369,16 @@
 	</xsl:template><xsl:template match="mathml:math/*[local-name()='unit']" mode="mathml"/><xsl:template match="mathml:math/*[local-name()='prefix']" mode="mathml"/><xsl:template match="mathml:math/*[local-name()='dimension']" mode="mathml"/><xsl:template match="mathml:math/*[local-name()='quantity']" mode="mathml"/><xsl:template match="*[local-name()='localityStack']"/><xsl:template match="*[local-name()='link']" name="link">
 		<xsl:variable name="target">
 			<xsl:choose>
+				<xsl:when test="@updatetype = 'true'">
+					<xsl:value-of select="concat(normalize-space(@target), '.pdf')"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="normalize-space(@target)"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="target_text">
+			<xsl:choose>
 				<xsl:when test="starts-with(normalize-space(@target), 'mailto:')">
 					<xsl:value-of select="normalize-space(substring-after(@target, 'mailto:'))"/>
 				</xsl:when>
@@ -4380,19 +4390,19 @@
 		<fo:inline xsl:use-attribute-sets="link-style">
 			
 			<xsl:choose>
-				<xsl:when test="$target = ''">
+				<xsl:when test="$target_text = ''">
 					<xsl:apply-templates/>
 				</xsl:when>
 				<xsl:otherwise>
-					<fo:basic-link external-destination="{@target}" fox:alt-text="{@target}">
+					<fo:basic-link external-destination="{$target}" fox:alt-text="{$target}">
 						<xsl:choose>
 							<xsl:when test="normalize-space(.) = ''">
-								<!-- <xsl:value-of select="$target"/> -->
 								<xsl:call-template name="add-zero-spaces-link-java">
-									<xsl:with-param name="text" select="$target"/>
+									<xsl:with-param name="text" select="$target_text"/>
 								</xsl:call-template>
 							</xsl:when>
 							<xsl:otherwise>
+								<!-- output text from <link>text</link> -->
 								<xsl:apply-templates/>
 							</xsl:otherwise>
 						</xsl:choose>
@@ -6154,6 +6164,9 @@
 				<xsl:variable name="level">
 					<xsl:choose>
 						<xsl:when test="parent::*[local-name() = 'preface']">
+							<xsl:value-of select="$level_total - 1"/>
+						</xsl:when>
+						<xsl:when test="ancestor::*[local-name() = 'preface'] and not(ancestor::*[local-name() = 'foreword']) and not(ancestor::*[local-name() = 'introduction'])"> <!-- for preface/clause -->
 							<xsl:value-of select="$level_total - 1"/>
 						</xsl:when>
 						<xsl:when test="ancestor::*[local-name() = 'preface']">

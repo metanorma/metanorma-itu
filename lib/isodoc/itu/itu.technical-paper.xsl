@@ -4569,6 +4569,7 @@
 		</xsl:choose>
 	</xsl:template><xsl:template match="*[local-name() = 'termnote']">
 		<fo:block id="{@id}" xsl:use-attribute-sets="termnote-style">			
+			
 			<fo:inline xsl:use-attribute-sets="termnote-name-style">
 				
 				<xsl:apply-templates select="*[local-name() = 'name']" mode="presentation"/>

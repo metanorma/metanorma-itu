@@ -2920,6 +2920,7 @@
 		<!-- font-weight="bold" -->
 		<fo:table-header>
 			
+			
 			<xsl:apply-templates/>
 		</fo:table-header>
 	</xsl:template><xsl:template name="table-header-title">

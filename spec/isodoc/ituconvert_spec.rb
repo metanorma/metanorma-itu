@@ -135,7 +135,7 @@ RSpec.describe Asciidoctor::ITU do
                  </ext>
         </bibdata>
         <sections>
-        <clause id='A'>
+        <clause id='A' displayorder='1'>
         <p keep-with-next='true' class='supertitle'>SECTION 1</p>
           <note type='title-footnote' id="A1">
             <p>One fn</p>
@@ -342,7 +342,7 @@ RSpec.describe Asciidoctor::ITU do
     presxml = <<~INPUT
               <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
       <preface/><sections>
-      <terms id="H" obligation="normative"><title depth="1">1.<tab/>Terms</title>
+      <terms id="H" obligation="normative" displayorder='1'><title depth="1">1.<tab/>Terms</title>
         <term id="J">
         <name>1.1.</name>
         <preferred>Term2</preferred>
@@ -879,46 +879,45 @@ RSpec.describe Asciidoctor::ITU do
       <annex id="B10" obligation="informative"><title>Annex</title></annex>
     INPUT
     presxml = <<~OUTPUT
-      <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-                    <bibdata type="standard">
-                    <title language="en" format="text/plain" type="main">An ITU Standard</title>
-                    <docidentifier type="ITU">12345</docidentifier>
-                    <language current="true">en</language>
-                    <keyword>A</keyword>
-                    <keyword>B</keyword>
-                    <ext>
-                    <doctype language="">recommendation</doctype>
-                    <doctype language='en'>Recommendation</doctype>
-                    </ext>
-                    </bibdata>
-                    <preface>
-                    <abstract>
-                    <title>Abstract</title>
-                        <xref target="A1">Annex A</xref>
-                        <xref target="B1">Appendix I</xref>
-                    </abstract>
-                    </preface>
-             <annex id="A1" obligation="normative"><title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="A2" obligation="normative"><title><strong>Annex B</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="A3" obligation="normative"><title><strong>Annex C</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="A4" obligation="normative"><title><strong>Annex D</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="A5" obligation="normative"><title><strong>Annex E</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="A6" obligation="normative"><title><strong>Annex F</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="A7" obligation="normative"><title><strong>Annex G</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="A8" obligation="normative"><title><strong>Annex H</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="A9" obligation="normative"><title><strong>Annex J</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="A10" obligation="normative"><title><strong>Annex K</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="B1" obligation="informative"><title><strong>Appendix I</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="B2" obligation="informative"><title><strong>Appendix II</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="B3" obligation="informative"><title><strong>Appendix III</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="B4" obligation="informative"><title><strong>Appendix IV</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="B5" obligation="informative"><title><strong>Appendix V</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="B6" obligation="informative"><title><strong>Appendix VI</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="B7" obligation="informative"><title><strong>Appendix VII</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="B8" obligation="informative"><title><strong>Appendix VIII</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="B9" obligation="informative"><title><strong>Appendix IX</strong><br/><br/><strong>Annex</strong></title></annex>
-             <annex id="B10" obligation="informative"><title><strong>Appendix X</strong><br/><br/><strong>Annex</strong></title></annex>
-             </itu-standard>
+       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+              <bibdata type="standard">
+              <title language="en" format="text/plain" type="main">An ITU Standard</title>
+              <docidentifier type="ITU">12345</docidentifier>
+              <language current="true">en</language>
+              <keyword>A</keyword>
+              <keyword>B</keyword>
+              <ext>
+              <doctype language="">recommendation</doctype><doctype language="en">Recommendation</doctype>
+              </ext>
+              </bibdata>
+              <preface>
+              <abstract displayorder="1">
+              <title>Abstract</title>
+                  <xref target="A1">Annex A</xref>
+                  <xref target="B1">Appendix I</xref>
+              </abstract>
+              </preface>
+       <annex id="A1" obligation="normative" displayorder="2"><title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A2" obligation="normative" displayorder="3"><title><strong>Annex B</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A3" obligation="normative" displayorder="4"><title><strong>Annex C</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A4" obligation="normative" displayorder="5"><title><strong>Annex D</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A5" obligation="normative" displayorder="6"><title><strong>Annex E</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A6" obligation="normative" displayorder="7"><title><strong>Annex F</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A7" obligation="normative" displayorder="8"><title><strong>Annex G</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A8" obligation="normative" displayorder="9"><title><strong>Annex H</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A9" obligation="normative" displayorder="10"><title><strong>Annex J</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="A10" obligation="normative" displayorder="11"><title><strong>Annex K</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B1" obligation="informative" displayorder="12"><title><strong>Appendix I</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B2" obligation="informative" displayorder="13"><title><strong>Appendix II</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B3" obligation="informative" displayorder="14"><title><strong>Appendix III</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B4" obligation="informative" displayorder="15"><title><strong>Appendix IV</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B5" obligation="informative" displayorder="16"><title><strong>Appendix V</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B6" obligation="informative" displayorder="17"><title><strong>Appendix VI</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B7" obligation="informative" displayorder="18"><title><strong>Appendix VII</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B8" obligation="informative" displayorder="19"><title><strong>Appendix VIII</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B9" obligation="informative" displayorder="20"><title><strong>Appendix IX</strong><br/><br/><strong>Annex</strong></title></annex>
+       <annex id="B10" obligation="informative" displayorder="21"><title><strong>Appendix X</strong><br/><br/><strong>Annex</strong></title></annex>
+       </itu-standard>
     OUTPUT
 
     html = <<~OUTPUT
@@ -1034,82 +1033,85 @@ RSpec.describe Asciidoctor::ITU do
                  </div>
                </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(html)
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({})
+      .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+      .convert("test", presxml, true)
+      .gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")))
+      .to be_equivalent_to xmlpp(html)
   end
 
   it "processes section names" do
     presxml = <<~OUTPUT
        <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-               <bibdata type="standard">
-               <title language="en" format="text/plain" type="main">An ITU Standard</title>
-               <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
-               <docidentifier type="ITU">12345</docidentifier>
-               <language current="true">en</language>
-               <script current='true'>Latn</script>
-               <keyword>A</keyword>
-               <keyword>B</keyword>
-               <ext>
-               <doctype language="">recommendation</doctype>
-               <doctype language='en'>Recommendation</doctype>
-               </ext>
-               </bibdata>
-      <preface>
-      <abstract><title>Abstract</title>
-      <p>This is an abstract</p>
-      </abstract>
-      <clause id="A0"><title depth="1">History</title>
-      <p>history</p>
-      </clause>
-      <foreword obligation="informative">
-         <title>Foreword</title>
-         <p id="A">This is a preamble</p>
-       </foreword>
-        <introduction id="B" obligation="informative"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
-         <title depth="2">Introduction Subsection</title>
+                <bibdata type="standard">
+                <title language="en" format="text/plain" type="main">An ITU Standard</title>
+                <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+                <docidentifier type="ITU">12345</docidentifier>
+                <language current="true">en</language>
+                <script current="true">Latn</script>
+                <keyword>A</keyword>
+                <keyword>B</keyword>
+                <ext>
+                <doctype language="">recommendation</doctype><doctype language="en">Recommendation</doctype>
+                </ext>
+                </bibdata>
+       <preface>
+       <abstract displayorder="1"><title>Abstract</title>
+       <p>This is an abstract</p>
+       </abstract>
+       <clause id="A0" displayorder="2"><title depth="1">History</title>
+       <p>history</p>
        </clause>
-       </introduction></preface><sections>
-       <clause id="D" obligation="normative" type="scope">
-         <title depth="1">1.<tab/>Scope</title>
-         <p id="E">Text</p>
-       </clause>
-
-       <terms id="I" obligation="normative"><title>3.</title>
-         <term id="J"><name>3.1.</name>
-         <preferred>Term2</preferred>
-       </term>
-       </terms>
-       <definitions id="L"><title>4.</title>
-         <dl>
-         <dt>Symbol</dt>
-         <dd>Definition</dd>
-         </dl>
-       </definitions>
-       <clause id="M" inline-header="false" obligation="normative"><title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
-         <title depth="2">5.1.<tab/>Introduction</title>
-       </clause>
-       <clause id="O" inline-header="false" obligation="normative">
-         <title depth="2">5.2.<tab/>Clause 4.2</title>
-       </clause></clause>
-
-       </sections><annex id="P" inline-header="false" obligation="normative">
-         <title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title>
-         <clause id="Q" inline-header="false" obligation="normative">
-         <title depth="2">A.1.<tab/>Annex A.1</title>
-         <clause id="Q1" inline-header="false" obligation="normative">
-         <title depth="3">A.1.1.<tab/>Annex A.1a</title>
-         </clause>
-       </clause>
-       </annex><bibliography><references id="R" obligation="informative" normative="true">
-         <title depth="1">2.<tab/>References</title>
-       </references><clause id="S" obligation="informative">
-         <title depth="1">Bibliography</title>
-         <references id="T" obligation="informative" normative="false">
-         <title depth="2">Bibliography Subsection</title>
-       </references>
-       </clause>
-       </bibliography>
-       </itu-standard>
+       <foreword obligation="informative" displayorder="3">
+          <title>Foreword</title>
+          <p id="A">This is a preamble</p>
+        </foreword>
+         <introduction id="B" obligation="informative" displayorder="4"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+          <title depth="2">Introduction Subsection</title>
+        </clause>
+        </introduction></preface><sections>
+        <clause id="D" obligation="normative" type="scope" displayorder="5">
+          <title depth="1">1.<tab/>Scope</title>
+          <p id="E">Text</p>
+        </clause>
+        <terms id="I" obligation="normative" displayorder="7"><title>3.</title>
+          <term id="J"><name>3.1.</name>
+          <preferred>Term2</preferred>
+        </term>
+        </terms>
+        <definitions id="L" displayorder="8"><title>4.</title>
+          <dl>
+          <dt>Symbol</dt>
+          <dd>Definition</dd>
+          </dl>
+        </definitions>
+        <clause id="M" inline-header="false" obligation="normative" displayorder="9"><title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
+          <title depth="2">5.1.<tab/>Introduction</title>
+        </clause>
+        <clause id="O" inline-header="false" obligation="normative">
+          <title depth="2">5.2.<tab/>Clause 4.2</title>
+        </clause></clause>
+        </sections><annex id="P" inline-header="false" obligation="normative" displayorder="10">
+          <title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title>
+          <clause id="Q" inline-header="false" obligation="normative">
+          <title depth="2">A.1.<tab/>Annex A.1</title>
+          <clause id="Q1" inline-header="false" obligation="normative">
+          <title depth="3">A.1.1.<tab/>Annex A.1a</title>
+          </clause>
+        </clause>
+        </annex><bibliography><references id="R" obligation="informative" normative="true" displayorder="6">
+          <title depth="1">2.<tab/>References</title>
+        </references><clause id="S" obligation="informative" displayorder="11">
+          <title depth="1">Bibliography</title>
+          <references id="T" obligation="informative" normative="false">
+          <title depth="2">Bibliography Subsection</title>
+        </references>
+        </clause>
+        </bibliography>
+        </itu-standard>
     OUTPUT
 
     html = <<~OUTPUT
@@ -1439,7 +1441,7 @@ RSpec.describe Asciidoctor::ITU do
                 <?xml version='1.0'?>
        <itu-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
          <preface>
-           <foreword>
+           <foreword displayorder='1'>
              <p>
                <eref type='footnote' bibitemid='ISO712' citeas='ISO 712'>A</eref>
                <eref type='inline' bibitemid='ISO712' citeas='ISO 712'>A</eref>
@@ -1474,7 +1476,7 @@ RSpec.describe Asciidoctor::ITU do
            </foreword>
          </preface>
          <bibliography>
-           <references id='_normative_references' obligation='informative' normative='true'>
+           <references id='_normative_references' obligation='informative' normative='true' displayorder='2'>
            <title depth='1'>
         1.
         <tab/>
@@ -1544,7 +1546,7 @@ RSpec.describe Asciidoctor::ITU do
                 </structuredidentifier>
               </ext>
             </bibdata>
-            <annex id='A1' obligation='normative'>
+            <annex id='A1' obligation='normative' displayorder='1'>
               <title>
                 <strong>Annex F2</strong>
                 <br/>
@@ -2099,7 +2101,7 @@ RSpec.describe Asciidoctor::ITU do
                  <title language='en'>test</title>
                </bibdata>
                <preface>
-                 <p>
+                 <p displayorder='1'>
                    30'000
                    <stem type='MathML'>
                      <math xmlns='http://www.w3.org/1998/Math/MathML'>
@@ -2229,17 +2231,20 @@ RSpec.describe Asciidoctor::ITU do
           </ext>
         </bibdata>
         <sections>
-          <clause unnumbered='true' id='A'>
+          <clause unnumbered='true' id='A' displayorder='1'>
             <p>Text</p>
           </clause>
-          <clause id='B'>
+          <clause id='B' displayorder='2'>
             <p keep-with-next='true' class='supertitle'>SECTION 1</p>
       <title depth='1'>First Clause</title>
           </clause>
         </sections>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({})
+      .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_equivalent_to xmlpp(presxml)
   end
 
   it "processes bis, ter etc clauses" do
@@ -2287,14 +2292,14 @@ RSpec.describe Asciidoctor::ITU do
                         </ext>
                         </bibdata>
                  <sections>
-                 <clause id="A">
+                 <clause id="A" displayorder='1'>
          <p keep-with-next="true" class="supertitle">SECTION 1</p><p><xref target="B">Section 1<em>bis</em></xref>, <xref target="C">Section 10<em>ter</em></xref>, <xref target="D">10<em>ter</em>.10<em>quater</em></xref>, <xref target="E">Section 10bit</xref></p>
                  </clause>
-                 <clause id="B" number="1bis"><p keep-with-next="true" class="supertitle">SECTION 1<em>bis</em></p><title depth="1">First Clause</title></clause>
-                 <clause id="C" number="10ter"><p keep-with-next="true" class="supertitle">SECTION 10<em>ter</em></p><title depth="1">Second Clause</title>
+                 <clause id="B" number="1bis" displayorder='2'><p keep-with-next="true" class="supertitle">SECTION 1<em>bis</em></p><title depth="1">First Clause</title></clause>
+                 <clause id="C" number="10ter" displayorder='3'><p keep-with-next="true" class="supertitle">SECTION 10<em>ter</em></p><title depth="1">Second Clause</title>
                  <clause id="D" number="10quater"><title depth="2">10<em>ter</em>.10<em>quater</em>.<tab/>Second Clause Subclause</title></clause>
          </clause>
-                 <clause id="E" number="10bit"><p keep-with-next="true" class="supertitle">SECTION 10bit</p><title depth="1">Non-Clause</title></clause>
+                 <clause id="E" number="10bit" displayorder='4'><p keep-with-next="true" class="supertitle">SECTION 10bit</p><title depth="1">Non-Clause</title></clause>
                  </sections>
                  </itu-standard>
     OUTPUT

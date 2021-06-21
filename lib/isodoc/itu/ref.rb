@@ -5,12 +5,12 @@ require "fileutils"
 module IsoDoc
   module ITU
     module BaseConvert
-      def nonstd_bibitem(list, b, ordinal, biblio)
+      def nonstd_bibitem(list, b, _ordinal, biblio)
         list.tr **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
           id = render_identifier(bibitem_ref_code(b))
-          ref.td **{style: "vertical-align:top"} do |td|
-            td << (id[0] || "[#{id[1]}]")&.
-              gsub(/-/, "&#x2011;")&.gsub(/ /, "&#xa0;")
+          ref.td **{ style: "vertical-align:top" } do |td|
+            td << (id[0] || "[#{id[1]}]")
+              &.gsub(/-/, "&#x2011;")&.gsub(/ /, "&#xa0;")
             date_note_process(b, td)
           end
           ref.td { |td| reference_format(b, td) }
@@ -28,6 +28,7 @@ module IsoDoc
             f.elements.each do |b|
               if b.name == "bibitem"
                 next if implicit_reference(b)
+
                 i += 1
                 nonstd_bibitem(tbody, b, i, biblio)
               else
@@ -45,6 +46,7 @@ module IsoDoc
 
       def bracket_if_num(x)
         return nil if x.nil?
+
         x = x.text.sub(/^\[/, "").sub(/\]$/, "")
         "[#{x}]"
       end
@@ -55,7 +57,7 @@ module IsoDoc
       end
 
       def titlecase(s)
-        s.gsub(/ |\_|\-/, " ").split(/ /).map(&:capitalize).join(" ")
+        s.gsub(/ |_|-/, " ").split(/ /).map(&:capitalize).join(" ")
       end
 
       def pref_ref_code(b)
@@ -71,23 +73,27 @@ module IsoDoc
         id.empty? and
           id = b.xpath(ns("./docidentifier[not(@type = 'metanorma')]"))
         return [] if id.empty?
+
         id.sort_by { |i| i["type"] == "ITU" ? 0 : 1 }
       end
 
       def render_multi_identifiers(ids)
         ids.map do |id|
-          id["type"] == "ITU" ? doctype_title(id) : 
+          if id["type"] == "ITU"
+            doctype_title(id)
+          else
             docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))
+          end
         end.join(" | ")
       end
 
       def doctype_title(id)
         type = id.parent&.at(ns("./ext/doctype"))&.text || "recommendation"
         if type == "recommendation" &&
-            /^(?<prefix>ITU-[A-Z] [A-Z])[ .-]Sup[a-z]*\.[ ]?(?<num>\d+)$/ =~ id.text
+            /^(?<prefix>ITU-[A-Z] [A-Z])[ .-]Sup[a-z]*\. ?(?<num>\d+)$/ =~ id.text
           "#{prefix}-series Recommendations – Supplement #{num}"
         else
-          d = docid_prefix(id["type"], id.text.sub(/^\[/, '').sub(/\]$/, ''))
+          d = docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))
           "#{titlecase(type)} #{d}"
         end
       end
@@ -98,7 +104,7 @@ module IsoDoc
         r << id1
         date = b.at(ns("./date[@type = 'published']")) and
           r << " (#{date.text.sub(/-.*$/, '')})"
-        r << ", " if (date || !id1.empty?)
+        r << ", " if date || !id1.empty?
       end
 
       def reference_format_title(b, r)

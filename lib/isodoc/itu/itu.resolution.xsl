@@ -3360,6 +3360,7 @@
 						
 						
 						
+						
 							<xsl:attribute name="padding-right">3mm</xsl:attribute>
 							<xsl:attribute name="font-size">70%</xsl:attribute>
 						
@@ -3506,6 +3507,9 @@
 	</xsl:template><xsl:template match="*[local-name()='fn']">
 		<!-- <xsl:variable name="namespace" select="substring-before(name(/*), '-')"/> -->
 		<fo:inline font-size="80%" keep-with-previous.within-line="always">
+			
+			
+			
 			
 			
 			

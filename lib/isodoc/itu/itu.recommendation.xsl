@@ -2249,6 +2249,7 @@
 	</xsl:attribute-set><xsl:attribute-set name="eref-style">
 		
 		
+		
 			<xsl:attribute name="color">blue</xsl:attribute>
 			<xsl:attribute name="text-decoration">underline</xsl:attribute>
 		
@@ -5504,6 +5505,7 @@
 					</xsl:if>	
 											
 					<fo:basic-link internal-destination="{@bibitemid}" fox:alt-text="{@citeas}">
+						
 						<xsl:if test="normalize-space(@citeas) = ''">
 							<xsl:attribute name="fox:alt-text"><xsl:value-of select="."/></xsl:attribute>
 						</xsl:if>

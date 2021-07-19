@@ -13,17 +13,20 @@ RSpec.describe Asciidoctor::ITU do
   end
 
   it "processes a blank document" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
     INPUT
+    output = <<~OUTPUT
       #{@blank_hdr}
       <sections/>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "converts a blank document" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -31,15 +34,18 @@ RSpec.describe Asciidoctor::ITU do
       :no-pdf:
       :legacy-do-not-insert-missing-sections:
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections/>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
     expect(File.exist?("test.html")).to be true
   end
 
   it "converts a blank document and insert missing sections" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -47,6 +53,7 @@ RSpec.describe Asciidoctor::ITU do
       :novalid:
       :no-pdf:
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
           <clause obligation='normative' type="scope" id="_">
@@ -74,6 +81,8 @@ RSpec.describe Asciidoctor::ITU do
         </bibliography>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes default metadata" do
@@ -280,7 +289,7 @@ RSpec.describe Asciidoctor::ITU do
           <edition>2</edition>
         <version>
           <revision-date>2000-01-01</revision-date>
-        </version>#{'  '}
+        </version>
           <language>en</language>
           <script>Latn</script>
           <status>
@@ -872,64 +881,66 @@ RSpec.describe Asciidoctor::ITU do
       :title: Main Title
       :legacy-do-not-insert-missing-sections:
     INPUT
-    expect(xmlpp(output.sub(%r{<boilerplate>.*</boilerplate>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
-      <?xml version="1.0" encoding="UTF-8"?>
-      <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
-      <bibdata type="standard">
-        <title language="en" format="text/plain" type="main">Main Title</title>
-        <docidentifier type="ITU">ITU-T 1000</docidentifier>
-        <docidentifier type="ITU-lang">ITU-T 1000-E</docidentifier>
-        <docnumber>1000</docnumber>
-        <contributor>
-          <role type="author"/>
-          <organization>
-          <name>International Telecommunication Union</name>
-          </organization>
-        </contributor>
-        <contributor>
-          <role type="publisher"/>
-          <organization>
-          <name>International Telecommunication Union</name>
-          </organization>
-        </contributor>
-        <language>en</language>
-        <script>Latn</script>
-        <status>
-          <stage>pizza</stage>
-        </status>
-        <copyright>
-          <from>#{Time.now.year}</from>
-          <owner>
+    expect(xmlpp(output.sub(%r{<boilerplate>.*</boilerplate>}m, "")))
+      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+        <?xml version="1.0" encoding="UTF-8"?>
+        <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
+        <bibdata type="standard">
+          <title language="en" format="text/plain" type="main">Main Title</title>
+          <docidentifier type="ITU">ITU-T 1000</docidentifier>
+          <docidentifier type="ITU-lang">ITU-T 1000-E</docidentifier>
+          <docnumber>1000</docnumber>
+          <contributor>
+            <role type="author"/>
             <organization>
             <name>International Telecommunication Union</name>
             </organization>
-          </owner>
-        </copyright>
-        <ext>
-          <doctype>technical-corrigendum</doctype>
-          <editorialgroup>
-            <bureau>T</bureau>
-          </editorialgroup>
-          <ip-notice-received>false</ip-notice-received>
-          <structuredidentifier>
-            <bureau>T</bureau>
-            <docnumber>1000</docnumber>
-          </structuredidentifier>
-        </ext>
-      </bibdata>
-      <sections/>
-      </itu-standard>
-    OUTPUT
+          </contributor>
+          <contributor>
+            <role type="publisher"/>
+            <organization>
+            <name>International Telecommunication Union</name>
+            </organization>
+          </contributor>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>pizza</stage>
+          </status>
+          <copyright>
+            <from>#{Time.now.year}</from>
+            <owner>
+              <organization>
+              <name>International Telecommunication Union</name>
+              </organization>
+            </owner>
+          </copyright>
+          <ext>
+            <doctype>technical-corrigendum</doctype>
+            <editorialgroup>
+              <bureau>T</bureau>
+            </editorialgroup>
+            <ip-notice-received>false</ip-notice-received>
+            <structuredidentifier>
+              <bureau>T</bureau>
+              <docnumber>1000</docnumber>
+            </structuredidentifier>
+          </ext>
+        </bibdata>
+        <sections/>
+        </itu-standard>
+      OUTPUT
   end
 
   it "does not strip inline header" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       This is a preamble
 
       [%inline-header]
       == Section 1
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <preface>
           <foreword id="_" obligation="informative">
@@ -944,10 +955,12 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "makes empty subclause titles have inline headers in resolutions" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -961,6 +974,7 @@ RSpec.describe Asciidoctor::ITU do
       == {blank}
       === {blank}
     INPUT
+    output = <<~OUTPUT
         #{BLANK_HDR.sub(/recommendation/, 'resolution')}
         #{boilerplate(Nokogiri::XML("#{BLANK_HDR.sub(/recommendation/, 'resolution')}</itu-standard>"))}
         <preface>
@@ -976,10 +990,12 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "does not make empty subclause titles have inline headers outside of resolutions" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -993,6 +1009,7 @@ RSpec.describe Asciidoctor::ITU do
       == {blank}
       === {blank}
     INPUT
+    output = <<~OUTPUT
           #{@blank_hdr}
           <preface>
             <foreword id="_" obligation="informative">
@@ -1007,6 +1024,8 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "uses default fonts" do
@@ -1071,17 +1090,18 @@ RSpec.describe Asciidoctor::ITU do
   end
 
   it "move sections to preface" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
-      #{'      '}
+
       [preface]
       == Prefatory
       section
-      #{'      '}
+
       == Section
-      #{'      '}
+
       text
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <preface>
           <clause id="_" obligation="informative" inline-header='false'>
@@ -1096,12 +1116,13 @@ RSpec.describe Asciidoctor::ITU do
           </clause>
         </sections>
       </itu-standard>
-      #{'      '}
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes sections" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       .Foreword
 
@@ -1197,6 +1218,7 @@ RSpec.describe Asciidoctor::ITU do
       [bibliography]
       == Second Bibliography
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')}
         <preface>
           <abstract id='_'>
@@ -1328,19 +1350,21 @@ RSpec.describe Asciidoctor::ITU do
         </bibliography>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "inserts boilerplate before empty Normative References" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [bibliography]
       == References
 
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          #{'      '}
         </sections>
         <bibliography>
           <references id="_" obligation="informative" normative="true">
@@ -1350,10 +1374,12 @@ RSpec.describe Asciidoctor::ITU do
         </bibliography>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "inserts boilerplate before non-empty Normative References" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [bibliography]
@@ -1361,9 +1387,9 @@ RSpec.describe Asciidoctor::ITU do
       * [[[a,b]]] A
 
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          #{'      '}
         </sections>
         <bibliography>
           <references id="_" obligation="informative" normative="true">
@@ -1376,12 +1402,13 @@ RSpec.describe Asciidoctor::ITU do
           </references>
         </bibliography>
       </itu-standard>
-      #{'      '}
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes stem blocks" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [stem%unnumbered%inequality]
       ++++
@@ -1389,6 +1416,7 @@ RSpec.describe Asciidoctor::ITU do
       r = 1 %
       ++++
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
           <formula id="_" inequality="true" unnumbered="true">
@@ -1397,17 +1425,20 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "inserts boilerplate before internal and external terms clause" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Definitions
-      === terms defined elsewhere#{'       '}
+      === terms defined elsewhere
       ==== Term 1
       === terms defined in this recommendation
       ==== Term 2
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
           <clause id='_' obligation='normative'>
@@ -1430,15 +1461,18 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "inserts boilerplate before empty internal and external terms clause" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Definitions
       === terms defined elsewhere
       === terms defined in this recommendation
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
           <clause id='_' obligation='normative'>
@@ -1455,13 +1489,15 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "does not insert boilerplate before internal and external terms clause if already populated" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Definitions
-      === terms defined elsewhere#{'       '}
+      === terms defined elsewhere
 
       Boilerplate
 
@@ -1472,6 +1508,7 @@ RSpec.describe Asciidoctor::ITU do
 
       ==== Term 2
     INPUT
+    output = <<~OUTPUT
        #{@blank_hdr}
        <sections>
           <clause id='_' obligation='normative'>
@@ -1494,10 +1531,12 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "inserts boilerplate before definitions with no internal and external terms clauses" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Definitions
       === terms defined somewhere
@@ -1505,6 +1544,7 @@ RSpec.describe Asciidoctor::ITU do
       === terms defined somewhere else
       ==== Term 2
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
           <clause id="_" obligation="normative">
@@ -1526,10 +1566,12 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "doesn't insert boilerplate before definitions with no internal & external terms clauses if already populated" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Definitions
 
@@ -1540,6 +1582,7 @@ RSpec.describe Asciidoctor::ITU do
       === terms defined somewhere else
       ==== Term 2
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
           <clause id="_" obligation="normative">
@@ -1561,22 +1604,25 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "inserts boilerplate before symbols" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Abbreviations and acronyms
 
       a:: b
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
           <definitions id="_" obligation='normative'>
             <title>Abbreviations and acronyms</title>
             <p id="_">This Recommendation uses the following abbreviations and acronyms:</p>
             <dl id="_">
-              <dt>a</dt>
+              <dt id='symbol-a'>a</dt>
               <dd>
                 <p id="_">b</p>
               </dd>
@@ -1585,10 +1631,12 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "does not insert boilerplate before symbols if already populated" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Abbreviations and acronyms
 
@@ -1596,11 +1644,12 @@ RSpec.describe Asciidoctor::ITU do
 
       a:: b
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
           <definitions id="_" obligation='normative'><title>Abbreviations and acronyms</title><p id="_">Boilerplate</p>
             <dl id="_">
-              <dt>a</dt>
+              <dt id='symbol-a'>a</dt>
               <dd>
                 <p id="_">b</p>
               </dd>
@@ -1609,10 +1658,12 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "inserts empty clause boilerplate" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Terms and definitions
 
@@ -1620,6 +1671,7 @@ RSpec.describe Asciidoctor::ITU do
       == Normative References
 
     INPUT
+    output = <<~OUTPUT
        #{@blank_hdr}
        <sections>
           <terms id='_' obligation='normative'>
@@ -1635,10 +1687,12 @@ RSpec.describe Asciidoctor::ITU do
         </bibliography>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes steps class of ordered lists" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       == Clause
 
@@ -1646,6 +1700,7 @@ RSpec.describe Asciidoctor::ITU do
       . First
       . Second
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
           <clause id="_" obligation="normative" inline-header='false'>
@@ -1662,10 +1717,12 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "does not apply smartquotes by default" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       = Document title
       Author
       :docfile: test.adoc
@@ -1682,6 +1739,7 @@ RSpec.describe Asciidoctor::ITU do
 
       “Quotation” A’s
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
           <clause id="_" obligation="normative" inline-header='false'>
@@ -1697,6 +1755,8 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "reorders references in bibliography, and renumbers citations accordingly" do
@@ -1714,7 +1774,7 @@ RSpec.describe Asciidoctor::ITU do
         :docfile: test.adoc
         :nodoc:
         :novalid:
-        #{'    '}
+
         == Clause 1
         <<ref1>>
         <<ref2>>
@@ -1723,10 +1783,10 @@ RSpec.describe Asciidoctor::ITU do
         <<ref8>>
         <<ref9>>
         <<ref10>>
-        #{'        '}
+
         [bibliography]
         == References
-        #{'        '}
+
         * [[[ref3,IEC 60027]]], _Standard IEC 123_
         * [[[ref1,ISO 55000]]], _Standard ISO 123_
         * [[[ref4,GB 12663-2019]]], _Standard GB 123_
@@ -1735,21 +1795,23 @@ RSpec.describe Asciidoctor::ITU do
         * [[[ref9,ITU-T Y.140]]], _Standard 30_
         * [[[ref10,ITU-T Y.1001]]], _Standard 30_
       INPUT
-      xpath = Nokogiri::XML(xml).xpath("//xmlns:references/xmlns:bibitem/xmlns:docidentifier")
-      expect(xmlpp("<div>#{xpath.to_xml}</div>")).to be_equivalent_to xmlpp(<<~"OUTPUT")
-        <div>
-          <docidentifier type='ITU'>ITU-T Y.1001</docidentifier>
-          <docidentifier type='ITU'>ITU-T Y.140</docidentifier>
-          <docidentifier type='ITU'>ITU-T Z.100</docidentifier>
-          <docidentifier type='ISO'>ISO 55000:2014</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso:55000:stage-90.92:ed-1:en</docidentifier>
-          <docidentifier type='ISO'>ISO/IEC 27001 (all parts)</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso-iec:27001</docidentifier>
-          <docidentifier type='IEC'>IEC 60027</docidentifier>
-          <docidentifier type='URN'>urn:iec:std:iec:60027::::en</docidentifier>
-          <docidentifier type='Chinese Standard'>GB 12663-2019</docidentifier>
-        </div>
-      OUTPUT
+      xpath = Nokogiri::XML(xml)
+        .xpath("//xmlns:references/xmlns:bibitem/xmlns:docidentifier")
+      expect(xmlpp("<div>#{xpath.to_xml}</div>"))
+        .to be_equivalent_to xmlpp(<<~"OUTPUT")
+          <div>
+            <docidentifier type='ITU'>ITU-T Y.1001</docidentifier>
+            <docidentifier type='ITU'>ITU-T Y.140</docidentifier>
+            <docidentifier type='ITU'>ITU-T Z.100</docidentifier>
+            <docidentifier type='ISO'>ISO 55000:2014</docidentifier>
+            <docidentifier type='URN'>urn:iso:std:iso:55000:stage-90.92:ed-1:en</docidentifier>
+            <docidentifier type='ISO'>ISO/IEC 27001 (all parts)</docidentifier>
+            <docidentifier type='URN'>urn:iso:std:iso-iec:27001</docidentifier>
+            <docidentifier type='IEC'>IEC 60027</docidentifier>
+            <docidentifier type='URN'>urn:iec:std:iec:60027::::en</docidentifier>
+            <docidentifier type='Chinese Standard'>GB 12663-2019</docidentifier>
+          </div>
+        OUTPUT
       FileUtils.rm_rf File.expand_path("~/.relaton/cache")
       FileUtils.mv File.expand_path("~/.relaton-bib.pstore1"), File.expand_path("~/.relaton/cache"), force: true
       FileUtils.rm_rf File.expand_path("~/.iev.pstore")
@@ -1758,7 +1820,7 @@ RSpec.describe Asciidoctor::ITU do
   end
 
   it "preserves &lt; &amp; &gt;" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 
       [[clause]]
@@ -1766,6 +1828,7 @@ RSpec.describe Asciidoctor::ITU do
 
       &lt;&amp;&gt;
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
           <clause id='clause' obligation='normative' inline-header='false'>
@@ -1775,10 +1838,12 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "capitalises table header" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [headerrows=2]
       |===
@@ -1789,6 +1854,7 @@ RSpec.describe Asciidoctor::ITU do
       |===
 
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
           <table id="_">
@@ -1815,44 +1881,45 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "has unique terms and definitions clauses" do
-    expect(xmlpp(strip_guid(Asciidoctor.convert(<<~"INPUT", *OPTIONS)))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
-      #{'      '}
+
       == Definitions
-      #{'      '}
+
       === Term 1
-      #{'      '}
+
       == Abbreviations and acronyms
-      #{'      '}
+
       a:: b
-      #{'      '}
+
       == Clause
-      #{'      '}
+
       === Definitions
-      #{'      '}
+
       ==== Term 1
-      #{'      '}
+
       === Abbreviations and acronyms
-      #{'      '}
+
       a:: b
-      #{'      '}
+
       == Clause 2
-      #{'      '}
+
       [heading=Definitions]
       === Definitions
-      #{'      '}
+
       ==== Term 1
-      #{'      '}
+
       [heading=Abbreviations and acronyms]
       === Abbreviations and acronyms
-      #{'      '}
+
       a:: b
-      #{'      '}
-      #{'      '}
     INPUT
+    output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
           <terms id='_' obligation='normative'>
@@ -1866,7 +1933,7 @@ RSpec.describe Asciidoctor::ITU do
             <title>Abbreviations and acronyms</title>
             <p id='_'>This Recommendation uses the following abbreviations and acronyms:</p>
             <dl id='_'>
-              <dt>a</dt>
+              <dt id='symbol-a'>a</dt>
               <dd>
                 <p id='_'>b</p>
               </dd>
@@ -1901,7 +1968,7 @@ RSpec.describe Asciidoctor::ITU do
             <definitions id='_' obligation='normative'>
               <title>Abbreviations and acronyms</title>
               <dl id='_'>
-                <dt>a</dt>
+                <dt id='symbol-a-1'>a</dt>
                 <dd>
                   <p id='_'>b</p>
                 </dd>
@@ -1911,5 +1978,7 @@ RSpec.describe Asciidoctor::ITU do
         </sections>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
   end
 end

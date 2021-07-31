@@ -21,10 +21,10 @@ module Metanorma
       def fonts_manifest
         {
           "Arial" => nil,
-          "Courier" => nil,
           "Courier New" => nil,
           "Times New Roman" => nil,
           "Source Han Sans" => nil,
+          "Source Han Sans Normal" => nil,
           "STIX Two Math" => nil,
         }
       end

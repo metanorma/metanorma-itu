@@ -1420,7 +1420,7 @@ RSpec.describe Asciidoctor::ITU do
         #{@blank_hdr}
         <sections>
           <formula id="_" inequality="true" unnumbered="true">
-            <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi><mi>r</mi><mo>=</mo><mn>1</mn><mi>%</mi></math></stem>
+            <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo></math></stem>
           </formula>
         </sections>
       </itu-standard>

@@ -1891,7 +1891,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:element name="{$element-name}">
-			<xsl:attribute name="font-family">Courier</xsl:attribute>
+			<xsl:attribute name="font-family">Courier New</xsl:attribute>
 			<xsl:attribute name="font-size">10pt</xsl:attribute>
 			<xsl:if test="local-name(..) != 'dt' and not(ancestor::itu:dd) and not(ancestor::itu:title)">
 				<xsl:attribute name="text-align">center</xsl:attribute>
@@ -2505,7 +2505,7 @@
 		
 		
 		
-			<xsl:attribute name="font-family">Courier</xsl:attribute>			
+			<xsl:attribute name="font-family">Courier New</xsl:attribute>			
 			<xsl:attribute name="margin-top">6pt</xsl:attribute>
 			<xsl:attribute name="margin-bottom">6pt</xsl:attribute>
 		

@@ -3,7 +3,6 @@ require "twitter_cldr"
 
 module IsoDoc
   module ITU
-
     class Metadata < IsoDoc::Metadata
       def initialize(lang, script, labels)
         super
@@ -96,10 +95,10 @@ module IsoDoc
         lbl = oblig == "informative" ? @labels["appendix"] : @labels["annex"]
         dn and set(:annexid, @i18n.l10n("#{lbl} #{dn&.text}"))
         dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/amendment")) and
-          set(:amendmentid, @i18n.l10n("#{@labels["amendment"]} #{dn&.text}"))
+          set(:amendmentid, @i18n.l10n("#{@labels['amendment']} #{dn&.text}"))
         dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/corrigendum")) and
           set(:corrigendumid,
-              @i18n.l10n("#{@labels["corrigendum"]} #{dn&.text}"))
+              @i18n.l10n("#{@labels['corrigendum']} #{dn&.text}"))
       end
 
       def unpublished(status)
@@ -114,13 +113,17 @@ module IsoDoc
         pubdate = isoxml.at(ns("//bibdata/date[not(@format)][@type = 'published']")) ||
           isoxml.at(ns("//bibdata/copyright/from"))
         pubdate and set(:placedate_year,
-                        @labels["placedate"].sub(/%/, pubdate.text.sub(/^(\d\d\d\d).*$/, "\\1")))
+                        @labels["placedate"].sub(/%/,
+                                                 pubdate.text.sub(
+                                                   /^(\d\d\d\d).*$/, "\\1"
+                                                 )))
       end
 
       def monthyr(isodate)
         m = /(?<yr>\d\d\d\d)-(?<mo>\d\d)/.match isodate
         return isodate unless m && m[:yr] && m[:mo]
-        return "#{m[:mo]}/#{m[:yr]}"
+
+        "#{m[:mo]}/#{m[:yr]}"
       end
 
       def keywords(isoxml, _out)
@@ -149,6 +152,7 @@ module IsoDoc
       def ddMMMYYYY(isodate)
         m = /(?<yr>\d\d\d\d)-(?<mo>\d\d)-(?<dd>\d\d)/.match isodate
         return isodate unless m && m[:yr] && m[:mo] && m[:dd]
+
         mmm = DateTime.parse(isodate).localize(@lang.to_sym).to_additional_s("MMM")
         @i18n.l10n("#{m[:dd]} #{mmm} #{m[:yr]}")
       end
@@ -184,9 +188,15 @@ module IsoDoc
           set(:meeting, a)
           set(:meeting_acronym, a)
         end
-        a = isoxml&.at(ns("//bibdata/ext/meeting/@acronym"))&.text and set(:meeting_acronym, a)
-        a = isoxml&.at(ns("//bibdata/ext/meeting-place"))&.text and set(:meeting_place, a)
-        a = isoxml&.at(ns("//bibdata/ext/intended-type"))&.text and set(:intended_type, a)
+        a = isoxml&.at(ns("//bibdata/ext/meeting/@acronym"))&.text and set(
+          :meeting_acronym, a
+        )
+        a = isoxml&.at(ns("//bibdata/ext/meeting-place"))&.text and set(
+          :meeting_place, a
+        )
+        a = isoxml&.at(ns("//bibdata/ext/intended-type"))&.text and set(
+          :intended_type, a
+        )
         a = isoxml&.at(ns("//bibdata/ext/source"))&.text and set(:source, a)
         meeting(isoxml)
       end
@@ -197,7 +207,8 @@ module IsoDoc
           set(:meeting_date, resolution ? ddMMMMYYYY(o, nil) : ddMMMYYYY(o))
         elsif f = isoxml&.at(ns("//bibdata/ext/meeting-date/from"))&.text
           t = isoxml&.at(ns("//bibdata/ext/meeting-date/to"))&.text
-          set(:meeting_date, resolution ? ddMMMMYYYY(f, t) : "#{ddMMMYYYY(f)}/#{ddMMMYYYY(t)}")
+          set(:meeting_date,
+              resolution ? ddMMMMYYYY(f, t) : "#{ddMMMYYYY(f)}/#{ddMMMYYYY(t)}")
         end
       end
     end

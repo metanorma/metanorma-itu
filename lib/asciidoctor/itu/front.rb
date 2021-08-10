@@ -17,13 +17,13 @@ module Asciidoctor
         { language: lang, format: "text/plain", type: type }
       end
 
-      def title_english(node, xml)
-        a = node.attr("title") || node.attr("title-en")
-        xml.title **attr_code(title_attr("main")) do |t|
+      def title_defaultlang(node, xml)
+        a = node.attr("title") || node.attr("title-#{@lang}")
+        xml.title **attr_code(title_attr("main", @lang)) do |t|
           t << (Metanorma::Utils::asciidoc_sub(a) || node.title)
         end
-        if a = node.attr("annextitle") || node.attr("annextitle-en")
-          xml.title **attr_code(title_attr("annex")) do |t|
+        if a = node.attr("annextitle") || node.attr("annextitle-#{@lang}")
+          xml.title **attr_code(title_attr("annex", @lang)) do |t|
             t << Metanorma::Utils::asciidoc_sub(a)
           end
         end
@@ -32,7 +32,7 @@ module Asciidoctor
       def title_otherlangs(node, xml)
         node.attributes.each do |k, v|
           next unless /^(annex)?title-(?<lang>.+)$/ =~ k
-          next if lang == "en"
+          next if lang == @lang
 
           type = /^annex/.match?(k) ? "annex" : "main"
           xml.title **attr_code(title_attr(type, lang)) do |t|
@@ -42,16 +42,17 @@ module Asciidoctor
       end
 
       def title(node, xml)
-        super
+        title_defaultlang(node, xml)
+        title_otherlangs(node, xml)
         %w(subtitle amendment-title corrigendum-title).each do |t|
-          other_title_english(node, xml, t)
+          other_title_defaultlang(node, xml, t)
           other_title_otherlangs(node, xml, t)
         end
       end
 
-      def other_title_english(node, xml, type)
-        a = node.attr(type) || node.attr("#{type}-en")
-        xml.title **attr_code(title_attr(type.sub(/-title/, ""))) do |t|
+      def other_title_defaultlang(node, xml, type)
+        a = node.attr(type) || node.attr("#{type}-#{@lang}")
+        xml.title **attr_code(title_attr(type.sub(/-title/, ""), @lang)) do |t|
           t << Metanorma::Utils::asciidoc_sub(a)
         end
       end
@@ -59,7 +60,7 @@ module Asciidoctor
       def other_title_otherlangs(node, xml, type)
         node.attributes.each do |k, v|
           next unless m = /^#{type}-(?<lang>.+)$/.match(k)
-          next if m[:lang] == "en"
+          next if m[:lang] == @lang
 
           xml.title **attr_code(title_attr(type.sub(/-title/, ""),
                                            m[:lang])) do |t|
@@ -84,30 +85,23 @@ module Asciidoctor
       def metadata_committee1(node, xml, suffix)
         xml.editorialgroup do |a|
           a.bureau ( node.attr("bureau#{suffix}") || "T")
-          if node.attr("group#{suffix}")
-            a.group **attr_code(type: node.attr("grouptype#{suffix}")) do |g|
-              metadata_committee2(node, g, suffix, "")
-            end
-          end
-          if node.attr("subgroup#{suffix}")
-            a.subgroup **attr_code(type: node.attr("subgrouptype#{suffix}")) do |g|
-              metadata_committee2(node, g, suffix, "sub")
-            end
-          end
-          if node.attr("workgroup#{suffix}")
-            a.workgroup **attr_code(type: node.attr("workgrouptype#{suffix}")) do |g|
-              metadata_committee2(node, g, suffix, "work")
+          ["", "sub", "work"].each do |p|
+            next unless node.attr("#{p}group#{suffix}")
+
+            type = node.attr("#{p}grouptype#{suffix}")
+            a.send "#{p}group", **attr_code(type: type) do |g|
+              metadata_committee2(node, g, suffix, p)
             end
           end
         end
       end
 
-      def metadata_committee2(node, g, suffix, prefix)
-        g.name node.attr("#{prefix}group#{suffix}")
+      def metadata_committee2(node, group, suffix, prefix)
+        group.name node.attr("#{prefix}group#{suffix}")
         node.attr("#{prefix}groupacronym#{suffix}") and
-          g.acronym node.attr("#{prefix}groupacronym#{suffix}")
+          group.acronym node.attr("#{prefix}groupacronym#{suffix}")
         if node.attr("#{prefix}groupyearstart#{suffix}")
-          g.period do |p|
+          group.period do |p|
             p.start node.attr("#{prefix}groupyearstart#{suffix}")
             node.attr("#{prefix}groupacronym#{suffix}") and
               p.end node.attr("#{prefix}groupyearend#{suffix}")
@@ -134,9 +128,11 @@ module Asciidoctor
 
       def itu_id1(node, lang)
         bureau = node.attr("bureau") || "T"
-        id = doctype(node) == "service-publication" ?
-          @i18n.annex_to_itu_ob_abbrev.sub(/%/, node.attr("docnumber")) :
-          "ITU-#{bureau} #{node.attr('docnumber')}"
+        id = if doctype(node) == "service-publication"
+               @i18n.annex_to_itu_ob_abbrev.sub(/%/, node.attr("docnumber"))
+             else
+               "ITU-#{bureau} #{node.attr('docnumber')}"
+             end
         id + (lang ? "-#{ITULANG[@lang]}" : "")
       end
 
@@ -165,16 +161,16 @@ module Asciidoctor
       def metadata_series(node, xml)
         node.attr("series") and
           xml.series **{ type: "main" } do |s|
-          s.title node.attr("series")
-        end
+            s.title node.attr("series")
+          end
         node.attr("series1") and
           xml.series **{ type: "secondary" } do |s|
-          s.title node.attr("series1")
-        end
+            s.title node.attr("series1")
+          end
         node.attr("series2") and
           xml.series **{ type: "tertiary" } do |s|
-          s.title node.attr("series2")
-        end
+            s.title node.attr("series2")
+          end
       end
 
       def metadata_recommendationstatus(node, xml)
@@ -222,9 +218,9 @@ module Asciidoctor
         end
       end
 
-      def metadata_meeting_date(a, xml)
+      def metadata_meeting_date(val, xml)
         xml.meeting_date do |m|
-          d = a.split("/")
+          d = val.split("/")
           if d.size > 1
             m.from d[0]
             m.to d[1]
@@ -234,9 +230,9 @@ module Asciidoctor
         end
       end
 
-      def personal_role(node, c, suffix)
+      def personal_role(node, contrib, suffix)
         if node.attr("role#{suffix}")&.downcase == "rapporteur"
-          c.role "raporteur", **{ type: "editor" }
+          contrib.role "raporteur", **{ type: "editor" }
         else
           super
         end

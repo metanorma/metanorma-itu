@@ -1394,6 +1394,7 @@
 				<xsl:attribute name="font-size">12pt</xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates/>
+			<xsl:apply-templates select="following-sibling::*[1][local-name() = 'variant-title'][@type = 'sub']" mode="subtitle"/>
 		</fo:block>
 		<!-- <xsl:if test="$doctype = 'service-publication'">
 			<fo:block keep-with-next="always">&#xa0;</fo:block>
@@ -1584,12 +1585,14 @@
 	<xsl:template match="itu:clause[@id='draft-warning']/itu:title" mode="caution">
 		<fo:block font-size="16pt" font-family="Times New Roman" font-style="italic" font-weight="bold" text-align="center" space-after="6pt">
 			<xsl:apply-templates/>
+			<xsl:apply-templates select="following-sibling::*[1][local-name() = 'variant-title'][@type = 'sub']" mode="subtitle"/>
 		</fo:block>
 	</xsl:template>
 	
 	<xsl:template match="itu:clause[@id='draft-warning']/itu:p" mode="caution">
 		<fo:block font-size="12pt" font-family="Times New Roman" text-align="justify">
 			<xsl:apply-templates/>
+			<xsl:apply-templates select="following-sibling::*[1][local-name() = 'variant-title'][@type = 'sub']" mode="subtitle"/>
 		</fo:block>
 	</xsl:template>
 	
@@ -1598,7 +1601,10 @@
 	<!-- ====== -->	
 	<xsl:template match="itu:annex/itu:title">
 		<fo:block font-size="14pt" font-weight="bold" text-align="center" margin-bottom="18pt">			
-			<fo:block><xsl:apply-templates/></fo:block>
+			<fo:block>
+				<xsl:apply-templates/>
+				<xsl:apply-templates select="following-sibling::*[1][local-name() = 'variant-title'][@type = 'sub']" mode="subtitle"/>
+			</fo:block>
 			<xsl:if test="$doctype != 'resolution'">
 				<fo:block font-size="12pt" font-weight="normal" margin-top="6pt">
 					<xsl:choose>
@@ -1693,6 +1699,7 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates/>
+			<xsl:apply-templates select="following-sibling::*[1][local-name() = 'variant-title'][@type = 'sub']" mode="subtitle"/>
 		</xsl:element>
 		
 		<xsl:if test="$element-name = 'fo:inline' and not(following-sibling::itu:p)">
@@ -5836,6 +5843,7 @@
 							</xsl:when>
 							<xsl:otherwise>
 								<xsl:apply-templates/>
+								<xsl:apply-templates select="following-sibling::*[1][local-name() = 'variant-title'][@type = 'sub']" mode="subtitle"/>
 							</xsl:otherwise>
 						</xsl:choose>
 					</fo:block>
@@ -6893,6 +6901,9 @@
 		<fo:block-container border="1pt solid black" width="50%">
 			<fo:block> </fo:block>
 		</fo:block-container>
+	</xsl:template><xsl:template match="*[local-name() = 'variant-title'][@type = 'sub']"/><xsl:template match="*[local-name() = 'variant-title'][@type = 'sub']" mode="subtitle">
+		<fo:inline padding-right="5mm"> </fo:inline>
+		<fo:inline><xsl:apply-templates/></fo:inline>
 	</xsl:template><xsl:template name="convertDate">
 		<xsl:param name="date"/>
 		<xsl:param name="format" select="'short'"/>

@@ -2134,7 +2134,7 @@
 	
 		
 	<xsl:template name="insertHeaderFooter">
-		<fo:static-content flow-name="footer-even" font-family="Times New Roman" font-size="11pt">
+		<fo:static-content flow-name="footer-even" font-family="Times New Roman" font-size="11pt" role="artifact">
 			<fo:block-container height="19mm" display-align="after">
 				<fo:table table-layout="fixed" width="100%" display-align="after">
 					<fo:table-column column-width="10%"/>
@@ -2152,7 +2152,7 @@
 				</fo:table>
 			</fo:block-container>
 		</fo:static-content>
-		<fo:static-content flow-name="footer-odd" font-family="Times New Roman" font-size="11pt">
+		<fo:static-content flow-name="footer-odd" font-family="Times New Roman" font-size="11pt" role="artifact">
 			<fo:block-container height="19mm" display-align="after">
 				<fo:table table-layout="fixed" width="100%" display-align="after">
 					<fo:table-column column-width="90%"/>
@@ -2173,7 +2173,7 @@
 	</xsl:template>
 
 	<xsl:template name="insertHeaderFooterSP">
-		<fo:static-content flow-name="footer-even">
+		<fo:static-content flow-name="footer-even" role="artifact">
 			<fo:block-container height="20mm">
 				<fo:table table-layout="fixed" width="100%" margin-top="3mm">
 					<fo:table-column column-width="proportional-column-width(2)"/>
@@ -2195,7 +2195,7 @@
 				</fo:table>
 			</fo:block-container>
 		</fo:static-content>
-		<fo:static-content flow-name="footer-odd">
+		<fo:static-content flow-name="footer-odd" role="artifact">
 			<fo:block-container height="20mm">
 				<fo:table table-layout="fixed" width="100%" margin-top="3mm">
 					<fo:table-column column-width="proportional-column-width(2)"/>

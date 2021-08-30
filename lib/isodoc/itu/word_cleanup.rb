@@ -9,8 +9,7 @@ module IsoDoc
         end
       end
 
-      def word_term_cleanup(docxml)
-      end
+      def word_term_cleanup(docxml); end
 
       def word_cleanup(docxml)
         word_footnote_cleanup(docxml)
@@ -77,26 +76,35 @@ module IsoDoc
           @wordstylesheet&.close
         end
         Html2Doc.process(
-          result, filename: filename, 
-          stylesheet: @wordstylesheet&.path,
-          header_file: header&.path, dir: dir,
-          asciimathdelims: [@openmathdelim, @closemathdelim],
-          liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" })
+          result, filename: filename,
+                  stylesheet: @wordstylesheet&.path,
+                  header_file: header&.path, dir: dir,
+                  asciimathdelims: [@openmathdelim, @closemathdelim],
+                  liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" }
+        )
         header&.unlink
         @wordstylesheet&.unlink
       end
 
       def authority_hdr_cleanup(docxml)
-        docxml&.xpath("//div[@id = 'draft-warning']").each do |d|
+        authority_hdr_cleanup1(docxml)
+        authority_hdr_cleanup2(docxml)
+      end
+
+      def authority_hdr_cleanup1(docxml)
+        docxml&.xpath("//div[@id = 'draft-warning']")&.each do |d|
           d.xpath(".//h1 | .//h2").each do |p|
             p.name = "p"
             p["class"] = "draftwarningHdr"
           end
         end
+      end
+
+      def authority_hdr_cleanup2(docxml)
         %w(copyright license legal).each do |t|
-          docxml&.xpath("//div[@class = 'boilerplate-#{t}']").each do |d|
-            p = d&.at("./descendant::h1[2]") and
-              p.previous = "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>"
+          docxml&.xpath("//div[@class = 'boilerplate-#{t}']")&.each do |d|
+            para = d&.at("./descendant::h1[2]") and
+              para.previous = "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>"
             d.xpath(".//h1 | .//h2").each do |p|
               p.name = "p"
               p["class"] = "boilerplateHdr"
@@ -114,14 +122,15 @@ module IsoDoc
           auth = docxml.at("//div[@class = 'boilerplate-#{t}']")
           auth.remove if auth && !dest
           next unless auth && dest
-          t == "copyright" and p = auth&.at(".//p") and
-            p["class"] = "boilerplateHdr"
-          auth&.xpath(".//p[not(@class)]")&.each_with_index do |p, i|
+
+          t == "copyright" and para = auth&.at(".//p") and
+            para["class"] = "boilerplateHdr"
+          auth&.xpath(".//p[not(@class)]")&.each_with_index do |p, _i|
             p["class"] = "boilerplate"
-            #i == 0 && t == "copyright" and p["style"] = "text-align:center;"
+            # i == 0 && t == "copyright" and p["style"] = "text-align:center;"
           end
           t == "copyright" or
-            auth << "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>" 
+            auth << "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>"
           dest.replace(auth.remove)
         end
       end
@@ -134,8 +143,8 @@ module IsoDoc
         end
       end
 
-      def table_list_style1(t, num)
-        (t.xpath(".//li") - t.xpath(".//ol//li | .//ul//li")).each do |t1|
+      def table_list_style1(tab, num)
+        (tab.xpath(".//li") - tab.xpath(".//ol//li | .//ul//li")).each do |t1|
           indent_list(t1, num)
           t1.xpath("./div | ./p").each { |p| indent_list(p, num) }
           (t1.xpath(".//ul") - t1.xpath(".//ul//ul | .//ol//ul")).each do |t2|
@@ -147,9 +156,9 @@ module IsoDoc
         end
       end
 
-      def indent_list(li, num)
-        li["style"] = (li["style"] ? li["style"] + ";" : "")
-        li["style"] += "margin-left: #{num * 0.5}cm;text-indent: -0.5cm;"
+      def indent_list(list, num)
+        list["style"] = (list["style"] ? "#{list['style']};" : "")
+        list["style"] += "margin-left: #{num * 0.5}cm;text-indent: -0.5cm;"
       end
     end
   end

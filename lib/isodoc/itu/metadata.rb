@@ -112,11 +112,12 @@ module IsoDoc
         pubdate and set(:pubdate_ddMMMyyyy, monthyr(pubdate.text))
         pubdate = isoxml.at(ns("//bibdata/date[not(@format)][@type = 'published']")) ||
           isoxml.at(ns("//bibdata/copyright/from"))
-        pubdate and set(:placedate_year,
-                        @labels["placedate"].sub(/%/,
-                                                 pubdate.text.sub(
-                                                   /^(\d\d\d\d).*$/, "\\1"
-                                                 )))
+        pubdate and
+          set(:placedate_year,
+              @labels["placedate"].sub(/%/,
+                                       pubdate.text.sub(
+                                         /^(\d\d\d\d).*$/, "\\1"
+                                       )))
       end
 
       def monthyr(isodate)
@@ -153,7 +154,8 @@ module IsoDoc
         m = /(?<yr>\d\d\d\d)-(?<mo>\d\d)-(?<dd>\d\d)/.match isodate
         return isodate unless m && m[:yr] && m[:mo] && m[:dd]
 
-        mmm = DateTime.parse(isodate).localize(@lang.to_sym).to_additional_s("MMM")
+        mmm = DateTime.parse(isodate).localize(@lang.to_sym)
+          .to_additional_s("MMM")
         @i18n.l10n("#{m[:dd]} #{mmm} #{m[:yr]}")
       end
 
@@ -188,21 +190,19 @@ module IsoDoc
           set(:meeting, a)
           set(:meeting_acronym, a)
         end
-        a = isoxml&.at(ns("//bibdata/ext/meeting/@acronym"))&.text and set(
-          :meeting_acronym, a
-        )
-        a = isoxml&.at(ns("//bibdata/ext/meeting-place"))&.text and set(
-          :meeting_place, a
-        )
-        a = isoxml&.at(ns("//bibdata/ext/intended-type"))&.text and set(
-          :intended_type, a
-        )
+        a = isoxml&.at(ns("//bibdata/ext/meeting/@acronym"))&.text and
+          set(:meeting_acronym, a)
+        a = isoxml&.at(ns("//bibdata/ext/meeting-place"))&.text and
+          set(:meeting_place, a)
+        a = isoxml&.at(ns("//bibdata/ext/intended-type"))&.text and
+          set(:intended_type, a)
         a = isoxml&.at(ns("//bibdata/ext/source"))&.text and set(:source, a)
         meeting(isoxml)
       end
 
       def meeting(isoxml)
-        resolution = isoxml&.at(ns("//bibdata/ext/doctype"))&.text == "resolution"
+        resolution =
+          isoxml&.at(ns("//bibdata/ext/doctype"))&.text == "resolution"
         if o = isoxml&.at(ns("//bibdata/ext/meeting-date/on"))&.text
           set(:meeting_date, resolution ? ddMMMMYYYY(o, nil) : ddMMMYYYY(o))
         elsif f = isoxml&.at(ns("//bibdata/ext/meeting-date/from"))&.text

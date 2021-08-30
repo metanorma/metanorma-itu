@@ -1,5 +1,5 @@
 require "vcr"
-  
+
 VCR.configure do |config|
   config.cassette_library_dir = "spec/vcr_cassettes"
   config.hook_into :webmock
@@ -46,203 +46,216 @@ RSpec.configure do |config|
   end
 end
 
-def metadata(x)
-  Hash[x.sort].delete_if{ |k, v| v.nil? || v.respond_to?(:empty?) && v.empty? }
+OPTIONS = [backend: :itu, header_footer: true].freeze
+
+def metadata(xml)
+  xml.sort.to_h.delete_if do |_k, v|
+    v.nil? || v.respond_to?(:empty?) && v.empty?
+  end
 end
 
-def htmlencode(x)
-  HTMLEntities.new.encode(x, :hexadecimal).gsub(/&#x3e;/, ">").gsub(/&#xa;/, "\n").
-    gsub(/&#x22;/, '"').gsub(/&#x3c;/, "<").gsub(/&#x26;/, '&').gsub(/&#x27;/, "'").
-    gsub(/\\u(....)/) { |s| "&#x#{$1.downcase};" }
+def htmlencode(xml)
+  HTMLEntities.new.encode(xml, :hexadecimal)
+    .gsub(/&#x3e;/, ">").gsub(/&#xa;/, "\n")
+    .gsub(/&#x22;/, '"').gsub(/&#x3c;/, "<")
+    .gsub(/&#x26;/, "&").gsub(/&#x27;/, "'")
+    .gsub(/\\u(....)/) do |_s|
+    "&#x#{$1.downcase};"
+  end
 end
 
-def strip_guid(x)
-  x.gsub(%r{ id="_[^"]+"}, ' id="_"').gsub(%r{ target="_[^"]+"}, ' target="_"')
+def strip_guid(xml)
+  xml.gsub(%r{ id="_[^"]+"}, ' id="_"')
+    .gsub(%r{ target="_[^"]+"}, ' target="_"')
 end
 
-def xmlpp(x)
+def xmlpp(xml)
   s = ""
   f = REXML::Formatters::Pretty.new(2)
   f.compact = true
-  f.write(REXML::Document.new(x),s)
+  f.write(REXML::Document.new(xml), s)
   s
 end
 
-ASCIIDOC_BLANK_HDR = <<~"HDR"
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :legacy-do-not-insert-missing-sections:
+ASCIIDOC_BLANK_HDR = <<~"HDR".freeze
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :novalid:
+  :legacy-do-not-insert-missing-sections:
 
 HDR
 
-VALIDATING_BLANK_HDR = <<~"HDR"
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
+VALIDATING_BLANK_HDR = <<~"HDR".freeze
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
 
 HDR
 
 def boilerplate(xmldoc)
-  file = File.read(File.join(File.dirname(__FILE__), "..", "lib", "asciidoctor", "itu", "boilerplate.xml"), encoding: "utf-8")
-  conv = Asciidoctor::ITU::Converter.new(nil, backend: :itu, header_footer: true)
-  conv.init(Asciidoctor::Document.new [])
+  file = File.read(
+    File.join(File.dirname(__FILE__), "..", "lib", "asciidoctor", "itu",
+              "boilerplate.xml"), encoding: "utf-8"
+  )
+  conv = Asciidoctor::ITU::Converter.new(nil, backend: :itu,
+                                              header_footer: true)
+  conv.init(Asciidoctor::Document.new([]))
   ret = Nokogiri::XML(
-    conv.boilerplate_isodoc(xmldoc).populate_template(file, nil).
-    gsub(/<p>/, "<p id='_'>").
-    gsub(/<ol>/, "<ol id='_'>"))
+    conv.boilerplate_isodoc(xmldoc).populate_template(file, nil)
+    .gsub(/<p>/, "<p id='_'>")
+    .gsub(/<ol>/, "<ol id='_'>"),
+  )
   conv.smartquotes_cleanup(ret)
   HTMLEntities.new.decode(ret.to_xml)
 end
 
- def itudoc(lang)
-   script = case lang
-            when "zh" then "Hans"
-            else
-              "Latn"
-            end
-<<~"INPUT"
-               <itu-standard xmlns="http://riboseinc.com/isoxml">
-               <bibdata type="standard">
-               <title language="en" format="text/plain" type="main">An ITU Standard</title>
-               <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
-               <docidentifier type="ITU">12345</docidentifier>
-               <language>#{lang}</language>
-               <script>#{script }</script>
-               <keyword>A</keyword>
-               <keyword>B</keyword>
-               <ext>
-               <doctype>recommendation</doctype>
-               </ext>
-               </bibdata>
-      <preface>
-      <abstract><title>Abstract</title>
-      <p>This is an abstract</p>
-      </abstract>
-      <clause id="A0"><title>History</title>
-      <p>history</p>
-      </clause>
-      <foreword obligation="informative">
-         <title>Foreword</title>
-         <p id="A">This is a preamble</p>
-       </foreword>
-        <introduction id="B" obligation="informative"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
-         <title>Introduction Subsection</title>
+def itudoc(lang)
+  script = case lang
+           when "zh" then "Hans"
+           else
+             "Latn"
+           end
+  <<~"INPUT"
+             <itu-standard xmlns="http://riboseinc.com/isoxml">
+             <bibdata type="standard">
+             <title language="en" format="text/plain" type="main">An ITU Standard</title>
+             <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+             <docidentifier type="ITU">12345</docidentifier>
+             <language>#{lang}</language>
+             <script>#{script}</script>
+             <keyword>A</keyword>
+             <keyword>B</keyword>
+             <ext>
+             <doctype>recommendation</doctype>
+             </ext>
+             </bibdata>
+    <preface>
+    <abstract><title>Abstract</title>
+    <p>This is an abstract</p>
+    </abstract>
+    <clause id="A0"><title>History</title>
+    <p>history</p>
+    </clause>
+    <foreword obligation="informative">
+       <title>Foreword</title>
+       <p id="A">This is a preamble</p>
+     </foreword>
+      <introduction id="B" obligation="informative"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+       <title>Introduction Subsection</title>
+     </clause>
+     </introduction></preface><sections>
+     <clause id="D" obligation="normative" type="scope">
+       <title>Scope</title>
+       <p id="E">Text</p>
+     </clause>
+
+     <terms id="I" obligation="normative">
+       <term id="J">
+       <preferred>Term2</preferred>
+     </term>
+     </terms>
+     <definitions id="L">
+       <dl>
+       <dt>Symbol</dt>
+       <dd>Definition</dd>
+       </dl>
+     </definitions>
+     <clause id="M" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
+       <title>Introduction</title>
+     </clause>
+     <clause id="O" inline-header="false" obligation="normative">
+       <title>Clause 4.2</title>
+     </clause></clause>
+
+     </sections><annex id="P" inline-header="false" obligation="normative">
+       <title>Annex</title>
+       <clause id="Q" inline-header="false" obligation="normative">
+       <title>Annex A.1</title>
+       <clause id="Q1" inline-header="false" obligation="normative">
+       <title>Annex A.1a</title>
        </clause>
-       </introduction></preface><sections>
-       <clause id="D" obligation="normative" type="scope">
-         <title>Scope</title>
-         <p id="E">Text</p>
-       </clause>
+     </clause>
+     </annex><bibliography><references id="R" obligation="informative" normative="true">
+       <title>References</title>
+     </references><clause id="S" obligation="informative">
+       <title>Bibliography</title>
+       <references id="T" obligation="informative" normative="false">
+       <title>Bibliography Subsection</title>
+     </references>
+     </clause>
+     </bibliography>
+     </itu-standard>
+  INPUT
+end
 
-       <terms id="I" obligation="normative">
-         <term id="J">
-         <preferred>Term2</preferred>
-       </term>
-       </terms>
-       <definitions id="L">
-         <dl>
-         <dt>Symbol</dt>
-         <dd>Definition</dd>
-         </dl>
-       </definitions>
-       <clause id="M" inline-header="false" obligation="normative"><title>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
-         <title>Introduction</title>
-       </clause>
-       <clause id="O" inline-header="false" obligation="normative">
-         <title>Clause 4.2</title>
-       </clause></clause>
+BLANK_HDR = <<~"HDR".freeze
+  <?xml version="1.0" encoding="UTF-8"?>
+  <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
+  <bibdata type="standard">
+   <title language="en" format="text/plain" type="main">Document title</title>
 
-       </sections><annex id="P" inline-header="false" obligation="normative">
-         <title>Annex</title>
-         <clause id="Q" inline-header="false" obligation="normative">
-         <title>Annex A.1</title>
-         <clause id="Q1" inline-header="false" obligation="normative">
-         <title>Annex A.1a</title>
-         </clause>
-       </clause>
-       </annex><bibliography><references id="R" obligation="informative" normative="true">
-         <title>References</title>
-       </references><clause id="S" obligation="informative">
-         <title>Bibliography</title>
-         <references id="T" obligation="informative" normative="false">
-         <title>Bibliography Subsection</title>
-       </references>
-       </clause>
-       </bibliography>
-       </itu-standard>
-    INPUT
- end
+    <contributor>
+      <role type="author"/>
+      <organization>
+        <name>International Telecommunication Union</name>
+      </organization>
+    </contributor>
+    <contributor>
+      <role type="publisher"/>
+      <organization>
+        <name>International Telecommunication Union</name>
+      </organization>
+    </contributor>
 
+    <language>en</language>
+    <script>Latn</script>
+   <status>
+           <stage>published</stage>
+   </status>
 
-BLANK_HDR = <<~"HDR"
-       <?xml version="1.0" encoding="UTF-8"?>
-       <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
-       <bibdata type="standard">
-        <title language="en" format="text/plain" type="main">Document title</title>
-
-         <contributor>
-           <role type="author"/>
-           <organization>
-             <name>International Telecommunication Union</name>
-           </organization>
-         </contributor>
-         <contributor>
-           <role type="publisher"/>
-           <organization>
-             <name>International Telecommunication Union</name>
-           </organization>
-         </contributor>
-
-         <language>en</language>
-         <script>Latn</script>
-        <status>
-                <stage>published</stage>
-        </status>
-
-         <copyright>
-           <from>#{Time.new.year}</from>
-           <owner>
-             <organization>
-             <name>International Telecommunication Union</name>
-             </organization>
-           </owner>
-         </copyright>
-         <ext>
-                <doctype>recommendation</doctype>
-                <editorialgroup>
-                <bureau>T</bureau>
-                </editorialgroup>
-                <ip-notice-received>false</ip-notice-received>
-        </ext>
-       </bibdata>
+    <copyright>
+      <from>#{Time.new.year}</from>
+      <owner>
+        <organization>
+        <name>International Telecommunication Union</name>
+        </organization>
+      </owner>
+    </copyright>
+    <ext>
+           <doctype>recommendation</doctype>
+           <editorialgroup>
+           <bureau>T</bureau>
+           </editorialgroup>
+           <ip-notice-received>false</ip-notice-received>
+   </ext>
+  </bibdata>
 HDR
 
 def blank_hdr_gen
-<<~"HDR"
-#{BLANK_HDR}
-#{boilerplate(Nokogiri::XML(BLANK_HDR + "</itu-standard>"))}
-HDR
+  <<~"HDR"
+    #{BLANK_HDR}
+    #{boilerplate(Nokogiri::XML("#{BLANK_HDR}</itu-standard>"))}
+  HDR
 end
 
-HTML_HDR = <<~"HDR"
-           <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
-           <div class="title-section">
-             <p>&#160;</p>
-           </div>
-           <br/>
-           <div class="prefatory-section">
-             <p>&#160;</p>
-           </div>
-           <br/>
-           <div class="main-section">
+HTML_HDR = <<~"HDR".freeze
+  <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
+  <div class="title-section">
+    <p>&#160;</p>
+  </div>
+  <br/>
+  <div class="prefatory-section">
+    <p>&#160;</p>
+  </div>
+  <br/>
+  <div class="main-section">
 HDR
 
 def mock_pdf
-  allow(::Mn2pdf).to receive(:convert) do |url, output, c, d|
+  allow(::Mn2pdf).to receive(:convert) do |url, output, _c, _d|
     FileUtils.cp(url.gsub(/"/, ""), output.gsub(/"/, ""))
   end
 end

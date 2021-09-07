@@ -1,6 +1,7 @@
 require "asciidoctor"
 require "asciidoctor/standoc/converter"
 require "fileutils"
+require "metanorma-utils"
 require_relative "./front"
 require_relative "./validate"
 require_relative "./cleanup"
@@ -107,14 +108,9 @@ module Asciidoctor
         return unless node.attr("keywords")
 
         node.attr("keywords").split(/, */).sort.each_with_index do |kw, i|
-          xml.keyword (i.zero? ? strict_capitalize(kw) : kw)
+          kw_out = i.zero? ? Metanorma::Utils.strict_capitalize_first(kw) : kw
+          xml.keyword kw_out
         end
-      end
-
-      def strict_capitalize(str)
-        letters = str.split("")
-        letters.first.upcase!
-        letters.join
       end
 
       def clause_parse(attrs, xml, node)

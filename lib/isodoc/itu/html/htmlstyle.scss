@@ -358,6 +358,13 @@ ul {
   }
 }
 
+ul ul > li:first-child {
+      margin-top: 0;
+}
+ol ul > li:first-child {
+      margin-top: 0;
+}
+
 
 /* Bibliograhy */
 

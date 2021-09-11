@@ -125,10 +125,10 @@
 	
 	<xsl:template match="/">
 		<xsl:call-template name="namespaceCheck"/>
-		<fo:root xsl:use-attribute-sets="root-style">
-			<xsl:if test="$lang != 'ar'">
+		<fo:root xsl:use-attribute-sets="root-style" xml:lang="{$lang}">
+			<!-- <xsl:if test="$lang != 'ar'">
 				<xsl:attribute name="xml:lang"><xsl:value-of select="$lang"/></xsl:attribute>
-			</xsl:if>
+			</xsl:if> -->
 			<xsl:if test="$doctype = 'resolution'">
 				<xsl:attribute name="font-size">11pt</xsl:attribute>
 			</xsl:if>

@@ -305,7 +305,7 @@ RSpec.describe Asciidoctor::ITU do
             </copyright>
                        <relation type='complements'>
              <bibitem type='standard'>
-               <fetched>2021-09-16</fetched>
+               <fetched>#{Date.today}</fetched>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                <title type='main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en</uri>
@@ -359,7 +359,7 @@ RSpec.describe Asciidoctor::ITU do
                </relation>
                <relation type='instance'>
                  <bibitem type='standard'>
-                   <fetched>2021-09-16</fetched>
+                   <fetched>#{Date.today}</fetched>
                    <title type='title-main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                    <title type='main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                    <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en</uri>

@@ -98,7 +98,7 @@ RSpec.describe Asciidoctor::ITU do
                 <h2>Introduction Subsection</h2>
               </div>
                      </div>
-                     <p class="zzSTDTitle1">Recommendation 12345</p>
+                     <p class="zzSTDTitle1">Projet de nouvelle Recommendation 12345</p>
                      <p class="zzSTDTitle2">Un Standard ITU</p>
                      <div id="D">
                      <h1>1.&#160; Scope</h1>
@@ -258,7 +258,7 @@ RSpec.describe Asciidoctor::ITU do
               <h2>Introduction Subsection</h2>
             </div>
           </div>
-          <p class='zzSTDTitle1'>Recommendation 12345</p>
+          <p class='zzSTDTitle1'>&#26032;Recommendation&#33609;&#26696; 12345</p>
           <p class='zzSTDTitle2'/>
           <div id='D'>
             <h1>1.&#12288;Scope</h1>

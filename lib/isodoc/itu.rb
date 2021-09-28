@@ -7,6 +7,5 @@ require "isodoc/itu/presentation_xml_convert"
 
 module IsoDoc
   module ITU
-
   end
 end

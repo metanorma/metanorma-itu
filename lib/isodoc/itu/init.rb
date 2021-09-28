@@ -10,7 +10,7 @@ module IsoDoc
         @meta = Metadata.new(lang, script, i18n)
       end
 
-      def xref_init(lang, script, klass, i18n, options)
+      def xref_init(lang, script, _klass, i18n, options)
         html = HtmlConvert.new(language: lang, script: script)
         options = options.merge(hierarchical_assets: @hierarchical_assets)
         @xrefs = Xref.new(lang, script, html, i18n, options)
@@ -26,4 +26,3 @@ module IsoDoc
     end
   end
 end
-

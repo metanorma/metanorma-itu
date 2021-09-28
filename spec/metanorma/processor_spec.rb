@@ -22,13 +22,16 @@ RSpec.describe Metanorma::ITU::Processor do
   end
 
   it "generates IsoDoc XML from a blank document" do
-    expect(strip_guid(processor.input_to_isodoc(<<~"INPUT", nil))).to be_equivalent_to <<~"OUTPUT"
+    input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
     INPUT
+    output = <<~OUTPUT
         #{blank_hdr_gen}
         <sections/>
       </itu-standard>
     OUTPUT
+    expect(strip_guid(processor.input_to_isodoc(input, nil)))
+      .to be_equivalent_to output
   end
 
   it "generates HTML from IsoDoc XML" do

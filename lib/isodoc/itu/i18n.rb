@@ -14,8 +14,7 @@ module IsoDoc
               if script == "Hans" then load_yaml2x("zh-Hans")
               else load_yaml2x("en")
               end
-            else
-              load_yaml2x("en")
+            else load_yaml2x("en")
             end
         super.merge(y)
       end

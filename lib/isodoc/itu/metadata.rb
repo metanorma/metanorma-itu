@@ -139,9 +139,10 @@ module IsoDoc
         if d == "recommendation-annex"
           set(:doctype, "Recommendation")
           set(:doctype_display, "Recommendation")
-        else
-          super
+        else super
         end
+        d = get[:doctype] and
+          set(:draft_new_doctype, @labels["draft_new"].sub(/%/, d))
       end
 
       def ip_notice_received(isoxml, _out)

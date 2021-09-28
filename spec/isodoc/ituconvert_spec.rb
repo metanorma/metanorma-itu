@@ -5,7 +5,7 @@ logoloc = File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "lib", 
 
 RSpec.describe Asciidoctor::ITU do
   it "processes history and source clauses (Word)" do
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~INPUT, true).gsub(%r{^.*<div class="WordSection2">}m, '<div class="WordSection2">').gsub(%r{<p>\s*<br clear="all" class="section"/>\s*</p>\s*<div class="WordSection3">.*}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml">
       <preface>
       <clause type="history" id="H"><title>History</title></clause>
@@ -13,6 +13,7 @@ RSpec.describe Asciidoctor::ITU do
       </preface>
       </iso-standard>
     INPUT
+    output = <<~OUTPUT
           <div class='WordSection2'>
         <div id='H' class="history">
           <h1 class='IntroTitle'>History</h1>
@@ -23,10 +24,11 @@ RSpec.describe Asciidoctor::ITU do
         <p>&#160;</p>
       </div>
     OUTPUT
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", input, true).gsub(%r{^.*<div class="WordSection2">}m, '<div class="WordSection2">').gsub(%r{<p>\s*<br clear="all" class="section"/>\s*</p>\s*<div class="WordSection3">.*}m, ""))).to be_equivalent_to xmlpp(output)
   end
 
   it "processes amendments and corrigenda" do
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
       <bibdata>
       <language>en</language>
@@ -40,6 +42,7 @@ RSpec.describe Asciidoctor::ITU do
       </bibdata>
       </itu-standard>
     INPUT
+    output = <<~OUTPUT
           <itu-standard xmlns='https://www.calconnect.org/standards/itu' type='presentation'>
         <bibdata>
           <language current="true">en</language>
@@ -55,10 +58,11 @@ RSpec.describe Asciidoctor::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(output)
   end
 
   it "processes titles for service publications" do
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
       <bibdata>
       <language>en</language>
@@ -71,6 +75,7 @@ RSpec.describe Asciidoctor::ITU do
       </bibdata>
       </itu-standard>
     INPUT
+    output = <<~OUTPUT
           <itu-standard xmlns='https://www.calconnect.org/standards/itu' type='presentation'>
         <bibdata>
           <language current='true'>en</language>
@@ -86,6 +91,7 @@ RSpec.describe Asciidoctor::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(output)
   end
 
   it "processes titles for resolutions" do
@@ -250,6 +256,9 @@ RSpec.describe Asciidoctor::ITU do
       <language>en</language>
       <script>Latn</script>
       <title type="main">Title</title>
+      <status>
+      <stage>draft</stage>
+      </status>
       <date type="published">2010-09-08</date>
       <ext>
       <doctype>resolution</doctype>
@@ -270,6 +279,7 @@ RSpec.describe Asciidoctor::ITU do
                  <title type='main'>Title</title>
                  <title language='en' format='text/plain' type='resolution'>RESOLUTION 1 (Rev. Andorra, 1204)</title>
       <title language='en' format='text/plain' type='resolution-placedate'>Andorra, 1204</title>
+      <status> <stage language=''>draft</stage> </status>
                  <date type='published'>2010-09-08</date>
                  <date type='published' format='ddMMMyyyy'>8.IX.2010</date>
                  <ext>
@@ -297,13 +307,14 @@ RSpec.describe Asciidoctor::ITU do
   end
 
   it "processes keyword" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
       <preface><foreword>
       <keyword>ABC</keyword>
       </foreword></preface>
       </itu-standard>
     INPUT
+    output = <<~OUTPUT
       #{HTML_HDR}
            <div>
              <h1 class="IntroTitle"/>
@@ -314,6 +325,7 @@ RSpec.describe Asciidoctor::ITU do
          </div>
        </body>
     OUTPUT
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", input, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(output)
   end
 
   it "processes simple terms & definitions" do
@@ -435,7 +447,7 @@ RSpec.describe Asciidoctor::ITU do
   end
 
   it "processes terms & definitions subclauses with external, internal, and empty definitions" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
                      <itu-standard xmlns="http://riboseinc.com/isoxml">
                <termdocsource type="inline" bibitemid="ISO712"/>
              <preface/><sections>
@@ -471,6 +483,7 @@ RSpec.describe Asciidoctor::ITU do
       </bibliography>
               </itu-standard>
     INPUT
+    output = <<~OUTPUT
             #{HTML_HDR}
                    <p class="zzSTDTitle1"/>
                  <p class="zzSTDTitle2"/>
@@ -499,10 +512,11 @@ RSpec.describe Asciidoctor::ITU do
                </div>
                </body>
     OUTPUT
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).convert("test", input, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(output)
   end
 
   it "rearranges term headers" do
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).cleanup(Nokogiri::XML(<<~"INPUT")).to_s)).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       <html>
              <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
                <div class="title-section">
@@ -525,6 +539,7 @@ RSpec.describe Asciidoctor::ITU do
              </body>
              </html>
     INPUT
+    output = <<~OUTPUT
                 <?xml version="1.0"?>
       <html>
              <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
@@ -548,10 +563,11 @@ RSpec.describe Asciidoctor::ITU do
              </body>
              </html>
     OUTPUT
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({}).cleanup(Nokogiri::XML(input)).to_s)).to be_equivalent_to xmlpp(output)
   end
 
   it "processes IsoXML footnotes (Word)" do
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).sub(%r{^.*<body }m, "<body xmlns:epub='epub' ").sub(%r{</body>.*$}m, "</body>").gsub(%r{_Ref\d+}, "_Ref"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
           <itu-standard xmlns="http://riboseinc.com/isoxml">
           <preface>
           <foreword>
@@ -568,6 +584,7 @@ RSpec.describe Asciidoctor::ITU do
           </preface>
           </itu-standard>
     INPUT
+    output = <<~OUTPUT
           <body xmlns:epub="epub" lang="EN-US" link="blue" vlink="#954F72">
                  <div class="WordSection1">
                    <p>&#160;</p>
@@ -613,6 +630,7 @@ RSpec.describe Asciidoctor::ITU do
                  </div>
                </body>
     OUTPUT
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", input, true).sub(%r{^.*<body }m, "<body xmlns:epub='epub' ").sub(%r{</body>.*$}m, "</body>").gsub(%r{_Ref\d+}, "_Ref"))).to be_equivalent_to xmlpp(output)
   end
 
   it "cleans up footnotes" do
@@ -928,7 +946,7 @@ RSpec.describe Asciidoctor::ITU do
                      <a href='#A1'>Annex A</a>
       <a href='#B1'>Appendix I</a>
                    </div>
-              <p class="zzSTDTitle1">Recommendation 12345</p>
+              <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
                    <p class="zzSTDTitle2">An ITU Standard</p>
                    <br/>
                    <div id="A1" class="Section3">
@@ -1135,7 +1153,7 @@ RSpec.describe Asciidoctor::ITU do
                 <h2>Introduction Subsection</h2>
               </div>
                      </div>
-                     <p class="zzSTDTitle1">Recommendation 12345</p>
+                     <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
                      <p class="zzSTDTitle2">An ITU Standard</p>
                      <div id="D">
                        <h1>1.&#160; Scope</h1>
@@ -1234,7 +1252,7 @@ RSpec.describe Asciidoctor::ITU do
                    <br clear="all" class="section"/>
                  </p>
                  <div class="WordSection3">
-                   <p class="zzSTDTitle1">Recommendation 12345</p>
+                   <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
                    <p class="zzSTDTitle2">An ITU Standard</p>
                    <div id="D">
                      <h1>1.<span style="mso-tab-count:1">&#160; </span>Scope</h1>
@@ -1353,7 +1371,7 @@ RSpec.describe Asciidoctor::ITU do
     html = File.read("test.doc", encoding: "UTF-8")
     expect(xmlpp(html.sub(%r{^.*<div class="WordSection3">}m, %{<body><div class="WordSection3">}).gsub(%r{</body>.*$}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       <body><div class="WordSection3">
-            <p class="zzSTDTitle1">Recommendation 12345</p>
+            <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
             <p class="zzSTDTitle2">An ITU Standard</p>
             <div><a name="D" id="D"></a>
               <h1>1<span style="mso-tab-count:1">&#xA0; </span>Scope</h1>
@@ -1409,7 +1427,7 @@ RSpec.describe Asciidoctor::ITU do
   end
 
   it "processes eref types" do
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
           <itu-standard xmlns="http://riboseinc.com/isoxml">
           <preface><foreword>
           <p>
@@ -1438,6 +1456,7 @@ RSpec.describe Asciidoctor::ITU do
           </bibliography>
           </itu-standard>
     INPUT
+    output = <<~OUTPUT
                 <?xml version='1.0'?>
        <itu-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
          <preface>
@@ -1497,6 +1516,7 @@ RSpec.describe Asciidoctor::ITU do
          </bibliography>
        </itu-standard>
     OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true).gsub(%r{<localized-strings>.*</localized-strings>}m, ""))).to be_equivalent_to xmlpp(output)
   end
 
   it "processes annex with supplied annexid" do
@@ -1575,7 +1595,7 @@ RSpec.describe Asciidoctor::ITU do
     expect(xmlpp(html.gsub(%r{^.*<main}m, "<main").gsub(%r{</main>.*}m, "</main>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
           <main class='main-section'>
                <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
-               <p class='zzSTDTitle1'>Recommendation 12345</p>
+               <p class='zzSTDTitle1'>Draft new Recommendation 12345</p>
                <p class='zzSTDTitle2'>An ITU Standard</p>
                <p class='zzSTDTitle3'>Subtitle</p>
                <div id='A1' class='Section3'>
@@ -1609,7 +1629,7 @@ RSpec.describe Asciidoctor::ITU do
     html = File.read("test.doc", encoding: "utf-8")
     expect(xmlpp(html.gsub(%r{^.*<div class="WordSection3">}m, '<div class="WordSection3" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">').gsub(%r{<div style="mso-element:footnote-list"/>.*}m, ""))).to be_equivalent_to xmlpp(<<~"OUTPUT")
       <div class='WordSection3' xmlns:m='http://schemas.microsoft.com/office/2004/12/omml'>
-            <p class='zzSTDTitle1'>Recommendation 12345</p>
+            <p class='zzSTDTitle1'>Draft new Recommendation 12345</p>
             <p class='zzSTDTitle2'>An ITU Standard</p>
             <p class='zzSTDTitle3'>Subtitle</p>
             <div class='Section3'>
@@ -1729,7 +1749,7 @@ RSpec.describe Asciidoctor::ITU do
   end
 
   it "processes erefs and xrefs and links (Word)" do
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(<<~"OUTPUT")
+    input = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml">
           <preface><foreword>
           <p>
@@ -1755,6 +1775,7 @@ RSpec.describe Asciidoctor::ITU do
           </bibliography>
           </iso-standard>
     INPUT
+    output = <<~OUTPUT
           <body lang='EN-US' link='blue' vlink='#954F72'>
         <div class='WordSection1'>
           <p>&#160;</p>
@@ -1804,6 +1825,7 @@ RSpec.describe Asciidoctor::ITU do
         </div>
       </body>
     OUTPUT
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({}).convert("test", input, true).gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))).to be_equivalent_to xmlpp(output)
   end
 
   it "processes boilerplate" do
@@ -2085,7 +2107,7 @@ RSpec.describe Asciidoctor::ITU do
   end
 
   it "localises numbers in MathML" do
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", <<~INPUT, true)).sub(%r{<localized-strings>.*</localized-strings>}m, "")).to be_equivalent_to xmlpp(<<~OUTPUT)
+    input = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml">
       <bibdata>
            <title language="en">test</title>
@@ -2096,6 +2118,7 @@ RSpec.describe Asciidoctor::ITU do
            </preface>
       </iso-standard>
     INPUT
+    output = <<~OUTPUT
       <iso-standard xmlns='http://riboseinc.com/isoxml' type='presentation'>
                <bibdata>
                  <title language='en'>test</title>
@@ -2189,6 +2212,7 @@ RSpec.describe Asciidoctor::ITU do
                </preface>
              </iso-standard>
     OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({}).convert("test", input, true)).sub(%r{<localized-strings>.*</localized-strings>}m, "")).to be_equivalent_to xmlpp(output)
   end
 
   it "processes unnumbered clauses" do

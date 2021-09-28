@@ -9,7 +9,7 @@ module IsoDoc
   module ITU
     module BaseConvert
       FRONT_CLAUSE = "//*[parent::preface]"\
-        "[not(local-name() = 'abstract')]".freeze
+                     "[not(local-name() = 'abstract')]".freeze
 
       def preface(isoxml, out)
         isoxml.xpath(ns(FRONT_CLAUSE)).each do |c|
@@ -124,7 +124,10 @@ module IsoDoc
 
       def middle_title_recommendation(isoxml, out)
         out.p(**{ class: "zzSTDTitle1" }) do |p|
-          id = @meta.get[:docnumber] and p << "#{@meta.get[:doctype]} #{id}"
+          type = @meta.get[:doctype]
+          @meta.get[:unpublished] && @meta.get[:draft_new_doctype] and
+            type = @meta.get[:draft_new_doctype]
+          id = @meta.get[:docnumber] and p << "#{type} #{id}"
         end
         out.p(**{ class: "zzSTDTitle2" }) do |p|
           p << @meta.get[:doctitle]

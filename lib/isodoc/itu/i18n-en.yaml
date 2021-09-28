@@ -59,6 +59,7 @@ tsb_full: Telecommunication<br/>Standardization Bureau<br/>of ITU
 br_full: Radiocommunication Bureau<br/>of ITU
 bdt_full: Telecommunication<br/>Development Bureau<br/>of ITU
 prepub: Prepublished version
+draft_new: Draft new %
 doctype_dict:
   resolution: Resolution
   recommendation: Recommendation

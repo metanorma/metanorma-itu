@@ -171,14 +171,9 @@
       </optional>
       <group>
         <choice>
-          <group>
-            <zeroOrMore>
-              <ref name="BasicBlock"/>
-            </zeroOrMore>
-            <zeroOrMore>
-              <ref name="note"/>
-            </zeroOrMore>
-          </group>
+          <zeroOrMore>
+            <ref name="BasicBlock"/>
+          </zeroOrMore>
           <ref name="amend"/>
         </choice>
         <zeroOrMore>

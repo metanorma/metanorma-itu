@@ -11,7 +11,7 @@ module IsoDoc
           p << ": "
           source and p << "#{bracket_opt(source.value)} "
         end
-        defn and defn.children.each { |n| parse(n, div) }
+        defn&.children&.each { |n| parse(n, div) }
       end
 
       def termdef_parse(node, out)
@@ -21,16 +21,19 @@ module IsoDoc
           termdef_parse1(node, div, defn, source)
           set_termdomain("")
           node.children.each do |n|
-            next if %w(preferred definition termsource title name).include? n.name
+            next if %w(preferred definition termsource title
+                       name).include? n.name
+
             parse(n, out)
           end
         end
       end
 
-      def bracket_opt(b)
-        return b if b.nil?
-        return b if /^\[.+\]$/.match(b)
-        "[#{b}]"
+      def bracket_opt(text)
+        return text if text.nil?
+        return text if /^\[.+\]$/.match?(text)
+
+        "[#{text}]"
       end
 
       def termnote_delim

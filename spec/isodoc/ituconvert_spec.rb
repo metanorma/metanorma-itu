@@ -369,13 +369,13 @@ RSpec.describe Asciidoctor::ITU do
       <preface/><sections>
       <terms id="H" obligation="normative"><title>Terms</title>
         <term id="J">
-        <preferred>Term2</preferred>
+        <preferred><expression><name>Term2</name></expression></preferred>
         <definition><p>This is a journey into sound</p></definition>
         <termsource><origin citeas="XYZ">x y z</origin></termsource>
         <termnote id="J1" keep-with-next="true" keep-lines-together="true"><p>This is a note</p></termnote>
       </term>
         <term id="K">
-        <preferred>Term3</preferred>
+        <preferred><expression><name>Term3</name></expression></preferred>
         <definition><p>This is a journey into sound</p></definition>
         <termsource><origin citeas="XYZ">x y z</origin></termsource>
         <termnote id="J2"><p>This is a note</p></termnote>

@@ -1497,7 +1497,7 @@ RSpec.describe Asciidoctor::ITU do
             <title>Definitions</title>
             <p id='_'>This Recommendation defines the following terms:</p>
             <term id='term-term1'>
-              <preferred>Term1</preferred>
+              <preferred><expression><name>Term1</name></expression></preferred>
             </term>
           </terms>
           <clause id='_' obligation='normative'>
@@ -1520,14 +1520,14 @@ RSpec.describe Asciidoctor::ITU do
               <terms id='_' obligation='normative'>
                 <title>Intro 5</title>
                 <term id='term-term1-1'>
-                  <preferred>Term1</preferred>
+                  <preferred><expression><name>Term1</name></expression></preferred>
                 </term>
               </terms>
             </clause>
             <clause id='_' obligation='normative'>
               <title>Normal Terms</title>
               <term id='term-term2'>
-                <preferred>Term2</preferred>
+                <preferred><expression><name>Term2</name></expression></preferred>
               </term>
               <terms id='_' type='external' obligation='normative'>
                 <title>Terms defined elsewhere</title>
@@ -1540,7 +1540,7 @@ RSpec.describe Asciidoctor::ITU do
                 <title>General</title>
               </clause>
               <term id='term-symbols-1'>
-                <preferred>Symbols 1</preferred>
+                <preferred><expression><name>Symbols 1</name></expression></preferred>
               </term>
             </terms>
           </clause>
@@ -1690,14 +1690,14 @@ RSpec.describe Asciidoctor::ITU do
               <title>Terms defined elsewhere</title>
               <p id='_'>This Recommendation uses the following terms defined elsewhere:</p>
               <term id='term-term-1'>
-                <preferred>Term 1</preferred>
+                <preferred><expression><name>Term 1</name></expression></preferred>
               </term>
             </terms>
             <terms id='_' type='internal' obligation='normative'>
               <title>Terms defined in this recommendation</title>
               <p id='_'>This Recommendation defines the following terms:</p>
               <term id='term-term-2'>
-                <preferred>Term 2</preferred>
+                <preferred><expression><name>Term 2</name></expression></preferred>
               </term>
             </terms>
           </clause>
@@ -1760,14 +1760,14 @@ RSpec.describe Asciidoctor::ITU do
               <title>Terms defined elsewhere</title>
               <p id='_'>Boilerplate</p>
               <term id='term-term-1'>
-                <preferred>Term 1</preferred>
+                <preferred><expression><name>Term 1</name></expression></preferred>
               </term>
             </terms>
             <terms id='_' type='internal' obligation='normative'>
               <title>Terms defined in this recommendation</title>
               <p id='_'>Boilerplate</p>
               <term id='term-term-2'>
-                <preferred>Term 2</preferred>
+                <preferred><expression><name>Term 2</name></expression></preferred>
               </term>
             </terms>
           </clause>
@@ -1796,13 +1796,13 @@ RSpec.describe Asciidoctor::ITU do
             <terms id="_" obligation="normative">
               <title>terms defined somewhere</title>
               <term id="term-term-1">
-                <preferred>Term 1</preferred>
+                <preferred><expression><name>Term 1</name></expression></preferred>
               </term>
             </terms>
             <terms id="_" obligation="normative">
               <title>terms defined somewhere else</title>
               <term id="term-term-2">
-                <preferred>Term 2</preferred>
+                <preferred><expression><name>Term 2</name></expression></preferred>
               </term>
             </terms>
           </clause>
@@ -1834,13 +1834,13 @@ RSpec.describe Asciidoctor::ITU do
             <terms id="_" obligation="normative">
               <title>terms defined somewhere</title>
                 <term id="term-term-1">
-                <preferred>Term 1</preferred>
+                <preferred><expression><name>Term 1</name></expression></preferred>
               </term>
             </terms>
             <terms id="_" obligation="normative">
               <title>terms defined somewhere else</title>
               <term id="term-term-2">
-                <preferred>Term 2</preferred>
+                <preferred><expression><name>Term 2</name></expression></preferred>
               </term>
             </terms>
           </clause>
@@ -2173,7 +2173,7 @@ RSpec.describe Asciidoctor::ITU do
             <title>Definitions</title>
             <p id='_'>This Recommendation defines the following terms:</p>
             <term id='term-term-1'>
-              <preferred>Term 1</preferred>
+            <preferred><expression><name>Term 1</name></expression></preferred>
             </term>
           </terms>
           <definitions id='_' obligation='normative'>

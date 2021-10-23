@@ -130,8 +130,8 @@ module Asciidoctor
 
       def termdef_style(xmldoc)
         xmldoc.xpath("//term").each do |t|
-          para = t.at("./definition") || return
-          term = t.at("./preferred/expression/name").text
+          para = t.at("./definition/verbaldefinition") || return
+          term = t.at("./preferred//name").text
           termdef_warn(term, /^[A-Z][a-z]+/, t, term, "term is not lowercase")
           termdef_warn(para.text, /^[a-z]/, t, term,
                        "term definition does not start with capital")

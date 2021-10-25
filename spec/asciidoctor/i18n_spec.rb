@@ -319,7 +319,7 @@ RSpec.describe Asciidoctor::ITU do
           <title>D&#233;finitions</title>
           <p id='_'>La pr&#233;sente Recommandation d&#233;finit les termes suivants:</p>
           <term id='term-term1'>
-            <preferred>Term1</preferred>
+            <preferred><expression><name>Term1</name></expression></preferred>
           </term>
         </terms>
         <clause id='_' obligation='normative'>
@@ -342,14 +342,14 @@ RSpec.describe Asciidoctor::ITU do
             <terms id='_' obligation='normative'>
               <title>Intro 5</title>
               <term id='term-term1-1'>
-                <preferred>Term1</preferred>
+                <preferred><expression><name>Term1</name></expression></preferred>
               </term>
             </terms>
           </clause>
           <clause id='_' obligation='normative'>
             <title>Normal Terms</title>
             <term id='term-term2'>
-              <preferred>Term2</preferred>
+              <preferred><expression><name>Term2</name></expression></preferred>
             </term>
             <terms id='_' type='external' obligation='normative'>
               <title>Termes d&#233;finis ailleurs</title>
@@ -362,7 +362,7 @@ RSpec.describe Asciidoctor::ITU do
               <title>General</title>
             </clause>
             <term id='term-symbols-1'>
-              <preferred>Symbols 1</preferred>
+              <preferred><expression><name>Symbols 1</name></expression></preferred>
             </term>
           </terms>
         </clause>
@@ -739,7 +739,7 @@ RSpec.describe Asciidoctor::ITU do
               &#26412;&#24314;&#35758;&#20070;&#23450;&#20041;&#19979;&#21015;&#26415;&#35821;&#65306;
             </p>
             <term id='term-term1'>
-              <preferred>Term1</preferred>
+              <preferred><expression><name>Term1</name></expression></preferred>
             </term>
           </terms>
           <clause id='_' obligation='normative'>
@@ -762,14 +762,14 @@ RSpec.describe Asciidoctor::ITU do
               <terms id='_' obligation='normative'>
                 <title>Intro 5</title>
                 <term id='term-term1-1'>
-                  <preferred>Term1</preferred>
+                  <preferred><expression><name>Term1</name></expression></preferred>
                 </term>
               </terms>
             </clause>
             <clause id='_' obligation='normative'>
               <title>Normal Terms</title>
               <term id='term-term2'>
-                <preferred>Term2</preferred>
+                <preferred><expression><name>Term2</name></expression></preferred>
               </term>
               <terms id='_' type='external' obligation='normative'>
                 <title>&#20854;&#20182;&#22320;&#26041;&#23450;&#20041;&#30340;&#26415;&#35821;</title>
@@ -782,7 +782,7 @@ RSpec.describe Asciidoctor::ITU do
                 <title>General</title>
               </clause>
               <term id='term-symbols-1'>
-                <preferred>Symbols 1</preferred>
+                <preferred><expression><name>Symbols 1</name></expression></preferred>
               </term>
             </terms>
           </clause>
@@ -1170,7 +1170,7 @@ RSpec.describe Asciidoctor::ITU do
             &#1575;&#1604;&#1578;&#1575;&#1604;&#1610;&#1577;:
           </p>
           <term id='term-term1'>
-            <preferred>Term1</preferred>
+            <preferred><expression><name>Term1</name></expression></preferred>
           </term>
         </terms>
         <clause id='_' obligation='normative'>
@@ -1193,14 +1193,14 @@ RSpec.describe Asciidoctor::ITU do
             <terms id='_' obligation='normative'>
               <title>Intro 5</title>
               <term id='term-term1-1'>
-                <preferred>Term1</preferred>
+                <preferred><expression><name>Term1</name></expression></preferred>
               </term>
             </terms>
           </clause>
           <clause id='_' obligation='normative'>
             <title>Normal Terms</title>
             <term id='term-term2'>
-              <preferred>Term2</preferred>
+              <preferred><expression><name>Term2</name></expression></preferred>
             </term>
             <terms id='_' type='external' obligation='normative'>
               <title>
@@ -1218,7 +1218,7 @@ RSpec.describe Asciidoctor::ITU do
               <title>General</title>
             </clause>
             <term id='term-symbols-1'>
-              <preferred>Symbols 1</preferred>
+              <preferred><expression><name>Symbols 1</name></expression></preferred>
             </term>
           </terms>
         </clause>
@@ -1591,7 +1591,7 @@ RSpec.describe Asciidoctor::ITU do
           <title>Definiciones</title>
           <p id='_'>Esta Recomendaci&#243;n define los siguientes t&#233;rminos:</p>
           <term id='term-term1'>
-            <preferred>Term1</preferred>
+            <preferred><expression><name>Term1</name></expression></preferred>
           </term>
         </terms>
         <clause id='_' obligation='normative'>
@@ -1614,14 +1614,14 @@ RSpec.describe Asciidoctor::ITU do
             <terms id='_' obligation='normative'>
               <title>Intro 5</title>
               <term id='term-term1-1'>
-                <preferred>Term1</preferred>
+                <preferred><expression><name>Term1</name></expression></preferred>
               </term>
             </terms>
           </clause>
           <clause id='_' obligation='normative'>
             <title>Normal Terms</title>
             <term id='term-term2'>
-              <preferred>Term2</preferred>
+              <preferred><expression><name>Term2</name></expression></preferred>
             </term>
             <terms id='_' type='external' obligation='normative'>
               <title>T&#233;rminos definidos en otro lugar</title>
@@ -1634,7 +1634,7 @@ RSpec.describe Asciidoctor::ITU do
               <title>General</title>
             </clause>
             <term id='term-symbols-1'>
-              <preferred>Symbols 1</preferred>
+              <preferred><expression><name>Symbols 1</name></expression></preferred>
             </term>
           </terms>
         </clause>
@@ -2003,7 +2003,7 @@ RSpec.describe Asciidoctor::ITU do
           <title>Definitionen</title>
           <p id='_'>Diese Empfehlung definiert die folgenden Begriffe:</p>
           <term id='term-term1'>
-            <preferred>Term1</preferred>
+            <preferred><expression><name>Term1</name></expression></preferred>
           </term>
         </terms>
         <clause id='_' obligation='normative'>
@@ -2026,14 +2026,14 @@ RSpec.describe Asciidoctor::ITU do
             <terms id='_' obligation='normative'>
               <title>Intro 5</title>
               <term id='term-term1-1'>
-                <preferred>Term1</preferred>
+                <preferred><expression><name>Term1</name></expression></preferred>
               </term>
             </terms>
           </clause>
           <clause id='_' obligation='normative'>
             <title>Normal Terms</title>
             <term id='term-term2'>
-              <preferred>Term2</preferred>
+              <preferred><expression><name>Term2</name></expression></preferred>
             </term>
             <terms id='_' type='external' obligation='normative'>
               <title>An anderer Stelle definierte Begriffe</title>
@@ -2046,7 +2046,7 @@ RSpec.describe Asciidoctor::ITU do
               <title>General</title>
             </clause>
             <term id='term-symbols-1'>
-              <preferred>Symbols 1</preferred>
+              <preferred><expression><name>Symbols 1</name></expression></preferred>
             </term>
           </terms>
         </clause>
@@ -2427,7 +2427,7 @@ RSpec.describe Asciidoctor::ITU do
               &#1056;&#1077;&#1082;&#1086;&#1084;&#1077;&#1085;&#1076;&#1072;&#1094;&#1080;&#1080; &#1086;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1099; &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1080;&#1077; &#1090;&#1077;&#1088;&#1084;&#1080;&#1085;&#1099;:
             </p>
             <term id='term-term1'>
-              <preferred>Term1</preferred>
+              <preferred><expression><name>Term1</name></expression></preferred>
             </term>
           </terms>
           <clause id='_' obligation='normative'>
@@ -2450,14 +2450,14 @@ RSpec.describe Asciidoctor::ITU do
               <terms id='_' obligation='normative'>
                 <title>Intro 5</title>
                 <term id='term-term1-1'>
-                  <preferred>Term1</preferred>
+                  <preferred><expression><name>Term1</name></expression></preferred>
                 </term>
               </terms>
             </clause>
             <clause id='_' obligation='normative'>
               <title>Normal Terms</title>
               <term id='term-term2'>
-                <preferred>Term2</preferred>
+                <preferred><expression><name>Term2</name></expression></preferred>
               </term>
               <terms id='_' type='external' obligation='normative'>
                 <title>
@@ -2473,7 +2473,7 @@ RSpec.describe Asciidoctor::ITU do
                 <title>General</title>
               </clause>
               <term id='term-symbols-1'>
-                <preferred>Symbols 1</preferred>
+                <preferred><expression><name>Symbols 1</name></expression></preferred>
               </term>
             </terms>
           </clause>

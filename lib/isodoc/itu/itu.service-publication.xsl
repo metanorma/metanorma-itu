@@ -1768,7 +1768,7 @@
 						<xsl:otherwise>5mm</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
-				<xsl:apply-templates select="ancestor::itu:term/itu:name" mode="presentation"/>
+				<xsl:apply-templates select="ancestor::itu:term[1]/itu:name" mode="presentation"/>
 			</fo:inline>
 			<fo:inline font-weight="bold">
 				<xsl:apply-templates/>

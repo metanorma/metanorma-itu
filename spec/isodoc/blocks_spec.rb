@@ -163,14 +163,12 @@ RSpec.describe Asciidoctor::ITU do
                              <td align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;" valign="top">6,06</td>
                            </tr>
                          </tfoot>
-                         <table class="dl">
-                           <tr>
-                             <td valign="top" align="left">
-                               <p align="left" style="margin-left:0pt;text-align:left;">Drago</p>
-                             </td>
-                             <td valign="top">A type of rice</td>
-                           </tr>
-                         </table>
+                         <dl>
+                          <dt>
+                            <p align='left' style='margin-left:0pt;text-align:left;'>Drago</p>
+                          </dt>
+                          <dd>A type of rice</dd>
+                        </dl>
                          <div class="Note">
                            <p><span class="note_label">NOTE &#8211; </span>This is a table about rice</p>
                          </div>

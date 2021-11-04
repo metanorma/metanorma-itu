@@ -23,18 +23,26 @@ module IsoDoc
           &.at(ns("//bibdata/ext/structuredidentifier/annexid"))&.text
           docxml.xpath(ns("//annex")).each { |c| annex_names(c, annexid) }
         else
-          i = Counter.new(0, numerals: :roman)
-          docxml.xpath(ns("//annex[@obligation = 'informative']"))
-            .each do |c|
-            i.increment(c)
-            annex_names(c, i.print.upcase)
-          end
-          i = Counter.new("@", skip_i: true)
-          docxml.xpath(ns("//annex[not(@obligation = 'informative')]"))
-            .each do |c|
-            i.increment(c)
-            annex_names(c, i.print)
-          end
+          informative_annex_names(docxml)
+          normative_annex_names(docxml)
+        end
+      end
+
+      def informative_annex_names(docxml)
+        i = Counter.new(0, numerals: :roman)
+        docxml.xpath(ns("//annex[@obligation = 'informative']"))
+          .each do |c|
+          i.increment(c)
+          annex_names(c, i.print.upcase)
+        end
+      end
+
+      def normative_annex_names(docxml)
+        i = Counter.new("@", skip_i: true)
+        docxml.xpath(ns("//annex[not(@obligation = 'informative')]"))
+          .each do |c|
+          i.increment(c)
+          annex_names(c, i.print)
         end
       end
 
@@ -51,7 +59,9 @@ module IsoDoc
         n = Counter.new
         n = section_names(doc.at(ns("//clause[@type = 'scope']")), n, 1)
         n = section_names(doc.at(ns(@klass.norm_ref_xpath)), n, 1)
-        n = section_names(doc.at(ns("//sections/terms | //sections/clause[descendant::terms]")), n, 1)
+        n = section_names(
+          doc.at(ns("//sections/terms | //sections/clause[descendant::terms]")), n, 1
+        )
         n = section_names(doc.at(ns("//sections/definitions")), n, 1)
         clause_names(doc, n)
         middle_section_asset_names(doc)
@@ -88,7 +98,8 @@ module IsoDoc
           next if t["id"].nil? || t["id"].empty?
 
           @anchors[t["id"]] =
-            anchor_struct(label, nil, @labels["figure"], "figure", t["unnumbered"])
+            anchor_struct(label, nil, @labels["figure"], "figure",
+                          t["unnumbered"])
         end
       end
 
@@ -105,14 +116,16 @@ module IsoDoc
           next if t["id"].nil? || t["id"].empty?
 
           @anchors[t["id"]] =
-            anchor_struct(label, nil, @labels["figure"], "figure", t["unnumbered"])
+            anchor_struct(label, nil, @labels["figure"], "figure",
+                          t["unnumbered"])
         end
       end
 
       def sequential_formula_names(clause)
         clause&.first&.xpath(ns(middle_sections))&.each do |c|
           if c["id"] && @anchors[c["id"]]
-            hierarchical_formula_names(c, @anchors[c["id"]][:label] || @anchors[c["id"]][:xref] || "???")
+            hierarchical_formula_names(c,
+                                       @anchors[c["id"]][:label] || @anchors[c["id"]][:xref] || "???")
           else
             hierarchical_formula_names(c, "???")
           end
@@ -121,9 +134,7 @@ module IsoDoc
 
       def hierarchical_formula_names(clause, num)
         c = Counter.new
-        clause.xpath(ns(".//formula")).each do |t|
-          next if t["id"].nil? || t["id"].empty?
-
+        clause.xpath(ns(".//formula")).reject { |n| blank?(n["id"]) }.each do |t|
           @anchors[t["id"]] = anchor_struct(
             "#{num}-#{c.increment(t).print}", nil,
             t["inequality"] ? @labels["inequality"] : @labels["formula"],
@@ -139,12 +150,10 @@ module IsoDoc
       end
 
       def termnote_anchor_names(docxml)
-        docxml.xpath(ns("//term[descendant::termnote]")).each do |t|
+        docxml.xpath(ns("//term[termnote]")).each do |t|
           c = Counter.new
-          notes = t.xpath(ns(".//termnote"))
-          notes.each do |n|
-            return if n["id"].nil? || n["id"].empty?
-
+          notes = t.xpath(ns("./termnote"))
+          notes.reject { |n| blank?(n["id"]) }.each do |n|
             idx = notes.size == 1 ? "" : " #{c.increment(n).print}"
             @anchors[n["id"]] =
               { label: termnote_label(idx).strip, type: "termnote", value: idx,

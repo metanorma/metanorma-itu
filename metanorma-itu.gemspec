@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "htmlentities", "~> 4.3.4"
   spec.add_dependency "metanorma-standoc", "~> 1.11.0"
   spec.add_dependency "ruby-jing"
-  spec.add_dependency "twitter_cldr"
+  spec.add_dependency "twitter_cldr", ">= 3.0.0"
   spec.add_dependency "tzinfo-data" # we need this for windows only
 
   spec.add_development_dependency "byebug", "~> 9.1"

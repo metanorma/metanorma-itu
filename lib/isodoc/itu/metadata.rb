@@ -6,16 +6,16 @@ module IsoDoc
     class Metadata < IsoDoc::Metadata
       def initialize(lang, script, labels)
         super
-        here = File.dirname(__FILE__)
         n = "International_Telecommunication_Union_Logo.svg"
-        set(:logo_html,
-            File.expand_path(File.join(here, "html", n)))
-        set(:logo_comb,
-            File.expand_path(File.join(here, "html", "itu-document-comb.png")))
-        set(:logo_word,
-            File.expand_path(File.join(here, "html", n)))
-        set(:logo_sp,
-            File.expand_path(File.join(here, "html", "logo-sp.png")))
+        set(:logo_html, fileloc(n))
+        set(:logo_comb, fileloc("itu-document-comb.png"))
+        set(:logo_word, fileloc(n))
+        set(:logo_sp, fileloc("logo-sp.png"))
+      end
+
+      def fileloc(file)
+        here = File.dirname(__FILE__)
+        File.expand_path(File.join(here, "html", file))
       end
 
       def title(isoxml, _out)
@@ -114,10 +114,8 @@ module IsoDoc
           isoxml.at(ns("//bibdata/copyright/from"))
         pubdate and
           set(:placedate_year,
-              @labels["placedate"].sub(/%/,
-                                       pubdate.text.sub(
-                                         /^(\d\d\d\d).*$/, "\\1"
-                                       )))
+              @labels["placedate"]
+          .sub(/%/, pubdate.text.sub(/^(\d\d\d\d).*$/, "\\1")))
       end
 
       def monthyr(isodate)
@@ -156,8 +154,8 @@ module IsoDoc
         return isodate unless m && m[:yr] && m[:mo] && m[:dd]
 
         mmm = DateTime.parse(isodate).localize(@lang.to_sym)
-          .to_additional_s("MMM")
-        @i18n.l10n("#{m[:dd]} #{mmm} #{m[:yr]}")
+          .to_additional_s("yMMM")
+        @i18n.l10n("#{m[:dd]} #{mmm}")
       end
 
       def ddMMMMYYYY(date1, date2)

@@ -1,8 +1,6 @@
 require "spec_helper"
 require "fileutils"
 
-OPTIONS = [backend: :itu, header_footer: true].freeze
-
 RSpec.describe Asciidoctor::ITU do
   before(:all) do
     @blank_hdr = blank_hdr_gen

@@ -33,7 +33,7 @@ module IsoDoc
 
       def term_cleanup2(docxml)
         docxml.xpath("//p[@class = 'TermNum']").each do |d|
-          d1 = d.next_element and d1.name == "p" or next
+          (d1 = d.next_element and d1.name == "p") or next
           d1.children.each { |e| e.parent = d }
           d1.remove
         end

@@ -2012,7 +2012,8 @@ RSpec.describe Asciidoctor::ITU do
     FileUtils.rm_rf "relaton/cache"
     FileUtils.rm_rf "test.iev.pstore"
 
-    VCR.use_cassette "multi-standards sort" do
+    VCR.use_cassette("multi-standards sort",
+                     match_requests_on: %i[method uri body]) do
       xml = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
         = Document title
         Author

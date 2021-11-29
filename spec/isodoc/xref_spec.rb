@@ -911,7 +911,7 @@ RSpec.describe Asciidoctor::ITU do
               </title>
               <term id='J'>
                 <name>3.1.1.</name>
-                <preferred>Term2</preferred>
+                <preferred><strong>Term2</strong></preferred>
               </term>
             </terms>
             <definitions id='K'>

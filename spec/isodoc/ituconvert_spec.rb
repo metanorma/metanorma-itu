@@ -392,14 +392,14 @@ RSpec.describe Asciidoctor::ITU do
       <terms id="H" obligation="normative" displayorder='1'><title depth="1">1.<tab/>Terms</title>
         <term id="J">
         <name>1.1.</name>
-        <preferred>Term2</preferred>
+        <preferred><strong>Term2</strong></preferred>
         <definition><p>This is a journey into sound</p></definition>
         <termsource><origin citeas="XYZ">x y z</origin></termsource>
         <termnote id="J1" keep-with-next="true" keep-lines-together="true"><name>NOTE</name><p>This is a note</p></termnote>
       </term>
         <term id="K">
         <name>1.2.</name>
-        <preferred>Term3</preferred>
+        <preferred><strong>Term3</strong></preferred>
         <definition><p>This is a journey into sound</p></definition>
         <termsource><origin citeas="XYZ">x y z</origin></termsource>
         <termnote id="J2"><name>NOTE 1</name><p>This is a note</p></termnote>

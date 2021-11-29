@@ -418,7 +418,7 @@ RSpec.describe Asciidoctor::ITU do
             <h1>1.&#160; Terms</h1>
             <div id='J'>
               <p class='TermNum' id='J'>
-                <b>1.1.&#160; Term2</b>:
+                <b>1.1.&#160; <b>Term2</b></b>:
                  [XYZ]
               </p>
               <p>This is a journey into sound</p>
@@ -428,7 +428,7 @@ RSpec.describe Asciidoctor::ITU do
             </div>
             <div id='K'>
               <p class='TermNum' id='K'>
-                <b>1.2.&#160; Term3</b>:
+                <b>1.2.&#160; <b>Term3</b></b>:
                  [XYZ]
               </p>
               <p>This is a journey into sound</p>

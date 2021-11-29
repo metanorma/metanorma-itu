@@ -8,9 +8,6 @@ require_relative "./cleanup"
 
 module Asciidoctor
   module ITU
-    # A {Converter} implementation that generates RSD output, and a document
-    # schema encapsulation of the document for validation
-    #
     class Converter < Standoc::Converter
       XML_ROOT_TAG = "itu-standard".freeze
       XML_NAMESPACE = "https://www.metanorma.org/ns/itu".freeze
@@ -72,11 +69,11 @@ module Asciidoctor
 
       def sectiontype_streamline(ret)
         case ret
-        when "definitions" then "terms and definitions"
+        when "definitions", "terms defined elsewhere",
+          "terms defined in this recommendation"
+          "terms and definitions"
         when "abbreviations and acronyms" then "symbols and abbreviated terms"
         when "references" then "normative references"
-        when "terms defined elsewhere" then "terms and definitions"
-        when "terms defined in this recommendation" then "terms and definitions"
         else
           super
         end

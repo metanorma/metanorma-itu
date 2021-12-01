@@ -9,7 +9,7 @@
 	
 	
 	
-	<xsl:key name="kfn" match="itu:fn[local-name(..) = 'p' or ancestor::*[local-name() = 'title']]" use="@reference"/>
+	<xsl:key name="kfn" match="*[local-name() = 'fn'][not(ancestor::*[(local-name() = 'table' or local-name() = 'figure') and not(ancestor::*[local-name() = 'name'])])]" use="@reference"/>
 	
 	
 	
@@ -1846,58 +1846,6 @@
 		</fo:footnote>
 	</xsl:template>
 
-	<xsl:variable name="p_fn">
-		<xsl:for-each select="//itu:fn[local-name(..) = 'p' or ancestor::*[local-name() = 'title']][generate-id(.)=generate-id(key('kfn',@reference)[1])]">
-			<!-- copy unique fn -->
-			<fn gen_id="{generate-id(.)}">
-				<xsl:copy-of select="@*"/>
-				<xsl:copy-of select="node()"/>
-			</fn>
-		</xsl:for-each>
-	</xsl:variable>
-	
-	<xsl:template match="itu:fn[local-name(..) = 'p' or ancestor::*[local-name() = 'title']]" priority="2">
-		<xsl:variable name="gen_id" select="generate-id(.)"/>
-		<xsl:variable name="reference" select="@reference"/>
-		<xsl:variable name="number">
-			<!-- <xsl:number level="any" count="itu:p/itu:fn"/> -->
-			<xsl:value-of select="count(xalan:nodeset($p_fn)//fn[@reference = $reference]/preceding-sibling::fn) + 1"/>
-		</xsl:variable>
-		<xsl:variable name="count_title_footnotes" select="count(/itu:itu-standard/itu:bibdata/itu:note[@type='title-footnote'])"/>
-		<xsl:variable name="count_bibitem_notes" select="count(//itu:bibitem/itu:note)"/>
-		<xsl:variable name="current_fn_number" select="$number + $count_title_footnotes + $count_bibitem_notes"/>
-		<xsl:choose>
-			<xsl:when test="xalan:nodeset($p_fn)//fn[@gen_id = $gen_id]">
-				<fo:footnote>
-					<fo:inline font-size="60%" keep-with-previous.within-line="always" vertical-align="super">
-						<fo:basic-link internal-destination="footnote_{@reference}_{$number}" fox:alt-text="footnote {@reference} {$number}">
-							<xsl:value-of select="$current_fn_number"/>
-						</fo:basic-link>
-					</fo:inline>
-					<fo:footnote-body>
-						<fo:block font-size="11pt" margin-bottom="12pt" text-align="justify" font-style="normal" font-weight="normal">
-							<xsl:if test="$doctype = 'service-publication'">
-								<xsl:attribute name="font-size">10pt</xsl:attribute>
-							</xsl:if>
-							<fo:inline id="footnote_{@reference}_{$number}" font-size="85%" padding-right="2mm" keep-with-next.within-line="always" baseline-shift="30%">
-								<xsl:value-of select="$current_fn_number"/>
-							</fo:inline>
-							<xsl:for-each select="itu:p">
-									<xsl:apply-templates/>
-							</xsl:for-each>
-						</fo:block>
-					</fo:footnote-body>
-				</fo:footnote>
-			</xsl:when>
-			<xsl:otherwise>
-				<fo:inline font-size="60%" keep-with-previous.within-line="always" vertical-align="super">
-					<fo:basic-link internal-destination="footnote_{@reference}_{$number}" fox:alt-text="footnote {@reference} {$number}">
-						<xsl:value-of select="$current_fn_number"/>
-					</fo:basic-link>
-				</fo:inline>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
 	
 	
 	<xsl:template match="*[local-name()='tt']" priority="2">
@@ -2898,6 +2846,76 @@
 		
 	</xsl:attribute-set><xsl:attribute-set name="toc-style">
 		<xsl:attribute name="line-height">135%</xsl:attribute>
+	</xsl:attribute-set><xsl:attribute-set name="fn-style">
+		<xsl:attribute name="keep-with-previous.within-line">always</xsl:attribute>
+	</xsl:attribute-set><xsl:attribute-set name="fn-num-style">
+		<xsl:attribute name="keep-with-previous.within-line">always</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+		
+			<xsl:attribute name="font-size">60%</xsl:attribute>
+			<xsl:attribute name="vertical-align">super</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+		
+	</xsl:attribute-set><xsl:attribute-set name="fn-body-style">
+		<xsl:attribute name="font-weight">normal</xsl:attribute>
+		<xsl:attribute name="font-style">normal</xsl:attribute>
+		<xsl:attribute name="text-indent">0</xsl:attribute>
+		<xsl:attribute name="start-indent">0</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+		
+			<xsl:attribute name="font-size">11pt</xsl:attribute>
+			<xsl:attribute name="margin-bottom">12pt</xsl:attribute>
+			<xsl:attribute name="text-align">justify</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</xsl:attribute-set><xsl:attribute-set name="fn-body-num-style">
+		<xsl:attribute name="keep-with-next.within-line">always</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+		
+			<xsl:attribute name="font-size">85%</xsl:attribute>
+			<xsl:attribute name="padding-right">2mm</xsl:attribute>
+			<xsl:attribute name="baseline-shift">30%</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	</xsl:attribute-set><xsl:variable name="border-block-added">2.5pt solid rgb(0, 176, 80)</xsl:variable><xsl:variable name="border-block-deleted">2.5pt solid rgb(255, 0, 0)</xsl:variable><xsl:template name="OLD_processPrefaceSectionsDefault_Contents">
 		<xsl:apply-templates select="/*/*[local-name()='preface']/*[local-name()='abstract']" mode="contents"/>
 		<xsl:apply-templates select="/*/*[local-name()='preface']/*[local-name()='foreword']" mode="contents"/>
@@ -3897,6 +3915,81 @@
 		
 	</xsl:template><xsl:template match="*[local-name()='table']/*[local-name()='note']/*[local-name()='name']" mode="process"/><xsl:template match="*[local-name()='table']/*[local-name()='note']/*[local-name()='p']" mode="process">
 		<xsl:apply-templates/>
+	</xsl:template><xsl:template match="*[local-name() = 'fn'][not(ancestor::*[(local-name() = 'table' or local-name() = 'figure') and not(ancestor::*[local-name() = 'name'])])]" priority="2" name="fn">
+	
+		<!-- list of footnotes to calculate actual footnotes number -->
+			<xsl:variable name="p_fn_">
+			<!-- itetation for:
+			footnotes in bibdata/title
+			footnotes in bibliography
+			footnotes in document's body (except table's head/body/foot and figure text) 
+			-->
+			<xsl:for-each select="ancestor::*[contains(local-name(), '-standard')]/*[local-name() = 'bibdata']/*[local-name() = 'note'][@type='title-footnote']">
+				<fn gen_id="{generate-id(.)}">
+					<xsl:copy-of select="@*"/>
+					<xsl:copy-of select="node()"/>
+				</fn>
+			</xsl:for-each>
+			<xsl:for-each select="ancestor::*[contains(local-name(), '-standard')]/*[local-name()='preface']/* |     ancestor::*[contains(local-name(), '-standard')]/*[local-name()='sections']/* |      ancestor::*[contains(local-name(), '-standard')]/*[local-name()='annex'] |     ancestor::*[contains(local-name(), '-standard')]/*[local-name()='bibliography']/*">
+				<xsl:sort select="@displayorder" data-type="number"/>
+				<xsl:for-each select=".//*[local-name() = 'bibitem'][ancestor::*[local-name() = 'references']]/*[local-name() = 'note'] |     .//*[local-name() = 'fn'][not(ancestor::*[(local-name() = 'table' or local-name() = 'figure') and not(ancestor::*[local-name() = 'name'])])][generate-id(.)=generate-id(key('kfn',@reference)[1])]">
+					<!-- copy unique fn -->
+					<fn gen_id="{generate-id(.)}">
+						<xsl:copy-of select="@*"/>
+						<xsl:copy-of select="node()"/>
+					</fn>
+				</xsl:for-each>
+			</xsl:for-each>
+		</xsl:variable>
+		<xsl:variable name="p_fn" select="xalan:nodeset($p_fn_)"/>
+		
+		<xsl:variable name="gen_id" select="generate-id(.)"/>
+		<xsl:variable name="lang" select="ancestor::*[contains(local-name(), '-standard')]/*[local-name()='bibdata']//*[local-name()='language'][@current = 'true']"/>
+		<xsl:variable name="reference" select="@reference"/>
+		<!-- fn sequence number in document -->
+		<xsl:variable name="current_fn_number" select="count($p_fn//fn[@reference = $reference]/preceding-sibling::fn) + 1"/>
+		<xsl:variable name="current_fn_number_text">
+			<xsl:value-of select="$current_fn_number"/>
+			
+		</xsl:variable>
+		
+		<xsl:variable name="ref_id" select="concat('footnote_', $lang, '_', $reference, '_', $current_fn_number)"/>
+		<xsl:variable name="footnote_inline">
+			<fo:inline xsl:use-attribute-sets="fn-num-style">
+				<fo:basic-link internal-destination="{$ref_id}" fox:alt-text="footnote {$current_fn_number}">
+					<xsl:value-of select="$current_fn_number_text"/>
+				</fo:basic-link>
+			</fo:inline>
+		</xsl:variable>
+		<!-- DEBUG: p_fn=<xsl:cop-of select="$p_fn"/>
+		gen_id=<xsl:value-of select="$gen_id"/> -->
+		<xsl:choose>
+			<xsl:when test="$p_fn//fn[@gen_id = $gen_id]">
+				<fo:footnote xsl:use-attribute-sets="fn-style">
+					<xsl:copy-of select="$footnote_inline"/>
+					<fo:footnote-body>
+						<fo:block-container text-indent="0" start-indent="0">
+							
+							
+							<fo:block xsl:use-attribute-sets="fn-body-style">
+								
+									<xsl:if test="$doctype = 'service-publication'">
+										<xsl:attribute name="font-size">10pt</xsl:attribute>
+									</xsl:if>
+								
+								<fo:inline id="{$ref_id}" xsl:use-attribute-sets="fn-body-num-style">
+									<xsl:value-of select="$current_fn_number_text"/>
+								</fo:inline>
+								<xsl:apply-templates/>
+							</fo:block>
+						</fo:block-container>
+					</fo:footnote-body>
+				</fo:footnote>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:copy-of select="$footnote_inline"/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template><xsl:template name="fn_display">
 		<xsl:variable name="references">
 			
@@ -4108,6 +4201,8 @@
 				
 			</fo:basic-link>
 		</fo:inline>
+	</xsl:template><xsl:template match="*[local-name()='fn']/text()[normalize-space() != '']">
+		<fo:inline><xsl:value-of select="."/></fo:inline>
 	</xsl:template><xsl:template match="*[local-name()='fn']/*[local-name()='p']">
 		<fo:inline>
 			<xsl:apply-templates/>

@@ -141,7 +141,7 @@ module Asciidoctor
       end
 
       def pdf_converter(node)
-        IsoDoc::ITU::PdfConvert.new(html_extract_attributes(node))
+        IsoDoc::ITU::PdfConvert.new(pdf_extract_attributes(node))
       end
 
       def doc_converter(node)

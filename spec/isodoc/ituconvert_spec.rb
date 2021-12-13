@@ -394,14 +394,14 @@ RSpec.describe Asciidoctor::ITU do
         <name>1.1.</name>
         <preferred><strong>Term2</strong></preferred>
         <definition><p>This is a journey into sound</p></definition>
-        <termsource><origin citeas="XYZ">x y z</origin></termsource>
+        <termsource>[SOURCE: <origin citeas="XYZ">x y z</origin>]</termsource>
         <termnote id="J1" keep-with-next="true" keep-lines-together="true"><name>NOTE</name><p>This is a note</p></termnote>
       </term>
         <term id="K">
         <name>1.2.</name>
         <preferred><strong>Term3</strong></preferred>
         <definition><p>This is a journey into sound</p></definition>
-        <termsource><origin citeas="XYZ">x y z</origin></termsource>
+        <termsource>[SOURCE: <origin citeas="XYZ">x y z</origin>]</termsource>
         <termnote id="J2"><name>NOTE 1</name><p>This is a note</p></termnote>
         <termnote id="J3"><name>NOTE 2</name><p>This is a note</p></termnote>
       </term>

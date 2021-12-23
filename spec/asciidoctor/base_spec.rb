@@ -236,7 +236,8 @@ RSpec.describe Asciidoctor::ITU do
         :complements: ITU-T F.69;ITU-T F.68
       INPUT
       expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)
-        .sub(%r{<boilerplate>.*</boilerplate>}m, "")))
+        .sub(%r{<boilerplate>.*</boilerplate>}m, "")
+        .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")))
         .to be_equivalent_to xmlpp(<<~"OUTPUT")
           <?xml version="1.0" encoding="UTF-8"?>
           <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
@@ -305,7 +306,7 @@ RSpec.describe Asciidoctor::ITU do
             </copyright>
                        <relation type='complements'>
              <bibitem type='standard'>
-               <fetched>#{Date.today}</fetched>
+               <fetched/>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                <title type='main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en</uri>
@@ -359,7 +360,7 @@ RSpec.describe Asciidoctor::ITU do
                </relation>
                <relation type='instance'>
                  <bibitem type='standard'>
-                   <fetched>#{Date.today}</fetched>
+                   <fetched/>
                    <title type='title-main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                    <title type='main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                    <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en</uri>
@@ -429,7 +430,7 @@ RSpec.describe Asciidoctor::ITU do
            </relation>
            <relation type='complements'>
              <bibitem type='standard'>
-               <fetched>#{Date.today}</fetched>
+               <fetched/>
                <title type='title-main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
                <title type='main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
                <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&amp;lang=en</uri>
@@ -483,7 +484,7 @@ RSpec.describe Asciidoctor::ITU do
                </relation>
                <relation type='instance'>
                  <bibitem type='standard'>
-                   <fetched>#{Date.today}</fetched>
+                   <fetched/>
                    <title type='title-main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
                    <title type='main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
                    <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&amp;lang=en</uri>

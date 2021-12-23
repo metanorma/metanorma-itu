@@ -215,20 +215,20 @@ svg {
 
 /* Headings */
 
-h1, h2, h3, h4, h5, h6, .h1Annex {
+h1, h2, h3, h4, h5, h6, .h1Annex, p.h1, .h2, .h3, .h4, .h5, .h6 {
   font-weight: 400;
   margin-top: 1.6em;
   margin-bottom: 0.3em;
 }
 
-h1, h2, h3, h4, .h1Annex {
+h1, h2, h3, h4, .h1Annex, p.h1, .h2, .h3, .h4 {
   @media print {
     page-break-after: avoid;
     margin-top: 1.2em;
   }
 }
 
-h1, .h1Annex {
+h1, .h1Annex, p.h1 {
   font-size: 1.4em;
   text-transform: uppercase;
   margin-top: 2em;
@@ -265,7 +265,7 @@ p.supertitle {
 
 }
 
-h2 {
+h2, .h2 {
   margin-top: 1.7em;
   font-size: 1.5em;
 
@@ -278,7 +278,7 @@ h2 {
   }
 }
 
-h3 {
+h3, .h3 {
   margin-top: 1.5em;
   font-size: 1.4em;
 
@@ -287,7 +287,7 @@ h3 {
   }
 }
 
-h4 {
+h4, .h4 {
   font-size: 1.2em;
 }
 

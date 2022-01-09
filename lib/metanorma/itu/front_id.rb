@@ -1,4 +1,4 @@
-module Asciidoctor
+module Metanorma
   module ITU
     class Converter < Standoc::Converter
       def metadata_id(node, xml)

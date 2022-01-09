@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Asciidoctor::ITU do
+RSpec.describe Metanorma::ITU do
   it "processes section names in French" do
     presxml = <<~OUTPUT
       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">

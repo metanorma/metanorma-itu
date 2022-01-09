@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Asciidoctor::ITU do
+RSpec.describe Metanorma::ITU do
   context "when xref_error.adoc compilation" do
     it "generates error file" do
       File.write("xref_error.adoc", <<~"CONTENT")

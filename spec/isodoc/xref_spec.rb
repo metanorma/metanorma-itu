@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Asciidoctor::ITU do
+RSpec.describe Metanorma::ITU do
   it "cross-references notes" do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">

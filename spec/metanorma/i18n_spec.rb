@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Asciidoctor::ITU do
+RSpec.describe Metanorma::ITU do
   before(:all) do
     @blank_hdr = blank_hdr_gen
   end

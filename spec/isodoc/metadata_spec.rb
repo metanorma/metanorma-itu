@@ -5,7 +5,7 @@ logoloc = File.expand_path(
   File.join(File.dirname(__FILE__), "..", "..", "lib", "isodoc", "itu", "html"),
 )
 
-RSpec.describe Asciidoctor::ITU do
+RSpec.describe Metanorma::ITU do
   it "processes default metadata" do
     csdc = IsoDoc::ITU::HtmlConvert.new({})
     docxml, = csdc.convert_init(<<~"INPUT", "test", true)

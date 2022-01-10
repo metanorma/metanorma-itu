@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Asciidoctor::ITU do
+RSpec.describe Metanorma::ITU do
   it "processes pre" do
     input = <<~INPUT
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">

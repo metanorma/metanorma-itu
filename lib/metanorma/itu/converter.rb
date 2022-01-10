@@ -1,12 +1,12 @@
 require "asciidoctor"
-require "asciidoctor/standoc/converter"
+require "metanorma/standoc/converter"
 require "fileutils"
 require "metanorma-utils"
 require_relative "./front"
 require_relative "./validate"
 require_relative "./cleanup"
 
-module Asciidoctor
+module Metanorma
   module ITU
     class Converter < Standoc::Converter
       XML_ROOT_TAG = "itu-standard".freeze

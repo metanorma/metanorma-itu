@@ -1,5 +1,5 @@
 module Metanorma
   module ITU
-    VERSION = "1.4.5".freeze
+    VERSION = "2.0.0".freeze
   end
 end

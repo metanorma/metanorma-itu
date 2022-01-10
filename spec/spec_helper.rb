@@ -18,9 +18,8 @@ end
 require "bundler/setup"
 require "asciidoctor"
 require "metanorma-itu"
-require "asciidoctor/itu"
 require "isodoc/itu/html_convert"
-require "asciidoctor/standoc/converter"
+require "metanorma/standoc/converter"
 require "rspec/matchers"
 require "equivalent-xml"
 require "htmlentities"
@@ -97,10 +96,10 @@ HDR
 
 def boilerplate(xmldoc)
   file = File.read(
-    File.join(File.dirname(__FILE__), "..", "lib", "asciidoctor", "itu",
+    File.join(File.dirname(__FILE__), "..", "lib", "metanorma", "itu",
               "boilerplate.xml"), encoding: "utf-8"
   )
-  conv = Asciidoctor::ITU::Converter.new(nil, backend: :itu,
+  conv = Metanorma::ITU::Converter.new(nil, backend: :itu,
                                               header_footer: true)
   conv.init(Asciidoctor::Document.new([]))
   ret = Nokogiri::XML(

@@ -1,9 +1,9 @@
 require "asciidoctor"
-require "asciidoctor/standoc/converter"
+require "metanorma/standoc/converter"
 require "fileutils"
 require_relative "./front_id"
 
-module Asciidoctor
+module Metanorma
   module ITU
     class Converter < Standoc::Converter
       def metadata_status(node, xml)

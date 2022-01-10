@@ -9,7 +9,7 @@ module IsoDoc
         list.tr **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
           id = render_identifier(bibitem_ref_code(b))
           ref.td **{ style: "vertical-align:top" } do |td|
-            td << (id[0] || "[#{id[1]}]")
+            td << (id[:metanorma] || "[#{id[:sdo]}]")
               &.gsub(/-/, "&#x2011;")&.gsub(/ /, "&#xa0;")
             date_note_process(b, td)
           end
@@ -65,7 +65,7 @@ module IsoDoc
       end
 
       IGNORE_IDS = "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or "\
-        "@type = 'rfc-anchor'".freeze
+                   "@type = 'rfc-anchor' or @type = 'metanorma-ordinal'".freeze
 
       def multi_bibitem_ref_code(b)
         id = b.xpath(ns("./docidentifier[not(@type = 'metanorma' or "\

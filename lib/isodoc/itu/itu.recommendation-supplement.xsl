@@ -1230,9 +1230,6 @@
 	<!-- ============================= -->
 	<!-- CONTENTS                                       -->
 	<!-- ============================= -->
-	<xsl:template match="node()" mode="contents">
-		<xsl:apply-templates mode="contents"/>			
-	</xsl:template>
 	
 	<!-- element with title -->
 	<xsl:template match="*[itu:title]" mode="contents">
@@ -1465,99 +1462,6 @@
 		</xsl:if>
 	</xsl:template>
 
-	
-	<!-- ============================= -->
-	<!-- ============================= -->
-	
-	
-	<!-- ============================= -->
-	<!-- Bibliography -->
-	<!-- ============================= -->
-	
-	<!-- Example: [ITU-T A.23]	ITU-T A.23, Recommendation ITU-T A.23, Annex A (2014), Guide for ITU-T and ISO/IEC JTC 1 cooperation. -->
-	<xsl:template match="itu:bibitem">
-		<fo:block id="{@id}" margin-top="6pt" margin-left="14mm" text-indent="-14mm">
-			<xsl:if test="$doctype = 'implementers-guide'">
-				<xsl:attribute name="margin-left">0mm</xsl:attribute>
-				<xsl:attribute name="text-indent">0mm</xsl:attribute>
-			</xsl:if>
-			
-			<xsl:variable name="bibitem_label">
-				<xsl:choose>
-					<xsl:when test="itu:docidentifier[@type = 'metanorma']">
-						<xsl:value-of select="itu:docidentifier[@type = 'metanorma']"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<fo:inline padding-right="5mm">
-							<xsl:text>[</xsl:text>
-								<xsl:value-of select="itu:docidentifier[not(@type = 'metanorma-ordinal')]"/>
-							<xsl:text>] </xsl:text>
-						</fo:inline>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-			
-			<xsl:variable name="bibitem_body">
-				<xsl:text> </xsl:text>
-				<xsl:choose>
-					<xsl:when test="itu:docidentifier[@type = 'metanorma']">
-						<xsl:if test="itu:docidentifier[not(@type) or not(@type = 'metanorma' or @type = 'metanorma-ordinal')]">
-							<xsl:value-of select="itu:docidentifier[not(@type) or not(@type = 'metanorma' or @type = 'metanorma-ordinal')]"/>
-							<xsl:text>, </xsl:text>
-						</xsl:if>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="itu:docidentifier[not(@type = 'metanorma-ordinal')]"/>
-						<xsl:if test="itu:title">
-							<xsl:text>, </xsl:text>
-						</xsl:if>
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:if test="itu:title">
-					<fo:inline font-style="italic">
-						<xsl:choose>
-							<xsl:when test="itu:title[@type = 'main' and @language = 'en']">
-								<xsl:value-of select="itu:title[@type = 'main' and @language = 'en']"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="itu:title"/>
-							</xsl:otherwise>
-						</xsl:choose>
-						</fo:inline>
-				</xsl:if>
-				<xsl:if test="itu:formattedref and not(itu:docidentifier[@type = 'metanorma'])">, </xsl:if>
-				<xsl:apply-templates select="itu:formattedref"/>
-			</xsl:variable>
-			
-			<xsl:choose>
-				<xsl:when test="$doctype = 'implementers-guide'">
-					<fo:table width="100%" table-layout="fixed">
-						<fo:table-column column-width="20%"/>
-						<fo:table-column column-width="80%"/>
-						<fo:table-body>
-							<fo:table-row>
-								<fo:table-cell><fo:block><xsl:copy-of select="$bibitem_label"/></fo:block></fo:table-cell>
-								<fo:table-cell><fo:block><xsl:copy-of select="$bibitem_body"/></fo:block></fo:table-cell>
-							</fo:table-row>
-						</fo:table-body>
-					</fo:table>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:copy-of select="$bibitem_label"/>
-					<xsl:copy-of select="$bibitem_body"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		
-		</fo:block>
-	</xsl:template>
-	<xsl:template match="itu:bibitem/itu:docidentifier"/>
-	
-	<xsl:template match="itu:bibitem/itu:title"/>
-	
-	<xsl:template match="itu:formattedref">
-		<xsl:apply-templates/>
-	</xsl:template>
-	
 	
 	<!-- ============================= -->
 	<!-- ============================= -->
@@ -1854,7 +1758,7 @@
 	[b-ASM]	b-ASM, http://www.eecs.umich.edu/gasm/ (accessed 20 March 2018).
 	[b-Börger & Stärk]	b-Börger & Stärk, Börger, E., and Stärk, R. S. (2003), Abstract State Machines: A Method for High-Level System Design and Analysis, Springer-Verlag.
 	-->
-	<xsl:template match="itu:annex//itu:bibitem">
+	<xsl:template match="itu:annex//itu:bibitem" priority="3">
 		<fo:block margin-top="6pt" margin-left="10mm" text-indent="-10mm">
 			<fo:inline id="{@id}" padding-right="5mm">[<xsl:value-of select="itu:docidentifier[not(@type = 'metanorma-ordinal')]"/>]</fo:inline>
 			<xsl:text> </xsl:text>
@@ -2053,20 +1957,6 @@
 	
 	<xsl:template match="itu:formula" mode="process">
 		<xsl:call-template name="formula"/>			
-	</xsl:template>
-
-	
-	<xsl:template match="itu:references[@normative='true']">
-		<fo:block id="{@id}">
-			<xsl:apply-templates/>
-		</fo:block>
-	</xsl:template>
-		
-	<xsl:template match="itu:references[not(@normative='true')]">
-		<fo:block break-after="page"/>
-		<fo:block id="{@id}">
-			<xsl:apply-templates/>
-		</fo:block>
 	</xsl:template>
 
 	
@@ -3120,6 +3010,144 @@
 		
 		
 		
+		
+		
+		
+	</xsl:attribute-set><xsl:attribute-set name="bibitem-normative-style">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<xsl:attribute name="margin-top">6pt</xsl:attribute>
+			<xsl:attribute name="margin-left">14mm</xsl:attribute>
+			<xsl:attribute name="text-indent">-14mm</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</xsl:attribute-set><xsl:attribute-set name="bibitem-normative-list-style">
+		<xsl:attribute name="provisional-distance-between-starts">12mm</xsl:attribute>
+		<xsl:attribute name="margin-bottom">12pt</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</xsl:attribute-set><xsl:attribute-set name="bibitem-non-normative-style">
+		
+		
+		
+			<xsl:attribute name="margin-top">6pt</xsl:attribute>
+			<xsl:attribute name="margin-left">14mm</xsl:attribute>
+			<xsl:attribute name="text-indent">-14mm</xsl:attribute>
+		
+		
+	</xsl:attribute-set><xsl:attribute-set name="bibitem-non-normative-list-style">
+		<xsl:attribute name="provisional-distance-between-starts">12mm</xsl:attribute>
+		<xsl:attribute name="margin-bottom">12pt</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</xsl:attribute-set><xsl:attribute-set name="bibitem-normative-list-body-style">
+		
+		
+			<xsl:attribute name="margin-top">6pt</xsl:attribute>
+			<xsl:attribute name="margin-left">14mm</xsl:attribute>
+			<xsl:attribute name="text-indent">-14mm</xsl:attribute>
+		
+	</xsl:attribute-set><xsl:attribute-set name="bibitem-non-normative-list-body-style">
+		
+		
+			<xsl:attribute name="margin-top">6pt</xsl:attribute>
+			<xsl:attribute name="margin-left">14mm</xsl:attribute>
+			<xsl:attribute name="text-indent">-14mm</xsl:attribute>
+		
+	</xsl:attribute-set><xsl:attribute-set name="bibitem-note-fn-style">
+		<xsl:attribute name="keep-with-previous.within-line">always</xsl:attribute>
+		<xsl:attribute name="font-size">65%</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<xsl:attribute name="font-size">8pt</xsl:attribute>
+			<xsl:attribute name="baseline-shift">30%</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+		
+	</xsl:attribute-set><xsl:attribute-set name="bibitem-note-fn-number-style">
+		<xsl:attribute name="keep-with-next.within-line">always</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<xsl:attribute name="alignment-baseline">hanging</xsl:attribute>
+			<xsl:attribute name="padding-right">3mm</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+		
+	</xsl:attribute-set><xsl:attribute-set name="bibitem-note-fn-body-style">
+		<xsl:attribute name="font-size">10pt</xsl:attribute>
+		<xsl:attribute name="margin-bottom">12pt</xsl:attribute>
+		<xsl:attribute name="start-indent">0pt</xsl:attribute>
+		
+		
+		
+		
+		
+		
+		
+			<xsl:attribute name="margin-bottom">4pt</xsl:attribute>
+		
+		
+		
+		
+		
+	</xsl:attribute-set><xsl:attribute-set name="references-non-normative-style">
 		
 		
 		
@@ -6713,11 +6741,6 @@
 		<fo:block id="{@id}">
 			<xsl:apply-templates/>
 		</fo:block>
-	</xsl:template><xsl:template match="*[local-name() = 'references'][@hidden='true']" priority="3"/><xsl:template match="*[local-name() = 'bibitem'][@hidden='true']" priority="3"/><xsl:template match="/*/*[local-name() = 'bibliography']/*[local-name() = 'references'][@normative='true']">
-		
-		<fo:block id="{@id}">
-			<xsl:apply-templates/>
-		</fo:block>
 	</xsl:template><xsl:template match="*[local-name() = 'annex']">
 		<fo:block break-after="page"/>
 		<fo:block id="{@id}">
@@ -6980,30 +7003,124 @@
 		<fo:table-cell border="1pt solid black" padding-left="1mm" padding-top="0.5mm">
 			<fo:block><xsl:apply-templates/></fo:block>
 		</fo:table-cell>
+	</xsl:template><xsl:template match="*[local-name() = 'references'][@hidden='true']" priority="3"/><xsl:template match="*[local-name() = 'bibitem'][@hidden='true']" priority="3"/><xsl:template match="*[local-name() = 'bibitem'][starts-with(@id, 'hidden_bibitem_')]" priority="3"/><xsl:template match="*[local-name() = 'references'][@normative='true']" priority="2">
+		
+		
+		
+		<fo:block id="{@id}">
+			<xsl:apply-templates/>
+		</fo:block>
+	</xsl:template><xsl:template match="*[local-name() = 'references']">
+		<xsl:if test="not(ancestor::*[local-name() = 'annex'])">
+			
+					<fo:block break-after="page"/>
+				
+		</xsl:if>
+		
+		<!-- <xsl:if test="ancestor::*[local-name() = 'annex']">
+			<xsl:if test="$namespace = 'csa' or $namespace = 'csd' or $namespace = 'gb' or $namespace = 'iec' or $namespace = 'iso' or $namespace = 'itu'">
+				<fo:block break-after="page"/>
+			</xsl:if>
+		</xsl:if> -->
+		
+		<fo:block id="{@id}" xsl:use-attribute-sets="references-non-normative-style">
+			<xsl:apply-templates/>
+		</fo:block>
+		
+		
+		
+		
+	</xsl:template><xsl:template match="*[local-name() = 'bibitem']">
+		<xsl:call-template name="bibitem"/>
+	</xsl:template><xsl:template match="*[local-name() = 'references'][@normative='true']/*[local-name() = 'bibitem']" name="bibitem" priority="2">
+		
+				<fo:block id="{@id}" xsl:use-attribute-sets="bibitem-normative-style">
+					<xsl:call-template name="processBibitem"/>
+				</fo:block>
+			
+
+	</xsl:template><xsl:template match="*[local-name() = 'references'][not(@normative='true')]/*[local-name() = 'bibitem']" priority="2">
+		
+		
+				<fo:block id="{@id}" xsl:use-attribute-sets="bibitem-non-normative-style">
+					<xsl:call-template name="processBibitem"/>
+				</fo:block>
+			
+		
 	</xsl:template><xsl:template name="processBibitem">
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		 
-		
-		
-
-		
-
-		
-		
-		
-		
-		 
-		
+				
+				<!-- Example: [ITU-T A.23]	ITU-T A.23, Recommendation ITU-T A.23, Annex A (2014), Guide for ITU-T and ISO/IEC JTC 1 cooperation. -->
+				<xsl:if test="$doctype = 'implementers-guide'">
+					<xsl:attribute name="margin-left">0mm</xsl:attribute>
+					<xsl:attribute name="text-indent">0mm</xsl:attribute>
+				</xsl:if>
+				
+				<xsl:variable name="bibitem_label">
+					<xsl:choose>
+						<xsl:when test="itu:docidentifier[@type = 'metanorma']">
+							<xsl:value-of select="itu:docidentifier[@type = 'metanorma']"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<fo:inline padding-right="5mm">
+								<xsl:text>[</xsl:text>
+									<xsl:value-of select="itu:docidentifier[not(@type = 'metanorma-ordinal')]"/>
+								<xsl:text>] </xsl:text>
+							</fo:inline>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				
+				<xsl:variable name="bibitem_body">
+					<xsl:text> </xsl:text>
+					<xsl:choose>
+						<xsl:when test="itu:docidentifier[@type = 'metanorma']">
+							<xsl:if test="itu:docidentifier[not(@type) or not(@type = 'metanorma' or @type = 'metanorma-ordinal')]">
+								<xsl:value-of select="itu:docidentifier[not(@type) or not(@type = 'metanorma' or @type = 'metanorma-ordinal')]"/>
+								<xsl:text>, </xsl:text>
+							</xsl:if>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="itu:docidentifier[not(@type = 'metanorma-ordinal')]"/>
+							<xsl:if test="itu:title">
+								<xsl:text>, </xsl:text>
+							</xsl:if>
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="itu:title">
+						<xsl:choose>
+							<xsl:when test="itu:title[@type = 'main' and @language = 'en']">
+								<xsl:apply-templates select="itu:title[@type = 'main' and @language = 'en']"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="itu:title"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:if>
+					<xsl:if test="itu:formattedref and not(itu:docidentifier[@type = 'metanorma'])">, </xsl:if>
+					<xsl:apply-templates select="itu:formattedref"/>
+				</xsl:variable>
+				
+				<xsl:choose>
+					<xsl:when test="$doctype = 'implementers-guide'">
+						<fo:table width="100%" table-layout="fixed">
+							<fo:table-column column-width="20%"/>
+							<fo:table-column column-width="80%"/>
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell><fo:block><xsl:copy-of select="$bibitem_label"/></fo:block></fo:table-cell>
+									<fo:table-cell><fo:block><xsl:copy-of select="$bibitem_body"/></fo:block></fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:copy-of select="$bibitem_label"/>
+						<xsl:copy-of select="$bibitem_body"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			
 	</xsl:template><xsl:template name="processBibitemDocId">
 		<xsl:variable name="_doc_ident" select="*[local-name() = 'docidentifier'][not(@type = 'DOI' or @type = 'metanorma' or @type = 'metanorma-ordinal' or @type = 'ISSN' or @type = 'ISBN' or @type = 'rfc-anchor')]"/>
 		<xsl:choose>
@@ -7060,6 +7177,48 @@
 		<xsl:value-of select="substring(.,1,1)"/>
 	</xsl:template><xsl:template match="*[local-name() = 'title']" mode="title">
 		<fo:inline><xsl:apply-templates/></fo:inline>
+	</xsl:template><xsl:template match="*[local-name() = 'bibitem']/*[local-name() = 'title']" priority="2">
+		<!-- <fo:inline><xsl:apply-templates /></fo:inline> -->
+		<fo:inline font-style="italic"> <!-- BIPM BSI CSD CSA GB IEC IHO ISO ITU JCGM -->
+			<xsl:apply-templates/>
+		</fo:inline>
+	</xsl:template><xsl:template match="*[local-name() = 'bibitem']/*[local-name() = 'note']" priority="2">
+		<fo:footnote>
+			<xsl:variable name="number">
+				
+						<xsl:number level="any" count="*[local-name() = 'bibitem']/*[local-name() = 'note']"/>
+					
+			</xsl:variable>
+			<fo:inline xsl:use-attribute-sets="bibitem-note-fn-style">
+				<fo:basic-link internal-destination="{generate-id()}" fox:alt-text="footnote {$number}">
+					<xsl:value-of select="$number"/>
+					
+				</fo:basic-link>
+			</fo:inline>
+			<fo:footnote-body>
+				<fo:block xsl:use-attribute-sets="bibitem-note-fn-body-style">
+					<fo:inline id="{generate-id()}" xsl:use-attribute-sets="bibitem-note-fn-number-style">
+						<xsl:value-of select="$number"/>
+						
+					</fo:inline>
+					<xsl:apply-templates/>
+				</fo:block>
+			</fo:footnote-body>
+		</fo:footnote>
+	</xsl:template><xsl:template match="*[local-name() = 'bibitem']/*[local-name() = 'edition']"> <!-- for iho -->
+		<xsl:text> edition </xsl:text>
+		<xsl:value-of select="."/>
+	</xsl:template><xsl:template match="*[local-name() = 'bibitem']/*[local-name() = 'uri']"> <!-- for iho -->
+		<xsl:text> (</xsl:text>
+		<fo:inline xsl:use-attribute-sets="link-style">
+			<fo:basic-link external-destination="." fox:alt-text=".">
+				<xsl:value-of select="."/>							
+			</fo:basic-link>
+		</fo:inline>
+		<xsl:text>)</xsl:text>
+	</xsl:template><xsl:template match="*[local-name() = 'bibitem']/*[local-name() = 'docidentifier']"/><xsl:template match="*[local-name() = 'formattedref']">
+		
+		<xsl:apply-templates/>
 	</xsl:template><xsl:template match="*[local-name() = 'form']">
 		<fo:block>
 			<xsl:apply-templates/>

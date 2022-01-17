@@ -52,7 +52,7 @@ nav {
   }
 }
 
-#toc {
+#toc, #toc > ul > :is(.h1, .h2, .h3, .h4, .h5, .h6) {
   font-family: $bodyfont;
   font-weight: 400;
 
@@ -91,6 +91,12 @@ nav {
     }
   }
 }
+
+#toc > ul > :is(.h1, .h2, .h3, .h4, .h5, .h6) {
+   margin-top: 0;
+   margin-bottom: 0;
+ }
+
 
 #toc-list {
   ul {
@@ -136,7 +142,7 @@ nav {
       margin-top: 1em;
   }
 
-  ul#toc-list {
+  ul#toc-list, ul#toc-list > :is(.h1, .h2, .h3, .h4, .h5, .h6) {
     padding: 0;
     margin: 0;
   }

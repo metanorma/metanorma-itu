@@ -875,7 +875,11 @@ div.WordSection1
 	margin:54.45pt 54.45pt 54.45pt 54.45pt;
 	mso-header-margin:24.1pt;
 	mso-footer-margin:24.1pt;
+        {% if doctype == "Service Publication" %}
+	mso-page-numbers:1;
+        {% else %}
 	mso-page-numbers:roman-lower 1;
+        {% endif %}
 	mso-even-header:url("file:///C:/Doc/FILENAME_files/header.html") eh2;
 	mso-header:url("file:///C:/Doc/FILENAME_files/header.html") h2;
 	mso-even-footer:url("file:///C:/Doc/FILENAME_files/header.html") ef2;
@@ -918,7 +922,10 @@ div.WordSection2
 	margin:2.0cm 2.0cm 2.0cm 2.0cm;
 	mso-header-margin:1.0cm;
 	mso-footer-margin:1.0cm;
+        {% if doctype == "Service Publication" %}
+        {% else %}
 	mso-page-numbers:1;
+        {% endif %}
 	mso-even-header:url("file:///C:/Doc/FILENAME_files/header.html") eh2;
 	mso-header:url("file:///C:/Doc/FILENAME_files/header.html") h2;
 	mso-even-footer:url("file:///C:/Doc/FILENAME_files/header.html") ef3;

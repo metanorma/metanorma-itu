@@ -11,7 +11,7 @@ RSpec.describe Metanorma::ITU do
     docxml, = csdc.convert_init(<<~"INPUT", "test", true)
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
         <bibdata type="standard">
-        <title language="en" format="text/plain" type="main">Main Title</title>
+        <title language="en" format="text/plain" type="main">Main Title<br/>in multiple lines</title>
         <title language="en" format="text/plain" type="annex">Annex Title</title>
         <title language="fr" format="text/plain" type="main">Titre Principal</title>
         <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
@@ -165,7 +165,7 @@ RSpec.describe Metanorma::ITU do
         :docnumber_lang=>"ITU-R 1000-E",
         :docnumeric=>"1000",
         :docsubtitle=>"Subtitle",
-        :doctitle=>"Main Title",
+        :doctitle=>"Main Title<br/>in multiple lines",
         :doctype=>"Directive",
         :doctype_display=>"Directive",
         :doctype_original=>"directive",

@@ -11,6 +11,7 @@ module IsoDoc
         set(:logo_comb, fileloc("itu-document-comb.png"))
         set(:logo_word, fileloc(n))
         set(:logo_sp, fileloc("logo-sp.png"))
+        @isodoc = IsoDoc::ITU::HtmlConvert.new({})
       end
 
       def fileloc(file)
@@ -19,30 +20,30 @@ module IsoDoc
       end
 
       def title(isoxml, _out)
-        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}']"\
-                             "[@type = 'main']"))&.text
-        set(:doctitle, main)
-        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}']"\
-                             "[@type = 'subtitle']"))&.text
-        set(:docsubtitle, main)
-        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}']"\
-                             "[@type = 'amendment']"))&.text
-        set(:amendmenttitle, main)
-        main = isoxml&.at(ns("//bibdata/title[@language='#{@lang}']"\
-                             "[@type = 'corrigendum']"))&.text
-        set(:corrigendumtitle, main)
-        series = isoxml&.at(ns("//bibdata/series[@type='main']/title"))&.text
-        set(:series, series)
-        series1 =
-          isoxml&.at(ns("//bibdata/series[@type='secondary']/title"))&.text
-        set(:series1, series1)
-        series2 =
-          isoxml&.at(ns("//bibdata/series[@type='tertiary']/title"))&.text
-        set(:series2, series2)
-        annext = isoxml&.at(ns("//bibdata/title[@type='annex']"))&.text
-        set(:annextitle, annext)
-        annext = isoxml&.at(ns("//bibdata/title[@type='position-sp']"))&.text
-        set(:positiontitle, annext)
+        { doctitle: "//bibdata/title[@language='#{@lang}'][@type = 'main']",
+          docsubtitle: "//bibdata/title[@language='#{@lang}']"\
+                       "[@type = 'subtitle']",
+          amendmenttitle: "//bibdata/title[@language='#{@lang}']"\
+                          "[@type = 'amendment']",
+          corrigendumtitle: "//bibdata/title[@language='#{@lang}']"\
+                            "[@type = 'corrigendum']",
+          series: "//bibdata/series[@type='main']/title",
+          series1: "//bibdata/series[@type='secondary']/title",
+          series2: "//bibdata/series[@type='tertiary']/title",
+          annextitle: "//bibdata/title[@type='annex']",
+          positiontitle: "//bibdata/title[@type='position-sp']" }.each do |k, v|
+          titleset(isoxml, k, v)
+        end
+      end
+
+      def titleset(isoxml, key, xpath)
+        value = isoxml.at(ns(xpath)) or return
+        out = @isodoc.noko do |xml|
+          xml.span do |s|
+            value.children.each { |c| @isodoc.parse(c, s) }
+          end
+        end.join
+        set(key, out.sub(%r{^<span>}, "").sub(%r{</span>$}, ""))
       end
 
       def subtitle(_isoxml, _out)

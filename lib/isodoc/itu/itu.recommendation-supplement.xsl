@@ -10,11 +10,6 @@
 	
 	<xsl:variable name="debug">false</xsl:variable>
 	
-	<xsl:variable name="marginLeftRight1" select="20"/>
-	<xsl:variable name="marginLeftRight2" select="20"/>
-	<xsl:variable name="marginTop" select="20"/>
-	<xsl:variable name="marginBottom" select="20"/>
-	
 	<!-- Rec. ITU-T G.650.1 (03/2018) -->
 	<xsl:variable name="footerprefix" select="'Rec. '"/>
 	<xsl:variable name="docname">		
@@ -59,10 +54,6 @@
 			<xsl:apply-templates select="//itu:table" mode="contents"/>
 			
 		</contents>
-	</xsl:variable>
-
-	<xsl:variable name="lang">
-		<xsl:call-template name="getLang"/>
 	</xsl:variable>
 	
 	<xsl:variable name="doctypeTitle">
@@ -1723,7 +1714,7 @@
 	<xsl:template match="itu:docidentifier"/>
 	
 	
-	<xsl:template match="itu:ul | itu:ol | itu:sections/itu:ul | itu:sections/itu:ol" mode="ul_ol">
+	<xsl:template match="itu:ul | itu:ol | itu:sections/itu:ul | itu:sections/itu:ol" mode="list" priority="2">
 		<xsl:if test="preceding-sibling::*[1][local-name() = 'title'] and $doctype != 'service-publication'">
 			<fo:block padding-top="-8pt" font-size="1pt"> </fo:block>
 		</xsl:if>
@@ -2073,11 +2064,21 @@
 		</xsl:if>
 	</xsl:template>
 	
-<xsl:param name="svg_images"/><xsl:variable name="images" select="document($svg_images)"/><xsl:param name="basepath"/><xsl:param name="external_index"/><xsl:param name="syntax-highlight">false</xsl:param><xsl:variable name="pageWidth_">
+<xsl:param name="svg_images"/><xsl:variable name="images" select="document($svg_images)"/><xsl:param name="basepath"/><xsl:param name="external_index"/><xsl:param name="syntax-highlight">false</xsl:param><xsl:variable name="lang">
+		<xsl:call-template name="getLang"/>
+	</xsl:variable><xsl:variable name="pageWidth_">
 		210
 	</xsl:variable><xsl:variable name="pageWidth" select="normalize-space($pageWidth_)"/><xsl:variable name="pageHeight_">
 		297
-	</xsl:variable><xsl:variable name="pageHeight" select="normalize-space($pageHeight_)"/><xsl:variable name="titles_">
+	</xsl:variable><xsl:variable name="pageHeight" select="normalize-space($pageHeight_)"/><xsl:variable name="marginLeftRight1_">
+		20
+	</xsl:variable><xsl:variable name="marginLeftRight1" select="normalize-space($marginLeftRight1_)"/><xsl:variable name="marginLeftRight2_">
+		20
+	</xsl:variable><xsl:variable name="marginLeftRight2" select="normalize-space($marginLeftRight2_)"/><xsl:variable name="marginTop_">
+		20
+	</xsl:variable><xsl:variable name="marginTop" select="normalize-space($marginTop_)"/><xsl:variable name="marginBottom_">
+		20
+	</xsl:variable><xsl:variable name="marginBottom" select="normalize-space($marginBottom_)"/><xsl:variable name="titles_">
 				
 		<title-edition lang="en">
 			
@@ -2879,6 +2880,22 @@
 		
 	</xsl:attribute-set><xsl:attribute-set name="list-style">
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	</xsl:attribute-set><xsl:attribute-set name="list-item-style">
 		
 		
@@ -3262,6 +3279,20 @@
 	</xsl:attribute-set><xsl:attribute-set name="hljs-property">
 	</xsl:attribute-set><xsl:attribute-set name="hljs-punctuation">
 	</xsl:attribute-set><xsl:attribute-set name="hljs-tag">
+	</xsl:attribute-set><xsl:attribute-set name="indexsect-title-style">
+		<xsl:attribute name="role">H1</xsl:attribute>
+		
+		
+		
+		
+		
+	</xsl:attribute-set><xsl:attribute-set name="indexsect-clause-title-style">
+		<xsl:attribute name="keep-with-next">always</xsl:attribute>
+		
+		
+		
+		
+		
 	</xsl:attribute-set><xsl:variable name="border-block-added">2.5pt solid rgb(0, 176, 80)</xsl:variable><xsl:variable name="border-block-deleted">2.5pt solid rgb(255, 0, 0)</xsl:variable><xsl:variable name="ace_tag">ace-tag_</xsl:variable><xsl:template name="processPrefaceSectionsDefault_Contents">
 		<xsl:for-each select="/*/*[local-name()='preface']/*">
 			<xsl:sort select="@displayorder" data-type="number"/>
@@ -5145,17 +5176,21 @@
 		</xsl:apply-templates>
 	</xsl:template><xsl:template name="getLang">
 		<xsl:variable name="language_current" select="normalize-space(//*[local-name()='bibdata']//*[local-name()='language'][@current = 'true'])"/>
-		<xsl:variable name="language_current_2" select="normalize-space(xalan:nodeset($bibdata)//*[local-name()='bibdata']//*[local-name()='language'][@current = 'true'])"/>
 		<xsl:variable name="language">
 			<xsl:choose>
 				<xsl:when test="$language_current != ''">
 					<xsl:value-of select="$language_current"/>
 				</xsl:when>
-				<xsl:when test="$language_current_2 != ''">
-					<xsl:value-of select="$language_current_2"/>
-				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="//*[local-name()='bibdata']//*[local-name()='language']"/>
+					<xsl:variable name="language_current_2" select="normalize-space(xalan:nodeset($bibdata)//*[local-name()='bibdata']//*[local-name()='language'][@current = 'true'])"/>
+					<xsl:choose>
+						<xsl:when test="$language_current_2 != ''">
+							<xsl:value-of select="$language_current_2"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="//*[local-name()='bibdata']//*[local-name()='language']"/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
@@ -7247,17 +7282,34 @@
 					
 					<fo:block-container margin-left="0mm">
 						<fo:block>
-							<xsl:apply-templates select="." mode="ul_ol"/>
+							<xsl:apply-templates select="." mode="list"/>
 						</fo:block>
 					</fo:block-container>
 				</fo:block-container>
 			</xsl:when>
 			<xsl:otherwise>
 				<fo:block>
-					<xsl:apply-templates select="." mode="ul_ol"/>
+					<xsl:apply-templates select="." mode="list"/>
 				</fo:block>
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template><xsl:template match="*[local-name()='ul'] | *[local-name()='ol']" mode="list" name="list">
+		<fo:list-block xsl:use-attribute-sets="list-style">
+		
+			
+			
+			
+			
+			
+
+			
+					
+			<xsl:apply-templates select="node()[not(local-name() = 'note')]"/>
+		</fo:list-block>
+		<!-- <xsl:for-each select="./iho:note">
+			<xsl:call-template name="note"/>
+		</xsl:for-each> -->
+		<xsl:apply-templates select="./*[local-name() = 'note']"/>
 	</xsl:template><xsl:template match="*[local-name()='li']">
 		<fo:list-item xsl:use-attribute-sets="list-item-style">
 			<xsl:copy-of select="@id"/>
@@ -7420,12 +7472,22 @@
 		</xsl:variable>
 		<xsl:variable name="xref_number"><xsl:number count="*[local-name() = 'xref']"/></xsl:variable>
 		<xsl:value-of select="concat($docid, '_', $item_number, '_', $xref_number)"/> <!-- $level, '_',  -->
+	</xsl:template><xsl:template match="*[local-name() = 'indexsect']/*[local-name() = 'title']" priority="4">
+		<fo:block xsl:use-attribute-sets="indexsect-title-style">
+			<!-- Index -->
+			<xsl:apply-templates/>
+		</fo:block>
+	</xsl:template><xsl:template match="*[local-name() = 'indexsect']/*[local-name() = 'clause']/*[local-name() = 'title']" priority="4">
+		<!-- Letter A, B, C, ... -->
+		<fo:block xsl:use-attribute-sets="indexsect-clause-title-style">
+			<xsl:apply-templates/>
+		</fo:block>
 	</xsl:template><xsl:template match="*[local-name() = 'indexsect']/*[local-name() = 'clause']" priority="4">
 		<xsl:apply-templates/>
 		<fo:block>
-		<xsl:if test="following-sibling::*[local-name() = 'clause']">
-			<fo:block> </fo:block>
-		</xsl:if>
+			<xsl:if test="following-sibling::*[local-name() = 'clause']">
+				<fo:block> </fo:block>
+			</xsl:if>
 		</fo:block>
 	</xsl:template><xsl:template match="*[local-name() = 'indexsect']//*[local-name() = 'ul']" priority="4">
 		<xsl:apply-templates/>
@@ -7435,6 +7497,9 @@
 			
 			<xsl:apply-templates/>
 		</fo:block>
+	</xsl:template><xsl:template match="*[local-name() = 'indexsect']//*[local-name() = 'li']/text()">
+		<!-- to split by '_' and other chars -->
+		<xsl:call-template name="add-zero-spaces-java"/>
 	</xsl:template><xsl:template match="*[local-name() = 'bookmark']" name="bookmark">
 		<fo:inline id="{@id}" font-size="1pt"/>
 	</xsl:template><xsl:template match="*[local-name() = 'errata']">
@@ -8024,9 +8089,6 @@
 			<xsl:otherwise><xsl:value-of select="$charAtEnd"/></xsl:otherwise>
 		</xsl:choose>
 	</xsl:template><xsl:template name="addPDFUAmeta">
-		<xsl:variable name="lang">
-			<xsl:call-template name="getLang"/>
-		</xsl:variable>
 		<pdf:catalog xmlns:pdf="http://xmlgraphics.apache.org/fop/extensions/pdf">
 				<pdf:dictionary type="normal" key="ViewerPreferences">
 					<pdf:boolean key="DisplayDocTitle">true</pdf:boolean>

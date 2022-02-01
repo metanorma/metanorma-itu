@@ -205,7 +205,30 @@ RSpec.describe Metanorma::ITU do
       </foreword></preface>
       </iso-standard>
     INPUT
-    output = <<~OUTPUT
+    presxml = <<~OUTPUT
+      <iso-standard xmlns='http://riboseinc.com/isoxml' type='presentation'>
+        <preface>
+          <foreword displayorder='1'>
+            <ol id='_ae34a226-aab4-496d-987b-1aa7b6314026' class='steps' type='arabic'>
+              <li>
+                <p id='_0091a277-fb0e-424a-aea8-f0001303fe78'>all information necessary for the complete identification of the sample;</p>
+              </li>
+              <ol type='alphabet'>
+                <li>
+                  <p id='_8a7b6299-db05-4ff8-9de7-ff019b9017b2'>a reference to this document (i.e. ISO 17301-1);</p>
+                </li>
+                <ol type='roman'>
+                  <li>
+                    <p id='_ea248b7f-839f-460f-a173-a58a830b2abe'>the sampling method used;</p>
+                  </li>
+                </ol>
+              </ol>
+            </ol>
+          </foreword>
+        </preface>
+      </iso-standard>
+    OUTPUT
+    html = <<~OUTPUT
           #{HTML_HDR}
             <div>
               <h1 class="IntroTitle"/>
@@ -230,11 +253,58 @@ RSpec.describe Metanorma::ITU do
           </div>
         </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+    doc = <<~OUTPUT
+      <body lang='EN-US' link='blue' vlink='#954F72'>
+           <div class='WordSection1'>
+             <p>&#160;</p>
+           </div>
+           <p>
+             <br clear='all' class='section'/>
+           </p>
+           <div class='WordSection2'>
+             <div>
+               <h1 class='IntroTitle'/>
+               <ol class='steps' id='_ae34a226-aab4-496d-987b-1aa7b6314026'>
+                 <li>
+                   <p id='_0091a277-fb0e-424a-aea8-f0001303fe78'>all information necessary for the complete identification of the sample;</p>
+                 </li>
+                 <ol>
+                   <li>
+                     <p id='_8a7b6299-db05-4ff8-9de7-ff019b9017b2'>a reference to this document (i.e. ISO 17301-1);</p>
+                   </li>
+                   <ol>
+                     <li>
+                       <p id='_ea248b7f-839f-460f-a173-a58a830b2abe'>the sampling method used;</p>
+                     </li>
+                   </ol>
+                 </ol>
+               </ol>
+             </div>
+             <p>&#160;</p>
+           </div>
+           <p>
+             <br clear='all' class='section'/>
+           </p>
+           <div class='WordSection3'>
+             <p class='zzSTDTitle1'/>
+             <p class='zzSTDTitle2'/>
+           </div>
+         </body>
+    OUTPUT
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({})
       .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+      .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to xmlpp(html)
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+      .convert("test", presxml, true)
+      .gsub(%r{^.*<body}m, "<body")
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_equivalent_to xmlpp(doc)
   end
 
   it "processes steps class of ordered lists (Word)" do

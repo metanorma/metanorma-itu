@@ -44,24 +44,26 @@ module IsoDoc
         end
       end
 
-      def bracket_if_num(x)
-        return nil if x.nil?
+      def bracket_if_num(num)
+        return nil if num.nil?
 
-        x = x.text.sub(/^\[/, "").sub(/\]$/, "")
-        "[#{x}]"
+        num = num.text.sub(/^\[/, "").sub(/\]$/, "")
+        "[#{num}]"
       end
 
-      def reference_format(b, r)
-        reference_format_start(b, r)
-        reference_format_title(b, r)
+      def reference_format(biblio, ref)
+        reference_format_start(biblio, ref)
+        reference_format_title(biblio, ref)
       end
 
-      def titlecase(s)
-        s.gsub(/ |_|-/, " ").split(/ /).map(&:capitalize).join(" ")
+      def titlecase(str)
+        str.gsub(/ |_|-/, " ").split(/ /).map(&:capitalize).join(" ")
       end
 
-      def pref_ref_code(b)
-        b.at(ns("./docidentifier[@type = 'ITU']")) || super
+      def pref_ref_code(bibitem)
+        ret = bibitem.xpath(ns("./docidentifier[@type = 'ITU']")) 
+        ret.empty? and ret = super
+        ret
       end
 
       IGNORE_IDS = "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or "\
@@ -84,7 +86,7 @@ module IsoDoc
           else
             docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))
           end
-        end.join(" | ")
+        end.join("&#xA0;| ")
       end
 
       def doctype_title(id)
@@ -98,20 +100,28 @@ module IsoDoc
         end
       end
 
-      def reference_format_start(b, r)
-        id = multi_bibitem_ref_code(b)
+      def unbracket(ident)
+        if ident.respond_to?(:size)
+          ident.map { |x| unbracket1(x) }.join("&#xA0;| ")
+        else
+          unbracket1(ident)
+        end
+      end
+
+      def reference_format_start(bib, r)
+        id = multi_bibitem_ref_code(bib)
         id1 = render_multi_identifiers(id)
         r << id1
-        date = b.at(ns("./date[@type = 'published']")) and
+        date = bib.at(ns("./date[@type = 'published']")) and
           r << " (#{date.text.sub(/-.*$/, '')})"
         r << ", " if date || !id1.empty?
       end
 
-      def reference_format_title(b, r)
-        if ftitle = b.at(ns("./formattedref"))
+      def reference_format_title(bib, r)
+        if ftitle = bib.at(ns("./formattedref"))
           ftitle&.children&.each { |n| parse(n, r) }
           /\.$/.match(ftitle&.text) or r << "."
-        elsif title = iso_title(b)
+        elsif title = iso_title(bib)
           r.i do |i|
             title&.children&.each { |n| parse(n, i) }
           end

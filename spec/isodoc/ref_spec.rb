@@ -2,6 +2,7 @@ require "spec_helper"
 require "fileutils"
 
 RSpec.describe IsoDoc::ITU do
+=begin
   it "processes IsoXML bibliographies (1)" do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">
@@ -532,7 +533,7 @@ RSpec.describe IsoDoc::ITU do
             <tr id='ITU712a' class='NormRef'>
               <td style='vertical-align:top'>[ITU&#160;712]</td>
               <td>
-                Recommendation ITU 712 | ISO 712 (2016),
+                Recommendation ITU 712&#xA0;| ISO 712 (2016),
                 <i>Cereals and cereal products</i>
                 .
               </td>
@@ -562,4 +563,46 @@ RSpec.describe IsoDoc::ITU do
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to xmlpp(html)
   end
+=end
+  it "selects multiple primary identifiers" do
+    input = <<~INPUT
+          <iso-standard xmlns="http://riboseinc.com/isoxml">
+          <bibdata>
+          <language>en</language>
+          </bibdata>
+          <preface><foreword>
+        <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">
+        <eref bibitemid="ISO712"/>
+        </p>
+          </foreword></preface>
+          <bibliography><references id="_normative_references" obligation="informative" normative="true"><title>Normative References</title>
+          <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
+      <bibitem id="ISO712" type="standard">
+        <title format="text/plain">Cereals or cereal products</title>
+        <title type="main" format="text/plain">Cereals and cereal products</title>
+        <docidentifier type="ISO" primary="true">ISO 712</docidentifier>
+        <docidentifier type="IEC" primary="true">IEC 217</docidentifier>
+        <contributor>
+          <role type="publisher"/>
+          <organization>
+            <name>International Organization for Standardization</name>
+          </organization>
+        </contributor>
+      </bibitem>
+      </references></bibliography></iso-standard>
+    INPUT
+    presxml = <<~PRESXML
+      <foreword displayorder='1'>
+        <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f'>
+          <eref bibitemid='ISO712'>[ISO 712&#xA0;| IEC 217]</eref>
+        </p>
+      </foreword>
+    PRESXML
+    expect(xmlpp(Nokogiri::XML(
+      IsoDoc::ITU::PresentationXMLConvert.new({})
+      .convert("test", input, true),
+    ).at("//xmlns:foreword").to_xml))
+      .to be_equivalent_to xmlpp(presxml)
+  end
+
 end

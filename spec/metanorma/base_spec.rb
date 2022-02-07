@@ -310,9 +310,7 @@ RSpec.describe Metanorma::ITU do
                <title type='title-main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                <title type='main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en</uri>
-               <uri type='obp'>
-                 https://www.itu.inthttps//handle.itu.int/11.1002/1000/694-en?locatt=format:pdf&amp;auth
-               </uri>
+               <uri type='obp'>https://handle.itu.int/11.1002/1000/694-en?locatt=format:pdf&amp;auth</uri>
                <docidentifier type='ITU'>ITU-T F.69</docidentifier>
                <contributor>
                  <role type='publisher'/>
@@ -364,9 +362,7 @@ RSpec.describe Metanorma::ITU do
                    <title type='title-main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                    <title type='main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                    <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en</uri>
-                   <uri type='obp'>
-                     https://www.itu.inthttps//handle.itu.int/11.1002/1000/694-en?locatt=format:pdf&amp;auth
-                   </uri>
+                   <uri type='obp'>https://handle.itu.int/11.1002/1000/694-en?locatt=format:pdf&amp;auth</uri>
                    <docidentifier type='ITU'>ITU-T F.69</docidentifier>
                    <date type='published'>
                      <on>1988-11-25</on>
@@ -434,9 +430,7 @@ RSpec.describe Metanorma::ITU do
                <title type='title-main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
                <title type='main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
                <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&amp;lang=en</uri>
-               <uri type='obp'>
-                 https://www.itu.inthttps//handle.itu.int/11.1002/1000/693-en?locatt=format:pdf&amp;auth
-               </uri>
+               <uri type='obp'>https://handle.itu.int/11.1002/1000/693-en?locatt=format:pdf&amp;auth</uri>
                <docidentifier type='ITU'>ITU-T F.68</docidentifier>
                <contributor>
                  <role type='publisher'/>
@@ -488,9 +482,7 @@ RSpec.describe Metanorma::ITU do
                    <title type='title-main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
                    <title type='main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
                    <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&amp;lang=en</uri>
-                   <uri type='obp'>
-                     https://www.itu.inthttps//handle.itu.int/11.1002/1000/693-en?locatt=format:pdf&amp;auth
-                   </uri>
+                   <uri type='obp'>https://handle.itu.int/11.1002/1000/693-en?locatt=format:pdf&amp;auth</uri>
                    <docidentifier type='ITU'>ITU-T F.68</docidentifier>
                    <date type='published'>
                      <on>1988-11-25</on>

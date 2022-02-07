@@ -1,0 +1,946 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://www.itu.int/net4/ITU-T/search/GlobalSearch/Search
+    body:
+      encoding: UTF-8
+      string: '{"json":"{\"Input\":\"ITU-T F.69\",\"Start\":0,\"Rows\":10,\"SortBy\":\"RELEVANCE\",\"ExactPhrase\":false,\"CollectionName\":\"General\",\"CollectionGroup\":\"Recommendations\",\"Sector\":\"t\",\"Criterias\":[{\"Name\":\"Search
+        in\",\"Criterias\":[{\"Selected\":false,\"Value\":\"\",\"Label\":\"Name\",\"Target\":\"\\\\/name_s\",\"TypeName\":\"CHECKBOX\",\"GetCriteriaType\":0},{\"Selected\":false,\"Value\":\"\",\"Label\":\"Short
+        description\",\"Target\":\"\\\\/short_description_s\",\"TypeName\":\"CHECKBOX\",\"GetCriteriaType\":0},{\"Selected\":false,\"Value\":\"\",\"Label\":\"File
+        content\",\"Target\":\"\\\\/file\",\"TypeName\":\"CHECKBOX\",\"GetCriteriaType\":0}],\"ShowCheckbox\":true,\"Selected\":false}],\"Topics\":\"\",\"ClientData\":{},\"Language\":\"en\",\"SearchType\":\"All\"}"}'
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - www.itu.int
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '793'
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Set-Cookie:
+      - BIGipServerlsjkXadm4jjZQNa6SsO7nw=!w5pKwJT+P1KGoMxxnBj5B1n5F0OTcNEVQXQDUmUawvotLB8XnvgOZvnzvQJrQEGB2pKBT1OSfqmHnfo=;
+        path=/; Httponly; Secure
+      - GSCookie=QueryId=&CookieId=RICL5VHGiIBmVsfBHdmbp21dCuVacppXcx6kQI64TH/7rtcO6bjk+PdNS5qD2mN/G/9F2U1R7EYJKgYlt5lcmA==;
+        domain=www.itu.int; expires=Tue, 06-Feb-2024 13:11:20 GMT; path=/
+      - GSCookie=QueryId=4814924&CookieId=RICL5VHGiIBmVsfBHdmbp21dCuVacppXcx6kQI64TH/7rtcO6bjk+PdNS5qD2mN/G/9F2U1R7EYJKgYlt5lcmA==;
+        domain=www.itu.int; expires=Tue, 06-Feb-2024 13:11:20 GMT; path=/
+      - TS010592a8=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        Path=/
+      - TS0110b275=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        path=/; domain=www.itu.int
+      - TS70351561027=08b49714d4ab2000be360885001454ecb9162eda122e58c095f99a51f974220ee7300c8c8fc56bbd08910b3ec3113000fcae36a2790b868ce34dcd6032482e42aa4a73429b56e689d4f33291a6d7b29e741465359d7b39f54f8919572dabd36a;Path=/
+      Microsoftofficewebserver:
+      - 5.0_Pub
+      Strict-Transport-Security:
+      - max-age=31536000
+      Date:
+      - Sun, 06 Feb 2022 13:11:20 GMT
+      Content-Length:
+      - '12587'
+      P3p:
+      - CP="{}"
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJyZXN1bHRzIjpbeyJJZGVudGlmaWVyIjoiMTEuMTAwMi8xMDAwLzY5NC1lbiIsIlRpdGxlIjoiSVRVLVQgRi42OSAoMTEvMTk4OCk6IFBsYW4gZm9yIHRlbGV4IGRlc3RpbmF0aW9uIGNvZGVzIiwiQ29sbGVjdGlvbiI6eyJOYW1lIjoiSVRVLVQgUmVjb21tZW5kYXRpb25zIiwiVGl0bGUiOiJJVFUtVCBSZWNvbW1lbmRhdGlvbnMiLCJEZXNjcmlwdGlvbiI6IiIsIlNlY3RvciI6IklUVS1UIiwiR3JvdXAiOiJSZWNvbW1lbmRhdGlvbnMifSwiUmVkaXJlY3Rpb24iOiJodHRwczovL3d3dy5pdHUuaW50L25ldDQvSVRVLVQvc2VhcmNoL2FwaS9yZWRpcmVjdGlvbj9kZXN0PWh0dHAlM0ElMkYlMkZoYW5kbGUuaXR1LmludCUyRjExLjEwMDIlMkYxMDAwJTJGNjk0LWVuXHUwMDI2cG9zaXRpb249MTBcdTAwMjZwYWdlPTEiLCJMYW5ndWFnZSI6ImVuIiwiRGlyIjoibHRyIiwiUHJvcGVydGllcyI6W3siVGl0bGUiOiJQdWJsaWNhdGlvbiBkYXRlIiwiVmFsdWUiOiJOb3ZlbWJlciwgMjAwNyJ9XSwiRXh0cmFjdEZpbGVDb250ZW50IjoiLi4uV2VzdGVybiBVbmlvbiBJbnRlcm5hdGlvbmFsIENhcmliYmVhbiwgSW5jLiAgICAgICBJVFUtVCAgRi1TRVJJRVMgIFJFQ09NTUVOREFUSU9OUyBOT04tVEVMRVBIT05FIFRFTEVDT01NLi4uLi4uSU5URVJOQVRJT05BTCAgVEVMRUNPTU1VTklDQVRJT04gIFVOSU9OICAgIENDSVRUICBGLjY5VEhFICBJTlRFUk5BVElPTkFMIFRFTEVHUkFQSCAgQU5EICBURUxFUEhPTkUgQ09OU1UuLi4iLCJMb2NhdGlvbnMiOlt7IklkIjoiMSIsIlR5cGUiOiJ6aXAiLCJIcmVmIjoiaHR0cHM6Ly93d3cuaXR1LmludC9uZXQ0L0lUVS1UL3NlYXJjaC9hcGkvcmVkaXJlY3Rpb24/ZGVzdD1odHRwJTNBJTJGJTJGaGFuZGxlLml0dS5pbnQlMkYxMS4xMDAyJTJGMTAwMCUyRjY5NC1lbiUzRmxvY2F0dCUzRGlkJTNBMSUyNmF1dGgiLCJSYXdIcmVmIjoiaHR0cDovL3d3dy5pdHUuaW50L3JlYy9kb2xvZ2luX3B1Yi5hc3A/bGFuZz1lXHUwMDI2aWQ9VC1SRUMtRi42OS0xOTg4MTEtUyEhWldELUVcdTAwMjZ0eXBlPWl0ZW1zIiwiSWNvbiI6InppcC1pY29uLnBuZyJ9LHsiSWQiOiIyIiwiVHlwZSI6InBkZiIsIkhyZWYiOiJodHRwczovL3d3dy5pdHUuaW50L25ldDQvSVRVLVQvc2VhcmNoL2FwaS9yZWRpcmVjdGlvbj9kZXN0PWh0dHAlM0ElMkYlMkZoYW5kbGUuaXR1LmludCUyRjExLjEwMDIlMkYxMDAwJTJGNjk0LWVuJTNGbG9jYXR0JTNEaWQlM0EyJTI2YXV0aCIsIlJhd0hyZWYiOiJodHRwOi8vd3d3Lml0dS5pbnQvcmVjL2RvbG9naW5fcHViLmFzcD9sYW5nPWVcdTAwMjZpZD1ULVJFQy1GLjY5LTE5ODgxMS1TISFQREYtRVx1MDAyNnR5cGU9aXRlbXMiLCJJY29uIjoicGRmLWljb24ucG5nIn0seyJJZCI6IjMiLCJUeXBlIjoiZG9jIiwiSHJlZiI6Imh0dHBzOi8vd3d3Lml0dS5pbnQvbmV0NC9JVFUtVC9zZWFyY2gvYXBpL3JlZGlyZWN0aW9uP2Rlc3Q9aHR0cCUzQSUyRiUyRmhhbmRsZS5pdHUuaW50JTJGMTEuMTAwMiUyRjEwMDAlMkY2OTQtZW4lM0Zsb2NhdHQlM0RpZCUzQTMlMjZhdXRoIiwiUmF3SHJlZiI6Imh0dHA6Ly93d3cuaXR1LmludC9yZWMvZG9sb2dpbl9wdWIuYXNwP2xhbmc9ZVx1MDAyNmlkPVQtUkVDLUYuNjktMTk4ODExLVMhIU1TVy1FXHUwMDI2dHlwZT1pdGVtcyIsIkljb24iOiJkb2MtaWNvbi5wbmcifV0sIlRvcFJlc3VsdCI6ZmFsc2UsIldvcmRzIjp7IklUVS1UIjp0cnVlLCJGLjY5Ijp0cnVlfSwiTWVkaWEiOnsiSWRlbnRpZmllciI6IjExLjEwMDIvMTAwMC82OTQtZW4iLCJEYXRlIjoiTm92ZW1iZXIsIDIwMDciLCJVcmwiOm51bGwsIk5hbWUiOiJJVFUtVCBGLjY5ICgxMS8xOTg4KSIsIlBhcmVudEhhbmRsZUlEIjoiIiwiUGFyZW50TmFtZSI6bnVsbCwiVHlwZSI6bnVsbCwiQ29udGVudFRleHQiOm51bGwsIkltYWdlVXJsIjpudWxsLCJUYWdzIjpbXX0sIldvcmRzTWlzc2luZyI6ZmFsc2UsIkNvbGxlY3Rpb25UeXBlQ1NTQ2xhc3MiOiJsYWJlbC10LXNlY3RvciIsIkxhbmd1YWdlQ1NTQ2xhc3MiOiJsYWJlbC1lbiJ9LHsiSWRlbnRpZmllciI6IjExLjEwMDIvMTAwMC82OTYtZW4iLCJUaXRsZSI6IklUVS1UIEYuNjkgKDA2LzE5OTQpOiBUaGUgaW50ZXJuYXRpb25hbCB0ZWxleCBzZXJ2aWNlIOKAkyBTZXJ2aWNlIGFuZCBvcGVyYXRpb25hbCBwcm92aXNpb25zIG9mIHRlbGV4IGRlc3RpbmF0aW9uIGNvZGVzIGFuZCB0ZWxleCBuZXR3b3JrIGlkZW50aWZpY2F0aW9uIGNvZGVzIiwiQ29sbGVjdGlvbiI6eyJOYW1lIjoiSVRVLVQgUmVjb21tZW5kYXRpb25zIiwiVGl0bGUiOiJJVFUtVCBSZWNvbW1lbmRhdGlvbnMiLCJEZXNjcmlwdGlvbiI6IiIsIlNlY3RvciI6IklUVS1UIiwiR3JvdXAiOiJSZWNvbW1lbmRhdGlvbnMifSwiUmVkaXJlY3Rpb24iOiJodHRwczovL3d3dy5pdHUuaW50L25ldDQvSVRVLVQvc2VhcmNoL2FwaS9yZWRpcmVjdGlvbj9kZXN0PWh0dHAlM0ElMkYlMkZoYW5kbGUuaXR1LmludCUyRjExLjEwMDIlMkYxMDAwJTJGNjk2LWVuXHUwMDI2cG9zaXRpb249OVx1MDAyNnBhZ2U9MSIsIkxhbmd1YWdlIjoiZW4iLCJEaXIiOiJsdHIiLCJQcm9wZXJ0aWVzIjpbeyJUaXRsZSI6IlB1YmxpY2F0aW9uIGRhdGUiLCJWYWx1ZSI6IkphbnVhcnksIDE5OTUifV0sIkV4dHJhY3RGaWxlQ29udGVudCI6Ii4uLm5cdTAwMjYoUHJldmlvdXNseSDigJxDQ0lUVCAgUmVjb21tZW5kYXRpb27igJ0pRk9SRVdPUkRUaGUgSVRVLVQgKFRlbGVjb21tdW5pY2F0aW9uIFN0YW5kYXJkaXphdGlvbiBTZWN0b3IpIGlzIGEgcC4uLi4uLjE5OTMpLklUVS1UIFJlY29tbWVuZGF0aW9uIEYuNjkgd2FzIHJldmlzZWQgYnkgSVRVLVQgU3R1ZHkgR3JvdXAgMSAoMTk5My0xOTk2KSBhbmQgd2FzIGFwcHJvdmVkIHVuZGVyIHRoLi4uIiwiTG9jYXRpb25zIjpbeyJJZCI6IjEiLCJUeXBlIjoicGRmIiwiSHJlZiI6Imh0dHBzOi8vd3d3Lml0dS5pbnQvbmV0NC9JVFUtVC9zZWFyY2gvYXBpL3JlZGlyZWN0aW9uP2Rlc3Q9aHR0cCUzQSUyRiUyRmhhbmRsZS5pdHUuaW50JTJGMTEuMTAwMiUyRjEwMDAlMkY2OTYtZW4lM0Zsb2NhdHQlM0RpZCUzQTElMjZhdXRoIiwiUmF3SHJlZiI6Imh0dHA6Ly93d3cuaXR1LmludC9yZWMvZG9sb2dpbl9wdWIuYXNwP2xhbmc9ZVx1MDAyNmlkPVQtUkVDLUYuNjktMTk5NDA2LUkhIVBERi1FXHUwMDI2dHlwZT1pdGVtcyIsIkljb24iOiJwZGYtaWNvbi5wbmcifSx7IklkIjoiMiIsIlR5cGUiOiJkb2MiLCJIcmVmIjoiaHR0cHM6Ly93d3cuaXR1LmludC9uZXQ0L0lUVS1UL3NlYXJjaC9hcGkvcmVkaXJlY3Rpb24/ZGVzdD1odHRwJTNBJTJGJTJGaGFuZGxlLml0dS5pbnQlMkYxMS4xMDAyJTJGMTAwMCUyRjY5Ni1lbiUzRmxvY2F0dCUzRGlkJTNBMiUyNmF1dGgiLCJSYXdIcmVmIjoiaHR0cDovL3d3dy5pdHUuaW50L3JlYy9kb2xvZ2luX3B1Yi5hc3A/bGFuZz1lXHUwMDI2aWQ9VC1SRUMtRi42OS0xOTk0MDYtSSEhTVNXLUVcdTAwMjZ0eXBlPWl0ZW1zIiwiSWNvbiI6ImRvYy1pY29uLnBuZyJ9XSwiVG9wUmVzdWx0IjpmYWxzZSwiV29yZHMiOnsiSVRVLVQiOnRydWUsIkYuNjkiOnRydWV9LCJNZWRpYSI6eyJJZGVudGlmaWVyIjoiMTEuMTAwMi8xMDAwLzY5Ni1lbiIsIkRhdGUiOiJKYW51YXJ5LCAxOTk1IiwiVXJsIjpudWxsLCJOYW1lIjoiSVRVLVQgRi42OSAoMDYvMTk5NCkiLCJQYXJlbnRIYW5kbGVJRCI6IiIsIlBhcmVudE5hbWUiOm51bGwsIlR5cGUiOm51bGwsIkNvbnRlbnRUZXh0IjpudWxsLCJJbWFnZVVybCI6bnVsbCwiVGFncyI6W119LCJXb3Jkc01pc3NpbmciOmZhbHNlLCJDb2xsZWN0aW9uVHlwZUNTU0NsYXNzIjoibGFiZWwtdC1zZWN0b3IiLCJMYW5ndWFnZUNTU0NsYXNzIjoibGFiZWwtZW4ifSx7IklkZW50aWZpZXIiOiIxMS4xMDAyLzEwMDAvNjk1LWVuIiwiVGl0bGUiOiJJVFUtVCBGLjY5ICgwMy8xOTkzKTogUGxhbiBmb3IgdGVsZXggZGVzdGluYXRpb24gY29kZXMiLCJDb2xsZWN0aW9uIjp7Ik5hbWUiOiJJVFUtVCBSZWNvbW1lbmRhdGlvbnMiLCJUaXRsZSI6IklUVS1UIFJlY29tbWVuZGF0aW9ucyIsIkRlc2NyaXB0aW9uIjoiIiwiU2VjdG9yIjoiSVRVLVQiLCJHcm91cCI6IlJlY29tbWVuZGF0aW9ucyJ9LCJSZWRpcmVjdGlvbiI6Imh0dHBzOi8vd3d3Lml0dS5pbnQvbmV0NC9JVFUtVC9zZWFyY2gvYXBpL3JlZGlyZWN0aW9uP2Rlc3Q9aHR0cCUzQSUyRiUyRmhhbmRsZS5pdHUuaW50JTJGMTEuMTAwMiUyRjEwMDAlMkY2OTUtZW5cdTAwMjZwb3NpdGlvbj04XHUwMDI2cGFnZT0xIiwiTGFuZ3VhZ2UiOiJlbiIsIkRpciI6Imx0ciIsIlByb3BlcnRpZXMiOlt7IlRpdGxlIjoiUHVibGljYXRpb24gZGF0ZSIsIlZhbHVlIjoiTWFyY2gsIDE5OTMifV0sIkV4dHJhY3RGaWxlQ29udGVudCI6IiIsIkxvY2F0aW9ucyI6W10sIlRvcFJlc3VsdCI6ZmFsc2UsIldvcmRzIjp7IklUVS1UIjp0cnVlLCJGLjY5Ijp0cnVlfSwiTWVkaWEiOnsiSWRlbnRpZmllciI6IjExLjEwMDIvMTAwMC82OTUtZW4iLCJEYXRlIjoiTWFyY2gsIDE5OTMiLCJVcmwiOm51bGwsIk5hbWUiOiJJVFUtVCBGLjY5ICgwMy8xOTkzKSIsIlBhcmVudEhhbmRsZUlEIjoiIiwiUGFyZW50TmFtZSI6bnVsbCwiVHlwZSI6bnVsbCwiQ29udGVudFRleHQiOm51bGwsIkltYWdlVXJsIjpudWxsLCJUYWdzIjpbXX0sIldvcmRzTWlzc2luZyI6ZmFsc2UsIkNvbGxlY3Rpb25UeXBlQ1NTQ2xhc3MiOiJsYWJlbC10LXNlY3RvciIsIkxhbmd1YWdlQ1NTQ2xhc3MiOiJsYWJlbC1lbiJ9LHsiSWRlbnRpZmllciI6IjExLjEwMDIvMTAwMC8zNTA4LWVuIiwiVGl0bGUiOiJJVFUtVCBGLjY5ICgxMC8xOTg0KTogUGxhbiBmb3IgdGVsZXggZGVzdGluYXRpb24gY29kZXMiLCJDb2xsZWN0aW9uIjp7Ik5hbWUiOiJJVFUtVCBSZWNvbW1lbmRhdGlvbnMiLCJUaXRsZSI6IklUVS1UIFJlY29tbWVuZGF0aW9ucyIsIkRlc2NyaXB0aW9uIjoiIiwiU2VjdG9yIjoiSVRVLVQiLCJHcm91cCI6IlJlY29tbWVuZGF0aW9ucyJ9LCJSZWRpcmVjdGlvbiI6Imh0dHBzOi8vd3d3Lml0dS5pbnQvbmV0NC9JVFUtVC9zZWFyY2gvYXBpL3JlZGlyZWN0aW9uP2Rlc3Q9aHR0cCUzQSUyRiUyRmhhbmRsZS5pdHUuaW50JTJGMTEuMTAwMiUyRjEwMDAlMkYzNTA4LWVuXHUwMDI2cG9zaXRpb249N1x1MDAyNnBhZ2U9MSIsIkxhbmd1YWdlIjoiZW4iLCJEaXIiOiJsdHIiLCJQcm9wZXJ0aWVzIjpbeyJUaXRsZSI6IlB1YmxpY2F0aW9uIGRhdGUiLCJWYWx1ZSI6Ik9jdG9iZXIsIDE5ODQifV0sIkV4dHJhY3RGaWxlQ29udGVudCI6IiIsIkxvY2F0aW9ucyI6W10sIlRvcFJlc3VsdCI6ZmFsc2UsIldvcmRzIjp7IklUVS1UIjp0cnVlLCJGLjY5Ijp0cnVlfSwiTWVkaWEiOnsiSWRlbnRpZmllciI6IjExLjEwMDIvMTAwMC8zNTA4LWVuIiwiRGF0ZSI6Ik9jdG9iZXIsIDE5ODQiLCJVcmwiOm51bGwsIk5hbWUiOiJJVFUtVCBGLjY5ICgxMC8xOTg0KSIsIlBhcmVudEhhbmRsZUlEIjoiIiwiUGFyZW50TmFtZSI6bnVsbCwiVHlwZSI6bnVsbCwiQ29udGVudFRleHQiOm51bGwsIkltYWdlVXJsIjpudWxsLCJUYWdzIjpbXX0sIldvcmRzTWlzc2luZyI6ZmFsc2UsIkNvbGxlY3Rpb25UeXBlQ1NTQ2xhc3MiOiJsYWJlbC10LXNlY3RvciIsIkxhbmd1YWdlQ1NTQ2xhc3MiOiJsYWJlbC1lbiJ9LHsiSWRlbnRpZmllciI6IjExLjEwMDIvMTAwMC83NjAyLWVuIiwiVGl0bGUiOiJJVFUtVCBGLjY5ICgxMS8xOTgwKTogUGxhbiBmb3IgdGVsZXggZGVzdGluYXRpb24gY29kZXMiLCJDb2xsZWN0aW9uIjp7Ik5hbWUiOiJJVFUtVCBSZWNvbW1lbmRhdGlvbnMiLCJUaXRsZSI6IklUVS1UIFJlY29tbWVuZGF0aW9ucyIsIkRlc2NyaXB0aW9uIjoiIiwiU2VjdG9yIjoiSVRVLVQiLCJHcm91cCI6IlJlY29tbWVuZGF0aW9ucyJ9LCJSZWRpcmVjdGlvbiI6Imh0dHBzOi8vd3d3Lml0dS5pbnQvbmV0NC9JVFUtVC9zZWFyY2gvYXBpL3JlZGlyZWN0aW9uP2Rlc3Q9aHR0cCUzQSUyRiUyRmhhbmRsZS5pdHUuaW50JTJGMTEuMTAwMiUyRjEwMDAlMkY3NjAyLWVuXHUwMDI2cG9zaXRpb249Nlx1MDAyNnBhZ2U9MSIsIkxhbmd1YWdlIjoiZW4iLCJEaXIiOiJsdHIiLCJQcm9wZXJ0aWVzIjpbeyJUaXRsZSI6IlB1YmxpY2F0aW9uIGRhdGUiLCJWYWx1ZSI6Ik5vdmVtYmVyLCAxOTgwIn1dLCJFeHRyYWN0RmlsZUNvbnRlbnQiOiIiLCJMb2NhdGlvbnMiOltdLCJUb3BSZXN1bHQiOmZhbHNlLCJXb3JkcyI6eyJJVFUtVCI6dHJ1ZSwiRi42OSI6dHJ1ZX0sIk1lZGlhIjp7IklkZW50aWZpZXIiOiIxMS4xMDAyLzEwMDAvNzYwMi1lbiIsIkRhdGUiOiJOb3ZlbWJlciwgMTk4MCIsIlVybCI6bnVsbCwiTmFtZSI6IklUVS1UIEYuNjkgKDExLzE5ODApIiwiUGFyZW50SGFuZGxlSUQiOiIiLCJQYXJlbnROYW1lIjpudWxsLCJUeXBlIjpudWxsLCJDb250ZW50VGV4dCI6bnVsbCwiSW1hZ2VVcmwiOm51bGwsIlRhZ3MiOltdfSwiV29yZHNNaXNzaW5nIjpmYWxzZSwiQ29sbGVjdGlvblR5cGVDU1NDbGFzcyI6ImxhYmVsLXQtc2VjdG9yIiwiTGFuZ3VhZ2VDU1NDbGFzcyI6ImxhYmVsLWVuIn0seyJJZGVudGlmaWVyIjoiMTEuMTAwMi8xMDAwLzk4NjItZW4iLCJUaXRsZSI6IklUVS1UIEYuNjkgKDEwLzE5NzYpOiBQbGFuIGZvciB0ZWxleCBkZXN0aW5hdGlvbiBjb2RlcyIsIkNvbGxlY3Rpb24iOnsiTmFtZSI6IklUVS1UIFJlY29tbWVuZGF0aW9ucyIsIlRpdGxlIjoiSVRVLVQgUmVjb21tZW5kYXRpb25zIiwiRGVzY3JpcHRpb24iOiIiLCJTZWN0b3IiOiJJVFUtVCIsIkdyb3VwIjoiUmVjb21tZW5kYXRpb25zIn0sIlJlZGlyZWN0aW9uIjoiaHR0cHM6Ly93d3cuaXR1LmludC9uZXQ0L0lUVS1UL3NlYXJjaC9hcGkvcmVkaXJlY3Rpb24/ZGVzdD1odHRwJTNBJTJGJTJGaGFuZGxlLml0dS5pbnQlMkYxMS4xMDAyJTJGMTAwMCUyRjk4NjItZW5cdTAwMjZwb3NpdGlvbj01XHUwMDI2cGFnZT0xIiwiTGFuZ3VhZ2UiOiJlbiIsIkRpciI6Imx0ciIsIlByb3BlcnRpZXMiOlt7IlRpdGxlIjoiUHVibGljYXRpb24gZGF0ZSIsIlZhbHVlIjoiT2N0b2JlciwgMTk3NiJ9XSwiRXh0cmFjdEZpbGVDb250ZW50IjoiIiwiTG9jYXRpb25zIjpbXSwiVG9wUmVzdWx0IjpmYWxzZSwiV29yZHMiOnsiSVRVLVQiOnRydWUsIkYuNjkiOnRydWV9LCJNZWRpYSI6eyJJZGVudGlmaWVyIjoiMTEuMTAwMi8xMDAwLzk4NjItZW4iLCJEYXRlIjoiT2N0b2JlciwgMTk3NiIsIlVybCI6bnVsbCwiTmFtZSI6IklUVS1UIEYuNjkgKDEwLzE5NzYpIiwiUGFyZW50SGFuZGxlSUQiOiIiLCJQYXJlbnROYW1lIjpudWxsLCJUeXBlIjpudWxsLCJDb250ZW50VGV4dCI6bnVsbCwiSW1hZ2VVcmwiOm51bGwsIlRhZ3MiOltdfSwiV29yZHNNaXNzaW5nIjpmYWxzZSwiQ29sbGVjdGlvblR5cGVDU1NDbGFzcyI6ImxhYmVsLXQtc2VjdG9yIiwiTGFuZ3VhZ2VDU1NDbGFzcyI6ImxhYmVsLWVuIn0seyJJZGVudGlmaWVyIjoiMTEuMTAwMi8xMDAwLzEwOTY2LWVuIiwiVGl0bGUiOiJJVFUtVCBGLjY5ICgxMi8xOTcyKTogUGxhbiBmb3IgdGVsZXggZGVzdGluYXRpb24gY29kZXMiLCJDb2xsZWN0aW9uIjp7Ik5hbWUiOiJJVFUtVCBSZWNvbW1lbmRhdGlvbnMiLCJUaXRsZSI6IklUVS1UIFJlY29tbWVuZGF0aW9ucyIsIkRlc2NyaXB0aW9uIjoiIiwiU2VjdG9yIjoiSVRVLVQiLCJHcm91cCI6IlJlY29tbWVuZGF0aW9ucyJ9LCJSZWRpcmVjdGlvbiI6Imh0dHBzOi8vd3d3Lml0dS5pbnQvbmV0NC9JVFUtVC9zZWFyY2gvYXBpL3JlZGlyZWN0aW9uP2Rlc3Q9aHR0cCUzQSUyRiUyRmhhbmRsZS5pdHUuaW50JTJGMTEuMTAwMiUyRjEwMDAlMkYxMDk2Ni1lblx1MDAyNnBvc2l0aW9uPTRcdTAwMjZwYWdlPTEiLCJMYW5ndWFnZSI6ImVuIiwiRGlyIjoibHRyIiwiUHJvcGVydGllcyI6W3siVGl0bGUiOiJQdWJsaWNhdGlvbiBkYXRlIiwiVmFsdWUiOiJEZWNlbWJlciwgMTk3MiJ9XSwiRXh0cmFjdEZpbGVDb250ZW50IjoiIiwiTG9jYXRpb25zIjpbXSwiVG9wUmVzdWx0IjpmYWxzZSwiV29yZHMiOnsiSVRVLVQiOnRydWUsIkYuNjkiOnRydWV9LCJNZWRpYSI6eyJJZGVudGlmaWVyIjoiMTEuMTAwMi8xMDAwLzEwOTY2LWVuIiwiRGF0ZSI6IkRlY2VtYmVyLCAxOTcyIiwiVXJsIjpudWxsLCJOYW1lIjoiSVRVLVQgRi42OSAoMTIvMTk3MikiLCJQYXJlbnRIYW5kbGVJRCI6IiIsIlBhcmVudE5hbWUiOm51bGwsIlR5cGUiOm51bGwsIkNvbnRlbnRUZXh0IjpudWxsLCJJbWFnZVVybCI6bnVsbCwiVGFncyI6W119LCJXb3Jkc01pc3NpbmciOmZhbHNlLCJDb2xsZWN0aW9uVHlwZUNTU0NsYXNzIjoibGFiZWwtdC1zZWN0b3IiLCJMYW5ndWFnZUNTU0NsYXNzIjoibGFiZWwtZW4ifSx7IklkZW50aWZpZXIiOiIxMS4xMDAyLzEwMDAvMTA3NDQtZW4iLCJUaXRsZSI6IklUVS1UIEYuNjkgKDE5NzYpIEFtZC4xICgxMC8xOTc3KSIsIkNvbGxlY3Rpb24iOnsiTmFtZSI6IklUVS1UIFJlY29tbWVuZGF0aW9ucyIsIlRpdGxlIjoiSVRVLVQgUmVjb21tZW5kYXRpb25zIiwiRGVzY3JpcHRpb24iOiIiLCJTZWN0b3IiOiJJVFUtVCIsIkdyb3VwIjoiUmVjb21tZW5kYXRpb25zIn0sIlJlZGlyZWN0aW9uIjoiaHR0cHM6Ly93d3cuaXR1LmludC9uZXQ0L0lUVS1UL3NlYXJjaC9hcGkvcmVkaXJlY3Rpb24/ZGVzdD1odHRwJTNBJTJGJTJGaGFuZGxlLml0dS5pbnQlMkYxMS4xMDAyJTJGMTAwMCUyRjEwNzQ0LWVuXHUwMDI2cG9zaXRpb249M1x1MDAyNnBhZ2U9MSIsIkxhbmd1YWdlIjoiZW4iLCJEaXIiOiJsdHIiLCJQcm9wZXJ0aWVzIjpbeyJUaXRsZSI6IlB1YmxpY2F0aW9uIGRhdGUiLCJWYWx1ZSI6Ik9jdG9iZXIsIDE5NzcifV0sIkV4dHJhY3RGaWxlQ29udGVudCI6IiIsIkxvY2F0aW9ucyI6W10sIlRvcFJlc3VsdCI6ZmFsc2UsIldvcmRzIjp7IklUVS1UIjp0cnVlLCJGLjY5Ijp0cnVlfSwiTWVkaWEiOnsiSWRlbnRpZmllciI6IjExLjEwMDIvMTAwMC8xMDc0NC1lbiIsIkRhdGUiOiJPY3RvYmVyLCAxOTc3IiwiVXJsIjpudWxsLCJOYW1lIjoiSVRVLVQgRi42OSAoMTk3NikgQW1kLjEgKDEwLzE5NzcpIiwiUGFyZW50SGFuZGxlSUQiOiIiLCJQYXJlbnROYW1lIjpudWxsLCJUeXBlIjpudWxsLCJDb250ZW50VGV4dCI6bnVsbCwiSW1hZ2VVcmwiOm51bGwsIlRhZ3MiOltdfSwiV29yZHNNaXNzaW5nIjpmYWxzZSwiQ29sbGVjdGlvblR5cGVDU1NDbGFzcyI6ImxhYmVsLXQtc2VjdG9yIiwiTGFuZ3VhZ2VDU1NDbGFzcyI6ImxhYmVsLWVuIn0seyJJZGVudGlmaWVyIjoiMTEuMTAwMi8xMDAwLzE0NzMyLWVuIiwiVGl0bGUiOiJJVFUtVCBZIFN1cHBsLiA2OSAoMDUvMjAyMSk6ICBXZWItYmFzZWQgZGF0YSBtb2RlbCBmb3IgSW50ZXJuZXQgb2YgdGhpbmdzIGFuZCBzbWFydCBjaXR5IHN5c3RlbXMgYW5kIHNlcnZpY2VzIiwiQ29sbGVjdGlvbiI6eyJOYW1lIjoiSVRVLVQgUmVjb21tZW5kYXRpb25zIiwiVGl0bGUiOiJJVFUtVCBSZWNvbW1lbmRhdGlvbnMiLCJEZXNjcmlwdGlvbiI6IiIsIlNlY3RvciI6IklUVS1UIiwiR3JvdXAiOiJSZWNvbW1lbmRhdGlvbnMifSwiUmVkaXJlY3Rpb24iOiJodHRwczovL3d3dy5pdHUuaW50L25ldDQvSVRVLVQvc2VhcmNoL2FwaS9yZWRpcmVjdGlvbj9kZXN0PWh0dHAlM0ElMkYlMkZoYW5kbGUuaXR1LmludCUyRjExLjEwMDIlMkYxMDAwJTJGMTQ3MzItZW5cdTAwMjZwb3NpdGlvbj0yXHUwMDI2cGFnZT0xIiwiTGFuZ3VhZ2UiOiJlbiIsIkRpciI6Imx0ciIsIlByb3BlcnRpZXMiOlt7IlRpdGxlIjoiUHVibGljYXRpb24gZGF0ZSIsIlZhbHVlIjoiSnVseSwgMjAyMSJ9XSwiRXh0cmFjdEZpbGVDb250ZW50IjoiLi4uICBUIGUgbCBlIGMgbyBtIG0gdSBuIGkgYyBhIHQgaSBvIG4gIFUgbiBpIG8gbiAgICBJVFUtVCAgU2VyaWVzIFkgVEVMRUNPTU1VTklDQVRJT04gU1RBTkRBUkRJWkFUSU9OIFNFQ1RPLi4uIiwiTG9jYXRpb25zIjpbeyJJZCI6IjEiLCJUeXBlIjoicGRmIiwiSHJlZiI6Imh0dHBzOi8vd3d3Lml0dS5pbnQvbmV0NC9JVFUtVC9zZWFyY2gvYXBpL3JlZGlyZWN0aW9uP2Rlc3Q9aHR0cCUzQSUyRiUyRmhhbmRsZS5pdHUuaW50JTJGMTEuMTAwMiUyRjEwMDAlMkYxNDczMi1lbiUzRmxvY2F0dCUzRGlkJTNBMSUyNmF1dGgiLCJSYXdIcmVmIjoiaHR0cDovL3d3dy5pdHUuaW50L3JlYy9kb2xvZ2luX3B1Yi5hc3A/bGFuZz1lXHUwMDI2aWQ9VC1SRUMtWS5TdXA2OS0yMDIxMDUtSSEhUERGLUVcdTAwMjZ0eXBlPWl0ZW1zIiwiSWNvbiI6InBkZi1pY29uLnBuZyJ9LHsiSWQiOiIyIiwiVHlwZSI6ImRvYyIsIkhyZWYiOiJodHRwczovL3d3dy5pdHUuaW50L25ldDQvSVRVLVQvc2VhcmNoL2FwaS9yZWRpcmVjdGlvbj9kZXN0PWh0dHAlM0ElMkYlMkZoYW5kbGUuaXR1LmludCUyRjExLjEwMDIlMkYxMDAwJTJGMTQ3MzItZW4lM0Zsb2NhdHQlM0RpZCUzQTIlMjZhdXRoIiwiUmF3SHJlZiI6Imh0dHA6Ly93d3cuaXR1LmludC9yZWMvZG9sb2dpbl9wdWIuYXNwP2xhbmc9ZVx1MDAyNmlkPVQtUkVDLVkuU3VwNjktMjAyMTA1LUkhIU1TVy1FXHUwMDI2dHlwZT1pdGVtcyIsIkljb24iOiJkb2MtaWNvbi5wbmcifV0sIlRvcFJlc3VsdCI6ZmFsc2UsIldvcmRzIjp7IklUVS1UIjp0cnVlLCJGLjY5Ijp0cnVlfSwiTWVkaWEiOnsiSWRlbnRpZmllciI6IjExLjEwMDIvMTAwMC8xNDczMi1lbiIsIkRhdGUiOiJKdWx5LCAyMDIxIiwiVXJsIjpudWxsLCJOYW1lIjoiSVRVLVQgWSBTdXBwbC4gNjkgKDA1LzIwMjEpIiwiUGFyZW50SGFuZGxlSUQiOiIiLCJQYXJlbnROYW1lIjpudWxsLCJUeXBlIjpudWxsLCJDb250ZW50VGV4dCI6bnVsbCwiSW1hZ2VVcmwiOm51bGwsIlRhZ3MiOltdfSwiV29yZHNNaXNzaW5nIjpmYWxzZSwiQ29sbGVjdGlvblR5cGVDU1NDbGFzcyI6ImxhYmVsLXQtc2VjdG9yIiwiTGFuZ3VhZ2VDU1NDbGFzcyI6ImxhYmVsLWVuIn0seyJJZGVudGlmaWVyIjoiMTEuMTAwMi8xMDAwLzE0NTUwLWVuIiwiVGl0bGUiOiJJVFUtVCBHIFN1cHBsLiA2OSAoMDkvMjAyMCk6IE1pZ3JhdGlvbiBvZiBhIHByZS1zdGFuZGFyZCBuZXR3b3JrIHRvIGEgbWV0cm8gdHJhbnNwb3J0IG5ldHdvcmsiLCJDb2xsZWN0aW9uIjp7Ik5hbWUiOiJJVFUtVCBSZWNvbW1lbmRhdGlvbnMiLCJUaXRsZSI6IklUVS1UIFJlY29tbWVuZGF0aW9ucyIsIkRlc2NyaXB0aW9uIjoiIiwiU2VjdG9yIjoiSVRVLVQiLCJHcm91cCI6IlJlY29tbWVuZGF0aW9ucyJ9LCJSZWRpcmVjdGlvbiI6Imh0dHBzOi8vd3d3Lml0dS5pbnQvbmV0NC9JVFUtVC9zZWFyY2gvYXBpL3JlZGlyZWN0aW9uP2Rlc3Q9aHR0cCUzQSUyRiUyRmhhbmRsZS5pdHUuaW50JTJGMTEuMTAwMiUyRjEwMDAlMkYxNDU1MC1lblx1MDAyNnBvc2l0aW9uPTFcdTAwMjZwYWdlPTEiLCJMYW5ndWFnZSI6ImVuIiwiRGlyIjoibHRyIiwiUHJvcGVydGllcyI6W3siVGl0bGUiOiJQdWJsaWNhdGlvbiBkYXRlIiwiVmFsdWUiOiJGZWJydWFyeSwgMjAyMSJ9XSwiRXh0cmFjdEZpbGVDb250ZW50IjoiLi4uICBUIGUgbCBlIGMgbyBtIG0gdSBuIGkgYyBhIHQgaSBvIG4gIFUgbiBpIG8gbiAgICBJVFUtVCAgU2VyaWVzIEcgVEVMRUNPTU1VTklDQVRJT04gU1RBTkRBUkRJWkFUSU9OIFNFQ1RPLi4uIiwiTG9jYXRpb25zIjpbeyJJZCI6IjEiLCJUeXBlIjoicGRmIiwiSHJlZiI6Imh0dHBzOi8vd3d3Lml0dS5pbnQvbmV0NC9JVFUtVC9zZWFyY2gvYXBpL3JlZGlyZWN0aW9uP2Rlc3Q9aHR0cCUzQSUyRiUyRmhhbmRsZS5pdHUuaW50JTJGMTEuMTAwMiUyRjEwMDAlMkYxNDU1MC1lbiUzRmxvY2F0dCUzRGlkJTNBMSUyNmF1dGgiLCJSYXdIcmVmIjoiaHR0cDovL3d3dy5pdHUuaW50L3JlYy9kb2xvZ2luX3B1Yi5hc3A/bGFuZz1lXHUwMDI2aWQ9VC1SRUMtRy5TdXA2OS0yMDIwMDktSSEhUERGLUVcdTAwMjZ0eXBlPWl0ZW1zIiwiSWNvbiI6InBkZi1pY29uLnBuZyJ9LHsiSWQiOiIyIiwiVHlwZSI6ImRvYyIsIkhyZWYiOiJodHRwczovL3d3dy5pdHUuaW50L25ldDQvSVRVLVQvc2VhcmNoL2FwaS9yZWRpcmVjdGlvbj9kZXN0PWh0dHAlM0ElMkYlMkZoYW5kbGUuaXR1LmludCUyRjExLjEwMDIlMkYxMDAwJTJGMTQ1NTAtZW4lM0Zsb2NhdHQlM0RpZCUzQTIlMjZhdXRoIiwiUmF3SHJlZiI6Imh0dHA6Ly93d3cuaXR1LmludC9yZWMvZG9sb2dpbl9wdWIuYXNwP2xhbmc9ZVx1MDAyNmlkPVQtUkVDLUcuU3VwNjktMjAyMDA5LUkhIU1TVy1FXHUwMDI2dHlwZT1pdGVtcyIsIkljb24iOiJkb2MtaWNvbi5wbmcifV0sIlRvcFJlc3VsdCI6ZmFsc2UsIldvcmRzIjp7IklUVS1UIjp0cnVlLCJGLjY5Ijp0cnVlfSwiTWVkaWEiOnsiSWRlbnRpZmllciI6IjExLjEwMDIvMTAwMC8xNDU1MC1lbiIsIkRhdGUiOiJGZWJydWFyeSwgMjAyMSIsIlVybCI6bnVsbCwiTmFtZSI6IklUVS1UIEcgU3VwcGwuIDY5ICgwOS8yMDIwKSIsIlBhcmVudEhhbmRsZUlEIjoiIiwiUGFyZW50TmFtZSI6bnVsbCwiVHlwZSI6bnVsbCwiQ29udGVudFRleHQiOm51bGwsIkltYWdlVXJsIjpudWxsLCJUYWdzIjpbXX0sIldvcmRzTWlzc2luZyI6ZmFsc2UsIkNvbGxlY3Rpb25UeXBlQ1NTQ2xhc3MiOiJsYWJlbC10LXNlY3RvciIsIkxhbmd1YWdlQ1NTQ2xhc3MiOiJsYWJlbC1lbiJ9XSwiaW5wdXQiOiJJVFUtVCBGLjY5IiwidG90YWxBbW91bnQiOjE4NDMsImNvbGxhdGlvblF1ZXJ5IjoiIiwiYXR0ZW1wdCI6MCwibGFuZ3VhZ2VVcGRhdGVkIjpmYWxzZSwiYWxsb3dlZCI6dHJ1ZX0=
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:20 GMT
+- request:
+    method: get
+    uri: https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http://handle.itu.int/11.1002/1000/694-en&page=1&position=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Cookie:
+      - BIGipServerlsjkXadm4jjZQNa6SsO7nw=!w5pKwJT+P1KGoMxxnBj5B1n5F0OTcNEVQXQDUmUawvotLB8XnvgOZvnzvQJrQEGB2pKBT1OSfqmHnfo=;
+        GSCookie=QueryId=4814924&CookieId=RICL5VHGiIBmVsfBHdmbp21dCuVacppXcx6kQI64TH/7rtcO6bjk+PdNS5qD2mN/G/9F2U1R7EYJKgYlt5lcmA==;
+        TS010592a8=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        TS0110b275=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        TS70351561027=08b49714d4ab2000be360885001454ecb9162eda122e58c095f99a51f974220ee7300c8c8fc56bbd08910b3ec3113000fcae36a2790b868ce34dcd6032482e42aa4a73429b56e689d4f33291a6d7b29e741465359d7b39f54f8919572dabd36a
+      Host:
+      - www.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - text/html; charset=utf-8
+      Location:
+      - http://handle.itu.int/11.1002/1000/694-en
+      Microsoftofficewebserver:
+      - 5.0_Pub
+      Strict-Transport-Security:
+      - max-age=31536000
+      Date:
+      - Sun, 06 Feb 2022 13:11:21 GMT
+      Content-Length:
+      - '158'
+      P3p:
+      - CP="{}"
+      Set-Cookie:
+      - TS70351561027=08b49714d4ab2000a24a3cb4cc1b6aab27a8c15e3288e0212cbf0bdeac83866207220b0aaee36b820842d979a311300038d7acfe116f7a142ba1348259b315d4a1d15b6a1d3cf5ae00b447933e397925b9de67c121f17197d6de9d8cb54261bd;Path=/
+    body:
+      encoding: UTF-8
+      string: "<html><head><title>Object moved</title></head><body>\r\n<h2>Object
+        moved to <a href=\"http://handle.itu.int/11.1002/1000/694-en\">here</a>.</h2>\r\n</body></html>\r\n"
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:22 GMT
+- request:
+    method: get
+    uri: http://handle.itu.int/11.1002/1000/694-en
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - handle.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 301
+      message: Moved Permanently
+    headers:
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Date:
+      - Sun, 06 Feb 2022 13:11:23 GMT
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '178'
+      Connection:
+      - keep-alive
+      Location:
+      - https://handle.itu.int/11.1002/1000/694-en
+    body:
+      encoding: UTF-8
+      string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body>\r\n<center><h1>301
+        Moved Permanently</h1></center>\r\n<hr><center>nginx/1.18.0 (Ubuntu)</center>\r\n</body>\r\n</html>\r\n"
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:23 GMT
+- request:
+    method: get
+    uri: https://handle.itu.int/11.1002/1000/694-en
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - handle.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Date:
+      - Sun, 06 Feb 2022 13:11:24 GMT
+      Content-Type:
+      - text/html;charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Location:
+      - http://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&lang=en
+      Expires:
+      - Mon, 07 Feb 2022 13:11:24 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <html><head><title>Handle Redirect</title></head>
+        <body><a href="http://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en">http://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en</a></body></html>
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:24 GMT
+- request:
+    method: get
+    uri: http://www.itu.int/ITU-T/recommendations/rec.aspx?lang=en&rec=694
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Cookie:
+      - GSCookie=QueryId=4814924&CookieId=RICL5VHGiIBmVsfBHdmbp21dCuVacppXcx6kQI64TH/7rtcO6bjk+PdNS5qD2mN/G/9F2U1R7EYJKgYlt5lcmA==;
+        TS010592a8=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        TS0110b275=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        TS70351561027=08b49714d4ab2000a24a3cb4cc1b6aab27a8c15e3288e0212cbf0bdeac83866207220b0aaee36b820842d979a311300038d7acfe116f7a142ba1348259b315d4a1d15b6a1d3cf5ae00b447933e397925b9de67c121f17197d6de9d8cb54261bd
+      Host:
+      - www.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 302
+      message: Moved Temporarily
+    headers:
+      Location:
+      - https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&lang=en
+      Server:
+      - BigIP
+      Connection:
+      - Keep-Alive
+      Content-Length:
+      - '0'
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:25 GMT
+- request:
+    method: get
+    uri: https://www.itu.int/ITU-T/recommendations/rec.aspx?lang=en&rec=694
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Cookie:
+      - BIGipServerlsjkXadm4jjZQNa6SsO7nw=!w5pKwJT+P1KGoMxxnBj5B1n5F0OTcNEVQXQDUmUawvotLB8XnvgOZvnzvQJrQEGB2pKBT1OSfqmHnfo=;
+        GSCookie=QueryId=4814924&CookieId=RICL5VHGiIBmVsfBHdmbp21dCuVacppXcx6kQI64TH/7rtcO6bjk+PdNS5qD2mN/G/9F2U1R7EYJKgYlt5lcmA==;
+        TS010592a8=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        TS0110b275=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        TS70351561027=08b49714d4ab2000a24a3cb4cc1b6aab27a8c15e3288e0212cbf0bdeac83866207220b0aaee36b820842d979a311300038d7acfe116f7a142ba1348259b315d4a1d15b6a1d3cf5ae00b447933e397925b9de67c121f17197d6de9d8cb54261bd
+      Host:
+      - www.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - text/html; charset=utf-8
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Sun, 06 Feb 2022 13:11:28 GMT
+      Content-Length:
+      - '18852'
+      Set-Cookie:
+      - BIGipServerV19edYz/rGMxUCJeS7ZH3w=!gTqfHeOvjF1ZgDhxnBj5B1n5F0OTcDhYus7Vm7evLku4HyIUJUWPr+lQCjO6Qq6MrD/G8cXumTGStcM=;
+        path=/; Httponly; Secure
+      - TS010592a8=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        Path=/
+      - TS70351561027=08b49714d4ab20009c6e36f505777aa72a1b393a35e6361751b72cc2661a710f6b3759e0a673d73a08b81b673e113000536a5551fa6bd6476bcaf3547131e087e1760a9c5a7fa91eafc279f2e463bfb2e71fa685e512298d4c74ef454d1152b3;Path=/
+      P3p:
+      - CP="{}"
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:29 GMT
+- request:
+    method: get
+    uri: http://www.itu.int/dms_pubrec/itu-t/rec/f/T-REC-F.69-199406-I!!SUM-HTM-E.htm
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Cookie:
+      - GSCookie=QueryId=4814924&CookieId=RICL5VHGiIBmVsfBHdmbp21dCuVacppXcx6kQI64TH/7rtcO6bjk+PdNS5qD2mN/G/9F2U1R7EYJKgYlt5lcmA==;
+        TS010592a8=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        TS0110b275=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        TS70351561027=08b49714d4ab20009c6e36f505777aa72a1b393a35e6361751b72cc2661a710f6b3759e0a673d73a08b81b673e113000536a5551fa6bd6476bcaf3547131e087e1760a9c5a7fa91eafc279f2e463bfb2e71fa685e512298d4c74ef454d1152b3
+      Host:
+      - www.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 302
+      message: Moved Temporarily
+    headers:
+      Location:
+      - https://www.itu.int/dms_pubrec/itu-t/rec/f/T-REC-F.69-199406-I!!SUM-HTM-E.htm
+      Server:
+      - BigIP
+      Connection:
+      - Keep-Alive
+      Content-Length:
+      - '0'
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:29 GMT
+- request:
+    method: get
+    uri: https://www.itu.int/dms_pubrec/itu-t/rec/f/T-REC-F.69-199406-I!!SUM-HTM-E.htm
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Cookie:
+      - BIGipServerV19edYz/rGMxUCJeS7ZH3w=!gTqfHeOvjF1ZgDhxnBj5B1n5F0OTcDhYus7Vm7evLku4HyIUJUWPr+lQCjO6Qq6MrD/G8cXumTGStcM=;
+        BIGipServerlsjkXadm4jjZQNa6SsO7nw=!w5pKwJT+P1KGoMxxnBj5B1n5F0OTcNEVQXQDUmUawvotLB8XnvgOZvnzvQJrQEGB2pKBT1OSfqmHnfo=;
+        GSCookie=QueryId=4814924&CookieId=RICL5VHGiIBmVsfBHdmbp21dCuVacppXcx6kQI64TH/7rtcO6bjk+PdNS5qD2mN/G/9F2U1R7EYJKgYlt5lcmA==;
+        TS010592a8=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        TS0110b275=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        TS70351561027=08b49714d4ab20009c6e36f505777aa72a1b393a35e6361751b72cc2661a710f6b3759e0a673d73a08b81b673e113000536a5551fa6bd6476bcaf3547131e087e1760a9c5a7fa91eafc279f2e463bfb2e71fa685e512298d4c74ef454d1152b3
+      Host:
+      - www.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html
+      Content-Encoding:
+      - gzip
+      Last-Modified:
+      - Mon, 21 Jul 2003 18:06:43 GMT
+      Accept-Ranges:
+      - bytes
+      Etag:
+      - '"966c68d7b24fc31:0"'
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Sun, 06 Feb 2022 13:11:30 GMT
+      Content-Length:
+      - '1141'
+      Set-Cookie:
+      - BIGipServer4+IEUJs6ObMe1m0DiLXCRg=!KFzv+MTTSX2GY99xnBj5B1n5F0OTcHB3YO/88rZ2nSFeq8eRMN9FInQF7kqpGThICy6DpM4ByAsFPoA=;
+        path=/; Httponly; Secure
+      - TS010592a8=018bf709fc393ca88efa2bee550bab800b103ac0c1ef6f43c642c1a7ae6d48df50ec8107881956780fcb775c7ceb793be2e2d57fc3;
+        Path=/
+      - TS70351561027=08b49714d4ab2000be61d92e9c0527baaea2f37564001d6ef52d42b1bdaf191811f5ceb82ecb378308d7866fa9113000d3cb936f6e30fc9c8701b86f3c7e3fbf8a814eeb3e6d70121ea4bd677f9f52b8d7fff8d37e310874cf2898e67471004f;Path=/
+      P3p:
+      - CP="{}"
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAEAO29B2AcSZYlJi9tynt/SvVK1+B0oQiAYBMk2JBAEOzBiM3mkuwdaUcjKasqgcplVmVdZhZAzO2dvPfee++999577733ujudTif33/8/XGZkAWz2zkrayZ4hgKrIHz9+fB8/Ih7P20V59Bsnv3HyeJ5nM/rt8SJvs3Tetqvt/Beti8vPTqplmy/b7TfXqzydyh+ffdTm79q7ePkwnc6zusnbz66K5ay6arZ39+7vfQRIbdGW+dHr9WKR1dfpdvrm9ZP0VT4dp8/Gnz6kv0/KrGnydZ3u7z2+K43praa9ll9+1+3t3zhJf+Nkext/3bWf31VM6ddJNbuW32bFZToFvM9e59O2qJa78vn83tHrr7744vjV70Pv3ZPPVtryRVUvsjI7b/Oae985ejPP04JGWNM4lwInrc7Tlj5e5u1VVb9tzN/Tar1s6yJvfuMkW87SOp9WF8viB/ksrVZ5nbXF8iLNLvLllJqkq4x6mBYr+bhYMgTuaEkfVcusTNu8zN/9xkmT15fFNCd4RPyaXkXLWX6Zl9VqQZRH91natNRnVs+4v0VOM7AsmkV6XtXcvq7W3FF1/hsn06wsm3RC2Of5Mm3Wk2ZaF5O8bqh/gtTW2bIh9AB6kdGg63H6Zl7Qt02aTecF9TwjmATxYk4/8984WTc5AcarwJhwa6gvHgXRZJanV/NiOsfr1HDGKNHL1OQiXa3rVdXQmIrlb5yEo8/fYQwXeUO9R8E2hN11mpVNRWMR0FdFOwckaUVABCE3UXWatdSX389F1uZXBMj2JwjS5BExlxdCLuq8zQqiGr6bFGVJ36REcCIIzzr+NGMZoZumIqEpFgqtIjLVv3FiWqTNmuiR0c/8os4JAX6dGWJdZjRhJFeELHFVnZ2fFxCPdQ0Qi6rOR0LzDlcwI+TLbMKYUYu0mNFHBb1N4IligEafYjBEKDfpGMVvnNBXdT65Ti+KS7xPorAmLiDw9BoRgqjR0k/iBREAmkrLCfQWvU1EnZbrBl+CxQwrKOW7yGD66A1+kZjtKq8n2RTzc+5hxn9Siy5jCGQzfoKSzWYFvkvbCu0DEOFbxBnrBX0+fnx3FQr+F00lsk8CT6MjnVQtiKYzfp1mXwCy7NE81tU0n61ZFpn5zquyrK6IGIQNtSCmLCsdKsaArgGD5lk+xPiJhEx5/nIDncD/BHKRE6EAjTpfrEswDTVYrWnCpfFI4BHGPGsEhzQsUa5K8/Nzmjd8CHgecoRCjb9JgkzH+czR5i5pUPmN1AEpCmjbzz4+J32/3ZCaebS7N95ZtYf8wXm2KMrrR79x8tEb5voX+VX6qiL18dHhx0ePJzWROc/qz6hvYl0BtCJduD2p8+zt9iQnKckfZSUJYkMvUJd30Sf9Qr8SGvQ6ZkkV+Z58buaOJssgR2blolhut9VKsfv46BcuJ83q0A7KvGQnnMZfXCw/K/PzNgJlZ7o4hGHb5laP0IrwowERtE3/8v9Nn46Qd515YlN59Bsn/w+oV9RlcAcAAA==
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:31 GMT
+- request:
+    method: post
+    uri: https://www.itu.int/net4/ITU-T/search/GlobalSearch/Search
+    body:
+      encoding: UTF-8
+      string: '{"json":"{\"Input\":\"ITU-T F.68\",\"Start\":0,\"Rows\":10,\"SortBy\":\"RELEVANCE\",\"ExactPhrase\":false,\"CollectionName\":\"General\",\"CollectionGroup\":\"Recommendations\",\"Sector\":\"t\",\"Criterias\":[{\"Name\":\"Search
+        in\",\"Criterias\":[{\"Selected\":false,\"Value\":\"\",\"Label\":\"Name\",\"Target\":\"\\\\/name_s\",\"TypeName\":\"CHECKBOX\",\"GetCriteriaType\":0},{\"Selected\":false,\"Value\":\"\",\"Label\":\"Short
+        description\",\"Target\":\"\\\\/short_description_s\",\"TypeName\":\"CHECKBOX\",\"GetCriteriaType\":0},{\"Selected\":false,\"Value\":\"\",\"Label\":\"File
+        content\",\"Target\":\"\\\\/file\",\"TypeName\":\"CHECKBOX\",\"GetCriteriaType\":0}],\"ShowCheckbox\":true,\"Selected\":false}],\"Topics\":\"\",\"ClientData\":{},\"Language\":\"en\",\"SearchType\":\"All\"}"}'
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - www.itu.int
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '793'
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Set-Cookie:
+      - BIGipServerlsjkXadm4jjZQNa6SsO7nw=!RcTH4K3aLB7BbKZxnBj5B1n5F0OTcHLIw66WMpiiibChNYo64FXI0aCo+mhx7mt8zhhQU9/aG6b5ubY=;
+        path=/; Httponly; Secure
+      - GSCookie=QueryId=&CookieId=dknFd0zdNj4ouzp80/6acctqdNThINTbR3JdMlv+ZnXVkcf/wYI5J/EYBs5YGlheortZygXvNMA3Kukqwxee3w==;
+        domain=www.itu.int; expires=Tue, 06-Feb-2024 13:11:31 GMT; path=/
+      - GSCookie=QueryId=4814925&CookieId=dknFd0zdNj4ouzp80/6acctqdNThINTbR3JdMlv+ZnXVkcf/wYI5J/EYBs5YGlheortZygXvNMA3Kukqwxee3w==;
+        domain=www.itu.int; expires=Tue, 06-Feb-2024 13:11:32 GMT; path=/
+      - TS010592a8=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        Path=/
+      - TS0110b275=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        path=/; domain=www.itu.int
+      - TS70351561027=08b49714d4ab20006e8b87442ad57211eb789d654823f339f4e66bbbbe99d0f22e926f93fdc7c31508e37e772e11300030b801294149b815190b5244e2263415edb6b0da07820579029712f0c347f98cb70f4c03162bfe8835522bede9966f0a;Path=/
+      Microsoftofficewebserver:
+      - 5.0_Pub
+      Strict-Transport-Security:
+      - max-age=31536000
+      Date:
+      - Sun, 06 Feb 2022 13:11:32 GMT
+      Content-Length:
+      - '14607'
+      P3p:
+      - CP="{}"
+    body:
+      encoding: UTF-8
+      string: '{"results":[{"Identifier":"11.1002/1000/693-en","Title":"ITU-T F.68
+        (11/1988): Establishment of the automatic intercontinental telex network","Collection":{"Name":"ITU-T
+        Recommendations","Title":"ITU-T Recommendations","Description":"","Sector":"ITU-T","Group":"Recommendations"},"Redirection":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F693-en\u0026position=10\u0026page=1","Language":"en","Dir":"ltr","Properties":[{"Title":"Publication
+        date","Value":"January, 1990"}],"ExtractFileContent":"...ecommendation\u0026(Extract
+        from the \\\"LUE\\\"OOK)NOTES1 ITU-T Recommendation F.68 was published in
+        Fascicle II.......t from the \\\"LUE\\\"OOK)NOTES1 ITU-T Recommendation F.68
+        was published in Fascicle II.4 of the Blue Book. ...","Locations":[{"Id":"1","Type":"pdf","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F693-en%3Flocatt%3Did%3A1%26auth","RawHref":"http://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-F.68-198811-I!!PDF-E\u0026type=items","Icon":"pdf-icon.png"},{"Id":"2","Type":"doc","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F693-en%3Flocatt%3Did%3A2%26auth","RawHref":"http://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-F.68-198811-I!!MSW-E\u0026type=items","Icon":"doc-icon.png"}],"TopResult":false,"Words":{"ITU-T":true,"F.68":true},"Media":{"Identifier":"11.1002/1000/693-en","Date":"January,
+        1990","Url":null,"Name":"ITU-T F.68 (11/1988)","ParentHandleID":"","ParentName":null,"Type":null,"ContentText":null,"ImageUrl":null,"Tags":[]},"WordsMissing":false,"CollectionTypeCSSClass":"label-t-sector","LanguageCSSClass":"label-en"},{"Identifier":"11.1002/1000/3507-en","Title":"ITU-T
+        F.68 (10/1984): Establishment of the automatic intercontinental telex network","Collection":{"Name":"ITU-T
+        Recommendations","Title":"ITU-T Recommendations","Description":"","Sector":"ITU-T","Group":"Recommendations"},"Redirection":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F3507-en\u0026position=9\u0026page=1","Language":"en","Dir":"ltr","Properties":[{"Title":"Publication
+        date","Value":"October, 1984"}],"ExtractFileContent":"","Locations":[],"TopResult":false,"Words":{"ITU-T":true,"F.68":true},"Media":{"Identifier":"11.1002/1000/3507-en","Date":"October,
+        1984","Url":null,"Name":"ITU-T F.68 (10/1984)","ParentHandleID":"","ParentName":null,"Type":null,"ContentText":null,"ImageUrl":null,"Tags":[]},"WordsMissing":false,"CollectionTypeCSSClass":"label-t-sector","LanguageCSSClass":"label-en"},{"Identifier":"11.1002/1000/7601-en","Title":"ITU-T
+        F.68 (11/1980): Establishment of the automatic intercontinental telex network","Collection":{"Name":"ITU-T
+        Recommendations","Title":"ITU-T Recommendations","Description":"","Sector":"ITU-T","Group":"Recommendations"},"Redirection":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F7601-en\u0026position=8\u0026page=1","Language":"en","Dir":"ltr","Properties":[{"Title":"Publication
+        date","Value":"November, 1980"}],"ExtractFileContent":"","Locations":[],"TopResult":false,"Words":{"ITU-T":true,"F.68":true},"Media":{"Identifier":"11.1002/1000/7601-en","Date":"November,
+        1980","Url":null,"Name":"ITU-T F.68 (11/1980)","ParentHandleID":"","ParentName":null,"Type":null,"ContentText":null,"ImageUrl":null,"Tags":[]},"WordsMissing":false,"CollectionTypeCSSClass":"label-t-sector","LanguageCSSClass":"label-en"},{"Identifier":"11.1002/1000/9861-en","Title":"ITU-T
+        F.68 (10/1976): Establishment of the automatic intercontinental telex network","Collection":{"Name":"ITU-T
+        Recommendations","Title":"ITU-T Recommendations","Description":"","Sector":"ITU-T","Group":"Recommendations"},"Redirection":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F9861-en\u0026position=7\u0026page=1","Language":"en","Dir":"ltr","Properties":[{"Title":"Publication
+        date","Value":"October, 1976"}],"ExtractFileContent":"","Locations":[],"TopResult":false,"Words":{"ITU-T":true,"F.68":true},"Media":{"Identifier":"11.1002/1000/9861-en","Date":"October,
+        1976","Url":null,"Name":"ITU-T F.68 (10/1976)","ParentHandleID":"","ParentName":null,"Type":null,"ContentText":null,"ImageUrl":null,"Tags":[]},"WordsMissing":false,"CollectionTypeCSSClass":"label-t-sector","LanguageCSSClass":"label-en"},{"Identifier":"11.1002/1000/10965-en","Title":"ITU-T
+        F.68 (12/1972): Establishment of the automatic intercontinental telex network","Collection":{"Name":"ITU-T
+        Recommendations","Title":"ITU-T Recommendations","Description":"","Sector":"ITU-T","Group":"Recommendations"},"Redirection":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F10965-en\u0026position=6\u0026page=1","Language":"en","Dir":"ltr","Properties":[{"Title":"Publication
+        date","Value":"December, 1972"}],"ExtractFileContent":"","Locations":[],"TopResult":false,"Words":{"ITU-T":true,"F.68":true},"Media":{"Identifier":"11.1002/1000/10965-en","Date":"December,
+        1972","Url":null,"Name":"ITU-T F.68 (12/1972)","ParentHandleID":"","ParentName":null,"Type":null,"ContentText":null,"ImageUrl":null,"Tags":[]},"WordsMissing":false,"CollectionTypeCSSClass":"label-t-sector","LanguageCSSClass":"label-en"},{"Identifier":"11.1002/1000/14328-en","Title":"ITU-T
+        F.746.11 (08/2020): Interfaces for intelligent question answering system","Collection":{"Name":"ITU-T
+        Recommendations","Title":"ITU-T Recommendations","Description":"","Sector":"ITU-T","Group":"Recommendations"},"Redirection":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F14328-en\u0026position=5\u0026page=1","Language":"en","Dir":"ltr","Properties":[{"Title":"Publication
+        date","Value":"October, 2020"}],"ExtractFileContent":"...  T e l e c o m m
+        u n i c a t i o n  U n i o n    ITU-T  F.746.11 TELECOMMUNICATION STANDARDIZATION
+        SECTO...","Locations":[{"Id":"1","Type":"pdf","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F14328-en%3Flocatt%3Did%3A1%26auth","RawHref":"http://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-F.746.11-202008-I!!PDF-E\u0026type=items","Icon":"pdf-icon.png"},{"Id":"2","Type":"doc","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F14328-en%3Flocatt%3Did%3A2%26auth","RawHref":"http://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-F.746.11-202008-I!!MSW-E\u0026type=items","Icon":"doc-icon.png"}],"TopResult":false,"Words":{"ITU-T":true,"F.68":true},"Media":{"Identifier":"11.1002/1000/14328-en","Date":"October,
+        2020","Url":null,"Name":"ITU-T F.746.11 (08/2020)","ParentHandleID":"","ParentName":null,"Type":null,"ContentText":null,"ImageUrl":null,"Tags":[]},"WordsMissing":false,"CollectionTypeCSSClass":"label-t-sector","LanguageCSSClass":"label-en"},{"Identifier":"11.1002/1000/14232-en","Title":"ITU-T
+        G Suppl. 68 (02/2020): Synchronization OAM requirements","Collection":{"Name":"ITU-T
+        Recommendations","Title":"ITU-T Recommendations","Description":"","Sector":"ITU-T","Group":"Recommendations"},"Redirection":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F14232-en\u0026position=4\u0026page=1","Language":"en","Dir":"ltr","Properties":[{"Title":"Publication
+        date","Value":"April, 2020"}],"ExtractFileContent":"...  T e l e c o m m u
+        n i c a t i o n  U n i o n    ITU-T  Series G TELECOMMUNICATION STANDARDIZATION
+        SECTO...","Locations":[{"Id":"1","Type":"pdf","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F14232-en%3Flocatt%3Did%3A1%26auth","RawHref":"http://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-G.Sup68-202002-I!!PDF-E\u0026type=items","Icon":"pdf-icon.png"},{"Id":"2","Type":"doc","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F14232-en%3Flocatt%3Did%3A2%26auth","RawHref":"http://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-G.Sup68-202002-I!!MSW-E\u0026type=items","Icon":"doc-icon.png"},{"Id":"3","Type":"epu","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F14232-en%3Flocatt%3Did%3A3%26auth","RawHref":"http://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-G.Sup68-202002-I!!EPB-E\u0026type=items","Icon":"epub-icon.png"}],"TopResult":false,"Words":{"ITU-T":true,"F.68":true},"Media":{"Identifier":"11.1002/1000/14232-en","Date":"April,
+        2020","Url":null,"Name":"ITU-T G Suppl. 68 (02/2020)","ParentHandleID":"","ParentName":null,"Type":null,"ContentText":null,"ImageUrl":null,"Tags":[]},"WordsMissing":false,"CollectionTypeCSSClass":"label-t-sector","LanguageCSSClass":"label-en"},{"Identifier":"11.1002/1000/13661-en","Title":"ITU-T
+        F.791 (08/2018): Accessibility terms and definitions","Collection":{"Name":"ITU-T
+        Recommendations","Title":"ITU-T Recommendations","Description":"","Sector":"ITU-T","Group":"Recommendations"},"Redirection":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F13661-en\u0026position=3\u0026page=1","Language":"en","Dir":"ltr","Properties":[{"Title":"Publication
+        date","Value":"January, 2019"}],"ExtractFileContent":"...  T e l e c o m m
+        u n i c a t i o n  U n i o n    ITU-T  F.791 TELECOMMUNICATION STANDARDIZATION
+        SECTOR O...","Locations":[{"Id":"1","Type":"pdf","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F13661-en%3Flocatt%3Did%3A1%26auth","RawHref":"http://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-F.791-201808-I!!PDF-E\u0026type=items","Icon":"pdf-icon.png"},{"Id":"2","Type":"doc","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F13661-en%3Flocatt%3Did%3A2%26auth","RawHref":"http://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-F.791-201808-I!!MSW-E\u0026type=items","Icon":"doc-icon.png"},{"Id":"3","Type":"epu","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F13661-en%3Flocatt%3Did%3A3%26auth","RawHref":"http://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-F.791-201808-I!!EPB-E\u0026type=items","Icon":"epub-icon.png"}],"TopResult":false,"Words":{"ITU-T":true,"F.68":true},"Media":{"Identifier":"11.1002/1000/13661-en","Date":"January,
+        2019","Url":null,"Name":"ITU-T F.791 (08/2018)","ParentHandleID":"","ParentName":null,"Type":null,"ContentText":null,"ImageUrl":null,"Tags":[]},"WordsMissing":false,"CollectionTypeCSSClass":"label-t-sector","LanguageCSSClass":"label-en"},{"Identifier":"11.1002/1000/12624-en","Title":"ITU-T
+        F.791 (11/2015): Accessibility terms and definitions","Collection":{"Name":"ITU-T
+        Recommendations","Title":"ITU-T Recommendations","Description":"","Sector":"ITU-T","Group":"Recommendations"},"Redirection":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F12624-en\u0026position=2\u0026page=1","Language":"en","Dir":"ltr","Properties":[{"Title":"Publication
+        date","Value":"January, 2016"}],"ExtractFileContent":"...  T e l e c o m m
+        u n i c a t i o n  U n i o n    ITU-T  F.791 TELECOMMUNICATION STANDARDIZATION
+        SECTOR O...","Locations":[{"Id":"1","Type":"pdf","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F12624-en%3Flocatt%3Did%3A1%26auth","RawHref":"http://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-F.791-201511-S!!PDF-E\u0026type=items","Icon":"pdf-icon.png"},{"Id":"2","Type":"doc","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F12624-en%3Flocatt%3Did%3A2%26auth","RawHref":"http://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-F.791-201511-S!!MSW-E\u0026type=items","Icon":"doc-icon.png"}],"TopResult":false,"Words":{"ITU-T":true,"F.68":true},"Media":{"Identifier":"11.1002/1000/12624-en","Date":"January,
+        2016","Url":null,"Name":"ITU-T F.791 (11/2015)","ParentHandleID":"","ParentName":null,"Type":null,"ContentText":null,"ImageUrl":null,"Tags":[]},"WordsMissing":false,"CollectionTypeCSSClass":"label-t-sector","LanguageCSSClass":"label-en"},{"Identifier":"11.1002/1000/13660-en","Title":"ITU-T
+        F.780.1 (10/2018): Framework for telemedicine systems using ultra-high definition
+        imaging","Collection":{"Name":"ITU-T Recommendations","Title":"ITU-T Recommendations","Description":"","Sector":"ITU-T","Group":"Recommendations"},"Redirection":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F13660-en\u0026position=1\u0026page=1","Language":"en","Dir":"ltr","Properties":[{"Title":"Publication
+        date","Value":"January, 2019"}],"ExtractFileContent":"...  T e l e c o m m
+        u n i c a t i o n  U n i o n    ITU-T  F.780.1 TELECOMMUNICATION STANDARDIZATION
+        SECTOR...","Locations":[{"Id":"1","Type":"pdf","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F13660-en%3Flocatt%3Did%3A1%26auth","RawHref":"https://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-F.780.1-201810-I!!PDF-E\u0026type=items","Icon":"pdf-icon.png"},{"Id":"2","Type":"doc","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F13660-en%3Flocatt%3Did%3A2%26auth","RawHref":"https://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-F.780.1-201810-I!!MSW-E\u0026type=items","Icon":"doc-icon.png"},{"Id":"3","Type":"epu","Href":"https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http%3A%2F%2Fhandle.itu.int%2F11.1002%2F1000%2F13660-en%3Flocatt%3Did%3A3%26auth","RawHref":"https://www.itu.int/rec/dologin_pub.asp?lang=e\u0026id=T-REC-F.780.1-201810-I!!EPB-E\u0026type=items","Icon":"epub-icon.png"}],"TopResult":false,"Words":{"ITU-T":true,"F.68":true},"Media":{"Identifier":"11.1002/1000/13660-en","Date":"January,
+        2019","Url":null,"Name":"ITU-T F.780.1 (10/2018)","ParentHandleID":"","ParentName":null,"Type":null,"ContentText":null,"ImageUrl":null,"Tags":[]},"WordsMissing":false,"CollectionTypeCSSClass":"label-t-sector","LanguageCSSClass":"label-en"}],"input":"ITU-T
+        F.68","totalAmount":1598,"collationQuery":"","attempt":0,"languageUpdated":false,"allowed":true}'
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:32 GMT
+- request:
+    method: get
+    uri: https://www.itu.int/net4/ITU-T/search/api/redirection?dest=http://handle.itu.int/11.1002/1000/693-en&page=1&position=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Cookie:
+      - BIGipServerlsjkXadm4jjZQNa6SsO7nw=!RcTH4K3aLB7BbKZxnBj5B1n5F0OTcHLIw66WMpiiibChNYo64FXI0aCo+mhx7mt8zhhQU9/aG6b5ubY=;
+        GSCookie=QueryId=4814925&CookieId=dknFd0zdNj4ouzp80/6acctqdNThINTbR3JdMlv+ZnXVkcf/wYI5J/EYBs5YGlheortZygXvNMA3Kukqwxee3w==;
+        TS010592a8=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        TS0110b275=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        TS70351561027=08b49714d4ab20006e8b87442ad57211eb789d654823f339f4e66bbbbe99d0f22e926f93fdc7c31508e37e772e11300030b801294149b815190b5244e2263415edb6b0da07820579029712f0c347f98cb70f4c03162bfe8835522bede9966f0a
+      Host:
+      - www.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - text/html; charset=utf-8
+      Location:
+      - http://handle.itu.int/11.1002/1000/693-en
+      Microsoftofficewebserver:
+      - 5.0_Pub
+      Strict-Transport-Security:
+      - max-age=31536000
+      Date:
+      - Sun, 06 Feb 2022 13:11:33 GMT
+      Content-Length:
+      - '158'
+      P3p:
+      - CP="{}"
+      Set-Cookie:
+      - TS70351561027=08b49714d4ab20005cf85ba2adb5f7a5ab856b987b167ea7dd977d5a0d4759941b41506364bfa86a087281bc0e113000504903e78c4b8280ebb808c5ebccd7772840e53ee4929c5b292d808143b17bf7d83f462bb4c7d941ce8761b3dd34f949;Path=/
+    body:
+      encoding: UTF-8
+      string: "<html><head><title>Object moved</title></head><body>\r\n<h2>Object
+        moved to <a href=\"http://handle.itu.int/11.1002/1000/693-en\">here</a>.</h2>\r\n</body></html>\r\n"
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:33 GMT
+- request:
+    method: get
+    uri: http://handle.itu.int/11.1002/1000/693-en
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - handle.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 301
+      message: Moved Permanently
+    headers:
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Date:
+      - Sun, 06 Feb 2022 13:11:34 GMT
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '178'
+      Connection:
+      - keep-alive
+      Location:
+      - https://handle.itu.int/11.1002/1000/693-en
+    body:
+      encoding: UTF-8
+      string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body>\r\n<center><h1>301
+        Moved Permanently</h1></center>\r\n<hr><center>nginx/1.18.0 (Ubuntu)</center>\r\n</body>\r\n</html>\r\n"
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:34 GMT
+- request:
+    method: get
+    uri: https://handle.itu.int/11.1002/1000/693-en
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Host:
+      - handle.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Date:
+      - Sun, 06 Feb 2022 13:11:35 GMT
+      Content-Type:
+      - text/html;charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Location:
+      - http://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&lang=en
+      Expires:
+      - Mon, 07 Feb 2022 13:11:35 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <html><head><title>Handle Redirect</title></head>
+        <body><a href="http://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&amp;lang=en">http://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&amp;lang=en</a></body></html>
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:35 GMT
+- request:
+    method: get
+    uri: http://www.itu.int/ITU-T/recommendations/rec.aspx?lang=en&rec=693
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Cookie:
+      - GSCookie=QueryId=4814925&CookieId=dknFd0zdNj4ouzp80/6acctqdNThINTbR3JdMlv+ZnXVkcf/wYI5J/EYBs5YGlheortZygXvNMA3Kukqwxee3w==;
+        TS010592a8=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        TS0110b275=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        TS70351561027=08b49714d4ab20005cf85ba2adb5f7a5ab856b987b167ea7dd977d5a0d4759941b41506364bfa86a087281bc0e113000504903e78c4b8280ebb808c5ebccd7772840e53ee4929c5b292d808143b17bf7d83f462bb4c7d941ce8761b3dd34f949
+      Host:
+      - www.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 302
+      message: Moved Temporarily
+    headers:
+      Location:
+      - https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&lang=en
+      Server:
+      - BigIP
+      Connection:
+      - Keep-Alive
+      Content-Length:
+      - '0'
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:36 GMT
+- request:
+    method: get
+    uri: https://www.itu.int/ITU-T/recommendations/rec.aspx?lang=en&rec=693
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Cookie:
+      - BIGipServerlsjkXadm4jjZQNa6SsO7nw=!RcTH4K3aLB7BbKZxnBj5B1n5F0OTcHLIw66WMpiiibChNYo64FXI0aCo+mhx7mt8zhhQU9/aG6b5ubY=;
+        GSCookie=QueryId=4814925&CookieId=dknFd0zdNj4ouzp80/6acctqdNThINTbR3JdMlv+ZnXVkcf/wYI5J/EYBs5YGlheortZygXvNMA3Kukqwxee3w==;
+        TS010592a8=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        TS0110b275=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        TS70351561027=08b49714d4ab20005cf85ba2adb5f7a5ab856b987b167ea7dd977d5a0d4759941b41506364bfa86a087281bc0e113000504903e78c4b8280ebb808c5ebccd7772840e53ee4929c5b292d808143b17bf7d83f462bb4c7d941ce8761b3dd34f949
+      Host:
+      - www.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - text/html; charset=utf-8
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Sun, 06 Feb 2022 13:11:39 GMT
+      Content-Length:
+      - '18325'
+      Set-Cookie:
+      - BIGipServerV19edYz/rGMxUCJeS7ZH3w=!2tzcuhkSYgWVdVdxnBj5B1n5F0OTcAId2F1Pf2K635G2VGDOMZyNdA/QleVZShKMsyGhBxv36+tBLak=;
+        path=/; Httponly; Secure
+      - TS010592a8=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        Path=/
+      - TS70351561027=08b49714d4ab2000ead5e5c65e1ae9367f822cf96256136d22bb5b5223fa013d474fdaaf317938af08487f4c99113000f4a1a57075b8faa9f9e181cdf6cec19879a629c715bc174c78f93fe28957c17e3dbb18bace49541b58c9e369731dc91e;Path=/
+      P3p:
+      - CP="{}"
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:40 GMT
+- request:
+    method: get
+    uri: http://www.itu.int/dms_pubrec/itu-t/rec/f/T-REC-F.68-198811-I!!SUM-HTM-E.htm
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Cookie:
+      - GSCookie=QueryId=4814925&CookieId=dknFd0zdNj4ouzp80/6acctqdNThINTbR3JdMlv+ZnXVkcf/wYI5J/EYBs5YGlheortZygXvNMA3Kukqwxee3w==;
+        TS010592a8=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        TS0110b275=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        TS70351561027=08b49714d4ab2000ead5e5c65e1ae9367f822cf96256136d22bb5b5223fa013d474fdaaf317938af08487f4c99113000f4a1a57075b8faa9f9e181cdf6cec19879a629c715bc174c78f93fe28957c17e3dbb18bace49541b58c9e369731dc91e
+      Host:
+      - www.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 302
+      message: Moved Temporarily
+    headers:
+      Location:
+      - https://www.itu.int/dms_pubrec/itu-t/rec/f/T-REC-F.68-198811-I!!SUM-HTM-E.htm
+      Server:
+      - BigIP
+      Connection:
+      - Keep-Alive
+      Content-Length:
+      - '0'
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:40 GMT
+- request:
+    method: get
+    uri: https://www.itu.int/dms_pubrec/itu-t/rec/f/T-REC-F.68-198811-I!!SUM-HTM-E.htm
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip,deflate,identity
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML,
+        like Gecko) Version/9.0.2 Safari/601.3.9
+      Accept-Charset:
+      - ISO-8859-1,utf-8;q=0.7,*;q=0.7
+      Accept-Language:
+      - en-us,en;q=0.5
+      Cookie:
+      - BIGipServerV19edYz/rGMxUCJeS7ZH3w=!2tzcuhkSYgWVdVdxnBj5B1n5F0OTcAId2F1Pf2K635G2VGDOMZyNdA/QleVZShKMsyGhBxv36+tBLak=;
+        BIGipServerlsjkXadm4jjZQNa6SsO7nw=!RcTH4K3aLB7BbKZxnBj5B1n5F0OTcHLIw66WMpiiibChNYo64FXI0aCo+mhx7mt8zhhQU9/aG6b5ubY=;
+        GSCookie=QueryId=4814925&CookieId=dknFd0zdNj4ouzp80/6acctqdNThINTbR3JdMlv+ZnXVkcf/wYI5J/EYBs5YGlheortZygXvNMA3Kukqwxee3w==;
+        TS010592a8=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        TS0110b275=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        TS70351561027=08b49714d4ab2000ead5e5c65e1ae9367f822cf96256136d22bb5b5223fa013d474fdaaf317938af08487f4c99113000f4a1a57075b8faa9f9e181cdf6cec19879a629c715bc174c78f93fe28957c17e3dbb18bace49541b58c9e369731dc91e
+      Host:
+      - www.itu.int
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '300'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html
+      Content-Encoding:
+      - gzip
+      Last-Modified:
+      - Mon, 30 Apr 2007 14:43:33 GMT
+      Accept-Ranges:
+      - bytes
+      Etag:
+      - '"80280ed358bc71:0"'
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Sun, 06 Feb 2022 13:11:41 GMT
+      Content-Length:
+      - '5173'
+      Set-Cookie:
+      - BIGipServer4+IEUJs6ObMe1m0DiLXCRg=!+NhC2hY8U3h2LAdxnBj5B1n5F0OTcJ0bsCkSSgL/JJlNhX0ek8+wrxa0t+DqGWbe71XHnH9hqBmMGAk=;
+        path=/; Httponly; Secure
+      - TS010592a8=018bf709fc46d3d0b276b26f611159df431c091bc5beed36a331c70e91293310eb55d82fe59c2b127d2fdf7ce16e72f979f726afa1;
+        Path=/
+      - TS70351561027=08b49714d4ab200030e2039b1545bbafeee80960b9136e927fbde8473c9ba8160e149abbc398fa56083c366d5c1130009b0185aa43c117dee33e29eb50b2f176cbd878b6d60095b0b80e0028053c60a194a4b9cc575739d7b62da75e3c384efe;Path=/
+      P3p:
+      - CP="{}"
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version:
+  recorded_at: Sun, 06 Feb 2022 13:11:42 GMT
+recorded_with: VCR 5.0.0

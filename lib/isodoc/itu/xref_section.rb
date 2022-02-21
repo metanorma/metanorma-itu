@@ -16,11 +16,16 @@ module IsoDoc
         end
       end
 
-      def annex_names(clause, num)
+      def annex_name_anchors(clause, num)
         lbl = annextype(clause)
-        @anchors[clause["id"]] =
-          { label: annex_name_lbl(clause, num), type: "clause",
-            xref: l10n("#{lbl} #{num}"), level: 1, value: num }
+        { label: annex_name_lbl(clause, num),
+          elem: lbl,
+          type: "clause", value: num.to_s, level: 1,
+          xref: l10n("#{lbl} #{num}") }
+      end
+
+      def annex_names(clause, num)
+        @anchors[clause["id"]] = annex_name_anchors(clause, num)
         if a = single_annex_special_section(clause)
           annex_names1(a, num.to_s, 1)
         else
@@ -36,7 +41,7 @@ module IsoDoc
 
       def annex_names1(clause, num, level)
         @anchors[clause["id"]] =
-          { label: num,
+          { label: num, elem: @labels["annex_subclause"],
             xref: @doctype == "resolution" ? num : l10n("#{@labels['annex_subclause']} #{num}"),
             level: level, type: "clause" }
         i = Counter.new
@@ -65,7 +70,7 @@ module IsoDoc
         lbl = @doctype == "resolution" ? @labels["section"] : @labels["clause"]
         @anchors[clause["id"]] =
           { label: num.print, xref: l10n("#{lbl} #{num.print}"),
-            level: lvl, type: "clause" }
+            level: lvl, type: "clause", elem: lbl }
         i = Counter.new
         clause.xpath(ns(SUBCLAUSES)).each do |c|
           i.increment(c)
@@ -77,6 +82,7 @@ module IsoDoc
       def section_names1(clause, num, level)
         @anchors[clause["id"]] =
           { label: num, level: level,
+            elem: @doctype == "resolution" ? "" : @labels["clause"],
             xref: @doctype == "resolution" ? num : l10n("#{@labels['clause']} #{num}") }
         i = Counter.new
         clause.xpath(ns(SUBCLAUSES)).each do |c|

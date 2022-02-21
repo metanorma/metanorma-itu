@@ -311,7 +311,7 @@ RSpec.describe Metanorma::ITU do
                <title type='main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en</uri>
                <uri type='obp'>https://handle.itu.int/11.1002/1000/694-en?locatt=format:pdf&amp;auth</uri>
-               <docidentifier type='ITU'>ITU-T F.69</docidentifier>
+               <docidentifier type='ITU' primary="true">ITU-T F.69</docidentifier>
                <contributor>
                  <role type='publisher'/>
                  <organization>
@@ -363,7 +363,7 @@ RSpec.describe Metanorma::ITU do
                    <title type='main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                    <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en</uri>
                    <uri type='obp'>https://handle.itu.int/11.1002/1000/694-en?locatt=format:pdf&amp;auth</uri>
-                   <docidentifier type='ITU'>ITU-T F.69</docidentifier>
+                   <docidentifier type='ITU' primary="true">ITU-T F.69</docidentifier>
                    <date type='published'>
                      <on>1988-11-25</on>
                    </date>
@@ -431,7 +431,7 @@ RSpec.describe Metanorma::ITU do
                <title type='main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
                <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&amp;lang=en</uri>
                <uri type='obp'>https://handle.itu.int/11.1002/1000/693-en?locatt=format:pdf&amp;auth</uri>
-               <docidentifier type='ITU'>ITU-T F.68</docidentifier>
+               <docidentifier type='ITU' primary="true">ITU-T F.68</docidentifier>
                <contributor>
                  <role type='publisher'/>
                  <organization>
@@ -483,7 +483,7 @@ RSpec.describe Metanorma::ITU do
                    <title type='main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
                    <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&amp;lang=en</uri>
                    <uri type='obp'>https://handle.itu.int/11.1002/1000/693-en?locatt=format:pdf&amp;auth</uri>
-                   <docidentifier type='ITU'>ITU-T F.68</docidentifier>
+                   <docidentifier type='ITU' primary="true">ITU-T F.68</docidentifier>
                    <date type='published'>
                      <on>1988-11-25</on>
                    </date>
@@ -2039,16 +2039,16 @@ RSpec.describe Metanorma::ITU do
       expect(xmlpp("<div>#{xpath.to_xml}</div>"))
         .to be_equivalent_to xmlpp(<<~"OUTPUT")
           <div>
-          <docidentifier type='ITU'>ITU-T Y.1001</docidentifier>
-          <docidentifier type='ITU'>ITU-T Y.140</docidentifier>
-          <docidentifier type='ITU'>ITU-T Z.100</docidentifier>
-          <docidentifier type='ISO'>ISO 55000</docidentifier>
+          <docidentifier type='ITU' primary="true">ITU-T Y.1001</docidentifier>
+          <docidentifier type='ITU' primary="true">ITU-T Y.140</docidentifier>
+          <docidentifier type='ITU' primary="true">ITU-T Z.100</docidentifier>
+          <docidentifier type='ISO' primary="true">ISO 55000</docidentifier>
           <docidentifier type='URN'>urn:iso:std:iso:55000:stage-90.92:ed-1:en</docidentifier>
-          <docidentifier type='ISO'>ISO/IEC 27001</docidentifier>
+          <docidentifier type='ISO' primary="true">ISO/IEC 27001</docidentifier>
           <docidentifier type='URN'>urn:iso:std:iso-iec:27001:stage-90.93:ed-2:en</docidentifier>
-          <docidentifier type='IEC'>IEC 60027</docidentifier>
+          <docidentifier type='IEC' primary="true">IEC 60027</docidentifier>
           <docidentifier type='URN'>urn:iec:std:iec:60027::::en</docidentifier>
-          <docidentifier type='Chinese Standard'>GB 12663-2019</docidentifier>
+          <docidentifier type='Chinese Standard' primary="true">GB 12663-2019</docidentifier>
           </div>
         OUTPUT
       FileUtils.rm_rf File.expand_path("~/.relaton/cache")

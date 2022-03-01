@@ -36,7 +36,7 @@
 		<item level="1" id="Foreword" display="true">Foreword</item>
 		<item id="term-script" display="false">3.2</item>
 	-->
-	<xsl:variable name="contents">
+	<xsl:variable name="contents_">
 		<contents>
 			<!-- <xsl:apply-templates select="/itu:itu-standard/itu:preface/node()" mode="contents"/> -->
 			<xsl:apply-templates select="/itu:itu-standard/itu:sections/itu:clause[@type='scope']" mode="contents"/> <!-- @id = 'scope' -->
@@ -53,8 +53,12 @@
 			
 			<xsl:apply-templates select="//itu:table" mode="contents"/>
 			
+			<xsl:call-template name="processTablesFigures_Contents">
+				<xsl:with-param name="always" select="$doctype = 'technical-report' or $doctype = 'technical-paper'"/>
+			</xsl:call-template>
 		</contents>
 	</xsl:variable>
+	<xsl:variable name="contents" select="xalan:nodeset($contents_)"/>
 	
 	<xsl:variable name="doctypeTitle">
 		<xsl:choose>
@@ -973,11 +977,11 @@
 					<xsl:if test="$debug = 'true'">
 						<xsl:text disable-output-escaping="yes">&lt;!--</xsl:text>
 							DEBUG
-							contents=<xsl:copy-of select="xalan:nodeset($contents)"/>
+							contents=<xsl:copy-of select="$contents"/>
 						<xsl:text disable-output-escaping="yes">--&gt;</xsl:text>
 					</xsl:if>
 					
-					<xsl:if test="xalan:nodeset($contents)//item[@display = 'true'] and $doctype != 'resolution' and $doctype != 'service-publication'">
+					<xsl:if test="$contents//item[@display = 'true'] and $doctype != 'resolution' and $doctype != 'service-publication'">
 						<fo:block break-after="page"/>
 							<fo:block-container>
 								<fo:block role="TOC">
@@ -992,7 +996,7 @@
 									</xsl:call-template>
 								</fo:block>
 								
-								<xsl:for-each select="xalan:nodeset($contents)//item[@display = 'true']">									
+								<xsl:for-each select="$contents//item[@display = 'true']">									
 									<fo:block role="TOCI">
 										<xsl:if test="@level = 1">
 											<xsl:attribute name="margin-top">6pt</xsl:attribute>
@@ -1045,72 +1049,42 @@
 									</fo:block>									
 								</xsl:for-each>
 								
-
-							<xsl:if test="$doctype = 'technical-report' or $doctype = 'technical-paper'">
-								<xsl:if test="//itu:table[@id and itu:name]">								
-									<xsl:variable name="title-list-tables">
-										<xsl:call-template name="getTitle">
-											<xsl:with-param name="name" select="'title-list-tables'"/>
-										</xsl:call-template>
-									</xsl:variable>
-									
-									<fo:block space-before="36pt" text-align="center" font-weight="bold" keep-with-next="always">
-										<xsl:value-of select="$title-list-tables"/>
-									</fo:block>
+								
+								<!-- List of Tables -->
+								<xsl:if test="$contents//tables/table">
+									<xsl:call-template name="insertListOf_Title">
+										<xsl:with-param name="title" select="$title-list-tables"/>
+									</xsl:call-template>
 									<fo:block margin-top="6pt" text-align="end" font-weight="bold" keep-with-next="always">
 										<xsl:call-template name="getLocalizedString">
 											<xsl:with-param name="key">Page.sg</xsl:with-param>
 										</xsl:call-template>
 									</fo:block>
-									
 									<fo:block-container>
-										<xsl:for-each select="//itu:table[@id and itu:name]">
-											<fo:block text-align-last="justify" margin-top="6pt" role="TOCI">
-												<fo:basic-link internal-destination="{@id}" fox:alt-text="{itu:name}">
-													<xsl:apply-templates select="itu:name" mode="contents"/>										
-													<fo:inline keep-together.within-line="always">
-														<fo:leader leader-pattern="dots"/>
-														<fo:page-number-citation ref-id="{@id}"/>
-													</fo:inline>
-												</fo:basic-link>
-											</fo:block>
+										<xsl:for-each select="$contents//tables/table">
+											<xsl:call-template name="insertListOf_Item"/>
 										</xsl:for-each>
-									</fo:block-container>							
+									</fo:block-container>
 								</xsl:if>
-										
-								<xsl:if test="//itu:figure[@id and itu:name]">								
-									<xsl:variable name="title-list-figures">
-										<xsl:call-template name="getTitle">
-											<xsl:with-param name="name" select="'title-list-figures'"/>
-										</xsl:call-template>
-									</xsl:variable>
-									
-									
-									<fo:block space-before="36pt" text-align="center" font-weight="bold" keep-with-next="always">
-										<xsl:value-of select="$title-list-figures"/>
-									</fo:block>
+								
+								<!-- List of Figures -->
+								<xsl:if test="$contents//figures/figure">
+									<xsl:call-template name="insertListOf_Title">
+										<xsl:with-param name="title" select="$title-list-figures"/>
+									</xsl:call-template>
 									<fo:block margin-top="6pt" text-align="end" font-weight="bold" keep-with-next="always">
 										<xsl:call-template name="getLocalizedString">
 											<xsl:with-param name="key">Page.sg</xsl:with-param>
 										</xsl:call-template>
 									</fo:block>
-									
 									<fo:block-container>
-										<xsl:for-each select="//itu:figure[@id and itu:name]">
-											<fo:block text-align-last="justify" margin-top="6pt" role="TOCI">
-												<fo:basic-link internal-destination="{@id}" fox:alt-text="{itu:name}">
-													<xsl:apply-templates select="itu:name" mode="contents"/>										
-													<fo:inline keep-together.within-line="always">
-														<fo:leader leader-pattern="dots"/>
-														<fo:page-number-citation ref-id="{@id}"/>
-													</fo:inline>
-												</fo:basic-link>
-											</fo:block>
+										<xsl:for-each select="$contents//figures/figure">
+											<xsl:call-template name="insertListOf_Item"/>
 										</xsl:for-each>
-									</fo:block-container>							
+									</fo:block-container>
 								</xsl:if>
-							</xsl:if>
-						</fo:block>
+							
+							</fo:block>
 						</fo:block-container>
 					</xsl:if>
 					
@@ -1207,6 +1181,28 @@
 			
 		</fo:root>
 	</xsl:template> 
+
+	<xsl:template name="insertListOf_Title">
+		<xsl:param name="title"/>
+		<fo:block space-before="36pt" text-align="center" font-weight="bold" keep-with-next="always">
+			<xsl:value-of select="$title"/>
+		</fo:block>
+	</xsl:template>
+	
+	<xsl:template name="insertListOf_Item">
+		<fo:block text-align-last="justify" margin-top="6pt" role="TOCI">
+			<fo:basic-link internal-destination="{@id}">
+				<xsl:call-template name="setAltText">
+					<xsl:with-param name="value" select="@alt-text"/>
+				</xsl:call-template>
+				<xsl:apply-templates select="." mode="contents"/>
+				<fo:inline keep-together.within-line="always">
+					<fo:leader leader-pattern="dots"/>
+					<fo:page-number-citation ref-id="{@id}"/>
+				</fo:inline>
+			</fo:basic-link>
+		</fo:block>
+	</xsl:template>
 
 	<xsl:template match="node()">		
 		<xsl:apply-templates/>			
@@ -2108,7 +2104,7 @@
 					<xsl:text>Contents</xsl:text>
 				
 		</title-toc>
-					
+		
 		<title-descriptors lang="en">Descriptors</title-descriptors>
 		
 		<title-part lang="en">
@@ -2144,7 +2140,31 @@
 		<title-continued lang="en">(continued)</title-continued>
 		<title-continued lang="fr">(continué)</title-continued>
 		
-	</xsl:variable><xsl:variable name="titles" select="xalan:nodeset($titles_)"/><xsl:variable name="bibdata">
+	</xsl:variable><xsl:variable name="titles" select="xalan:nodeset($titles_)"/><xsl:variable name="title-list-tables">
+		<xsl:variable name="toc_table_title" select="//*[contains(local-name(), '-standard')]/*[local-name() = 'misc-container']/*[local-name() = 'toc'][@type='table']/*[local-name() = 'title']"/>
+		<xsl:value-of select="$toc_table_title"/>
+		<xsl:if test="normalize-space($toc_table_title) = ''">
+			<xsl:call-template name="getTitle">
+				<xsl:with-param name="name" select="'title-list-tables'"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:variable><xsl:variable name="title-list-figures">
+		<xsl:variable name="toc_figure_title" select="//*[contains(local-name(), '-standard')]/*[local-name() = 'misc-container']/*[local-name() = 'toc'][@type='figure']/*[local-name() = 'title']"/>
+		<xsl:value-of select="$toc_figure_title"/>
+		<xsl:if test="normalize-space($toc_figure_title) = ''">
+			<xsl:call-template name="getTitle">
+				<xsl:with-param name="name" select="'title-list-figures'"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:variable><xsl:variable name="title-list-recommendations">
+		<xsl:variable name="toc_requirement_title" select="//*[contains(local-name(), '-standard')]/*[local-name() = 'misc-container']/*[local-name() = 'toc'][@type='requirement']/*[local-name() = 'title']"/>
+		<xsl:value-of select="$toc_requirement_title"/>
+		<xsl:if test="normalize-space($toc_requirement_title) = ''">
+			<xsl:call-template name="getTitle">
+				<xsl:with-param name="name" select="'title-list-recommendations'"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:variable><xsl:variable name="bibdata">
 		<xsl:copy-of select="//*[contains(local-name(), '-standard')]/*[local-name() = 'bibdata']"/>
 		<xsl:copy-of select="//*[contains(local-name(), '-standard')]/*[local-name() = 'localized-strings']"/>
 	</xsl:variable><xsl:variable name="linebreak">&#8232;</xsl:variable><xsl:variable name="tab_zh">　</xsl:variable><xsl:variable name="non_breaking_hyphen">‑</xsl:variable><xsl:variable name="thin_space"> </xsl:variable><xsl:variable name="zero_width_space">​</xsl:variable><xsl:variable name="en_dash">–</xsl:variable><xsl:template name="getTitle">
@@ -3358,6 +3378,30 @@
 			<xsl:sort select="@displayorder" data-type="number"/>
 			<xsl:apply-templates select="." mode="contents"/>
 		</xsl:for-each>
+	</xsl:template><xsl:template name="processTablesFigures_Contents">
+		<xsl:param name="always"/>
+		<xsl:if test="(//*[contains(local-name(), '-standard')]/*[local-name() = 'misc-container']/*[local-name() = 'toc'][@type='table']/*[local-name() = 'title']) or normalize-space($always) = 'true'">
+			<xsl:call-template name="processTables_Contents"/>
+		</xsl:if>
+		<xsl:if test="(//*[contains(local-name(), '-standard')]/*[local-name() = 'misc-container']/*[local-name() = 'toc'][@type='figure']/*[local-name() = 'title']) or normalize-space($always) = 'true'">
+			<xsl:call-template name="processFigures_Contents"/>
+		</xsl:if>
+	</xsl:template><xsl:template name="processTables_Contents">
+		<tables>
+			<xsl:for-each select="//*[local-name() = 'table'][@id and *[local-name() = 'name'] and normalize-space(@id) != '']">
+				<table id="{@id}" alt-text="{*[local-name() = 'name']}">
+					<xsl:copy-of select="*[local-name() = 'name']"/>
+				</table>
+			</xsl:for-each>
+		</tables>
+	</xsl:template><xsl:template name="processFigures_Contents">
+		<figures>
+			<xsl:for-each select="//*[local-name() = 'figure'][@id and *[local-name() = 'name'] and not(@unnumbered = 'true') and normalize-space(@id) != ''] | //*[@id and starts-with(*[local-name() = 'name'], 'Figure ') and normalize-space(@id) != '']">
+				<figure id="{@id}" alt-text="{*[local-name() = 'name']}">
+					<xsl:copy-of select="*[local-name() = 'name']"/>
+				</figure>
+			</xsl:for-each>
+		</figures>
 	</xsl:template><xsl:template name="processPrefaceSectionsDefault">
 		<xsl:for-each select="/*/*[local-name()='preface']/*">
 			<xsl:sort select="@displayorder" data-type="number"/>
@@ -6179,13 +6223,14 @@
 		<xsl:apply-templates mode="bookmarks"/>
 	</xsl:template><xsl:template name="addBookmarks">
 		<xsl:param name="contents"/>
-		<xsl:if test="xalan:nodeset($contents)//item">
+		<xsl:variable name="contents_nodes" select="xalan:nodeset($contents)"/>
+		<xsl:if test="$contents_nodes//item">
 			<fo:bookmark-tree>
 				<xsl:choose>
-					<xsl:when test="xalan:nodeset($contents)/doc">
+					<xsl:when test="$contents_nodes/doc">
 						<xsl:choose>
-							<xsl:when test="count(xalan:nodeset($contents)/doc) &gt; 1">
-								<xsl:for-each select="xalan:nodeset($contents)/doc">
+							<xsl:when test="count($contents_nodes/doc) &gt; 1">
+								<xsl:for-each select="$contents_nodes/doc">
 									<fo:bookmark internal-destination="{contents/item[1]/@id}" starting-state="hide">
 										<xsl:if test="@bundle = 'true'">
 											<xsl:attribute name="internal-destination"><xsl:value-of select="@firstpage_id"/></xsl:attribute>
@@ -6236,7 +6281,7 @@
 								</xsl:for-each>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:for-each select="xalan:nodeset($contents)/doc">
+								<xsl:for-each select="$contents_nodes/doc">
 								
 									<xsl:apply-templates select="contents/item" mode="bookmark"/>
 									
@@ -6254,25 +6299,36 @@
 						</xsl:choose>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:apply-templates select="xalan:nodeset($contents)/contents/item" mode="bookmark"/>				
+						<xsl:apply-templates select="$contents_nodes/contents/item" mode="bookmark"/>				
+						
+						<xsl:call-template name="insertFigureBookmarks">
+							<xsl:with-param name="contents" select="$contents_nodes/contents"/>
+						</xsl:call-template>
+							
+						<xsl:call-template name="insertTableBookmarks">
+							<xsl:with-param name="contents" select="$contents_nodes/contents"/>
+							<xsl:with-param name="lang" select="@lang"/>
+						</xsl:call-template>
+						
 					</xsl:otherwise>
 				</xsl:choose>
 				
+				 
 				
 				
 				
 				
-				
-				
+				 
 				
 			</fo:bookmark-tree>
 		</xsl:if>
 	</xsl:template><xsl:template name="insertFigureBookmarks">
 		<xsl:param name="contents"/>
-		<xsl:if test="xalan:nodeset($contents)/figure">
-			<fo:bookmark internal-destination="{xalan:nodeset($contents)/figure[1]/@id}" starting-state="hide">
+		<xsl:variable name="contents_nodes" select="xalan:nodeset($contents)"/>
+		<xsl:if test="$contents_nodes/figure">
+			<fo:bookmark internal-destination="{$contents_nodes/figure[1]/@id}" starting-state="hide">
 				<fo:bookmark-title>Figures</fo:bookmark-title>
-				<xsl:for-each select="xalan:nodeset($contents)/figure">
+				<xsl:for-each select="$contents_nodes/figure">
 					<fo:bookmark internal-destination="{@id}">
 						<fo:bookmark-title>
 							<xsl:value-of select="normalize-space(title)"/>
@@ -6281,18 +6337,40 @@
 				</xsl:for-each>
 			</fo:bookmark>	
 		</xsl:if>
+		
+		
+				<xsl:if test="$contents_nodes//figures/figure">
+					<fo:bookmark internal-destination="empty_bookmark" starting-state="hide">
+					
+						
+						
+						<xsl:variable name="bookmark-title">
+							
+									<xsl:value-of select="$title-list-figures"/>
+								
+						</xsl:variable>
+						<fo:bookmark-title><xsl:value-of select="normalize-space($bookmark-title)"/></fo:bookmark-title>
+						<xsl:for-each select="$contents_nodes//figures/figure">
+							<fo:bookmark internal-destination="{@id}">
+								<fo:bookmark-title><xsl:value-of select="normalize-space(.)"/></fo:bookmark-title>
+							</fo:bookmark>
+						</xsl:for-each>
+					</fo:bookmark>
+				</xsl:if>
+			
 	</xsl:template><xsl:template name="insertTableBookmarks">
 		<xsl:param name="contents"/>
 		<xsl:param name="lang"/>
-		<xsl:if test="xalan:nodeset($contents)/table">
-			<fo:bookmark internal-destination="{xalan:nodeset($contents)/table[1]/@id}" starting-state="hide">
+		<xsl:variable name="contents_nodes" select="xalan:nodeset($contents)"/>
+		<xsl:if test="$contents_nodes/table">
+			<fo:bookmark internal-destination="{$contents_nodes/table[1]/@id}" starting-state="hide">
 				<fo:bookmark-title>
 					<xsl:choose>
 						<xsl:when test="$lang = 'fr'">Tableaux</xsl:when>
 						<xsl:otherwise>Tables</xsl:otherwise>
 					</xsl:choose>
 				</fo:bookmark-title>
-				<xsl:for-each select="xalan:nodeset($contents)/table">
+				<xsl:for-each select="$contents_nodes/table">
 					<fo:bookmark internal-destination="{@id}">
 						<fo:bookmark-title>
 							<xsl:value-of select="normalize-space(title)"/>
@@ -6301,6 +6379,29 @@
 				</xsl:for-each>
 			</fo:bookmark>	
 		</xsl:if>
+		
+		
+				<xsl:if test="$contents_nodes//tables/table">
+					<fo:bookmark internal-destination="empty_bookmark" starting-state="hide">
+						
+						
+						
+						<xsl:variable name="bookmark-title">
+							
+									<xsl:value-of select="$title-list-tables"/>
+								
+						</xsl:variable>
+						
+						<fo:bookmark-title><xsl:value-of select="$bookmark-title"/></fo:bookmark-title>
+						
+						<xsl:for-each select="$contents_nodes//tables/table">
+							<fo:bookmark internal-destination="{@id}">
+								<fo:bookmark-title><xsl:value-of select="normalize-space(.)"/></fo:bookmark-title>
+							</fo:bookmark>
+						</xsl:for-each>
+					</fo:bookmark>
+				</xsl:if>
+			
 	</xsl:template><xsl:template name="getLangVersion">
 		<xsl:param name="lang"/>
 		<xsl:param name="doctype" select="''"/>

@@ -1514,7 +1514,7 @@ RSpec.describe Metanorma::ITU do
           <eref type="inline" bibitemid="ISO712" citeas="ISO 712"></eref>
           <eref type="footnote" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality></eref>
           <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality></eref>
-          <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><localityStack><locality type="section"><referenceFrom>8</referenceFrom></locality></localityStack><localityStack><locality type="section"><referenceFrom>10</referenceFrom></locality></localityStack></eref>
+          <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><localityStack connective="and"><locality type="section"><referenceFrom>8</referenceFrom></locality></localityStack><localityStack connective="and"><locality type="section"><referenceFrom>10</referenceFrom></locality></localityStack></eref>
           </p>
           </foreword></preface>
           <bibliography><references id="_normative_references" obligation="informative" normative="true"><title>References</title>
@@ -1556,17 +1556,17 @@ RSpec.describe Metanorma::ITU do
                  [ISO 712], Section 8
                </eref>
                <eref type='inline' bibitemid='ISO712' citeas='ISO 712'>
-                 <localityStack>
+                 <localityStack connective="and">
                    <locality type='section'>
                      <referenceFrom>8</referenceFrom>
                    </locality>
                  </localityStack>
-                 <localityStack>
+                 <localityStack connective="and">
                    <locality type='section'>
                      <referenceFrom>10</referenceFrom>
                    </locality>
                  </localityStack>
-                 [ISO 712], Section 8; Section 10
+                 [ISO 712], Section 8 and 10
                </eref>
              </p>
            </foreword>

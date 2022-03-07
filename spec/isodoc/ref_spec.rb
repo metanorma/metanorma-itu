@@ -2,7 +2,6 @@ require "spec_helper"
 require "fileutils"
 
 RSpec.describe IsoDoc::ITU do
-=begin
   it "processes IsoXML bibliographies (1)" do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">
@@ -563,7 +562,7 @@ RSpec.describe IsoDoc::ITU do
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to xmlpp(html)
   end
-=end
+
   it "selects multiple primary identifiers" do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">

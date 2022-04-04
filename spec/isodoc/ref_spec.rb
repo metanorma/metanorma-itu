@@ -71,7 +71,7 @@ RSpec.describe IsoDoc::ITU do
       <bibitem id="ISBN" type="ISBN">
         <title format="text/plain">Chemicals for analytical laboratory use</title>
         <docidentifier type="ISBN">ISBN</docidentifier>
-        <docidentifier type="metanorma">[1]</docidentifier>
+        <docidentifier type="metanorma">[3]</docidentifier>
         <contributor>
           <role type="publisher"/>
           <organization>
@@ -82,7 +82,7 @@ RSpec.describe IsoDoc::ITU do
       <bibitem id="ISSN" type="ISSN">
         <title format="text/plain">Instruments for analytical laboratory use</title>
         <docidentifier type="ISSN">ISSN</docidentifier>
-        <docidentifier type="metanorma">[2]</docidentifier>
+        <docidentifier type="metanorma">[4]</docidentifier>
         <contributor>
           <role type="publisher"/>
           <organization>
@@ -128,8 +128,8 @@ RSpec.describe IsoDoc::ITU do
              <preface><foreword  displayorder='1'>
            <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">
            <eref bibitemid="ISO712">[110]</eref>
-           <eref bibitemid="ISBN">[1]</eref>
-           <eref bibitemid="ISSN">[2]</eref>
+           <eref bibitemid="ISBN">[3]</eref>
+           <eref bibitemid="ISSN">[4]</eref>
            <eref bibitemid="ISO16634">[ISO 16634:-- (all parts)]</eref>
            <eref bibitemid="ref1">[ICC 167]</eref>
            <eref bibitemid="ref10">[10]</eref>
@@ -191,7 +191,7 @@ RSpec.describe IsoDoc::ITU do
          <bibitem id="ISBN" type="ISBN">
            <title format="text/plain">Chemicals for analytical laboratory use</title>
            <docidentifier type="ISBN">ISBN</docidentifier>
-           <docidentifier type="metanorma">[1]</docidentifier>
+           <docidentifier type="metanorma">[3]</docidentifier>
            <contributor>
              <role type="publisher"/>
              <organization>
@@ -202,7 +202,7 @@ RSpec.describe IsoDoc::ITU do
          <bibitem id="ISSN" type="ISSN">
            <title format="text/plain">Instruments for analytical laboratory use</title>
            <docidentifier type="ISSN">ISSN</docidentifier>
-           <docidentifier type="metanorma">[2]</docidentifier>
+           <docidentifier type="metanorma">[4]</docidentifier>
            <contributor>
              <role type="publisher"/>
              <organization>
@@ -214,7 +214,7 @@ RSpec.describe IsoDoc::ITU do
          <note><name>NOTE</name><p>This is another annotation of document ISSN.</p></note>
          <bibitem id="ISO3696" type="standard">
            <title format="text/plain">Water for analytical laboratory use</title>
-           <docidentifier type='metanorma-ordinal'>[1]</docidentifier>
+           <docidentifier type='metanorma-ordinal'>[5]</docidentifier>
            <docidentifier type="ISO">ISO 3696</docidentifier>
            <contributor>
              <role type="publisher"/>
@@ -229,7 +229,7 @@ RSpec.describe IsoDoc::ITU do
          </bibitem>
          <bibitem id="ref11">
            <title>Internet Calendaring and Scheduling Core Object Specification (iCalendar)</title>
-           <docidentifier type='metanorma-ordinal'>[2]</docidentifier>
+           <docidentifier type='metanorma-ordinal'>[6]</docidentifier>
            <docidentifier type="IETF">IETF RFC 10</docidentifier>
          </bibitem>
          <bibitem id="ref12">
@@ -256,8 +256,8 @@ RSpec.describe IsoDoc::ITU do
                      <h1 class="IntroTitle"></h1>
                      <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f'>
         <a href='#ISO712'>[110]</a>
-        <a href='#ISBN'>[1]</a>
-        <a href='#ISSN'>[2]</a>
+        <a href='#ISBN'>[3]</a>
+        <a href='#ISSN'>[4]</a>
         <a href='#ISO16634'>[ISO 16634:-- (all parts)]</a>
         <a href='#ref1'>[ICC 167]</a>
         <a href='#ref10'>[10]</a>
@@ -306,11 +306,11 @@ RSpec.describe IsoDoc::ITU do
                      <table class="biblio" border="0">
                        <tbody>
                          <tr id="ISBN" class="Biblio">
-                           <td style='vertical-align:top'>[1]</td>
+                           <td style='vertical-align:top'>[3]</td>
                            <td>ISBN, <i>Chemicals for analytical laboratory use</i>.</td>
                          </tr>
                          <tr id="ISSN" class="Biblio">
-                           <td style='vertical-align:top'>[2]</td>
+                           <td style='vertical-align:top'>[4]</td>
                            <td>ISSN, <i>Instruments for analytical laboratory use</i>.</td>
                          </tr>
                          <tr><td colspan="2">

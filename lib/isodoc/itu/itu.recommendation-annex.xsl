@@ -114,21 +114,29 @@
 	
 	<xsl:template match="/">
 		<xsl:call-template name="namespaceCheck"/>
-		<fo:root xsl:use-attribute-sets="root-style" xml:lang="{$lang}">
-			<!-- <xsl:if test="$lang != 'ar'">
-				<xsl:attribute name="xml:lang"><xsl:value-of select="$lang"/></xsl:attribute>
-			</xsl:if> -->
-			<xsl:if test="$doctype = 'resolution'">
-				<xsl:attribute name="font-size">11pt</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="$doctype = 'service-publication'">
-				<xsl:attribute name="font-size">11pt</xsl:attribute>
-				<xsl:attribute name="font-family">Arial, STIX Two Math</xsl:attribute>
-			</xsl:if>
-			<xsl:call-template name="setWritingMode"/>
-			<xsl:if test="$lang = 'ar'">
-				<xsl:attribute name="font-family">Traditional Arabic, Times New Roman, STIX Two Math</xsl:attribute>
-			</xsl:if>
+		<fo:root xml:lang="{$lang}">
+			<xsl:variable name="root-style">
+				<root-style xsl:use-attribute-sets="root-style">
+					<!-- <xsl:if test="$lang != 'ar'">
+						<xsl:attribute name="xml:lang"><xsl:value-of select="$lang"/></xsl:attribute>
+					</xsl:if> -->
+					<xsl:if test="$doctype = 'resolution'">
+						<xsl:attribute name="font-size">11pt</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$doctype = 'service-publication'">
+						<xsl:attribute name="font-size">11pt</xsl:attribute>
+						<xsl:attribute name="font-family">Arial, STIX Two Math</xsl:attribute>
+					</xsl:if>
+					<xsl:call-template name="setWritingMode"/>
+					<xsl:if test="$lang = 'ar'">
+						<xsl:attribute name="font-family">Traditional Arabic, Times New Roman, STIX Two Math</xsl:attribute>
+					</xsl:if>
+				</root-style>
+			</xsl:variable>
+			<xsl:call-template name="insertRootStyle">
+				<xsl:with-param name="root-style" select="$root-style"/>
+			</xsl:call-template>
+			
 			<fo:layout-master-set>
 			
 				<!-- Technical Report first page -->
@@ -5700,11 +5708,12 @@
 			
 			<fo:inline xsl:use-attribute-sets="termnote-name-style">
 			
-				
-				
 				<xsl:if test="not(*[local-name() = 'name']/following-sibling::node()[1][self::text()][normalize-space()=''])">
 					<xsl:attribute name="padding-right">1mm</xsl:attribute>
 				</xsl:if>
+			
+				
+
 				
 				<!-- if 'p' contains all text in 'add' first and last elements in first p are 'add' -->
 				<!-- <xsl:if test="*[not(local-name()='name')][1][node()[normalize-space() != ''][1][local-name() = 'add'] and node()[normalize-space() != ''][last()][local-name() = 'add']]"> -->

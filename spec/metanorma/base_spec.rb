@@ -1489,7 +1489,7 @@ RSpec.describe Metanorma::ITU do
           <terms id='_' obligation='normative'>
             <title>Definitions</title>
             <p id='_'>This Recommendation defines the following terms:</p>
-            <term id='term-term1'>
+            <term id='term-Term1'>
               <preferred><expression><name>Term1</name></expression></preferred>
             </term>
           </terms>
@@ -1512,14 +1512,14 @@ RSpec.describe Metanorma::ITU do
               <title>Intro 4</title>
               <terms id='_' obligation='normative'>
                 <title>Intro 5</title>
-                <term id='term-term1-1'>
+                <term id='term-Term1-1'>
                   <preferred><expression><name>Term1</name></expression></preferred>
                 </term>
               </terms>
             </clause>
             <clause id='_' obligation='normative'>
               <title>Normal Terms</title>
-              <term id='term-term2'>
+              <term id='term-Term2'>
                 <preferred><expression><name>Term2</name></expression></preferred>
               </term>
               <terms id='_' type='external' obligation='normative'>
@@ -1532,7 +1532,7 @@ RSpec.describe Metanorma::ITU do
               <clause id='_' inline-header='false' obligation='normative'>
                 <title>General</title>
               </clause>
-              <term id='term-symbols-1'>
+              <term id='term-Symbols-1'>
                 <preferred><expression><name>Symbols 1</name></expression></preferred>
               </term>
             </terms>
@@ -1682,14 +1682,14 @@ RSpec.describe Metanorma::ITU do
             <terms id='_' type='external' obligation='normative'>
               <title>Terms defined elsewhere</title>
               <p id='_'>This Recommendation uses the following terms defined elsewhere:</p>
-              <term id='term-term-1'>
+              <term id='term-Term-1'>
                 <preferred><expression><name>Term 1</name></expression></preferred>
               </term>
             </terms>
             <terms id='_' type='internal' obligation='normative'>
               <title>Terms defined in this recommendation</title>
               <p id='_'>This Recommendation defines the following terms:</p>
-              <term id='term-term-2'>
+              <term id='term-Term-2'>
                 <preferred><expression><name>Term 2</name></expression></preferred>
               </term>
             </terms>
@@ -1752,14 +1752,14 @@ RSpec.describe Metanorma::ITU do
             <terms id='_' type='external' obligation='normative'>
               <title>Terms defined elsewhere</title>
               <p id='_'>Boilerplate</p>
-              <term id='term-term-1'>
+              <term id='term-Term-1'>
                 <preferred><expression><name>Term 1</name></expression></preferred>
               </term>
             </terms>
             <terms id='_' type='internal' obligation='normative'>
               <title>Terms defined in this recommendation</title>
               <p id='_'>Boilerplate</p>
-              <term id='term-term-2'>
+              <term id='term-Term-2'>
                 <preferred><expression><name>Term 2</name></expression></preferred>
               </term>
             </terms>
@@ -1788,13 +1788,13 @@ RSpec.describe Metanorma::ITU do
             <p id="_">This Recommendation defines the following terms:</p>
             <terms id="_" obligation="normative">
               <title>terms defined somewhere</title>
-              <term id="term-term-1">
+              <term id="term-Term-1">
                 <preferred><expression><name>Term 1</name></expression></preferred>
               </term>
             </terms>
             <terms id="_" obligation="normative">
               <title>terms defined somewhere else</title>
-              <term id="term-term-2">
+              <term id="term-Term-2">
                 <preferred><expression><name>Term 2</name></expression></preferred>
               </term>
             </terms>
@@ -1826,13 +1826,13 @@ RSpec.describe Metanorma::ITU do
             <p id="_">Boilerplate</p>
             <terms id="_" obligation="normative">
               <title>terms defined somewhere</title>
-                <term id="term-term-1">
+                <term id="term-Term-1">
                 <preferred><expression><name>Term 1</name></expression></preferred>
               </term>
             </terms>
             <terms id="_" obligation="normative">
               <title>terms defined somewhere else</title>
-              <term id="term-term-2">
+              <term id="term-Term-2">
                 <preferred><expression><name>Term 2</name></expression></preferred>
               </term>
             </terms>
@@ -2166,7 +2166,7 @@ RSpec.describe Metanorma::ITU do
           <terms id='_' obligation='normative'>
             <title>Definitions</title>
             <p id='_'>This Recommendation defines the following terms:</p>
-            <term id='term-term-1'>
+            <term id='term-Term-1'>
             <preferred><expression><name>Term 1</name></expression></preferred>
             </term>
           </terms>

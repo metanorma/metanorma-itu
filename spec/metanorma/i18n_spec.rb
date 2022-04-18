@@ -316,7 +316,7 @@ RSpec.describe Metanorma::ITU do
         <terms id='_' obligation='normative'>
           <title>D&#233;finitions</title>
           <p id='_'>La pr&#233;sente Recommandation d&#233;finit les termes suivants:</p>
-          <term id='term-term1'>
+          <term id='term-Term1'>
             <preferred><expression><name>Term1</name></expression></preferred>
           </term>
         </terms>
@@ -339,14 +339,14 @@ RSpec.describe Metanorma::ITU do
             <title>Intro 4</title>
             <terms id='_' obligation='normative'>
               <title>Intro 5</title>
-              <term id='term-term1-1'>
+              <term id='term-Term1-1'>
                 <preferred><expression><name>Term1</name></expression></preferred>
               </term>
             </terms>
           </clause>
           <clause id='_' obligation='normative'>
             <title>Normal Terms</title>
-            <term id='term-term2'>
+            <term id='term-Term2'>
               <preferred><expression><name>Term2</name></expression></preferred>
             </term>
             <terms id='_' type='external' obligation='normative'>
@@ -359,7 +359,7 @@ RSpec.describe Metanorma::ITU do
             <clause id='_' inline-header='false' obligation='normative'>
               <title>General</title>
             </clause>
-            <term id='term-symbols-1'>
+            <term id='term-Symbols-1'>
               <preferred><expression><name>Symbols 1</name></expression></preferred>
             </term>
           </terms>
@@ -736,7 +736,7 @@ RSpec.describe Metanorma::ITU do
             <p id='_'>
               &#26412;&#24314;&#35758;&#20070;&#23450;&#20041;&#19979;&#21015;&#26415;&#35821;&#65306;
             </p>
-            <term id='term-term1'>
+            <term id='term-Term1'>
               <preferred><expression><name>Term1</name></expression></preferred>
             </term>
           </terms>
@@ -759,14 +759,14 @@ RSpec.describe Metanorma::ITU do
               <title>Intro 4</title>
               <terms id='_' obligation='normative'>
                 <title>Intro 5</title>
-                <term id='term-term1-1'>
+                <term id='term-Term1-1'>
                   <preferred><expression><name>Term1</name></expression></preferred>
                 </term>
               </terms>
             </clause>
             <clause id='_' obligation='normative'>
               <title>Normal Terms</title>
-              <term id='term-term2'>
+              <term id='term-Term2'>
                 <preferred><expression><name>Term2</name></expression></preferred>
               </term>
               <terms id='_' type='external' obligation='normative'>
@@ -779,7 +779,7 @@ RSpec.describe Metanorma::ITU do
               <clause id='_' inline-header='false' obligation='normative'>
                 <title>General</title>
               </clause>
-              <term id='term-symbols-1'>
+              <term id='term-Symbols-1'>
                 <preferred><expression><name>Symbols 1</name></expression></preferred>
               </term>
             </terms>
@@ -1167,7 +1167,7 @@ RSpec.describe Metanorma::ITU do
             &#1575;&#1604;&#1605;&#1589;&#1591;&#1604;&#1581;&#1575;&#1578;
             &#1575;&#1604;&#1578;&#1575;&#1604;&#1610;&#1577;:
           </p>
-          <term id='term-term1'>
+          <term id='term-Term1'>
             <preferred><expression><name>Term1</name></expression></preferred>
           </term>
         </terms>
@@ -1190,14 +1190,14 @@ RSpec.describe Metanorma::ITU do
             <title>Intro 4</title>
             <terms id='_' obligation='normative'>
               <title>Intro 5</title>
-              <term id='term-term1-1'>
+              <term id='term-Term1-1'>
                 <preferred><expression><name>Term1</name></expression></preferred>
               </term>
             </terms>
           </clause>
           <clause id='_' obligation='normative'>
             <title>Normal Terms</title>
-            <term id='term-term2'>
+            <term id='term-Term2'>
               <preferred><expression><name>Term2</name></expression></preferred>
             </term>
             <terms id='_' type='external' obligation='normative'>
@@ -1215,7 +1215,7 @@ RSpec.describe Metanorma::ITU do
             <clause id='_' inline-header='false' obligation='normative'>
               <title>General</title>
             </clause>
-            <term id='term-symbols-1'>
+            <term id='term-Symbols-1'>
               <preferred><expression><name>Symbols 1</name></expression></preferred>
             </term>
           </terms>
@@ -1588,7 +1588,7 @@ RSpec.describe Metanorma::ITU do
         <terms id='_' obligation='normative'>
           <title>Definiciones</title>
           <p id='_'>Esta Recomendaci&#243;n define los siguientes t&#233;rminos:</p>
-          <term id='term-term1'>
+          <term id='term-Term1'>
             <preferred><expression><name>Term1</name></expression></preferred>
           </term>
         </terms>
@@ -1611,14 +1611,14 @@ RSpec.describe Metanorma::ITU do
             <title>Intro 4</title>
             <terms id='_' obligation='normative'>
               <title>Intro 5</title>
-              <term id='term-term1-1'>
+              <term id='term-Term1-1'>
                 <preferred><expression><name>Term1</name></expression></preferred>
               </term>
             </terms>
           </clause>
           <clause id='_' obligation='normative'>
             <title>Normal Terms</title>
-            <term id='term-term2'>
+            <term id='term-Term2'>
               <preferred><expression><name>Term2</name></expression></preferred>
             </term>
             <terms id='_' type='external' obligation='normative'>
@@ -1631,7 +1631,7 @@ RSpec.describe Metanorma::ITU do
             <clause id='_' inline-header='false' obligation='normative'>
               <title>General</title>
             </clause>
-            <term id='term-symbols-1'>
+            <term id='term-Symbols-1'>
               <preferred><expression><name>Symbols 1</name></expression></preferred>
             </term>
           </terms>
@@ -2000,7 +2000,7 @@ RSpec.describe Metanorma::ITU do
         <terms id='_' obligation='normative'>
           <title>Definitionen</title>
           <p id='_'>Diese Empfehlung definiert die folgenden Begriffe:</p>
-          <term id='term-term1'>
+          <term id='term-Term1'>
             <preferred><expression><name>Term1</name></expression></preferred>
           </term>
         </terms>
@@ -2023,14 +2023,14 @@ RSpec.describe Metanorma::ITU do
             <title>Intro 4</title>
             <terms id='_' obligation='normative'>
               <title>Intro 5</title>
-              <term id='term-term1-1'>
+              <term id='term-Term1-1'>
                 <preferred><expression><name>Term1</name></expression></preferred>
               </term>
             </terms>
           </clause>
           <clause id='_' obligation='normative'>
             <title>Normal Terms</title>
-            <term id='term-term2'>
+            <term id='term-Term2'>
               <preferred><expression><name>Term2</name></expression></preferred>
             </term>
             <terms id='_' type='external' obligation='normative'>
@@ -2043,7 +2043,7 @@ RSpec.describe Metanorma::ITU do
             <clause id='_' inline-header='false' obligation='normative'>
               <title>General</title>
             </clause>
-            <term id='term-symbols-1'>
+            <term id='term-Symbols-1'>
               <preferred><expression><name>Symbols 1</name></expression></preferred>
             </term>
           </terms>
@@ -2424,7 +2424,7 @@ RSpec.describe Metanorma::ITU do
               &#1042; &#1085;&#1072;&#1089;&#1090;&#1086;&#1103;&#1097;&#1077;&#1081;
               &#1056;&#1077;&#1082;&#1086;&#1084;&#1077;&#1085;&#1076;&#1072;&#1094;&#1080;&#1080; &#1086;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1099; &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1080;&#1077; &#1090;&#1077;&#1088;&#1084;&#1080;&#1085;&#1099;:
             </p>
-            <term id='term-term1'>
+            <term id='term-Term1'>
               <preferred><expression><name>Term1</name></expression></preferred>
             </term>
           </terms>
@@ -2447,14 +2447,14 @@ RSpec.describe Metanorma::ITU do
               <title>Intro 4</title>
               <terms id='_' obligation='normative'>
                 <title>Intro 5</title>
-                <term id='term-term1-1'>
+                <term id='term-Term1-1'>
                   <preferred><expression><name>Term1</name></expression></preferred>
                 </term>
               </terms>
             </clause>
             <clause id='_' obligation='normative'>
               <title>Normal Terms</title>
-              <term id='term-term2'>
+              <term id='term-Term2'>
                 <preferred><expression><name>Term2</name></expression></preferred>
               </term>
               <terms id='_' type='external' obligation='normative'>
@@ -2470,7 +2470,7 @@ RSpec.describe Metanorma::ITU do
               <clause id='_' inline-header='false' obligation='normative'>
                 <title>General</title>
               </clause>
-              <term id='term-symbols-1'>
+              <term id='term-Symbols-1'>
                 <preferred><expression><name>Symbols 1</name></expression></preferred>
               </term>
             </terms>

@@ -2068,7 +2068,7 @@
 		</xsl:if>
 	</xsl:template>
 	
-<xsl:param name="svg_images"/><xsl:variable name="images" select="document($svg_images)"/><xsl:param name="basepath"/><xsl:param name="external_index"/><xsl:param name="syntax-highlight">false</xsl:param><xsl:variable name="lang">
+<xsl:param name="svg_images"/><xsl:variable name="images" select="document($svg_images)"/><xsl:param name="basepath"/><xsl:param name="external_index"/><xsl:param name="syntax-highlight">false</xsl:param><xsl:param name="add_math_as_text">true</xsl:param><xsl:variable name="lang">
 		<xsl:call-template name="getLang"/>
 	</xsl:variable><xsl:variable name="pageWidth_">
 		210
@@ -3550,9 +3550,11 @@
 					<xsl:with-param name="margin" select="$margin"/>
 				</xsl:call-template>
 			
-	</xsl:template><xsl:template match="*[local-name()='td']//text() | *[local-name()='th']//text() | *[local-name()='dt']//text() | *[local-name()='dd']//text()" priority="1">
-		<!-- <xsl:call-template name="add-zero-spaces"/> -->
-		<xsl:call-template name="add-zero-spaces-java"/>
+	</xsl:template><xsl:variable name="express_reference_separators">_.\</xsl:variable><xsl:variable name="express_reference_characters" select="concat($upper,$lower,'1234567890',$express_reference_separators)"/><xsl:template match="*[local-name()='td']//text() | *[local-name()='th']//text() | *[local-name()='dt']//text() | *[local-name()='dd']//text()" priority="1">
+		
+				<!-- <xsl:call-template name="add-zero-spaces"/> -->
+				<xsl:call-template name="add-zero-spaces-java"/>
+			
 	</xsl:template><xsl:template match="*[local-name()='table']" name="table">
 	
 		<xsl:variable name="table-preamble">
@@ -3682,16 +3684,9 @@
 							</xsl:for-each>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:for-each select="xalan:nodeset($colwidths)//column">
-								<xsl:choose>
-									<xsl:when test=". = 1 or . = 0">
-										<fo:table-column column-width="proportional-column-width(2)"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<fo:table-column column-width="proportional-column-width({.})"/>
-									</xsl:otherwise>
-								</xsl:choose>
-							</xsl:for-each>
+							<xsl:call-template name="insertTableColumnWidth">
+								<xsl:with-param name="colwidths" select="$colwidths"/>
+							</xsl:call-template>
 						</xsl:otherwise>
 					</xsl:choose>
 					
@@ -3899,6 +3894,12 @@
 				<xsl:with-param name="table" select="$table"/>
 			</xsl:call-template>
 		</xsl:if>
+	</xsl:template><xsl:template match="*[(local-name()='strong' or (local-name()='inline' and @font-weight = 'bold'))]" mode="td_text">
+		<xsl:apply-templates mode="td_text"/>
+	</xsl:template><xsl:template match="*[(local-name()='strong' or (local-name()='inline' and @font-weight = 'bold'))]/text()[translate(., $express_reference_characters, '') = '']" mode="td_text">
+		
+				<xsl:value-of select="."/>
+			
 	</xsl:template><xsl:template match="text()" mode="td_text">
 		<xsl:value-of select="translate(., $zero_width_space, ' ')"/><xsl:text> </xsl:text>
 	</xsl:template><xsl:template match="*[local-name()='termsource']" mode="td_text">
@@ -4006,16 +4007,9 @@
 						</xsl:for-each>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:for-each select="xalan:nodeset($colwidths)//column">
-							<xsl:choose>
-								<xsl:when test=". = 1 or . = 0">
-									<fo:table-column column-width="proportional-column-width(2)"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<fo:table-column column-width="proportional-column-width({.})"/>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:for-each>
+						<xsl:call-template name="insertTableColumnWidth">
+							<xsl:with-param name="colwidths" select="$colwidths"/>
+						</xsl:call-template>
 					</xsl:otherwise>
 				</xsl:choose>
 				
@@ -4710,9 +4704,15 @@
 								<xsl:variable name="maxlength_dt">							
 									<xsl:call-template name="getMaxLength_dt"/>							
 								</xsl:variable>
+								<xsl:variable name="isContainsExpressReference_">
+									false
+								</xsl:variable>
+								<xsl:variable name="isContainsExpressReference" select="normalize-space($isContainsExpressReference_)"/>
+								<!-- isContainsExpressReference=<xsl:value-of select="$isContainsExpressReference"/> -->
 								<xsl:call-template name="setColumnWidth_dl">
 									<xsl:with-param name="colwidths" select="$colwidths"/>							
 									<xsl:with-param name="maxlength_dt" select="$maxlength_dt"/>
+									<xsl:with-param name="isContainsExpressReference" select="$isContainsExpressReference"/>
 								</xsl:call-template>
 								<fo:table-body>
 									<xsl:apply-templates>
@@ -4728,6 +4728,7 @@
 	</xsl:template><xsl:template name="setColumnWidth_dl">
 		<xsl:param name="colwidths"/>		
 		<xsl:param name="maxlength_dt"/>
+		<xsl:param name="isContainsExpressReference"/>
 		<xsl:choose>
 			<xsl:when test="ancestor::*[local-name()='dl']"><!-- second level, i.e. inlined table -->
 				<fo:table-column column-width="50%"/>
@@ -4735,6 +4736,11 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:choose>
+					<xsl:when test="$isContainsExpressReference">
+						<xsl:call-template name="insertTableColumnWidth">
+							<xsl:with-param name="colwidths" select="$colwidths"/>
+						</xsl:call-template>
+					</xsl:when>
 					<!-- to set width check most wide chars like `W` -->
 					<xsl:when test="normalize-space($maxlength_dt) != '' and number($maxlength_dt) &lt;= 2"> <!-- if dt contains short text like t90, a, etc -->
 						<fo:table-column column-width="7%"/>
@@ -4765,20 +4771,25 @@
 						<fo:table-column column-width="60%"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:for-each select="xalan:nodeset($colwidths)//column">
-							<xsl:choose>
-								<xsl:when test=". = 1 or . = 0">
-									<fo:table-column column-width="proportional-column-width(2)"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<fo:table-column column-width="proportional-column-width({.})"/>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:for-each>
+						<xsl:call-template name="insertTableColumnWidth">
+							<xsl:with-param name="colwidths" select="$colwidths"/>
+						</xsl:call-template>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template><xsl:template name="insertTableColumnWidth">
+		<xsl:param name="colwidths"/>
+		<xsl:for-each select="xalan:nodeset($colwidths)//column">
+			<xsl:choose>
+				<xsl:when test=". = 1 or . = 0">
+					<fo:table-column column-width="proportional-column-width(2)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<fo:table-column column-width="proportional-column-width({.})"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:for-each>
 	</xsl:template><xsl:template name="getMaxLength_dt">
 		<xsl:variable name="lengths">
 			<xsl:for-each select="*[local-name()='dt']">
@@ -5396,6 +5407,9 @@
 		<xsl:variable name="isDeleted" select="@deleted"/>
 		
 		<fo:inline xsl:use-attribute-sets="mathml-style">
+		
+			
+			
 			
 			
 			<xsl:call-template name="setTrackChangesStyles">
@@ -5403,48 +5417,80 @@
 				<xsl:with-param name="isDeleted" select="$isDeleted"/>
 			</xsl:call-template>
 			
+			<xsl:if test="$add_math_as_text = 'true'">
+				<!-- insert helper tag -->
+				<!-- set unique font-size (fiction) -->
+				<xsl:variable name="font-size_sfx"><xsl:number level="any"/></xsl:variable>
+				<fo:inline color="white" font-size="1.{$font-size_sfx}pt" font-style="normal" font-weight="normal"><xsl:value-of select="$zero_width_space"/></fo:inline> <!-- zero width space -->
+			</xsl:if>
 			
-			
-			<xsl:variable name="mathml">
-				<xsl:apply-templates select="." mode="mathml"/>
+			<xsl:variable name="mathml_content">
+				<xsl:apply-templates select="." mode="mathml_actual_text"/>
 			</xsl:variable>
-			<fo:instream-foreign-object fox:alt-text="Math">
 			
+			
+					<xsl:call-template name="mathml_instream_object">
+						<xsl:with-param name="mathml_content" select="$mathml_content"/>
+					</xsl:call-template>
 				
-				
-				<xsl:variable name="comment_text_following" select="following-sibling::node()[1][self::comment()]"/>
-				<xsl:variable name="comment_text_">
-					<xsl:choose>
-						<xsl:when test="normalize-space($comment_text_following) != ''">
-							<xsl:value-of select="$comment_text_following"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="normalize-space(translate(.,' ⁢','  '))"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:variable> 
-				<xsl:variable name="comment_text" select="java:org.metanorma.fop.Util.unescape($comment_text_)"/>
-				
-				<xsl:if test="normalize-space($comment_text) != ''">
-				<!-- put Mathin Alternate Text -->
-					<xsl:attribute name="fox:alt-text">
-						<xsl:value-of select="java:org.metanorma.fop.Util.unescape($comment_text)"/>
-					</xsl:attribute>
-				</xsl:if>
-				
-				<xsl:variable name="mathml_content">
-					<xsl:apply-templates select="." mode="mathml_actual_text"/>
-				</xsl:variable>
-				<!-- put MathML in Actual Text -->
-				<xsl:attribute name="fox:actual-text">
-					<xsl:value-of select="$mathml_content"/>
-				</xsl:attribute>
-				
-				
-				
-				<xsl:copy-of select="xalan:nodeset($mathml)"/>
-			</fo:instream-foreign-object>			
+			
 		</fo:inline>
+	</xsl:template><xsl:template name="getMathml_comment_text">
+		<xsl:variable name="comment_text_following" select="following-sibling::node()[1][self::comment()]"/>
+		<xsl:variable name="comment_text_">
+			<xsl:choose>
+				<xsl:when test="normalize-space($comment_text_following) != ''">
+					<xsl:value-of select="$comment_text_following"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="normalize-space(translate(.,' ⁢','  '))"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable> 
+		<xsl:variable name="comment_text_2" select="java:org.metanorma.fop.Util.unescape($comment_text_)"/>
+		<xsl:variable name="comment_text" select="java:trim(java:java.lang.String.new($comment_text_2))"/>
+		<xsl:value-of select="$comment_text"/>
+	</xsl:template><xsl:template name="mathml_instream_object">
+		<xsl:param name="comment_text"/>
+		<xsl:param name="mathml_content"/>
+	
+		<xsl:variable name="comment_text_">
+			<xsl:choose>
+				<xsl:when test="normalize-space($comment_text) != ''"><xsl:value-of select="$comment_text"/></xsl:when>
+				<xsl:otherwise><xsl:call-template name="getMathml_comment_text"/></xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+	
+		<xsl:variable name="mathml">
+			<xsl:apply-templates select="." mode="mathml"/>
+		</xsl:variable>
+			
+		<fo:instream-foreign-object fox:alt-text="Math">
+					
+			
+			
+			
+			
+			
+			
+			<!-- put MathML in Actual Text -->
+			<!-- DEBUG: mathml_content=<xsl:value-of select="$mathml_content"/> -->
+			<xsl:attribute name="fox:actual-text">
+				<xsl:value-of select="$mathml_content"/>
+			</xsl:attribute>
+			
+			<!-- <xsl:if test="$add_math_as_text = 'true'"> -->
+			<xsl:if test="normalize-space($comment_text_) != ''">
+			<!-- put Mathin Alternate Text -->
+				<xsl:attribute name="fox:alt-text">
+					<xsl:value-of select="$comment_text_"/>
+				</xsl:attribute>
+			</xsl:if>
+			<!-- </xsl:if> -->
+		
+			<xsl:copy-of select="xalan:nodeset($mathml)"/>
+			
+		</fo:instream-foreign-object>
 	</xsl:template><xsl:template match="mathml:*" mode="mathml_actual_text">
 		<!-- <xsl:text>a+b</xsl:text> -->
 		<xsl:text>&lt;</xsl:text>
@@ -6074,18 +6120,33 @@
 	</xsl:template><xsl:template match="*[local-name() = 'svg'][not(@width and @height)]" mode="svg_update">
 		<xsl:copy>
 			<xsl:apply-templates select="@*" mode="svg_update"/>
-			<xsl:variable name="viewbox">
+			<xsl:variable name="viewbox_">
 				<xsl:call-template name="split">
 					<xsl:with-param name="pText" select="@viewBox"/>
 					<xsl:with-param name="sep" select="' '"/>
 				</xsl:call-template>
 			</xsl:variable>
+			<xsl:variable name="viewbox" select="xalan:nodeset($viewbox_)"/>
+			<xsl:variable name="width" select="normalize-space($viewbox//item[3])"/>
+			<xsl:variable name="height" select="normalize-space($viewbox//item[4])"/>
+			
 			<xsl:attribute name="width">
-				<xsl:value-of select="round(xalan:nodeset($viewbox)//item[3])"/>
+				<xsl:choose>
+					<xsl:when test="$width != ''">
+						<xsl:value-of select="round($width)"/>
+					</xsl:when>
+					<xsl:otherwise>400</xsl:otherwise> <!-- default width -->
+				</xsl:choose>
 			</xsl:attribute>
 			<xsl:attribute name="height">
-				<xsl:value-of select="round(xalan:nodeset($viewbox)//item[4])"/>
+				<xsl:choose>
+					<xsl:when test="$height != ''">
+						<xsl:value-of select="round($height)"/>
+					</xsl:when>
+					<xsl:otherwise>400</xsl:otherwise> <!-- default height -->
+				</xsl:choose>
 			</xsl:attribute>
+			
 			<xsl:apply-templates mode="svg_update"/>
 		</xsl:copy>
 	</xsl:template><xsl:template match="*[local-name() = 'figure']/*[local-name() = 'image'][*[local-name() = 'svg']]" priority="3">

@@ -70,6 +70,7 @@ module IsoDoc
       def toWord(result, filename, dir, header)
         result = populate_template(result, :word)
         result = from_xhtml(word_cleanup(to_xhtml(result)))
+          .gsub(/-DOUBLE_HYPHEN_ESCAPE-/, "--")
         unless @landscapestyle.nil? || @landscapestyle.empty?
           @wordstylesheet&.open
           @wordstylesheet&.write(@landscapestyle)

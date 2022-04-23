@@ -5,27 +5,27 @@ require "fileutils"
 module IsoDoc
   module ITU
     module BaseConvert
-      def nonstd_bibitem(list, b, _ordinal, biblio)
-        list.tr **attr_code(iso_bibitem_entry_attrs(b, biblio)) do |ref|
-          id = render_identifier(bibitem_ref_code(b))
+      def nonstd_bibitem(list, bibitem, _ordinal, biblio)
+        list.tr **attr_code(iso_bibitem_entry_attrs(bibitem, biblio)) do |ref|
+          id = render_identifier(bibitem_ref_code(bibitem))
           ref.td **{ style: "vertical-align:top" } do |td|
             td << (id[:metanorma] || "[#{id[:sdo]}]")
               &.gsub(/-/, "&#x2011;")&.gsub(/ /, "&#xa0;")
-            date_note_process(b, td)
+            date_note_process(bibitem, td)
           end
-          ref.td { |td| reference_format(b, td) }
+          ref.td { |td| reference_format(bibitem, td) }
         end
       end
 
-      def std_bibitem_entry(list, b, ordinal, biblio)
-        nonstd_bibitem(list, b, ordinal, biblio)
+      def std_bibitem_entry(list, bibitem, ordinal, biblio)
+        nonstd_bibitem(list, bibitem, ordinal, biblio)
       end
 
-      def biblio_list(f, div, biblio)
+      def biblio_list(clause, div, biblio)
         div.table **{ class: "biblio", border: "0" } do |t|
           i = 0
           t.tbody do |tbody|
-            f.elements.each do |b|
+            clause.elements.each do |b|
               if b.name == "bibitem"
                 next if implicit_reference(b)
 
@@ -39,7 +39,7 @@ module IsoDoc
             end
           end
         end
-        f.xpath(ns("./clause | ./references")).each do |x|
+        clause.xpath(ns("./clause | ./references")).each do |x|
           parse(x, div)
         end
       end
@@ -53,7 +53,7 @@ module IsoDoc
 
       def reference_format(biblio, ref)
         reference_format_start(biblio, ref)
-        reference_format_title(biblio, ref)
+        super
       end
 
       def titlecase(str)
@@ -61,7 +61,7 @@ module IsoDoc
       end
 
       def pref_ref_code(bibitem)
-        ret = bibitem.xpath(ns("./docidentifier[@type = 'ITU']")) 
+        ret = bibitem.xpath(ns("./docidentifier[@type = 'ITU']"))
         ret.empty? and ret = super
         ret
       end
@@ -69,11 +69,11 @@ module IsoDoc
       IGNORE_IDS = "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or "\
                    "@type = 'rfc-anchor' or @type = 'metanorma-ordinal'".freeze
 
-      def multi_bibitem_ref_code(b)
-        id = b.xpath(ns("./docidentifier[not(@type = 'metanorma' or "\
-                        "#{IGNORE_IDS})]"))
+      def multi_bibitem_ref_code(bibitem)
+        id = bibitem.xpath(ns("./docidentifier[not(@type = 'metanorma' or "\
+                              "#{IGNORE_IDS})]"))
         id.empty? and
-          id = b.xpath(ns("./docidentifier[not(@type = 'metanorma')]"))
+          id = bibitem.xpath(ns("./docidentifier[not(@type = 'metanorma')]"))
         return [] if id.empty?
 
         id.sort_by { |i| i["type"] == "ITU" ? 0 : 1 }
@@ -108,25 +108,13 @@ module IsoDoc
         end
       end
 
-      def reference_format_start(bib, r)
+      def reference_format_start(bib, out)
         id = multi_bibitem_ref_code(bib)
         id1 = render_multi_identifiers(id)
-        r << id1
+        out << id1
         date = bib.at(ns("./date[@type = 'published']")) and
-          r << " (#{date.text.sub(/-.*$/, '')})"
-        r << ", " if date || !id1.empty?
-      end
-
-      def reference_format_title(bib, r)
-        if ftitle = bib.at(ns("./formattedref"))
-          ftitle&.children&.each { |n| parse(n, r) }
-          /\.$/.match(ftitle&.text) or r << "."
-        elsif title = iso_title(bib)
-          r.i do |i|
-            title&.children&.each { |n| parse(n, i) }
-          end
-          /\.$/.match(title&.text) or r << "."
-        end
+          out << " (#{date.text.sub(/-.*$/, '')})"
+        out << ", " if date || !id1.empty?
       end
     end
   end

@@ -6,8 +6,11 @@ module IsoDoc
   module ITU
     class Counter < IsoDoc::XrefGen::Counter
       def print
-        super.sub(/([0-9])(bis|ter|quater|quinquies|sexies|septies|octies|nonies)$/,
-                  "\\1<em>\\2</em>")
+        ret = super or return nil
+
+        ret
+          .sub(/([0-9])(bis|ter|quater|quinquies|sexies|septies|octies|nonies)$/,
+               "\\1<em>\\2</em>")
       end
     end
 
@@ -134,7 +137,9 @@ module IsoDoc
 
       def hierarchical_formula_names(clause, num)
         c = Counter.new
-        clause.xpath(ns(".//formula")).reject { |n| blank?(n["id"]) }.each do |t|
+        clause.xpath(ns(".//formula")).reject do |n|
+          blank?(n["id"])
+        end.each do |t|
           @anchors[t["id"]] = anchor_struct(
             "#{num}-#{c.increment(t).print}", nil,
             t["inequality"] ? @labels["inequality"] : @labels["formula"],

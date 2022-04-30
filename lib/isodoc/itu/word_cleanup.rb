@@ -134,6 +134,7 @@ module IsoDoc
             auth << "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>"
           dest.replace(auth.remove)
         end
+        coverpage_note_cleanup(docxml)
       end
 
       TOPLIST = "[not(ancestor::ul) and not(ancestor::ol)]".freeze

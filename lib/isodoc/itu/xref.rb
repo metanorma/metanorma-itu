@@ -22,12 +22,14 @@ module IsoDoc
 
       def back_anchor_names(docxml)
         super
-        if annexid = docxml
-          &.at(ns("//bibdata/ext/structuredidentifier/annexid"))&.text
-          docxml.xpath(ns("//annex")).each { |c| annex_names(c, annexid) }
-        else
-          informative_annex_names(docxml)
-          normative_annex_names(docxml)
+        if @parse_settings.empty? || @parse_settings[:clauses]
+          if annexid = docxml
+            &.at(ns("//bibdata/ext/structuredidentifier/annexid"))&.text
+            docxml.xpath(ns("//annex")).each { |c| annex_names(c, annexid) }
+          else
+            informative_annex_names(docxml)
+            normative_annex_names(docxml)
+          end
         end
       end
 
@@ -51,25 +53,33 @@ module IsoDoc
 
       def initial_anchor_names(doc)
         @doctype = doc&.at(ns("//bibdata/ext/doctype"))&.text
-        doc.xpath(ns("//boilerplate//clause")).each { |c| preface_names(c) }
-        doc.xpath("//xmlns:preface/child::*").each { |c| preface_names(c) }
-        if @hierarchical_assets
-          hierarchical_asset_names(doc.xpath("//xmlns:preface/child::*"),
-                                   "Preface")
-        else
-          sequential_asset_names(doc.xpath("//xmlns:preface/child::*"))
+        if @parse_settings.empty? || @parse_settings[:clauses]
+          doc.xpath(ns("//boilerplate//clause")).each { |c| preface_names(c) }
+          doc.xpath("//xmlns:preface/child::*").each { |c| preface_names(c) }
         end
-        n = Counter.new
-        n = section_names(doc.at(ns("//clause[@type = 'scope']")), n, 1)
-        n = section_names(doc.at(ns(@klass.norm_ref_xpath)), n, 1)
-        n = section_names(
-          doc.at(ns("//sections/terms | //sections/clause[descendant::terms]")), n, 1
-        )
-        n = section_names(doc.at(ns("//sections/definitions")), n, 1)
-        clause_names(doc, n)
-        middle_section_asset_names(doc)
-        termnote_anchor_names(doc)
-        termexample_anchor_names(doc)
+        if @parse_settings.empty?
+          if @hierarchical_assets
+            hierarchical_asset_names(doc.xpath("//xmlns:preface/child::*"),
+                                     "Preface")
+          else
+            sequential_asset_names(doc.xpath("//xmlns:preface/child::*"))
+          end
+        end
+        if @parse_settings.empty? || @parse_settings[:clauses]
+          n = Counter.new
+          n = section_names(doc.at(ns("//clause[@type = 'scope']")), n, 1)
+          n = section_names(doc.at(ns(@klass.norm_ref_xpath)), n, 1)
+          n = section_names(
+            doc.at(ns("//sections/terms | //sections/clause[descendant::terms]")), n, 1
+          )
+          n = section_names(doc.at(ns("//sections/definitions")), n, 1)
+          clause_names(doc, n)
+        end
+        if @parse_settings.empty?
+          middle_section_asset_names(doc)
+          termnote_anchor_names(doc)
+          termexample_anchor_names(doc)
+        end
       end
 
       def middle_sections

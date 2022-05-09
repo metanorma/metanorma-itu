@@ -1,6 +1,7 @@
 require_relative "init"
 require "roman-numerals"
 require "isodoc"
+require_relative "../../relaton/render/general"
 
 module IsoDoc
   module ITU
@@ -118,6 +119,21 @@ module IsoDoc
         else
           d[1] = ::RomanNumerals.to_roman(d[1].to_i).upcase if d[1]
           d.reverse.join(".")
+        end
+      end
+
+      def bibrenderer
+        ::Relaton::Render::ITU::General.new(language: @lang)
+      end
+
+      def bibrender(xml)
+        if f = xml.at(ns("./formattedref"))
+          f << "." unless /\.$/.match?(f.text)
+        else
+          # retain date in order to generate reference tag
+          xml.children =
+            "#{bibrenderer.render(xml.to_xml)}"\
+            "#{xml.xpath(ns('./docidentifier | ./uri | ./note | ./date')).to_xml}"
         end
       end
 

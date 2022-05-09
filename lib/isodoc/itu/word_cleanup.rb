@@ -76,13 +76,13 @@ module IsoDoc
           @wordstylesheet&.write(@landscapestyle)
           @wordstylesheet&.close
         end
-        Html2Doc.process(
-          result, filename: filename,
+        Html2Doc.new(
+          filename: filename,
                   stylesheet: @wordstylesheet&.path,
                   header_file: header&.path, dir: dir,
                   asciimathdelims: [@openmathdelim, @closemathdelim],
                   liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" }
-        )
+        ).process(result)
         header&.unlink
         @wordstylesheet&.unlink
       end
@@ -134,6 +134,7 @@ module IsoDoc
             auth << "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>"
           dest.replace(auth.remove)
         end
+        coverpage_note_cleanup(docxml)
       end
 
       TOPLIST = "[not(ancestor::ul) and not(ancestor::ol)]".freeze

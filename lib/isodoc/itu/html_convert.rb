@@ -4,7 +4,6 @@ require "fileutils"
 
 module IsoDoc
   module ITU
-
     # A {Converter} implementation that generates HTML output, and a document
     # schema encapsulation of the document for validation
     #
@@ -17,14 +16,20 @@ module IsoDoc
 
       def default_fonts(options)
         {
-          bodyfont: (options[:script] == "Hans" ? '"Source Han Sans",serif' : 
-                     '"Times New Roman",serif'),
-          headerfont: (options[:script] == "Hans" ? '"Source Han Sans",sans-serif' : 
-                       '"Times New Roman",serif'),
-                       monospacefont: '"Courier New",monospace',
-                       normalfontsize: "14px",
-                       monospacefontsize: "0.8em",
-                       footnotefontsize: "0.9em",
+          bodyfont: (if options[:script] == "Hans"
+                       '"Source Han Sans",serif'
+                     else
+                       '"Times New Roman",serif'
+                     end),
+          headerfont: (if options[:script] == "Hans"
+                         '"Source Han Sans",sans-serif'
+                       else
+                         '"Times New Roman",serif'
+                       end),
+          monospacefont: '"Courier New",monospace',
+          normalfontsize: "14px",
+          monospacefontsize: "0.8em",
+          footnotefontsize: "0.9em",
         }
       end
 
@@ -38,12 +43,12 @@ module IsoDoc
 
       def googlefonts
         <<~HEAD.freeze
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,800|Space+Mono:400,700" rel="stylesheet">
+          <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,800|Space+Mono:400,700" rel="stylesheet">
         HEAD
       end
 
       def make_body(xml, docxml)
-        body_attr = { lang: "EN-US", link: "blue", vlink: "#954F72", 
+        body_attr = { lang: "EN-US", link: "blue", vlink: "#954F72",
                       "xml:lang": "EN-US", class: "container" }
         xml.body **body_attr do |body|
           make_body1(body, docxml)

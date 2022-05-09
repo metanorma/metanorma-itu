@@ -518,14 +518,8 @@ RSpec.describe Metanorma::ITU do
               <bibliography>
               <references id="_normative_references" obligation="informative" normative="true"><title>1<tab/>References</title>
       <bibitem id="ISO712" type="standard">
-        <title format="text/plain">Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</title>
+        <formattedref format="text/plain"><em>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</em>.</formattedref>
         <docidentifier>ISO 712</docidentifier>
-        <contributor>
-          <role type="publisher"/>
-          <organization>
-            <name>International Organization for Standardization</name>
-          </organization>
-        </contributor>
       </bibitem></references>
       </bibliography>
               </itu-standard>
@@ -1581,15 +1575,9 @@ RSpec.describe Metanorma::ITU do
         References
       </title>
              <bibitem id='ISO712' type='standard'>
-               <title format='text/plain'>Cereals and cereal products</title>
+               <formattedref><em>Cereals and cereal products</em>.</formattedref>
                <docidentifier>ISO 712</docidentifier>
                <date type='published'>2019-01-01</date>
-               <contributor>
-                 <role type='publisher'/>
-                 <organization>
-                   <abbreviation>ISO</abbreviation>
-                 </organization>
-               </contributor>
              </bibitem>
            </references>
          </bibliography>
@@ -1855,14 +1843,8 @@ RSpec.describe Metanorma::ITU do
           </foreword></preface>
           <bibliography><references id="_normative_references" obligation="informative" normative="true"><title>References</title>
       <bibitem id="ISO712" type="standard">
-        <title format="text/plain">Cereals and cereal products</title>
+        <formattedref format="text/plain"><em>Cereals and cereal products</em>.</formattedref>
         <docidentifier>ISO 712</docidentifier>
-        <contributor>
-          <role type="publisher"/>
-          <organization>
-            <abbreviation>ISO</abbreviation>
-          </organization>
-        </contributor>
       </bibitem>
           </references>
           </bibliography>

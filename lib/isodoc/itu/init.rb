@@ -17,7 +17,7 @@ module IsoDoc
       end
 
       def i18n_init(lang, script, i18nyaml = nil)
-        @i18n = I18n.new(lang, script, i18nyaml || @i18nyaml)
+        @i18n = I18n.new(lang, script, i18nyaml: i18nyaml || @i18nyaml)
       end
 
       def fileloc(loc)

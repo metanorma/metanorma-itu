@@ -132,7 +132,8 @@ RSpec.describe Metanorma::ITU do
           <itu-standard xmlns='https://www.calconnect.org/standards/itu' type='presentation'>
         <bibdata>
         <docnumber>1</docnumber>
-      <edition>1</edition>
+        <edition language=''>1</edition>
+        <edition language='en'>first edition</edition>
           <language current='true'>en</language>
                  <script current='true'>Latn</script>
                  <title type='main'>Title</title>
@@ -297,13 +298,14 @@ RSpec.describe Metanorma::ITU do
           <itu-standard xmlns='https://www.calconnect.org/standards/itu' type='presentation'>
         <bibdata>
         <docnumber>1</docnumber>
-      <edition>2</edition>
+      <edition language=''>2</edition>
+      <edition language='en'>second edition</edition>
           <language current='true'>en</language>
                  <script current='true'>Latn</script>
                  <title type='main'>Title</title>
                  <title language='en' format='text/plain' type='resolution'>RESOLUTION 1 (Rev. Andorra, 1204)</title>
       <title language='en' format='text/plain' type='resolution-placedate'>Andorra, 1204</title>
-      <status> <stage language=''>draft</stage> </status>
+      <status> <stage>draft</stage> </status>
                  <date type='published'>2010-09-08</date>
                  <date type='published' format='ddMMMyyyy'>8.IX.2010</date>
                  <ext>

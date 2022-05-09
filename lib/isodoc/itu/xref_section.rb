@@ -24,21 +24,6 @@ module IsoDoc
           xref: l10n("#{lbl} #{num}") }
       end
 
-      def annex_names(clause, num)
-        @anchors[clause["id"]] = annex_name_anchors(clause, num)
-        if a = single_annex_special_section(clause)
-          annex_names1(a, num.to_s, 1)
-        else
-          i = Counter.new
-          clause.xpath(ns("./clause | ./references | ./terms | ./definitions"))
-            .each do |c|
-            i.increment(c)
-            annex_names1(c, "#{num}.#{i.print}", 2)
-          end
-        end
-        hierarchical_asset_names(clause, num)
-      end
-
       def annex_names1(clause, num, level)
         @anchors[clause["id"]] =
           { label: num, elem: @labels["annex_subclause"],

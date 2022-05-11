@@ -2002,111 +2002,48 @@ RSpec.describe Metanorma::ITU do
       .gsub(%r{^.*<div class="boilerplate-legal">}m, '<div><div class="boilerplate-legal">')
       .gsub(%r{<b>Table of Contents</b></p>.*}m, "<b>Table of Contents</b></p></div>")))
       .to be_equivalent_to xmlpp(<<~"OUTPUT")
-                <div>
-          <div class='boilerplate-legal'>
-            <div>
-              <p class='boilerplateHdr'>FOREWORD</p>
-              <p class='boilerplate'>
-                <a name='_' id='_'/>
-                The International Telecommunication Union (ITU) is the United Nations
-                specialized agency in the field of telecommunications , information and
-                communication technologies (ICTs). The ITU Telecommunication
-                Standardization Sector (ITU-T) is a permanent organ of ITU. ITU-T is
-                responsible for studying technical, operating and tariff questions and
-                issuing Recommendations on them with a view to standardizing
-                telecommunications on a worldwide basis.
-              </p>
-              <p class='boilerplate'>
-                <a name='_' id='_'/>
-                The World Telecommunication Standardization Assembly (WTSA), which meets
-                every four years, establishes the topics for study by the ITU T study
-                groups which, in turn, produce Recommendations on these topics.
-              </p>
-              <p class='boilerplate'>
-                <a name='_' id='_'/>
-                The approval of ITU-T Recommendations is covered by the procedure laid
-                down in WTSA Resolution 1 .
-              </p>
-              <p class='boilerplate'>
-                <a name='_' id='_'/>
-                In some areas of information technology which fall within ITU-T's
-                purview, the necessary standards are prepared on a collaborative basis
-                with ISO and IEC.
-              </p>
-              <div>
-                <p class='boilerplateHdr'>NOTE</p>
-                <p class='boilerplate'>
-                  <a name='_' id='_'/>
-                  In this Recommendation, the expression "Administration" is used for
-                  conciseness to indicate both a telecommunication administration and a
-                  recognized operating agency .
-                </p>
-                <p class='boilerplate'>
-                  <a name='_' id='_'/>
-                  Compliance with this Recommendation is voluntary. However, the
-                  Recommendation may contain certain mandatory provisions (to ensure,
-                  e.g., interoperability or applicability) and compliance with the
-                  Recommendation is achieved when all of these mandatory provisions are
-                  met. The words "shall" or some other obligatory language such as
-                  "must" and the negative equivalents are used to express requirements.
-                  The use of such words does not suggest that compliance with the
-                  Recommendation is required of any party .
-                </p>
-              </div>
-            </div>
-            <p class='MsoNormal'>&#xA0;</p>
-            <p class='MsoNormal'>&#xA0;</p>
-            <p class='MsoNormal'>&#xA0;</p>
-          </div>
-          <div class='boilerplate-license'>
-            <div>
-              <p class='boilerplateHdr'>INTELLECTUAL PROPERTY RIGHTS</p>
-              <p class='boilerplate'>
-                <a name='_' id='_'/>
-                ITU draws attention to the possibility that the practice or
-                implementation of this Recommendation may involve the use of a claimed
-                Intellectual Property Right. ITU takes no position concerning the
-                evidence, validity or applicability of claimed Intellectual Property
-                Rights, whether asserted by ITU members or others outside of the
-                Recommendation development process.
-              </p>
-              <p class='boilerplate'>
-                <a name='_' id='_'/>
-                As of the date of approval of this Recommendation, ITU had received
-                notice of intellectual property, protected by patents, which may be
-                required to implement this Recommendation. However, implementers are
-                cautioned that this may not represent the latest information and are
-                therefore strongly urged to consult the TSB patent database at
-                <a href='http://www.itu.int/ITU-T/ipr/' class='url'>http://www.itu.int/ITU-T/ipr/</a>
-                .
-              </p>
-            </div>
-            <p class='MsoNormal'>&#xA0;</p>
-            <p class='MsoNormal'>&#xA0;</p>
-            <p class='MsoNormal'>&#xA0;</p>
-          </div>
-          <div class='boilerplate-copyright'>
-            <div>
-              <p class='boilerplateHdr'>
-                <a name='_' id='_'/>
-                &#xA9; ITU #{Time.new.year}
-              </p>
-              <p class='boilerplate'>
-                <a name='_' id='_'/>
-                All rights reserved. No part of this publication may be reproduced, by
-                any means whatsoever, without the prior written permission of ITU.
-              </p>
-            </div>
-          </div>
-          <b style='mso-bidi-font-weight:normal'>
-            <span lang='EN-US' xml:lang='EN-US' style='font-size:12.0pt;&#10;mso-bidi-font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;mso-fareast-font-family:&#10;&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:EN-US;&#10;mso-bidi-language:AR-SA'>
-              <br clear='all' style='page-break-before:always'/>
-            </span>
-          </b>
-          <p class='MsoNormal' align='center' style='text-align:center'>
-            <b>Table of Contents</b>
-          </p>
-        </div>
+           <div><div class="boilerplate-legal">
+           <div><p class="boilerplateHdr">FOREWORD</p>
+
+       <p class="boilerplate"><a name="_" id="_"></a>The International Telecommunication Union (ITU) is the United Nations specialized agency in the field of telecommunications , information and communication technologies (ICTs). The ITU Telecommunication Standardization Sector (ITU-T) is a permanent organ of ITU. ITU-T is responsible for studying technical, operating and tariff questions and issuing Recommendations on them with a view to standardizing telecommunications on a worldwide basis.</p>
+       <p class="boilerplate"><a name="_" id="_"></a>The World Telecommunication Standardization Assembly (WTSA), which meets every four years, establishes the topics for study by the ITU T study groups which, in turn, produce Recommendations on these topics.</p>
+       <p class="boilerplate"><a name="_" id="_"></a>The approval of ITU-T Recommendations is covered by the procedure laid down in WTSA Resolution 1 .</p>
+       <p class="boilerplate"><a name="_" id="_"></a>In some areas of information technology which fall within ITU-T's purview, the necessary standards are prepared on a collaborative basis with ISO and IEC.</p>
+
+
+       <div><p class="boilerplateHdr">NOTE</p>
+
+       <p class="boilerplate"><a name="_" id="_"></a>In this Recommendation, the expression "Administration" is used for conciseness to indicate both a telecommunication administration and a recognized operating agency .</p>
+       <p class="boilerplate"><a name="_" id="_"></a>Compliance with this Recommendation is voluntary. However, the Recommendation may contain certain mandatory provisions (to ensure, e.g., interoperability or applicability) and compliance with the Recommendation is achieved when all of these mandatory provisions are met. The words "shall" or some other obligatory language such as "must" and the negative equivalents are used to express requirements. The use of such words does not suggest that compliance with the Recommendation is required of any party .</p>
+       </div>
+
+           </div>
+
+
+
+
+         <p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p></div>
+       <div class="boilerplate-license">
+           <div><p class="boilerplateHdr">INTELLECTUAL PROPERTY RIGHTS</p>
+
+             <p class="boilerplate"><a name="_" id="_"></a>ITU draws attention to the possibility that the practice or implementation of this Recommendation may involve the use of a claimed Intellectual Property Right. ITU takes no position concerning the evidence, validity or applicability of claimed Intellectual Property Rights, whether asserted by ITU members or others outside of the Recommendation development process.</p>
+       <p class="boilerplate"><a name="_" id="_"></a>As of the date of approval of this Recommendation, ITU had  received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <a href="http://www.itu.int/ITU-T/ipr/" class="url">http://www.itu.int/ITU-T/ipr/</a>.
+       </p>
+       </div>
+       <p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p></div>
+       <div class="boilerplate-copyright">
+           <div>
+             <p class="boilerplateHdr"><a name="_" id="_"></a>&#xA9; ITU #{Date.today.year}</p>
+       <p class="boilerplate"><a name="_" id="_"></a>All rights reserved. No part of this publication may be reproduced, by any means whatsoever, without the prior written permission of ITU.</p>
+           </div>
+         </div>
+
+
+       <b style="mso-bidi-font-weight:normal"><span lang="EN-US" style="font-size:12.0pt; mso-bidi-font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;mso-fareast-font-family: &quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:EN-US; mso-bidi-language:AR-SA" xml:lang="EN-US"><br clear="all" style="page-break-before:always">
+       </br></span></b>
+
+       <p class="MsoNormal" align="center" style="text-align:center">
+       <b>Table of Contents</b></p></div>
       OUTPUT
   end
 

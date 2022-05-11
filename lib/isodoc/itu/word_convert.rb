@@ -29,7 +29,7 @@ module IsoDoc
           abstract docxml, div2
           keywords docxml, div2
           preface docxml, div2
-          div2.p { |p| p << "&nbsp;" } # placeholder
+          div2.p { |p| p << "&#xa0;" } # placeholder
         end
         section_break(body)
       end

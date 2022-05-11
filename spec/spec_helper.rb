@@ -69,6 +69,13 @@ def strip_guid(xml)
 end
 
 def xmlpp(xml)
+  c = HTMLEntities.new
+  xml &&= xml.split(/(&\S+?;)/).map do |n|
+    if /^&\S+?;$/.match?(n)
+      c.encode(c.decode(n), :hexadecimal)
+    else n
+    end
+  end.join
   s = ""
   f = REXML::Formatters::Pretty.new(2)
   f.compact = true

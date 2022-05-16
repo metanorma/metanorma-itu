@@ -37,7 +37,7 @@ module IsoDoc
       end
 
       def termnote_delim
-        " &ndash; "
+        " &#x2013; "
       end
     end
   end

@@ -78,10 +78,10 @@ module IsoDoc
         end
         Html2Doc.new(
           filename: filename,
-                  stylesheet: @wordstylesheet&.path,
-                  header_file: header&.path, dir: dir,
-                  asciimathdelims: [@openmathdelim, @closemathdelim],
-                  liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" }
+          stylesheet: @wordstylesheet&.path,
+          header_file: header&.path, dir: dir,
+          asciimathdelims: [@openmathdelim, @closemathdelim],
+          liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" }
         ).process(result)
         header&.unlink
         @wordstylesheet&.unlink
@@ -105,7 +105,7 @@ module IsoDoc
         %w(copyright license legal).each do |t|
           docxml&.xpath("//div[@class = 'boilerplate-#{t}']")&.each do |d|
             para = d&.at("./descendant::h1[2]") and
-              para.previous = "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>"
+              para.previous = "<p>&#xa0;</p><p>&#xa0;</p><p>&#xa0;</p>"
             d.xpath(".//h1 | .//h2").each do |p|
               p.name = "p"
               p["class"] = "boilerplateHdr"
@@ -131,7 +131,7 @@ module IsoDoc
             # i == 0 && t == "copyright" and p["style"] = "text-align:center;"
           end
           t == "copyright" or
-            auth << "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>"
+            auth << "<p>&#xa0;</p><p>&#xa0;</p><p>&#xa0;</p>"
           dest.replace(auth.remove)
         end
         coverpage_note_cleanup(docxml)

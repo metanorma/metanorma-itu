@@ -30,7 +30,7 @@ module IsoDoc
       end
 
       def note_delim
-        " &ndash; "
+        " &#x2013; "
       end
 
       def para_class(node)

@@ -172,12 +172,14 @@ p.Note, div.Note, li.Note
 	mso-layout-grid-align:none;
 	punctuation-wrap:simple;
 	text-autospace:none;
-	font-size:$smallerfontsize;
 	mso-bidi-font-size:10.0pt;
-	font-family:$bodyfont;
 	mso-fareast-font-family:$bodyfont;
 	mso-bidi-font-family:$bodyfont;
 	mso-ansi-language:EN-GB;}
+p.Note, div.Note, li.Note {
+	font-size:$smallerfontsize;
+	font-family:$bodyfont;
+        }
 p.TableFootnote, div.TableFootnote, li.TableFootnote
         {mso-style-unhide:no;
         mso-style-qformat:yes;
@@ -652,11 +654,13 @@ p.Quote, li.Quote, div.Quote
 	line-height:$normalfontsize;
 	mso-pagination:widow-orphan;
 	tab-stops:20.15pt;
-	font-size:$normalfontsize;
-	font-family:$bodyfont;
 	mso-fareast-font-family:$bodyfont;
 	mso-bidi-font-family:$bodyfont;
 	mso-ansi-language:EN-GB;}
+p.Quote, li.Quote {
+	font-size:$normalfontsize;
+	font-family:$bodyfont;
+        }
 p.QuoteAttribution
         {text-align:right;
         mso-style-priority:99;
@@ -686,8 +690,6 @@ p.Admonition, li.Admonition, div.Admonition
 	mso-border-themecolor:accent1;
 	padding:0cm;
 	mso-padding-alt:10.0pt 10.0pt 10.0pt 10.0pt;
-	font-size:$normalfontsize;
-	font-family:$bodyfont;
 	mso-ascii-font-family:$bodyfont;
 	mso-ascii-theme-font:minor-latin;
 	mso-fareast-font-family:$bodyfont;
@@ -699,7 +701,12 @@ p.Admonition, li.Admonition, div.Admonition
 	color:#4472C4;
 	mso-themecolor:accent1;
 	mso-ansi-language:EN-AU;
-	font-style:italic;}
+      }
+p.Admonition, li.Admonition {
+	font-size:$normalfontsize;
+	font-family:$bodyfont;
+        font-style:italic;
+        }
 p.Code, li.Code, div.Code
 	{mso-style-name:Code;
 	mso-style-priority:16;
@@ -1051,6 +1058,9 @@ margin-left: 0pt;
 
 p.example, li.example, div.example, td.example {
         mso-pagination:none;
+      }
+
+p.example, li.example, td.example {
         font-size:10.0pt;
         font-family:$bodyfont;}
 

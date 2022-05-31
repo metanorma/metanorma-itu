@@ -2637,6 +2637,25 @@
 		
 		
 		
+	</xsl:attribute-set><xsl:attribute-set name="dl-name-style">
+		<xsl:attribute name="keep-with-next">always</xsl:attribute>
+		<xsl:attribute name="margin-bottom">6pt</xsl:attribute>
+			
+		
+			<xsl:attribute name="font-weight">bold</xsl:attribute>
+		
+		
+		
+		
+				
+		
+		
+		
+				
+		
+		
+		
+		
 	</xsl:attribute-set><xsl:attribute-set name="dd-cell-style">
 		<xsl:attribute name="padding-left">2mm</xsl:attribute>
 	</xsl:attribute-set><xsl:attribute-set name="appendix-style">
@@ -2942,6 +2961,24 @@
 		
 		
 		
+		
+		
+		
+		
+	</xsl:attribute-set><xsl:attribute-set name="list-name-style">
+		<xsl:attribute name="keep-with-next">always</xsl:attribute>
+			
+		
+			<xsl:attribute name="font-weight">bold</xsl:attribute>
+		
+		
+		
+		
+				
+		
+		
+		
+				
 		
 		
 		
@@ -5080,6 +5117,9 @@
 							
 							
 							
+							<xsl:apply-templates select="*[local-name() = 'name']">
+								<xsl:with-param name="process">true</xsl:with-param>
+							</xsl:apply-templates>
 							
 							<xsl:if test="$isGenerateTableIF = 'true'">
 								<!-- to determine start of table -->
@@ -5236,6 +5276,13 @@
 			<xsl:apply-templates select="*[local-name() = 'dd']/*[local-name() = 'dl']"/>
 		</xsl:if>
 		
+	</xsl:template><xsl:template match="*[local-name() = 'dl']/*[local-name() = 'name']">
+		<xsl:param name="process">false</xsl:param>
+		<xsl:if test="$process = 'true'">
+			<fo:block xsl:use-attribute-sets="dl-name-style">
+				<xsl:apply-templates/>
+			</fo:block>
+		</xsl:if>
 	</xsl:template><xsl:template name="setColumnWidth_dl">
 		<xsl:param name="colwidths"/>		
 		<xsl:param name="maxlength_dt"/>
@@ -8680,6 +8727,11 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template><xsl:template match="*[local-name()='ul'] | *[local-name()='ol']" mode="list" name="list">
+	
+		<xsl:apply-templates select="*[local-name() = 'name']">
+			<xsl:with-param name="process">true</xsl:with-param>
+		</xsl:apply-templates>
+	
 		<fo:list-block xsl:use-attribute-sets="list-style">
 		
 			
@@ -8690,12 +8742,23 @@
 
 			
 			
+			<xsl:if test="*[local-name() = 'name']">
+				<xsl:attribute name="margin-top">0pt</xsl:attribute>
+			</xsl:if>
+			
 			<xsl:apply-templates select="node()[not(local-name() = 'note')]"/>
 		</fo:list-block>
 		<!-- <xsl:for-each select="./iho:note">
 			<xsl:call-template name="note"/>
 		</xsl:for-each> -->
 		<xsl:apply-templates select="./*[local-name() = 'note']"/>
+	</xsl:template><xsl:template match="*[local-name() = 'ol' or local-name() = 'ul']/*[local-name() = 'name']">
+		<xsl:param name="process">false</xsl:param>
+		<xsl:if test="$process = 'true'">
+			<fo:block xsl:use-attribute-sets="list-name-style">
+				<xsl:apply-templates/>
+			</fo:block>
+		</xsl:if>
 	</xsl:template><xsl:template match="*[local-name()='li']">
 		<fo:list-item xsl:use-attribute-sets="list-item-style">
 			<xsl:copy-of select="@id"/>

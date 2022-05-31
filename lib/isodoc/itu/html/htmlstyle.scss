@@ -162,6 +162,8 @@ nav {
   @include blockTitle();
 }
 
+@include listBlock();
+
 pre {
   @include sourceBlock(#f6f6f6);
   font-size: $monospacefontsize;

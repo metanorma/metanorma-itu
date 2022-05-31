@@ -40,6 +40,7 @@ module Metanorma
         id = Metanorma::Utils::anchor_or_uuid(node)
         noko do |xml|
           xml.ol **attr_code(id: id, class: node.attr("class")) do |xml_ol|
+            list_caption(node, xml_ol)
             node.items.each { |item| li(xml_ol, item) }
           end
         end.join("\n")

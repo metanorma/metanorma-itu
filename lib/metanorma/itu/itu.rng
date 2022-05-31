@@ -19,6 +19,9 @@
             <value>steps</value>
           </attribute>
         </optional>
+        <optional>
+          <ref name="tname"/>
+        </optional>
         <oneOrMore>
           <ref name="li"/>
         </oneOrMore>

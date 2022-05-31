@@ -16,7 +16,7 @@ module IsoDoc
               end
             else load_yaml2x("en")
             end
-        super.merge(y)
+        super.deep_merge(y)
       end
     end
   end

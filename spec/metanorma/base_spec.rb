@@ -1933,6 +1933,7 @@ RSpec.describe Metanorma::ITU do
       == Clause
 
       [class=steps]
+      .Caption
       . First
       . Second
     INPUT
@@ -1942,6 +1943,7 @@ RSpec.describe Metanorma::ITU do
           <clause id="_" obligation="normative" inline-header='false'>
             <title>Clause</title>
             <ol id="_" class="steps">
+              <name>Caption</name>
               <li>
                 <p id="_">First</p>
               </li>

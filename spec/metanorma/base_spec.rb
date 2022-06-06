@@ -2020,7 +2020,6 @@ RSpec.describe Metanorma::ITU do
         <<ref1>>
         <<ref2>>
         <<ref3>>
-        <<ref4>>
         <<ref8>>
         <<ref9>>
         <<ref10>>
@@ -2030,7 +2029,6 @@ RSpec.describe Metanorma::ITU do
 
         * [[[ref3,IEC 60027]]], _Standard IEC 123_
         * [[[ref1,ISO 55000]]], _Standard ISO 123_
-        * [[[ref4,GB 12663-2019]]], _Standard GB 123_
         * [[[ref2,ISO/IEC 27001]]], _Standard ISO/IEC 123_
         * [[[ref8,ITU-T Z.100]]], _Standard 30_
         * [[[ref9,ITU-T Y.140]]], _Standard 30_
@@ -2047,10 +2045,9 @@ RSpec.describe Metanorma::ITU do
           <docidentifier type='ISO' primary="true">ISO 55000</docidentifier>
           <docidentifier type='URN'>urn:iso:std:iso:55000:stage-90.92:ed-1:en</docidentifier>
           <docidentifier type='ISO' primary="true">ISO/IEC 27001</docidentifier>
-          <docidentifier type='URN'>urn:iso:std:iso-iec:27001:stage-90.93:ed-2:en</docidentifier>
+          <docidentifier type='URN'>urn:iso:std:iso-iec:27001:stage-90.92:ed-2:en</docidentifier>
           <docidentifier type='IEC' primary="true">IEC 60027</docidentifier>
           <docidentifier type='URN'>urn:iec:std:iec:60027::::en</docidentifier>
-          <docidentifier type='Chinese Standard' primary="true">GB 12663-2019</docidentifier>
           </div>
         OUTPUT
       FileUtils.rm_rf File.expand_path("~/.relaton/cache")

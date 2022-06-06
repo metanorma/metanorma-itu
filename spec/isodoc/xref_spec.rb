@@ -955,8 +955,8 @@ RSpec.describe Metanorma::ITU do
       <foreword displayorder='1'>
         <p>
           <xref target='N1'>a) in Introduction</xref>
-          <xref target='N11'>a.1) in Introduction</xref>
-          <xref target='N12'>a.1.i) in Introduction</xref>
+          <xref target='N11'>a) 1) in Introduction</xref>
+          <xref target='N12'>a) 1) i) in Introduction</xref>
           <xref target='N2'>1) in Preparatory</xref>
           <xref target='N'>i) in clause 1</xref>
           <xref target='note1'>List 1 a) in clause 3.1</xref>
@@ -1039,8 +1039,8 @@ RSpec.describe Metanorma::ITU do
       <foreword displayorder='1'>
         <p>
         <xref target='N1'>1) in Introduction</xref>
-        <xref target='N11'>1.a) in Introduction</xref>
-        <xref target='N12'>1.a.i) in Introduction</xref>
+        <xref target='N11'>1) a) in Introduction</xref>
+        <xref target='N12'>1) a) i) in Introduction</xref>
         </p>
       </foreword>
     OUTPUT

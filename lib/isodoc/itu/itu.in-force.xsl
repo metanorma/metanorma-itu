@@ -7740,7 +7740,7 @@
 					<xsl:apply-templates/>
 				</xsl:otherwise>
 			</xsl:choose>
-	</xsl:template><xsl:template match="*[local-name() = 'fn']" mode="contents"/><xsl:template match="*[local-name() = 'fn']" mode="bookmarks"/><xsl:template match="*[local-name() = 'fn']" mode="contents_item"/><xsl:template match="*[local-name() = 'xref']" mode="contents">
+	</xsl:template><xsl:template match="*[local-name() = 'fn']" mode="contents"/><xsl:template match="*[local-name() = 'fn']" mode="bookmarks"/><xsl:template match="*[local-name() = 'fn']" mode="contents_item"/><xsl:template match="*[local-name() = 'xref'] | *[local-name() = 'eref']" mode="contents">
 		<xsl:value-of select="."/>
 	</xsl:template><xsl:template match="*[local-name() = 'review']" mode="contents_item"/><xsl:template match="*[local-name() = 'tab']" mode="contents_item">
 		<xsl:text> </xsl:text>
@@ -7816,6 +7816,9 @@
 						<!-- 9 -->
 						
 						
+						<!-- <xsl:if test="$namespace = 'ieee'">							
+							<xsl:if test="$doctype = 'standard' and $stage = 'published'">8</xsl:if>
+						</xsl:if> -->
 						10
 								
 						

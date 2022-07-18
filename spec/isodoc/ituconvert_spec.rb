@@ -1977,7 +1977,7 @@ RSpec.describe Metanorma::ITU do
                 Recommendation development process.
               </p>
               <p id='_'>
-                As of the date of approval of this Recommendation, ITU had not received
+                As of the date of approval of this Recommendation, ITU had received
                 notice of intellectual property, protected by patents, which may be
                 required to implement this Recommendation. However, implementers are
                 cautioned that this may not represent the latest information and are
@@ -2027,7 +2027,7 @@ RSpec.describe Metanorma::ITU do
            <div><p class="boilerplateHdr">INTELLECTUAL PROPERTY RIGHTS</p>
 
              <p class="boilerplate"><a name="_" id="_"></a>ITU draws attention to the possibility that the practice or implementation of this Recommendation may involve the use of a claimed Intellectual Property Right. ITU takes no position concerning the evidence, validity or applicability of claimed Intellectual Property Rights, whether asserted by ITU members or others outside of the Recommendation development process.</p>
-       <p class="boilerplate"><a name="_" id="_"></a>As of the date of approval of this Recommendation, ITU had not received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <a href="http://www.itu.int/ITU-T/ipr/" class="url">http://www.itu.int/ITU-T/ipr/</a>.
+       <p class="boilerplate"><a name="_" id="_"></a>As of the date of approval of this Recommendation, ITU had received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <a href="http://www.itu.int/ITU-T/ipr/" class="url">http://www.itu.int/ITU-T/ipr/</a>.
        </p>
        </div>
        <p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p></div>

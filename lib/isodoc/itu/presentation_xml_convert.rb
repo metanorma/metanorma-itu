@@ -203,6 +203,12 @@ module IsoDoc
         type
       end
 
+      def info(isoxml, out)
+        @meta.ip_notice_received isoxml, out
+        @meta.techreport isoxml, out
+        super
+      end
+
       include Init
     end
   end

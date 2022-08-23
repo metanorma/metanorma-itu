@@ -163,12 +163,12 @@ RSpec.describe IsoDoc::ITU do
          </references><references id="_bibliography" obligation="informative" normative="false"  displayorder='3'>
            <title depth="1">Bibliography</title>
          <bibitem id="ISBN" type="book">
-           <formattedref><em>Chemicals for analytical laboratory use</em>. ISBN.</formattedref>
+           <formattedref><em>Chemicals for analytical laboratory use</em>. n.p.: n.d. ISBN.</formattedref>
            <docidentifier type="ISBN">ISBN</docidentifier>
            <docidentifier type="metanorma">[3]</docidentifier>
          </bibitem>
          <bibitem id="ISSN" type="journal">
-           <formattedref><em>Instruments for analytical laboratory use</em>. ISSN.</formattedref>
+           <formattedref><em>Instruments for analytical laboratory use</em>. n.d. ISSN.</formattedref>
            <docidentifier type="ISSN">ISSN</docidentifier>
            <docidentifier type="metanorma">[4]</docidentifier>
          </bibitem>
@@ -261,11 +261,11 @@ RSpec.describe IsoDoc::ITU do
                        <tbody>
                          <tr id="ISBN" class="Biblio">
                            <td style='vertical-align:top'>[3]</td>
-                           <td>ISBN, <i>Chemicals for analytical laboratory use</i>. ISBN.</td>
+                           <td>ISBN, <i>Chemicals for analytical laboratory use</i>. n.p.: n.d. ISBN.</td>
                          </tr>
                          <tr id="ISSN" class="Biblio">
                            <td style='vertical-align:top'>[4]</td>
-                           <td>ISSN, <i>Instruments for analytical laboratory use</i>. ISSN.</td>
+                           <td>ISSN, <i>Instruments for analytical laboratory use</i>. n.d. ISSN.</td>
                          </tr>
                          <tr><td colspan="2">
                            <div class="Note">

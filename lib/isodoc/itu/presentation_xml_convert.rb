@@ -126,26 +126,24 @@ module IsoDoc
         ::Relaton::Render::ITU::General.new(language: @lang)
       end
 
-      def bibrender(xml)
-        if f = xml.at(ns("./formattedref"))
-          f << "." unless /\.$/.match?(f.text)
-        else
-          # retain date in order to generate reference tag
-          xml.children =
-            "#{bibrenderer.render(xml.to_xml)}"\
-            "#{xml.xpath(ns('./docidentifier | ./uri | ./note | ./date')).to_xml}"
-        end
+      def bibrender_formattedref(formattedref, _xml)
+        formattedref << "." unless /\.$/.match?(formattedref.text)
+      end
+
+      def bibrender_relaton(xml, renderings)
+        f = renderings[xml["id"]][:formattedref]
+        f &&= "<formattedref>#{f}</formattedref>"
+        # retain date in order to generate reference tag
+        xml.children =
+          "#{f}#{xml.xpath(ns('./docidentifier | ./uri | ./note | ./date')).to_xml}"
       end
 
       def ddmmmmyyyy(date)
-        if @lang == "zh"
-          ddMMMyyyy(date)
-        else
-          d = date.split("-")
-          d[1] = @meta.months[d[1].to_sym] if d[1]
-          d[2] = d[2].sub(/^0/, "") if d[2]
-          l10n(d.reverse.join(" "))
-        end
+        @lang == "zh" and return ddMMMyyyy(date)
+        d = date.split("-")
+        d[1] &&= @meta.months[d[1].to_sym]
+        d[2] &&= d[2].sub(/^0/, "")
+        l10n(d.reverse.join(" "))
       end
 
       def amendment_id(bib)

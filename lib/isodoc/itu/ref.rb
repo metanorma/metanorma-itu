@@ -9,12 +9,20 @@ module IsoDoc
         list.tr **attr_code(iso_bibitem_entry_attrs(bibitem, biblio)) do |ref|
           id = render_identifier(bibitem_ref_code(bibitem))
           ref.td **{ style: "vertical-align:top" } do |td|
-            td << (id[:metanorma] || "[#{id[:sdo]}]")
+            td << pick_ident(id)
               &.gsub(/-/, "&#x2011;")&.gsub(/ /, "&#xa0;")
             date_note_process(bibitem, td)
           end
           ref.td { |td| reference_format(bibitem, td) }
         end
+      end
+
+      def pick_ident(id)
+        return id[:metanorma] if id[:metanorma]
+        return "[#{id[:sdo]}]" if id[:sdo]
+        return id[:ordinal] if id[:ordinal]
+
+        ""
       end
 
       def std_bibitem_entry(list, bibitem, ordinal, biblio)
@@ -73,7 +81,8 @@ module IsoDoc
         id = bibitem.xpath(ns("./docidentifier[not(@type = 'metanorma' or "\
                               "#{IGNORE_IDS})]"))
         id.empty? and
-          id = bibitem.xpath(ns("./docidentifier[not(@type = 'metanorma')]"))
+          id = bibitem.xpath(ns("./docidentifier[not(@type = 'metanorma' or "\
+                                "@type = 'metanorma-ordinal')]"))
         return [] if id.empty?
 
         id.sort_by { |i| i["type"] == "ITU" ? 0 : 1 }

@@ -75,11 +75,6 @@ module IsoDoc
           n = section_names(doc.at(ns("//sections/definitions")), n, 1)
           clause_names(doc, n)
         end
-        if @parse_settings.empty?
-          middle_section_asset_names(doc)
-          termnote_anchor_names(doc)
-          termexample_anchor_names(doc)
-        end
       end
 
       def middle_sections

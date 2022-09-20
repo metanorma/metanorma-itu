@@ -163,12 +163,12 @@ RSpec.describe IsoDoc::ITU do
          </references><references id="_bibliography" obligation="informative" normative="false"  displayorder='3'>
            <title depth="1">Bibliography</title>
          <bibitem id="ISBN" type="book">
-           <formattedref><em>Chemicals for analytical laboratory use</em>. n.p.: n.d. ISBN.</formattedref>
+           <formattedref><em>Chemicals for analytical laboratory use</em>. n.p.: n.d. ISBN: ISBN.</formattedref>
            <docidentifier type="metanorma-ordinal">[1]</docidentifier>
            <docidentifier type="ISBN">ISBN</docidentifier>
          </bibitem>
          <bibitem id="ISSN" type="journal">
-           <formattedref><em>Instruments for analytical laboratory use</em>. n.d. ISSN.</formattedref>
+           <formattedref><em>Instruments for analytical laboratory use</em>. n.d. ISSN: ISSN.</formattedref>
            <docidentifier type="metanorma-ordinal">[2]</docidentifier>
            <docidentifier type="ISSN">ISSN</docidentifier>
          </bibitem>

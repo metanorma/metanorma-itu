@@ -261,11 +261,11 @@ RSpec.describe IsoDoc::ITU do
                        <tbody>
                          <tr id="ISBN" class="Biblio">
                            <td style='vertical-align:top'>[1]</td>
-                           <td>ISBN, <i>Chemicals for analytical laboratory use</i>. n.p.: n.d. ISBN.</td>
+                           <td>ISBN, <i>Chemicals for analytical laboratory use</i>. n.p.: n.d. ISBN: ISBN.</td>
                          </tr>
                          <tr id="ISSN" class="Biblio">
                            <td style='vertical-align:top'>[2]</td>
-                           <td>ISSN, <i>Instruments for analytical laboratory use</i>. n.d. ISSN.</td>
+                           <td>ISSN, <i>Instruments for analytical laboratory use</i>. n.d. ISSN: ISSN.</td>
                          </tr>
                          <tr><td colspan="2">
                            <div class="Note">

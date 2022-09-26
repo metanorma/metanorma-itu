@@ -4,7 +4,7 @@ require "twitter_cldr"
 module IsoDoc
   module ITU
     class Metadata < IsoDoc::Metadata
-      def initialize(lang, script, labels)
+      def initialize(lang, script, locale, labels)
         super
         n = "International_Telecommunication_Union_Logo.svg"
         set(:logo_html, fileloc(n))

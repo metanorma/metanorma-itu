@@ -175,13 +175,12 @@ module IsoDoc
       end
 
       def annex1(elem)
-        return super unless elem&.at(ns("//bibdata/ext/doctype"))&.text ==
+        return super unless elem.at(ns("//bibdata/ext/doctype"))&.text ==
           "resolution"
 
         lbl = @xrefs.anchor(elem["id"], :label)
-        subhead = (@i18n.l10n("(#{@i18n.get['to']} ") +
-                   elem.at(ns("//bibdata/title[@type = 'resolution']"))
-                     .children.to_xml + @i18n.l10n(")"))
+        res = elem.at(ns("//bibdata/title[@type = 'resolution']"))
+        subhead = @i18n.l10n("(#{@i18n.get['to']} #{res.children.to_xml})")
         elem.elements.first.previous =
           "<p class='supertitle'>#{lbl}<br/>#{subhead}</p>"
         t = elem.at(ns("./title")) and

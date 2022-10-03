@@ -97,21 +97,24 @@ module IsoDoc
         end
       end
 
-      def sequential_figure_body(subfignum, counter, block)
+      def sequential_figure_body(subfignum, counter, block, klass)
         label = counter.print
         label &&= label +
           (subfignum.zero? ? "" : "#{hierfigsep}#{(subfignum + 96).chr}")
         @anchors[block["id"]] = anchor_struct(
-          label, nil, @labels["figure"], "figure", block["unnumbered"]
+          label, nil, @labels[klass] || klass.capitalize, klass,
+          block["unnumbered"]
         )
       end
 
-      def hierarchical_figure_body(num, subfignum, counter, block)
+      def hierarchical_figure_body(num, subfignum, counter, block, klass)
         label = "#{num}#{hiersep}#{counter.print}" +
           (subfignum.zero? ? "" : "#{hierfigsep}#{(subfignum + 96).chr}")
 
-        @anchors[block["id"]] = anchor_struct(label, nil, @labels["figure"],
-                                              "figure", block["unnumbered"])
+        @anchors[block["id"]] = anchor_struct(
+          label, nil, @labels[klass] || klass.capitalize,
+          klass, block["unnumbered"]
+        )
       end
 
       def sequential_formula_names(clause)

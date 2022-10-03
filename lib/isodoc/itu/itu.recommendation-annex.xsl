@@ -8865,7 +8865,7 @@
 	<!-- ====== -->
 	<!-- eref -->
 	<!-- ====== -->
-	<xsl:template match="*[local-name() = 'eref']">
+	<xsl:template match="*[local-name() = 'eref']" name="eref">
 		<xsl:variable name="current_bibitemid" select="@bibitemid"/>
 		<!-- <xsl:variable name="external-destination" select="normalize-space(key('bibitems', $current_bibitemid)/*[local-name() = 'uri'][@type = 'citation'])"/> -->
 		<xsl:variable name="external-destination" select="normalize-space($bibitems/*[local-name() ='bibitem'][@id = $current_bibitemid]/*[local-name() = 'uri'][@type = 'citation'])"/>

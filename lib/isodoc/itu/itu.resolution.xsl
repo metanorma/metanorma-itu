@@ -395,10 +395,18 @@
 									</xsl:variable>
 									<xsl:value-of select="java:toUpperCase(java:java.lang.String.new($tsb_full))"/>
 								</fo:block>
-								<fo:block-container height="20mm" display-align="center">
+								<fo:block-container height="20mm" display-align="center" width="90%">
 									<fo:block font-weight="bold">
 										<!-- complements -->
 										<!-- To do: Example: COMPLEMENT  TO  ITU-T  RECOMMENDATIONS  F.69  (06/1994) AND  F.68  (11/1988) -->
+										<fo:inline>COMPLEMENT TO ITU-T RECOMMENDATIONS  </fo:inline>
+										<xsl:for-each select="/*/itu:bibdata/itu:relation[@type = 'complements']">
+											<xsl:value-of select="translate(itu:bibitem/itu:docidentifier, ' ', ' ')"/>
+											<xsl:choose>
+												<xsl:when test="count(following-sibling::itu:relation[@type = 'complements']) = 1"> AND </xsl:when>
+												<xsl:when test="following-sibling::itu:relation[@type = 'complements']">, </xsl:when>
+											</xsl:choose>
+										</xsl:for-each>
 									</fo:block>
 								</fo:block-container>
 								<fo:block-container>
@@ -678,7 +686,7 @@
 										<fo:table-cell>
 											<fo:block> </fo:block>
 										</fo:table-cell>
-										<fo:table-cell font-size="16pt" number-columns-spanned="3" border-bottom="0.5mm solid black" padding-right="2mm" display-align="after">
+										<fo:table-cell font-size="16pt" number-columns-spanned="3" border-bottom="0.5mm solid black" display-align="after">
 											<fo:block-container>
 												<xsl:call-template name="setWritingMode"/>
 												<fo:block padding-bottom="7mm">
@@ -722,8 +730,18 @@
 															</xsl:if>
 														</fo:block>
 													</xsl:if>
+													<xsl:if test="$doctype = 'focus-group'">
+														<xsl:attribute name="padding-bottom">0mm</xsl:attribute>
+														<xsl:attribute name="border-bottom">1pt solid black</xsl:attribute>
+													</xsl:if>
 													<fo:block text-transform="uppercase">
-														<xsl:variable name="series_title" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:series[@type = 'main']/itu:title[@type = 'full'])"/>
+														<xsl:variable name="series_title_full" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:series[@type = 'main']/itu:title[@type = 'full'])"/>
+														<xsl:variable name="series_title">
+															<xsl:value-of select="$series_title_full"/>
+															<xsl:if test="$series_title_full = ''">
+																<xsl:value-of select="normalize-space(/itu:itu-standard/itu:bibdata/itu:series[@type = 'main']/itu:title[@type != 'full' and @type != 'abbrev'])"/>
+															</xsl:if>
+														</xsl:variable>
 														<xsl:if test="$series_title != ''">
 															<xsl:variable name="title">
 																<xsl:if test="$doctype != 'resolution'">
@@ -1296,6 +1314,7 @@
 		</fo:block>
 		<xsl:apply-templates/>
 	</xsl:template>
+	<xsl:template match="itu:itu-standard/itu:preface/itu:abstract[@id = '_summary']/itu:title" priority="4"/>
 
 	<xsl:template match="itu:preface/itu:clause" priority="3">
 		<xsl:if test="$doctype != 'service-publication'">
@@ -3053,8 +3072,6 @@
 	<xsl:attribute-set name="bibitem-non-normative-style">
 
 			<xsl:attribute name="margin-top">6pt</xsl:attribute>
-			<xsl:attribute name="margin-left">14mm</xsl:attribute>
-			<xsl:attribute name="text-indent">-14mm</xsl:attribute>
 
 	</xsl:attribute-set> <!-- bibitem-non-normative-style -->
 
@@ -9711,28 +9728,42 @@
 					<xsl:attribute name="text-indent">0mm</xsl:attribute>
 				</xsl:if>
 
+				<xsl:variable name="docidentifier_metanorma" select="normalize-space(itu:docidentifier[@type = 'metanorma'])"/>
+				<xsl:variable name="docidentifier_metanorma_ordinal" select="normalize-space(itu:docidentifier[@type = 'metanorma-ordinal'])"/>
+
 				<xsl:variable name="bibitem_label">
-					<xsl:value-of select="itu:docidentifier[@type = 'metanorma']"/>
-					<xsl:if test="not(itu:docidentifier[@type = 'metanorma'])">
+					<xsl:value-of select="$docidentifier_metanorma"/>
+					<xsl:if test="$docidentifier_metanorma = ''">
 						<fo:inline padding-right="5mm">
-							<xsl:text>[</xsl:text>
-								<xsl:value-of select="itu:docidentifier[not(@type = 'metanorma-ordinal')]"/>
-							<xsl:text>] </xsl:text>
+							<xsl:variable name="docidentifier" select="normalize-space(itu:docidentifier[not(@type = 'metanorma-ordinal')])"/>
+							<xsl:choose>
+								<xsl:when test="$docidentifier != ''">
+									<xsl:text>[</xsl:text>
+										<xsl:value-of select="$docidentifier"/>
+									<xsl:text>] </xsl:text>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$docidentifier_metanorma_ordinal"/>
+								</xsl:otherwise>
+							</xsl:choose>
 						</fo:inline>
 					</xsl:if>
 				</xsl:variable>
 
 				<xsl:variable name="bibitem_body">
-					<xsl:text> </xsl:text>
-					<xsl:choose>
-						<xsl:when test="itu:docidentifier[@type = 'metanorma']">
-							<xsl:value-of select="itu:docidentifier[not(@type) or not(@type = 'metanorma' or @type = 'metanorma-ordinal')]"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="itu:docidentifier[not(@type = 'metanorma-ordinal')]"/>
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:if test="itu:formattedref and not(itu:docidentifier[@type = 'metanorma'])">, </xsl:if>
+					<xsl:variable name="docidentifier">
+						<xsl:text> </xsl:text>
+						<xsl:choose>
+							<xsl:when test="$docidentifier_metanorma != ''">
+								<xsl:value-of select="itu:docidentifier[not(@type) or not(@type = 'metanorma' or @type = 'metanorma-ordinal')]"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="itu:docidentifier[not(@type = 'metanorma-ordinal')]"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+					<xsl:value-of select="$docidentifier"/>
+					<xsl:if test="normalize-space($docidentifier) != ''">, </xsl:if>
 					<xsl:apply-templates select="itu:formattedref"/>
 				</xsl:variable>
 
@@ -9749,9 +9780,27 @@
 							</fo:table-body>
 						</fo:table>
 					</xsl:when> <!-- $doctype = 'implementers-guide' -->
-					<xsl:otherwise>
+					<xsl:when test="$bibitem_label != $docidentifier_metanorma_ordinal">
+						<xsl:attribute name="margin-left">14mm</xsl:attribute>
+						<xsl:attribute name="text-indent">-14mm</xsl:attribute>
 						<xsl:copy-of select="$bibitem_label"/>
 						<xsl:copy-of select="$bibitem_body"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<fo:list-block provisional-distance-between-starts="14mm">
+							<fo:list-item>
+								<fo:list-item-label end-indent="label-end()">
+									<fo:block>
+										<xsl:copy-of select="$bibitem_label"/>
+									</fo:block>
+								</fo:list-item-label>
+								<fo:list-item-body start-indent="body-start()">
+									<fo:block>
+										<xsl:copy-of select="$bibitem_body"/>
+									</fo:block>
+								</fo:list-item-body>
+							</fo:list-item>
+						</fo:list-block>
 					</xsl:otherwise>
 				</xsl:choose>
 

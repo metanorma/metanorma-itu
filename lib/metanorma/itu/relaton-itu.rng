@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <include href="biblio-standoc.rng">
+    <define name="DocumentType">
+      <choice>
+        <value>recommendation</value>
+        <value>recommendation-supplement</value>
+        <value>recommendation-amendment</value>
+        <value>recommendation-corrigendum</value>
+        <value>recommendation-errata</value>
+        <value>recommendation-annex</value>
+        <value>focus-group</value>
+        <value>implementers-guide</value>
+        <value>technical-paper</value>
+        <value>technical-report</value>
+        <value>joint-itu-iso-iec</value>
+        <value>resolution</value>
+        <value>service-publication</value>
+        <value>handbook</value>
+        <value>question</value>
+      </choice>
+    </define>
+    <define name="editorialgroup">
+      <element name="editorialgroup">
+        <ref name="bureau"/>
+        <optional>
+          <ref name="group"/>
+        </optional>
+        <optional>
+          <ref name="subgroup"/>
+        </optional>
+        <optional>
+          <ref name="workgroup"/>
+        </optional>
+      </element>
+    </define>
+    <define name="structuredidentifier">
+      <element name="structuredidentifier">
+        <ref name="bureau"/>
+        <element name="docnumber">
+          <text/>
+        </element>
+        <optional>
+          <element name="annexid">
+            <text/>
+          </element>
+        </optional>
+        <optional>
+          <element name="amendment">
+            <data type="int"/>
+          </element>
+        </optional>
+        <optional>
+          <element name="corrigendum">
+            <data type="int"/>
+          </element>
+        </optional>
+      </element>
+    </define>
+    <define name="BibDataExtensionType">
+      <optional>
+        <attribute name="schema-version"/>
+      </optional>
+      <optional>
+        <ref name="doctype"/>
+      </optional>
+      <optional>
+        <ref name="docsubtype"/>
+      </optional>
+      <ref name="editorialgroup"/>
+      <zeroOrMore>
+        <ref name="ics"/>
+      </zeroOrMore>
+      <optional>
+        <ref name="recommendationstatus"/>
+      </optional>
+      <optional>
+        <ref name="ipnoticereceived"/>
+      </optional>
+      <optional>
+        <ref name="meeting"/>
+      </optional>
+      <optional>
+        <ref name="meeting-place"/>
+      </optional>
+      <optional>
+        <ref name="meeting-date"/>
+      </optional>
+      <optional>
+        <ref name="intended-type"/>
+      </optional>
+      <optional>
+        <ref name="ext_source"/>
+      </optional>
+      <optional>
+        <ref name="structuredidentifier"/>
+      </optional>
+    </define>
+  </include>
+  <define name="meeting">
+    <element name="meeting">
+      <optional>
+        <attribute name="acronym"/>
+      </optional>
+      <text/>
+    </element>
+  </define>
+  <define name="meeting-place">
+    <element name="meeting-place">
+      <text/>
+    </element>
+  </define>
+  <define name="meeting-date">
+    <element name="meeting-date">
+      <choice>
+        <group>
+          <element name="from">
+            <ref name="ISO8601Date"/>
+          </element>
+          <optional>
+            <element name="to">
+              <ref name="ISO8601Date"/>
+            </element>
+          </optional>
+        </group>
+        <element name="on">
+          <ref name="ISO8601Date"/>
+        </element>
+      </choice>
+    </element>
+  </define>
+  <define name="intended-type">
+    <element name="intended-type">
+      <choice>
+        <value>R</value>
+        <value>C</value>
+        <value>TD</value>
+      </choice>
+    </element>
+  </define>
+  <define name="ext_source">
+    <element name="source">
+      <text/>
+    </element>
+  </define>
+  <define name="ipnoticereceived">
+    <element name="ip-notice-received">
+      <data type="boolean"/>
+    </element>
+  </define>
+  <define name="recommendationstatus">
+    <element name="recommendationstatus">
+      <element name="from">
+        <ref name="ISO8601Date"/>
+      </element>
+      <element name="to">
+        <ref name="ISO8601Date"/>
+      </element>
+      <optional>
+        <ref name="approvalstage"/>
+      </optional>
+    </element>
+  </define>
+  <define name="approvalstage">
+    <element name="approvalstage">
+      <attribute name="process">
+        <choice>
+          <value>tap</value>
+          <value>aap</value>
+        </choice>
+      </attribute>
+      <choice>
+        <value>determined</value>
+        <value>in-force</value>
+        <value>a</value>
+        <value>lc</value>
+        <value>ac</value>
+        <value>lj</value>
+        <value>aj</value>
+        <value>na</value>
+        <value>ar</value>
+        <value>ri</value>
+        <value>at</value>
+        <value>sg</value>
+        <value>c</value>
+        <value>tap</value>
+      </choice>
+    </element>
+  </define>
+  <define name="bureau">
+    <element name="bureau">
+      <choice>
+        <value>T</value>
+        <value>D</value>
+        <value>R</value>
+      </choice>
+    </element>
+  </define>
+  <define name="group">
+    <element name="group">
+      <ref name="ItuGroup"/>
+    </element>
+  </define>
+  <define name="subgroup">
+    <element name="subgroup">
+      <ref name="ItuGroup"/>
+    </element>
+  </define>
+  <define name="ItuGroup">
+    <optional>
+      <attribute name="type">
+        <choice>
+          <value>tsag</value>
+          <value>study-group</value>
+          <value>work-group</value>
+        </choice>
+      </attribute>
+    </optional>
+    <ref name="tname"/>
+    <optional>
+      <ref name="groupacronym"/>
+    </optional>
+    <optional>
+      <ref name="groupperiod"/>
+    </optional>
+  </define>
+  <define name="groupacronym">
+    <element name="acronym">
+      <text/>
+    </element>
+  </define>
+  <define name="groupperiod">
+    <element name="period">
+      <ref name="groupperiodstart"/>
+      <optional>
+        <ref name="groupperiodend"/>
+      </optional>
+    </element>
+  </define>
+  <define name="groupperiodstart">
+    <element name="start">
+      <data type="gYear"/>
+    </element>
+  </define>
+  <define name="groupperiodend">
+    <element name="end">
+      <data type="gYear"/>
+    </element>
+  </define>
+  <define name="workgroup">
+    <element name="workgroup">
+      <ref name="ItuGroup"/>
+    </element>
+  </define>
+</grammar>

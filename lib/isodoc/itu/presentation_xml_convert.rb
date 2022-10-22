@@ -11,8 +11,8 @@ module IsoDoc
         super
       end
 
-      def prefix_container(container, linkend, _target)
-        l10n("#{linkend} #{@i18n.get['in']} #{@xrefs.anchor(container, :xref)}")
+      def prefix_container(container, linkend, node, _target)
+        l10n("#{linkend} #{@i18n.get['in']} #{anchor_xref(node, container)}")
       end
 
       def eref(docxml)

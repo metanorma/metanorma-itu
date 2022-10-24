@@ -16,12 +16,13 @@ module IsoDoc
         end
       end
 
-      def annex_name_anchors(clause, num)
+      def annex_name_anchors(clause, num, level)
         lbl = annextype(clause)
-        { label: annex_name_lbl(clause, num),
-          elem: lbl,
-          type: "clause", value: num.to_s, level: 1,
-          xref: l10n("#{lbl} #{num}") }
+        @anchors[clause["id"]] =
+          { label: annex_name_lbl(clause, num),
+            elem: lbl,
+            type: "clause", value: num.to_s, level: level,
+            xref: l10n("#{lbl} #{num}") }
       end
 
       def annex_names1(clause, num, level)
@@ -38,7 +39,7 @@ module IsoDoc
       end
 
       def clause_names(docxml, sect_num)
-        docxml.xpath(ns("//sections/clause[not(@unnumbered = 'true')]"\
+        docxml.xpath(ns("//sections/clause[not(@unnumbered = 'true')]" \
                         "[not(@type = 'scope')][not(descendant::terms)]"))
           .each do |c|
           section_names(c, sect_num, 1)
@@ -65,10 +66,11 @@ module IsoDoc
       end
 
       def section_names1(clause, num, level)
+        x = @doctype == "resolution" ? num : l10n("#{@labels['clause']} #{num}")
         @anchors[clause["id"]] =
           { label: num, level: level,
             elem: @doctype == "resolution" ? "" : @labels["clause"],
-            xref: @doctype == "resolution" ? num : l10n("#{@labels['clause']} #{num}") }
+            xref: x }
         i = Counter.new
         clause.xpath(ns(SUBCLAUSES)).each do |c|
           i.increment(c)

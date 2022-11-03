@@ -219,7 +219,7 @@
 				<fo:page-sequence master-reference="TR-first-page">
 					<fo:flow flow-name="xsl-region-body">
 							<fo:block>
-								<fo:table width="175mm" table-layout="fixed" border-top="1.5pt solid black">
+								<fo:table width="175mm" table-layout="fixed" border-top="1.5pt solid black" id="__internal_layout__meeting_{generate-id()}">
 									<fo:table-column column-width="29mm"/>
 									<fo:table-column column-width="45mm"/>
 									<fo:table-column column-width="28mm"/>
@@ -252,7 +252,7 @@
 									</fo:table-body>
 								</fo:table>
 
-								<fo:table width="175mm" table-layout="fixed">
+								<fo:table width="175mm" table-layout="fixed" id="__internal_layout__groups_{generate-id()}">
 									<fo:table-column column-width="29mm"/>
 									<fo:table-column column-width="10mm"/>
 									<fo:table-column column-width="35mm"/>
@@ -300,7 +300,7 @@
 								</fo:table>
 
 								<xsl:if test="/itu:itu-standard/itu:bibdata/itu:contributor/itu:person">
-									<fo:table width="175mm" table-layout="fixed" line-height="110%">
+									<fo:table width="175mm" table-layout="fixed" line-height="110%" id="__internal_layout__person_{generate-id()}">
 										<fo:table-column column-width="29mm"/>
 										<fo:table-column column-width="75mm"/>
 										<fo:table-column column-width="71mm"/>
@@ -538,7 +538,7 @@
 						</fo:block-container>
 						<fo:block-container font-family="Arial">
 							<xsl:variable name="annexid" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:annexid)"/>
-							<fo:table width="100%" table-layout="fixed"> <!-- 175.4mm-->
+							<fo:table width="100%" table-layout="fixed" id="__internal_layout__coverpage_{generate-id()}"> <!-- 175.4mm-->
 								<fo:table-column column-width="25.2mm"/>
 								<fo:table-column column-width="44.4mm"/>
 								<fo:table-column column-width="35.8mm"/>
@@ -2587,8 +2587,6 @@
 	<xsl:attribute-set name="table-style">
 		<xsl:attribute name="table-omit-footer-at-break">true</xsl:attribute>
 		<xsl:attribute name="table-layout">fixed</xsl:attribute>
-		<xsl:attribute name="margin-left">0mm</xsl:attribute>
-		<xsl:attribute name="margin-right">0mm</xsl:attribute>
 
 	</xsl:attribute-set><!-- table-style -->
 
@@ -3703,6 +3701,12 @@
 				<xsl:variable name="table_attributes">
 
 					<xsl:element name="table_attributes" use-attribute-sets="table-style">
+
+						<xsl:if test="$margin-side != 0">
+							<xsl:attribute name="margin-left">0mm</xsl:attribute>
+							<xsl:attribute name="margin-right">0mm</xsl:attribute>
+						</xsl:if>
+
 						<xsl:attribute name="width"><xsl:value-of select="normalize-space($table_width)"/></xsl:attribute>
 
 							<xsl:if test="$doctype = 'service-publication'">
@@ -9795,7 +9799,7 @@
 							<fo:table-column column-width="80%"/>
 							<fo:table-body>
 								<fo:table-row>
-									<fo:table-cell><fo:block><xsl:copy-of select="$bibitem_label"/></fo:block></fo:table-cell>
+									<fo:table-cell><fo:block><xsl:value-of select="$bibitem_label"/></fo:block></fo:table-cell>
 									<fo:table-cell><fo:block><xsl:copy-of select="$bibitem_body"/></fo:block></fo:table-cell>
 								</fo:table-row>
 							</fo:table-body>
@@ -9812,7 +9816,7 @@
 							<fo:list-item>
 								<fo:list-item-label end-indent="label-end()">
 									<fo:block>
-										<xsl:copy-of select="$bibitem_label"/>
+										<xsl:value-of select="$bibitem_label"/>
 									</fo:block>
 								</fo:list-item-label>
 								<fo:list-item-body start-indent="body-start()">
@@ -10885,13 +10889,14 @@
 	</xsl:template>
 
 	<xsl:template name="setId">
+		<xsl:param name="prefix"/>
 		<xsl:attribute name="id">
 			<xsl:choose>
 				<xsl:when test="@id">
-					<xsl:value-of select="@id"/>
+					<xsl:value-of select="concat($prefix, @id)"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="generate-id()"/>
+					<xsl:value-of select="concat($prefix, generate-id())"/>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:attribute>

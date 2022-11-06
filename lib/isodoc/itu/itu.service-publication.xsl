@@ -2467,6 +2467,14 @@
 
 	</xsl:attribute-set>
 
+	<xsl:attribute-set name="pre-style">
+		<xsl:attribute name="font-family">Courier New, <xsl:value-of select="$font_noto_sans_mono"/></xsl:attribute>
+		<xsl:attribute name="margin-bottom">6pt</xsl:attribute>
+
+			<xsl:attribute name="margin-top">6pt</xsl:attribute>
+
+	</xsl:attribute-set>
+
 	<xsl:attribute-set name="permission-style">
 
 	</xsl:attribute-set>
@@ -8068,9 +8076,9 @@
 		<xsl:apply-templates mode="contents_item"/>
 	</xsl:template>
 
-	<!-- ====== -->
-	<!-- sourcecode   -->
-	<!-- ====== -->
+	<!-- =============== -->
+	<!-- sourcecode  -->
+	<!-- =============== -->
 	<xsl:template match="*[local-name()='sourcecode']" name="sourcecode">
 
 		<fo:block-container xsl:use-attribute-sets="sourcecode-container-style">
@@ -8369,8 +8377,22 @@
 			</fo:block>
 		</xsl:if>
 	</xsl:template>
-	<!-- ====== -->
-	<!-- ====== -->
+	<!-- =============== -->
+	<!-- END sourcecode  -->
+	<!-- =============== -->
+
+	<!-- =============== -->
+	<!-- pre  -->
+	<!-- =============== -->
+	<xsl:template match="*[local-name()='pre']" name="pre">
+		<fo:block xsl:use-attribute-sets="pre-style">
+			<xsl:copy-of select="@id"/>
+			<xsl:apply-templates/>
+		</fo:block>
+	</xsl:template>
+	<!-- =============== -->
+	<!-- pre  -->
+	<!-- =============== -->
 
 	<!-- ========== -->
 	<!-- permission -->

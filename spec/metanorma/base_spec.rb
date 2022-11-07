@@ -1672,7 +1672,9 @@ RSpec.describe Metanorma::ITU do
         #{@blank_hdr}
         <sections>
           <formula id="_" inequality="true" unnumbered="true">
-            <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo></math></stem>
+            <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo></math>
+            <asciimath>r = 1 % r = 1 %</asciimath>
+            </stem>
           </formula>
         </sections>
       </itu-standard>

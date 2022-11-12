@@ -60,6 +60,8 @@ br_full: Бюро радиосвязи<br/>МСЭ
 bdt_full: Бюро развития электросвязи<br/>МСЭ
 prepub: Предварительно опубликованная версия
 draft_new: Проект новой %
+email: Эл. почта
+editor_full: редактор
 doctype_dict:
   resolution: Резолюция
   recommendation: Рекомендация
@@ -87,3 +89,7 @@ doctype_abbrev:
   technical-report: ТО
   joint-itu-iso-iec: ITU/ISO/IEC
   service-publication: 
+inflection:
+  редактор:
+    sg: редактор
+    pl: редакторы

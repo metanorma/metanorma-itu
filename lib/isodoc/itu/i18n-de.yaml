@@ -59,6 +59,8 @@ br_full: Büro für Funkkommunikation<br/>der ITU
 bdt_full: Büro für Entwicklungen<br/>in der Telekommunikation<br/>der ITU
 prepub: Vorveröffentlichte Version
 draft_new: Entwurf neuen %
+email: E-mail
+editor_full: Redakteur
 doctype_dict:
   resolution: Auflösung
   recommendation: Empfehlung
@@ -86,3 +88,7 @@ doctype_abbrev:
   technical-report: TR
   joint-itu-iso-iec: ITU/ISO/IEC
   service-publication:
+inflection:
+  Redakteur:
+    sg: Redakteur
+    pl: Redakteure

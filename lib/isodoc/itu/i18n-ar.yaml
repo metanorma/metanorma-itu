@@ -59,6 +59,8 @@ br_full: مكتب الاتصالات الراديوية
 bdt_full: مكتب تنمية الاتصالات
 prepub: نسخة منشورة مسبقا
 draft_new: مشروع % جديدة
+email: البريد الإلكتروني
+editor_full: محرر
 doctype_dict:
   resolution: قرار
   recommendation: توصية
@@ -86,3 +88,7 @@ doctype_abbrev:
   technical-report: TR
   joint-itu-iso-iec: ITU/ISO/IEC
   service-publication:
+inflection:
+  محرر:
+    sg: محرر
+    pl: المحررين

@@ -60,6 +60,8 @@ br_full: Radiocommunication Bureau<br/>of ITU
 bdt_full: Telecommunication<br/>Development Bureau<br/>of ITU
 prepub: Prepublished version
 draft_new: Draft new %
+email: E-mail
+editor_full: editor
 doctype_dict:
   resolution: Resolution
   recommendation: Recommendation
@@ -87,3 +89,7 @@ doctype_abbrev:
   technical-report: TR
   joint-itu-iso-iec: ITU/ISO/IEC
   service-publication: 
+inflection:
+  editor:
+    sg: editor
+    pl: editors

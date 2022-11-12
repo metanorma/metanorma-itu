@@ -2,6 +2,7 @@ require_relative "init"
 require "roman-numerals"
 require "isodoc"
 require_relative "../../relaton/render/general"
+require_relative "presentation_bibdata"
 
 module IsoDoc
   module ITU
@@ -11,26 +12,79 @@ module IsoDoc
         super
       end
 
+      def convert1(docxml, filename, dir)
+        insert_preface_sections(docxml)
+        super
+      end
+
+      def insert_preface_sections(docxml)
+        x = insert_editors_clause(docxml) and
+          editors_insert_pt(docxml).next = x
+      end
+
+      def editors_insert_pt(docxml)
+        docxml.at(ns("//preface")) || docxml.at(ns("//sections"))
+          .add_previous_sibling("<preface> </preface>").first
+        ins = docxml.at(ns("//preface/acknolwedgements")) and return ins
+        docxml.at(ns("//preface")).children[-1]
+      end
+
+      def insert_editors_clause(doc)
+        ret = extract_editors(doc) or return
+        eds = ret[:names].each_with_object([]).with_index do |(_x, acc), i|
+          acc << { name: ret[:names][i], affiliation: ret[:affiliations][i],
+                   email: ret[:emails][i] }
+        end
+        editors_clause(eds)
+      end
+
+      def extract_editors(doc)
+        e = doc.xpath(ns("//bibdata/contributor[role/@type = 'editor']/person"))
+        e.empty? and return
+        { names: @meta.extract_person_names(e),
+          affiliations: @meta.extract_person_affiliations(e),
+          emails: e.reduce([]) { |ret, p| ret << p.at(ns("./email"))&.text } }
+      end
+
+      def editors_clause(eds)
+        ed_lbl = @i18n.inflect(@i18n.get["editor_full"],
+                               number: eds.size > 1 ? "pl" : "sg")
+        ed_lbl &&= l10n("#{ed_lbl.capitalize}:")
+        mail_lbl = l10n("#{@i18n.get['email']}: ")
+        ret = <<~SUBMITTING
+          <clause id="_#{UUIDTools::UUID.random_create}" type="editors">
+          <table id="_#{UUIDTools::UUID.random_create}" unnumbered="true"><tbody>
+        SUBMITTING
+        ret += editor_table_entries(eds, ed_lbl, mail_lbl)
+        "#{ret}</tbody></table></clause>"
+      end
+
+      def editor_table_entries(eds, ed_lbl, mail_lbl)
+        eds.each_with_index.with_object([]) do |(n, i), m|
+          mail = ""
+          n[:email] and
+            mail = "#{mail_lbl}<link target='mailto:#{n[:email]}'>" \
+                   "#{n[:email]}</link>"
+          aff = n[:affiliation].empty? ? "" : "<br/>#{n[:affiliation]}"
+          th = "<th>#{i.zero? ? ed_lbl : ''}</th>"
+          m << "<tr>#{th}<td>#{n[:name]}#{aff}</td><td>#{mail}</td></tr>"
+        end.join("\n")
+      end
+
       def prefix_container(container, linkend, node, _target)
         l10n("#{linkend} #{@i18n.get['in']} #{anchor_xref(node, container)}")
       end
 
       def eref(docxml)
-        docxml.xpath(ns("//eref")).each do |f|
-          eref1(f)
-        end
+        docxml.xpath(ns("//eref")).each { |f| eref1(f) }
       end
 
       def origin(docxml)
-        docxml.xpath(ns("//origin[not(termref)]")).each do |f|
-          eref1(f)
-        end
+        docxml.xpath(ns("//origin[not(termref)]")).each { |f| eref1(f) }
       end
 
       def quotesource(docxml)
-        docxml.xpath(ns("//quote/source")).each do |f|
-          eref1(f)
-        end
+        docxml.xpath(ns("//quote/source")).each { |f| eref1(f) }
       end
 
       def eref1(elem)
@@ -38,8 +92,7 @@ module IsoDoc
       end
 
       def note1(elem)
-        return if elem["type"] == "title-footnote"
-
+        elem["type"] == "title-footnote" and return
         super
       end
 
@@ -58,70 +111,6 @@ module IsoDoc
         node.add_child(link)
       end
 
-      def bibdata_i18n(bib)
-        super
-        bibdata_dates(bib)
-        bibdata_title(bib)
-        amendment_id(bib)
-      end
-
-      def bibdata_dates(bib)
-        bib.xpath(ns("./date")).each do |d|
-          d.next = d.dup
-          d.next["format"] = "ddMMMyyyy"
-          d.next.children = ddMMMyyyy(d.text)
-        end
-      end
-
-      def bibdata_title(bib)
-        case bib&.at(ns("./ext/doctype"))&.text
-        when "service-publication" then bibdata_title_service_population(bib)
-        when "resolution" then bibdata_title_resolution(bib)
-        end
-      end
-
-      def bibdata_title_resolution(bib)
-        place = bib&.at(ns("./ext/meeting-place"))&.text
-        ed = bib&.at(ns("./edition"))&.text
-        rev = ed && ed != "1" ? "#{@i18n.get['revision_abbreviation']} " : ""
-        year = bib&.at(ns("./ext/meeting-date/from | ./ext/meeting-date/on"))
-          &.text&.gsub(/-.*$/, "")
-        num = bib&.at(ns("./docnumber"))&.text
-        text = @i18n.l10n("#{@i18n.get['doctype_dict']['resolution'].upcase} "\
-                          "#{num} (#{rev}#{place}, #{year})")
-        ins = bib.at(ns("./title"))
-        ins.next = <<~INS
-          <title language="#{@lang}" format="text/plain" type="resolution">#{text}</title>
-          <title language="#{@lang}" format="text/plain" type="resolution-placedate">#{place}, #{year}</title>
-        INS
-      end
-
-      def bibdata_title_service_population(bib)
-        date = bib&.at(ns("./date[@type = 'published']"))&.text or return
-        text = l10n(@i18n.get["position_on"].sub(/%/, ddmmmmyyyy(date)))
-        ins = bib.at(ns("./title"))
-        ins.next = <<~INS
-          <title language="#{@lang}" format="text/plain" type="position-sp">#{text}</title>
-        INS
-      end
-
-      def ddMMMyyyy(date)
-        d = date.split("-").map { |x| x.sub(/^0/, "") }
-        case @lang
-        when "zh"
-          d[0] += "年" if d[0]
-          d[1] += "月" if d[1]
-          d[2] += "日" if d[2]
-          d.join
-        when "ar"
-          d[1] = ::RomanNumerals.to_roman(d[1].to_i).upcase if d[1]
-          d.join(".")
-        else
-          d[1] = ::RomanNumerals.to_roman(d[1].to_i).upcase if d[1]
-          d.reverse.join(".")
-        end
-      end
-
       def bibrenderer
         ::Relaton::Render::ITU::General.new(language: @lang)
       end
@@ -138,53 +127,37 @@ module IsoDoc
           "#{f}#{xml.xpath(ns('./docidentifier | ./uri | ./note | ./date')).to_xml}"
       end
 
-      def ddmmmmyyyy(date)
-        @lang == "zh" and return ddMMMyyyy(date)
-        d = date.split("-")
-        d[1] &&= @meta.months[d[1].to_sym]
-        d[2] &&= d[2].sub(/^0/, "")
-        l10n(d.reverse.join(" "))
-      end
-
-      def amendment_id(bib)
-        %w(amendment corrigendum).each do |w|
-          if dn = bib.at(ns("./ext/structuredidentifier/#{w}"))
-            dn["language"] = ""
-            dn.next = dn.dup
-            dn.next["language"] = @lang
-            dn.next.children = @i18n.l10n("#{@i18n.get[w]} #{dn&.text}")
-          end
-        end
-      end
-
       def twitter_cldr_localiser_symbols
         { group: "'" }
       end
 
       def clause1(elem)
-        return super unless elem&.at(ns("//bibdata/ext/doctype"))&.text ==
-          "resolution"
-        return super unless %w(sections bibliography).include? elem.parent.name
-        return if @suppressheadingnumbers || elem["unnumbered"]
+        elem.at(ns("//bibdata/ext/doctype"))&.text ==
+          "resolution" or return super
+        %w(sections bibliography).include? elem.parent.name or return super
+        @suppressheadingnumbers || elem["unnumbered"] and return
 
         t = elem.at(ns("./title")) and t["depth"] = "1"
         lbl = @xrefs.anchor(elem["id"], :label, false) or return
         elem.elements.first.previous =
-          "<p keep-with-next='true' class='supertitle'>"\
+          "<p keep-with-next='true' class='supertitle'>" \
           "#{@i18n.get['section'].upcase} #{lbl}</p>"
       end
 
       def annex1(elem)
-        return super unless elem.at(ns("//bibdata/ext/doctype"))&.text ==
-          "resolution"
+        elem.at(ns("//bibdata/ext/doctype"))&.text == "resolution" or
+          return super
 
+        elem.elements.first.previous = annex1_supertitle(elem)
+        t = elem.at(ns("./title")) and
+          t.children = "<strong>#{t.children.to_xml}</strong>"
+      end
+
+      def annex1_supertitle(elem)
         lbl = @xrefs.anchor(elem["id"], :label)
         res = elem.at(ns("//bibdata/title[@type = 'resolution']"))
         subhead = @i18n.l10n("(#{@i18n.get['to']} #{res.children.to_xml})")
-        elem.elements.first.previous =
-          "<p class='supertitle'>#{lbl}<br/>#{subhead}</p>"
-        t = elem.at(ns("./title")) and
-          t.children = "<strong>#{t.children.to_xml}</strong>"
+        "<p class='supertitle'>#{lbl}<br/>#{subhead}</p>"
       end
 
       def ol_depth(node)

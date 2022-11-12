@@ -342,4 +342,68 @@ RSpec.describe Metanorma::ITU do
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to xmlpp(html)
   end
+
+  it "processes editor clauses, two editors in French" do
+    FileUtils.rm_f "test.html"
+    input = <<~INPUT
+      <itu-standard xmlns="http://riboseinc.com/isoxml">
+      <bibdata type="standard">
+      <title language="en" format="text/plain" type="main">An ITU Standard</title>
+      <title language="en" format="text/plain" type="subtitle">Subtitle</title>
+      <docidentifier type="ITU">12345</docidentifier>
+      <contributor><role type="editor"/>
+      <person><name><completename>Fred Flintstone</completename></name>
+      <affiliation><organization><name>World Health Organization</name></organization></affiliation>
+      <email>jack@example.com</email>
+      </person>
+      </contributor>
+      <contributor><role type="editor"/>
+      <person><name><forename>Barney</forename> <surname>Rubble</surname></name></person>
+      </contributor>
+      <language>fr</language>
+      <ext>
+      <doctype>resolution</doctype>
+      <structuredidentifier>
+      <annexid>F2</annexid>
+      </structuredidentifier>
+      </ext>
+      </bibdata>
+      <sections>
+        <clause id="A"><p/></clause>
+      </sections>
+      </itu-standard>
+    INPUT
+    presxml = <<~OUTPUT
+      <preface>
+         <clause id='_' type='editors' displayorder='1'>
+           <table id='_' unnumbered='true'>
+             <tbody>
+               <tr>
+                 <th>Éditeurs&#xa0;:</th>
+                 <td>
+                   Fred Flintstone
+                   <br/>
+                   World Health Organization
+                 </td>
+                 <td>
+                   E-mail&#xa0;:
+                   <link target='mailto:jack@example.com'>jack@example.com</link>
+                 </td>
+               </tr>
+               <tr>
+                 <th/>
+                 <td>Barney Rubble</td>
+                 <td/>
+               </tr>
+             </tbody>
+           </table>
+         </clause>
+       </preface>
+    OUTPUT
+    xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new({})
+      .convert("test", input, true))
+    xml = xml.at("//xmlns:preface").to_xml
+    expect(xmlpp(strip_guid(xml)))
+      .to be_equivalent_to xmlpp(presxml)
+  end
 end

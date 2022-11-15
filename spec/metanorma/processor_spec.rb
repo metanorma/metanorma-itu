@@ -52,7 +52,7 @@ RSpec.describe Metanorma::ITU::Processor do
     expect(xmlpp(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<main}m, "<main")
       .gsub(%r{</main>.*}m, "</main>")))
-      .to be_equivalent_to <<~"OUTPUT"
+      .to be_equivalent_to xmlpp(<<~"OUTPUT")
         <main class='main-section'>
           <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
           <p class='zzSTDTitle1'/>

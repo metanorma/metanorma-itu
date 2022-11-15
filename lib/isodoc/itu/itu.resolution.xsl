@@ -3827,7 +3827,7 @@
 
 				<!-- centered table when table name is centered (see table-name-style) -->
 
-					<fo:table table-layout="fixed" width="100%">
+					<fo:table table-layout="fixed" width="100%" xsl:use-attribute-sets="table-container-style">
 						<fo:table-column column-width="proportional-column-width(1)"/>
 						<fo:table-column column-width="{@width}"/>
 						<fo:table-column column-width="proportional-column-width(1)"/>
@@ -6972,6 +6972,12 @@
 		<fo:block-container id="{@id}" xsl:use-attribute-sets="note-style">
 
 			<fo:block-container margin-left="0mm">
+
+				<!-- <xsl:if test="$namespace = 'iho'">
+					<xsl:if test="ancestor::iho:td">
+						<xsl:attribute name="font-size">12pt</xsl:attribute>
+					</xsl:if>
+				</xsl:if> -->
 
 						<fo:block>
 

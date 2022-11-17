@@ -2049,6 +2049,8 @@
 		</xsl:if>
 	</xsl:template>
 
+			<xsl:strip-space elements="itu:xref"/>
+
 	<!-- external parameters -->
 
 	<xsl:param name="svg_images"/> <!-- svg images array -->

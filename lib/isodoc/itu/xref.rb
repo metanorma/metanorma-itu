@@ -17,7 +17,7 @@ module IsoDoc
     class Xref < IsoDoc::Xref
       def initialize(lang, script, klass, labels, options)
         super
-        @hierarchical_assets = options[:hierarchical_assets]
+        @hierarchical_assets = options[:hierarchicalassets]
       end
 
       def back_anchor_names(docxml)
@@ -70,10 +70,10 @@ module IsoDoc
       end
 
       def middle_sections
-        "//clause[@type = 'scope'] | "\
-          "//foreword | //introduction | //acknowledgements | "\
-          " #{@klass.norm_ref_xpath} | "\
-          "//sections/terms | //preface/clause | "\
+        "//clause[@type = 'scope'] | " \
+          "//foreword | //introduction | //acknowledgements | " \
+          " #{@klass.norm_ref_xpath} | " \
+          "//sections/terms | //preface/clause | " \
           "//sections/definitions | //clause[parent::sections]"
       end
 

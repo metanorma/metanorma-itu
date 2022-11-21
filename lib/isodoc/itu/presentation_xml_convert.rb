@@ -8,7 +8,7 @@ module IsoDoc
   module ITU
     class PresentationXMLConvert < IsoDoc::PresentationXMLConvert
       def initialize(options)
-        @hierarchical_assets = options[:hierarchical_assets]
+        @hierarchical_assets = options[:hierarchicalassets]
         super
       end
 

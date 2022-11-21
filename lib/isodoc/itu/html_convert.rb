@@ -10,7 +10,7 @@ module IsoDoc
     class HtmlConvert < IsoDoc::HtmlConvert
       def initialize(options)
         @libdir = File.dirname(__FILE__)
-        @hierarchical_assets = options[:hierarchical_assets]
+        @hierarchical_assets = options[:hierarchicalassets]
         super
       end
 

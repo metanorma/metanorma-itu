@@ -150,13 +150,13 @@ module IsoDoc
 
         elem.elements.first.previous = annex1_supertitle(elem)
         t = elem.at(ns("./title")) and
-          t.children = "<strong>#{t.children.to_xml}</strong>"
+          t.children = "<strong>#{to_xml(t.children)}</strong>"
       end
 
       def annex1_supertitle(elem)
         lbl = @xrefs.anchor(elem["id"], :label)
         res = elem.at(ns("//bibdata/title[@type = 'resolution']"))
-        subhead = @i18n.l10n("(#{@i18n.get['to']} #{res.children.to_xml})")
+        subhead = @i18n.l10n("(#{@i18n.get['to']} #{to_xml(res.children)})")
         "<p class='supertitle'>#{lbl}<br/>#{subhead}</p>"
       end
 

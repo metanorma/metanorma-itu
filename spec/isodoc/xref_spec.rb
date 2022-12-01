@@ -453,7 +453,7 @@ RSpec.describe Metanorma::ITU do
       </foreword>
     OUTPUT
     expect(xmlpp(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert
-      .new({ hierarchical_assets: true })
+      .new({ hierarchicalassets: true })
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
       .to be_equivalent_to xmlpp(output)

@@ -933,54 +933,27 @@ RSpec.describe Metanorma::ITU do
           </itu-standard>
     INPUT
     output = <<~OUTPUT
-                <?xml version='1.0'?>
-       <itu-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
+      <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
          <preface>
-           <foreword displayorder='1'>
+           <foreword displayorder="1">
              <p>
-               <eref type='footnote' bibitemid='ISO712' citeas='ISO 712'>A</eref>
-               <eref type='inline' bibitemid='ISO712' citeas='ISO 712'>A</eref>
-               <eref type='footnote' bibitemid='ISO712' citeas='ISO 712'>[ISO 712]</eref>
-               <eref type='inline' bibitemid='ISO712' citeas='ISO 712'>[ISO 712]</eref>
-               <eref type='footnote' bibitemid='ISO712' citeas='ISO 712'>
-                 <locality type='section'>
-                   <referenceFrom>8</referenceFrom>
-                 </locality>
-                 [ISO 712], Section 8
-               </eref>
-               <eref type='inline' bibitemid='ISO712' citeas='ISO 712'>
-                 <locality type='section'>
-                   <referenceFrom>8</referenceFrom>
-                 </locality>
-                 [ISO 712], Section 8
-               </eref>
-               <eref type='inline' bibitemid='ISO712' citeas='ISO 712'>
-                 <localityStack connective="and">
-                   <locality type='section'>
-                     <referenceFrom>8</referenceFrom>
-                   </locality>
-                 </localityStack>
-                 <localityStack connective="and">
-                   <locality type='section'>
-                     <referenceFrom>10</referenceFrom>
-                   </locality>
-                 </localityStack>
-                 [ISO 712], Section 8 and 10
-               </eref>
+               <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">A</eref>
+               <eref type="inline" bibitemid="ISO712" citeas="ISO 712">A</eref>
+               <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">[ISO 712]</eref>
+               <eref type="inline" bibitemid="ISO712" citeas="ISO 712">[ISO 712]</eref>
+               <eref type="footnote" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality>[ISO 712],  Section 8</eref>
+               <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality>[ISO 712],  Section 8</eref>
+               <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><localityStack connective="and"><locality type="section"><referenceFrom>8</referenceFrom></locality></localityStack><localityStack connective="and"><locality type="section"><referenceFrom>10</referenceFrom></locality></localityStack>[ISO 712],  Sections  8 and  10</eref>
              </p>
            </foreword>
          </preface>
          <bibliography>
-           <references id='_normative_references' obligation='informative' normative='true' displayorder='2'>
-           <title depth='1'>
-        1.
-        <tab/>
-        References
-      </title>
-             <bibitem id='ISO712' type='standard'>
+           <references id="_normative_references" obligation="informative" normative="true" displayorder="2">
+             <title depth="1">1.<tab/>References</title>
+             <bibitem id="ISO712" type="standard">
                <formattedref><em>Cereals and cereal products</em>.</formattedref>
                <docidentifier>ISO 712</docidentifier>
-               <date type='published'>2019-01-01</date>
+               <date type="published">2019-01-01</date>
              </bibitem>
            </references>
          </bibliography>

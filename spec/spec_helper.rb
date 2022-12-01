@@ -48,7 +48,7 @@ OPTIONS = [backend: :itu, header_footer: true].freeze
 
 def metadata(xml)
   xml.sort.to_h.delete_if do |_k, v|
-    v.nil? || v.respond_to?(:empty?) && v.empty?
+    v.nil? || (v.respond_to?(:empty?) && v.empty?)
   end
 end
 
@@ -75,16 +75,16 @@ def xmlpp(xml)
     else n
     end
   end.join
- xsl = <<~XSL
+  xsl = <<~XSL
     <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
       <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
       <xsl:strip-space elements="*"/>
       <xsl:template match="/">
-        <xsml:copy-of select="."/>
+        <xsl:copy-of select="."/>
       </xsl:template>
     </xsl:stylesheet>
   XSL
-  Nokogiri::XSLT(xsl).transform(Nokogiri::XML(xml))
+  Nokogiri::XSLT(xsl).transform(Nokogiri::XML(xml, &:noblanks))
     .to_xml(indent: 2, encoding: "UTF-8")
 end
 
@@ -112,7 +112,7 @@ def boilerplate(xmldoc)
               "boilerplate.xml"), encoding: "utf-8"
   )
   conv = Metanorma::ITU::Converter.new(nil, backend: :itu,
-                                              header_footer: true)
+                                            header_footer: true)
   conv.init(Asciidoctor::Document.new([]))
   ret = Nokogiri::XML(
     conv.boilerplate_isodoc(xmldoc).populate_template(file, nil)

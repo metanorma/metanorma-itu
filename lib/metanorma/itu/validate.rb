@@ -31,7 +31,7 @@ module Metanorma
         bibdata_validate(doc.root)
         termdef_style(doc.root)
         title_validate1(doc.root)
-        requirement_validate(doc.root)
+        reqt_validate(doc.root)
         numbers_validate(doc.root)
       end
 
@@ -57,7 +57,7 @@ module Metanorma
       end
 
       # Editing Guidelines 7
-      def requirement_validate(xmldoc)
+      def reqt_validate(xmldoc)
         xmldoc.xpath("//preface/*").each do |c|
           extract_text(c).split(/\.\s+/).each do |t|
             /\b(shall|must)\b/i.match(t) and

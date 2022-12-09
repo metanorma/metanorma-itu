@@ -493,6 +493,7 @@ RSpec.describe Metanorma::ITU do
       <bibitem id="ISO712" type="standard">
         <formattedref format="text/plain"><em>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</em>.</formattedref>
         <docidentifier>ISO 712</docidentifier>
+        <biblio-tag>[ISO 712]</biblio-tag>
       </bibitem></references>
       </bibliography>
               </itu-standard>
@@ -954,6 +955,7 @@ RSpec.describe Metanorma::ITU do
                <formattedref><em>Cereals and cereal products</em>.</formattedref>
                <docidentifier>ISO 712</docidentifier>
                <date type="published">2019-01-01</date>
+               <biblio-tag>[ISO 712]</biblio-tag>
              </bibitem>
            </references>
          </bibliography>
@@ -981,6 +983,7 @@ RSpec.describe Metanorma::ITU do
       <bibitem id="ISO712" type="standard">
         <formattedref format="text/plain"><em>Cereals and cereal products</em>.</formattedref>
         <docidentifier>ISO 712</docidentifier>
+        <biblio-tag>[ISO 712]</biblio-tag>
       </bibitem>
           </references>
           </bibliography>
@@ -1002,10 +1005,7 @@ RSpec.describe Metanorma::ITU do
         <a href='#ISO712'>A</a>
       </sup>
       <a href='#ISO712'>A</a>
-      <a href='#_http_1_1'>
-        Requirement
-        <tt>/req/core/http</tt>
-      </a>
+      <a href='#_http_1_1'>Requirement <tt>/req/core/http</tt></a>
       <a href='http://www.example.com' class='url'>Test</a>
       <a href='http://www.example.com' class='url'>http://www.example.com</a>
             </p>

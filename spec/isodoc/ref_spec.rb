@@ -143,34 +143,42 @@ RSpec.describe IsoDoc::ITU do
            <formattedref><em>Cereals and cereal products</em>.</formattedref>
            <docidentifier type="ISO">ISO 712</docidentifier>
            <docidentifier type="metanorma">[110]</docidentifier>
+           <biblio-tag>[110]</biblio-tag>
          </bibitem>
          <bibitem id="ISO16634" type="standard">
            <formattedref><em>Cereals, pulses, milled cereal products, oilseeds and animal feeding stuffs</em>.</formattedref>
            <docidentifier type="ISO">ISO 16634:-- (all parts)</docidentifier>
            <date type="published"><on>--</on></date>
+           <biblio-tag>[ISO 16634:‑‑ (all parts)]</biblio-tag>
          </bibitem>
          <bibitem id="ISO20483" type="standard">
            <formattedref><em>Cereals and pulses</em>.</formattedref>
            <docidentifier type="ISO">ISO 20483:2013-2014</docidentifier>
            <date type="published"><from>2013</from><to>2014</to></date>
+           <biblio-tag>[ISO 20483:2013‑2014]</biblio-tag>
          </bibitem>
          <bibitem id="ref1">
            <formattedref format="application/x-isodoc+xml"><smallcap>Standard No I.C.C 167</smallcap>. <em>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</em> (see <link target="http://www.icc.or.at"/>).</formattedref>
            <docidentifier type="ICC">ICC 167</docidentifier>
+           <biblio-tag>[ICC 167]</biblio-tag>
          </bibitem>
          <note><name>NOTE</name><p>This is an annotation of ISO 20483:2013-2014</p></note>
-             <bibitem id="zip_ffs"><formattedref format="application/x-isodoc+xml">Title 5.</formattedref><docidentifier type="metanorma">[5]</docidentifier></bibitem>
+             <bibitem id="zip_ffs"><formattedref format="application/x-isodoc+xml">Title 5.</formattedref><docidentifier type="metanorma">[5]</docidentifier>
+              <biblio-tag>[5]</biblio-tag>
+          </bibitem>
          </references><references id="_bibliography" obligation="informative" normative="false"  displayorder='3'>
            <title depth="1">Bibliography</title>
          <bibitem id="ISBN" type="book">
            <formattedref><em>Chemicals for analytical laboratory use</em>. n.p.: n.d. ISBN: ISBN.</formattedref>
            <docidentifier type="metanorma-ordinal">[1]</docidentifier>
            <docidentifier type="ISBN">ISBN</docidentifier>
+           <biblio-tag>[1]</biblio-tag>
          </bibitem>
          <bibitem id="ISSN" type="journal">
            <formattedref><em>Instruments for analytical laboratory use</em>. n.d. ISSN: ISSN.</formattedref>
            <docidentifier type="metanorma-ordinal">[2]</docidentifier>
            <docidentifier type="ISSN">ISSN</docidentifier>
+           <biblio-tag>[2]</biblio-tag>
          </bibitem>
          <note><name>NOTE</name><p>This is an annotation of document ISSN.</p></note>
          <note><name>NOTE</name><p>This is another annotation of document ISSN.</p></note>
@@ -178,20 +186,24 @@ RSpec.describe IsoDoc::ITU do
            <formattedref><em>Water for analytical laboratory use</em>.</formattedref>
            <docidentifier type='metanorma-ordinal'>[3]</docidentifier>
            <docidentifier type="ISO">ISO 3696</docidentifier>
+           <biblio-tag>[ISO 3696]</biblio-tag>
          </bibitem>
          <bibitem id="ref10">
            <formattedref format="application/x-isodoc+xml"><smallcap>Standard No I.C.C 167</smallcap>. <em>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</em> (see <link target="http://www.icc.or.at"/>).</formattedref>
            <docidentifier type="metanorma-ordinal">[4]</docidentifier>
+           <biblio-tag>[4]</biblio-tag>
          </bibitem>
          <bibitem id="ref11">
            <formattedref><em>Internet Calendaring and Scheduling Core Object Specification (iCalendar)</em>.</formattedref>
            <docidentifier type='metanorma-ordinal'>[5]</docidentifier>
            <docidentifier type="IETF">IETF RFC 10</docidentifier>
+           <biblio-tag>[IETF RFC 10]</biblio-tag>
          </bibitem>
          <bibitem id="ref12">
            <formattedref format="application/x-isodoc+xml">CitationWorks. 2019. <em>How to cite a reference</em>.</formattedref>
            <docidentifier type="metanorma">[Citn]</docidentifier>
            <docidentifier type="IETF">IETF RFC 20</docidentifier>
+           <biblio-tag>[Citn]</biblio-tag>
          </bibitem>
          </references>
          </bibliography>
@@ -394,22 +406,26 @@ RSpec.describe IsoDoc::ITU do
               <formattedref><em>Cereals and cereal products</em>.</formattedref>
               <docidentifier type='ISO'>ISO 712</docidentifier>
               <date type='published'>2001-01</date>
+              <biblio-tag>[ISO 712]</biblio-tag>
             </bibitem>
             <bibitem id='ITU712' type='standard'>
               <formattedref><em>Cereals and cereal products</em>.</formattedref>
               <docidentifier type='ITU'>ITU 712</docidentifier>
               <docidentifier type='DOI'>DOI 712</docidentifier>
+               <biblio-tag>[ITU 712]</biblio-tag>
             </bibitem>
             <bibitem id='ITU712a' type='standard'>
               <formattedref><em>Cereals and cereal products</em>.</formattedref>
               <docidentifier type='ISO'>ISO 712</docidentifier>
               <docidentifier type='ITU'>ITU 712</docidentifier>
               <date type='published'><on>2016</on></date>
+              <biblio-tag>[ITU 712]</biblio-tag>
             </bibitem>
             <bibitem id='ITU713' type='standard'>
               <formattedref><em>Cereals and cereal products</em>.</formattedref>
               <docidentifier type='ITU'>ITU-T G Suppl. 41</docidentifier>
               <docidentifier type='DOI'>DOI 712</docidentifier>
+              <biblio-tag>[ITU‑T G Suppl. 41]</biblio-tag>
             </bibitem>
           </references>
         </bibliography>

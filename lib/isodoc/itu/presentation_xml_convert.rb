@@ -123,8 +123,8 @@ module IsoDoc
         f = renderings[xml["id"]][:formattedref]
         f &&= "<formattedref>#{f}</formattedref>"
         # retain date in order to generate reference tag
-        xml.children =
-          "#{f}#{xml.xpath(ns('./docidentifier | ./uri | ./note | ./date')).to_xml}"
+        keep = "./docidentifier | ./uri | ./note | ./date | ./biblio-tag"
+        xml.children = "#{f}#{xml.xpath(ns(keep)).to_xml}"
       end
 
       def twitter_cldr_localiser_symbols
@@ -177,6 +177,22 @@ module IsoDoc
         @meta.ip_notice_received isoxml, out
         @meta.techreport isoxml, out
         super
+      end
+
+      def norm_ref_entry_code(_ordinal, idents, _ids, _standard, datefn)
+        ret = (idents[:metanorma] || idents[:sdo] || idents[:ordinal]).to_s
+        !idents[:metanorma] && idents[:sdo] and ret = "[#{ret}]"
+        ret += datefn
+        ret.empty? and return ret
+        ret.gsub(/-/, "&#x2011;").gsub(/ /, "&#xa0;")
+      end
+
+      def biblio_ref_entry_code(_ordinal, idents, _id, _standard, datefn)
+        ret = (idents[:metanorma] || idents[:sdo] || idents[:ordinal]).to_s
+        !idents[:metanorma] && idents[:sdo] and ret = "[#{ret}]"
+        ret += datefn
+        ret.empty? and return ret
+        ret.gsub(/-/, "&#x2011;").gsub(/ /, "&#xa0;")
       end
 
       include Init

@@ -101,7 +101,7 @@ module IsoDoc
           olstyle: "l2" }
       end
 
-      def make_tr_attr(tcell, row, totalrows, header)
+      def make_tr_attr(tcell, row, totalrows, header, bordered)
         super.merge(valign: "top")
       end
 

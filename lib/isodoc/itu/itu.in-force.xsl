@@ -3730,6 +3730,8 @@
 
 						<xsl:attribute name="width"><xsl:value-of select="normalize-space($table_width)"/></xsl:attribute>
 
+						<xsl:call-template name="setBordersTableArray"/>
+
 							<xsl:if test="$doctype = 'service-publication'">
 								<xsl:attribute name="border">1pt solid rgb(211,211,211)</xsl:attribute>
 							</xsl:if>
@@ -3875,6 +3877,10 @@
 				</xsl:choose>
 			</xsl:otherwise>
 		</xsl:choose>
+
+	</xsl:template>
+
+	<xsl:template name="setBordersTableArray">
 
 	</xsl:template>
 
@@ -4367,6 +4373,8 @@
 										<xsl:attribute name="border">none</xsl:attribute>
 									</xsl:if>
 
+								<xsl:call-template name="setBordersTableArray"/>
+
 								<!-- fn will be processed inside 'note' processing -->
 
 									<xsl:if test="$doctype = 'service-publication'">
@@ -4492,6 +4500,8 @@
 	<xsl:template match="*[local-name()='thead']/*[local-name()='tr']" priority="2">
 		<fo:table-row xsl:use-attribute-sets="table-header-row-style">
 
+			<xsl:call-template name="setBordersTableArray"/>
+
 				<xsl:if test="$doctype = 'service-publication'">
 					<xsl:attribute name="border-bottom">1.1pt solid black</xsl:attribute>
 				</xsl:if>
@@ -4519,6 +4529,8 @@
 				<xsl:attribute name="keep-with-next">always</xsl:attribute>
 			</xsl:if>
 
+			<xsl:call-template name="setBordersTableArray"/>
+
 			<xsl:call-template name="setTableRowAttributes"/>
 			<xsl:apply-templates/>
 		</fo:table-row>
@@ -4541,6 +4553,8 @@
 			<xsl:call-template name="setTextAlignment">
 				<xsl:with-param name="default">center</xsl:with-param>
 			</xsl:call-template>
+
+			<xsl:call-template name="setBordersTableArray"/>
 
 				<xsl:if test="ancestor::*[local-name()='preface']">
 					<xsl:if test="$doctype != 'service-publication'">
@@ -4604,6 +4618,8 @@
 			</xsl:if>
 
 			 <!-- bsi -->
+
+			<xsl:call-template name="setBordersTableArray"/>
 
 				<xsl:if test="ancestor::*[local-name()='preface']">
 					<xsl:attribute name="border">solid black 0pt</xsl:attribute>
@@ -11361,6 +11377,7 @@
 			<xsl:choose>
 				<xsl:when test="$lang = 'ar' and $align = 'left'">start</xsl:when>
 				<xsl:when test="$lang = 'ar' and $align = 'right'">end</xsl:when>
+				<xsl:when test="$align = 'justified'">justify</xsl:when>
 				<xsl:when test="$align != '' and not($align = 'indent')"><xsl:value-of select="$align"/></xsl:when>
 				<xsl:when test="ancestor::*[local-name() = 'td']/@align"><xsl:value-of select="ancestor::*[local-name() = 'td']/@align"/></xsl:when>
 				<xsl:when test="ancestor::*[local-name() = 'th']/@align"><xsl:value-of select="ancestor::*[local-name() = 'th']/@align"/></xsl:when>

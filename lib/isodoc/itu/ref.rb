@@ -7,7 +7,7 @@ module IsoDoc
     module BaseConvert
       def nonstd_bibitem(list, bibitem, _ordinal, biblio)
         list.tr **attr_code(iso_bibitem_entry_attrs(bibitem, biblio)) do |ref|
-          ref.td **{ style: "vertical-align:top" } do |td|
+          ref.td style: "vertical-align:top" do |td|
             tag = bibitem.at(ns("./biblio-tag"))
             tag&.children&.each { |n| parse(n, td) }
           end
@@ -20,7 +20,7 @@ module IsoDoc
       end
 
       def biblio_list(clause, div, biblio)
-        div.table **{ class: "biblio", border: "0" } do |t|
+        div.table class: "biblio", border: "0" do |t|
           i = 0
           t.tbody do |tbody|
             clause.elements.each do |b|
@@ -64,14 +64,16 @@ module IsoDoc
         ret
       end
 
-      IGNORE_IDS = "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or "\
-                   "@type = 'rfc-anchor' or @type = 'metanorma-ordinal'".freeze
+      IGNORE_IDS = "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or " \
+                   "@type = 'metanorma-ordinal' or " \
+                   "starts-with(@type, 'ISSN.') or starts-with(@type, 'ISBN.')"
+        .freeze
 
       def multi_bibitem_ref_code(bibitem)
-        id = bibitem.xpath(ns("./docidentifier[not(@type = 'metanorma' or "\
+        id = bibitem.xpath(ns("./docidentifier[not(@type = 'metanorma' or " \
                               "#{IGNORE_IDS})]"))
         id.empty? and
-          id = bibitem.xpath(ns("./docidentifier[not(@type = 'metanorma' or "\
+          id = bibitem.xpath(ns("./docidentifier[not(@type = 'metanorma' or " \
                                 "@type = 'metanorma-ordinal')]"))
         return [] if id.empty?
 

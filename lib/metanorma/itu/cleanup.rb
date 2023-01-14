@@ -46,7 +46,7 @@ module Metanorma
         ins = xml.at("//sections").elements.first
         xml.at("//sections/clause[@type = 'scope']") or
           ins.previous =
-            "<clause type='scope' #{add_id}><title>#{@i18n.scope}</title><p>"\
+            "<clause type='scope' #{add_id}><title>#{@i18n.scope}</title><p>" \
             "#{@i18n.clause_empty}</p></clause>"
         xml&.at("//sentinel")&.remove
       end
@@ -57,7 +57,7 @@ module Metanorma
             "<bibliography><sentinel/></bibliography>"
         ins = xml.at("//bibliography").elements.first
         xml.at("//bibliography/references[@normative = 'true']") or
-          ins.previous = "<references #{add_id} normative='true'>"\
+          ins.previous = "<references #{add_id} normative='true'>" \
                          "<title>#{@i18n.normref}</title></references>"
         xml&.at("//sentinel")&.remove
       end
@@ -72,7 +72,7 @@ module Metanorma
         ins =  xml.at("//sections/terms") ||
           xml.at("//sections/clause[descendant::terms]")
         unless xml.at("//sections//definitions")
-          ins.next = "<definitions #{add_id}>"\
+          ins.next = "<definitions #{add_id}>" \
                      "<title>#{@i18n.symbolsabbrev}</title></definitions>"
         end
       end
@@ -81,8 +81,8 @@ module Metanorma
         ins =  xml.at("//sections//definitions") ||
           xml.at("//sections/clause[descendant::definitions]")
         unless xml.at("//sections/clause[@type = 'conventions']")
-          ins.next = "<clause #{add_id} type='conventions'>"\
-                     "<title>#{@i18n.conventions}</title><p>"\
+          ins.next = "<clause #{add_id} type='conventions'>" \
+                     "<title>#{@i18n.conventions}</title><p>" \
                      "#{@i18n.clause_empty}</p></clause>"
         end
       end
@@ -149,14 +149,14 @@ module Metanorma
       def section_names_terms_cleanup(xml)
         super
         replace_title(
-          xml, "//terms[@type = 'internal'] | "\
-               "//clause[./terms[@type = 'internal']]"\
+          xml, "//terms[@type = 'internal'] | " \
+               "//clause[./terms[@type = 'internal']]" \
                "[not(./terms[@type = 'external'])]",
           @i18n&.internal_termsdef
         )
         replace_title(
-          xml, "//terms[@type = 'external'] | "\
-               "//clause[./terms[@type = 'external']]"\
+          xml, "//terms[@type = 'external'] | " \
+               "//clause[./terms[@type = 'external']]" \
                "[not(./terms[@type = 'internal'])]",
           @i18n&.external_termsdef
         )
@@ -172,17 +172,18 @@ module Metanorma
 
       def pub_class(bib)
         return 1 if bib.at("#{PUBLISHER}[abbreviation = 'ITU']")
-        return 1 if bib.at("#{PUBLISHER}[name = 'International "\
+        return 1 if bib.at("#{PUBLISHER}[name = 'International " \
                            "Telecommunication Union']")
         return 2 if bib.at("#{PUBLISHER}[abbreviation = 'ISO']")
-        return 2 if bib.at("#{PUBLISHER}[name = 'International Organization "\
+        return 2 if bib.at("#{PUBLISHER}[name = 'International Organization " \
                            "for Standardization']")
         return 3 if bib.at("#{PUBLISHER}[abbreviation = 'IEC']")
-        return 3 if bib.at("#{PUBLISHER}[name = 'International "\
+        return 3 if bib.at("#{PUBLISHER}[name = 'International " \
                            "Electrotechnical Commission']")
-        return 4 if bib.at("./docidentifier[@type][not(@type = 'DOI' or "\
-                           "@type = 'metanorma' or @type = 'ISSN' or @type = "\
-                           "'ISBN')]")
+        return 4 if bib.at("./docidentifier[@type][not(@type = 'DOI' or " \
+                           "@type = 'metanorma' or @type = 'ISSN' or @type = " \
+                           "'ISBN' or starts-with(@type, 'ISSN.') or " \
+                           "starts-with(@type, 'ISBN.'))]")
 
         5
       end
@@ -199,8 +200,10 @@ module Metanorma
       # then title
       def sort_biblio_key(bib)
         pubclass = pub_class(bib)
-        id = bib&.at("./docidentifier[not(@type = 'DOI' or @type = "\
-                     "'metanorma' or @type = 'ISSN' or @type = 'ISBN')]")
+        id = bib&.at("./docidentifier[not(@type = 'DOI' or @type = " \
+                     "'metanorma' or @type = 'ISSN' or @type = 'ISBN' or " \
+                     "starts-with(@type, 'ISSN.') or " \
+                     "starts-with(@type, 'ISBN.'))]")
         metaid = bib&.at("./docidentifier[@type = 'metanorma']")&.text
         abbrid = metaid unless /^\[\d+\]$/.match?(metaid)
         type = id["type"] if id

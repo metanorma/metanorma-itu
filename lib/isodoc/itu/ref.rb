@@ -64,14 +64,10 @@ module IsoDoc
         ret
       end
 
-      IGNORE_IDS = "@type = 'DOI' or @type = 'ISSN' or @type = 'ISBN' or " \
-                   "@type = 'metanorma-ordinal' or " \
-                   "starts-with(@type, 'ISSN.') or starts-with(@type, 'ISBN.')"
-        .freeze
-
       def multi_bibitem_ref_code(bibitem)
         id = bibitem.xpath(ns("./docidentifier[not(@type = 'metanorma' or " \
-                              "#{IGNORE_IDS})]"))
+                              "#{IsoDoc::Function::References::SKIP_DOCID} or " \
+                              "@type = 'metanorma-ordinal')]"))
         id.empty? and
           id = bibitem.xpath(ns("./docidentifier[not(@type = 'metanorma' or " \
                                 "@type = 'metanorma-ordinal')]"))

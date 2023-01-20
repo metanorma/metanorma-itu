@@ -1298,21 +1298,42 @@
 	<!-- PREFACE (Summary, History, ...)          -->
 	<!-- ============================= -->
 
+	<xsl:template match="//*[contains(local-name(), '-standard')]/*[local-name() = 'preface']/*" priority="3">
+		<xsl:choose>
+			<xsl:when test="preceding-sibling::*">
+				<!-- page-break before 2nd and next elements only -->
+				<fo:block break-after="page"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<fo:block font-size="12pt">
+					<xsl:value-of select="$linebreak"/>
+					<xsl:value-of select="$linebreak"/>
+				</fo:block>
+			</xsl:otherwise>
+		</xsl:choose>
+		<fo:block>
+			<xsl:call-template name="setId"/>
+			<xsl:apply-templates/>
+		</fo:block>
+	</xsl:template>
+
 	<!-- Summary -->
 	<xsl:template match="itu:itu-standard/itu:preface/itu:abstract[@id = '_summary']" priority="3">
 		<fo:block font-size="12pt">
 			<xsl:value-of select="$linebreak"/>
 			<xsl:value-of select="$linebreak"/>
 		</fo:block>
-		<fo:block font-weight="bold" margin-top="18pt" margin-bottom="18pt">
-			<xsl:variable name="title-summary">
-				<xsl:call-template name="getTitle">
-					<xsl:with-param name="name" select="'title-summary'"/>
-				</xsl:call-template>
-			</xsl:variable>
-			<xsl:value-of select="$title-summary"/>
+		<fo:block id="{@id}">
+			<fo:block font-weight="bold" keep-with-next="always" margin-top="18pt" margin-bottom="18pt" role="H2">
+				<xsl:variable name="title-summary">
+					<xsl:call-template name="getTitle">
+						<xsl:with-param name="name" select="'title-summary'"/>
+					</xsl:call-template>
+				</xsl:variable>
+				<xsl:value-of select="$title-summary"/>
+			</fo:block>
+			<xsl:apply-templates/>
 		</fo:block>
-		<xsl:apply-templates/>
 	</xsl:template>
 	<xsl:template match="itu:itu-standard/itu:preface/itu:abstract[@id = '_summary']/itu:title" priority="4"/>
 
@@ -3049,16 +3070,27 @@
 	<!-- admonition -->
 	<xsl:attribute-set name="admonition-style">
 
+			<xsl:attribute name="border">0.5pt solid black</xsl:attribute>
+			<xsl:attribute name="space-before">12pt</xsl:attribute>
+			<xsl:attribute name="space-after">12pt</xsl:attribute>
+
 	</xsl:attribute-set> <!-- admonition-style -->
 
 	<xsl:attribute-set name="admonition-container-style">
 		<xsl:attribute name="margin-left">0mm</xsl:attribute>
 		<xsl:attribute name="margin-right">0mm</xsl:attribute>
 
+			<xsl:attribute name="padding">2mm</xsl:attribute>
+			<xsl:attribute name="padding-top">3mm</xsl:attribute>
+
 	</xsl:attribute-set> <!-- admonition-container-style -->
 
 	<xsl:attribute-set name="admonition-name-style">
 		<xsl:attribute name="keep-with-next">always</xsl:attribute>
+
+			<xsl:attribute name="text-align">center</xsl:attribute>
+			<xsl:attribute name="margin-bottom">6pt</xsl:attribute>
+			<xsl:attribute name="font-weight">bold</xsl:attribute>
 
 	</xsl:attribute-set> <!-- admonition-name-style -->
 

@@ -180,10 +180,8 @@ module Metanorma
         return 3 if bib.at("#{PUBLISHER}[abbreviation = 'IEC']")
         return 3 if bib.at("#{PUBLISHER}[name = 'International " \
                            "Electrotechnical Commission']")
-        return 4 if bib.at("./docidentifier[@type][not(@type = 'DOI' or " \
-                           "@type = 'metanorma' or @type = 'ISSN' or @type = " \
-                           "'ISBN' or starts-with(@type, 'ISSN.') or " \
-                           "starts-with(@type, 'ISBN.'))]")
+        return 4 if bib.at("./docidentifier[@type][not(#{skip_docid} or " \
+                           "@type = 'metanorma')]")
 
         5
       end
@@ -200,10 +198,8 @@ module Metanorma
       # then title
       def sort_biblio_key(bib)
         pubclass = pub_class(bib)
-        id = bib&.at("./docidentifier[not(@type = 'DOI' or @type = " \
-                     "'metanorma' or @type = 'ISSN' or @type = 'ISBN' or " \
-                     "starts-with(@type, 'ISSN.') or " \
-                     "starts-with(@type, 'ISBN.'))]")
+        id = bib&.at("./docidentifier[not(#{skip_docid} or @type = " \
+                     "'metanorma')]")
         metaid = bib&.at("./docidentifier[@type = 'metanorma']")&.text
         abbrid = metaid unless /^\[\d+\]$/.match?(metaid)
         type = id["type"] if id

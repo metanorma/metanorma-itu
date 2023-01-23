@@ -89,7 +89,7 @@ module IsoDoc
       def doctype_title(id)
         type = id.parent&.at(ns("./ext/doctype"))&.text || "recommendation"
         if type == "recommendation" &&
-            /^(?<prefix>ITU-[A-Z] [A-Z])[ .-]Sup[a-z]*\. ?(?<num>\d+)$/ =~ id.text
+            /^(?<prefix>ITU-[A-Z][  ][A-Z])[  .-]Sup[a-z]*\.[  ]?(?<num>\d+)$/ =~ id.text
           "#{prefix}-series Recommendations – Supplement #{num}"
         else
           d = docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))

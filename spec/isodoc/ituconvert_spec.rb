@@ -33,7 +33,7 @@ RSpec.describe Metanorma::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({})
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to xmlpp(output)
@@ -69,7 +69,7 @@ RSpec.describe Metanorma::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({})
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to xmlpp(output)
@@ -224,7 +224,7 @@ RSpec.describe Metanorma::ITU do
            </div>
          </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({})
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to xmlpp(presxml)
@@ -301,7 +301,7 @@ RSpec.describe Metanorma::ITU do
         </div>
       </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({})
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to xmlpp(presxml)
@@ -418,7 +418,7 @@ RSpec.describe Metanorma::ITU do
         </div>
       </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({})
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to xmlpp(presxml)
@@ -508,7 +508,7 @@ RSpec.describe Metanorma::ITU do
       <tbody>
         <tr id='ISO712' class='NormRef'>
           <td  style='vertical-align:top'>[ISO&#160;712]</td>
-                     <td>ISO 712, <i>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</i>.</td>
+                     <td>ISO&#xa0;712, <i>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</i>.</td>
                      </tr>
                      </tbody>
                      </table>
@@ -924,11 +924,11 @@ RSpec.describe Metanorma::ITU do
              <p>
                <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">A</eref>
                <eref type="inline" bibitemid="ISO712" citeas="ISO 712">A</eref>
-               <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">[ISO 712]</eref>
-               <eref type="inline" bibitemid="ISO712" citeas="ISO 712">[ISO 712]</eref>
-               <eref type="footnote" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality>[ISO 712],  Section 8</eref>
-               <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality>[ISO 712],  Section 8</eref>
-               <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><localityStack connective="and"><locality type="section"><referenceFrom>8</referenceFrom></locality></localityStack><localityStack connective="and"><locality type="section"><referenceFrom>10</referenceFrom></locality></localityStack>[ISO 712],  Sections  8 and  10</eref>
+               <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">[ISO&#xa0;712]</eref>
+               <eref type="inline" bibitemid="ISO712" citeas="ISO 712">[ISO&#xa0;712]</eref>
+               <eref type="footnote" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality>[ISO&#xa0;712],  Section 8</eref>
+               <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality>[ISO&#xa0;712],  Section 8</eref>
+               <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><localityStack connective="and"><locality type="section"><referenceFrom>8</referenceFrom></locality></localityStack><localityStack connective="and"><locality type="section"><referenceFrom>10</referenceFrom></locality></localityStack>[ISO&#xa0;712],  Sections  8 and  10</eref>
              </p>
            </foreword>
          </preface>
@@ -937,7 +937,7 @@ RSpec.describe Metanorma::ITU do
              <title depth="1">1.<tab/>References</title>
              <bibitem id="ISO712" type="standard">
                <formattedref><em>Cereals and cereal products</em>.</formattedref>
-               <docidentifier>ISO 712</docidentifier>
+               <docidentifier>ISO&#xa0;712</docidentifier>
                <date type="published">2019-01-01</date>
                <biblio-tag>[ISO 712]</biblio-tag>
              </bibitem>
@@ -945,7 +945,7 @@ RSpec.describe Metanorma::ITU do
          </bibliography>
        </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({})
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to xmlpp(output)
@@ -1009,7 +1009,7 @@ RSpec.describe Metanorma::ITU do
            <tr id='ISO712' class='NormRef'>
              <td  style='vertical-align:top'>[ISO&#160;712]</td>
              <td>
-               ISO 712,
+               ISO&#xa0;712,
                <i>Cereals and cereal products</i>
                .
              </td>
@@ -1215,39 +1215,41 @@ RSpec.describe Metanorma::ITU do
       .sub(%r{^.*<div align="center" class="table_container">}m, "")
       .sub(%r{</table>.*$}m, "</table>")))
       .to be_equivalent_to xmlpp(<<~"OUTPUT")
-        <table class='MsoISOTable' style='mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;'>
-          <a name='_2a8bd899-ab80-483a-90dc-002b6f497f54' id='_2a8bd899-ab80-483a-90dc-002b6f497f54'/>
-          <thead>
-            <tr>
-              <th align='left' style='font-weight:bold;border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;' valign='top'>A</th>
-              <th align='left' style='font-weight:bold;border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;' valign='top'>B</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td align='left' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;' valign='top'>C</td>
-              <td align='left' style='border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;' valign='top'>
-                <p style='margin-left: 0.5cm;text-indent: -0.5cm;;mso-list:l3 level1 lfo1;margin-left: 0.5cm;text-indent: -0.5cm;' class='MsoListParagraphCxSpFirst'>
-                   A
-                  <p style='margin-left: 1.0cm;text-indent: -0.5cm;;mso-list:l3 level2 lfo1;margin-left: 1.0cm;text-indent: -0.5cm;' class='MsoListParagraphCxSpFirst'>
-                     B
-                    <p style='margin-left: 1.5cm;text-indent: -0.5cm;;mso-list:l3 level3 lfo1;margin-left: 1.5cm;text-indent: -0.5cm;' class='MsoListParagraphCxSpFirst'> C </p>
-                  </p>
-                </p>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan='2' style='border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;'>
-                <div class='Note'>
-                  <a name='_cf69f8ff-21f2-4ce9-aefb-0bebf988b8fa' id='_cf69f8ff-21f2-4ce9-aefb-0bebf988b8fa'/>
-                  <p class='Note'>B</p>
-                </div>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+           <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;">
+         <a name="_2a8bd899-ab80-483a-90dc-002b6f497f54" id="_2a8bd899-ab80-483a-90dc-002b6f497f54"/>
+         <thead>
+           <tr>
+             <th valign="top" align="left" style="font-weight:bold;border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">A</th>
+             <th valign="top" align="left" style="font-weight:bold;border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">B</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr>
+             <td valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">C</td>
+             <td valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">
+               <p style="margin-left: 0.5cm;text-indent: -0.5cm;;mso-list:l3 level1 lfo1;margin-left: 0.5cm;text-indent: -0.5cm;page-break-after:auto" class="MsoListParagraphCxSpFirst">
+       A
+
+       <p style="margin-left: 1.0cm;text-indent: -0.5cm;;mso-list:l3 level2 lfo1;margin-left: 1.0cm;text-indent: -0.5cm;page-break-after:auto" class="MsoListParagraphCxSpFirst">
+       B
+
+       <p style="margin-left: 1.5cm;text-indent: -0.5cm;;mso-list:l3 level3 lfo1;margin-left: 1.5cm;text-indent: -0.5cm;page-break-after:auto" class="MsoListParagraphCxSpFirst">
+       C
+       </p></p></p>
+             </td>
+           </tr>
+         </tbody>
+         <tfoot>
+           <tr>
+             <td colspan="2" style="border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;">
+               <div class="Note">
+                 <a name="_cf69f8ff-21f2-4ce9-aefb-0bebf988b8fa" id="_cf69f8ff-21f2-4ce9-aefb-0bebf988b8fa"/>
+                 <p class="Note">B</p>
+               </div>
+             </td>
+           </tr>
+         </tfoot>
+       </table>
       OUTPUT
   end
 
@@ -1357,7 +1359,7 @@ RSpec.describe Metanorma::ITU do
                </preface>
              </iso-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({})
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
       .sub(%r{<localized-strings>.*</localized-strings>}m, ""))
       .to be_equivalent_to xmlpp(output)

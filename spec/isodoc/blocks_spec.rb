@@ -289,7 +289,7 @@ RSpec.describe Metanorma::ITU do
            </div>
          </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({})
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to xmlpp(presxml)

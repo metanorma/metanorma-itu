@@ -131,7 +131,7 @@ RSpec.describe IsoDoc::ITU do
            <eref bibitemid="ISBN">[1]</eref>
            <eref bibitemid="ISSN">[2]</eref>
            <eref bibitemid="ISO16634">[ISO 16634:-- (all parts)]</eref>
-           <eref bibitemid="ref1">[ICC 167]</eref>
+           <eref bibitemid="ref1">[ICC&#xa0;167]</eref>
            <eref bibitemid="ref10">[4]</eref>
            <eref bibitemid="ref12">[Citn]</eref>
            <eref bibitemid="zip_ffs">[5]</eref>
@@ -141,7 +141,7 @@ RSpec.describe IsoDoc::ITU do
              <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
          <bibitem id="ISO712" type="standard">
            <formattedref><em>Cereals and cereal products</em>.</formattedref>
-           <docidentifier type="ISO">ISO 712</docidentifier>
+           <docidentifier type="ISO">ISO&#xa0;712</docidentifier>
            <docidentifier type="metanorma">[110]</docidentifier>
            <biblio-tag>[110]</biblio-tag>
          </bibitem>
@@ -153,13 +153,13 @@ RSpec.describe IsoDoc::ITU do
          </bibitem>
          <bibitem id="ISO20483" type="standard">
            <formattedref><em>Cereals and pulses</em>.</formattedref>
-           <docidentifier type="ISO">ISO 20483:2013-2014</docidentifier>
+           <docidentifier type="ISO">ISO&#xa0;20483:2013-2014</docidentifier>
            <date type="published"><from>2013</from><to>2014</to></date>
            <biblio-tag>[ISO 20483:2013‑2014]</biblio-tag>
          </bibitem>
          <bibitem id="ref1">
            <formattedref format="application/x-isodoc+xml"><smallcap>Standard No I.C.C 167</smallcap>. <em>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</em> (see <link target="http://www.icc.or.at"/>).</formattedref>
-           <docidentifier type="ICC">ICC 167</docidentifier>
+           <docidentifier type="ICC">ICC&#xa0;167</docidentifier>
            <biblio-tag>[ICC 167]</biblio-tag>
          </bibitem>
          <note><name>NOTE</name><p>This is an annotation of ISO 20483:2013-2014</p></note>
@@ -185,7 +185,7 @@ RSpec.describe IsoDoc::ITU do
          <bibitem id="ISO3696" type="standard">
            <formattedref><em>Water for analytical laboratory use</em>.</formattedref>
            <docidentifier type='metanorma-ordinal'>[3]</docidentifier>
-           <docidentifier type="ISO">ISO 3696</docidentifier>
+           <docidentifier type="ISO">ISO&#xa0;3696</docidentifier>
            <biblio-tag>[ISO 3696]</biblio-tag>
          </bibitem>
          <bibitem id="ref10">
@@ -196,13 +196,13 @@ RSpec.describe IsoDoc::ITU do
          <bibitem id="ref11">
            <formattedref><em>Internet Calendaring and Scheduling Core Object Specification (iCalendar)</em>.</formattedref>
            <docidentifier type='metanorma-ordinal'>[5]</docidentifier>
-           <docidentifier type="IETF">IETF RFC 10</docidentifier>
+           <docidentifier type="IETF">IETF&#xa0;RFC&#xa0;10</docidentifier>
            <biblio-tag>[IETF RFC 10]</biblio-tag>
          </bibitem>
          <bibitem id="ref12">
            <formattedref format="application/x-isodoc+xml">CitationWorks. 2019. <em>How to cite a reference</em>.</formattedref>
            <docidentifier type="metanorma">[Citn]</docidentifier>
-           <docidentifier type="IETF">IETF RFC 20</docidentifier>
+           <docidentifier type="IETF">IETF&#xa0;RFC&#xa0;20</docidentifier>
            <biblio-tag>[Citn]</biblio-tag>
          </bibitem>
          </references>
@@ -211,7 +211,7 @@ RSpec.describe IsoDoc::ITU do
     OUTPUT
 
     FileUtils.rm_f "test.html"
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({})
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to xmlpp(presxml)
@@ -225,7 +225,7 @@ RSpec.describe IsoDoc::ITU do
         <a href='#ISBN'>[1]</a>
         <a href='#ISSN'>[2]</a>
         <a href='#ISO16634'>[ISO 16634:-- (all parts)]</a>
-        <a href='#ref1'>[ICC 167]</a>
+        <a href='#ref1'>[ICC&#xa0;167]</a>
         <a href='#ref10'>[4]</a>
         <a href='#ref12'>[Citn]</a>
         <a href='#zip_ffs'>[5]</a>
@@ -240,7 +240,7 @@ RSpec.describe IsoDoc::ITU do
                          <tr><td colspan="2">
                            <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
                            <td style='vertical-align:top'>[110]</td>
-                           <td>ISO 712, <i>Cereals and cereal products</i>.</td>
+                           <td>ISO&#xa0;712, <i>Cereals and cereal products</i>.</td>
                          </td></tr>
                          <tr id="ISO16634" class="NormRef">
                            <td style='vertical-align:top'>[ISO&#xA0;16634:&#x2011;&#x2011;&#xA0;(all&#xA0;parts)]</td>
@@ -248,11 +248,11 @@ RSpec.describe IsoDoc::ITU do
                          </tr>
                          <tr id="ISO20483" class="NormRef">
                            <td style='vertical-align:top'>[ISO&#xA0;20483:2013&#x2011;2014]</td>
-                           <td>ISO 20483:2013-2014 (20132014), <i>Cereals and pulses</i>.</td>
+                           <td>ISO&#xa0;20483:2013-2014 (20132014), <i>Cereals and pulses</i>.</td>
                          </tr>
                          <tr id="ref1" class="NormRef">
                            <td style='vertical-align:top'>[ICC&#xA0;167]</td>
-                           <td>ICC 167, <span style="font-variant:small-caps;">Standard No I.C.C 167</span>. <i>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</i> (see <a href="http://www.icc.or.at">http://www.icc.or.at</a>).</td>
+                           <td>ICC&#xa0;167, <span style="font-variant:small-caps;">Standard No I.C.C 167</span>. <i>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</i> (see <a href="http://www.icc.or.at">http://www.icc.or.at</a>).</td>
                          </tr>
                          <tr><td colspan="2">
                            <div class="Note">
@@ -289,7 +289,7 @@ RSpec.describe IsoDoc::ITU do
                          </td></tr>
                          <tr id="ISO3696" class="Biblio">
                            <td style='vertical-align:top'>[ISO&#xA0;3696]</td>
-                           <td>ISO 3696, <i>Water for analytical laboratory use</i>.</td>
+                           <td>ISO&#xa0;3696, <i>Water for analytical laboratory use</i>.</td>
                          </tr>
                          <tr id="ref10" class="Biblio">
                            <td style='vertical-align:top'>[4]</td>
@@ -297,11 +297,11 @@ RSpec.describe IsoDoc::ITU do
                          </tr>
                          <tr id="ref11" class="Biblio">
                            <td style='vertical-align:top'>[IETF&#xA0;RFC&#xA0;10]</td>
-                           <td>IETF RFC 10, <i>Internet Calendaring and Scheduling Core Object Specification (iCalendar)</i>.</td>
+                           <td>IETF&#xa0;RFC&#xa0;10, <i>Internet Calendaring and Scheduling Core Object Specification (iCalendar)</i>.</td>
                          </tr>
                          <tr id="ref12" class="Biblio">
                            <td style='vertical-align:top'>[Citn]</td>
-                           <td>IETF RFC 20, CitationWorks. 2019. <i>How to cite a reference</i>.</td>
+                           <td>IETF&#xa0;RFC&#xa0;20, CitationWorks. 2019. <i>How to cite a reference</i>.</td>
                          </tr>
                        </tbody>
                      </table>
@@ -388,7 +388,7 @@ RSpec.describe IsoDoc::ITU do
         <preface>
           <foreword displayorder='1'>
             <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f'>
-              <eref bibitemid='ISO712'>[ISO 712]</eref>
+              <eref bibitemid='ISO712'>[ISO&#xa0;712]</eref>
             </p>
           </foreword>
         </preface>
@@ -404,27 +404,27 @@ RSpec.describe IsoDoc::ITU do
             </p>
             <bibitem id='ISO712' type='standard'>
               <formattedref><em>Cereals and cereal products</em>.</formattedref>
-              <docidentifier type='ISO'>ISO 712</docidentifier>
+              <docidentifier type='ISO'>ISO&#xa0;712</docidentifier>
               <date type='published'>2001-01</date>
-              <biblio-tag>[ISO 712]</biblio-tag>
+              <biblio-tag>[ISO&#xa0;712]</biblio-tag>
             </bibitem>
             <bibitem id='ITU712' type='standard'>
               <formattedref><em>Cereals and cereal products</em>.</formattedref>
-              <docidentifier type='ITU'>ITU 712</docidentifier>
-              <docidentifier type='DOI'>DOI 712</docidentifier>
-               <biblio-tag>[ITU 712]</biblio-tag>
+              <docidentifier type='ITU'>ITU&#xa0;712</docidentifier>
+              <docidentifier type='DOI'>DOI&#xa0;712</docidentifier>
+               <biblio-tag>[ITU&#xa0;712]</biblio-tag>
             </bibitem>
             <bibitem id='ITU712a' type='standard'>
               <formattedref><em>Cereals and cereal products</em>.</formattedref>
-              <docidentifier type='ISO'>ISO 712</docidentifier>
-              <docidentifier type='ITU'>ITU 712</docidentifier>
+              <docidentifier type='ISO'>ISO&#xa0;712</docidentifier>
+              <docidentifier type='ITU'>ITU&#xa0;712</docidentifier>
               <date type='published'><on>2016</on></date>
-              <biblio-tag>[ITU 712]</biblio-tag>
+              <biblio-tag>[ITU&#xa0;712]</biblio-tag>
             </bibitem>
             <bibitem id='ITU713' type='standard'>
               <formattedref><em>Cereals and cereal products</em>.</formattedref>
-              <docidentifier type='ITU'>ITU-T G Suppl. 41</docidentifier>
-              <docidentifier type='DOI'>DOI 712</docidentifier>
+              <docidentifier type='ITU'>ITU-T&#xa0;G&#xa0;Suppl.&#xa0;41</docidentifier>
+              <docidentifier type='DOI'>DOI&#xa0;712</docidentifier>
               <biblio-tag>[ITU‑T G Suppl. 41]</biblio-tag>
             </bibitem>
           </references>
@@ -437,7 +437,7 @@ RSpec.describe IsoDoc::ITU do
       <div>
                  <h1 class="IntroTitle"/>
                  <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">
-           <a href="#ISO712">[ISO 712]</a>
+           <a href="#ISO712">[ISO&#xa0;712]</a>
            </p>
                </div>
                <p class="zzSTDTitle1"/>
@@ -458,7 +458,7 @@ RSpec.describe IsoDoc::ITU do
             <tr id='ISO712' class='NormRef'>
               <td style='vertical-align:top'>[ISO&#160;712]</td>
               <td>
-                ISO 712 (2001),
+                ISO&#xa0;712 (2001),
                 <i>Cereals and cereal products</i>
                 .
               </td>
@@ -466,7 +466,7 @@ RSpec.describe IsoDoc::ITU do
             <tr id='ITU712' class='NormRef'>
               <td style='vertical-align:top'>[ITU&#160;712]</td>
               <td>
-                Recommendation ITU 712,
+                Recommendation ITU&#xa0;712,
                 <i>Cereals and cereal products</i>
                 .
               </td>
@@ -474,7 +474,7 @@ RSpec.describe IsoDoc::ITU do
             <tr id='ITU712a' class='NormRef'>
               <td style='vertical-align:top'>[ITU&#160;712]</td>
               <td>
-                Recommendation ITU 712&#xA0;| ISO 712 (2016),
+                Recommendation ITU&#xa0;712&#xA0;| ISO&#xa0;712 (2016),
                 <i>Cereals and cereal products</i>
                 .
               </td>
@@ -482,7 +482,7 @@ RSpec.describe IsoDoc::ITU do
             <tr id='ITU713' class='NormRef'>
               <td style='vertical-align:top'>[ITU&#8209;T&#160;G&#160;Suppl.&#160;41]</td>
               <td>
-                ITU-T G-series Recommendations &#8211; Supplement 41,
+                ITU-T&#xa0;G-series Recommendations &#8211; Supplement 41,
                 <i>Cereals and cereal products</i>
                 .
               </td>
@@ -494,7 +494,7 @@ RSpec.describe IsoDoc::ITU do
            </body>
 
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new({})
+    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to xmlpp(presxml)
@@ -535,12 +535,12 @@ RSpec.describe IsoDoc::ITU do
     presxml = <<~PRESXML
       <foreword displayorder='1'>
         <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f'>
-          <eref bibitemid='ISO712'>[ISO 712&#xA0;| IEC 217]</eref>
+          <eref bibitemid='ISO712'>[ISO&#xa0;712&#xA0;| IEC&#xa0;217]</eref>
         </p>
       </foreword>
     PRESXML
     expect(xmlpp(Nokogiri::XML(
-      IsoDoc::ITU::PresentationXMLConvert.new({})
+      IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true),
     ).at("//xmlns:foreword").to_xml))
       .to be_equivalent_to xmlpp(presxml)

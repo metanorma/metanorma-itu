@@ -18,12 +18,16 @@
   solid windowtext 1.5pt;padding:0cm 2.85pt 0cm 2.85pt;height:17.85pt'>
   <p class="MsoNormal"><b><span lang="EN-US">Meeting, date:<o:p></o:p></span></b></p>
   </td>
-  <td width="270" colspan="2" valign="top" style='width:202.7pt;border:none;
+  <td width="270" colspan="3" valign="top" style='width:202.7pt;border:none;
   border-top:solid windowtext 1.5pt;padding:0cm 2.85pt 0cm 2.85pt;height:17.85pt'>
   <p class="MsoNormal" align="right" style='text-align:right'><span lang="EN-US">{{ meeting }}{% if meeting and meeting_date %}, {% endif %}{{ meeting_date }}</span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:1;page-break-inside:avoid;height:17.85pt'>
+  <td width="108" valign="top" style='width:80.85pt;padding:0cm 2.85pt 0cm 2.85pt;
+  height:17.85pt'>
+    <p class="MsoNormal"><b><span lang="EN-US">{{ docnumber_td }}<o:p></o:p></span></b></p>
+  </td>
   <td width="108" valign="top" style='width:80.85pt;padding:0cm 2.85pt 0cm 2.85pt;
   height:17.85pt'>
   <p class="MsoNormal"><b><span lang="EN-US">Study Group:<o:p></o:p></span></b></p>
@@ -55,7 +59,7 @@
   height:17.85pt'>
   <p class="MsoNormal"><b><span lang="EN-US">Source:<o:p></o:p></span></b></p>
   </td>
-  <td width="554" colspan="6" valign="top" style='width:415.3pt;padding:0cm 2.85pt 0cm 2.85pt;
+  <td width="554" colspan="7" valign="top" style='width:415.3pt;padding:0cm 2.85pt 0cm 2.85pt;
   height:17.85pt'>
     <p class="MsoNormal"><span lang="EN-US">{{ source }}</span></p>
   </td>
@@ -65,7 +69,7 @@
   padding:0cm 2.85pt 0cm 2.85pt;height:17.85pt'>
   <p class="MsoNormal"><b><span lang="EN-US">Title: <o:p></o:p></span></b></p>
   </td>
-  <td width="554" colspan="6" valign="top" style='width:415.3pt;border:none;
+  <td width="554" colspan="7" valign="top" style='width:415.3pt;border:none;
   border-bottom:solid windowtext 1.5pt;padding:0cm 2.85pt 0cm 2.85pt;
   height:17.85pt'>
     <p class="MsoNormal"><span lang="EN-US">{{ doctitle }}</span></p>
@@ -86,7 +90,7 @@
   {{ addresses[forloop.index0] }}</span></span></p>
   </td>
   <span style='mso-bookmark:dcontact'></span>
-  <td width="270" colspan="2" valign="top" style='width:202.7pt;border:none;
+  <td width="270" colspan="3" valign="top" style='width:202.7pt;border:none;
   mso-border-top-alt:solid windowtext 1.5pt;padding:0cm 2.85pt 0cm 2.85pt;
   height:10.2pt'>
     <p class="MsoNormal" style="text-align:left;"><span style='mso-bookmark:dcontact'><span lang="EN-US">Tel: {{ phones[forloop.index0] }}<br/>
@@ -98,7 +102,7 @@
  {% endfor %}
  <tr style='mso-yfti-irow:6;mso-yfti-lastrow:yes;page-break-inside:avoid;
   height:10.2pt'>
-  <td width="662" colspan="7" valign="top" style='width:496.15pt;border:none;
+  <td width="662" colspan="8" valign="top" style='width:496.15pt;border:none;
   border-top:solid windowtext 1.5pt;padding:0cm 2.85pt 0cm 2.85pt;height:10.2pt'>
   <p class="MsoNormal" style='margin-top:0cm'><span lang="EN-US" style='font-size:
   9.0pt'>Please do not change the structure of this table, just insert the

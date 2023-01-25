@@ -21,6 +21,7 @@ RSpec.describe Metanorma::ITU do
       <title language='en' format='text/plain' type='corrigendum'>Corrigendum Title</title>
       <title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
         <docidentifier type="ITU-provisional">ABC</docidentifier>
+        <docidentifier type="ITU-TemporaryDocument">SG1</docidentifier>
         <docidentifier type="ITU">ITU-R 1000</docidentifier>
         <docidentifier type="ITU-lang">ITU-R 1000-E</docidentifier>
         <docnumber>1000</docnumber>
@@ -163,6 +164,7 @@ RSpec.describe Metanorma::ITU do
         :createddate=>"XXX",
         :docnumber=>"ITU-R 1000",
         :docnumber_lang=>"ITU-R 1000-E",
+        :docnumber_td=>"SG1",
         :docnumeric=>"1000",
         :docsubtitle=>"Subtitle",
         :doctitle=>"Main Title<br/>in multiple lines",

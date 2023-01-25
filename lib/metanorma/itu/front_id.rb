@@ -3,15 +3,22 @@ module Metanorma
     class Converter < Standoc::Converter
       def metadata_id(node, xml)
         provisional_id(node, xml)
+        td_id(node, xml)
         itu_id(node, xml)
         recommendation_id(node, xml)
       end
 
       def provisional_id(node, xml)
-        return unless node.attr("provisional-name")
-
-        xml.docidentifier **{ type: "ITU-provisional" } do |i|
+        node.attr("provisional-name") or return
+        xml.docidentifier type: "ITU-provisional" do |i|
           i << node.attr("provisional-name")
+        end
+      end
+
+      def td_id(node, xml)
+        node.attr("td-number") or return
+        xml.docidentifier type: "ITU-TemporaryDocument" do |i|
+          i << node.attr("td-number")
         end
       end
 
@@ -32,10 +39,10 @@ module Metanorma
       def itu_id(node, xml)
         return unless node.attr("docnumber")
 
-        xml.docidentifier **{ type: "ITU" } do |i|
+        xml.docidentifier type: "ITU" do |i|
           i << itu_id1(node, false)
         end
-        xml.docidentifier **{ type: "ITU-lang" } do |i|
+        xml.docidentifier type: "ITU-lang" do |i|
           i << itu_id1(node, true)
         end
         xml.docnumber { |i| i << node.attr("docnumber") }
@@ -45,7 +52,7 @@ module Metanorma
         return unless node.attr("recommendationnumber")
 
         node.attr("recommendationnumber").split("/").each do |s|
-          xml.docidentifier **{ type: "ITU-Recommendation" } do |i|
+          xml.docidentifier type: "ITU-Recommendation" do |i|
             i << s
           end
         end

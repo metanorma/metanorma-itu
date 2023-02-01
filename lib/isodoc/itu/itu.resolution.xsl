@@ -69,13 +69,24 @@
 	</xsl:variable>
 
 	<xsl:variable name="footer-text">
+		<xsl:variable name="additionalIdentifiers_">
+			<xsl:if test="$TDnumber != ''">/<xsl:value-of select="$TDnumber"/></xsl:if>
+			<xsl:if test="$provisionalIdentifier != ''">/<xsl:value-of select="$provisionalIdentifier"/></xsl:if>
+		</xsl:variable>
+		<xsl:variable name="additionalIdentifiers" select="normalize-space($additionalIdentifiers_)"/>
 		<xsl:choose>
 			<xsl:when test="$doctype = 'technical-report' or $doctype = 'technical-paper'">
-				<xsl:variable name="date" select="concat('(',substring(/itu:itu-standard/itu:bibdata/itu:version/itu:revision-date,1,7), ')')"/>
-				<xsl:value-of select="concat($xSTR-ACRONYM, ' ', $date)"/>
+				<xsl:variable name="date_">
+					<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:version/itu:revision-date"/>
+					<xsl:if test="not(/itu:itu-standard/itu:bibdata/itu:version/itu:revision-date)"/>
+					<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:date[@type = 'published']/itu:on"/>
+				</xsl:variable>
+				<xsl:variable name="date" select="concat('(',substring($date_,1,7), ')')"/>
+				<xsl:value-of select="concat($xSTR-ACRONYM, $additionalIdentifiers, ' ', $date)"/>
 			</xsl:when>
 			<xsl:when test="$doctype = 'implementers-guide'">
 				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]"/>
+				<xsl:value-of select="$additionalIdentifiers"/>
 				<xsl:text> for </xsl:text>
 				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type='ITU-Recommendation']"/>
 				<xsl:text> </xsl:text>
@@ -87,25 +98,31 @@
 				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:meeting/@acronym"/>
 				<xsl:text> – </xsl:text>
 				<xsl:value-of select="$doctypeTitle"/>
+				<xsl:value-of select="$additionalIdentifiers"/>
 				<xsl:text> </xsl:text>
 				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:docnumber"/>
 			</xsl:when>
 			<xsl:when test="$doctype = 'recommendation-supplement'">
 				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-Supplement-Short']"/>
+				<xsl:value-of select="$additionalIdentifiers"/>
 				<xsl:text> </xsl:text>
 				<xsl:value-of select="$docdate"/>
 			</xsl:when>
 			<xsl:when test="$doctype = 'service-publication'">
 				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-lang']"/>
+				<xsl:value-of select="$additionalIdentifiers"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat($footerprefix, $docname, ' ', $docdate)"/>
+				<xsl:value-of select="concat($footerprefix, $docname, $additionalIdentifiers, ' ', $docdate)"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
 
 	<xsl:variable name="isAmendment" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:amendment[@language = $lang])"/>
 	<xsl:variable name="isCorrigendum" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:corrigendum[@language = $lang])"/>
+
+	<xsl:variable name="TDnumber" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-TemporaryDocument'])"/>
+	<xsl:variable name="provisionalIdentifier" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-provisional'])"/>
 
 	<xsl:template match="/">
 		<xsl:call-template name="namespaceCheck"/>
@@ -265,13 +282,15 @@
 												<fo:block font-weight="bold">Study Group:</fo:block>
 											</fo:table-cell>
 											<fo:table-cell padding-top="2mm">
-												<fo:block><xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:subgroup/itu:name"/></fo:block>
+												<xsl:variable name="subgroup" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:subgroup/itu:name"/>
+												<fo:block><xsl:value-of select="java:replaceAll(java:java.lang.String.new($subgroup),'(.)','$1​')"/></fo:block>
 											</fo:table-cell>
 											<fo:table-cell padding-top="2mm">
 												<fo:block font-weight="bold">Working Party:</fo:block>
 											</fo:table-cell>
 											<fo:table-cell padding-top="2mm">
-												<fo:block><xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:workgroup/itu:name"/></fo:block>
+												<xsl:variable name="workgroup" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:workgroup/itu:name"/>
+												<fo:block><xsl:value-of select="java:replaceAll(java:java.lang.String.new($workgroup),'(.)','$1​')"/></fo:block>
 											</fo:table-cell>
 											<fo:table-cell padding-top="2mm">
 												<fo:block font-weight="bold">Intended type of document <fo:inline font-weight="normal">(R-C-TD)</fo:inline>:</fo:block>
@@ -617,6 +636,48 @@
 											</fo:block-container>
 										</fo:table-cell>
 									</fo:table-row>
+									<xsl:variable name="additionalNumbers">
+										<xsl:if test="$TDnumber != ''">
+											<fo:block-container space-after="2pt">
+												<xsl:call-template name="setWritingMode"/>
+												<fo:block font-size="14pt">TD number: <xsl:value-of select="$TDnumber"/></fo:block>
+											</fo:block-container>
+										</xsl:if>
+										<xsl:if test="$provisionalIdentifier != ''">
+											<fo:block-container space-after="2pt">
+												<xsl:call-template name="setWritingMode"/>
+												<fo:block font-size="14pt">Provisional identifier: <xsl:value-of select="$provisionalIdentifier"/></fo:block>
+											</fo:block-container>
+										</xsl:if>
+										<xsl:if test="$annexid != ''">
+											<fo:block-container>
+												<xsl:call-template name="setWritingMode"/>
+												<fo:block font-size="18pt" font-weight="bold">
+													<xsl:call-template name="getLocalizedString">
+														<xsl:with-param name="key">annex</xsl:with-param>
+													</xsl:call-template>
+													<xsl:text> </xsl:text>
+													<xsl:value-of select="$annexid"/>
+												</fo:block>
+											</fo:block-container>
+										</xsl:if>
+										<xsl:if test="$isAmendment != ''">
+											<fo:block-container>
+												<xsl:call-template name="setWritingMode"/>
+												<fo:block font-size="18pt" font-weight="bold">
+													<xsl:value-of select="$isAmendment"/>
+												</fo:block>
+											</fo:block-container>
+										</xsl:if>
+										<xsl:if test="$isCorrigendum != ''">
+											<fo:block-container>
+												<xsl:call-template name="setWritingMode"/>
+												<fo:block font-size="18pt" font-weight="bold">
+													<xsl:value-of select="$isCorrigendum"/>
+												</fo:block>
+											</fo:block-container>
+										</xsl:if>
+									</xsl:variable>
 									<fo:table-row height="17.2mm">
 										<fo:table-cell>
 											<fo:block> </fo:block>
@@ -636,34 +697,7 @@
 											</fo:block-container>
 										</fo:table-cell>
 										<fo:table-cell text-align="right">
-											<xsl:if test="$annexid != ''">
-												<fo:block-container>
-													<xsl:call-template name="setWritingMode"/>
-													<fo:block font-size="18pt" font-weight="bold">
-														<xsl:call-template name="getLocalizedString">
-															<xsl:with-param name="key">annex</xsl:with-param>
-														</xsl:call-template>
-														<xsl:text> </xsl:text>
-														<xsl:value-of select="$annexid"/>
-													</fo:block>
-												</fo:block-container>
-											</xsl:if>
-											<xsl:if test="$isAmendment != ''">
-												<fo:block-container>
-													<xsl:call-template name="setWritingMode"/>
-													<fo:block font-size="18pt" font-weight="bold">
-														<xsl:value-of select="$isAmendment"/>
-													</fo:block>
-												</fo:block-container>
-											</xsl:if>
-											<xsl:if test="$isCorrigendum != ''">
-												<fo:block-container>
-													<xsl:call-template name="setWritingMode"/>
-													<fo:block font-size="18pt" font-weight="bold">
-														<xsl:value-of select="$isCorrigendum"/>
-													</fo:block>
-												</fo:block-container>
-											</xsl:if>
+											<xsl:copy-of select="$additionalNumbers"/>
 											<fo:block font-size="14pt">
 												<xsl:choose>
 													<xsl:when test="($doctype = 'technical-report' or $doctype = 'technical-paper') and /itu:itu-standard/itu:bibdata/itu:version/itu:revision-date">
@@ -682,7 +716,11 @@
 											</fo:block>
 										</fo:table-cell>
 									</fo:table-row>
+									<xsl:variable name="countAdditionalNumbers" select="count(xalan:nodeset($additionalNumbers)/*)"/>
 									<fo:table-row height="64mm"> <!-- 59mm -->
+										<xsl:if test="$countAdditionalNumbers != 0">
+											<xsl:attribute name="height"><xsl:value-of select="64 - $countAdditionalNumbers * 5"/>mm</xsl:attribute>
+										</xsl:if>
 										<fo:table-cell>
 											<fo:block> </fo:block>
 										</fo:table-cell>

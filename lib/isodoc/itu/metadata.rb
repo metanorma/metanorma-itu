@@ -86,7 +86,8 @@ module IsoDoc
 
       def docid(isoxml, _out)
         { docnumber: "ITU", recommendationnumber: "ITU-Recommendation",
-          docnumber_lang: "ITU-lang", docnumber_td: "ITU-TemporaryDocument" }
+          docnumber_lang: "ITU-lang", docnumber_td: "ITU-TemporaryDocument",
+          docnumber_provisional: "ITU-provisional" }
           .each do |k, v|
             dn = isoxml.at(ns("//bibdata/docidentifier[@type = '#{v}']")) and
               set(k, dn.text)

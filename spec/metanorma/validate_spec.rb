@@ -34,7 +34,8 @@ RSpec.describe Metanorma::ITU do
 
       text
     INPUT
-    expect(File.read("test.err")).to include "pizza is not a recognised document type"
+    expect(File.read("test.err"))
+      .to include "pizza is not a recognised document type"
   end
 
   it "Warns of illegal status" do
@@ -62,7 +63,21 @@ RSpec.describe Metanorma::ITU do
 
       text
     INPUT
-    expect(File.read("test.err")).to include "does not match ITU document identifier conventions"
+    expect(File.read("test.err"))
+      .to include "does not match ITU document identifier conventions"
+
+    Asciidoctor.convert(<<~"INPUT", backend: :itu, header_footer: true)
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :bureau: R
+      :docnumber: G.650.1
+
+      text
+    INPUT
+    expect(File.read("test.err")).
+      not_to include "does not match ITU document identifier conventions"
   end
 
   it "Warns if Recommendation Status determined and Process AAP" do
@@ -77,7 +92,8 @@ RSpec.describe Metanorma::ITU do
 
       text
     INPUT
-    expect(File.read("test.err")).to include "Recommendation Status determined inconsistent with AAP"
+    expect(File.read("test.err"))
+      .to include "Recommendation Status determined inconsistent with AAP"
   end
 
   it "Warns if not Recommendation Status determined or in-force, and Process TAP" do
@@ -92,7 +108,8 @@ RSpec.describe Metanorma::ITU do
 
       text
     INPUT
-    expect(File.read("test.err")).to include "Recommendation Status undetermined inconsistent with TAP"
+    expect(File.read("test.err"))
+      .to include "Recommendation Status undetermined inconsistent with TAP"
   end
 
   it "Warns if term definition does not start with capital" do
@@ -104,7 +121,8 @@ RSpec.describe Metanorma::ITU do
 
       the definition of a term is a part of the specialized vocabulary of a particular field
     INPUT
-    expect(File.read("test.err")).to include "term definition does not start with capital"
+    expect(File.read("test.err"))
+      .to include "term definition does not start with capital"
   end
 
   it "Warns if term definition does not end with period" do
@@ -116,7 +134,8 @@ RSpec.describe Metanorma::ITU do
 
       Part of the specialized vocabulary of a particular field
     INPUT
-    expect(File.read("test.err")).to include "term definition does not end with period"
+    expect(File.read("test.err"))
+      .to include "term definition does not end with period"
   end
 
   it "Warns if term is not lowercase" do
@@ -185,7 +204,8 @@ RSpec.describe Metanorma::ITU do
       == Abstract
       Part of the specialized vocabulary of a particular field
     INPUT
-    expect(File.read("test.err")).not_to include "No Keywoerds have been provided"
+    expect(File.read("test.err"))
+      .not_to include "No Keywoerds have been provided"
   end
 
   it "warns if requirement in preface" do
@@ -226,7 +246,8 @@ RSpec.describe Metanorma::ITU do
       [%unnumbered]
       == Clause
     INPUT
-    expect(File.read("test.err")).not_to include "Unnumbered clause out of place"
+    expect(File.read("test.err"))
+      .not_to include "Unnumbered clause out of place"
   end
 
   it "warns of unnumbered clause not first clause in resolution" do

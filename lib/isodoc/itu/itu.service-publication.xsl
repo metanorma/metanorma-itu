@@ -1358,26 +1358,6 @@
 		</fo:block>
 	</xsl:template>
 
-	<!-- Summary -->
-	<xsl:template match="itu:itu-standard/itu:preface/itu:abstract[@id = '_summary']" priority="3">
-		<fo:block font-size="12pt">
-			<xsl:value-of select="$linebreak"/>
-			<xsl:value-of select="$linebreak"/>
-		</fo:block>
-		<fo:block id="{@id}">
-			<fo:block font-weight="bold" keep-with-next="always" margin-top="18pt" margin-bottom="18pt" role="H2">
-				<xsl:variable name="title-summary">
-					<xsl:call-template name="getTitle">
-						<xsl:with-param name="name" select="'title-summary'"/>
-					</xsl:call-template>
-				</xsl:variable>
-				<xsl:value-of select="$title-summary"/>
-			</fo:block>
-			<xsl:apply-templates/>
-		</fo:block>
-	</xsl:template>
-	<xsl:template match="itu:itu-standard/itu:preface/itu:abstract[@id = '_summary']/itu:title" priority="4"/>
-
 	<xsl:template match="itu:preface/itu:clause" priority="3">
 		<xsl:if test="$doctype != 'service-publication'">
 			<fo:block font-size="12pt">

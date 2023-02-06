@@ -8,7 +8,7 @@ require_relative "./cleanup"
 module IsoDoc
   module ITU
     module BaseConvert
-      FRONT_CLAUSE = "//*[parent::preface]"\
+      FRONT_CLAUSE = "//*[parent::preface]" \
                      "[not(local-name() = 'abstract')]".freeze
 
       def preface(isoxml, out)
@@ -55,7 +55,7 @@ module IsoDoc
       def annex_name(annex, name, div)
         preceding_floating_titles(name, div)
         r_a = @meta.get[:doctype_original] == "recommendation-annex"
-        div.h1 **{ class: r_a ? "RecommendationAnnex" : "Annex" } do |t|
+        div.h1 class: r_a ? "RecommendationAnnex" : "Annex" do |t|
           name&.children&.each { |c2| parse(c2, t) }
         end
         @meta.get[:doctype_original] == "resolution" or
@@ -64,7 +64,7 @@ module IsoDoc
 
       def annex_obligation_subtitle(annex, div)
         info = annex["obligation"] == "informative"
-        div.p **{ class: "annex_obligation" } do |p|
+        div.p class: "annex_obligation" do |p|
           p << (info ? @i18n.inform_annex : @i18n.norm_annex)
             .sub(/%/, @meta.get[:doctype] || "")
         end
@@ -102,15 +102,15 @@ module IsoDoc
 
       def middle_title_resolution(isoxml, out)
         res = isoxml.at(ns("//bibdata/title[@type = 'resolution']"))
-        out.p(**{ align: "center", style: "text-align:center;" }) do |p|
+        out.p(align: "center", style: "text-align:center;") do |p|
           res.children.each { |n| parse(n, p) }
         end
-        out.p(**{ class: "zzSTDTitle2" }) { |p| p << @meta.get[:doctitle] }
+        out.p(class: "zzSTDTitle2") { |p| p << @meta.get[:doctitle] }
         middle_title_resolution_subtitle(isoxml, out)
       end
 
       def middle_title_resolution_subtitle(isoxml, out)
-        out.p(**{ align: "center", style: "text-align:center;" }) do |p|
+        out.p(align: "center", style: "text-align:center;") do |p|
           p.i do |i|
             i << "("
             isoxml.at(ns("//bibdata/title[@type = 'resolution-placedate']"))
@@ -124,26 +124,26 @@ module IsoDoc
       end
 
       def middle_title_recommendation(isoxml, out)
-        out.p(**{ class: "zzSTDTitle1" }) do |p|
+        out.p(class: "zzSTDTitle1") do |p|
           type = @meta.get[:doctype]
           @meta.get[:unpublished] && @meta.get[:draft_new_doctype] and
             type = @meta.get[:draft_new_doctype]
           id = @meta.get[:docnumber] and p << "#{type} #{id}"
         end
-        out.p(**{ class: "zzSTDTitle2" }) do |p|
+        out.p(class: "zzSTDTitle2") do |p|
           p << @meta.get[:doctitle]
           isoxml.xpath(ns("//note[@type = 'title-footnote']")).each do |f|
             footnote_parse(f, p)
           end
         end
         s = @meta.get[:docsubtitle] and
-          out.p(**{ class: "zzSTDTitle3" }) { |p| p << s }
+          out.p(class: "zzSTDTitle3") { |p| p << s }
       end
 
       def note_p_parse(node, div)
         name = node&.at(ns("./name"))&.remove
         div.p do |p|
-          name and p.span **{ class: "note_label" } do |s|
+          name and p.span class: "note_label" do |s|
             name.children.each { |n| parse(n, s) }
             s << note_delim
           end
@@ -155,7 +155,7 @@ module IsoDoc
       def note_parse1(node, div)
         name = node&.at(ns("./name"))&.remove
         div.p do |p|
-          name and p.span **{ class: "note_label" } do |s|
+          name and p.span class: "note_label" do |s|
             name.children.each { |n| parse(n, s) }
           end
         end

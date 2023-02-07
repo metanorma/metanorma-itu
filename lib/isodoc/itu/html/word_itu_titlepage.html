@@ -212,6 +212,8 @@
   normal'><span lang="EN-US" style='font-size:30.0pt;mso-bidi-font-size:10.0pt;
   font-family:"Arial",sans-serif;mso-ansi-language:EN-US'>{% if doctype == "Recommendation" %}{{ docnumeric }}{% else %}{% if recommendationnumber %}{{ recommendationnumber }} {% endif %}{{ doctype_display }}{% endif %}<o:p></o:p></span></b></a>
     {% endif %}
+              {% if docnumber_td %}<br/><span class="doc-identifier" style='font-family:"Arial",sans-serif'>TD number: {{docnumber_td}}</span>{%endif%}
+          {% if docnumber_provisional %}<br/><span class="doc-identifier" style='font-family:"Arial",sans-serif'>Provisional identifier: {{docnumber_provisional}}</span>{%endif%}
   </span></p>
   </td>
   <span style='mso-bookmark:_Hlk526346232'><span style='mso-bookmark:dnume'></span></span>

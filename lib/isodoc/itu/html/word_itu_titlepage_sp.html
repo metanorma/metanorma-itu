@@ -16,6 +16,8 @@ lang="EN-GB" style='font-size:10.0pt'>{{ annex_to_itu_ob }}</span></i></p>
 <p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><i><span
 lang="EN-GB" style='font-size:10.0pt'>{{ number_abbrev }} {{ docnumeric }} – {{ pubdate_ddMMMyyyy }}</span></i></p>
 {% endif %}
+{% if docnumber_td %}<p><span class="doc-identifier">TD number: {{docnumber_td}}</span></p>{%endif%}
+{% if docnumber_provisional %}<p><span class="doc-identifier">Provisional identifier: {{docnumber_provisional}}</span></p>{%endif%}
 
 <p class="MEP"><span lang="EN-GB" style='font-size:10.0pt'><o:p>&#xA0;</o:p></span></p>
 

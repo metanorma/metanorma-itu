@@ -703,7 +703,7 @@ RSpec.describe Metanorma::ITU do
         .sub('<script>Latn</script>', '<script>Hans</script>')}
       <preface>
           <abstract id='_'>
-            <title>&#25688;&#35201;</title>
+            <title>概括</title>
             <p id='_'>Text</p>
           </abstract>
           <foreword id='_' obligation='informative'>
@@ -1969,7 +1969,7 @@ RSpec.describe Metanorma::ITU do
                .sub('<language>en</language>', '<language>de</language>')}
                <preface>
         <abstract id='_'>
-          <title>Abstrakt</title>
+          <title>Zusammenfassung</title>
           <p id='_'>Text</p>
         </abstract>
         <foreword id='_' obligation='informative'>
@@ -2387,7 +2387,7 @@ RSpec.describe Metanorma::ITU do
         .sub('<title language="en"', '<title language="ru"')}
         <preface>
           <abstract id='_'>
-            <title>&#1056;&#1077;&#1092;&#1077;&#1088;&#1072;&#1090;</title>
+            <title>Резюме</title>
             <p id='_'>Text</p>
           </abstract>
           <foreword id='_' obligation='informative'>

@@ -164,6 +164,7 @@ RSpec.describe Metanorma::ITU do
         :novalid:
         :docnumber: 1000
         :provisional-name: ABC
+        :td-number: SG17-TD611
         :doctype: directive
         :edition: 2
         :revdate: 2000-01-01
@@ -253,6 +254,7 @@ RSpec.describe Metanorma::ITU do
               <title language='en' format='text/plain' type='corrigendum'>Corrigendum Title</title>
               <title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
               <docidentifier type='ITU-provisional'>ABC</docidentifier>
+              <docidentifier type="ITU-TemporaryDocument">SG17-TD611</docidentifier>
               <docidentifier type='ITU'>ITU-R 1000</docidentifier>
               <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
               <docidentifier type='ITU-Recommendation'>G.7713.1</docidentifier>

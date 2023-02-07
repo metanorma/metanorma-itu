@@ -47,6 +47,8 @@
             {% if amendmentid %}<div class="doc-subidentifier">{{ amendmentid }}</div>{% endif %} 
             {% if corrigendumid %}<div class="doc-subidentifier">{{ corrigendumid }}</div>{% endif %}       
             {% if edition %} <div> Revision {{ edition }}</div> {% endif %}
+            {% if docnumber_td %}<br/><span class="doc-subidentifier">TD number: {{docnumber_td}}</span>{%endif%}
+          {% if docnumber_provisional %}<br/><span class="doc-subidentifier">Provisional identifier: {{docnumber_provisional}}</span>{%endif%}
             <div> {{ draftinfo }}</div>
           </div>
           {% if pubdate_monthyear %}

@@ -21,11 +21,11 @@ module IsoDoc
 
       def title(isoxml, _out)
         { doctitle: "//bibdata/title[@language='#{@lang}'][@type = 'main']",
-          docsubtitle: "//bibdata/title[@language='#{@lang}']"\
+          docsubtitle: "//bibdata/title[@language='#{@lang}']" \
                        "[@type = 'subtitle']",
-          amendmenttitle: "//bibdata/title[@language='#{@lang}']"\
+          amendmenttitle: "//bibdata/title[@language='#{@lang}']" \
                           "[@type = 'amendment']",
-          corrigendumtitle: "//bibdata/title[@language='#{@lang}']"\
+          corrigendumtitle: "//bibdata/title[@language='#{@lang}']" \
                             "[@type = 'corrigendum']",
           series: "//bibdata/series[@type='main']/title",
           series1: "//bibdata/series[@type='secondary']/title",
@@ -62,7 +62,7 @@ module IsoDoc
         tc = xml.at(ns("//bibdata/ext/editorialgroup/workgroup/name"))
         set(:workgroup, tc.text) if tc
         super
-        authors = xml.xpath(ns("//bibdata/contributor[role/@type = 'author' "\
+        authors = xml.xpath(ns("//bibdata/contributor[role/@type = 'author' " \
                                "or xmlns:role/@type = 'editor']/person"))
         person_attributes(authors) unless authors.empty?
       end
@@ -76,7 +76,7 @@ module IsoDoc
         authors.each do |a|
           append(:affiliations,
                  a&.at(ns("./affiliation/organization/name"))&.text)
-          append(:addresses, a&.at(ns("./affiliation/organization/address/"\
+          append(:addresses, a&.at(ns("./affiliation/organization/address/" \
                                       "formattedAddress"))&.text)
           append(:emails, a&.at(ns("./email"))&.text)
           append(:faxes, a&.at(ns("./phone[@type = 'fax']"))&.text)
@@ -85,21 +85,22 @@ module IsoDoc
       end
 
       def docid(isoxml, _out)
-        dn = isoxml.at(ns("//bibdata/docidentifier[@type = 'ITU']"))
-        set(:docnumber, dn&.text)
-        dn = isoxml.at(ns("//bibdata/docidentifier[@type = 'ITU-Recommendation']"))
-        dn and set(:recommendationnumber, dn&.text)
-        dn = isoxml.at(ns("//bibdata/docidentifier[@type = 'ITU-lang']"))
-        dn and set(:docnumber_lang, dn&.text)
+        { docnumber: "ITU", recommendationnumber: "ITU-Recommendation",
+          docnumber_lang: "ITU-lang", docnumber_td: "ITU-TemporaryDocument",
+          docnumber_provisional: "ITU-provisional" }
+          .each do |k, v|
+            dn = isoxml.at(ns("//bibdata/docidentifier[@type = '#{v}']")) and
+              set(k, dn.text)
+          end
         dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/annexid"))
-        oblig = isoxml&.at(ns("//annex/@obligation"))&.text
+        oblig = isoxml.at(ns("//annex/@obligation"))&.text
         lbl = oblig == "informative" ? @labels["appendix"] : @labels["annex"]
-        dn and set(:annexid, @i18n.l10n("#{lbl} #{dn&.text}"))
+        dn and set(:annexid, @i18n.l10n("#{lbl} #{dn.text}"))
         dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/amendment")) and
-          set(:amendmentid, @i18n.l10n("#{@labels['amendment']} #{dn&.text}"))
+          set(:amendmentid, @i18n.l10n("#{@labels['amendment']} #{dn.text}"))
         dn = isoxml.at(ns("//bibdata/ext/structuredidentifier/corrigendum")) and
           set(:corrigendumid,
-              @i18n.l10n("#{@labels['corrigendum']} #{dn&.text}"))
+              @i18n.l10n("#{@labels['corrigendum']} #{dn.text}"))
       end
 
       def unpublished(status)
@@ -170,11 +171,11 @@ module IsoDoc
               if m1[:mo] == m2[:mo]
                 @i18n.l10n("#{dd1}&#x2013;#{dd2} #{months[m1[:mo].to_sym]} #{m1[:yr]}")
               else
-                @i18n.l10n("#{dd1} #{months[m1[:mo].to_sym]} &#x2013; "\
+                @i18n.l10n("#{dd1} #{months[m1[:mo].to_sym]} &#x2013; " \
                            "#{dd2} #{months[m2[:mo].to_sym]} #{m1[:yr]}")
               end
             else
-              @i18n.l10n("#{dd1} #{months[m1[:mo].to_sym]} #{m1[:yr]} &#x2013; "\
+              @i18n.l10n("#{dd1} #{months[m1[:mo].to_sym]} #{m1[:yr]} &#x2013; " \
                          "#{dd2} #{months[m2[:mo].to_sym]} #{m2[:yr]}")
             end
           else

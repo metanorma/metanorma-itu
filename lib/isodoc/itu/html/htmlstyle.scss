@@ -158,6 +158,12 @@ nav {
   font-size: $monospacefontsize;
 }
 
+table div.figure {
+  padding: 0;
+  margin: 0;
+}
+
+
 .SourceTitle {
   @include blockTitle();
 }

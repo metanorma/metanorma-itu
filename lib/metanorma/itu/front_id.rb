@@ -37,10 +37,10 @@ module Metanorma
       end
 
       def itu_id(node, xml)
-        return unless node.attr("docnumber")
+        return unless node.attr("docnumber") || node.attr("docidentifier")
 
         xml.docidentifier type: "ITU" do |i|
-          i << itu_id1(node, false)
+          i << (node.attr("docidentifier") || itu_id1(node, false))
         end
         xml.docidentifier type: "ITU-lang" do |i|
           i << itu_id1(node, true)

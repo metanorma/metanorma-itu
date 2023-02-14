@@ -829,6 +829,7 @@ RSpec.describe Metanorma::ITU do
       :docfile: test.adoc
       :nodoc:
       :novalid:
+      :docidentifier: OVERRIDE
       :docnumber: 1000
       :provisional-name: ABC
       :doctype: technical-report
@@ -868,7 +869,7 @@ RSpec.describe Metanorma::ITU do
             <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
             <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
             <docidentifier type='ITU-provisional'>ABC</docidentifier>
-            <docidentifier type='ITU'>ITU-R 1000</docidentifier>
+            <docidentifier type='ITU'>OVERRIDE</docidentifier>
             <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
             <docnumber>1000</docnumber>
             <contributor>

@@ -179,7 +179,7 @@ module IsoDoc
         super
       end
 
-      def norm_ref_entry_code(_ordinal, idents, _ids, _standard, datefn)
+      def norm_ref_entry_code(_ordinal, idents, _ids, _standard, datefn, _bib)
         ret = (idents[:metanorma] || idents[:sdo] || idents[:ordinal]).to_s
         !idents[:metanorma] && idents[:sdo] and ret = "[#{ret}]"
         ret += datefn
@@ -187,7 +187,7 @@ module IsoDoc
         ret.gsub(/-/, "&#x2011;").gsub(/ /, "&#xa0;")
       end
 
-      def biblio_ref_entry_code(_ordinal, idents, _id, _standard, datefn)
+      def biblio_ref_entry_code(_ordinal, idents, _id, _standard, datefn, _bib)
         ret = (idents[:metanorma] || idents[:sdo] || idents[:ordinal]).to_s
         !idents[:metanorma] && idents[:sdo] and ret = "[#{ret}]"
         ret += datefn

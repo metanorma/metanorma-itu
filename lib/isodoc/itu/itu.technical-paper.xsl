@@ -4224,6 +4224,7 @@
 			This makes columns with large differences between minimum and maximum widths wider than columns with smaller differences. -->
 			<xsl:when test="(@width_max &gt; $page_width and @width_min &lt; $page_width) or (@width_min &gt;= $page_width)">
 				<!-- difference between the available space and the minimum table width -->
+				<_width_min><xsl:value-of select="@width_min"/></_width_min>
 				<xsl:variable name="W" select="$page_width - @width_min"/>
 				<W><xsl:value-of select="$W"/></W>
 				<!-- difference between maximum and minimum width of the table -->
@@ -6317,7 +6318,7 @@
 		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="*[local-name()='th' or local-name() = 'td'][not(*[local-name()='br']) and not(*[local-name()='p']) and not(*[local-name()='sourcecode'])]" mode="table-without-br">
+	<xsl:template match="*[local-name()='th' or local-name() = 'td'][not(*[local-name()='br']) and not(*[local-name()='p']) and not(*[local-name()='sourcecode']) and not(*[local-name()='ul']) and not(*[local-name()='ol'])]" mode="table-without-br">
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
 			<p>
@@ -6391,6 +6392,14 @@
 	<xsl:template match="text()[not(ancestor::*[local-name() = 'sourcecode'])]" mode="table-without-br">
 		<xsl:variable name="text" select="translate(.,'&#9;&#10;&#13;','')"/>
 		<xsl:value-of select="java:replaceAll(java:java.lang.String.new($text),' {2,}',' ')"/>
+	</xsl:template>
+
+	<xsl:template match="*[local-name()='th' or local-name()='td']//*[local-name() = 'ol' or local-name() = 'ul']" mode="table-without-br">
+		<xsl:apply-templates mode="table-without-br"/>
+	</xsl:template>
+
+	<xsl:template match="*[local-name()='th' or local-name()='td']//*[local-name() = 'li']" mode="table-without-br">
+		<xsl:apply-templates mode="table-without-br"/>
 	</xsl:template>
 
 	<!-- mode="table-without-br" -->

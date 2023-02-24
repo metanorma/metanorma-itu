@@ -1,2 +1,2 @@
-gem "isodoc", git: "https://github.com/metanorma/isodoc", branch: "fix/biblio-tag-bibitem"
+gem "isodoc", git: "https://github.com/metanorma/isodoc", branch: "fix/subfigure-refactor"
 

@@ -97,10 +97,14 @@ module IsoDoc
         end
       end
 
+      def subfigure_label(subfignum)
+        subfignum.zero? and return ""
+        "-#{(subfignum + 96).chr}"
+      end
+
       def sequential_figure_body(subfignum, counter, block, klass)
         label = counter.print
-        label &&= label +
-          (subfignum.zero? ? "" : "#{hierfigsep}#{(subfignum + 96).chr}")
+        label &&= label + subfigure_label(subfignum)
         @anchors[block["id"]] = anchor_struct(
           label, nil, @labels[klass] || klass.capitalize, klass,
           block["unnumbered"]
@@ -108,9 +112,7 @@ module IsoDoc
       end
 
       def hierarchical_figure_body(num, subfignum, counter, block, klass)
-        label = "#{num}#{hiersep}#{counter.print}" +
-          (subfignum.zero? ? "" : "#{hierfigsep}#{(subfignum + 96).chr}")
-
+        label = "#{num}#{hiersep}#{counter.print}" + subfigure_label(subfignum)
         @anchors[block["id"]] = anchor_struct(
           label, nil, @labels[klass] || klass.capitalize,
           klass, block["unnumbered"]

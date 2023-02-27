@@ -249,6 +249,20 @@ BLANK_HDR = <<~"HDR".freeze
            <ip-notice-received>false</ip-notice-received>
    </ext>
   </bibdata>
+                     <metanorma-extension>
+            <presentation-metadata>
+              <name>TOC Heading Levels</name>
+              <value>2</value>
+            </presentation-metadata>
+            <presentation-metadata>
+              <name>HTML TOC Heading Levels</name>
+              <value>2</value>
+            </presentation-metadata>
+            <presentation-metadata>
+              <name>DOC TOC Heading Levels</name>
+              <value>2</value>
+            </presentation-metadata>
+          </metanorma-extension>
 HDR
 
 def blank_hdr_gen

@@ -178,7 +178,10 @@ RSpec.describe Metanorma::ITU do
         <sections> </sections>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(input.sub(%r{<boilerplate>.*</boilerplate>}m, "")))
+    xml = Nokogiri::XML(input)
+    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+      .each(&:remove)
+    expect(xmlpp(xml.to_xml))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -595,7 +598,10 @@ RSpec.describe Metanorma::ITU do
         <sections> </sections>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(input.sub(%r{<boilerplate>.*</boilerplate>}m, "")))
+    xml = Nokogiri::XML(input)
+    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+      .each(&:remove)
+    expect(xmlpp(xml.to_xml))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1019,7 +1025,10 @@ RSpec.describe Metanorma::ITU do
       <sections> </sections>
            </itu-standard>
     OUTPUT
-    expect(xmlpp(input.sub(%r{<boilerplate>.*</boilerplate>}m, "")))
+    xml = Nokogiri::XML(input)
+    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+      .each(&:remove)
+    expect(xmlpp(xml.to_xml))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1450,8 +1459,11 @@ RSpec.describe Metanorma::ITU do
       <sections> </sections>
             </itu-standard>
     OUTPUT
-    expect(xmlpp(input.sub(%r{<boilerplate>.*</boilerplate>}m,
-                           ""))).to be_equivalent_to xmlpp(output)
+    xml = Nokogiri::XML(input)
+    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+      .each(&:remove)
+    expect(xmlpp(xml.to_xml))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes sections in Spanish" do
@@ -1861,7 +1873,10 @@ RSpec.describe Metanorma::ITU do
       <sections> </sections>
            </itu-standard>
     OUTPUT
-    expect(xmlpp(input.sub(%r{<boilerplate>.*</boilerplate>}m, "")))
+    xml = Nokogiri::XML(input)
+    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+      .each(&:remove)
+    expect(xmlpp(xml.to_xml))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -2279,7 +2294,10 @@ RSpec.describe Metanorma::ITU do
          <sections> </sections>
        </itu-standard>
     OUTPUT
-    expect(xmlpp(input.sub(%r{<boilerplate>.*</boilerplate>}m, "")))
+    xml = Nokogiri::XML(input)
+    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+      .each(&:remove)
+    expect(xmlpp(xml.to_xml))
       .to be_equivalent_to xmlpp(output)
   end
 

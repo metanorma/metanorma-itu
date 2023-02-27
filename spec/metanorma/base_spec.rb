@@ -84,7 +84,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes default metadata" do
-    input = <<~"INPUT"
+    xml = Nokogiri::XML(Asciidoctor.convert(<<~"INPUT", *OPTIONS))
       = Document title
       Author
       :docfile: test.adoc
@@ -98,9 +98,7 @@ RSpec.describe Metanorma::ITU do
       :draft: 3.4
       :legacy-do-not-insert-missing-sections:
     INPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)
-      .sub(%r{<boilerplate>.*</boilerplate>}m, "")))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+    output = <<~OUTPUT
         <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
           <bibdata type="standard">
             <title language="en" format="text/plain" type="main">Main Title</title>
@@ -152,11 +150,15 @@ RSpec.describe Metanorma::ITU do
           <sections/>
         </itu-standard>
       OUTPUT
+    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+      .each(&:remove)
+    expect(xmlpp(xml.to_xml))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes explicit metadata" do
     VCR.use_cassette "ITU-complements" do
-      input = <<~"INPUT"
+      xml = Nokogiri::XML(Asciidoctor.convert(<<~"INPUT", *OPTIONS))
         = Document title
         Author
         :docfile: test.adoc
@@ -236,416 +238,413 @@ RSpec.describe Metanorma::ITU do
         :recommendationnumber: G.7713.1/Y.1704.1
         :complements: ITU-T F.69;ITU-T F.68
       INPUT
-      expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)
-        .sub(%r{<boilerplate>.*</boilerplate>}m, "")
-        .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")))
-        .to be_equivalent_to xmlpp(<<~"OUTPUT")
-             <?xml version="1.0" encoding="UTF-8"?>
-             <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
-                      <bibdata type='standard'>
-              <title language='en' format='text/plain' type='main'>Main Title</title>
-              <title language='en' format='text/plain' type='annex'>I3</title>
-              <title language='fr' format='text/plain' type='main'>Titre Principal</title>
-              <title language='fr' format='text/plain' type='annex'>J3</title>
-              <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-              <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
-              <title language='en' format='text/plain' type='amendment'>Amendment Title</title>
-              <title language='fr' format='text/plain' type='amendment'>Titre de Amendment</title>
-              <title language='en' format='text/plain' type='corrigendum'>Corrigendum Title</title>
-              <title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
-              <docidentifier type='ITU-provisional'>ABC</docidentifier>
-              <docidentifier type="ITU-TemporaryDocument">SG17-TD611</docidentifier>
-              <docidentifier type='ITU'>ITU-R 1000</docidentifier>
-              <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
-              <docidentifier type='ITU-Recommendation'>G.7713.1</docidentifier>
-              <docidentifier type='ITU-Recommendation'>Y.1704.1</docidentifier>
-              <docnumber>1000</docnumber>
-              <contributor>
-                <role type='author'/>
+      output = <<~"OUTPUT"
+           <?xml version="1.0" encoding="UTF-8"?>
+           <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
+                    <bibdata type='standard'>
+            <title language='en' format='text/plain' type='main'>Main Title</title>
+            <title language='en' format='text/plain' type='annex'>I3</title>
+            <title language='fr' format='text/plain' type='main'>Titre Principal</title>
+            <title language='fr' format='text/plain' type='annex'>J3</title>
+            <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+            <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+            <title language='en' format='text/plain' type='amendment'>Amendment Title</title>
+            <title language='fr' format='text/plain' type='amendment'>Titre de Amendment</title>
+            <title language='en' format='text/plain' type='corrigendum'>Corrigendum Title</title>
+            <title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
+            <docidentifier type='ITU-provisional'>ABC</docidentifier>
+            <docidentifier type="ITU-TemporaryDocument">SG17-TD611</docidentifier>
+            <docidentifier type='ITU'>ITU-R 1000</docidentifier>
+            <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
+            <docidentifier type='ITU-Recommendation'>G.7713.1</docidentifier>
+            <docidentifier type='ITU-Recommendation'>Y.1704.1</docidentifier>
+            <docnumber>1000</docnumber>
+            <contributor>
+              <role type='author'/>
+              <organization>
+                <name>International Telecommunication Union</name>
+              </organization>
+            </contributor>
+            <contributor>
+              <role type='author'/>
+              <person>
+                <name>
+                  <completename>Fred Flintstone</completename>
+                </name>
+              </person>
+            </contributor>
+            <contributor>
+              <role type='editor'/>
+              <person>
+                <name>
+                  <forename>Barney</forename>
+                  <surname>Rubble</surname>
+                </name>
+              </person>
+            </contributor>
+            <contributor>
+              <role type='publisher'/>
+              <organization>
+                <name>International Telecommunication Union</name>
+              </organization>
+            </contributor>
+            <edition>2</edition>
+            <version>
+              <revision-date>2000-01-01</revision-date>
+            </version>
+            <language>en</language>
+            <script>Latn</script>
+            <status>
+              <stage>final-draft</stage>
+            </status>
+            <copyright>
+              <from>2001</from>
+              <owner>
                 <organization>
                   <name>International Telecommunication Union</name>
                 </organization>
-              </contributor>
-              <contributor>
-                <role type='author'/>
-                <person>
-                  <name>
-                    <completename>Fred Flintstone</completename>
-                  </name>
-                </person>
-              </contributor>
-              <contributor>
-                <role type='editor'/>
-                <person>
-                  <name>
-                    <forename>Barney</forename>
-                    <surname>Rubble</surname>
-                  </name>
-                </person>
-              </contributor>
-              <contributor>
-                <role type='publisher'/>
-                <organization>
-                  <name>International Telecommunication Union</name>
-                </organization>
-              </contributor>
-              <edition>2</edition>
-              <version>
-                <revision-date>2000-01-01</revision-date>
-              </version>
-              <language>en</language>
-              <script>Latn</script>
-              <status>
-                <stage>final-draft</stage>
-              </status>
-              <copyright>
-                <from>2001</from>
-                <owner>
+              </owner>
+            </copyright>
+            <relation type='complements'>
+              <bibitem type='standard'>
+                <title type='title-main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
+                <title type='main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
+                <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&#x26;lang=en</uri>
+                <uri type='obp'>https://handle.itu.int/11.1002/1000/694-en?locatt=format:pdf&#x26;auth</uri>
+                <docidentifier type='ITU' primary='true'>ITU-T F.69</docidentifier>
+                <contributor>
+                  <role type='publisher'/>
                   <organization>
                     <name>International Telecommunication Union</name>
+                    <abbreviation>ITU</abbreviation>
+                    <uri>www.itu.int</uri>
                   </organization>
-                </owner>
-              </copyright>
-              <relation type='complements'>
-                <bibitem type='standard'>
-                  <fetched/>
-                  <title type='title-main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
-                  <title type='main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
-                  <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&#x26;lang=en</uri>
-                  <uri type='obp'>https://handle.itu.int/11.1002/1000/694-en?locatt=format:pdf&#x26;auth</uri>
-                  <docidentifier type='ITU' primary='true'>ITU-T F.69</docidentifier>
-                  <contributor>
-                    <role type='publisher'/>
+                </contributor>
+                <edition>7</edition>
+                <language>en</language>
+                <script>Latn</script>
+                <status>
+                  <stage>Withdrawal</stage>
+                </status>
+                <copyright>
+                  <from>1988</from>
+                  <owner>
                     <organization>
                       <name>International Telecommunication Union</name>
                       <abbreviation>ITU</abbreviation>
                       <uri>www.itu.int</uri>
                     </organization>
-                  </contributor>
-                  <edition>7</edition>
-                  <language>en</language>
-                  <script>Latn</script>
-                  <status>
-                    <stage>Withdrawal</stage>
-                  </status>
-                  <copyright>
-                    <from>1988</from>
-                    <owner>
+                  </owner>
+                </copyright>
+                <relation type='complements'>
+                  <bibitem type='standard'>
+                    <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 1 (11/1988)</formattedref>
+                    <docidentifier type='ITU'>F Suppl. 1 (11/1988)</docidentifier>
+                  </bibitem>
+                </relation>
+                <relation type='complements'>
+                  <bibitem type='standard'>
+                    <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 2 (11/1988)</formattedref>
+                    <docidentifier type='ITU'>F Suppl. 2 (11/1988)</docidentifier>
+                  </bibitem>
+                </relation>
+                <relation type='complements'>
+                  <bibitem type='standard'>
+                    <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 3 (09/2016)</formattedref>
+                    <docidentifier type='ITU'>F Suppl. 3 (09/2016)</docidentifier>
+                  </bibitem>
+                </relation>
+                <relation type='complements'>
+                  <bibitem type='standard'>
+                    <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 4 (04/2021)</formattedref>
+                    <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
+                  </bibitem>
+                </relation>
+                <relation type='instance'>
+                  <bibitem type='standard'>
+                    <title type='title-main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
+                    <title type='main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
+                    <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&#x26;lang=en</uri>
+                    <uri type='obp'>https://handle.itu.int/11.1002/1000/694-en?locatt=format:pdf&#x26;auth</uri>
+                    <docidentifier type='ITU' primary='true'>ITU-T F.69</docidentifier>
+                    <date type='published'>
+                      <on>1988-11-25</on>
+                    </date>
+                    <contributor>
+                      <role type='publisher'/>
                       <organization>
                         <name>International Telecommunication Union</name>
                         <abbreviation>ITU</abbreviation>
                         <uri>www.itu.int</uri>
                       </organization>
-                    </owner>
-                  </copyright>
-                  <relation type='complements'>
-                    <bibitem type='standard'>
-                      <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 1 (11/1988)</formattedref>
-                      <docidentifier type='ITU'>F Suppl. 1 (11/1988)</docidentifier>
-                    </bibitem>
-                  </relation>
-                  <relation type='complements'>
-                    <bibitem type='standard'>
-                      <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 2 (11/1988)</formattedref>
-                      <docidentifier type='ITU'>F Suppl. 2 (11/1988)</docidentifier>
-                    </bibitem>
-                  </relation>
-                  <relation type='complements'>
-                    <bibitem type='standard'>
-                      <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 3 (09/2016)</formattedref>
-                      <docidentifier type='ITU'>F Suppl. 3 (09/2016)</docidentifier>
-                    </bibitem>
-                  </relation>
-                  <relation type='complements'>
-                    <bibitem type='standard'>
-                      <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 4 (04/2021)</formattedref>
-                      <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
-                    </bibitem>
-                  </relation>
-                  <relation type='instance'>
-                    <bibitem type='standard'>
-                      <fetched/>
-                      <title type='title-main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
-                      <title type='main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
-                      <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&#x26;lang=en</uri>
-                      <uri type='obp'>https://handle.itu.int/11.1002/1000/694-en?locatt=format:pdf&#x26;auth</uri>
-                      <docidentifier type='ITU' primary='true'>ITU-T F.69</docidentifier>
-                      <date type='published'>
-                        <on>1988-11-25</on>
-                      </date>
-                      <contributor>
-                        <role type='publisher'/>
+                    </contributor>
+                    <edition>7</edition>
+                    <language>en</language>
+                    <script>Latn</script>
+                    <abstract format='text/plain' language='en' script='Latn'>
+                      This Recommendation describes theprocedures to be followed in the
+                      allocation of telex destination codes andtelex network
+                      identification codes. The means of promulgation publication,
+                      anddate of entry into effect of code allocations are also
+                      identified.
+                    </abstract>
+                    <status>
+                      <stage>Withdrawal</stage>
+                    </status>
+                    <copyright>
+                      <from>1988</from>
+                      <owner>
                         <organization>
                           <name>International Telecommunication Union</name>
                           <abbreviation>ITU</abbreviation>
                           <uri>www.itu.int</uri>
                         </organization>
-                      </contributor>
-                      <edition>7</edition>
-                      <language>en</language>
-                      <script>Latn</script>
-                      <abstract format='text/plain' language='en' script='Latn'>
-                        This Recommendation describes theprocedures to be followed in the
-                        allocation of telex destination codes andtelex network
-                        identification codes. The means of promulgation publication,
-                        anddate of entry into effect of code allocations are also
-                        identified.
-                      </abstract>
-                      <status>
-                        <stage>Withdrawal</stage>
-                      </status>
-                      <copyright>
-                        <from>1988</from>
-                        <owner>
-                          <organization>
-                            <name>International Telecommunication Union</name>
-                            <abbreviation>ITU</abbreviation>
-                            <uri>www.itu.int</uri>
-                          </organization>
-                        </owner>
-                      </copyright>
-                      <relation type='complements'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 1 (11/1988)</formattedref>
-                          <docidentifier type='ITU'>F Suppl. 1 (11/1988)</docidentifier>
-                        </bibitem>
-                      </relation>
-                      <relation type='complements'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 2 (11/1988)</formattedref>
-                          <docidentifier type='ITU'>F Suppl. 2 (11/1988)</docidentifier>
-                        </bibitem>
-                      </relation>
-                      <relation type='complements'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 3 (09/2016)</formattedref>
-                          <docidentifier type='ITU'>F Suppl. 3 (09/2016)</docidentifier>
-                        </bibitem>
-                      </relation>
-                      <relation type='complements'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 4 (04/2021)</formattedref>
-                          <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
-                        </bibitem>
-                      </relation>
-                      <place>Geneva</place>
-                    </bibitem>
-                  </relation>
-                  <place>Geneva</place>
-                </bibitem>
-              </relation>
-              <relation type='complements'>
-                <bibitem type='standard'>
-                  <fetched/>
-                  <title type='title-main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
-                  <title type='main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
-                  <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&#x26;lang=en</uri>
-                  <uri type='obp'>https://handle.itu.int/11.1002/1000/693-en?locatt=format:pdf&#x26;auth</uri>
-                  <docidentifier type='ITU' primary='true'>ITU-T F.68</docidentifier>
-                  <contributor>
-                    <role type='publisher'/>
+                      </owner>
+                    </copyright>
+                    <relation type='complements'>
+                      <bibitem type='standard'>
+                        <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 1 (11/1988)</formattedref>
+                        <docidentifier type='ITU'>F Suppl. 1 (11/1988)</docidentifier>
+                      </bibitem>
+                    </relation>
+                    <relation type='complements'>
+                      <bibitem type='standard'>
+                        <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 2 (11/1988)</formattedref>
+                        <docidentifier type='ITU'>F Suppl. 2 (11/1988)</docidentifier>
+                      </bibitem>
+                    </relation>
+                    <relation type='complements'>
+                      <bibitem type='standard'>
+                        <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 3 (09/2016)</formattedref>
+                        <docidentifier type='ITU'>F Suppl. 3 (09/2016)</docidentifier>
+                      </bibitem>
+                    </relation>
+                    <relation type='complements'>
+                      <bibitem type='standard'>
+                        <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 4 (04/2021)</formattedref>
+                        <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
+                      </bibitem>
+                    </relation>
+                    <place>Geneva</place>
+                  </bibitem>
+                </relation>
+                <place>Geneva</place>
+              </bibitem>
+            </relation>
+            <relation type='complements'>
+              <bibitem type='standard'>
+                <title type='title-main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
+                <title type='main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
+                <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&#x26;lang=en</uri>
+                <uri type='obp'>https://handle.itu.int/11.1002/1000/693-en?locatt=format:pdf&#x26;auth</uri>
+                <docidentifier type='ITU' primary='true'>ITU-T F.68</docidentifier>
+                <contributor>
+                  <role type='publisher'/>
+                  <organization>
+                    <name>International Telecommunication Union</name>
+                    <abbreviation>ITU</abbreviation>
+                    <uri>www.itu.int</uri>
+                  </organization>
+                </contributor>
+                <edition>5</edition>
+                <language>en</language>
+                <script>Latn</script>
+                <status>
+                  <stage>Published</stage>
+                </status>
+                <copyright>
+                  <from>1988</from>
+                  <owner>
                     <organization>
                       <name>International Telecommunication Union</name>
                       <abbreviation>ITU</abbreviation>
                       <uri>www.itu.int</uri>
                     </organization>
-                  </contributor>
-                  <edition>5</edition>
-                  <language>en</language>
-                  <script>Latn</script>
-                  <status>
-                    <stage>Published</stage>
-                  </status>
-                  <copyright>
-                    <from>1988</from>
-                    <owner>
+                  </owner>
+                </copyright>
+                <relation type='complements'>
+                  <bibitem type='standard'>
+                    <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 1 (11/1988)</formattedref>
+                    <docidentifier type='ITU'>F Suppl. 1 (11/1988)</docidentifier>
+                  </bibitem>
+                </relation>
+                <relation type='complements'>
+                  <bibitem type='standard'>
+                    <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 2 (11/1988)</formattedref>
+                    <docidentifier type='ITU'>F Suppl. 2 (11/1988)</docidentifier>
+                  </bibitem>
+                </relation>
+                <relation type='complements'>
+                  <bibitem type='standard'>
+                    <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 3 (09/2016)</formattedref>
+                    <docidentifier type='ITU'>F Suppl. 3 (09/2016)</docidentifier>
+                  </bibitem>
+                </relation>
+                <relation type='complements'>
+                  <bibitem type='standard'>
+                    <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 4 (04/2021)</formattedref>
+                    <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
+                  </bibitem>
+                </relation>
+                <relation type='instance'>
+                  <bibitem type='standard'>
+                    <title type='title-main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
+                    <title type='main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
+                    <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&#x26;lang=en</uri>
+                    <uri type='obp'>https://handle.itu.int/11.1002/1000/693-en?locatt=format:pdf&#x26;auth</uri>
+                    <docidentifier type='ITU' primary='true'>ITU-T F.68</docidentifier>
+                    <date type='published'>
+                      <on>1988-11-25</on>
+                    </date>
+                    <contributor>
+                      <role type='publisher'/>
                       <organization>
                         <name>International Telecommunication Union</name>
                         <abbreviation>ITU</abbreviation>
                         <uri>www.itu.int</uri>
                       </organization>
-                    </owner>
-                  </copyright>
-                  <relation type='complements'>
-                    <bibitem type='standard'>
-                      <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 1 (11/1988)</formattedref>
-                      <docidentifier type='ITU'>F Suppl. 1 (11/1988)</docidentifier>
-                    </bibitem>
-                  </relation>
-                  <relation type='complements'>
-                    <bibitem type='standard'>
-                      <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 2 (11/1988)</formattedref>
-                      <docidentifier type='ITU'>F Suppl. 2 (11/1988)</docidentifier>
-                    </bibitem>
-                  </relation>
-                  <relation type='complements'>
-                    <bibitem type='standard'>
-                      <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 3 (09/2016)</formattedref>
-                      <docidentifier type='ITU'>F Suppl. 3 (09/2016)</docidentifier>
-                    </bibitem>
-                  </relation>
-                  <relation type='complements'>
-                    <bibitem type='standard'>
-                      <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 4 (04/2021)</formattedref>
-                      <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
-                    </bibitem>
-                  </relation>
-                  <relation type='instance'>
-                    <bibitem type='standard'>
-                      <fetched/>
-                      <title type='title-main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
-                      <title type='main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
-                      <uri type='src'>https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&#x26;lang=en</uri>
-                      <uri type='obp'>https://handle.itu.int/11.1002/1000/693-en?locatt=format:pdf&#x26;auth</uri>
-                      <docidentifier type='ITU' primary='true'>ITU-T F.68</docidentifier>
-                      <date type='published'>
-                        <on>1988-11-25</on>
-                      </date>
-                      <contributor>
-                        <role type='publisher'/>
+                    </contributor>
+                    <edition>5</edition>
+                    <language>en</language>
+                    <script>Latn</script>
+                    <abstract format='text/plain' language='en' script='Latn'/>
+                    <status>
+                      <stage>Published</stage>
+                    </status>
+                    <copyright>
+                      <from>1988</from>
+                      <owner>
                         <organization>
                           <name>International Telecommunication Union</name>
                           <abbreviation>ITU</abbreviation>
                           <uri>www.itu.int</uri>
                         </organization>
-                      </contributor>
-                      <edition>5</edition>
-                      <language>en</language>
-                      <script>Latn</script>
-                      <abstract format='text/plain' language='en' script='Latn'/>
-                      <status>
-                        <stage>Published</stage>
-                      </status>
-                      <copyright>
-                        <from>1988</from>
-                        <owner>
-                          <organization>
-                            <name>International Telecommunication Union</name>
-                            <abbreviation>ITU</abbreviation>
-                            <uri>www.itu.int</uri>
-                          </organization>
-                        </owner>
-                      </copyright>
-                      <relation type='complements'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 1 (11/1988)</formattedref>
-                          <docidentifier type='ITU'>F Suppl. 1 (11/1988)</docidentifier>
-                        </bibitem>
-                      </relation>
-                      <relation type='complements'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 2 (11/1988)</formattedref>
-                          <docidentifier type='ITU'>F Suppl. 2 (11/1988)</docidentifier>
-                        </bibitem>
-                      </relation>
-                      <relation type='complements'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 3 (09/2016)</formattedref>
-                          <docidentifier type='ITU'>F Suppl. 3 (09/2016)</docidentifier>
-                        </bibitem>
-                      </relation>
-                      <relation type='complements'>
-                        <bibitem type='standard'>
-                          <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 4 (04/2021)</formattedref>
-                          <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
-                        </bibitem>
-                      </relation>
-                      <place>Geneva</place>
-                    </bibitem>
-                  </relation>
-                  <place>Geneva</place>
-                </bibitem>
-              </relation>
-              <series type='main'>
-                <title>A3</title>
-              </series>
-              <series type='secondary'>
-                <title>B3</title>
-              </series>
-              <series type='tertiary'>
-                <title>C3</title>
-              </series>
-              <keyword>Word1</keyword>
-              <keyword>word2</keyword>
-              <ext>
-                <doctype>directive</doctype>
-                <editorialgroup>
-                  <bureau>R</bureau>
-                  <group type='A'>
-                    <name>I</name>
-                    <acronym>C</acronym>
-                    <period>
-                      <start>E</start>
-                      <end>G</end>
-                    </period>
-                  </group>
-                  <subgroup type='A1'>
-                    <name>I1</name>
-                    <acronym>C1</acronym>
-                    <period>
-                      <start>E1</start>
-                      <end>G1</end>
-                    </period>
-                  </subgroup>
-                  <workgroup type='A2'>
-                    <name>I2</name>
-                    <acronym>C2</acronym>
-                    <period>
-                      <start>E2</start>
-                      <end>G2</end>
-                    </period>
-                  </workgroup>
-                </editorialgroup>
-                <editorialgroup>
-                  <bureau>T</bureau>
-                  <group type='B'>
-                    <name>J</name>
-                    <acronym>D</acronym>
-                    <period>
-                      <start>F</start>
-                      <end>H</end>
-                    </period>
-                  </group>
-                  <subgroup type='B1'>
-                    <name>J1</name>
-                    <acronym>D1</acronym>
-                    <period>
-                      <start>F1</start>
-                      <end>H1</end>
-                    </period>
-                  </subgroup>
-                  <workgroup type='B2'>
-                    <name>J2</name>
-                    <acronym>D2</acronym>
-                    <period>
-                      <start>F2</start>
-                      <end>H2</end>
-                    </period>
-                  </workgroup>
-                </editorialgroup>
-                <recommendationstatus>
-                  <from>D3</from>
-                  <to>E3</to>
-                  <approvalstage process='F3'>G3</approvalstage>
-                </recommendationstatus>
-                <ip-notice-received>false</ip-notice-received>
-                <structuredidentifier>
-                  <bureau>R</bureau>
-                  <docnumber>1000</docnumber>
-                  <annexid>H3</annexid>
-                  <amendment>88</amendment>
-                  <corrigendum>88</corrigendum>
-                </structuredidentifier>
-              </ext>
-            </bibdata>
-            <sections> </sections>
-          </itu-standard>
-        OUTPUT
+                      </owner>
+                    </copyright>
+                    <relation type='complements'>
+                      <bibitem type='standard'>
+                        <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 1 (11/1988)</formattedref>
+                        <docidentifier type='ITU'>F Suppl. 1 (11/1988)</docidentifier>
+                      </bibitem>
+                    </relation>
+                    <relation type='complements'>
+                      <bibitem type='standard'>
+                        <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 2 (11/1988)</formattedref>
+                        <docidentifier type='ITU'>F Suppl. 2 (11/1988)</docidentifier>
+                      </bibitem>
+                    </relation>
+                    <relation type='complements'>
+                      <bibitem type='standard'>
+                        <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 3 (09/2016)</formattedref>
+                        <docidentifier type='ITU'>F Suppl. 3 (09/2016)</docidentifier>
+                      </bibitem>
+                    </relation>
+                    <relation type='complements'>
+                      <bibitem type='standard'>
+                        <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 4 (04/2021)</formattedref>
+                        <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
+                      </bibitem>
+                    </relation>
+                    <place>Geneva</place>
+                  </bibitem>
+                </relation>
+                <place>Geneva</place>
+              </bibitem>
+            </relation>
+            <series type='main'>
+              <title>A3</title>
+            </series>
+            <series type='secondary'>
+              <title>B3</title>
+            </series>
+            <series type='tertiary'>
+              <title>C3</title>
+            </series>
+            <keyword>Word1</keyword>
+            <keyword>word2</keyword>
+            <ext>
+              <doctype>directive</doctype>
+              <editorialgroup>
+                <bureau>R</bureau>
+                <group type='A'>
+                  <name>I</name>
+                  <acronym>C</acronym>
+                  <period>
+                    <start>E</start>
+                    <end>G</end>
+                  </period>
+                </group>
+                <subgroup type='A1'>
+                  <name>I1</name>
+                  <acronym>C1</acronym>
+                  <period>
+                    <start>E1</start>
+                    <end>G1</end>
+                  </period>
+                </subgroup>
+                <workgroup type='A2'>
+                  <name>I2</name>
+                  <acronym>C2</acronym>
+                  <period>
+                    <start>E2</start>
+                    <end>G2</end>
+                  </period>
+                </workgroup>
+              </editorialgroup>
+              <editorialgroup>
+                <bureau>T</bureau>
+                <group type='B'>
+                  <name>J</name>
+                  <acronym>D</acronym>
+                  <period>
+                    <start>F</start>
+                    <end>H</end>
+                  </period>
+                </group>
+                <subgroup type='B1'>
+                  <name>J1</name>
+                  <acronym>D1</acronym>
+                  <period>
+                    <start>F1</start>
+                    <end>H1</end>
+                  </period>
+                </subgroup>
+                <workgroup type='B2'>
+                  <name>J2</name>
+                  <acronym>D2</acronym>
+                  <period>
+                    <start>F2</start>
+                    <end>H2</end>
+                  </period>
+                </workgroup>
+              </editorialgroup>
+              <recommendationstatus>
+                <from>D3</from>
+                <to>E3</to>
+                <approvalstage process='F3'>G3</approvalstage>
+              </recommendationstatus>
+              <ip-notice-received>false</ip-notice-received>
+              <structuredidentifier>
+                <bureau>R</bureau>
+                <docnumber>1000</docnumber>
+                <annexid>H3</annexid>
+                <amendment>88</amendment>
+                <corrigendum>88</corrigendum>
+              </structuredidentifier>
+            </ext>
+          </bibdata>
+          <sections> </sections>
+        </itu-standard>
+      OUTPUT
+      xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension | //xmlns:fetched")
+        .each(&:remove)
+      expect(xmlpp(xml.to_xml))
+        .to be_equivalent_to xmlpp(output)
     end
   end
 
   it "processes explicit metadata, technical report" do
-    input = <<~"INPUT"
+    xml = Nokogiri::XML(Asciidoctor.convert(<<~"INPUT", *OPTIONS))
       = Document title
       Author
       :docfile: test.adoc
@@ -696,134 +695,136 @@ RSpec.describe Metanorma::ITU do
       :fax_2: 558
       :email_2: y@example.com
     INPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)
-      .sub(%r{<boilerplate>.*</boilerplate>}m, "")))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
-        <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
-          <bibdata type='standard'>
-            <title language='en' format='text/plain' type='main'>Main Title</title>
-            <title language='fr' format='text/plain' type='main'>Titre Principal</title>
-            <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-            <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
-            <docidentifier type='ITU-provisional'>ABC</docidentifier>
-            <docidentifier type='ITU'>ITU-R 1000</docidentifier>
-            <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
-            <docnumber>1000</docnumber>
-            <contributor>
-              <role type='author'/>
-              <organization>
-                <name>International Telecommunication Union</name>
-              </organization>
-            </contributor>
-            <contributor>
-            <role type='editor'>raporteur</role>
-              <person>
-                <name>
-                  <completename>Fred Flintstone</completename>
-                </name>
-                <affiliation>
-                  <organization>
-                    <name>Bedrock Quarry</name>
-                    <address>
-                      <formattedAddress>Canada</formattedAddress>
-                    </address>
-                  </organization>
-                </affiliation>
-                <phone>555</phone>
-                <phone type='fax'>556</phone>
-                <email>x@example.com</email>
-              </person>
-            </contributor>
-            <contributor>
-              <role type='editor'/>
-              <person>
-                <name>
-                  <completename>Barney Rubble</completename>
-                </name>
-                <affiliation>
-                  <organization>
-                    <name>Bedrock Quarry 2</name>
-                    <address>
-                      <formattedAddress>USA</formattedAddress>
-                    </address>
-                  </organization>
-                </affiliation>
-                <phone>557</phone>
-                <phone type='fax'>558</phone>
-                <email>y@example.com</email>
-              </person>
-            </contributor>
-            <contributor>
-              <role type='publisher'/>
-              <organization>
-                <name>International Telecommunication Union</name>
-              </organization>
-            </contributor>
-            <edition>2</edition>
-            <version>
-              <revision-date>2000-01-01</revision-date>
-              <draft>5</draft>
-            </version>
-            <language>en</language>
-            <script>Latn</script>
-            <status>
-              <stage>draft</stage>
-            </status>
-            <copyright>
-              <from>2001</from>
-              <owner>
+    output = <<~OUTPUT
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+        <bibdata type='standard'>
+          <title language='en' format='text/plain' type='main'>Main Title</title>
+          <title language='fr' format='text/plain' type='main'>Titre Principal</title>
+          <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+          <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+          <docidentifier type='ITU-provisional'>ABC</docidentifier>
+          <docidentifier type='ITU'>ITU-R 1000</docidentifier>
+          <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
+          <docnumber>1000</docnumber>
+          <contributor>
+            <role type='author'/>
+            <organization>
+              <name>International Telecommunication Union</name>
+            </organization>
+          </contributor>
+          <contributor>
+          <role type='editor'>raporteur</role>
+            <person>
+              <name>
+                <completename>Fred Flintstone</completename>
+              </name>
+              <affiliation>
                 <organization>
-                  <name>International Telecommunication Union</name>
+                  <name>Bedrock Quarry</name>
+                  <address>
+                    <formattedAddress>Canada</formattedAddress>
+                  </address>
                 </organization>
-              </owner>
-            </copyright>
-            <series type='main'>
-              <title>A3</title>
-            </series>
-            <series type='secondary'>
-              <title>B3</title>
-            </series>
-            <series type='tertiary'>
-              <title>C3</title>
-            </series>
-            <keyword>VoIP</keyword>
-            <keyword>word1</keyword>
-            <ext>
-              <doctype>technical-report</doctype>
-              <editorialgroup>
-                <bureau>R</bureau>
-                <group>
-                  <name>I</name>
-                </group>
-                <subgroup>
-                  <name>I1</name>
-                </subgroup>
-                <workgroup>
-                  <name>I2</name>
-                </workgroup>
-              </editorialgroup>
-              <ip-notice-received>false</ip-notice-received>
-              <meeting acronym='MX'>Meeting X</meeting>
-              <meeting-place>Kronos</meeting-place>
-              <meeting-date>
-                <from>2000-01-01</from>
-                <to>2000-01-02</to>
-              </meeting-date>
-              <intended-type>TD</intended-type>
-              <source>Source</source>
-              <structuredidentifier>
-                <bureau>R</bureau>
-                <docnumber>1000</docnumber>
-              </structuredidentifier>
-            </ext>
-          </bibdata>
-          <sections> </sections>
-        </itu-standard>
-      OUTPUT
+              </affiliation>
+              <phone>555</phone>
+              <phone type='fax'>556</phone>
+              <email>x@example.com</email>
+            </person>
+          </contributor>
+          <contributor>
+            <role type='editor'/>
+            <person>
+              <name>
+                <completename>Barney Rubble</completename>
+              </name>
+              <affiliation>
+                <organization>
+                  <name>Bedrock Quarry 2</name>
+                  <address>
+                    <formattedAddress>USA</formattedAddress>
+                  </address>
+                </organization>
+              </affiliation>
+              <phone>557</phone>
+              <phone type='fax'>558</phone>
+              <email>y@example.com</email>
+            </person>
+          </contributor>
+          <contributor>
+            <role type='publisher'/>
+            <organization>
+              <name>International Telecommunication Union</name>
+            </organization>
+          </contributor>
+          <edition>2</edition>
+          <version>
+            <revision-date>2000-01-01</revision-date>
+            <draft>5</draft>
+          </version>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>draft</stage>
+          </status>
+          <copyright>
+            <from>2001</from>
+            <owner>
+              <organization>
+                <name>International Telecommunication Union</name>
+              </organization>
+            </owner>
+          </copyright>
+          <series type='main'>
+            <title>A3</title>
+          </series>
+          <series type='secondary'>
+            <title>B3</title>
+          </series>
+          <series type='tertiary'>
+            <title>C3</title>
+          </series>
+          <keyword>VoIP</keyword>
+          <keyword>word1</keyword>
+          <ext>
+            <doctype>technical-report</doctype>
+            <editorialgroup>
+              <bureau>R</bureau>
+              <group>
+                <name>I</name>
+              </group>
+              <subgroup>
+                <name>I1</name>
+              </subgroup>
+              <workgroup>
+                <name>I2</name>
+              </workgroup>
+            </editorialgroup>
+            <ip-notice-received>false</ip-notice-received>
+            <meeting acronym='MX'>Meeting X</meeting>
+            <meeting-place>Kronos</meeting-place>
+            <meeting-date>
+              <from>2000-01-01</from>
+              <to>2000-01-02</to>
+            </meeting-date>
+            <intended-type>TD</intended-type>
+            <source>Source</source>
+            <structuredidentifier>
+              <bureau>R</bureau>
+              <docnumber>1000</docnumber>
+            </structuredidentifier>
+          </ext>
+        </bibdata>
+        <sections> </sections>
+      </itu-standard>
+    OUTPUT
+    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+      .each(&:remove)
+    expect(xmlpp(xml.to_xml))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes explicit metadata, technical report #2" do
-    input = <<~"INPUT"
+    xml = Nokogiri::XML(Asciidoctor.convert(<<~"INPUT", *OPTIONS))
       = Document title
       Author
       :docfile: test.adoc
@@ -859,94 +860,96 @@ RSpec.describe Metanorma::ITU do
       :source: Source
       :draft: 5
     INPUT
-    expect(xmlpp(Asciidoctor.convert(input, *OPTIONS)
-      .sub(%r{<boilerplate>.*</boilerplate>}m, "")))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
-        <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
-          <bibdata type='standard'>
-            <title language='en' format='text/plain' type='main'>Main Title</title>
-            <title language='fr' format='text/plain' type='main'>Titre Principal</title>
-            <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-            <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
-            <docidentifier type='ITU-provisional'>ABC</docidentifier>
-            <docidentifier type='ITU'>OVERRIDE</docidentifier>
-            <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
-            <docnumber>1000</docnumber>
-            <contributor>
-              <role type='author'/>
+    output = <<~OUTPUT
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+        <bibdata type='standard'>
+          <title language='en' format='text/plain' type='main'>Main Title</title>
+          <title language='fr' format='text/plain' type='main'>Titre Principal</title>
+          <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+          <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+          <docidentifier type='ITU-provisional'>ABC</docidentifier>
+          <docidentifier type='ITU'>OVERRIDE</docidentifier>
+          <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
+          <docnumber>1000</docnumber>
+          <contributor>
+            <role type='author'/>
+            <organization>
+              <name>International Telecommunication Union</name>
+            </organization>
+          </contributor>
+          <contributor>
+            <role type='publisher'/>
+            <organization>
+              <name>International Telecommunication Union</name>
+            </organization>
+          </contributor>
+          <edition>2</edition>
+          <version>
+            <revision-date>2000-01-01</revision-date>
+            <draft>5</draft>
+          </version>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>draft</stage>
+          </status>
+          <copyright>
+            <from>2001</from>
+            <owner>
               <organization>
                 <name>International Telecommunication Union</name>
               </organization>
-            </contributor>
-            <contributor>
-              <role type='publisher'/>
-              <organization>
-                <name>International Telecommunication Union</name>
-              </organization>
-            </contributor>
-            <edition>2</edition>
-            <version>
-              <revision-date>2000-01-01</revision-date>
-              <draft>5</draft>
-            </version>
-            <language>en</language>
-            <script>Latn</script>
-            <status>
-              <stage>draft</stage>
-            </status>
-            <copyright>
-              <from>2001</from>
-              <owner>
-                <organization>
-                  <name>International Telecommunication Union</name>
-                </organization>
-              </owner>
-            </copyright>
-            <series type='main'>
-              <title>A3</title>
-            </series>
-            <series type='secondary'>
-              <title>B3</title>
-            </series>
-            <series type='tertiary'>
-              <title>C3</title>
-            </series>
-            <keyword>Word1</keyword>
-            <keyword>word2</keyword>
-            <ext>
-              <doctype>technical-report</doctype>
-              <editorialgroup>
-                <bureau>R</bureau>
-                <group>
-                  <name>I</name>
-                </group>
-                <subgroup>
-                  <name>I1</name>
-                </subgroup>
-                <workgroup>
-                  <name>I2</name>
-                </workgroup>
-              </editorialgroup>
-              <ip-notice-received>false</ip-notice-received>
-              <meeting>Meeting X</meeting>
-              <meeting-date>
-                <on>2000-01-01</on>
-              </meeting-date>
-              <intended-type>TD</intended-type>
-              <source>Source</source>
-              <structuredidentifier>
-                <bureau>R</bureau>
-                <docnumber>1000</docnumber>
-              </structuredidentifier>
-            </ext>
-          </bibdata>
-          <sections> </sections>
-        </itu-standard>
-      OUTPUT
+            </owner>
+          </copyright>
+          <series type='main'>
+            <title>A3</title>
+          </series>
+          <series type='secondary'>
+            <title>B3</title>
+          </series>
+          <series type='tertiary'>
+            <title>C3</title>
+          </series>
+          <keyword>Word1</keyword>
+          <keyword>word2</keyword>
+          <ext>
+            <doctype>technical-report</doctype>
+            <editorialgroup>
+              <bureau>R</bureau>
+              <group>
+                <name>I</name>
+              </group>
+              <subgroup>
+                <name>I1</name>
+              </subgroup>
+              <workgroup>
+                <name>I2</name>
+              </workgroup>
+            </editorialgroup>
+            <ip-notice-received>false</ip-notice-received>
+            <meeting>Meeting X</meeting>
+            <meeting-date>
+              <on>2000-01-01</on>
+            </meeting-date>
+            <intended-type>TD</intended-type>
+            <source>Source</source>
+            <structuredidentifier>
+              <bureau>R</bureau>
+              <docnumber>1000</docnumber>
+            </structuredidentifier>
+          </ext>
+        </bibdata>
+        <sections> </sections>
+      </itu-standard>
+    OUTPUT
+    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+      .each(&:remove)
+    expect(xmlpp(xml.to_xml))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes explicit metadata, service publication" do
-    output = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    xml = Nokogiri::XML(Asciidoctor.convert(<<~"INPUT", *OPTIONS))
       = Document title
       Author
       :docfile: test.adoc
@@ -996,132 +999,135 @@ RSpec.describe Metanorma::ITU do
       :email_2: y@example.com
     INPUT
 
-    expect(xmlpp(output.sub(%r{<boilerplate>.*</boilerplate>}m, "")))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
-        <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
-          <bibdata type='standard'>
-            <title language='en' format='text/plain' type='main'>Main Title</title>
-            <title language='fr' format='text/plain' type='main'>Titre Principal</title>
-            <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-            <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
-            <docidentifier type='ITU-provisional'>ABC</docidentifier>
-            <docidentifier type='ITU'>Annex to ITU OB 1000</docidentifier>
-            <docidentifier type='ITU-lang'>Annex to ITU OB 1000-E</docidentifier>
-            <docnumber>1000</docnumber>
-            <contributor>
-              <role type='author'/>
-              <organization>
-                <name>International Telecommunication Union</name>
-              </organization>
-            </contributor>
-            <contributor>
-              <role type='editor'>raporteur</role>
-              <person>
-                <name>
-                  <completename>Fred Flintstone</completename>
-                </name>
-                <affiliation>
-                  <organization>
-                    <name>Bedrock Quarry</name>
-                    <address>
-                      <formattedAddress>Canada</formattedAddress>
-                    </address>
-                  </organization>
-                </affiliation>
-                <phone>555</phone>
-                <phone type='fax'>556</phone>
-                <email>x@example.com</email>
-              </person>
-            </contributor>
-            <contributor>
-              <role type='editor'/>
-              <person>
-                <name>
-                  <completename>Barney Rubble</completename>
-                </name>
-                <affiliation>
-                  <organization>
-                    <name>Bedrock Quarry 2</name>
-                    <address>
-                      <formattedAddress>USA</formattedAddress>
-                    </address>
-                  </organization>
-                </affiliation>
-                <phone>557</phone>
-                <phone type='fax'>558</phone>
-                <email>y@example.com</email>
-              </person>
-            </contributor>
-            <contributor>
-              <role type='publisher'/>
-              <organization>
-                <name>International Telecommunication Union</name>
-              </organization>
-            </contributor>
-            <edition>2</edition>
-            <version>
-              <revision-date>2000-01-01</revision-date>
-              <draft>5</draft>
-            </version>
-            <language>en</language>
-            <script>Latn</script>
-            <status>
-              <stage>draft</stage>
-            </status>
-            <copyright>
-              <from>2001</from>
-              <owner>
+    output = <<~OUTPUT
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+        <bibdata type='standard'>
+          <title language='en' format='text/plain' type='main'>Main Title</title>
+          <title language='fr' format='text/plain' type='main'>Titre Principal</title>
+          <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+          <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+          <docidentifier type='ITU-provisional'>ABC</docidentifier>
+          <docidentifier type='ITU'>Annex to ITU OB 1000</docidentifier>
+          <docidentifier type='ITU-lang'>Annex to ITU OB 1000-E</docidentifier>
+          <docnumber>1000</docnumber>
+          <contributor>
+            <role type='author'/>
+            <organization>
+              <name>International Telecommunication Union</name>
+            </organization>
+          </contributor>
+          <contributor>
+            <role type='editor'>raporteur</role>
+            <person>
+              <name>
+                <completename>Fred Flintstone</completename>
+              </name>
+              <affiliation>
                 <organization>
-                  <name>International Telecommunication Union</name>
+                  <name>Bedrock Quarry</name>
+                  <address>
+                    <formattedAddress>Canada</formattedAddress>
+                  </address>
                 </organization>
-              </owner>
-            </copyright>
-            <series type='main'>
-              <title>A3</title>
-            </series>
-            <series type='secondary'>
-              <title>B3</title>
-            </series>
-            <series type='tertiary'>
-              <title>C3</title>
-            </series>
-            <keyword>Word1</keyword>
-            <keyword>word2</keyword>
-            <ext>
-              <doctype>service-publication</doctype>
-              <editorialgroup>
-                <bureau>R</bureau>
-                <group>
-                  <name>I</name>
-                </group>
-                <subgroup>
-                  <name>I1</name>
-                </subgroup>
-                <workgroup>
-                  <name>I2</name>
-                </workgroup>
-              </editorialgroup>
-              <ip-notice-received>false</ip-notice-received>
-              <meeting>Meeting X</meeting>
-              <meeting-date>
-                <from>2000-01-01</from>
-                <to>2000-01-02</to>
-              </meeting-date>
-              <intended-type>TD</intended-type>
-              <source>Source</source>
-              <structuredidentifier>
-                <bureau>R</bureau>
-                <docnumber>1000</docnumber>
-              </structuredidentifier>
-            </ext>
-          </bibdata>
-          <sections> </sections>
-        </itu-standard>
-      OUTPUT
+              </affiliation>
+              <phone>555</phone>
+              <phone type='fax'>556</phone>
+              <email>x@example.com</email>
+            </person>
+          </contributor>
+          <contributor>
+            <role type='editor'/>
+            <person>
+              <name>
+                <completename>Barney Rubble</completename>
+              </name>
+              <affiliation>
+                <organization>
+                  <name>Bedrock Quarry 2</name>
+                  <address>
+                    <formattedAddress>USA</formattedAddress>
+                  </address>
+                </organization>
+              </affiliation>
+              <phone>557</phone>
+              <phone type='fax'>558</phone>
+              <email>y@example.com</email>
+            </person>
+          </contributor>
+          <contributor>
+            <role type='publisher'/>
+            <organization>
+              <name>International Telecommunication Union</name>
+            </organization>
+          </contributor>
+          <edition>2</edition>
+          <version>
+            <revision-date>2000-01-01</revision-date>
+            <draft>5</draft>
+          </version>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>draft</stage>
+          </status>
+          <copyright>
+            <from>2001</from>
+            <owner>
+              <organization>
+                <name>International Telecommunication Union</name>
+              </organization>
+            </owner>
+          </copyright>
+          <series type='main'>
+            <title>A3</title>
+          </series>
+          <series type='secondary'>
+            <title>B3</title>
+          </series>
+          <series type='tertiary'>
+            <title>C3</title>
+          </series>
+          <keyword>Word1</keyword>
+          <keyword>word2</keyword>
+          <ext>
+            <doctype>service-publication</doctype>
+            <editorialgroup>
+              <bureau>R</bureau>
+              <group>
+                <name>I</name>
+              </group>
+              <subgroup>
+                <name>I1</name>
+              </subgroup>
+              <workgroup>
+                <name>I2</name>
+              </workgroup>
+            </editorialgroup>
+            <ip-notice-received>false</ip-notice-received>
+            <meeting>Meeting X</meeting>
+            <meeting-date>
+              <from>2000-01-01</from>
+              <to>2000-01-02</to>
+            </meeting-date>
+            <intended-type>TD</intended-type>
+            <source>Source</source>
+            <structuredidentifier>
+              <bureau>R</bureau>
+              <docnumber>1000</docnumber>
+            </structuredidentifier>
+          </ext>
+        </bibdata>
+        <sections> </sections>
+      </itu-standard>
+    OUTPUT
+    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+      .each(&:remove)
+    expect(xmlpp(xml.to_xml))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "ignores unrecognised status" do
-    output = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    xml = Nokogiri::XML(Asciidoctor.convert(<<~"INPUT", *OPTIONS))
       = Document title
       Author
       :docfile: test.adoc
@@ -1136,55 +1142,58 @@ RSpec.describe Metanorma::ITU do
       :title: Main Title
       :legacy-do-not-insert-missing-sections:
     INPUT
-    expect(xmlpp(output.sub(%r{<boilerplate>.*</boilerplate>}m, "")))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
-        <?xml version="1.0" encoding="UTF-8"?>
-        <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
-        <bibdata type="standard">
-          <title language="en" format="text/plain" type="main">Main Title</title>
-          <docidentifier type="ITU">ITU-T 1000</docidentifier>
-          <docidentifier type="ITU-lang">ITU-T 1000-E</docidentifier>
-          <docnumber>1000</docnumber>
-          <contributor>
-            <role type="author"/>
+    output = <<~"OUTPUT"
+      <?xml version="1.0" encoding="UTF-8"?>
+      <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
+      <bibdata type="standard">
+        <title language="en" format="text/plain" type="main">Main Title</title>
+        <docidentifier type="ITU">ITU-T 1000</docidentifier>
+        <docidentifier type="ITU-lang">ITU-T 1000-E</docidentifier>
+        <docnumber>1000</docnumber>
+        <contributor>
+          <role type="author"/>
+          <organization>
+          <name>International Telecommunication Union</name>
+          </organization>
+        </contributor>
+        <contributor>
+          <role type="publisher"/>
+          <organization>
+          <name>International Telecommunication Union</name>
+          </organization>
+        </contributor>
+        <language>en</language>
+        <script>Latn</script>
+        <status>
+          <stage>pizza</stage>
+        </status>
+        <copyright>
+          <from>#{Time.now.year}</from>
+          <owner>
             <organization>
             <name>International Telecommunication Union</name>
             </organization>
-          </contributor>
-          <contributor>
-            <role type="publisher"/>
-            <organization>
-            <name>International Telecommunication Union</name>
-            </organization>
-          </contributor>
-          <language>en</language>
-          <script>Latn</script>
-          <status>
-            <stage>pizza</stage>
-          </status>
-          <copyright>
-            <from>#{Time.now.year}</from>
-            <owner>
-              <organization>
-              <name>International Telecommunication Union</name>
-              </organization>
-            </owner>
-          </copyright>
-          <ext>
-            <doctype>technical-corrigendum</doctype>
-            <editorialgroup>
-              <bureau>T</bureau>
-            </editorialgroup>
-            <ip-notice-received>false</ip-notice-received>
-            <structuredidentifier>
-              <bureau>T</bureau>
-              <docnumber>1000</docnumber>
-            </structuredidentifier>
-          </ext>
-        </bibdata>
-        <sections/>
-        </itu-standard>
-      OUTPUT
+          </owner>
+        </copyright>
+        <ext>
+          <doctype>technical-corrigendum</doctype>
+          <editorialgroup>
+            <bureau>T</bureau>
+          </editorialgroup>
+          <ip-notice-received>false</ip-notice-received>
+          <structuredidentifier>
+            <bureau>T</bureau>
+            <docnumber>1000</docnumber>
+          </structuredidentifier>
+        </ext>
+      </bibdata>
+      <sections/>
+      </itu-standard>
+    OUTPUT
+    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+      .each(&:remove)
+    expect(xmlpp(xml.to_xml))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "does not strip inline header" do

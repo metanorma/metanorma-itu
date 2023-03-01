@@ -8065,6 +8065,13 @@
 					<xsl:when test="$contents_nodes/doc">
 						<xsl:choose>
 							<xsl:when test="count($contents_nodes/doc) &gt; 1">
+
+								<xsl:if test="$contents_nodes/collection">
+									<fo:bookmark internal-destination="{$contents/collection/@firstpage_id}">
+										<fo:bookmark-title>collection.pdf</fo:bookmark-title>
+									</fo:bookmark>
+								</xsl:if>
+
 								<xsl:for-each select="$contents_nodes/doc">
 									<fo:bookmark internal-destination="{contents/item[1]/@id}" starting-state="hide">
 										<xsl:if test="@bundle = 'true'">

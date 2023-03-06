@@ -2684,7 +2684,6 @@
 
 	<xsl:attribute-set name="table-header-cell-style">
 		<xsl:attribute name="font-weight">bold</xsl:attribute>
-		<xsl:attribute name="border">solid black 1pt</xsl:attribute>
 		<xsl:attribute name="padding-left">1mm</xsl:attribute>
 		<xsl:attribute name="padding-right">1mm</xsl:attribute>
 		<xsl:attribute name="display-align">center</xsl:attribute>
@@ -2693,10 +2692,10 @@
 
 	<xsl:attribute-set name="table-cell-style">
 		<xsl:attribute name="display-align">center</xsl:attribute>
-		<xsl:attribute name="border">solid black 1pt</xsl:attribute>
 		<xsl:attribute name="padding-left">1mm</xsl:attribute>
 		<xsl:attribute name="padding-right">1mm</xsl:attribute>
 
+			<xsl:attribute name="border">solid black 1pt</xsl:attribute>
 			<xsl:attribute name="display-align">before</xsl:attribute>
 
 	</xsl:attribute-set> <!-- table-cell-style -->
@@ -4388,6 +4387,10 @@
 				</xsl:choose>
 			</xsl:variable>
 
+			<xsl:variable name="table_fn_block">
+				<xsl:call-template name="table_fn_display"/>
+			</xsl:variable>
+
 			<xsl:variable name="tableWithNotesAndFootnotes">
 
 				<fo:table keep-with-previous="always">
@@ -4454,11 +4457,25 @@
 
 										<xsl:apply-templates select="../*[local-name()='note']"/>
 
+								<xsl:variable name="isDisplayRowSeparator">
+
+								</xsl:variable>
+
 								<!-- horizontal row separator -->
+								<xsl:if test="normalize-space($isDisplayRowSeparator) = 'true'">
+									<xsl:if test="../*[local-name()='note'] and normalize-space($table_fn_block) != ''">
+										<fo:block-container border-top="0.5pt solid black" padding-left="1mm" padding-right="1mm">
+
+											<xsl:call-template name="setBordersTableArray"/>
+											<fo:block font-size="1pt"> </fo:block>
+										</fo:block-container>
+									</xsl:if>
+								</xsl:if>
 
 								<!-- fn processing -->
 
-										<xsl:call-template name="table_fn_display"/>
+										<!-- <xsl:call-template name="table_fn_display" /> -->
+										<xsl:copy-of select="$table_fn_block"/>
 
 								<!-- for PAS display Notes after footnotes -->
 
@@ -4577,6 +4594,28 @@
 
 			<xsl:apply-templates/>
 		</fo:table-row>
+	</xsl:template>
+
+	<xsl:template name="setBorderUnderRow">
+		<xsl:variable name="border_under_row_" select="normalize-space(ancestor::*[local-name() = 'table'][1]/@border-under-row)"/>
+		<xsl:choose>
+			<xsl:when test="$border_under_row_ != ''">
+				<xsl:variable name="table_id" select="ancestor::*[local-name() = 'table'][1]/@id"/>
+				<xsl:variable name="row_num_"><xsl:number level="any" count="*[local-name() = 'table'][@id = $table_id]//*[local-name() = 'tr']"/></xsl:variable>
+				<xsl:variable name="row_num" select="number($row_num_) - 1"/> <!-- because values in border-under-row start with 0 -->
+				<xsl:variable name="border_under_row">
+					<xsl:call-template name="split">
+						<xsl:with-param name="pText" select="$border_under_row_"/>
+					</xsl:call-template>
+				</xsl:variable>
+				<xsl:if test="xalan:nodeset($border_under_row)/item[. = normalize-space($row_num)]">
+					<xsl:attribute name="border-bottom"><xsl:value-of select="$table-border"/></xsl:attribute>
+				</xsl:if>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:attribute name="border-bottom"><xsl:value-of select="$table-border"/></xsl:attribute>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<!-- row in table footer (tfoot) -->

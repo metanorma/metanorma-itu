@@ -53,7 +53,7 @@ module IsoDoc
       end
 
       def annex_name(annex, name, div)
-        preceding_floating_titles(name, div)
+        #preceding_floating_titles(name, div)
         r_a = @meta.get[:doctype_original] == "recommendation-annex"
         div.h1 class: r_a ? "RecommendationAnnex" : "Annex" do |t|
           name&.children&.each { |c2| parse(c2, t) }

@@ -17,7 +17,7 @@ module IsoDoc
 
           title = c&.at(ns("./title"))
           out.div **attr_code(clause_attrs(c)) do |s|
-            clause_name(nil, title, s, class: "IntroTitle")
+            clause_name(c, title, s, class: "IntroTitle")
             c.elements.reject { |c1| c1.name == "title" }.each do |c1|
               parse(c1, s)
             end
@@ -53,7 +53,7 @@ module IsoDoc
       end
 
       def annex_name(annex, name, div)
-        preceding_floating_titles(name, div)
+        #preceding_floating_titles(name, div)
         r_a = @meta.get[:doctype_original] == "recommendation-annex"
         div.h1 class: r_a ? "RecommendationAnnex" : "Annex" do |t|
           name&.children&.each { |c2| parse(c2, t) }
@@ -182,7 +182,7 @@ module IsoDoc
       def clause_core(clause, out)
         out.div **attr_code(clause_attrs(clause)) do |s|
           clause.elements.each do |c1|
-            if c1.name == "title" then clause_name(nil, c1, s, nil)
+            if c1.name == "title" then clause_name(clause, c1, s, nil)
             else
               parse(c1, s)
             end

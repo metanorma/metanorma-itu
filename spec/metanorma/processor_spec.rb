@@ -49,20 +49,20 @@ RSpec.describe Metanorma::ITU::Processor do
         </sections>
       </itu-standard>
     INPUT
-    expect(xmlpp(File.read("test.html", encoding: "utf-8")
+    expect(xmlpp(strip_guid(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<main}m, "<main")
-      .gsub(%r{</main>.*}m, "</main>")))
+      .gsub(%r{</main>.*}m, "</main>"))))
       .to be_equivalent_to xmlpp(<<~"OUTPUT")
         <main class='main-section'>
           <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
           <p class='zzSTDTitle1'/>
           <p class='zzSTDTitle2'/>
           <div id='H'>
-            <h1 id='toc0'>Terms</h1>
+            <h1 id='_'>Terms</h1>
             <div id='J'>
               <p class='TermNum' id='J'>
                 <b>1.1.&#xA0; Term2</b>
-                :#{' '}
+                :
               </p>
             </div>
           </div>

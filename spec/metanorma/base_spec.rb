@@ -1545,7 +1545,7 @@ RSpec.describe Metanorma::ITU do
                 </term>
               </terms>
             </clause>
-            <clause id='_' obligation='normative'>
+            <terms id='_' obligation='normative'>
               <title>Normal Terms</title>
               <term id='term-Term2'>
                 <preferred><expression><name>Term2</name></expression></preferred>
@@ -1554,7 +1554,7 @@ RSpec.describe Metanorma::ITU do
                 <title>Terms defined elsewhere</title>
                 <p id='_'>None.</p>
               </terms>
-            </clause>
+            </terms>
             <terms id='_' obligation='normative'>
               <title>Symbols and Abbreviated Terms</title>
               <clause id='_' inline-header='false' obligation='normative'>

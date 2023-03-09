@@ -674,8 +674,8 @@ RSpec.describe Metanorma::ITU do
       .to be_equivalent_to xmlpp(presxml)
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, false)
     html = File.read("test.html", encoding: "utf-8")
-    expect(xmlpp(html.gsub(%r{^.*<main}m, "<main")
- .gsub(%r{</main>.*}m, "</main>")))
+    expect(xmlpp(strip_guid(html.gsub(%r{^.*<main}m, "<main")
+      .gsub(%r{</main>.*}m, "</main>"))))
       .to be_equivalent_to xmlpp(<<~"OUTPUT")
             <main class='main-section'>
                  <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
@@ -691,7 +691,7 @@ RSpec.describe Metanorma::ITU do
                    </p>
                    <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
                    <div id='A2'>
-                     <h2 id='toc0'>F2.1.&#xA0; Subtitle</h2>
+                     <h2 id='_'>F2.1.&#xA0; Subtitle</h2>
                      <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
                      <table id='T' class='MsoISOTable' style='border-width:1px;border-spacing:0;'/>
                      <div id='U' class='figure'>

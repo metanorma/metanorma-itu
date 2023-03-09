@@ -23,6 +23,7 @@ annex_subclause: article
 in: dans
 to: à
 where: "où:"
+where_one: "où"
 blankclause: Cette clause est laissée en blanc intentionnellement.
 norm_with_refs_pref:
   Les Recommandations UIT-T suivantes et d’autres références contiennent des dispositions qui, par référence dans ce texte, constituent des dispositions de la présente Recommandation. Au moment de la publication, les éditions indiquées étaient valides. Toutes les recommandations et autres références sont sujettes à révision; les utilisateurs de la présente Recommandation sont donc encouragés à étudier la possibilité d’appliquer l’édition la plus récente des Recommandations et d’autres références énumérées ci-dessous. Une liste des Recommandations UIT-T actuellement en vigueur est régulièrement publiée. La référence à un document dans la présente Recommandation ne lui donne pas, en tant que document autonome, le statut d’une Recommandation.

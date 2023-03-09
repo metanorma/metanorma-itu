@@ -126,7 +126,7 @@ RSpec.describe IsoDoc::ITU do
              <language current="true">en</language>
              </bibdata>
              <preface><foreword  displayorder='1'>
-           <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">
+           <p id="_">
            <eref bibitemid="ISO712">[110]</eref>
            <eref bibitemid="ISBN">[1]</eref>
            <eref bibitemid="ISSN">[2]</eref>
@@ -137,7 +137,7 @@ RSpec.describe IsoDoc::ITU do
            <eref bibitemid="zip_ffs">[5]</eref>
            </p>
              </foreword></preface>
-             <bibliography><references id="_normative_references" obligation="informative" normative="true"  displayorder='2'><title depth="1">1.<tab/>Normative References</title>
+             <bibliography><references id="_" obligation="informative" normative="true"  displayorder='2'><title depth="1">1.<tab/>Normative References</title>
              <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
          <bibitem id="ISO712" type="standard">
            <formattedref><em>Cereals and cereal products</em>.</formattedref>
@@ -166,7 +166,7 @@ RSpec.describe IsoDoc::ITU do
              <bibitem id="zip_ffs"><formattedref format="application/x-isodoc+xml">Title 5.</formattedref><docidentifier type="metanorma">[5]</docidentifier>
               <biblio-tag>[5]</biblio-tag>
           </bibitem>
-         </references><references id="_bibliography" obligation="informative" normative="false"  displayorder='3'>
+         </references><references id="_" obligation="informative" normative="false"  displayorder='3'>
            <title depth="1">Bibliography</title>
          <bibitem id="ISBN" type="book">
            <formattedref><em>Chemicals for analytical laboratory use</em>. n.p.: n.d. ISBN: ISBN.</formattedref>
@@ -211,16 +211,17 @@ RSpec.describe IsoDoc::ITU do
     OUTPUT
 
     FileUtils.rm_f "test.html"
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, false)
     output = <<~OUTPUT
                  <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
                    <div>
                      <h1 class="IntroTitle"></h1>
-                     <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f'>
+                     <p id='_'>
         <a href='#ISO712'>[110]</a>
         <a href='#ISBN'>[1]</a>
         <a href='#ISSN'>[2]</a>
@@ -234,7 +235,7 @@ RSpec.describe IsoDoc::ITU do
                    <p class="zzSTDTitle1"></p>
                    <p class="zzSTDTitle2"></p>
                    <div>
-                     <h1 id="toc0">1.&#xA0; Normative References</h1>
+                     <h1 id="_">1.&#xA0; Normative References</h1>
                      <table class="biblio" border="0">
                        <tbody>
                          <tr><td colspan="2">
@@ -268,7 +269,7 @@ RSpec.describe IsoDoc::ITU do
                    </div>
                    <br />
                    <div>
-                     <h1 class="Section3" id="toc1">Bibliography</h1>
+                     <h1 class="Section3" id="_">Bibliography</h1>
                      <table class="biblio" border="0">
                        <tbody>
                          <tr id="ISBN" class="Biblio">
@@ -308,9 +309,9 @@ RSpec.describe IsoDoc::ITU do
                    </div>
                  </main>
     OUTPUT
-    expect(xmlpp(File.read("test.html", encoding: "utf-8")
+    expect(xmlpp(strip_guid(File.read("test.html", encoding: "utf-8")
       .sub(/^.*<main/m, "<main")
-      .sub(%r{</main>.*$}m, "</main>")))
+      .sub(%r{</main>.*$}m, "</main>"))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -545,5 +546,4 @@ RSpec.describe IsoDoc::ITU do
     ).at("//xmlns:foreword").to_xml))
       .to be_equivalent_to xmlpp(presxml)
   end
-
 end

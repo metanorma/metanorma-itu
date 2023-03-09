@@ -22,6 +22,7 @@ annex_subclause: Klausel
 in: in
 to: bis
 where: "wobei:"
+where_one: "wobei"
 blankclause: Diese Klausel ist absichtlich leer gelassen
 norm_with_refs_pref:
     Die folgenden ITU-T-Empfehlungen und andere Verweise enthalten Bestimmungen, die durch Verweis in diesem Text Bestimmungen dieser Empfehlung darstellen. Zum Zeitpunkt der Veröffentlichung waren die angegebenen Bearbeitungen gültig. Alle Empfehlungen und sonstigen Verweise unterliegen einer Überarbeitung; die Benutzer dieser Empfehlung werden daher aufgefordert, die Möglichkeit der Anwendung der neuesten Ausgabe der unten aufgeführten Empfehlungen und sonstigen Verweise zu prüfen. Eine Liste der aktuell gültigen ITU-T-Empfehlungen wird regelmäßig veröffentlicht. Der Verweis auf ein Dokument innerhalb dieser Empfehlung verleiht ihm als eigenständiges Dokument nicht den Status einer Empfehlung.

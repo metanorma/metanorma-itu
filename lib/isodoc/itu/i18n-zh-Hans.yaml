@@ -23,6 +23,7 @@ annex_subclause: 条款
 in: in
 to: to
 where:  式中：
+where_one:  式中
 blankclause: This clause is intentionally left blank.
 norm_with_refs_pref:
   下列ITU-T建议书和其他参考文献的条款，通过在本建议书中的引用而构成本建议书的条款。在出版 时，所指出的版本是有效的。所有的建议书和其他参考文献都面临修订，使用本建议书的各方应探讨使用 下列建议书或其他参考文献最新版本的可能性。当前有效的ITU-T建议书清单定期出版。

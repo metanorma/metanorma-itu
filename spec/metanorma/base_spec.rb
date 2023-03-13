@@ -2069,15 +2069,15 @@ RSpec.describe Metanorma::ITU do
       expect(xmlpp("<div>#{xpath.to_xml}</div>"))
         .to be_equivalent_to xmlpp(<<~"OUTPUT")
           <div>
-          <docidentifier type="ITU" primary="true">ITU-T Y.1001</docidentifier>
-          <docidentifier type="ITU" primary="true">ITU-T Y.140</docidentifier>
-          <docidentifier type="ITU" primary="true">ITU-T Z.100</docidentifier>
           <docidentifier type="ISO" primary="true">ISO 55000</docidentifier>
           <docidentifier type="URN">urn:iso:std:iso:55000:stage-90.92:ed-1</docidentifier>
           <docidentifier type="ISO" primary="true">ISO/IEC 27001</docidentifier>
           <docidentifier type="URN">urn:iso:std:iso-iec:27001:stage-60.60:ed-3</docidentifier>
           <docidentifier type="IEC" primary="true">IEC 60027</docidentifier>
           <docidentifier type="URN">urn:iec:std:iec:60027::::</docidentifier>
+          <docidentifier type="ITU">ITU-T Y.1001</docidentifier>
+          <docidentifier type="ITU">ITU-T Y.140</docidentifier>
+          <docidentifier type="ITU">ITU-T Z.100</docidentifier>
           </div>
         OUTPUT
       FileUtils.rm_rf File.expand_path("~/.relaton/cache")

@@ -1681,15 +1681,28 @@ RSpec.describe Metanorma::ITU do
       ++++
     INPUT
     output = <<~OUTPUT
-        #{@blank_hdr}
-        <sections>
-          <formula id="_" inequality="true" unnumbered="true">
-            <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo><mi>r</mi><mo>=</mo><mn>1</mn><mo>%</mo></math>
-            <asciimath>r = 1 % r = 1 %</asciimath>
-            </stem>
-          </formula>
-        </sections>
-      </itu-standard>
+      #{@blank_hdr}
+                 <sections>
+           <formula id="_" unnumbered="true" inequality="true">
+             <stem type="MathML">
+               <math xmlns="http://www.w3.org/1998/Math/MathML">
+                 <mstyle displaystyle="true">
+                   <mi>r</mi>
+                   <mo>=</mo>
+                   <mn>1</mn>
+                   <mi>%</mi>
+                   <mi>r</mi>
+                   <mo>=</mo>
+                   <mn>1</mn>
+                   <mi>%</mi>
+                 </mstyle>
+               </math>
+               <asciimath>r = 1 %
+       r = 1 %</asciimath>
+             </stem>
+           </formula>
+         </sections>
+       </itu-standard>
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)

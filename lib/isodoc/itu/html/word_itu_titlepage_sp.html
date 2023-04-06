@@ -5,16 +5,21 @@ direction:rtl;unicode-bidi:embed'><i><span lang="EN-GB" dir="LTR" style='font-si
 
 {%  if lang == "zh" %}
 <p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><i><span
-                     lang="EN-GB" style='font-size:10.0pt'>国际电联{{ pubdate_ddMMMyyyy }}第{{ docnumeric }}期</span></i></p>
+                     lang="{{ lang }}" style='font-size:10.0pt'>国际电联{{ pubdate_ddMMMyyyy }}第{{ docnumeric }}期</span></i></p>
 
 <p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><i><span
-lang="EN-GB" style='font-size:10.0pt'>《操作公报》附件</span></i></p>
+                     lang="{{ lang }}" style='font-size:10.0pt'>《操作公报》附件</span></i></p>
+{% else %}
+<p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'>{% if lang != "ar" %}<i>{% endif %}<span
+                     lang="{{ lang }}" style='font-size:10.0pt'>{{ labels["annex_to_itu_ob"] }}</span>{% if lang != "ar" %}</i>{% endif %}</p>
+
+{% if lang == "ar" %}
+<p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><span
+                     lang="{{ lang }}" style='font-size:10.0pt'>{{ docnumeric }} – {{ pubdate_ddMMMyyyy }} {{ labels["number_abbrev"] }}</span></p>
 {% else %}
 <p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><i><span
-lang="EN-GB" style='font-size:10.0pt'>{{ annex_to_itu_ob }}</span></i></p>
-
-<p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><i><span
-lang="EN-GB" style='font-size:10.0pt'>{{ number_abbrev }} {{ docnumeric }} – {{ pubdate_ddMMMyyyy }}</span></i></p>
+                     lang="{{ lang }}" style='font-size:10.0pt'>{{ labels["number_abbrev"] }} {{ docnumeric }} – {{ pubdate_ddMMMyyyy }}</span></i></p>
+{% endif %}
 {% endif %}
 {% if docnumber_td %}<p><span class="doc-identifier">TD number: {{docnumber_td}}</span></p>{%endif%}
 {% if docnumber_provisional %}<p><span class="doc-identifier">Provisional identifier: {{docnumber_provisional}}</span></p>{%endif%}

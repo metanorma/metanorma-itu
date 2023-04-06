@@ -2910,6 +2910,10 @@
 
 	</xsl:attribute-set>
 
+	<xsl:attribute-set name="figure-source-style">
+
+	</xsl:attribute-set>
+
 	<!-- Formula's styles -->
 	<xsl:attribute-set name="formula-style">
 		<xsl:attribute name="margin-top">6pt</xsl:attribute>
@@ -3457,7 +3461,7 @@
 
 	<xsl:template name="processTables_Contents">
 		<tables>
-			<xsl:for-each select="//*[local-name() = 'table'][@id and *[local-name() = 'name'] and normalize-space(@id) != '']">
+			<xsl:for-each select="//*[local-name() = 'table'][not(ancestor::*[local-name() = 'metanorma-extension'])][@id and *[local-name() = 'name'] and normalize-space(@id) != '']">
 				<table id="{@id}" alt-text="{*[local-name() = 'name']}">
 					<xsl:copy-of select="*[local-name() = 'name']"/>
 				</table>
@@ -3822,7 +3826,7 @@
 						</xsl:attribute>
 					</xsl:for-each>
 
-					<xsl:variable name="isNoteOrFnExist" select="./*[local-name()='note'] or .//*[local-name()='fn'][local-name(..) != 'name']"/>
+					<xsl:variable name="isNoteOrFnExist" select="./*[local-name()='note'] or .//*[local-name()='fn'][local-name(..) != 'name'] or ./*[local-name()='source']"/>
 					<xsl:if test="$isNoteOrFnExist = 'true'">
 						<xsl:attribute name="border-bottom">0pt solid black</xsl:attribute> <!-- set 0pt border, because there is a separete table below for footer  -->
 					</xsl:if>
@@ -3866,7 +3870,7 @@
 									<xsl:apply-templates select="*[local-name()='thead']" mode="process_tbody"/>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:apply-templates select="node()[not(local-name() = 'name') and not(local-name() = 'note') and not(local-name() = 'dl')          and not(local-name() = 'thead') and not(local-name() = 'tfoot')]"/> <!-- process all table' elements, except name, header, footer, note and dl which render separaterely -->
+									<xsl:apply-templates select="node()[not(local-name() = 'name') and not(local-name() = 'note') and not(local-name() = 'dl') and not(local-name() = 'source')          and not(local-name() = 'thead') and not(local-name() = 'tfoot')]"/> <!-- process all table' elements, except name, header, footer, note, source and dl which render separaterely -->
 								</xsl:otherwise>
 							</xsl:choose>
 
@@ -3969,6 +3973,11 @@
 
 		</xsl:if>
 	</xsl:template> <!-- table/name -->
+
+	<!-- SOURCE: ... -->
+	<xsl:template match="*[local-name()='table']/*[local-name() = 'source']" priority="2">
+		<xsl:call-template name="termsource"/>
+	</xsl:template>
 
 	<xsl:template name="calculate-columns-numbers">
 		<xsl:param name="table-row"/>
@@ -4326,7 +4335,7 @@
 		</fo:table-header>
 	</xsl:template> <!-- thead -->
 
-	<!-- template is using for iso, jcgm, bsi only -->
+	<!-- template is using for iec, iso, jcgm, bsi only -->
 	<xsl:template name="table-header-title">
 		<xsl:param name="cols-count"/>
 		<!-- row for title -->
@@ -4369,7 +4378,7 @@
 		<xsl:param name="colwidths"/>
 		<xsl:param name="colgroup"/>
 
-		<xsl:variable name="isNoteOrFnExist" select="../*[local-name()='note'] or ../*[local-name()='dl'] or ..//*[local-name()='fn'][local-name(..) != 'name']"/>
+		<xsl:variable name="isNoteOrFnExist" select="../*[local-name()='note'] or ../*[local-name()='dl'] or ..//*[local-name()='fn'][local-name(..) != 'name'] or ../*[local-name()='source']"/>
 
 		<xsl:variable name="isNoteOrFnExistShowAfterTable">
 
@@ -4458,6 +4467,7 @@
 
 										<xsl:apply-templates select="../*[local-name()='dl']"/>
 										<xsl:apply-templates select="../*[local-name()='note']"/>
+										<xsl:apply-templates select="../*[local-name()='source']"/>
 
 								<xsl:variable name="isDisplayRowSeparator">
 
@@ -6047,6 +6057,7 @@
 				<fo:inline>
 					<xsl:for-each select="$styles/style">
 						<xsl:attribute name="{@name}"><xsl:value-of select="."/></xsl:attribute>
+
 					</xsl:for-each>
 					<xsl:apply-templates/>
 				</fo:inline>
@@ -7550,6 +7561,13 @@
 		<fo:block xsl:use-attribute-sets="figure-pseudocode-p-style">
 			<xsl:apply-templates/>
 		</fo:block>
+	</xsl:template>
+
+	<!-- SOURCE: ... -->
+	<xsl:template match="*[local-name() = 'figure']/*[local-name() = 'source']" priority="2">
+
+				<xsl:call-template name="termsource"/>
+
 	</xsl:template>
 
 	<xsl:template match="*[local-name() = 'image']">
@@ -9839,13 +9857,8 @@
 	</xsl:template>
 
 	<xsl:template match="*[local-name() = 'deprecates']">
-		<xsl:variable name="title-deprecated">
-			<xsl:call-template name="getLocalizedString">
-				<xsl:with-param name="key">deprecated</xsl:with-param>
-			</xsl:call-template>
-		</xsl:variable>
 		<fo:block xsl:use-attribute-sets="deprecates-style">
-			<xsl:value-of select="$title-deprecated"/>: <xsl:apply-templates/>
+			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
 

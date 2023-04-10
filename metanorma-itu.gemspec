@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
 
   spec.add_dependency "htmlentities", "~> 4.3.4"
-  spec.add_dependency "metanorma-standoc", "~> 2.4.0"
+  spec.add_dependency "metanorma-standoc", "~> 2.4.2"
   spec.add_dependency "ruby-jing"
   spec.add_dependency "twitter_cldr", ">= 3.0.0"
   spec.add_dependency "tzinfo-data" # we need this for windows only

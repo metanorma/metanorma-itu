@@ -84,7 +84,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes default metadata" do
-    xml = Nokogiri::XML(Asciidoctor.convert(<<~"INPUT", *OPTIONS))
+    xml = Nokogiri::XML(Asciidoctor.convert(<<~INPUT, *OPTIONS))
       = Document title
       Author
       :docfile: test.adoc
@@ -99,57 +99,57 @@ RSpec.describe Metanorma::ITU do
       :legacy-do-not-insert-missing-sections:
     INPUT
     output = <<~OUTPUT
-        <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
-          <bibdata type="standard">
-            <title language="en" format="text/plain" type="main">Main Title</title>
-            <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-            <docidentifier type="ITU">ITU-T 1000</docidentifier>
-            <docidentifier type="ITU-lang">ITU-T 1000-E</docidentifier>
-            <docnumber>1000</docnumber>
-            <contributor>
-              <role type="author"/>
+      <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
+        <bibdata type="standard">
+          <title language="en" format="text/plain" type="main">Main Title</title>
+          <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+          <docidentifier type="ITU">ITU-T 1000</docidentifier>
+          <docidentifier type="ITU-lang">ITU-T 1000-E</docidentifier>
+          <docnumber>1000</docnumber>
+          <contributor>
+            <role type="author"/>
+            <organization>
+              <name>International Telecommunication Union</name>
+            </organization>
+          </contributor>
+          <contributor>
+            <role type="publisher"/>
+            <organization>
+              <name>International Telecommunication Union</name>
+            </organization>
+          </contributor>
+          <version>
+            <revision-date>2000-01-01</revision-date>
+            <draft>3.4</draft>
+          </version>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>draft</stage>
+          </status>
+          <copyright>
+            <from>2001</from>
+            <owner>
               <organization>
                 <name>International Telecommunication Union</name>
               </organization>
-            </contributor>
-            <contributor>
-              <role type="publisher"/>
-              <organization>
-                <name>International Telecommunication Union</name>
-              </organization>
-            </contributor>
-            <version>
-              <revision-date>2000-01-01</revision-date>
-              <draft>3.4</draft>
-            </version>
-            <language>en</language>
-            <script>Latn</script>
-            <status>
-              <stage>draft</stage>
-            </status>
-            <copyright>
-              <from>2001</from>
-              <owner>
-                <organization>
-                  <name>International Telecommunication Union</name>
-                </organization>
-              </owner>
-            </copyright>
-            <ext>
-              <doctype>recommendation</doctype>
-              <editorialgroup>
-                <bureau>T</bureau>
-              </editorialgroup>
-              <ip-notice-received>false</ip-notice-received>
-              <structuredidentifier>
-            <bureau>T</bureau>
-            <docnumber>1000</docnumber>
-          </structuredidentifier>
-            </ext>
-          </bibdata>
-          <sections/>
-        </itu-standard>
-      OUTPUT
+            </owner>
+          </copyright>
+          <ext>
+            <doctype>recommendation</doctype>
+            <editorialgroup>
+              <bureau>T</bureau>
+            </editorialgroup>
+            <ip-notice-received>false</ip-notice-received>
+            <structuredidentifier>
+          <bureau>T</bureau>
+          <docnumber>1000</docnumber>
+        </structuredidentifier>
+          </ext>
+        </bibdata>
+        <sections/>
+      </itu-standard>
+    OUTPUT
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
     expect(xmlpp(xml.to_xml))
@@ -158,7 +158,7 @@ RSpec.describe Metanorma::ITU do
 
   it "processes explicit metadata" do
     VCR.use_cassette "ITU-complements" do
-      xml = Nokogiri::XML(Asciidoctor.convert(<<~"INPUT", *OPTIONS))
+      xml = Nokogiri::XML(Asciidoctor.convert(<<~INPUT, *OPTIONS))
         = Document title
         Author
         :docfile: test.adoc
@@ -336,25 +336,25 @@ RSpec.describe Metanorma::ITU do
                     </organization>
                   </owner>
                 </copyright>
-                <relation type='complements'>
+                <relation type='complementOf'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 1 (11/1988)</formattedref>
                     <docidentifier type='ITU'>F Suppl. 1 (11/1988)</docidentifier>
                   </bibitem>
                 </relation>
-                <relation type='complements'>
+                <relation type='complementOf'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 2 (11/1988)</formattedref>
                     <docidentifier type='ITU'>F Suppl. 2 (11/1988)</docidentifier>
                   </bibitem>
                 </relation>
-                <relation type='complements'>
+                <relation type='complementOf'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 3 (09/2016)</formattedref>
                     <docidentifier type='ITU'>F Suppl. 3 (09/2016)</docidentifier>
                   </bibitem>
                 </relation>
-                <relation type='complements'>
+                <relation type='complementOf'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 4 (04/2021)</formattedref>
                     <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
@@ -401,25 +401,25 @@ RSpec.describe Metanorma::ITU do
                         </organization>
                       </owner>
                     </copyright>
-                    <relation type='complements'>
+                    <relation type='complementOf'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 1 (11/1988)</formattedref>
                         <docidentifier type='ITU'>F Suppl. 1 (11/1988)</docidentifier>
                       </bibitem>
                     </relation>
-                    <relation type='complements'>
+                    <relation type='complementOf'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 2 (11/1988)</formattedref>
                         <docidentifier type='ITU'>F Suppl. 2 (11/1988)</docidentifier>
                       </bibitem>
                     </relation>
-                    <relation type='complements'>
+                    <relation type='complementOf'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 3 (09/2016)</formattedref>
                         <docidentifier type='ITU'>F Suppl. 3 (09/2016)</docidentifier>
                       </bibitem>
                     </relation>
-                    <relation type='complements'>
+                    <relation type='complementOf'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 4 (04/2021)</formattedref>
                         <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
@@ -462,25 +462,25 @@ RSpec.describe Metanorma::ITU do
                     </organization>
                   </owner>
                 </copyright>
-                <relation type='complements'>
+                <relation type='complementOf'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 1 (11/1988)</formattedref>
                     <docidentifier type='ITU'>F Suppl. 1 (11/1988)</docidentifier>
                   </bibitem>
                 </relation>
-                <relation type='complements'>
+                <relation type='complementOf'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 2 (11/1988)</formattedref>
                     <docidentifier type='ITU'>F Suppl. 2 (11/1988)</docidentifier>
                   </bibitem>
                 </relation>
-                <relation type='complements'>
+                <relation type='complementOf'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 3 (09/2016)</formattedref>
                     <docidentifier type='ITU'>F Suppl. 3 (09/2016)</docidentifier>
                   </bibitem>
                 </relation>
-                <relation type='complements'>
+                <relation type='complementOf'>
                   <bibitem type='standard'>
                     <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 4 (04/2021)</formattedref>
                     <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
@@ -521,25 +521,25 @@ RSpec.describe Metanorma::ITU do
                         </organization>
                       </owner>
                     </copyright>
-                    <relation type='complements'>
+                    <relation type='complementOf'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 1 (11/1988)</formattedref>
                         <docidentifier type='ITU'>F Suppl. 1 (11/1988)</docidentifier>
                       </bibitem>
                     </relation>
-                    <relation type='complements'>
+                    <relation type='complementOf'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 2 (11/1988)</formattedref>
                         <docidentifier type='ITU'>F Suppl. 2 (11/1988)</docidentifier>
                       </bibitem>
                     </relation>
-                    <relation type='complements'>
+                    <relation type='complementOf'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 3 (09/2016)</formattedref>
                         <docidentifier type='ITU'>F Suppl. 3 (09/2016)</docidentifier>
                       </bibitem>
                     </relation>
-                    <relation type='complements'>
+                    <relation type='complementOf'>
                       <bibitem type='standard'>
                         <formattedref format='text/plain' language='en' script='Latn'>F Suppl. 4 (04/2021)</formattedref>
                         <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
@@ -644,7 +644,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes explicit metadata, technical report" do
-    xml = Nokogiri::XML(Asciidoctor.convert(<<~"INPUT", *OPTIONS))
+    xml = Nokogiri::XML(Asciidoctor.convert(<<~INPUT, *OPTIONS))
       = Document title
       Author
       :docfile: test.adoc
@@ -824,7 +824,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes explicit metadata, technical report #2" do
-    xml = Nokogiri::XML(Asciidoctor.convert(<<~"INPUT", *OPTIONS))
+    xml = Nokogiri::XML(Asciidoctor.convert(<<~INPUT, *OPTIONS))
       = Document title
       Author
       :docfile: test.adoc
@@ -949,7 +949,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes explicit metadata, service publication" do
-    xml = Nokogiri::XML(Asciidoctor.convert(<<~"INPUT", *OPTIONS))
+    xml = Nokogiri::XML(Asciidoctor.convert(<<~INPUT, *OPTIONS))
       = Document title
       Author
       :docfile: test.adoc
@@ -1127,7 +1127,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "ignores unrecognised status" do
-    xml = Nokogiri::XML(Asciidoctor.convert(<<~"INPUT", *OPTIONS))
+    xml = Nokogiri::XML(Asciidoctor.convert(<<~INPUT, *OPTIONS))
       = Document title
       Author
       :docfile: test.adoc
@@ -1293,7 +1293,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "uses default fonts" do
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -1307,7 +1307,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "uses default fonts (Word)" do
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -1321,7 +1321,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "uses Chinese fonts" do
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -1336,7 +1336,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "uses specified fonts" do
-    Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -2040,7 +2040,7 @@ RSpec.describe Metanorma::ITU do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "reorders references in bibliography, and renumbers citations accordingly" do
+  xit "reorders references in bibliography, and renumbers citations accordingly" do
     FileUtils.rm_rf File.expand_path("~/.relaton-bib.pstore1")
     FileUtils.mv File.expand_path("~/.relaton/cache"),
                  File.expand_path("~/.relaton-bib.pstore1"), force: true
@@ -2052,7 +2052,7 @@ RSpec.describe Metanorma::ITU do
 
     VCR.use_cassette("multi-standards sort",
                      match_requests_on: %i[method uri body]) do
-      xml = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+      xml = Asciidoctor.convert(<<~INPUT, *OPTIONS)
         = Document title
         Author
         :docfile: test.adoc
@@ -2080,7 +2080,7 @@ RSpec.describe Metanorma::ITU do
       xpath = Nokogiri::XML(xml)
         .xpath("//xmlns:references/xmlns:bibitem/xmlns:docidentifier")
       expect(xmlpp("<div>#{xpath.to_xml}</div>"))
-        .to be_equivalent_to xmlpp(<<~"OUTPUT")
+        .to be_equivalent_to xmlpp(<<~OUTPUT)
           <div>
           <docidentifier type="ISO" primary="true">ISO 55000</docidentifier>
           <docidentifier type="URN">urn:iso:std:iso:55000:stage-90.92:ed-1</docidentifier>

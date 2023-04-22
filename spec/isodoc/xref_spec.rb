@@ -67,7 +67,7 @@ RSpec.describe Metanorma::ITU do
           </iso-standard>
     INPUT
     output = <<~OUTPUT
-      <foreword displayorder='1'>
+      <foreword displayorder='2'>
         <p>
           <xref target='N1'>Note in Introduction</xref>
           <xref target='N2'>Note in Preparatory</xref>
@@ -142,7 +142,8 @@ RSpec.describe Metanorma::ITU do
     presxml = <<~OUTPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
                     <preface>
-                <foreword id="fwd" displayorder='1'>
+                    <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+                <foreword id="fwd" displayorder='2'>
                 <p>
                 <xref target="N">Figure 1</xref>
                 <xref target="note1">Figure 1-a</xref>
@@ -154,10 +155,10 @@ RSpec.describe Metanorma::ITU do
                 </foreword>
                 </preface>
                 <sections>
-                <clause id="scope" type="scope" displayorder='2'><title depth="1">1.<tab/>Scope</title>
+                <clause id="scope" type="scope" displayorder='3'><title depth="1">1.<tab/>Scope</title>
                 </clause>
-                <terms id="terms"  displayorder='3'><title>2.</title></terms>
-                <clause id="widgets"  displayorder='4'><title depth="1">3.<tab/>Widgets</title>
+                <terms id="terms"  displayorder='4'><title>2.</title></terms>
+                <clause id="widgets"  displayorder='5'><title depth="1">3.<tab/>Widgets</title>
                 <clause id="widgets1"><title>3.1.</title>
                 <figure id="N">
                     <figure id="note1">
@@ -173,7 +174,7 @@ RSpec.describe Metanorma::ITU do
                 </clause>
                 </clause>
                 </sections>
-                <annex id="annex1"   displayorder='5'><title><strong>Annex A</strong></title>
+                <annex id="annex1"   displayorder='6'><title><strong>Annex A</strong></title>
                 <clause id="annex1a"><title>A.1.</title>
                 </clause>
                 <clause id="annex1b"><title>A.2.</title>
@@ -294,7 +295,7 @@ RSpec.describe Metanorma::ITU do
           </itu-standard>
     INPUT
     output = <<~OUTPUT
-          <foreword displayorder='1'>
+          <foreword displayorder='2'>
             <p>
               <xref target='N1'>Equation (Introduction-1)</xref>
       <xref target='N2'>Inequality (Introduction-2)</xref>
@@ -324,15 +325,16 @@ RSpec.describe Metanorma::ITU do
                  </ext>
                  </bibdata>
                  <preface>
-        <abstract displayorder='1'><title>Abstract</title>
+        <abstract displayorder='2'><title>Abstract</title>
         <p>
         <xref target="A1"/>
       <xref target="A2"/>
       </p>
         </abstract>
-                 <sections displayorder='2'>
+        </preface>
+                 <sections displayorder='3'>
                  </sections>
-          <annex id="A1" obligation="normative" displayorder='4'>
+          <annex id="A1" obligation="normative" displayorder='5'>
                   <title>Annex</title>
                   <clause id="A2"><title>Subtitle</title>
                   </clause>
@@ -355,15 +357,17 @@ RSpec.describe Metanorma::ITU do
                   </ext>
                 </bibdata>
                 <preface>
-                  <abstract displayorder='1'>
+                  <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+                  <abstract displayorder='2'>
                     <title>Abstract</title>
                     <p>
                       <xref target='A1'>Annex F2</xref>
                       <xref target='A2'>clause F2.1</xref>
                     </p>
                   </abstract>
-                  <sections displayorder='2'> </sections>
-                  <annex id='A1' obligation='normative' displayorder='4'>
+                  </preface>
+                  <sections displayorder="3"> </sections>
+                  <annex id='A1' obligation='normative' displayorder='3'>
                     <title>
                       <strong>Annex F2</strong>
                       <br/>
@@ -378,7 +382,6 @@ RSpec.describe Metanorma::ITU do
                       </title>
                     </clause>
                   </annex>
-                </preface>
               </itu-standard>
     OUTPUT
     expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
@@ -441,7 +444,7 @@ RSpec.describe Metanorma::ITU do
         </iso-standard>
     INPUT
     output = <<~OUTPUT
-      <foreword id='fwd' displayorder='1'>
+      <foreword id='fwd' displayorder='2'>
         <p>
           <xref target='N'>Figure 3.1</xref>
           <xref target='note1'>Figure 3.1-a</xref>
@@ -504,7 +507,7 @@ RSpec.describe Metanorma::ITU do
         </iso-standard>
     INPUT
     output = <<~OUTPUT
-      <foreword id='fwd' displayorder='1'>
+      <foreword id='fwd' displayorder='2'>
         <p>
           <xref target='note1'>Equation (3-1)</xref>
           <xref target='note2'>Equation (3-2)</xref>
@@ -605,7 +608,7 @@ RSpec.describe Metanorma::ITU do
        </itu-standard>
     INPUT
     output = <<~OUTPUT
-      <foreword obligation='informative' displayorder='1'>
+      <foreword obligation='informative' displayorder='2'>
         <title>Foreword</title>
         <p id='A'>
           This is a preamble
@@ -794,7 +797,16 @@ RSpec.describe Metanorma::ITU do
              </itu-standard>
     OUTPUT
     html = <<~OUTPUT
-               #{HTML_HDR}
+            <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
+          <div class="title-section">
+            <p> </p>
+          </div>
+          <br/>
+          <div class="prefatory-section">
+            <p> </p>
+          </div>
+          <br/>
+          <div class="main-section">
                  <div>
                    <h1 class='IntroTitle'>Foreword</h1>
                    <p id='A'>
@@ -952,7 +964,7 @@ RSpec.describe Metanorma::ITU do
           </iso-standard>
     INPUT
     output = <<~OUTPUT
-      <foreword displayorder='1'>
+      <foreword displayorder='2'>
         <p>
           <xref target='N1'>a) in Introduction</xref>
           <xref target='N11'>a) 1) in Introduction</xref>
@@ -1036,7 +1048,7 @@ RSpec.describe Metanorma::ITU do
           </iso-standard>
     INPUT
     output = <<~OUTPUT
-      <foreword displayorder='1'>
+      <foreword displayorder='2'>
         <p>
         <xref target='N1'>1) in Introduction</xref>
         <xref target='N11'>1) a) in Introduction</xref>

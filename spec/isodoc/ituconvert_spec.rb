@@ -137,7 +137,16 @@ RSpec.describe Metanorma::ITU do
       </itu-standard>
     OUTPUT
     html = <<~OUTPUT
-                  #{HTML_HDR}
+           <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
+         <div class="title-section">
+           <p> </p>
+         </div>
+         <br/>
+         <div class="prefatory-section">
+           <p> </p>
+         </div>
+         <br/>
+         <div class="main-section">
               <p align='center'  style='text-align:center;'>RESOLUTION 1 (Andorra, 1204)</p>
           <p class='zzSTDTitle2'/>
           <p align='center'  style='text-align:center;'>
@@ -292,7 +301,16 @@ RSpec.describe Metanorma::ITU do
       </itu-standard>
     OUTPUT
     html = <<~OUTPUT
-                #{HTML_HDR}
+           <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
+         <div class="title-section">
+           <p> </p>
+         </div>
+         <br/>
+         <div class="prefatory-section">
+           <p> </p>
+         </div>
+         <br/>
+         <div class="main-section">
           <p align='center'  style='text-align:center;'>RESOLUTION 1 (Rev. Andorra, 1204)</p>
           <p class='zzSTDTitle2'/>
           <p align='center'  style='text-align:center;'>
@@ -315,7 +333,11 @@ RSpec.describe Metanorma::ITU do
   it "processes keyword" do
     input = <<~INPUT
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
-      <preface><foreword>
+      <preface>
+          <clause type="toc" displayorder="1">
+      <title depth="1">Table of Contents</title>
+    </clause>
+      <foreword>
       <keyword>ABC</keyword>
       </foreword></preface>
       </itu-standard>
@@ -341,7 +363,7 @@ RSpec.describe Metanorma::ITU do
   it "processes simple terms & definitions" do
     input = <<~INPUT
               <itu-standard xmlns="http://riboseinc.com/isoxml">
-      <preface/><sections>
+      <sections>
       <terms id="H" obligation="normative"><title>Terms</title>
         <term id="J">
         <preferred><expression><name>Term2</name></expression></preferred>
@@ -363,8 +385,12 @@ RSpec.describe Metanorma::ITU do
 
     presxml = <<~INPUT
               <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-      <preface/><sections>
-      <terms id="H" obligation="normative" displayorder='1'><title depth="1">1.<tab/>Terms</title>
+              <preface>
+                  <clause type="toc" displayorder="1">
+      <title depth="1">Table of Contents</title>
+    </clause>
+      </preface><sections>
+      <terms id="H" obligation="normative" displayorder='2'><title depth="1">1.<tab/>Terms</title>
         <term id="J">
         <name>1.1.</name>
         <preferred><strong>Term2</strong></preferred>
@@ -470,7 +496,11 @@ RSpec.describe Metanorma::ITU do
     input = <<~INPUT
                      <itu-standard xmlns="http://riboseinc.com/isoxml">
                <termdocsource type="inline" bibitemid="ISO712"/>
-             <preface/><sections>
+               <preface>
+                   <clause type="toc" displayorder="1">
+                  <title depth="1">Table of Contents</title>
+            </clause>
+             </preface><sections>
              <clause id="G"><title>2<tab/>Terms, Definitions, Symbols and Abbreviated Terms</title>
              <terms id="H" obligation="normative"><title>2.1<tab/>Terms defined in this recommendation</title>
                <term id="J">
@@ -920,7 +950,8 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
          <preface>
-           <foreword displayorder="1">
+             <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+           <foreword displayorder="2">
              <p>
                <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">A</eref>
                <eref type="inline" bibitemid="ISO712" citeas="ISO 712">A</eref>
@@ -933,7 +964,7 @@ RSpec.describe Metanorma::ITU do
            </foreword>
          </preface>
          <bibliography>
-           <references id="_normative_references" obligation="informative" normative="true" displayorder="2">
+           <references id="_normative_references" obligation="informative" normative="true" displayorder="3">
              <title depth="1">1.<tab/>References</title>
              <bibitem id="ISO712" type="standard">
                <formattedref><em>Cereals and cereal products</em>.</formattedref>
@@ -1159,11 +1190,7 @@ RSpec.describe Metanorma::ITU do
          </div>
 
 
-       <b style="mso-bidi-font-weight:normal"><span lang="EN-US" style="font-size:12.0pt; mso-bidi-font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;mso-fareast-font-family: &quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:EN-US; mso-bidi-language:AR-SA" xml:lang="EN-US"><br clear="all" style="page-break-before:always">
-       </br></span></b>
-
-       <p class="MsoNormal" align="center" style="text-align:center">
-       <b>Table of Contents</b></p></div>
+       </div>
       OUTPUT
   end
 
@@ -1271,7 +1298,8 @@ RSpec.describe Metanorma::ITU do
                  <title language='en'>test</title>
                </bibdata>
                <preface>
-                 <p displayorder='1'>30'000
+                 <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+                 <p displayorder='2'>30'000
                    <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mfenced open="(" close=")"><mrow><mi>X</mi><mo>≥</mo><msub><mrow><mi>X</mi></mrow><mrow><mo>max</mo></mrow></msub></mrow></mfenced><mo>=</mo><munderover><mrow><mo>∑</mo></mrow><mrow><mrow><mi>j</mi><mo>=</mo><msub><mrow><mi>X</mi></mrow><mrow><mo>max</mo></mrow></msub></mrow></mrow><mrow><mn>1'000</mn></mrow></munderover><mfenced open="(" close=")"><mtable><mtr><mtd><mn>1'000</mn></mtd></mtr><mtr><mtd><mi>j</mi></mtd></mtr></mtable></mfenced><msup><mrow><mi>p</mi></mrow><mrow><mi>j</mi></mrow></msup><msup><mrow><mfenced open="(" close=")"><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfenced></mrow><mrow><mrow><mn>1.003</mn><mo>−</mo><mi>j</mi></mrow></mrow></msup></math><asciimath>P (X ge X_(max)) = sum_(j = X_(max))^(1000) ([[1000], [j]]) p^(j) (1 - p)^(1.003 - j)</asciimath></stem></p>
          </preface>
        </iso-standard>

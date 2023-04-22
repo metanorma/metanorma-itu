@@ -18,42 +18,45 @@ RSpec.describe Metanorma::ITU do
                </ext>
                </bibdata>
       <preface>
-      <abstract displayorder="1"><title>Abstract</title>
+          <clause type="toc" displayorder="1">
+      <title depth="1">Table des matières</title>
+      </clause>
+      <abstract displayorder="2"><title>Abstract</title>
       <p>This is an abstract</p>
       </abstract>
-      <clause id="A0" displayorder="2"><title depth="1">History</title>
+      <clause id="A0" displayorder="3"><title depth="1">History</title>
       <p>history</p>
       </clause>
-      <foreword obligation="informative" displayorder="3">
+      <foreword obligation="informative" displayorder="4">
          <title>Foreword</title>
          <p id="A">This is a preamble</p>
        </foreword>
-        <introduction id="B" obligation="informative" displayorder="4"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+        <introduction id="B" obligation="informative" displayorder="5"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
          <title depth="2">Introduction Subsection</title>
        </clause>
        </introduction></preface><sections>
-       <clause id="D" obligation="normative" type="scope" displayorder="5">
+       <clause id="D" obligation="normative" type="scope" displayorder="6">
          <title depth="1">1.<tab/>Scope</title>
          <p id="E">Text</p>
        </clause>
-       <terms id="I" obligation="normative" displayorder="7"><title>3.</title>
+       <terms id="I" obligation="normative" displayorder="8"><title>3.</title>
          <term id="J"><name>3.1.</name>
          <preferred>Term2</preferred>
        </term>
        </terms>
-       <definitions id="L" displayorder="8"><title>4.</title>
+       <definitions id="L" displayorder="9"><title>4.</title>
          <dl>
          <dt>Symbol</dt>
          <dd>Definition</dd>
          </dl>
        </definitions>
-       <clause id="M" inline-header="false" obligation="normative" displayorder="9"><title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
+       <clause id="M" inline-header="false" obligation="normative" displayorder="10"><title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
          <title depth="2">5.1.<tab/>Introduction</title>
        </clause>
        <clause id="O" inline-header="false" obligation="normative">
          <title depth="2">5.2.<tab/>Clause 4.2</title>
        </clause></clause>
-       </sections><annex id="P" inline-header="false" obligation="normative" displayorder="10">
+       </sections><annex id="P" inline-header="false" obligation="normative" displayorder="11">
          <title><strong>Annexe A</strong><br/><br/><strong>Annex</strong></title>
          <clause id="Q" inline-header="false" obligation="normative">
          <title depth="2">A.1.<tab/>Annex A.1</title>
@@ -61,9 +64,9 @@ RSpec.describe Metanorma::ITU do
          <title depth="3">A.1.1.<tab/>Annex A.1a</title>
          </clause>
        </clause>
-       </annex><bibliography><references id="R" obligation="informative" normative="true" displayorder="6">
+       </annex><bibliography><references id="R" obligation="informative" normative="true" displayorder="7">
          <title depth="1">2.<tab/>References</title>
-       </references><clause id="S" obligation="informative" displayorder="11">
+       </references><clause id="S" obligation="informative" displayorder="12">
          <title depth="1">Bibliography</title>
          <references id="T" obligation="informative" normative="false">
          <title depth="2">Bibliography Subsection</title>
@@ -74,7 +77,7 @@ RSpec.describe Metanorma::ITU do
     OUTPUT
 
     html = <<~OUTPUT
-              #{HTML_HDR}
+              #{HTML_HDR.sub(/Table of Contents/, "Table des matières")}
               <br/>
               <div>
         <h1 class="AbstractTitle">Abstract</h1>
@@ -183,42 +186,45 @@ RSpec.describe Metanorma::ITU do
                </ext>
                </bibdata>
       <preface>
-      <abstract displayorder="1"><title>Abstract</title>
+          <clause type="toc" displayorder="1">
+      <title depth="1">目　录</title>
+    </clause>
+      <abstract displayorder="2"><title>Abstract</title>
       <p>This is an abstract</p>
       </abstract>
-      <clause id="A0" displayorder="2"><title depth="1">History</title>
+      <clause id="A0" displayorder="3"><title depth="1">History</title>
       <p>history</p>
       </clause>
-      <foreword obligation="informative" displayorder="3">
+      <foreword obligation="informative" displayorder="4">
          <title>Foreword</title>
          <p id="A">This is a preamble</p>
        </foreword>
-        <introduction id="B" obligation="informative" displayorder="4"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+        <introduction id="B" obligation="informative" displayorder="5"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
          <title depth="2">Introduction Subsection</title>
        </clause>
        </introduction></preface><sections>
-       <clause id="D" obligation="normative" type="scope" displayorder="5">
+       <clause id="D" obligation="normative" type="scope" displayorder="6">
          <title depth="1">1.<tab/>Scope</title>
          <p id="E">Text</p>
        </clause>
-       <terms id="I" obligation="normative" displayorder="7"><title>3.</title>
+       <terms id="I" obligation="normative" displayorder="8"><title>3.</title>
          <term id="J"><name>3.1.</name>
          <preferred>Term2</preferred>
        </term>
        </terms>
-       <definitions id="L" displayorder="8"><title>4.</title>
+       <definitions id="L" displayorder="9"><title>4.</title>
          <dl>
          <dt>Symbol</dt>
          <dd>Definition</dd>
          </dl>
        </definitions>
-       <clause id="M" inline-header="false" obligation="normative" displayorder="9"><title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
+       <clause id="M" inline-header="false" obligation="normative" displayorder="10"><title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
          <title depth="2">5.1.<tab/>Introduction</title>
        </clause>
        <clause id="O" inline-header="false" obligation="normative">
          <title depth="2">5.2.<tab/>Clause 4.2</title>
        </clause></clause>
-       </sections><annex id="P" inline-header="false" obligation="normative" displayorder="10">
+       </sections><annex id="P" inline-header="false" obligation="normative" displayorder="11">
          <title><strong>&#x9644;&#x4EF6;A</strong><br/><br/><strong>Annex</strong></title>
          <clause id="Q" inline-header="false" obligation="normative">
          <title depth="2">A.1.<tab/>Annex A.1</title>
@@ -226,9 +232,9 @@ RSpec.describe Metanorma::ITU do
          <title depth="3">A.1.1.<tab/>Annex A.1a</title>
          </clause>
        </clause>
-       </annex><bibliography><references id="R" obligation="informative" normative="true" displayorder="6">
+       </annex><bibliography><references id="R" obligation="informative" normative="true" displayorder="7">
          <title depth="1">2.<tab/>References</title>
-       </references><clause id="S" obligation="informative" displayorder="11">
+       </references><clause id="S" obligation="informative" displayorder="12">
          <title depth="1">Bibliography</title>
          <references id="T" obligation="informative" normative="false">
          <title depth="2">Bibliography Subsection</title>
@@ -239,7 +245,7 @@ RSpec.describe Metanorma::ITU do
     OUTPUT
 
     html = <<~OUTPUT
-       #{HTML_HDR}
+       #{HTML_HDR.sub(/Table of Contents/, "目　录")}
           <br/>
           <div>
             <h1 class='AbstractTitle'>Abstract</h1>

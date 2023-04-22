@@ -22,24 +22,28 @@ module IsoDoc
       end
 
       def make_body2(body, docxml)
-        body.div **{ class: "WordSection2" } do |div2|
+        body.div class: "WordSection2" do |div2|
           info docxml, div2
           boilerplate docxml, div2
-          preface_block docxml, div2
-          abstract docxml, div2
-          keywords docxml, div2
-          preface docxml, div2
+          front docxml, div2
           div2.p { |p| p << "&#xa0;" } # placeholder
         end
         section_break(body)
       end
 
-      def abstract(isoxml, out)
-        f = isoxml.at(ns("//preface/abstract")) || return
-        out.div **attr_code(id: f["id"], class: "Abstract") do |s|
-          clause_name(f, "Summary", s, class: "AbstractTitle")
-          f.elements.each { |e| parse(e, s) unless e.name == "title" }
+      def front(isoxml, out)
+        if !isoxml.at(ns("//preface/abstract"))
+          keywords(isoxml, out)
         end
+        super # do keyword with abstract
+      end
+
+      def abstract(clause, out)
+        out.div **attr_code(id: clause["id"], class: "Abstract") do |s|
+          clause_name(clause, "Summary", s, class: "AbstractTitle")
+          clause.elements.each { |e| parse(e, s) unless e.name == "title" }
+        end
+        keywords(nil, out)
       end
 
       def keywords(_docxml, out)
@@ -47,7 +51,7 @@ module IsoDoc
         kw.nil? || kw.empty? and return
         out.div **attr_code(class: "Keyword") do |div|
           clause_name(nil, "Keywords", div, class: "IntroTitle")
-          div.p kw.join(", ") + "."
+          div.p "#{kw.join(', ')}."
         end
       end
 
@@ -125,6 +129,24 @@ module IsoDoc
         %w(source history).include?(node["type"]) and
           ret = { class: node["type"] }
         super.merge(ret)
+      end
+
+      def table_of_contents(clause, out)
+        page_break(out)
+        out.div **attr_code(preface_attrs(clause)) do |div|
+          div.p class: "zzContents" do |p|
+            clause.at(ns("./title"))&.children&.each do |c|
+              parse(c, p)
+            end
+          end
+          div.p style: "tab-stops:right 17.0cm" do |p|
+            insert_tab(p, 1)
+            p << "<b>#{@i18n.page}</b>"
+          end
+          clause.elements.each do |e|
+            parse(e, div) unless e.name == "title"
+          end
+        end
       end
 
       include BaseConvert

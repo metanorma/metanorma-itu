@@ -83,32 +83,33 @@ RSpec.describe Metanorma::ITU do
              </ext>
              </bibdata>
              <preface>
-             <abstract displayorder="1">
+             <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+             <abstract displayorder="2">
              <title>Abstract</title>
                  <xref target="A1">Annex A</xref>
                  <xref target="B1">Appendix I</xref>
              </abstract>
              </preface>
-      <annex id="A1" obligation="normative" displayorder="2"><title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A2" obligation="normative" displayorder="3"><title><strong>Annex B</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A3" obligation="normative" displayorder="4"><title><strong>Annex C</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A4" obligation="normative" displayorder="5"><title><strong>Annex D</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A5" obligation="normative" displayorder="6"><title><strong>Annex E</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A6" obligation="normative" displayorder="7"><title><strong>Annex F</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A7" obligation="normative" displayorder="8"><title><strong>Annex G</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A8" obligation="normative" displayorder="9"><title><strong>Annex H</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A9" obligation="normative" displayorder="10"><title><strong>Annex J</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A10" obligation="normative" displayorder="11"><title><strong>Annex K</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B1" obligation="informative" displayorder="12"><title><strong>Appendix I</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B2" obligation="informative" displayorder="13"><title><strong>Appendix II</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B3" obligation="informative" displayorder="14"><title><strong>Appendix III</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B4" obligation="informative" displayorder="15"><title><strong>Appendix IV</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B5" obligation="informative" displayorder="16"><title><strong>Appendix V</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B6" obligation="informative" displayorder="17"><title><strong>Appendix VI</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B7" obligation="informative" displayorder="18"><title><strong>Appendix VII</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B8" obligation="informative" displayorder="19"><title><strong>Appendix VIII</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B9" obligation="informative" displayorder="20"><title><strong>Appendix IX</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B10" obligation="informative" displayorder="21"><title><strong>Appendix X</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="A1" obligation="normative" displayorder="3"><title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="A2" obligation="normative" displayorder="4"><title><strong>Annex B</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="A3" obligation="normative" displayorder="5"><title><strong>Annex C</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="A4" obligation="normative" displayorder="6"><title><strong>Annex D</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="A5" obligation="normative" displayorder="7"><title><strong>Annex E</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="A6" obligation="normative" displayorder="8"><title><strong>Annex F</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="A7" obligation="normative" displayorder="9"><title><strong>Annex G</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="A8" obligation="normative" displayorder="10"><title><strong>Annex H</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="A9" obligation="normative" displayorder="11"><title><strong>Annex J</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="A10" obligation="normative" displayorder="12"><title><strong>Annex K</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="B1" obligation="informative" displayorder="13"><title><strong>Appendix I</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="B2" obligation="informative" displayorder="14"><title><strong>Appendix II</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="B3" obligation="informative" displayorder="15"><title><strong>Appendix III</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="B4" obligation="informative" displayorder="16"><title><strong>Appendix IV</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="B5" obligation="informative" displayorder="17"><title><strong>Appendix V</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="B6" obligation="informative" displayorder="18"><title><strong>Appendix VI</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="B7" obligation="informative" displayorder="19"><title><strong>Appendix VII</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="B8" obligation="informative" displayorder="20"><title><strong>Appendix VIII</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="B9" obligation="informative" displayorder="21"><title><strong>Appendix IX</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="B10" obligation="informative" displayorder="22"><title><strong>Appendix X</strong><br/><br/><strong>Annex</strong></title></annex>
       </itu-standard>
     OUTPUT
     html = <<~OUTPUT
@@ -250,42 +251,45 @@ RSpec.describe Metanorma::ITU do
                </ext>
                </bibdata>
       <preface>
-      <abstract displayorder="1"><title>Abstract</title>
+        <clause type="toc" displayorder="1">
+        <title depth="1">Table of Contents</title>
+        </clause>
+      <abstract displayorder="2"><title>Abstract</title>
       <p>This is an abstract</p>
       </abstract>
-      <clause id="A0" displayorder="2"><title depth="1">History</title>
+      <clause id="A0" displayorder="3"><title depth="1">History</title>
       <p>history</p>
       </clause>
-      <foreword obligation="informative" displayorder="3">
+      <foreword obligation="informative" displayorder="4">
          <title>Foreword</title>
          <p id="A">This is a preamble</p>
        </foreword>
-        <introduction id="B" obligation="informative" displayorder="4"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+        <introduction id="B" obligation="informative" displayorder="5"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
          <title depth="2">Introduction Subsection</title>
        </clause>
        </introduction></preface><sections>
-       <clause id="D" obligation="normative" type="scope" displayorder="5">
+       <clause id="D" obligation="normative" type="scope" displayorder="6">
          <title depth="1">1.<tab/>Scope</title>
          <p id="E">Text</p>
        </clause>
-       <terms id="I" obligation="normative" displayorder="7"><title>3.</title>
+       <terms id="I" obligation="normative" displayorder="8"><title>3.</title>
          <term id="J"><name>3.1.</name>
          <preferred>Term2</preferred>
        </term>
        </terms>
-       <definitions id="L" displayorder="8"><title>4.</title>
+       <definitions id="L" displayorder="9"><title>4.</title>
          <dl>
          <dt>Symbol</dt>
          <dd>Definition</dd>
          </dl>
        </definitions>
-       <clause id="M" inline-header="false" obligation="normative" displayorder="9"><title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
+       <clause id="M" inline-header="false" obligation="normative" displayorder="10"><title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
          <title depth="2">5.1.<tab/>Introduction</title>
        </clause>
        <clause id="O" inline-header="false" obligation="normative">
          <title depth="2">5.2.<tab/>Clause 4.2</title>
        </clause></clause>
-       </sections><annex id="P" inline-header="false" obligation="normative" displayorder="10">
+       </sections><annex id="P" inline-header="false" obligation="normative" displayorder="11">
          <title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title>
          <clause id="Q" inline-header="false" obligation="normative">
          <title depth="2">A.1.<tab/>Annex A.1</title>
@@ -293,9 +297,9 @@ RSpec.describe Metanorma::ITU do
          <title depth="3">A.1.1.<tab/>Annex A.1a</title>
          </clause>
        </clause>
-       </annex><bibliography><references id="R" obligation="informative" normative="true" displayorder="6">
+       </annex><bibliography><references id="R" obligation="informative" normative="true" displayorder="7">
          <title depth="1">2.<tab/>References</title>
-       </references><clause id="S" obligation="informative" displayorder="11">
+       </references><clause id="S" obligation="informative" displayorder="12">
          <title depth="1">Bibliography</title>
          <references id="T" obligation="informative" normative="false">
          <title depth="2">Bibliography Subsection</title>
@@ -390,103 +394,113 @@ RSpec.describe Metanorma::ITU do
     OUTPUT
 
     word = <<~OUTPUT
-                 <body lang="EN-US" link="blue" vlink="#954F72">
-                 <div class="WordSection1">
-                   <p>&#160;</p>
-                 </div>
-                 <p>
-                   <br clear="all" class="section"/>
-                 </p>
-                 <div class="WordSection2">
-                 <div class='Abstract'>
-                     <h1 class="AbstractTitle">Summary</h1>
-                     <p>This is an abstract</p>
-                   </div>
-                   <div class='Keyword'>
-                     <h1 class="IntroTitle">Keywords</h1>
-                     <p>A, B.</p>
-                   </div>
-                   <div id="A0">
-        <h1 class="IntroTitle">History</h1>
-        <p>history</p>
+         <body lang="EN-US" link="blue" vlink="#954F72">
+         <div class="WordSection1">
+           <p>&#160;</p>
+         </div>
+         <p>
+           <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection2">
+             <p>
+          <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+        </p>
+        <div class="TOC">
+          <p class="zzContents">Table of Contents</p>
+          <p style="tab-stops:right 17.0cm">
+            <span style="mso-tab-count:1">  </span>
+            <b>Page</b>
+          </p>
+        </div>
+         <div class='Abstract'>
+             <h1 class="AbstractTitle">Summary</h1>
+             <p>This is an abstract</p>
+           </div>
+           <div class='Keyword'>
+             <h1 class="IntroTitle">Keywords</h1>
+             <p>A, B.</p>
+           </div>
+           <div id="A0">
+              <h1 class="IntroTitle">History</h1>
+              <p>history</p>
+            </div>
+           <div>
+             <h1 class="IntroTitle">Foreword</h1>
+             <p id="A">This is a preamble</p>
+           </div>
+           <div id="B">
+             <h1 class="IntroTitle">Introduction</h1>
+             <div id="C"><h2>Introduction Subsection</h2>
       </div>
-                   <div>
-                     <h1 class="IntroTitle">Foreword</h1>
-                     <p id="A">This is a preamble</p>
-                   </div>
-                   <div id="B">
-                     <h1 class="IntroTitle">Introduction</h1>
-                     <div id="C"><h2>Introduction Subsection</h2>
-              </div>
-                   </div>
-                   <p>&#160;</p>
-                 </div>
-                 <p>
-                   <br clear="all" class="section"/>
-                 </p>
-                 <div class="WordSection3">
-                   <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
-                   <p class="zzSTDTitle2">An ITU Standard</p>
-                   <div id="D">
-                     <h1>1.<span style="mso-tab-count:1">&#160; </span>Scope</h1>
-                     <p id="E">Text</p>
-                  </div>
-                   <div>
-                     <h1>2.<span style="mso-tab-count:1">&#160; </span>References</h1>
-                      <table class='biblio' border='0'>
-         <tbody/>
-       </table>
-                   </div>
-                   <div id="I"><h1>3.</h1>
-                <div id="J"><p class="TermNum" id="J"><b>3.1.<span style="mso-tab-count:1">&#160; </span>Term2</b>: </p>
-              </div>
-              </div>
-                   <div id="L" class="Symbols">
-                     <h1>4.</h1>
-                     <table class="dl">
-                       <tr>
-                         <td valign="top" align="left">
-                           <p align="left" style="margin-left:0pt;text-align:left;">Symbol</p>
-                         </td>
-                         <td valign="top">Definition</td>
-                       </tr>
-                     </table>
-                   </div>
-                   <div id="M">
-                     <h1>5.<span style="mso-tab-count:1">&#160; </span>Clause 4</h1>
-                     <div id="N"><h2>5.1.<span style="mso-tab-count:1">&#160; </span>Introduction</h2>
-              </div>
-                     <div id="O"><h2>5.2.<span style="mso-tab-count:1">&#160; </span>Clause 4.2</h2>
-              </div>
-                   </div>
-                   <p>
-                     <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
-                   </p>
-                   <div id="P" class="Section3">
-                     <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b></h1>
-                      <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
-                     <div id="Q"><h2>A.1.<span style="mso-tab-count:1">&#160; </span>Annex A.1</h2>
-                <div id="Q1"><h3>A.1.1.<span style="mso-tab-count:1">&#160; </span>Annex A.1a</h3>
-                </div>
-              </div>
-                   </div>
-                   <p>
-                     <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
-                   </p>
-                   <div>
-                     <h1 class="Section3">Bibliography</h1>
-                     <table class='biblio' border='0'>
-        <tbody/>
-      </table>
-                     <div>
-                       <h2 class="Section3">Bibliography Subsection</h2>
-                       <table class='biblio' border='0'>
-        <tbody/>
-      </table>
-                     </div>
-                   </div>
-                 </div>
-               </body>
+           </div>
+           <p>&#160;</p>
+         </div>
+         <p>
+           <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection3">
+           <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
+           <p class="zzSTDTitle2">An ITU Standard</p>
+           <div id="D">
+             <h1>1.<span style="mso-tab-count:1">&#160; </span>Scope</h1>
+             <p id="E">Text</p>
+          </div>
+           <div>
+             <h1>2.<span style="mso-tab-count:1">&#160; </span>References</h1>
+              <table class='biblio' border='0'>
+              <tbody/>
+            </table>
+           </div>
+           <div id="I"><h1>3.</h1>
+        <div id="J"><p class="TermNum" id="J"><b>3.1.<span style="mso-tab-count:1">&#160; </span>Term2</b>: </p>
+      </div>
+      </div>
+           <div id="L" class="Symbols">
+             <h1>4.</h1>
+             <table class="dl">
+               <tr>
+                 <td valign="top" align="left">
+                   <p align="left" style="margin-left:0pt;text-align:left;">Symbol</p>
+                 </td>
+                 <td valign="top">Definition</td>
+               </tr>
+             </table>
+           </div>
+           <div id="M">
+             <h1>5.<span style="mso-tab-count:1">&#160; </span>Clause 4</h1>
+             <div id="N"><h2>5.1.<span style="mso-tab-count:1">&#160; </span>Introduction</h2>
+      </div>
+             <div id="O"><h2>5.2.<span style="mso-tab-count:1">&#160; </span>Clause 4.2</h2>
+      </div>
+           </div>
+           <p>
+             <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+           </p>
+           <div id="P" class="Section3">
+             <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b></h1>
+              <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
+             <div id="Q"><h2>A.1.<span style="mso-tab-count:1">&#160; </span>Annex A.1</h2>
+        <div id="Q1"><h3>A.1.1.<span style="mso-tab-count:1">&#160; </span>Annex A.1a</h3>
+        </div>
+      </div>
+           </div>
+           <p>
+             <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+           </p>
+           <div>
+             <h1 class="Section3">Bibliography</h1>
+             <table class='biblio' border='0'>
+              <tbody/>
+            </table>
+             <div>
+               <h2 class="Section3">Bibliography Subsection</h2>
+               <table class='biblio' border='0'>
+              <tbody/>
+            </table>
+             </div>
+           </div>
+         </div>
+       </body>
     OUTPUT
     expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", itudoc("en"), true)
@@ -556,7 +570,7 @@ RSpec.describe Metanorma::ITU do
     expect(xmlpp(html
       .sub(%r{^.*<div class="WordSection3">}m, %{<body><div class="WordSection3">})
       .gsub(%r{</body>.*$}m, "</body>")))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+      .to be_equivalent_to xmlpp(<<~OUTPUT)
         <body><div class="WordSection3">
               <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
               <p class="zzSTDTitle2">An ITU Standard</p>
@@ -645,7 +659,10 @@ RSpec.describe Metanorma::ITU do
                 </structuredidentifier>
               </ext>
             </bibdata>
-            <annex id='A1' obligation='normative' displayorder='1'>
+            <preface>
+            <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+            </preface>
+            <annex id='A1' obligation='normative' displayorder='2'>
               <title>
                 <strong>Annex F2</strong>
                 <br/>
@@ -676,9 +693,10 @@ RSpec.describe Metanorma::ITU do
     html = File.read("test.html", encoding: "utf-8")
     expect(xmlpp(strip_guid(html.gsub(%r{^.*<main}m, "<main")
       .gsub(%r{</main>.*}m, "</main>"))))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+      .to be_equivalent_to xmlpp(<<~OUTPUT)
             <main class='main-section'>
                  <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
+                 <br/>
                  <p class='zzSTDTitle1'>Draft new Recommendation 12345</p>
                  <p class='zzSTDTitle2'>An ITU Standard</p>
                  <p class='zzSTDTitle3'>Subtitle</p>
@@ -714,7 +732,7 @@ RSpec.describe Metanorma::ITU do
     expect(xmlpp(html
  .gsub(%r{^.*<div class="WordSection3">}m, '<div class="WordSection3" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">')
  .gsub(%r{<div style="mso-element:footnote-list"/>.*}m, "")))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+      .to be_equivalent_to xmlpp(<<~OUTPUT)
         <div class='WordSection3' xmlns:m='http://schemas.microsoft.com/office/2004/12/omml'>
               <p class='zzSTDTitle1'>Draft new Recommendation 12345</p>
               <p class='zzSTDTitle2'>An ITU Standard</p>
@@ -770,7 +788,7 @@ RSpec.describe Metanorma::ITU do
 
   it "processes history tables (Word)" do
     FileUtils.rm_f "test.doc"
-    IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
+    IsoDoc::ITU::WordConvert.new({}).convert("test", <<~INPUT, false)
             <iso-standard xmlns="http://riboseinc.com/isoxml">
             <preface><clause id="_history" obligation="normative">
         <title>History</title>
@@ -806,7 +824,7 @@ RSpec.describe Metanorma::ITU do
     expect(xmlpp(html
       .gsub(%r{.*<p class="h1Preface">History</p>}m, '<div><p class="h1Preface">History</p>')
       .sub(%r{</table>.*$}m, "</table></div></div>")))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+      .to be_equivalent_to xmlpp(<<~OUTPUT)
               <div>
               <p class="h1Preface">History</p>
                        <p class="TableTitle" style="text-align:center;">Table 1</p>
@@ -990,7 +1008,8 @@ RSpec.describe Metanorma::ITU do
     INPUT
     presxml = <<~OUTPUT
       <preface>
-         <clause id='_' type='editors' displayorder='1'>
+        <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+         <clause id='_' type='editors' displayorder='2'>
            <table id='_' unnumbered='true'>
              <tbody>
                <tr>

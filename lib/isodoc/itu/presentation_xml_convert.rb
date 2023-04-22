@@ -195,6 +195,12 @@ module IsoDoc
         ret.gsub(/-/, "&#x2011;").gsub(/ /, "&#xa0;")
       end
 
+      def toc_title(docxml)
+        doctype = docxml.at(ns("//bibdata/ext/doctype"))
+        doctype&.text == "resolution" and return
+        super
+      end
+
       include Init
     end
   end

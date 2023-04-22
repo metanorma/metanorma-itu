@@ -5,7 +5,11 @@ RSpec.describe Metanorma::ITU do
   it "processes pre" do
     input = <<~INPUT
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
-      <preface><foreword>
+      <preface>
+          <clause type="toc" displayorder="1">
+      <title depth="1">Table of Contents</title>
+      </clause>
+      <foreword>
       <pre>ABC</pre>
       </foreword></preface>
       </itu-standard>
@@ -54,7 +58,8 @@ RSpec.describe Metanorma::ITU do
     presxml = <<~OUTPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
          <preface>
-           <foreword displayorder="1">
+          <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+           <foreword displayorder="2">
              <formula id="_be9158af-7e93-4ee2-90c5-26d31c181934" unnumbered="true" keep-with-next="true" keep-lines-together="true">
                <stem type="AsciiMath">r = 1 %</stem>
                <p keep-with-next="true">where</p>
@@ -297,7 +302,8 @@ RSpec.describe Metanorma::ITU do
     presxml = <<~OUTPUT
       <iso-standard xmlns='http://riboseinc.com/isoxml' type='presentation'>
         <preface>
-          <foreword displayorder='1'>
+          <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+          <foreword displayorder='2'>
             <ol id='_ae34a226-aab4-496d-987b-1aa7b6314026' class='steps' type='arabic'>
               <li>
                 <p id='_0091a277-fb0e-424a-aea8-f0001303fe78'>all information necessary for the complete identification of the sample;</p>
@@ -351,6 +357,16 @@ RSpec.describe Metanorma::ITU do
              <br clear='all' class='section'/>
            </p>
            <div class='WordSection2'>
+               <p>
+                <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+              </p>
+              <div class="TOC">
+                <p class="zzContents">Table of Contents</p>
+                <p style="tab-stops:right 17.0cm">
+                  <span style="mso-tab-count:1">  </span>
+                  <b>Page</b>
+                </p>
+              </div>
              <div>
                <h1 class='IntroTitle'/>
                <ol class='steps' id='_ae34a226-aab4-496d-987b-1aa7b6314026'>
@@ -437,7 +453,10 @@ RSpec.describe Metanorma::ITU do
   it "processes unlabelled notes" do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">
-          <preface><foreword>
+          <preface><clause type="toc" displayorder="1">
+            <title depth="1">Table of Contents</title>
+        </clause>
+        <foreword>
           <note><name>NOTE</name>
         <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
       </note>
@@ -467,6 +486,16 @@ RSpec.describe Metanorma::ITU do
              <br clear='all' class='section'/>
            </p>
            <div class='WordSection2'>
+               <p>
+                <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+              </p>
+              <div class="TOC">
+                <p class="zzContents">Table of Contents</p>
+                <p style="tab-stops:right 17.0cm">
+                  <span style="mso-tab-count:1">  </span>
+                  <b>Page</b>
+                </p>
+              </div>
              <div>
                <h1 class='IntroTitle'/>
                <div class='Note'>
@@ -503,7 +532,9 @@ RSpec.describe Metanorma::ITU do
   it "processes sequences of notes" do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">
-          <preface><foreword>
+          <preface>
+          <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+          <foreword>
           <note id="note1"><name>NOTE 1</name>
         <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
       </note>
@@ -552,6 +583,16 @@ RSpec.describe Metanorma::ITU do
                  <br clear='all' class='section'/>
                </p>
                <div class='WordSection2'>
+                   <p>
+                    <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+                  </p>
+                  <div class="TOC">
+                    <p class="zzContents">Table of Contents</p>
+                    <p style="tab-stops:right 17.0cm">
+                      <span style="mso-tab-count:1">  </span>
+                      <b>Page</b>
+                    </p>
+                  </div>
                  <div>
                    <h1 class='IntroTitle'/>
                    <div id='note1' class='Note'>

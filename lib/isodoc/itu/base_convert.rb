@@ -11,18 +11,26 @@ module IsoDoc
       FRONT_CLAUSE = "//*[parent::preface]" \
                      "[not(local-name() = 'abstract')]".freeze
 
-      def preface(isoxml, out)
-        isoxml.xpath(ns(FRONT_CLAUSE)).each do |c|
-          next unless is_clause?(c.name)
-
-          title = c&.at(ns("./title"))
-          out.div **attr_code(clause_attrs(c)) do |s|
-            clause_name(c, title, s, class: "IntroTitle")
-            c.elements.reject { |c1| c1.name == "title" }.each do |c1|
-              parse(c1, s)
-            end
+      def introduction(clause, out)
+        title = clause.at(ns("./title"))
+        out.div **attr_code(clause_attrs(clause)) do |s|
+          clause_name(clause, title, s, class: "IntroTitle")
+          clause.elements.reject { |c1| c1.name == "title" }.each do |c1|
+            parse(c1, s)
           end
         end
+      end
+
+      def foreword(clause, out)
+        introduction(clause, out)
+      end
+
+      def acknowledgements(clause, out)
+        introduction(clause, out)
+      end
+
+      def preface_normal(clause, out)
+        introduction(clause, out)
       end
 
       def clausedelim
@@ -53,7 +61,7 @@ module IsoDoc
       end
 
       def annex_name(annex, name, div)
-        #preceding_floating_titles(name, div)
+        # preceding_floating_titles(name, div)
         r_a = @meta.get[:doctype_original] == "recommendation-annex"
         div.h1 class: r_a ? "RecommendationAnnex" : "Annex" do |t|
           name&.children&.each { |c2| parse(c2, t) }

@@ -12,7 +12,7 @@ RSpec.describe Metanorma::ITU::Processor do
   end
 
   it "registers output formats against metanorma" do
-    expect(processor.output_formats.sort.to_s).to be_equivalent_to <<~"OUTPUT"
+    expect(processor.output_formats.sort.to_s).to be_equivalent_to <<~OUTPUT
       [[:doc, "doc"], [:html, "html"], [:pdf, "pdf"], [:presentation, "presentation.xml"], [:rxl, "rxl"], [:xml, "xml"]]
     OUTPUT
   end
@@ -30,13 +30,13 @@ RSpec.describe Metanorma::ITU::Processor do
         <sections/>
       </itu-standard>
     OUTPUT
-    expect(strip_guid(processor.input_to_isodoc(input, nil)))
-      .to be_equivalent_to output
+    expect(strip_guid(xmlpp(processor.input_to_isodoc(input, nil))))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "generates HTML from IsoDoc XML" do
     FileUtils.rm_f "test.xml"
-    processor.output(<<~"INPUT", "test.xml", "test.html", :html)
+    processor.output(<<~INPUT, "test.xml", "test.html", :html)
       <itu-standard xmlns="http://riboseinc.com/isoxml">
         <sections>
           <terms id="H" obligation="normative"><title>Terms</title>
@@ -52,7 +52,7 @@ RSpec.describe Metanorma::ITU::Processor do
     expect(xmlpp(strip_guid(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<main}m, "<main")
       .gsub(%r{</main>.*}m, "</main>"))))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+      .to be_equivalent_to xmlpp(<<~OUTPUT)
         <main class='main-section'>
           <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
           <p class='zzSTDTitle1'/>

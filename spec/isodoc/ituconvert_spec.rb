@@ -33,9 +33,9 @@ RSpec.describe Metanorma::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -69,9 +69,9 @@ RSpec.describe Metanorma::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -233,9 +233,9 @@ RSpec.describe Metanorma::ITU do
            </div>
          </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
@@ -319,9 +319,9 @@ RSpec.describe Metanorma::ITU do
         </div>
       </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
@@ -334,7 +334,7 @@ RSpec.describe Metanorma::ITU do
     input = <<~INPUT
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
       <preface>
-          <clause type="toc" displayorder="1">
+          <clause type="toc" id="_" displayorder="1">
       <title depth="1">Table of Contents</title>
     </clause>
       <foreword>
@@ -386,7 +386,7 @@ RSpec.describe Metanorma::ITU do
     presxml = <<~INPUT
               <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
               <preface>
-                  <clause type="toc" displayorder="1">
+                  <clause type="toc" id="_" displayorder="1">
       <title depth="1">Table of Contents</title>
     </clause>
       </preface><sections>
@@ -444,9 +444,9 @@ RSpec.describe Metanorma::ITU do
         </div>
       </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
@@ -497,7 +497,7 @@ RSpec.describe Metanorma::ITU do
                      <itu-standard xmlns="http://riboseinc.com/isoxml">
                <termdocsource type="inline" bibitemid="ISO712"/>
                <preface>
-                   <clause type="toc" displayorder="1">
+                   <clause type="toc" id="_" displayorder="1">
                   <title depth="1">Table of Contents</title>
             </clause>
              </preface><sections>
@@ -950,7 +950,7 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
          <preface>
-             <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+             <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
            <foreword displayorder="2">
              <p>
                <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">A</eref>
@@ -964,7 +964,7 @@ RSpec.describe Metanorma::ITU do
            </foreword>
          </preface>
          <bibliography>
-           <references id="_normative_references" obligation="informative" normative="true" displayorder="3">
+           <references id="_" obligation="informative" normative="true" displayorder="3">
              <title depth="1">1.<tab/>References</title>
              <bibitem id="ISO712" type="standard">
                <formattedref><em>Cereals and cereal products</em>.</formattedref>
@@ -976,9 +976,9 @@ RSpec.describe Metanorma::ITU do
          </bibliography>
        </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(output)
   end
 
@@ -1298,15 +1298,15 @@ RSpec.describe Metanorma::ITU do
                  <title language='en'>test</title>
                </bibdata>
                <preface>
-                 <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+                 <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
                  <p displayorder='2'>30'000
                    <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mfenced open="(" close=")"><mrow><mi>X</mi><mo>≥</mo><msub><mrow><mi>X</mi></mrow><mrow><mo>max</mo></mrow></msub></mrow></mfenced><mo>=</mo><munderover><mrow><mo>∑</mo></mrow><mrow><mrow><mi>j</mi><mo>=</mo><msub><mrow><mi>X</mi></mrow><mrow><mo>max</mo></mrow></msub></mrow></mrow><mrow><mn>1'000</mn></mrow></munderover><mfenced open="(" close=")"><mtable><mtr><mtd><mn>1'000</mn></mtd></mtr><mtr><mtd><mi>j</mi></mtd></mtr></mtable></mfenced><msup><mrow><mi>p</mi></mrow><mrow><mi>j</mi></mrow></msup><msup><mrow><mfenced open="(" close=")"><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfenced></mrow><mrow><mrow><mn>1.003</mn><mo>−</mo><mi>j</mi></mrow></mrow></msup></math><asciimath>P (X ge X_(max)) = sum_(j = X_(max))^(1000) ([[1000], [j]]) p^(j) (1 - p)^(1.003 - j)</asciimath></stem></p>
          </preface>
        </iso-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .sub(%r{<localized-strings>.*</localized-strings>}m, ""))
+      .sub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to xmlpp(output)
   end
 end

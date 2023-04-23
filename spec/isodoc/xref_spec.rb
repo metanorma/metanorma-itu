@@ -142,7 +142,7 @@ RSpec.describe Metanorma::ITU do
     presxml = <<~OUTPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
                     <preface>
-                    <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+                    <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
                 <foreword id="fwd" displayorder='2'>
                 <p>
                 <xref target="N">Figure 1</xref>
@@ -163,11 +163,11 @@ RSpec.describe Metanorma::ITU do
                 <figure id="N">
                     <figure id="note1">
               <name>Figure 1-a&#xA0;&#x2014; Split-it-right sample divider</name>
-              <image src="rice_images/rice_image1.png" id="_8357ede4-6d44-4672-bac4-9a85e82ab7f0" mimetype="image/png"/>
+              <image src="rice_images/rice_image1.png" id="_" mimetype="image/png"/>
               </figure>
                 <figure id="note2">
               <name>Figure 1-b&#xA0;&#x2014; Split-it-right sample divider</name>
-              <image src="rice_images/rice_image1.png" id="_8357ede4-6d44-4672-bac4-9a85e82ab7f0" mimetype="image/png"/>
+              <image src="rice_images/rice_image1.png" id="_" mimetype="image/png"/>
               </figure>
               </figure>
               <p>    <xref target="note1">Figure 1-a</xref> <xref target="note2">Figure 1-b</xref> </p>
@@ -181,11 +181,11 @@ RSpec.describe Metanorma::ITU do
                 <figure id="AN">
                     <figure id="Anote1">
               <name>Figure A.1-a&#xA0;&#x2014; Split-it-right sample divider</name>
-              <image src="rice_images/rice_image1.png" id="_8357ede4-6d44-4672-bac4-9a85e82ab7f0" mimetype="image/png"/>
+              <image src="rice_images/rice_image1.png" id="_" mimetype="image/png"/>
               </figure>
                 <figure id="Anote2">
               <name>Figure A.1-b&#xA0;&#x2014; Split-it-right sample divider</name>
-              <image src="rice_images/rice_image1.png" id="_8357ede4-6d44-4672-bac4-9a85e82ab7f0" mimetype="image/png"/>
+              <image src="rice_images/rice_image1.png" id="_" mimetype="image/png"/>
               </figure>
               </figure>
                 </clause>
@@ -260,10 +260,10 @@ RSpec.describe Metanorma::ITU do
         </div>
       </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
+      .gsub(%r{</body>.*}m, "</body>"))))
       .to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
@@ -357,7 +357,7 @@ RSpec.describe Metanorma::ITU do
                   </ext>
                 </bibdata>
                 <preface>
-                  <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+                  <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
                   <abstract displayorder='2'>
                     <title>Abstract</title>
                     <p>
@@ -384,9 +384,9 @@ RSpec.describe Metanorma::ITU do
                   </annex>
               </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(output)
   end
 

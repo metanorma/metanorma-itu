@@ -83,7 +83,7 @@ RSpec.describe Metanorma::ITU do
              </ext>
              </bibdata>
              <preface>
-             <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+             <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
              <abstract displayorder="2">
              <title>Abstract</title>
                  <xref target="A1">Annex A</xref>
@@ -225,9 +225,9 @@ RSpec.describe Metanorma::ITU do
                  </div>
                </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
@@ -251,23 +251,24 @@ RSpec.describe Metanorma::ITU do
                </ext>
                </bibdata>
       <preface>
-        <clause type="toc" displayorder="1">
+        <clause type="toc" id="_" displayorder="1">
         <title depth="1">Table of Contents</title>
         </clause>
       <abstract displayorder="2"><title>Abstract</title>
       <p>This is an abstract</p>
       </abstract>
-      <clause id="A0" displayorder="3"><title depth="1">History</title>
-      <p>history</p>
-      </clause>
-      <foreword obligation="informative" displayorder="4">
+      <foreword obligation="informative" displayorder="3">
          <title>Foreword</title>
          <p id="A">This is a preamble</p>
        </foreword>
-        <introduction id="B" obligation="informative" displayorder="5"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+        <introduction id="B" obligation="informative" displayorder="4"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
          <title depth="2">Introduction Subsection</title>
        </clause>
-       </introduction></preface><sections>
+       </introduction>
+      <clause id="A0" displayorder="5"><title depth="1">History</title>
+      <p>history</p>
+      </clause>
+        </preface><sections>
        <clause id="D" obligation="normative" type="scope" displayorder="6">
          <title depth="1">1.<tab/>Scope</title>
          <p id="E">Text</p>
@@ -405,7 +406,7 @@ RSpec.describe Metanorma::ITU do
              <p>
           <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
         </p>
-        <div class="TOC">
+        <div class="TOC" id="_">
           <p class="zzContents">Table of Contents</p>
           <p style="tab-stops:right 17.0cm">
             <span style="mso-tab-count:1">  </span>
@@ -420,10 +421,6 @@ RSpec.describe Metanorma::ITU do
              <h1 class="IntroTitle">Keywords</h1>
              <p>A, B.</p>
            </div>
-           <div id="A0">
-              <h1 class="IntroTitle">History</h1>
-              <p>history</p>
-            </div>
            <div>
              <h1 class="IntroTitle">Foreword</h1>
              <p id="A">This is a preamble</p>
@@ -432,7 +429,11 @@ RSpec.describe Metanorma::ITU do
              <h1 class="IntroTitle">Introduction</h1>
              <div id="C"><h2>Introduction Subsection</h2>
       </div>
-           </div>
+      </div>
+           <div id="A0">
+              <h1 class="IntroTitle">History</h1>
+              <p>history</p>
+            </div>
            <p>&#160;</p>
          </div>
          <p>
@@ -502,9 +503,9 @@ RSpec.describe Metanorma::ITU do
          </div>
        </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", itudoc("en"), true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
@@ -660,7 +661,7 @@ RSpec.describe Metanorma::ITU do
               </ext>
             </bibdata>
             <preface>
-            <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+            <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
             </preface>
             <annex id='A1' obligation='normative' displayorder='2'>
               <title>
@@ -685,9 +686,9 @@ RSpec.describe Metanorma::ITU do
             </annex>
           </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
  .convert("test", input, true)
- .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+ .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, false)
     html = File.read("test.html", encoding: "utf-8")
@@ -1008,7 +1009,7 @@ RSpec.describe Metanorma::ITU do
     INPUT
     presxml = <<~OUTPUT
       <preface>
-        <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+        <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
          <clause id='_' type='editors' displayorder='2'>
            <table id='_' unnumbered='true'>
              <tbody>

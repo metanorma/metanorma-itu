@@ -126,7 +126,7 @@ RSpec.describe IsoDoc::ITU do
              <language current="true">en</language>
              </bibdata>
              <preface>
-              <clause type="toc" displayorder="1">
+              <clause type="toc" id="_" displayorder="1">
               <title depth="1">Table of Contents</title>
               </clause>
             <foreword  displayorder='2'>
@@ -392,15 +392,15 @@ RSpec.describe IsoDoc::ITU do
           <language current="true">en</language>
         </bibdata>
         <preface>
-          <clause type="toc" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+          <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
           <foreword displayorder='2'>
-            <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f'>
+            <p id='_'>
               <eref bibitemid='ISO712'>[ISO&#xa0;712]</eref>
             </p>
           </foreword>
         </preface>
         <bibliography>
-          <references id='_normative_references' obligation='informative' normative='true' displayorder='3'>
+          <references id='_' obligation='informative' normative='true' displayorder='3'>
            <title depth='1'>1.<tab/>References</title>
             <p>
               The following documents are referred to in the text in such a way that
@@ -443,7 +443,7 @@ RSpec.describe IsoDoc::ITU do
               #{HTML_HDR}
       <div>
                  <h1 class="IntroTitle"/>
-                 <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">
+                 <p id="_">
            <a href="#ISO712">[ISO&#xa0;712]</a>
            </p>
                </div>
@@ -501,9 +501,9 @@ RSpec.describe IsoDoc::ITU do
            </body>
 
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)

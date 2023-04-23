@@ -18,23 +18,24 @@ RSpec.describe Metanorma::ITU do
                </ext>
                </bibdata>
       <preface>
-          <clause type="toc" displayorder="1">
+          <clause type="toc" id="_" displayorder="1">
       <title depth="1">Table des matières</title>
       </clause>
       <abstract displayorder="2"><title>Abstract</title>
       <p>This is an abstract</p>
       </abstract>
-      <clause id="A0" displayorder="3"><title depth="1">History</title>
-      <p>history</p>
-      </clause>
-      <foreword obligation="informative" displayorder="4">
+      <foreword obligation="informative" displayorder="3">
          <title>Foreword</title>
          <p id="A">This is a preamble</p>
        </foreword>
-        <introduction id="B" obligation="informative" displayorder="5"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+        <introduction id="B" obligation="informative" displayorder="4"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
          <title depth="2">Introduction Subsection</title>
        </clause>
-       </introduction></preface><sections>
+       </introduction>
+      <clause id="A0" displayorder="5"><title depth="1">History</title>
+      <p>history</p>
+      </clause>
+      </preface><sections>
        <clause id="D" obligation="normative" type="scope" displayorder="6">
          <title depth="1">1.<tab/>Scope</title>
          <p id="E">Text</p>
@@ -159,9 +160,9 @@ RSpec.describe Metanorma::ITU do
                    </div>
                  </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", itudoc("fr"), true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
@@ -186,23 +187,24 @@ RSpec.describe Metanorma::ITU do
                </ext>
                </bibdata>
       <preface>
-          <clause type="toc" displayorder="1">
+          <clause type="toc" id="_" displayorder="1">
       <title depth="1">目　录</title>
     </clause>
       <abstract displayorder="2"><title>Abstract</title>
       <p>This is an abstract</p>
       </abstract>
-      <clause id="A0" displayorder="3"><title depth="1">History</title>
-      <p>history</p>
-      </clause>
-      <foreword obligation="informative" displayorder="4">
+      <foreword obligation="informative" displayorder="3">
          <title>Foreword</title>
          <p id="A">This is a preamble</p>
        </foreword>
-        <introduction id="B" obligation="informative" displayorder="5"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+        <introduction id="B" obligation="informative" displayorder="4"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
          <title depth="2">Introduction Subsection</title>
        </clause>
-       </introduction></preface><sections>
+       </introduction>
+      <clause id="A0" displayorder="5"><title depth="1">History</title>
+      <p>history</p>
+      </clause>
+      </preface><sections>
        <clause id="D" obligation="normative" type="scope" displayorder="6">
          <title depth="1">1.<tab/>Scope</title>
          <p id="E">Text</p>
@@ -338,9 +340,9 @@ RSpec.describe Metanorma::ITU do
         </div>
       </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", itudoc("zh"), true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)

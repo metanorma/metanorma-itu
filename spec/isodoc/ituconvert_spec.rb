@@ -953,13 +953,19 @@ RSpec.describe Metanorma::ITU do
              <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
            <foreword displayorder="2">
              <p>
-               <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">A</eref>
-               <eref type="inline" bibitemid="ISO712" citeas="ISO 712">A</eref>
-               <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">[ISO&#xa0;712]</eref>
-               <eref type="inline" bibitemid="ISO712" citeas="ISO 712">[ISO&#xa0;712]</eref>
-               <eref type="footnote" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality>[ISO&#xa0;712],  Section 8</eref>
-               <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><locality type="section"><referenceFrom>8</referenceFrom></locality>[ISO&#xa0;712],  Section 8</eref>
-               <eref type="inline" bibitemid="ISO712" citeas="ISO 712"><localityStack connective="and"><locality type="section"><referenceFrom>8</referenceFrom></locality></localityStack><localityStack connective="and"><locality type="section"><referenceFrom>10</referenceFrom></locality></localityStack>[ISO&#xa0;712],  Sections  8 and  10</eref>
+                    <sup>
+         <xref type="footnote" target="ISO712">A</xref>
+       </sup>
+       <xref type="inline" target="ISO712">A</xref>
+       <sup>
+         <xref type="footnote" target="ISO712">[ISO 712]</xref>
+       </sup>
+       <xref type="inline" target="ISO712">[ISO 712]</xref>
+       <sup>
+         <xref type="footnote" target="ISO712">[ISO 712], Section 8</xref>
+       </sup>
+       <xref type="inline" target="ISO712">[ISO 712], Section 8</xref>
+       <xref type="inline" target="ISO712">[ISO 712], Sections 8 and 10</xref>
              </p>
            </foreword>
          </preface>
@@ -1004,55 +1010,96 @@ RSpec.describe Metanorma::ITU do
           </bibliography>
           </iso-standard>
     INPUT
-    output = <<~OUTPUT
-          <body lang='EN-US' link='blue' vlink='#954F72'>
-        <div class='WordSection1'>
-          <p>&#160;</p>
-        </div>
-        <p>
-          <br clear='all' class='section'/>
-        </p>
-        <div class='WordSection2'>
-          <div>
-            <h1 class='IntroTitle'/>
-            <p>
-            <sup>
-        <a href='#ISO712'>A</a>
-      </sup>
-      <a href='#ISO712'>A</a>
-      <a href='#_http_1_1'>Requirement <tt>/req/core/http</tt></a>
-      <a href='http://www.example.com' class='url'>Test</a>
-      <a href='http://www.example.com' class='url'>http://www.example.com</a>
-            </p>
-          </div>
-          <p>&#160;</p>
-        </div>
-        <p>
-          <br clear='all' class='section'/>
-        </p>
-        <div class='WordSection3'>
-          <p class='zzSTDTitle1'/>
-          <p class='zzSTDTitle2'/>
-          <div>
-            <h1>References</h1>
-             <table class='biblio' border='0'>
-         <tbody>
-           <tr id='ISO712' class='NormRef'>
-             <td  style='vertical-align:top'>[ISO&#160;712]</td>
-             <td>
-               ISO&#xa0;712,
-               <i>Cereals and cereal products</i>
-               .
-             </td>
-           </tr>
-         </tbody>
-       </table>
-          </div>
-        </div>
-      </body>
+    presxml = <<~OUTPUT
+           <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+         <preface>
+           <clause type="toc" id="_" displayorder="1">
+             <title depth="1">Table of Contents</title>
+           </clause>
+           <foreword displayorder="2">
+             <p>
+               <sup>
+                 <xref type="footnote" target="ISO712">A</xref>
+               </sup>
+               <xref type="inline" target="ISO712">A</xref>
+               <xref target="_">Requirement <tt>/req/core/http</tt></xref>
+               <link target="http://www.example.com">Test</link>
+               <link target="http://www.example.com"/>
+             </p>
+           </foreword>
+         </preface>
+         <bibliography>
+           <references id="_" obligation="informative" normative="true" displayorder="3">
+             <title depth="1">1.<tab/>References</title>
+             <bibitem id="ISO712" type="standard">
+               <formattedref format="text/plain"><em>Cereals and cereal products</em>.</formattedref>
+               <docidentifier>ISO 712</docidentifier>
+               <biblio-tag>[ISO 712]</biblio-tag>
+               <biblio-tag>[ISO 712]</biblio-tag>
+             </bibitem>
+           </references>
+         </bibliography>
+       </iso-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+    output = <<~OUTPUT
+           <body lang="EN-US" link="blue" vlink="#954F72">
+         <div class="WordSection1">
+           <p> </p>
+         </div>
+         <p>
+           <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection2">
+           <p>
+             <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+           </p>
+           <div id="_" class="TOC">
+             <p class="zzContents">Table of Contents</p>
+             <p style="tab-stops:right 17.0cm">
+               <span style="mso-tab-count:1">  </span>
+               <b>Page</b>
+             </p>
+           </div>
+           <div>
+             <h1 class="IntroTitle"/>
+             <p>
+               <sup>
+                 <a href="#ISO712">A</a>
+               </sup>
+               <a href="#ISO712">A</a>
+               <a href="#_">Requirement <tt>/req/core/http</tt></a>
+               <a href="http://www.example.com" class="url">Test</a>
+               <a href="http://www.example.com" class="url">http://www.example.com</a>
+             </p>
+           </div>
+           <p> </p>
+         </div>
+         <p>
+           <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection3">
+           <p class="zzSTDTitle1"/>
+           <p class="zzSTDTitle2"/>
+           <div>
+             <h1>1.<span style="mso-tab-count:1">  </span>References</h1>
+             <table class="biblio" border="0">
+               <tbody>
+                 <tr id="ISO712" class="NormRef">
+                   <td style="vertical-align:top">[ISO 712]</td>
+                   <td>ISO 712, <i>Cereals and cereal products</i>.</td>
+                 </tr>
+               </tbody>
+             </table>
+           </div>
+         </div>
+       </body>
+    OUTPUT
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+      .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to xmlpp(output)

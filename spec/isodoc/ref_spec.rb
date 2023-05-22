@@ -131,14 +131,14 @@ RSpec.describe IsoDoc::ITU do
               </clause>
             <foreword  displayorder='2'>
            <p id="_">
-           <eref bibitemid="ISO712">[110]</eref>
-           <eref bibitemid="ISBN">[1]</eref>
-           <eref bibitemid="ISSN">[2]</eref>
-           <eref bibitemid="ISO16634">[ISO 16634:-- (all parts)]</eref>
-           <eref bibitemid="ref1">[ICC&#xa0;167]</eref>
-           <eref bibitemid="ref10">[4]</eref>
-           <eref bibitemid="ref12">[Citn]</eref>
-           <eref bibitemid="zip_ffs">[5]</eref>
+           <xref target="ISO712">[110]</xref>
+            <xref target="ISBN">[1]</xref>
+            <xref target="ISSN">[2]</xref>
+            <xref target="ISO16634">[ISO 16634:-- (all parts)]</xref>
+            <xref target="ref1">[ICC 167]</xref>
+            <xref target="ref10">[4]</xref>
+            <xref target="ref12">[Citn]</xref>
+            <xref target="zip_ffs">[5]</xref>
            </p>
              </foreword></preface>
              <bibliography><references id="_" obligation="informative" normative="true"  displayorder='3'><title depth="1">1.<tab/>Normative References</title>
@@ -395,7 +395,7 @@ RSpec.describe IsoDoc::ITU do
           <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
           <foreword displayorder='2'>
             <p id='_'>
-              <eref bibitemid='ISO712'>[ISO&#xa0;712]</eref>
+              <xref target="ISO712">[ISO 712]</xref>
             </p>
           </foreword>
         </preface>
@@ -542,7 +542,7 @@ RSpec.describe IsoDoc::ITU do
     presxml = <<~PRESXML
       <foreword displayorder='2'>
         <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f'>
-          <eref bibitemid='ISO712'>[ISO&#xa0;712&#xA0;| IEC&#xa0;217]</eref>
+          <xref target="ISO712">[ISO 712 | IEC 217]</xref>
         </p>
       </foreword>
     PRESXML

@@ -284,119 +284,138 @@ RSpec.describe Metanorma::ITU do
           <ol id="_ae34a226-aab4-496d-987b-1aa7b6314026" class="steps">
         <li>
           <p id="_0091a277-fb0e-424a-aea8-f0001303fe78">all information necessary for the complete identification of the sample;</p>
-        </li>
-        <ol>
+          </li>
+          <li>
+        <ol id="A">
         <li>
           <p id="_8a7b6299-db05-4ff8-9de7-ff019b9017b2">a reference to this document (i.e. ISO 17301-1);</p>
         </li>
-        <ol>
+        <li>
+        <ol id="B">
         <li>
           <p id="_ea248b7f-839f-460f-a173-a58a830b2abe">the sampling method used;</p>
         </li>
         </ol>
+        </li>
         </ol>
+        </li>
       </ol>
       </foreword></preface>
       </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-      <iso-standard xmlns='http://riboseinc.com/isoxml' type='presentation'>
-        <preface>
-          <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-          <foreword displayorder='2'>
-            <ol id='_' class='steps' type='arabic'>
-              <li>
-                <p id='_'>all information necessary for the complete identification of the sample;</p>
-              </li>
-              <ol type='alphabet'>
-                <li>
-                  <p id='_'>a reference to this document (i.e. ISO 17301-1);</p>
-                </li>
-                <ol type='roman'>
-                  <li>
-                    <p id='_'>the sampling method used;</p>
-                  </li>
-                </ol>
-              </ol>
-            </ol>
-          </foreword>
-        </preface>
-      </iso-standard>
+      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+         <preface>
+           <clause type="toc" id="_" displayorder="1">
+             <title depth="1">Table of Contents</title>
+           </clause>
+           <foreword displayorder="2">
+             <ol id="_" class="steps" type="arabic">
+               <li id="_" label="1">
+                 <p id="_">all information necessary for the complete identification of the sample;</p>
+               </li>
+               <li id="_" label="2">
+                 <ol id="A" type="alphabet">
+                   <li id="_" label="a">
+                     <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
+                   </li>
+                   <li id="_" label="b">
+                     <ol id="B" type="roman">
+                       <li id="_" label="i">
+                         <p id="_">the sampling method used;</p>
+                       </li>
+                     </ol>
+                   </li>
+                 </ol>
+               </li>
+             </ol>
+           </foreword>
+         </preface>
+       </iso-standard>
     OUTPUT
     html = <<~OUTPUT
-          #{HTML_HDR}
+      #{HTML_HDR}
             <div>
               <h1 class="IntroTitle"/>
-              <ol type="1" id="_">
-        <li>
-          <p id="_">all information necessary for the complete identification of the sample;</p>
-        </li>
-        <ol type="a">
-        <li>
-          <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
-        </li>
-        <ol type="i">
-        <li>
-          <p id="_">the sampling method used;</p>
-        </li>
-        </ol>
-        </ol>
-      </ol>
-            </div>
-            <p class="zzSTDTitle1"/>
-            <p class="zzSTDTitle2"/>
-          </div>
-        </body>
+                           <ol type="1" id="_">
+               <li id="_">
+                 <p id="_">all information necessary for the complete identification of the sample;</p>
+               </li>
+               <li id="_">
+                 <ol type="a" id="A">
+                   <li id="_">
+                     <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
+                   </li>
+                   <li id="_">
+                     <ol type="i" id="B">
+                       <li id="_">
+                         <p id="_">the sampling method used;</p>
+                       </li>
+                     </ol>
+                   </li>
+                 </ol>
+               </li>
+             </ol>
+           </div>
+           <p class="zzSTDTitle1"/>
+           <p class="zzSTDTitle2"/>
+         </div>
+       </body>
     OUTPUT
     doc = <<~OUTPUT
-      <body lang='EN-US' link='blue' vlink='#954F72'>
-           <div class='WordSection1'>
-             <p>&#160;</p>
-           </div>
+      <body lang="EN-US" link="blue" vlink="#954F72">
+         <div class="WordSection1">
+           <p> </p>
+         </div>
+         <p>
+           <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection2">
            <p>
-             <br clear='all' class='section'/>
+             <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
            </p>
-           <div class='WordSection2'>
-               <p>
-                <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
-              </p>
-              <div class="TOC" id="_">
-                <p class="zzContents">Table of Contents</p>
-                <p style="tab-stops:right 17.0cm">
-                  <span style="mso-tab-count:1">  </span>
-                  <b>Page</b>
-                </p>
-              </div>
-             <div>
-               <h1 class='IntroTitle'/>
-               <ol class='steps' id='_'>
-                 <li>
-                   <p id='_'>all information necessary for the complete identification of the sample;</p>
-                 </li>
-                 <ol>
-                   <li>
-                     <p id='_'>a reference to this document (i.e. ISO 17301-1);</p>
+           <div id="_" class="TOC">
+             <p class="zzContents">Table of Contents</p>
+             <p style="tab-stops:right 17.0cm">
+               <span style="mso-tab-count:1">  </span>
+               <b>Page</b>
+             </p>
+           </div>
+           <div>
+             <h1 class="IntroTitle"/>
+             <ol class="steps" id="_">
+               <li id="_">
+                 <p id="_">all information necessary for the complete identification of the sample;</p>
+               </li>
+               <li id="_">
+                 <ol id="A">
+                   <li id="_">
+                     <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
                    </li>
-                   <ol>
-                     <li>
-                       <p id='_'>the sampling method used;</p>
-                     </li>
-                   </ol>
+                   <li id="_">
+                     <ol id="B">
+                       <li id="_">
+                         <p id="_">the sampling method used;</p>
+                       </li>
+                     </ol>
+                   </li>
                  </ol>
-               </ol>
-             </div>
-             <p>&#160;</p>
+               </li>
+             </ol>
            </div>
-           <p>
-             <br clear='all' class='section'/>
-           </p>
-           <div class='WordSection3'>
-             <p class='zzSTDTitle1'/>
-             <p class='zzSTDTitle2'/>
-           </div>
-         </body>
+           <p> </p>
+         </div>
+         <p>
+           <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection3">
+           <p class="zzSTDTitle1"/>
+           <p class="zzSTDTitle2"/>
+         </div>
+       </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)

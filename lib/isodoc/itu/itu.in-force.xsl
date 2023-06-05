@@ -6096,8 +6096,13 @@
 	<!-- ========================= -->
 	<xsl:template match="*[local-name()='em']">
 		<fo:inline font-style="italic">
+			<xsl:call-template name="refine_italic_style"/>
 			<xsl:apply-templates/>
 		</fo:inline>
+	</xsl:template>
+
+	<xsl:template name="refine_italic_style">
+
 	</xsl:template>
 
 	<xsl:template match="*[local-name()='strong'] | *[local-name()='b']">

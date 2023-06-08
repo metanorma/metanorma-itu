@@ -363,6 +363,9 @@
 				<fo:page-sequence master-reference="SP-first-page" force-page-count="no-force">
 					<fo:flow flow-name="xsl-region-body">
 						<fo:block font-size="10pt" font-style="italic" text-align="center">
+							<xsl:if test="$lang = 'ar'"> <!-- to prevent rendering `###` due the missing Arabic glyphs in the italic font (Times New Roman) -->
+								<xsl:attribute name="font-style">normal</xsl:attribute>
+							</xsl:if>
 							<fo:block>
 								<xsl:call-template name="getLocalizedString">
 									<xsl:with-param name="key">annex_to_itu_ob</xsl:with-param>
@@ -1095,6 +1098,9 @@
 								<xsl:variable name="subtitle" select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'subtitle' and @language = $lang]"/>
 								<xsl:if test="$subtitle != ''">
 									<fo:block margin-top="18pt" font-weight="normal" font-style="italic">
+										<xsl:if test="$lang = 'ar'"> <!-- to prevent rendering `###` due the missing Arabic glyphs in the italic font (Times New Roman) -->
+											<xsl:attribute name="font-style">normal</xsl:attribute>
+										</xsl:if>
 										<xsl:value-of select="$subtitle"/>
 									</fo:block>
 								</xsl:if>
@@ -1103,6 +1109,9 @@
 								<xsl:if test="$doctype = 'resolution' and $resolution-placedate != ''">
 									<fo:block font-size="11pt" margin-top="6pt" font-weight="normal">
 										<fo:inline font-style="italic">
+											<xsl:if test="$lang = 'ar'"> <!-- to prevent rendering `###` due the missing Arabic glyphs in the italic font (Times New Roman) -->
+												<xsl:attribute name="font-style">normal</xsl:attribute>
+											</xsl:if>
 											<xsl:text>(</xsl:text><xsl:value-of select="$resolution-placedate"/><xsl:text>)</xsl:text>
 										</fo:inline>
 										<xsl:apply-templates select="/itu:itu-standard/itu:bibdata/itu:note[@type = 'title-footnote']" mode="title_footnote"/>
@@ -1483,6 +1492,9 @@
 
 	<xsl:template match="itu:clause[@id='draft-warning']/itu:title" mode="caution">
 		<fo:block font-size="16pt" font-family="Times New Roman" font-style="italic" font-weight="bold" text-align="center" space-after="6pt" role="H1">
+			<xsl:if test="$lang = 'ar'"> <!-- to prevent rendering `###` due the missing Arabic glyphs in the italic font (Times New Roman) -->
+				<xsl:attribute name="font-style">normal</xsl:attribute>
+			</xsl:if>
 			<xsl:apply-templates/>
 			<xsl:apply-templates select="following-sibling::*[1][local-name() = 'variant-title'][@type = 'sub']" mode="subtitle"/>
 		</fo:block>
@@ -6106,6 +6118,10 @@
 	</xsl:template>
 
 	<xsl:template name="refine_italic_style">
+
+			<xsl:if test="$lang = 'ar'"> <!-- to prevent rendering `###` due the missing Arabic glyphs in the italic font (Times New Roman) -->
+				<xsl:attribute name="font-style">normal</xsl:attribute>
+			</xsl:if>
 
 	</xsl:template>
 

@@ -4182,7 +4182,7 @@
 							<fo:table-row>
 								<fo:table-cell column-number="2">
 									<xsl:copy-of select="$table-preamble"/>
-									<fo:block>
+									<fo:block role="SKIP">
 										<xsl:call-template name="setTrackChangesStyles">
 											<xsl:with-param name="isAdded" select="$isAdded"/>
 											<xsl:with-param name="isDeleted" select="$isDeleted"/>
@@ -4225,7 +4225,7 @@
 		<xsl:param name="continued"/>
 		<xsl:if test="normalize-space() != ''">
 
-					<fo:block xsl:use-attribute-sets="table-name-style">
+					<fo:block xsl:use-attribute-sets="table-name-style" role="SKIP">
 
 						<xsl:call-template name="refine_table-name-style">
 							<xsl:with-param name="continued" select="$continued"/>
@@ -4610,8 +4610,8 @@
 	<xsl:template name="table-header-title">
 		<xsl:param name="cols-count"/>
 		<!-- row for title -->
-		<fo:table-row>
-			<fo:table-cell number-columns-spanned="{$cols-count}" border-left="1.5pt solid white" border-right="1.5pt solid white" border-top="1.5pt solid white" border-bottom="1.5pt solid black">
+		<fo:table-row role="SKIP">
+			<fo:table-cell number-columns-spanned="{$cols-count}" border-left="1.5pt solid white" border-right="1.5pt solid white" border-top="1.5pt solid white" border-bottom="1.5pt solid black" role="SKIP">
 
 				<xsl:call-template name="refine_table-header-title-style"/>
 
@@ -4620,7 +4620,7 @@
 						</xsl:apply-templates>
 
 						<xsl:if test="not(ancestor::*[local-name()='table']/*[local-name()='name'])"> <!-- to prevent empty fo:table-cell in case of missing table's name -->
-							<fo:block/>
+							<fo:block role="SKIP"/>
 						</xsl:if>
 
 			</fo:table-cell>
@@ -4728,7 +4728,7 @@
 								<!-- fn will be processed inside 'note' processing -->
 
 									<xsl:if test="$doctype = 'service-publication'">
-										<fo:block margin-top="7pt" margin-bottom="2pt"><fo:inline>____________</fo:inline></fo:block>
+										<fo:block margin-top="7pt" margin-bottom="2pt" role="SKIP"><fo:inline>____________</fo:inline></fo:block>
 									</xsl:if>
 
 								<!-- for BSI (not PAS) display Notes before footnotes -->
@@ -4945,7 +4945,7 @@
 
 			<xsl:call-template name="refine_table-header-cell-style"/>
 
-			<fo:block>
+			<fo:block role="SKIP">
 				<xsl:apply-templates/>
 			</fo:block>
 		</fo:table-cell>
@@ -4998,7 +4998,7 @@
 				<xsl:attribute name="text-align">left</xsl:attribute>
 			</xsl:if>
 
-			<fo:block>
+			<fo:block role="SKIP">
 
 				<xsl:if test="$isGenerateTableIF = 'true'">
 					<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
@@ -5873,7 +5873,7 @@
 		-->
 		<fo:table-row>
 			<fo:table-cell number-columns-spanned="2">
-				<fo:block>
+				<fo:block role="SKIP">
 					<xsl:call-template name="note"/>
 				</fo:block>
 			</fo:table-cell>
@@ -5938,7 +5938,7 @@
 
 			<xsl:call-template name="refine_dt-cell-style"/>
 
-			<fo:block xsl:use-attribute-sets="dt-block-style">
+			<fo:block xsl:use-attribute-sets="dt-block-style" role="SKIP">
 				<xsl:copy-of select="@id"/>
 
 				<xsl:if test="normalize-space($key_iso) = 'true'">
@@ -5968,7 +5968,7 @@
 
 			<xsl:call-template name="refine_dd-cell-style"/>
 
-			<fo:block>
+			<fo:block role="SKIP">
 
 				<xsl:if test="$isGenerateTableIF = 'true'">
 					<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
@@ -6347,11 +6347,41 @@
 
 	<xsl:template match="text()[ancestor::*[local-name()='smallcap']]">
 		<xsl:variable name="text" select="normalize-space(.)"/>
-		<fo:inline font-size="75%">
+		<fo:inline font-size="75%" role="SKIP">
 				<xsl:if test="string-length($text) &gt; 0">
-					<xsl:call-template name="recursiveSmallCaps">
-						<xsl:with-param name="text" select="$text"/>
-					</xsl:call-template>
+					<xsl:variable name="smallCapsText">
+						<xsl:call-template name="recursiveSmallCaps">
+							<xsl:with-param name="text" select="$text"/>
+						</xsl:call-template>
+					</xsl:variable>
+					<!-- merge neighboring fo:inline -->
+					<xsl:for-each select="xalan:nodeset($smallCapsText)/node()">
+						<xsl:choose>
+							<xsl:when test="self::fo:inline and preceding-sibling::node()[1][self::fo:inline]"><!-- <xsl:copy-of select="."/> --></xsl:when>
+							<xsl:when test="self::fo:inline and @font-size">
+								<xsl:variable name="curr_pos" select="count(preceding-sibling::node()) + 1"/>
+								<!-- <curr_pos><xsl:value-of select="$curr_pos"/></curr_pos> -->
+								<xsl:variable name="next_text_" select="count(following-sibling::node()[not(local-name() = 'inline')][1]/preceding-sibling::node())"/>
+								<xsl:variable name="next_text">
+									<xsl:choose>
+										<xsl:when test="$next_text_ = 0">99999999</xsl:when>
+										<xsl:otherwise><xsl:value-of select="$next_text_ + 1"/></xsl:otherwise>
+									</xsl:choose>
+								</xsl:variable>
+								<!-- <next_text><xsl:value-of select="$next_text"/></next_text> -->
+								<fo:inline>
+									<xsl:copy-of select="@*"/>
+									<xsl:copy-of select="./node()"/>
+									<xsl:for-each select="following-sibling::node()[position() &lt; $next_text - $curr_pos]"> <!-- [self::fo:inline] -->
+										<xsl:copy-of select="./node()"/>
+									</xsl:for-each>
+								</fo:inline>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:copy-of select="."/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:for-each>
 				</xsl:if>
 			</fo:inline>
 	</xsl:template>
@@ -6363,7 +6393,7 @@
 		<xsl:variable name="upperCase" select="java:toUpperCase(java:java.lang.String.new($char))"/>
     <xsl:choose>
       <xsl:when test="$char=$upperCase">
-        <fo:inline font-size="{100 div 0.75}%">
+        <fo:inline font-size="{100 div 0.75}%" role="SKIP">
           <xsl:value-of select="$upperCase"/>
         </fo:inline>
       </xsl:when>
@@ -7773,7 +7803,7 @@
 				<fo:table-body>
 					<fo:table-row>
 						<fo:table-cell display-align="center">
-							<fo:block xsl:use-attribute-sets="formula-stem-block-style">
+							<fo:block xsl:use-attribute-sets="formula-stem-block-style" role="SKIP">
 
 								<xsl:call-template name="refine_formula-stem-block-style"/>
 
@@ -7781,7 +7811,7 @@
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell display-align="center">
-							<fo:block xsl:use-attribute-sets="formula-stem-number-style">
+							<fo:block xsl:use-attribute-sets="formula-stem-number-style" role="SKIP">
 
 								<xsl:call-template name="refine_formula-stem-number-style"/>
 
@@ -9302,7 +9332,7 @@
 	<!-- second td with sourcecode -->
 	<xsl:template match="*[local-name() = 'sourcecode'][@linenums = 'true']/*[local-name()='table']//*[local-name()='tr']/*[local-name()='td'][preceding-sibling::*]" priority="2"> <!-- *[local-name()='table'][@type = 'sourcecode'] -->
 		<fo:table-cell>
-			<fo:block>
+			<fo:block role="SKIP">
 				<xsl:apply-templates/>
 			</fo:block>
 		</fo:table-cell>
@@ -9789,7 +9819,7 @@
 
 			<xsl:call-template name="setTableCellAttributes"/>
 
-			<fo:block>
+			<fo:block role="SKIP">
 				<xsl:apply-templates/>
 			</fo:block>
 		</fo:table-cell>
@@ -9811,7 +9841,7 @@
 
 			<xsl:call-template name="setTableCellAttributes"/>
 
-			<fo:block>
+			<fo:block role="SKIP">
 				<xsl:apply-templates/>
 			</fo:block>
 		</fo:table-cell>
@@ -10827,7 +10857,7 @@
 			<xsl:call-template name="refine_list-item-style"/>
 
 			<fo:list-item-label end-indent="label-end()">
-				<fo:block xsl:use-attribute-sets="list-item-label-style">
+				<fo:block xsl:use-attribute-sets="list-item-label-style" role="SKIP">
 
 					<xsl:call-template name="refine_list-item-label-style"/>
 
@@ -10841,7 +10871,7 @@
 				</fo:block>
 			</fo:list-item-label>
 			<fo:list-item-body start-indent="body-start()" xsl:use-attribute-sets="list-item-body-style">
-				<fo:block>
+				<fo:block role="SKIP">
 
 					<xsl:call-template name="refine_list-item-body-style"/>
 
@@ -11120,10 +11150,10 @@
 			<fo:table-body>
 				<fo:table-row text-align="center" font-weight="bold" background-color="black" color="white">
 
-					<fo:table-cell border="1pt solid black"><fo:block>Date</fo:block></fo:table-cell>
-					<fo:table-cell border="1pt solid black"><fo:block>Type</fo:block></fo:table-cell>
-					<fo:table-cell border="1pt solid black"><fo:block>Change</fo:block></fo:table-cell>
-					<fo:table-cell border="1pt solid black"><fo:block>Pages</fo:block></fo:table-cell>
+					<fo:table-cell border="1pt solid black"><fo:block role="SKIP">Date</fo:block></fo:table-cell>
+					<fo:table-cell border="1pt solid black"><fo:block role="SKIP">Type</fo:block></fo:table-cell>
+					<fo:table-cell border="1pt solid black"><fo:block role="SKIP">Change</fo:block></fo:table-cell>
+					<fo:table-cell border="1pt solid black"><fo:block role="SKIP">Pages</fo:block></fo:table-cell>
 				</fo:table-row>
 				<xsl:apply-templates/>
 			</fo:table-body>
@@ -11138,7 +11168,7 @@
 
 	<xsl:template match="*[local-name() = 'errata']/*[local-name() = 'row']/*">
 		<fo:table-cell border="1pt solid black" padding-left="1mm" padding-top="0.5mm">
-			<fo:block><xsl:apply-templates/></fo:block>
+			<fo:block role="SKIP"><xsl:apply-templates/></fo:block>
 		</fo:table-cell>
 	</xsl:template>
 	<!-- ============ -->
@@ -11241,8 +11271,8 @@
 							<fo:table-column column-width="80%"/>
 							<fo:table-body>
 								<fo:table-row>
-									<fo:table-cell><fo:block><xsl:value-of select="$bibitem_label"/></fo:block></fo:table-cell>
-									<fo:table-cell><fo:block><xsl:copy-of select="$bibitem_body"/></fo:block></fo:table-cell>
+									<fo:table-cell><fo:block role="SKIP"><xsl:value-of select="$bibitem_label"/></fo:block></fo:table-cell>
+									<fo:table-cell><fo:block role="SKIP"><xsl:copy-of select="$bibitem_body"/></fo:block></fo:table-cell>
 								</fo:table-row>
 							</fo:table-body>
 						</fo:table>
@@ -11469,7 +11499,7 @@
 		<xsl:for-each select="*[local-name() = 'tab']">
 			<xsl:variable name="current_id" select="generate-id()"/>
 			<fo:table-cell>
-				<fo:block line-height-shift-adjustment="disregard-shifts">
+				<fo:block line-height-shift-adjustment="disregard-shifts" role="SKIP">
 					<xsl:call-template name="insert_basic_link">
 						<xsl:with-param name="element">
 							<fo:basic-link internal-destination="{$target}" fox:alt-text="{.}">
@@ -11487,7 +11517,7 @@
 		</xsl:for-each>
 		<!-- last column - for page numbers -->
 		<fo:table-cell text-align="right" font-size="10pt" font-weight="bold" font-family="Arial">
-			<fo:block>
+			<fo:block role="SKIP">
 				<xsl:call-template name="insert_basic_link">
 					<xsl:with-param name="element">
 						<fo:basic-link internal-destination="{$target}" fox:alt-text="{.}">

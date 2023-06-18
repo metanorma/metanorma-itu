@@ -1,0 +1,50 @@
+{% if doctype == "Service Publication" %}
+{% else %}
+== copyright-statement
+=== {blank}
+&#xa9; ITU {{ docyear }}
+
+All rights reserved. No part of this publication may be reproduced, by any means whatsoever, without the prior written permission of ITU.
+
+{% if doctype == "Recommendation" %}
+== license-statement
+=== INTELLECTUAL PROPERTY RIGHTS
+
+ITU draws attention to the possibility that the practice or implementation of this Recommendation may involve the use of a claimed Intellectual Property Right. ITU takes no position concerning the evidence, validity or applicability of claimed Intellectual Property Rights, whether asserted by ITU members or others outside of the Recommendation development process.
+
+As of the date of approval of this Recommendation, ITU had {% if ip_notice_received %}{% else %}not{% endif %} received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at http://www.itu.int/ITU-T/ipr/[].
+{% endif %}
+
+== legal-statement
+=== FOREWORD
+
+The International Telecommunication Union (ITU) is the United Nations specialized agency in the field of telecommunications , information and communication technologies (ICTs). The ITU Telecommunication Standardization Sector (ITU-T) is a permanent organ of ITU. ITU-T is responsible for studying technical, operating and tariff questions and issuing Recommendations on them with a view to standardizing telecommunications on a worldwide basis.
+
+The World Telecommunication Standardization Assembly (WTSA), which meets every four years, establishes the topics for study by the ITU T study groups which, in turn, produce Recommendations on these topics.
+
+The approval of ITU-T Recommendations is covered by the procedure laid down in WTSA Resolution 1.
+
+In some areas of information technology which fall within ITU-T's purview, the necessary standards are prepared on a collaborative basis with ISO and IEC.
+
+{% if doctype == "Recommendation" %}
+==== NOTE
+
+In this Recommendation, the expression "Administration" is used for conciseness to indicate both a telecommunication administration and a recognized operating agency.
+
+Compliance with this Recommendation is voluntary. However, the Recommendation may contain certain mandatory provisions (to ensure, e.g., interoperability or applicability) and compliance with the Recommendation is achieved when all of these mandatory provisions are met. The words "shall" or some other obligatory language such as "must" and the negative equivalents are used to express requirements. The use of such words does not suggest that compliance with the Recommendation is required of any party.
+
+{% endif %}
+
+{% if unpublished %}
+[[draft-warning]]
+=== CAUTION! PREPUBLISHED {{ doctype  | upcase }}
+
+This prepublication is an unedited version of a recently approved {{doctype}}.
+It will be replaced by the published version after editing. Therefore,
+there will be differences between this prepublication and the published
+version.
+{% endif %}
+{% endif %}
+
+
+

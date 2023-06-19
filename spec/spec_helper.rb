@@ -112,21 +112,25 @@ VALIDATING_BLANK_HDR = <<~HDR.freeze
 
 HDR
 
+def boilerplate_read(file, xmldoc)
+  conv = Metanorma::ITU::Converter.new(:itu, {})
+  conv.init(Asciidoctor::Document.new([]))
+  x = conv.boilerplate_isodoc(xmldoc).populate_template(file, nil)
+  ret = conv.boilerplate_file_restructure(x)
+  ret.to_xml(encoding: "UTF-8", indent: 2,
+             save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
+    .gsub(/<(\/)?sections>/, "<\\1boilerplate>")
+    .gsub(/ id="_[^"]+"/, " id='_'")
+end
+
 def boilerplate(xmldoc)
   file = File.read(
     File.join(File.dirname(__FILE__), "..", "lib", "metanorma", "itu",
-              "boilerplate.xml"), encoding: "utf-8"
+              "boilerplate.adoc"), encoding: "utf-8"
   )
-  conv = Metanorma::ITU::Converter.new(nil, backend: :itu,
-                                            header_footer: true)
-  conv.init(Asciidoctor::Document.new([]))
-  ret = Nokogiri::XML(
-    conv.boilerplate_isodoc(xmldoc).populate_template(file, nil)
-    .gsub(/<p>/, "<p id='_'>")
-    .gsub(/<ol>/, "<ol id='_'>"),
-  )
-  conv.smartquotes_cleanup(ret)
-  HTMLEntities.new.decode(ret.to_xml)
+  ret = Nokogiri::XML(boilerplate_read(file, xmldoc))
+  ret.root.to_xml(encoding: "UTF-8", indent: 2,
+             save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
 end
 
 def itudoc(lang)

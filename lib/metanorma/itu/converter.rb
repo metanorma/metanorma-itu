@@ -25,6 +25,10 @@ module Metanorma
           node.attr("legacy-do-not-insert-missing-sections")
       end
 
+      def boilerplate_file(_xmldoc)
+        File.join(@libdir, "boilerplate.adoc")
+      end
+
       def makexml(node)
         @draft = node.attributes.has_key?("draft")
         super

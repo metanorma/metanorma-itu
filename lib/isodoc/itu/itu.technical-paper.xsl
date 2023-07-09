@@ -7933,7 +7933,7 @@
 
 							<xsl:call-template name="refine_note_block_style"/>
 
-							<fo:inline xsl:use-attribute-sets="note-name-style">
+							<fo:inline xsl:use-attribute-sets="note-name-style" role="SKIP">
 
 								<xsl:call-template name="refine_note-name-style"/>
 
@@ -7974,12 +7974,12 @@
 		<xsl:variable name="num"><xsl:number/></xsl:variable>
 		<xsl:choose>
 			<xsl:when test="$num = 1"> <!-- display first NOTE's paragraph in the same line with label NOTE -->
-				<fo:inline xsl:use-attribute-sets="note-p-style">
+				<fo:inline xsl:use-attribute-sets="note-p-style" role="SKIP">
 					<xsl:apply-templates/>
 				</fo:inline>
 			</xsl:when>
 			<xsl:otherwise>
-				<fo:block xsl:use-attribute-sets="note-p-style">
+				<fo:block xsl:use-attribute-sets="note-p-style" role="SKIP">
 					<xsl:apply-templates/>
 				</fo:block>
 			</xsl:otherwise>

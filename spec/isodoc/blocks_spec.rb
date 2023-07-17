@@ -104,7 +104,7 @@ RSpec.describe Metanorma::ITU do
              </p>
            </div>
            <p style="page-break-after: avoid;">where</p>
-           <table class="formula_dl">
+           <table id="_" class="formula_dl">
              <tr>
                <td valign="top" align="left">
                  <p align="left" style="margin-left:0pt;text-align:left;">
@@ -125,7 +125,7 @@ RSpec.describe Metanorma::ITU do
              </p>
            </div>
            <p style="page-break-after: avoid;">where:</p>
-           <table class="formula_dl">
+           <table id="_" class="formula_dl">
              <tr>
                <td valign="top" align="left">
                  <p align="left" style="margin-left:0pt;text-align:left;">
@@ -206,10 +206,10 @@ RSpec.describe Metanorma::ITU do
             <td align="center">6,06</td>
           </tr>
         </tfoot>
-        <dl>
-        <dt>Drago</dt>
-      <dd>A type of rice</dd>
-      </dl>
+               <dl>
+       <dt>Drago</dt>
+     <dd>A type of rice</dd>
+     </dl>
       <note><name>NOTE</name><p>This is a table about rice</p></note>
       </table>
           </foreword></preface>
@@ -257,12 +257,7 @@ RSpec.describe Metanorma::ITU do
                 <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">6,06</td>
               </tr>
             </tfoot>
-            <dl>
-              <dt>
-                <p align="left" style="margin-left:0pt;text-align:left;">Drago</p>
-              </dt>
-              <dd>A type of rice</dd>
-            </dl>
+            <p style="text-indent: -2.0cm; margin-left: 2.0cm; tab-stops: 2.0cm;">Drago<span style="mso-tab-count:1">  </span>A type of rice</p>
             <div class="Note">
               <p><span class="note_label">NOTE – </span>This is a table about rice</p>
             </div>

@@ -8,7 +8,7 @@ symbolsabbrev: Abreviaciones y acrónimos
 abbrev: Abreviaciones y acrónimos
 symbols: Abreviaciones y acrónimos
 conventions: Convenciones
-abstract: Resumen
+summary: Resumen
 elsewhere_terms: >-
   Esta Recomendación utiliza los siguientes términos definidos en otro lugar:
 here_terms: >-
@@ -64,6 +64,8 @@ prepub: Versión prepublicada
 draft_new: Borrador de nueva %
 email: E-mail
 editor_full: editor
+toc_figures: Table de Figuras
+toc_tables: Tabla de Tablas
 doctype_dict:
   resolution: Resolución
   recommendation: Recomendación

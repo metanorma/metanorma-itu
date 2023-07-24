@@ -184,7 +184,7 @@ module IsoDoc
         !idents[:metanorma] && idents[:sdo] and ret = "[#{ret}]"
         ret += datefn
         ret.empty? and return ret
-        ret.gsub(/-/, "&#x2011;").gsub(/ /, "&#xa0;")
+        ret.gsub("-", "&#x2011;").gsub(/ /, "&#xa0;")
       end
 
       def biblio_ref_entry_code(_ordinal, idents, _id, _standard, datefn, _bib)
@@ -192,13 +192,76 @@ module IsoDoc
         !idents[:metanorma] && idents[:sdo] and ret = "[#{ret}]"
         ret += datefn
         ret.empty? and return ret
-        ret.gsub(/-/, "&#x2011;").gsub(/ /, "&#xa0;")
+        ret.gsub("-", "&#x2011;").gsub(/ /, "&#xa0;")
       end
 
       def toc_title(docxml)
         doctype = docxml.at(ns("//bibdata/ext/doctype"))
         doctype&.text == "resolution" and return
         super
+      end
+
+      def middle_title(isoxml)
+        s = docxml.at(ns("//sections")) or return
+        if @meta.get[:doctype] == "Resolution"
+          middle_title_resolution(isoxml, s.children.first)
+        else
+          middle_title_recommendation(isoxml, s.children.first)
+        end
+      end
+
+      def middle_title_resolution(isoxml, out)
+        res = isoxml.at(ns("//bibdata/title[@type = 'resolution']"))
+        out.previous =
+          "<p class='zzSTDTitle1' align='center'>#{res.children.to_xml}</p>"
+        out.previous = "<p class='zzSTDTitle2'>#{@meta.get[:doctitle]}</p>"
+        middle_title_resolution_subtitle(isoxml, out)
+      end
+
+      def middle_title_resolution_subtitle(isoxml, out)
+        ret = "<p align='center' class='zzSTDTitle2'><em>("
+        d = isoxml.at(ns("//bibdata/title[@type = 'resolution-placedate']"))
+        ret += "#{d.children.to_xml.strip}</em>)"
+        ret += "#{title_footnotes(isoxml)}</p>"
+        out.previous = ret
+      end
+
+      def middle_title_recommendation(isoxml, out)
+        ret = ""
+        type = @meta.get[:doctype]
+        @meta.get[:unpublished] && @meta.get[:draft_new_doctype] and
+          type = @meta.get[:draft_new_doctype]
+        id = @meta.get[:docnumber] and
+          ret += "<<p class='zzSTDTitle1'>#{type} #{id}</p>"
+        ret += "<p class='zzSTDTitle2'>#{@meta.get[:doctitle]}"
+        ret += "#{title_footnotes(isoxml)}</p>"
+        s = @meta.get[:docsubtitle] and ret += "<p class='zzSTDTitle3'>#{s}</p>"
+        out.previous = ret
+      end
+
+      def title_footnotes(isoxml)
+        ret = ""
+        isoxml.xpath(ns("//note[@type = 'title-footnote']")).each do |f|
+          ret += "<fn>#{f.remove.children.to_xml}</fn>"
+        end
+        ret
+      end
+
+      def rearrange_clauses(docxml)
+        super
+        k = keywords(docxml) or return
+        if a = docxml.at(ns("//preface/abstract"))
+          a.next = k
+          elseif a = docxml.at(ns("//preface"))
+          a.children.first.previous = k
+        end
+      end
+
+      def keywords(_docxml)
+        kw = @meta.get[:keywords]
+        kw.nil? || kw.empty? and return
+        "<clause type='keyword'><title>#{@i18n.keywords}</title>" \
+          "<p>#{kw.join(', ')}.</p>"
       end
 
       include Init

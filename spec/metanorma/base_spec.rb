@@ -2091,7 +2091,8 @@ RSpec.describe Metanorma::ITU do
          <docidentifier type="ISO" primary="true">ISO/IEC 27001</docidentifier>
          <docidentifier type="iso-reference">ISO/IEC 27001(E)</docidentifier>
          <docidentifier type="URN">urn:iso:std:iso-iec:27001:stage-60.60</docidentifier>
-         <docidentifier type="IEC">IEC 60027</docidentifier>
+          <docidentifier type="IEC" primary="true">IEC 60027</docidentifier>
+          <docidentifier type="URN">urn:iec:std:iec:60027::::</docidentifier>
           </div>
         OUTPUT
       FileUtils.rm_rf File.expand_path("~/.relaton/cache")

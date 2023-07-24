@@ -7,7 +7,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes explicit metadata, service publication in French" do
-    input = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -185,9 +185,35 @@ RSpec.describe Metanorma::ITU do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes summaries in other languages" do
+    { "ar" => "ملخص", "de" => "Zusammenfassung", "en" => "Summary",
+      "es" => "Resumen", "fr" => "Résumé", "ru" => "Резюме",
+      "zh" => "概括" }.each do |k, v|
+        input = <<~INPUT
+          #{ASCIIDOC_BLANK_HDR.sub(':novalid:', ":novalid:\n:language: #{k}#{k == 'zh' ? "\n:script: Hans" : ''}")}
+          .Foreword
+
+          Text
+
+          [[_summary]]
+          [abstract]
+          == Summary
+        INPUT
+        output = <<~OUTPUT
+          <abstract id='_'>
+            <title>#{v}</title>
+          </abstract>
+        OUTPUT
+        xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+        xml = xml.at("//xmlns:preface/xmlns:abstract")
+        expect(xmlpp(strip_guid(xml.to_xml)))
+          .to be_equivalent_to xmlpp(output)
+      end
+  end
+
   it "processes sections in French" do
     input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(/:novalid:/, ":novalid:\n:language: fr\n:script: Latn")}
+      #{ASCIIDOC_BLANK_HDR.sub(':novalid:', ":novalid:\n:language: fr\n:script: Latn")}
       .Foreword
 
       Text
@@ -283,7 +309,7 @@ RSpec.describe Metanorma::ITU do
       == Second Bibliography
     INPUT
     output = <<~OUTPUT
-            #{@blank_hdr.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')
+            #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
               .sub('<title language="en"', '<title language="fr"')
               .sub('<language>en</language>', '<language>fr</language>')}
                <preface>
@@ -421,7 +447,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes explicit metadata, service publication in Chinese" do
-    input = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -607,7 +633,7 @@ RSpec.describe Metanorma::ITU do
 
   it "processes sections in Chinese" do
     input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(/:novalid:/, ":novalid:\n:language: zh\n:script: Hans")}
+      #{ASCIIDOC_BLANK_HDR.sub(':novalid:', ":novalid:\n:language: zh\n:script: Hans")}
       .Foreword
 
       Text
@@ -703,13 +729,13 @@ RSpec.describe Metanorma::ITU do
       == Second Bibliography
     INPUT
     output = <<~OUTPUT
-      #{@blank_hdr.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')
+      #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
         .sub('<language>en</language>', '<language>zh</language>')
         .sub('<title language="en"', '<title language="zh"')
         .sub('<script>Latn</script>', '<script>Hans</script>')}
       <preface>
           <abstract id='_'>
-            <title>概括</title>
+            <title>摘要</title>
             <p id='_'>Text</p>
           </abstract>
           <foreword id='_' obligation='informative'>
@@ -844,7 +870,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes explicit metadata, service publication in Arabic" do
-    input = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -1035,7 +1061,7 @@ RSpec.describe Metanorma::ITU do
   it "processes sections in Arabic" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR
-       .sub(/:novalid:/, ":novalid:\n:language: ar\n:script: Arab")}
+       .sub(':novalid:', ":novalid:\n:language: ar\n:script: Arab")}
       .Foreword
 
       Text
@@ -1131,7 +1157,7 @@ RSpec.describe Metanorma::ITU do
       == Second Bibliography
     INPUT
     output = <<~OUTPUT
-            #{@blank_hdr.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')
+            #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
               .sub('<language>en</language>', '<language>ar</language>')
               .sub('<title language="en"', '<title language="ar"')
               .sub('<script>Latn</script>', '<script>Arab</script>')}
@@ -1288,7 +1314,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes explicit metadata, service publication in Spanish" do
-    input = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -1468,7 +1494,7 @@ RSpec.describe Metanorma::ITU do
 
   it "processes sections in Spanish" do
     input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(/:novalid:/, ":novalid:\n:language: es\n:script: Latn")}
+      #{ASCIIDOC_BLANK_HDR.sub(':novalid:', ":novalid:\n:language: es\n:script: Latn")}
       .Foreword
 
       Text
@@ -1564,7 +1590,7 @@ RSpec.describe Metanorma::ITU do
       == Second Bibliography
     INPUT
     output = <<~OUTPUT
-             #{@blank_hdr.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')
+             #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
                .sub('<title language="en"', '<title language="es"')
                .sub('<language>en</language>', '<language>es</language>')}
                <preface>
@@ -1702,7 +1728,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes explicit metadata, service publication in German" do
-    input = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -1883,7 +1909,7 @@ RSpec.describe Metanorma::ITU do
   it "processes sections in German" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR
-      .sub(/:novalid:/, ":novalid:\n:language: de\n:script: Latn")}
+      .sub(':novalid:', ":novalid:\n:language: de\n:script: Latn")}
       .Foreword
 
       Text
@@ -1979,12 +2005,12 @@ RSpec.describe Metanorma::ITU do
       == Second Bibliography
     INPUT
     output = <<~OUTPUT
-             #{@blank_hdr.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')
+             #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
                .sub('<title language="en"', '<title language="de"')
                .sub('<language>en</language>', '<language>de</language>')}
                <preface>
         <abstract id='_'>
-          <title>Zusammenfassung</title>
+          <title>Abstrakt</title>
           <p id='_'>Text</p>
         </abstract>
         <foreword id='_' obligation='informative'>
@@ -2117,7 +2143,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes explicit metadata, service publication in Russian" do
-    input = Asciidoctor.convert(<<~"INPUT", *OPTIONS)
+    input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
       :docfile: test.adoc
@@ -2303,7 +2329,7 @@ RSpec.describe Metanorma::ITU do
 
   it "processes sections in Russian" do
     input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(/:novalid:/, ":novalid:\n:language: ru\n:script: Cyrl")}
+      #{ASCIIDOC_BLANK_HDR.sub(':novalid:', ":novalid:\n:language: ru\n:script: Cyrl")}
       .Foreword
 
       Text
@@ -2399,13 +2425,13 @@ RSpec.describe Metanorma::ITU do
       == Second Bibliography
     INPUT
     output = <<~OUTPUT
-      #{@blank_hdr.sub(/<status>/, '<abstract> <p>Text</p> </abstract><status>')
+      #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
         .sub('<language>en</language>', '<language>ru</language>')
         .sub('<script>Latn</script>', '<script>Cyrl</script>')
         .sub('<title language="en"', '<title language="ru"')}
         <preface>
           <abstract id='_'>
-            <title>Резюме</title>
+            <title>Реферат</title>
             <p id='_'>Text</p>
           </abstract>
           <foreword id='_' obligation='informative'>

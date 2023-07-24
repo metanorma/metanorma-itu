@@ -213,6 +213,13 @@ module Metanorma
           biblio_reorder1(r)
         end
       end
+
+      def sections_names_cleanup(xml)
+        super
+        t = xml.at("//preface//abstract") or return
+        t["id"] == "_summary" and
+          replace_title(xml, "//preface//abstract", @i18n&.summary)
+      end
     end
   end
 end

@@ -64,6 +64,11 @@ module IsoDoc
         super
       end
 
+      def clause(node, out)
+        node["type"] == "keyword" and return
+        super
+      end
+
       include BaseConvert
       include Init
     end

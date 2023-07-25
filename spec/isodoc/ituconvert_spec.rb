@@ -125,14 +125,10 @@ RSpec.describe Metanorma::ITU do
                  </ext>
         </bibdata>
         <sections>
-        <clause id='A' displayorder='1'>
-        <p keep-with-next='true' class='supertitle'>SECTION 1</p>
-          <note type='title-footnote' id="A1">
-            <p>One fn</p>
-          </note>
-          <note type='title-footnote' id="A2">
-            <p>Another fn</p>
-          </note>
+                  <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION 1 (Andorra, 1204)</p>
+           <p align="center" class="zzSTDTitle2" displayorder="2"><em>(Andorra, 1204</em>)<fn reference="1"><p>One fn</p></fn><fn reference="2"><p>Another fn</p></fn></p>
+           <p keep-with-next="true" class="supertitle" displayorder="3">SECTION 1</p>
+        <clause id='A' displayorder='4'>
           <p>Hello.<fn reference='3'><p>Normal footnote</p></fn></p>
         </clause>
       </sections>
@@ -149,19 +145,18 @@ RSpec.describe Metanorma::ITU do
          </div>
          <br/>
          <div class="main-section">
-              <p align='center'  style='text-align:center;'>RESOLUTION 1 (Andorra, 1204)</p>
-          <p class='zzSTDTitle2'/>
-          <p align='center'  style='text-align:center;'>
-            <i>(Andorra, 1204)</i>
-            <a class='FootnoteRef' href='#fn:_'>
-              <sup>_</sup>
+              <p class='zzSTDTitle1'  style='text-align:center;'>RESOLUTION 1 (Andorra, 1204)</p>
+          <p class='zzSTDTitle2'  style='text-align:center;'>
+            <i>(Andorra, 1204</i>)
+            <a class='FootnoteRef' href='#fn:1'>
+              <sup>1</sup>
             </a>
-            <a class='FootnoteRef' href='#fn:_'>
-              <sup>_</sup>
+            <a class='FootnoteRef' href='#fn:2'>
+              <sup>2</sup>
             </a>
           </p>
-          <div id='A'>
             <p style='page-break-after: avoid;' class='supertitle'>SECTION 1</p>
+          <div id='A'>
             <p>
               Hello.
               <a class='FootnoteRef' href='#fn:3'>
@@ -169,10 +164,10 @@ RSpec.describe Metanorma::ITU do
               </a>
             </p>
           </div>
-          <aside id='fn:_' class='footnote'>
+          <aside id='fn:1' class='footnote'>
             <p>One fn</p>
           </aside>
-          <aside id='fn:_' class='footnote'>
+          <aside id='fn:2' class='footnote'>
             <p>Another fn</p>
           </aside>
           <aside id='fn:3' class='footnote'>
@@ -187,53 +182,33 @@ RSpec.describe Metanorma::ITU do
            <div class='WordSection1'>
              <p>&#160;</p>
            </div>
-           <p>
+           <p class="section-break">
              <br clear='all' class='section'/>
            </p>
            <div class='WordSection2'>
              <p>&#160;</p>
            </div>
-           <p>
+           <p class="section-break">
              <br clear='all' class='section'/>
            </p>
-           <div class='WordSection3'>
-             <p align='center' style='text-align:center;'>RESOLUTION 1 (Andorra, 1204)</p>
-             <p class='zzSTDTitle2'/>
-             <p align='center' style='text-align:center;'>
-               <i>(Andorra, 1204)</i>
-               <span style='mso-bookmark:_Ref'>
-                 <a class='FootnoteRef' href='#ftn_' epub:type='footnote'>
-                   <sup>_</sup>
-                 </a>
-               </span>
-               <span style='mso-bookmark:_Ref'>
-                 <a class='FootnoteRef' href='#ftn_' epub:type='footnote'>
-                   <sup>_</sup>
-                 </a>
-               </span>
-             </p>
-             <div id='A'>
-               <p class='supertitle' style='page-break-after: avoid;'>SECTION 1</p>
-               <p>
-                 Hello.
-                 <span style='mso-bookmark:_Ref'>
-                   <a class='FootnoteRef' href='#ftn3' epub:type='footnote'>
-                     <sup>3</sup>
-                   </a>
-                 </span>
-               </p>
-             </div>
-             <aside id='ftn_'>
-               <p>One fn</p>
-             </aside>
-             <aside id='ftn_'>
-               <p>Another fn</p>
-             </aside>
-             <aside id='ftn3'>
-               <p>Normal footnote</p>
-             </aside>
+         <div class="WordSection3">
+           <p class="zzSTDTitle1" style="text-align:center;" align="center">RESOLUTION 1 (Andorra, 1204)</p>
+           <p class="zzSTDTitle2" style="text-align:center;" align="center"><i>(Andorra, 1204</i>)<span style="mso-bookmark:_Ref"><a class="FootnoteRef" href="#ftn1" epub:type="footnote"><sup>1</sup></a></span><span style="mso-bookmark:_Ref"><a class="FootnoteRef" href="#ftn2" epub:type="footnote"><sup>2</sup></a></span></p>
+           <p class="supertitle" style="page-break-after: avoid;">SECTION 1</p>
+           <div id="A">
+             <p>Hello.<span style="mso-bookmark:_Ref"><a class="FootnoteRef" href="#ftn3" epub:type="footnote"><sup>3</sup></a></span></p>
            </div>
-         </body>
+           <aside id="ftn1">
+             <p>One fn</p>
+           </aside>
+           <aside id="ftn2">
+             <p>Another fn</p>
+           </aside>
+           <aside id="ftn3">
+             <p>Normal footnote</p>
+           </aside>
+         </div>
+       </body>
     OUTPUT
     expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
@@ -277,6 +252,9 @@ RSpec.describe Metanorma::ITU do
       <meeting-date><from>1204-04-01</from><to>1207-01-01</to></meeting-date>
       </ext>
       </bibdata>
+      <sections>
+      <clause/>
+      </sections>
       </itu-standard>
     INPUT
     presxml = <<~OUTPUT
@@ -301,6 +279,11 @@ RSpec.describe Metanorma::ITU do
       <meeting-date><from>1204-04-01</from><to>1207-01-01</to></meeting-date>
                  </ext>
         </bibdata>
+                  <sections>
+            <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION 1 (Rev. Andorra, 1204)</p>
+            <p align="center" class="zzSTDTitle2" displayorder="2"><em>(Andorra, 1204</em>)</p>
+            <clause displayorder="3"/>
+          </sections>
       </itu-standard>
     OUTPUT
     html = <<~OUTPUT
@@ -314,11 +297,9 @@ RSpec.describe Metanorma::ITU do
          </div>
          <br/>
          <div class="main-section">
-          <p align='center'  style='text-align:center;'>RESOLUTION 1 (Rev. Andorra, 1204)</p>
-          <p class='zzSTDTitle2'/>
-          <p align='center'  style='text-align:center;'>
-            <i>(Andorra, 1204)</i>
-          </p>
+          <p class='zzSTDTitle1'  style='text-align:center;'>RESOLUTION 1 (Rev. Andorra, 1204)</p>
+          <p class='zzSTDTitle2'  style='text-align:center;'><i>(Andorra, 1204</i>)</p>
+          <div/>
         </div>
       </body>
     OUTPUT
@@ -341,7 +322,7 @@ RSpec.describe Metanorma::ITU do
             <clause type="toc" id="_" displayorder="1">
         <title depth="1">Table of Contents</title>
       </clause>
-        <foreword>
+        <foreword displayorder="2">
         <keyword>ABC</keyword>
         </foreword></preface>
         </itu-standard>
@@ -352,8 +333,6 @@ RSpec.describe Metanorma::ITU do
              <h1 class="IntroTitle"/>
              <span class="keyword">ABC</span>
            </div>
-           <p class="zzSTDTitle1"/>
-           <p class="zzSTDTitle2"/>
          </div>
        </body>
     OUTPUT
@@ -417,8 +396,6 @@ RSpec.describe Metanorma::ITU do
 
     output = <<~OUTPUT
        #{HTML_HDR}
-          <p class='zzSTDTitle1'/>
-          <p class='zzSTDTitle2'/>
           <div id='H'>
             <h1>1.&#160; Terms</h1>
             <div id='J'>
@@ -466,7 +443,7 @@ RSpec.describe Metanorma::ITU do
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~INPUT, false)
               <itu-standard xmlns="http://riboseinc.com/isoxml">
       <preface/><sections>
-      <terms id="H" obligation="normative"><title>1<tab/>Terms</title>
+      <terms id="H" obligation="normative" displayorder="1"><title>1<tab/>Terms</title>
         <term id="J">
         <name>1.1</name>
         <preferred>Term2</preferred>
@@ -483,8 +460,6 @@ RSpec.describe Metanorma::ITU do
       .gsub(%r{</main>.*}m, "</main>"))))
       .to be_equivalent_to xmlpp(<<~OUTPUT)
          <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-              <p class="zzSTDTitle1"></p>
-              <p class="zzSTDTitle2"></p>
               <div id="H"><h1 id="_">1&#xA0; Terms</h1>
           <div id="J"><p class="TermNum" id="J"><b>1.1&#xA0; Term2</b>: [XYZ] This is a journey into sound</p>
 
@@ -506,8 +481,8 @@ RSpec.describe Metanorma::ITU do
                   <title depth="1">Table of Contents</title>
             </clause>
              </preface><sections>
-             <clause id="G"><title>2<tab/>Terms, Definitions, Symbols and Abbreviated Terms</title>
-             <terms id="H" obligation="normative"><title>2.1<tab/>Terms defined in this recommendation</title>
+             <clause id="G" displayorder="2"><title>2<tab/>Terms, Definitions, Symbols and Abbreviated Terms</title>
+             <terms id="H" obligation="normative" displayorder="3"><title>2.1<tab/>Terms defined in this recommendation</title>
                <term id="J">
                <name>2.1.1</name>
                <preferred>Term2</preferred>
@@ -524,7 +499,7 @@ RSpec.describe Metanorma::ITU do
              </clause>
               </sections>
               <bibliography>
-              <references id="_normative_references" obligation="informative" normative="true"><title>1<tab/>References</title>
+              <references id="_normative_references" obligation="informative" normative="true" displayorder="4"><title>1<tab/>References</title>
       <bibitem id="ISO712" type="standard">
         <formattedref format="text/plain"><em>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</em>.</formattedref>
         <docidentifier>ISO 712</docidentifier>
@@ -535,8 +510,6 @@ RSpec.describe Metanorma::ITU do
     INPUT
     output = <<~OUTPUT
             #{HTML_HDR}
-                   <p class="zzSTDTitle1"/>
-                 <p class="zzSTDTitle2"/>
                    <div>
                      <h1>1&#160; References</h1>
                      <table class='biblio' border='0'>
@@ -582,8 +555,6 @@ RSpec.describe Metanorma::ITU do
                </div>
                <br/>
                <div class="WordSection3">
-                 <p class="zzSTDTitle1"/>
-               <p class="zzSTDTitle2"/>
                  <div id="H"><h1>1.&#160; Terms and definitions</h1><p>For the purposes of this document,
              the following terms and definitions apply.</p>
          <p class="TermNum" id="J">1.1.</p>
@@ -606,8 +577,6 @@ RSpec.describe Metanorma::ITU do
                </div>
                <br/>
                <div class="WordSection3">
-                 <p class="zzSTDTitle1"/>
-            <p class="zzSTDTitle2"/>
                  <div id="H"><h1>1.&#xA0; Terms and definitions</h1><p>For the purposes of this document,
              the following terms and definitions apply.</p>
          <p class="Terms" style='text-align:left;' id="J"><b>1.1.</b>&#xA0;Term2</p>
@@ -626,7 +595,7 @@ RSpec.describe Metanorma::ITU do
     input = <<~INPUT
           <itu-standard xmlns="http://riboseinc.com/isoxml">
           <preface>
-          <foreword>
+          <foreword displayorder="1">
           <p>A.<fn reference="2">
         <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
       </fn></p>
@@ -645,7 +614,7 @@ RSpec.describe Metanorma::ITU do
                  <div class="WordSection1">
                    <p>&#160;</p>
                  </div>
-                 <p>
+                 <p class="section-break">
                    <br clear="all" class="section"/>
                  </p>
                  <div class="WordSection2">
@@ -671,12 +640,10 @@ RSpec.describe Metanorma::ITU do
                    </div>
                    <p>&#160;</p>
                  </div>
-                 <p>
+                 <p class="section-break">
                    <br clear="all" class="section"/>
                  </p>
                  <div class="WordSection3">
-                   <p class="zzSTDTitle1"/>
-                   <p class="zzSTDTitle2"/>
                    <aside id="ftn2">
                <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
              </aside>
@@ -703,7 +670,7 @@ RSpec.describe Metanorma::ITU do
           <ext><doctype>recommendation</doctype></ext>
           </bibdata>
           <preface>
-          <foreword>
+          <foreword displayorder="1">
       <note type="title-footnote" id="A1"><p>One fn</p></note>
       <note type="title-footnote" id="A2"><p>Another fn</p></note>
           <p>A.<fn reference="2">
@@ -738,9 +705,60 @@ RSpec.describe Metanorma::ITU do
       </table>
           </foreword>
           </preface>
+          <sections>
+          <clause/>
+          </sections>
           </itu-standard>
     INPUT
-    IsoDoc::ITU::HtmlConvert.new({}).convert("test", input, false)
+    presxml = <<~PRESXML
+            <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <bibdata>
+            <title language="en" format="text/plain" type="main">An ITU Standard</title>
+            <ext>
+              <doctype language="">recommendation</doctype>
+              <doctype language="en">Recommendation</doctype>
+            </ext>
+          </bibdata>
+          <preface>
+            <clause type="toc" id="_" displayorder="1">
+              <title depth="1">Table of Contents</title>
+            </clause>
+            <foreword displayorder="2">
+              <p>A.<fn reference="1"><p id="_">Formerly denoted as 15 % (m/m).</p></fn></p>
+              <p>B.<fn reference="2"><p id="_">Formerly denoted as 15 % (m/m).</p></fn></p>
+              <p>C.<fn reference="3"><p id="_">Hello! denoted as 15 % (m/m).</p></fn></p>
+              <table id="tableD-1" alt="tool tip" summary="long desc">
+                <name>Table 1 — Table 1 — Repeatability and reproducibility of <em>husked</em> rice yield</name>
+                <thead>
+                  <tr>
+                    <td rowspan="2" align="left">Description</td>
+                    <td colspan="4" align="center">Rice sample</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td align="left">Arborio</td>
+                    <td align="center">Drago<fn reference="a"><p id="_">Parboiled rice.</p></fn></td>
+                    <td align="center">Balilla<fn reference="a"><p id="_">Parboiled rice.</p></fn></td>
+                    <td align="center">Thaibonnet</td>
+                  </tr>
+                </tbody>
+              </table>
+            </foreword>
+          </preface>
+          <sections>
+            <p class="zzSTDTitle2" displayorder="3">An ITU Standard<fn reference="4"><p>One fn</p></fn><fn reference="5"><p>Another fn</p></fn></p>
+            <clause displayorder="4"/>
+          </sections>
+        </itu-standard>
+    PRESXML
+    p = IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)
+    expect(xmlpp(strip_guid(p
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to xmlpp(presxml)
+    IsoDoc::ITU::HtmlConvert.new({}).convert("test", p, false)
     expect(File.exist?("test.html")).to be true
     html = File.read("test.html", encoding: "UTF-8")
     expect(xmlpp(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ")
@@ -748,127 +766,69 @@ RSpec.describe Metanorma::ITU do
       .gsub(%r{<script>.+?</script>}, "")
       .gsub(/fn:[0-9a-f][0-9a-f-]+/, "fn:_")))
       .to be_equivalent_to xmlpp(<<~OUTPUT)
-            <main xmlns:epub='epub' class='main-section'>
-          <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
-          <div>
-            <h1 class='IntroTitle'/>
-            <p>
-              A.
-              <a class='FootnoteRef' href='#fn:2' id='fnref:1'>
-                <sup>1</sup>
-              </a>
-            </p>
-            <p>
-              B.
-              <a class='FootnoteRef' href='#fn:2'>
-                <sup>1</sup>
-              </a>
-            </p>
-            <p>
-              C.
-              <a class='FootnoteRef' href='#fn:1' id='fnref:3'>
-                <sup>2</sup>
-              </a>
-            </p>
-            <p class='TableTitle' style='text-align:center;'>
-              Table 1&#xA0;&#x2014; Repeatability and reproducibility of
-              <i>husked</i>
-               rice yield
-            </p>
-            <table id='tableD-1' class='MsoISOTable' style='border-width:1px;border-spacing:0;' title='tool tip'>
-              <caption>
-                <span style='display:none'>long desc</span>
-              </caption>
-              <thead>
-                <tr>
-                  <td rowspan='2' style='text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;' scope='col'>Description</td>
-                  <td colspan='4' style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;' scope='colgroup'>Rice sample</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style='text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;'>Arborio</td>
-                  <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;'>
-                    Drago
-                    <a href='#tableD-1a' class='TableFootnoteRef'>a)</a>
-                  </td>
-                  <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;'>
-                    Balilla
-                    <a href='#tableD-1a' class='TableFootnoteRef'>a)</a>
-                  </td>
-                  <td style='text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;'>Thaibonnet</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan='5' style='border-top:0pt;border-bottom:solid windowtext 1.5pt;'>
-                    <div class='TableFootnote'>
-                      <div id='fn:tableD-1a'>
-                        <p id='_0fe65e9a-5531-408e-8295-eeff35f41a55' class='TableFootnote'>
-                          <span>
-                            <span id='tableD-1a' class='TableFootnoteRef'>a)</span>
-                            &#xA0;
-                          </span>
-                          Parboiled rice.
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-          <p class='zzSTDTitle1'/>
-          <p class='zzSTDTitle2'>
-          An ITU Standard
-          <a class='FootnoteRef' href='#fn:_' id='fnref:4'>
-            <sup>3</sup>
-          </a>
-          <a class='FootnoteRef' href='#fn:_' id='fnref:5'>
-            <sup>4</sup>
-          </a>
-        </p>
-          <aside id='fn:2' class='footnote'>
-            <p id='_1e228e29-baef-4f38-b048-b05a051747e4'>
-              <a class='FootnoteRef' href='#fn:2'>
-                <sup>1</sup>
-              </a>
-              Formerly denoted as 15 % (m/m).
-            </p>
-            <a href='#fnref:1'>&#x21A9;</a>
-          </aside>
-          <aside id='fn:1' class='footnote'>
-            <p id='_1e228e29-baef-4f38-b048-b05a051747e4'>
-              <a class='FootnoteRef' href='#fn:1'>
-                <sup>2</sup>
-              </a>
-              Hello! denoted as 15 % (m/m).
-            </p>
-            <a href='#fnref:3'>&#x21A9;</a>
-          </aside>
-          <aside id='fn:_' class='footnote'>
-          <p>
-            <a class='FootnoteRef' href='#fn:_'>
-              <sup>3</sup>
-            </a>
-            One fn
-          </p>
-          <a href='#fnref:4'>&#x21A9;</a>
-        </aside>
-        <aside id='fn:_' class='footnote'>
-          <p>
-            <a class='FootnoteRef' href='#fn:_'>
-              <sup>4</sup>
-            </a>
-            Another fn
-          </p>
-          <a href='#fnref:5'>&#x21A9;</a>
-        </aside>
-        </main>
+           <main xmlns:epub="epub" class="main-section">
+         <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+         <br/>
+         <div>
+           <h1 class="IntroTitle"/>
+           <p>A.<a class="FootnoteRef" href="#fn:1" id="fnref:1"><sup>1</sup></a></p>
+           <p>B.<a class="FootnoteRef" href="#fn:1"><sup>1</sup></a></p>
+           <p>C.<a class="FootnoteRef" href="#fn:3" id="fnref:3"><sup>2</sup></a></p>
+           <p class="TableTitle" style="text-align:center;">Table 1 — Table 1 — Repeatability and reproducibility of <i>husked</i> rice yield</p>
+           <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;" title="tool tip">
+             <caption>
+               <span style="display:none">long desc</span>
+             </caption>
+             <thead>
+               <tr>
+                 <td rowspan="2" style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="col">Description</td>
+                 <td colspan="4" style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="colgroup">Rice sample</td>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Arborio</td>
+                 <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Drago<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
+                 <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
+                 <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Thaibonnet</td>
+               </tr>
+             </tbody>
+             <tfoot>
+               <tr>
+                 <td colspan="5" style="border-top:0pt;border-bottom:solid windowtext 1.5pt;">
+                   <div class="TableFootnote">
+                     <div id="fn:tableD-1a">
+                       <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55" class="TableFootnote"><span><span id="tableD-1a" class="TableFootnoteRef">a)</span>  </span>Parboiled rice.</p>
+                     </div>
+                   </div>
+                 </td>
+               </tr>
+             </tfoot>
+           </table>
+         </div>
+         <p class="zzSTDTitle2">An ITU Standard<a class="FootnoteRef" href="#fn:4" id="fnref:4"><sup>3</sup></a><a class="FootnoteRef" href="#fn:5" id="fnref:5"><sup>4</sup></a></p>
+         <div/>
+         <aside id="fn:1" class="footnote">
+           <p id="_1e228e29-baef-4f38-b048-b05a051747e4"><a class="FootnoteRef" href="#fn:1"><sup>1</sup></a>Formerly denoted as 15 % (m/m).</p>
+           <a href="#fnref:1">↩</a>
+         </aside>
+         <aside id="fn:3" class="footnote">
+           <p id="_1e228e29-baef-4f38-b048-b05a051747e4"><a class="FootnoteRef" href="#fn:3"><sup>2</sup></a>Hello! denoted as 15 % (m/m).</p>
+           <a href="#fnref:3">↩</a>
+         </aside>
+         <aside id="fn:4" class="footnote">
+           <p><a class="FootnoteRef" href="#fn:4"><sup>3</sup></a>One fn</p>
+           <a href="#fnref:4">↩</a>
+         </aside>
+         <aside id="fn:5" class="footnote">
+           <p><a class="FootnoteRef" href="#fn:5"><sup>4</sup></a>Another fn</p>
+           <a href="#fnref:5">↩</a>
+         </aside>
+       </main>
       OUTPUT
 
     FileUtils.rm_f "test.doc"
-    IsoDoc::ITU::WordConvert.new({}).convert("test", input, false)
+    IsoDoc::ITU::WordConvert.new({}).convert("test", p, false)
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
     expect(xmlpp(html
@@ -974,7 +934,7 @@ RSpec.describe Metanorma::ITU do
              </p>
            </foreword>
          </preface>
-         <bibliography>
+         <sections>
            <references id="_" obligation="informative" normative="true" displayorder="3">
              <title depth="1">1.<tab/>References</title>
              <bibitem id="ISO712" type="standard">
@@ -984,7 +944,8 @@ RSpec.describe Metanorma::ITU do
                <biblio-tag>[ISO 712]</biblio-tag>
              </bibitem>
            </references>
-         </bibliography>
+           </sections>
+         <bibliography/>
        </itu-standard>
     OUTPUT
     expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
@@ -1034,7 +995,7 @@ RSpec.describe Metanorma::ITU do
             </p>
           </foreword>
         </preface>
-        <bibliography>
+        <sections>
           <references id="_" obligation="informative" normative="true" displayorder="3">
             <title depth="1">1.<tab/>References</title>
             <bibitem id="ISO712" type="standard">
@@ -1044,7 +1005,8 @@ RSpec.describe Metanorma::ITU do
               <biblio-tag>[ISO 712]</biblio-tag>
             </bibitem>
           </references>
-        </bibliography>
+          </sections>
+        <bibliography/>
       </iso-standard>
     OUTPUT
     output = <<~OUTPUT
@@ -1052,11 +1014,11 @@ RSpec.describe Metanorma::ITU do
         <div class="WordSection1">
           <p> </p>
         </div>
-        <p>
+        <p class="section-break">
           <br clear="all" class="section"/>
         </p>
         <div class="WordSection2">
-          <p>
+          <p class="page-break">
             <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
           </p>
           <div id="_" class="TOC">
@@ -1080,12 +1042,10 @@ RSpec.describe Metanorma::ITU do
           </div>
           <p> </p>
         </div>
-        <p>
+        <p class="section-break">
           <br clear="all" class="section"/>
         </p>
         <div class="WordSection3">
-          <p class="zzSTDTitle1"/>
-          <p class="zzSTDTitle2"/>
           <div>
             <h1>1.<span style="mso-tab-count:1">  </span>References</h1>
             <table class="biblio" border="0">
@@ -1221,7 +1181,7 @@ RSpec.describe Metanorma::ITU do
     IsoDoc::ITU::WordConvert.new({}).convert("test", <<~INPUT, false)
           <iso-standard xmlns="http://riboseinc.com/isoxml">
           <preface>
-          <clause id="A">
+          <clause id="A" displayorder="1">
                 <table id="_2a8bd899-ab80-483a-90dc-002b6f497f54">
       <thead>
       <tr>

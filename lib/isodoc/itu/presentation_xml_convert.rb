@@ -3,6 +3,7 @@ require "roman-numerals"
 require "isodoc"
 require_relative "../../relaton/render/general"
 require_relative "presentation_bibdata"
+require_relative "presentation_preface"
 
 module IsoDoc
   module ITU
@@ -15,60 +16,6 @@ module IsoDoc
       def convert1(docxml, filename, dir)
         insert_preface_sections(docxml)
         super
-      end
-
-      def insert_preface_sections(docxml)
-        x = insert_editors_clause(docxml) and
-          editors_insert_pt(docxml).next = x
-      end
-
-      def editors_insert_pt(docxml)
-        docxml.at(ns("//preface")) || docxml.at(ns("//sections"))
-          .add_previous_sibling("<preface> </preface>").first
-        ins = docxml.at(ns("//preface/acknolwedgements")) and return ins
-        docxml.at(ns("//preface")).children[-1]
-      end
-
-      def insert_editors_clause(doc)
-        ret = extract_editors(doc) or return
-        eds = ret[:names].each_with_object([]).with_index do |(_x, acc), i|
-          acc << { name: ret[:names][i], affiliation: ret[:affiliations][i],
-                   email: ret[:emails][i] }
-        end
-        editors_clause(eds)
-      end
-
-      def extract_editors(doc)
-        e = doc.xpath(ns("//bibdata/contributor[role/@type = 'editor']/person"))
-        e.empty? and return
-        { names: @meta.extract_person_names(e),
-          affiliations: @meta.extract_person_affiliations(e),
-          emails: e.reduce([]) { |ret, p| ret << p.at(ns("./email"))&.text } }
-      end
-
-      def editors_clause(eds)
-        ed_lbl = @i18n.inflect(@i18n.get["editor_full"],
-                               number: eds.size > 1 ? "pl" : "sg")
-        ed_lbl &&= l10n("#{ed_lbl.capitalize}:")
-        mail_lbl = l10n("#{@i18n.get['email']}: ")
-        ret = <<~SUBMITTING
-          <clause id="_#{UUIDTools::UUID.random_create}" type="editors">
-          <table id="_#{UUIDTools::UUID.random_create}" unnumbered="true"><tbody>
-        SUBMITTING
-        ret += editor_table_entries(eds, ed_lbl, mail_lbl)
-        "#{ret}</tbody></table></clause>"
-      end
-
-      def editor_table_entries(eds, ed_lbl, mail_lbl)
-        eds.each_with_index.with_object([]) do |(n, i), m|
-          mail = ""
-          n[:email] and
-            mail = "#{mail_lbl}<link target='mailto:#{n[:email]}'>" \
-                   "#{n[:email]}</link>"
-          aff = n[:affiliation].empty? ? "" : "<br/>#{n[:affiliation]}"
-          th = "<th>#{i.zero? ? ed_lbl : ''}</th>"
-          m << "<tr>#{th}<td>#{n[:name]}#{aff}</td><td>#{mail}</td></tr>"
-        end.join("\n")
       end
 
       def prefix_container(container, linkend, node, _target)
@@ -139,7 +86,7 @@ module IsoDoc
 
         t = elem.at(ns("./title")) and t["depth"] = "1"
         lbl = @xrefs.anchor(elem["id"], :label, false) or return
-        elem.elements.first.previous =
+        elem.previous =
           "<p keep-with-next='true' class='supertitle'>" \
           "#{@i18n.get['section'].upcase} #{lbl}</p>"
       end
@@ -202,19 +149,29 @@ module IsoDoc
       end
 
       def middle_title(isoxml)
-        s = docxml.at(ns("//sections")) or return
+        s = isoxml.at(ns("//sections")) or return
+        titfn = isoxml.at(ns("//note[@type = 'title-footnote']"))
         if @meta.get[:doctype] == "Resolution"
           middle_title_resolution(isoxml, s.children.first)
         else
           middle_title_recommendation(isoxml, s.children.first)
         end
+        titfn and renumber_footnotes(isoxml)
+      end
+
+      def renumber_footnotes(isoxml)
+        (isoxml.xpath(ns("//fn")) - isoxml.xpath(ns("//table//fn | //figure//fn")))
+          .each_with_index do |fn, i|
+            fn["reference"] = (i + 1).to_s
+          end
       end
 
       def middle_title_resolution(isoxml, out)
         res = isoxml.at(ns("//bibdata/title[@type = 'resolution']"))
         out.previous =
           "<p class='zzSTDTitle1' align='center'>#{res.children.to_xml}</p>"
-        out.previous = "<p class='zzSTDTitle2'>#{@meta.get[:doctitle]}</p>"
+        t = @meta.get[:doctitle] and
+          out.previous = "<p class='zzSTDTitle2'>#{t}</p>"
         middle_title_resolution_subtitle(isoxml, out)
       end
 
@@ -233,7 +190,8 @@ module IsoDoc
           type = @meta.get[:draft_new_doctype]
         id = @meta.get[:docnumber] and
           ret += "<<p class='zzSTDTitle1'>#{type} #{id}</p>"
-        ret += "<p class='zzSTDTitle2'>#{@meta.get[:doctitle]}"
+        t = @meta.get[:doctitle] and
+          ret += "<p class='zzSTDTitle2'>#{t}"
         ret += "#{title_footnotes(isoxml)}</p>"
         s = @meta.get[:docsubtitle] and ret += "<p class='zzSTDTitle3'>#{s}</p>"
         out.previous = ret
@@ -241,27 +199,11 @@ module IsoDoc
 
       def title_footnotes(isoxml)
         ret = ""
-        isoxml.xpath(ns("//note[@type = 'title-footnote']")).each do |f|
-          ret += "<fn>#{f.remove.children.to_xml}</fn>"
+        isoxml.xpath(ns("//note[@type = 'title-footnote']"))
+          .each_with_index do |f, i|
+          ret += "<fn reference='H#{i}'>#{f.remove.children.to_xml}</fn>"
         end
         ret
-      end
-
-      def rearrange_clauses(docxml)
-        super
-        k = keywords(docxml) or return
-        if a = docxml.at(ns("//preface/abstract"))
-          a.next = k
-          elseif a = docxml.at(ns("//preface"))
-          a.children.first.previous = k
-        end
-      end
-
-      def keywords(_docxml)
-        kw = @meta.get[:keywords]
-        kw.nil? || kw.empty? and return
-        "<clause type='keyword'><title>#{@i18n.keywords}</title>" \
-          "<p>#{kw.join(', ')}.</p>"
       end
 
       include Init

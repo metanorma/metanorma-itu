@@ -141,7 +141,7 @@ RSpec.describe IsoDoc::ITU do
             <xref target="zip_ffs">[5]</xref>
            </p>
              </foreword></preface>
-             <bibliography><references id="_" obligation="informative" normative="true"  displayorder='3'><title depth="1">1.<tab/>Normative References</title>
+             <sections><references id="_" obligation="informative" normative="true"  displayorder='3'><title depth="1">1.<tab/>Normative References</title>
              <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
          <bibitem id="ISO712" type="standard">
            <formattedref><em>Cereals and cereal products</em>.</formattedref>
@@ -170,7 +170,10 @@ RSpec.describe IsoDoc::ITU do
              <bibitem id="zip_ffs"><formattedref format="application/x-isodoc+xml">Title 5.</formattedref><docidentifier type="metanorma">[5]</docidentifier>
               <biblio-tag>[5]</biblio-tag>
           </bibitem>
-         </references><references id="_" obligation="informative" normative="false"  displayorder='4'>
+         </references>
+         </sections>
+         <bibliography>
+        <references id="_" obligation="informative" normative="false"  displayorder='4'>
            <title depth="1">Bibliography</title>
          <bibitem id="ISBN" type="book">
            <formattedref><em>Chemicals for analytical laboratory use</em>. n.p.: n.d. ISBN: ISBN.</formattedref>
@@ -237,8 +240,6 @@ RSpec.describe IsoDoc::ITU do
         <a href='#zip_ffs'>[5]</a>
       </p>
                    </div>
-                   <p class="zzSTDTitle1"></p>
-                   <p class="zzSTDTitle2"></p>
                    <div>
                      <h1 id="_">1.&#xA0; Normative References</h1>
                      <table class="biblio" border="0">
@@ -399,7 +400,7 @@ RSpec.describe IsoDoc::ITU do
             </p>
           </foreword>
         </preface>
-        <bibliography>
+        <sections>
           <references id='_' obligation='informative' normative='true' displayorder='3'>
            <title depth='1'>1.<tab/>References</title>
             <p>
@@ -435,7 +436,8 @@ RSpec.describe IsoDoc::ITU do
               <biblio-tag>[ITU‑T G Suppl. 41]</biblio-tag>
             </bibitem>
           </references>
-        </bibliography>
+          </sections>
+        <bibliography/>
       </itu-standard>
     OUTPUT
 
@@ -447,8 +449,6 @@ RSpec.describe IsoDoc::ITU do
            <a href="#ISO712">[ISO&#xa0;712]</a>
            </p>
                </div>
-               <p class="zzSTDTitle1"/>
-               <p class="zzSTDTitle2"/>
                <div>
                  <h1>1.&#160; References</h1>
                        <table class='biblio' border='0'>
@@ -501,7 +501,8 @@ RSpec.describe IsoDoc::ITU do
            </body>
 
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)

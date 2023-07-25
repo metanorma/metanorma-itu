@@ -9,7 +9,7 @@ RSpec.describe Metanorma::ITU do
           <clause type="toc" id="_" displayorder="1">
       <title depth="1">Table of Contents</title>
       </clause>
-      <foreword>
+      <foreword  displayorder="2">
       <pre>ABC</pre>
       </foreword></preface>
       </itu-standard>
@@ -20,8 +20,6 @@ RSpec.describe Metanorma::ITU do
                  <h1 class="IntroTitle"/>
                  <pre>ABC</pre>
                </div>
-               <p class="zzSTDTitle1"/>
-               <p class="zzSTDTitle2"/>
              </div>
            </body>
     OUTPUT
@@ -162,7 +160,7 @@ RSpec.describe Metanorma::ITU do
   it "processes tables (Word)" do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">
-          <preface><foreword>
+          <preface><foreword  displayorder="1">
           <table id="tableD-1" alt="tool tip" summary="long desc">
         <name>Table 1&#xA0;&#x2014; Repeatability and reproducibility of <em>husked</em> rice yield</name>
         <thead>
@@ -352,8 +350,6 @@ RSpec.describe Metanorma::ITU do
                </li>
              </ol>
            </div>
-           <p class="zzSTDTitle1"/>
-           <p class="zzSTDTitle2"/>
          </div>
        </body>
     OUTPUT
@@ -362,11 +358,11 @@ RSpec.describe Metanorma::ITU do
          <div class="WordSection1">
            <p> </p>
          </div>
-         <p>
+         <p class="section-break">
            <br clear="all" class="section"/>
          </p>
          <div class="WordSection2">
-           <p>
+           <p class="page-break">
              <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
            </p>
            <div id="_" class="TOC">
@@ -400,12 +396,10 @@ RSpec.describe Metanorma::ITU do
            </div>
            <p> </p>
          </div>
-         <p>
+         <p class="section-break">
            <br clear="all" class="section"/>
          </p>
          <div class="WordSection3">
-           <p class="zzSTDTitle1"/>
-           <p class="zzSTDTitle2"/>
          </div>
        </body>
     OUTPUT
@@ -431,7 +425,7 @@ RSpec.describe Metanorma::ITU do
     FileUtils.rm_f "test.html"
     IsoDoc::ITU::WordConvert.new({}).convert("test", <<~INPUT, false)
           <iso-standard xmlns="http://riboseinc.com/isoxml">
-          <preface><foreword>
+          <preface><foreword  displayorder="1">
           <ol id="_ae34a226-aab4-496d-987b-1aa7b6314026" class="steps">
         <li>
           <p id="_0091a277-fb0e-424a-aea8-f0001303fe78">all information necessary for the complete identification of the sample;</p>
@@ -470,7 +464,7 @@ RSpec.describe Metanorma::ITU do
           <preface><clause type="toc" id="_" displayorder="1">
             <title depth="1">Table of Contents</title>
         </clause>
-        <foreword>
+        <foreword displayorder="2">
           <note><name>NOTE</name>
         <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
       </note>
@@ -485,8 +479,6 @@ RSpec.describe Metanorma::ITU do
                      <p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p>
                    </div>
                  </div>
-                 <p class="zzSTDTitle1"/>
-                 <p class='zzSTDTitle2'/>
                </div>
              </body>
     OUTPUT
@@ -496,11 +488,11 @@ RSpec.describe Metanorma::ITU do
            <div class='WordSection1'>
              <p>&#160;</p>
            </div>
-           <p>
+           <p class="section-break">
              <br clear='all' class='section'/>
            </p>
            <div class='WordSection2'>
-               <p>
+               <p class="page-break">
                 <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
               </p>
               <div class="TOC" id="_">
@@ -522,12 +514,10 @@ RSpec.describe Metanorma::ITU do
              </div>
              <p>&#160;</p>
            </div>
-           <p>
+           <p class="section-break">
              <br clear='all' class='section'/>
            </p>
            <div class='WordSection3'>
-             <p class='zzSTDTitle1'/>
-             <p class='zzSTDTitle2'/>
            </div>
          </body>
     OUTPUT
@@ -548,7 +538,7 @@ RSpec.describe Metanorma::ITU do
           <iso-standard xmlns="http://riboseinc.com/isoxml">
           <preface>
           <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-          <foreword>
+          <foreword displayorder="2">
           <note id="note1"><name>NOTE 1</name>
         <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
       </note>
@@ -582,8 +572,6 @@ RSpec.describe Metanorma::ITU do
                  </p>
                </div>
              </div>
-             <p class='zzSTDTitle1'/>
-             <p class='zzSTDTitle2'/>
            </div>
          </body>
     OUTPUT
@@ -593,11 +581,11 @@ RSpec.describe Metanorma::ITU do
                <div class='WordSection1'>
                  <p>&#160;</p>
                </div>
-               <p>
+               <p class="section-break">
                  <br clear='all' class='section'/>
                </p>
                <div class='WordSection2'>
-                   <p>
+                   <p class="page-break">
                     <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
                   </p>
                   <div class="TOC" id="_">
@@ -630,12 +618,10 @@ RSpec.describe Metanorma::ITU do
                  </div>
                  <p>&#160;</p>
                </div>
-               <p>
+               <p class="section-break">
                  <br clear='all' class='section'/>
                </p>
                <div class='WordSection3'>
-                 <p class='zzSTDTitle1'/>
-                 <p class='zzSTDTitle2'/>
                </div>
              </body>
     OUTPUT

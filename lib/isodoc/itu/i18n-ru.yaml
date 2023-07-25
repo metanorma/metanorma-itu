@@ -8,7 +8,7 @@ symbolsabbrev: Сокращения и акронимы
 abbrev: Сокращения и акронимы
 symbols: Сокращения и акронимы
 conventions: Соглашения
-abstract: Резюме
+summary: Резюме
 elsewhere_terms: >-
   Эта Рекомендация использует следующие термины, определенные в другом месте:
 here_terms: >-
@@ -64,6 +64,8 @@ bdt_full: Бюро развития электросвязи<br/>МСЭ
 prepub: Предварительно опубликованная версия
 draft_new: Проект новой %
 email: Эл. почта
+toc_figures: Таблица Фигур
+toc_tables: Таблица Таблиц
 editor_full: редактор
 doctype_dict:
   resolution: Резолюция

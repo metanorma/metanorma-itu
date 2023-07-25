@@ -70,7 +70,7 @@ nav {
       background: none;
       box-shadow: none;
     }
-    &:before {
+    &::before {
       content: " ";
       display: none;
     }
@@ -356,7 +356,7 @@ ul {
   > li {
     list-style: none;
 
-    &:before {
+    &::before {
       content: "\2014";
       display: inline-block;
       width: 1em;

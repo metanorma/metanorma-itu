@@ -8,7 +8,7 @@ symbolsabbrev: Abbreviations and acronyms
 abbrev: Abbreviations and acronyms
 symbols: Abbreviations and acronyms
 conventions: Conventions
-abstract: Summary
+summary: Summary
 elsewhere_terms: >-
   This Recommendation uses the following terms defined elsewhere:
 here_terms: >-
@@ -65,6 +65,8 @@ prepub: Prepublished version
 draft_new: Draft new %
 email: E-mail
 editor_full: editor
+toc_figures: List of Figures
+toc_tables: List of Tables
 doctype_dict:
   resolution: Resolution
   recommendation: Recommendation

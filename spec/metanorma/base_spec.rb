@@ -2041,7 +2041,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "reorders references in bibliography, and renumbers citations accordingly" do
-    VCR.use_cassette("multi-standards sort") do
+    VCR.use_cassette("multi-standards sort", match_requests_on: [:method, :uri, :body]) do
       xml = Asciidoctor.convert(<<~INPUT, *OPTIONS)
         = Document title
         Author

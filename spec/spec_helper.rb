@@ -8,6 +8,7 @@ VCR.configure do |config|
     re_record_interval: 1512000,
     record: :once,
     preserve_exact_body_bytes: true,
+    allow_playback_repeats: true,
   }
 end
 

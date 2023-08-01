@@ -34,17 +34,19 @@
 	<xsl:variable name="contents_">
 		<contents>
 			<!-- <xsl:apply-templates select="/itu:itu-standard/itu:preface/node()" mode="contents"/> -->
-			<xsl:apply-templates select="/itu:itu-standard/itu:sections/itu:clause[@type='scope']" mode="contents"/> <!-- @id = 'scope' -->
+			<!-- <xsl:apply-templates select="/itu:itu-standard/itu:sections/itu:clause[@type='scope']" mode="contents" /> -->
 
 			<!-- Normative references -->
-			<xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[@normative='true']" mode="contents"/> <!-- @id = 'references' -->
-
-			<xsl:apply-templates select="/itu:itu-standard/itu:sections/*[not(@type='scope')]" mode="contents"/> <!-- @id != 'scope' -->
-
-			<xsl:apply-templates select="/itu:itu-standard/itu:annex" mode="contents"/>
+			<!-- <xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[@normative='true']" mode="contents" />
+			
+			<xsl:apply-templates select="/itu:itu-standard/itu:sections/*[not(@type='scope')]" mode="contents" />
+				
+			<xsl:apply-templates select="/itu:itu-standard/itu:annex" mode="contents"/> -->
 
 			<!-- Bibliography -->
-			<xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[not(@normative='true')]" mode="contents"/> <!-- @id = 'bibliography' -->
+			<!-- <xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[not(@normative='true')]" mode="contents"/> -->
+
+			<xsl:call-template name="processMainSectionsDefault_Contents"/>
 
 			<xsl:apply-templates select="//itu:table" mode="contents"/>
 
@@ -1069,16 +1071,16 @@
 
 				<fo:flow flow-name="xsl-region-body">
 
-					<xsl:if test="$doctype != 'service-publication'">
-						<fo:block-container font-size="14pt">
+					<!-- <xsl:if test="$doctype != 'service-publication' and 1 = 2"> 
+						<fo:block-container font-size="14pt" >
 							<xsl:choose>
 								<xsl:when test="$doctype = 'resolution'">
 									<fo:block text-align="center">
 										<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type='resolution' and @language = $lang]"/>
 									</fo:block>
 								</xsl:when>
-								<xsl:when test="$doctype = 'implementers-guide'"/>
-								<xsl:when test="$doctype = 'recommendation-supplement'">
+								<xsl:when  test="$doctype = 'implementers-guide'"></xsl:when>
+								<xsl:when  test="$doctype = 'recommendation-supplement'">
 									<fo:block font-weight="bold">
 										<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-Supplement-Internal']"/>
 									</fo:block>
@@ -1086,30 +1088,30 @@
 								<xsl:otherwise>
 									<fo:block font-weight="bold">
 										<xsl:value-of select="$doctypeTitle"/>
-										<xsl:text> </xsl:text>
+										<xsl:text>&#xA0;</xsl:text>
 										<xsl:value-of select="$docname"/>
 									</fo:block>
 								</xsl:otherwise>
 							</xsl:choose>
-
+							
 							<fo:block font-weight="bold" text-align="center" margin-top="15pt" margin-bottom="15pt" role="H1">
 								<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'main' and @language = $lang]"/>
-
+								
 								<xsl:variable name="subtitle" select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'subtitle' and @language = $lang]"/>
 								<xsl:if test="$subtitle != ''">
 									<fo:block margin-top="18pt" font-weight="normal" font-style="italic">
-										<xsl:if test="$lang = 'ar'"> <!-- to prevent rendering `###` due the missing Arabic glyphs in the italic font (Times New Roman) -->
+										<xsl:if test="$lang = 'ar'">
 											<xsl:attribute name="font-style">normal</xsl:attribute>
 										</xsl:if>
 										<xsl:value-of select="$subtitle"/>
-									</fo:block>
+									</fo:block>								
 								</xsl:if>
-
+								
 								<xsl:variable name="resolution-placedate" select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'resolution-placedate' and @language = $lang]"/>
 								<xsl:if test="$doctype = 'resolution' and $resolution-placedate != ''">
 									<fo:block font-size="11pt" margin-top="6pt" font-weight="normal">
 										<fo:inline font-style="italic">
-											<xsl:if test="$lang = 'ar'"> <!-- to prevent rendering `###` due the missing Arabic glyphs in the italic font (Times New Roman) -->
+											<xsl:if test="$lang = 'ar'">
 												<xsl:attribute name="font-style">normal</xsl:attribute>
 											</xsl:if>
 											<xsl:text>(</xsl:text><xsl:value-of select="$resolution-placedate"/><xsl:text>)</xsl:text>
@@ -1119,22 +1121,25 @@
 								</xsl:if>
 							</fo:block>
 						</fo:block-container>
-					</xsl:if>
+					</xsl:if> -->
 
 					<!-- Clause(s) -->
 					<fo:block>
 						<!-- Scope -->
-						<xsl:apply-templates select="/itu:itu-standard/itu:sections/itu:clause[@type='scope']"/> <!-- @id = 'scope' -->
+						<!-- <xsl:apply-templates select="/itu:itu-standard/itu:sections/itu:clause[@type='scope']" /> -->
 
 						<!-- Normative references -->
-						<xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[@normative='true']"/> <!-- @id = 'references' -->
-
-						<xsl:apply-templates select="/itu:itu-standard/itu:sections/*[not(@type='scope')]"/> <!-- @id != 'scope' -->
-
-						<xsl:apply-templates select="/itu:itu-standard/itu:annex"/>
+						<!-- <xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[@normative='true']" />
+							
+						<xsl:apply-templates select="/itu:itu-standard/itu:sections/*[not(@type='scope')]" />
+							
+						<xsl:apply-templates select="/itu:itu-standard/itu:annex"/> -->
 
 						<!-- Bibliography -->
-						<xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[not(@normative='true')]"/> <!-- @id = 'bibliography' -->
+						<!-- <xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[not(@normative='true')]"/> -->
+
+						<xsl:call-template name="processMainSectionsDefault"/>
+
 					</fo:block>
 
 				</fo:flow>
@@ -1283,6 +1288,37 @@
 			<xsl:call-template name="getLocalizedString">
 				<xsl:with-param name="key">Page.sg</xsl:with-param>
 			</xsl:call-template>
+		</fo:block>
+	</xsl:template>
+
+	<xsl:template match="itu:clause[@type = 'keyword']" priority="4"/>
+
+	<xsl:template match="itu:sections/itu:p[@class = 'zzSTDTitle1']" priority="4">
+		<fo:block font-size="14pt">
+			<xsl:choose>
+				<xsl:when test="$doctype = 'resolution'">
+					<xsl:attribute name="text-align">center</xsl:attribute>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:attribute name="font-weight">bold</xsl:attribute>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:apply-templates/>
+		</fo:block>
+	</xsl:template>
+
+	<xsl:template match="itu:sections/itu:p[@class = 'zzSTDTitle2']" priority="4">
+		<fo:block font-size="14pt" font-weight="bold" text-align="center" margin-top="15pt" margin-bottom="15pt" role="H1">
+			<xsl:if test="$lang = 'ar'"> <!-- to prevent rendering `###` due the missing Arabic glyphs in the italic font (Times New Roman) -->
+				<xsl:attribute name="font-style">normal</xsl:attribute>
+			</xsl:if>
+			<!-- Example: <p align="center" class="zzSTDTitle2" displayorder="4"><em>(Hammamet, 2016</em>) -->
+			<xsl:if test="@align = 'center'">
+				<xsl:attribute name="font-size">11pt</xsl:attribute>
+				<xsl:attribute name="margin-top">6pt</xsl:attribute>
+				<xsl:attribute name="font-weight">normal</xsl:attribute>
+			</xsl:if>
+			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
 
@@ -1740,25 +1776,25 @@
 	</xsl:template> -->
 
 	<!-- footnotes for title -->
-	<xsl:template match="itu:bibdata/itu:note[@type = 'title-footnote']" mode="title_footnote">
+	<!-- <xsl:template match="itu:bibdata/itu:note[@type = 'title-footnote']" mode="title_footnote">
 		<xsl:variable name="number" select="position()"/>
 		<fo:footnote>
 			<fo:inline font-size="60%" keep-with-previous.within-line="always" vertical-align="super">
 				<fo:basic-link internal-destination="title_footnote_{$number}" fox:alt-text="titlefootnote  {$number}">
 					<xsl:value-of select="$number"/>
 				</fo:basic-link>
-				<xsl:if test="position() != last()">,</xsl:if><!-- <fo:inline  baseline-shift="20%">,</fo:inline> -->
+				<xsl:if test="position() != last()">,</xsl:if>
 			</fo:inline>
 			<fo:footnote-body>
 				<fo:block font-size="11pt" margin-bottom="12pt" text-align="justify">
 					<fo:inline id="title_footnote_{$number}" font-size="85%" padding-right="2mm" keep-with-next.within-line="always" baseline-shift="30%">
 						<xsl:value-of select="$number"/>
 					</fo:inline>
-					<xsl:apply-templates/>
+					<xsl:apply-templates />
 				</fo:block>
 			</fo:footnote-body>
 		</fo:footnote>
-	</xsl:template>
+	</xsl:template> -->
 
 	<xsl:template match="*[local-name()='tt']" priority="2">
 		<xsl:variable name="element-name">
@@ -6113,6 +6149,9 @@
 	<!-- ===================== -->
 	<!-- END Definition List -->
 	<!-- ===================== -->
+
+	<!-- default: ignore title in sections/p -->
+	<xsl:template match="*[local-name() = 'sections']/*[local-name() = 'p'][starts-with(@class, 'zzSTDTitle')]" priority="3"/>
 
 	<!-- ========================= -->
 	<!-- Rich text formatting -->
@@ -11911,7 +11950,7 @@
 	<xsl:template match="*[local-name() = 'span']" mode="update_xml_step1">
 		<xsl:apply-templates mode="update_xml_step1"/>
 	</xsl:template>
-	<xsl:template match="*[local-name() = 'sourcecode']//*[local-name() = 'span'][@class]" mode="update_xml_step1" priority="2">
+	<xsl:template match="*[local-name() = 'sections']/*[local-name() = 'p'][starts-with(@class, 'zzSTDTitle')]/*[local-name() = 'span'][@class] | *[local-name() = 'sourcecode']//*[local-name() = 'span'][@class]" mode="update_xml_step1" priority="2">
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
 			<xsl:apply-templates mode="update_xml_step1"/>

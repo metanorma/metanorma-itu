@@ -1,9 +1,9 @@
 require "isodoc"
 require "fileutils"
-require_relative "./ref"
-require_relative "./xref"
-require_relative "./terms"
-require_relative "./cleanup"
+require_relative "ref"
+require_relative "xref"
+require_relative "terms"
+require_relative "cleanup"
 
 module IsoDoc
   module ITU
@@ -61,7 +61,6 @@ module IsoDoc
       end
 
       def annex_name(annex, name, div)
-        # preceding_floating_titles(name, div)
         r_a = @meta.get[:doctype_original] == "recommendation-annex"
         div.h1 class: r_a ? "RecommendationAnnex" : "Annex" do |t|
           name&.children&.each { |c2| parse(c2, t) }
@@ -74,78 +73,28 @@ module IsoDoc
         info = annex["obligation"] == "informative"
         div.p class: "annex_obligation" do |p|
           p << (info ? @i18n.inform_annex : @i18n.norm_annex)
-            .sub(/%/, @meta.get[:doctype] || "")
+            .sub("%", @meta.get[:doctype] || "")
         end
       end
 
-      def annex(isoxml, out)
-        isoxml.xpath(ns("//annex")).each do |c|
+      def annex(node, out)
           @meta.get[:doctype_original] == "recommendation-annex" or
             page_break(out)
-          out.div **attr_code(id: c["id"], class: "Section3") do |s|
-            annex_name(c, nil, s) unless c.at(ns("./title"))
-            c.elements.each do |c1|
-              if c1.name == "title" then annex_name(c, c1, s)
+          out.div **attr_code(id: node["id"], class: "Section3") do |s|
+            annex_name(node, nil, s) unless node.at(ns("./title"))
+            node.elements.each do |c1|
+              if c1.name == "title" then annex_name(node, c1, s)
               else
                 parse(c1, s)
               end
             end
           end
-        end
       end
 
       def info(isoxml, out)
         @meta.ip_notice_received isoxml, out
         @meta.techreport isoxml, out
         super
-      end
-
-      def middle_title(isoxml, out)
-        if @meta.get[:doctype] == "Resolution"
-          middle_title_resolution(isoxml, out)
-        else
-          middle_title_recommendation(isoxml, out)
-        end
-      end
-
-      def middle_title_resolution(isoxml, out)
-        res = isoxml.at(ns("//bibdata/title[@type = 'resolution']"))
-        out.p(align: "center", style: "text-align:center;") do |p|
-          res.children.each { |n| parse(n, p) }
-        end
-        out.p(class: "zzSTDTitle2") { |p| p << @meta.get[:doctitle] }
-        middle_title_resolution_subtitle(isoxml, out)
-      end
-
-      def middle_title_resolution_subtitle(isoxml, out)
-        out.p(align: "center", style: "text-align:center;") do |p|
-          p.i do |i|
-            i << "("
-            isoxml.at(ns("//bibdata/title[@type = 'resolution-placedate']"))
-              .children.each { |n| parse(n, i) }
-            i << ")"
-          end
-          isoxml.xpath(ns("//note[@type = 'title-footnote']")).each do |f|
-            footnote_parse(f, p)
-          end
-        end
-      end
-
-      def middle_title_recommendation(isoxml, out)
-        out.p(class: "zzSTDTitle1") do |p|
-          type = @meta.get[:doctype]
-          @meta.get[:unpublished] && @meta.get[:draft_new_doctype] and
-            type = @meta.get[:draft_new_doctype]
-          id = @meta.get[:docnumber] and p << "#{type} #{id}"
-        end
-        out.p(class: "zzSTDTitle2") do |p|
-          p << @meta.get[:doctitle]
-          isoxml.xpath(ns("//note[@type = 'title-footnote']")).each do |f|
-            footnote_parse(f, p)
-          end
-        end
-        s = @meta.get[:docsubtitle] and
-          out.p(class: "zzSTDTitle3") { |p| p << s }
       end
 
       def note_p_parse(node, div)
@@ -180,14 +129,15 @@ module IsoDoc
         super
       end
 
-      # can have supertitle in resolution
-      def clause(isoxml, out)
-        isoxml.xpath(ns(middle_clause(isoxml))).each do |c|
-          clause_core(c, out)
+      def clause_attrs(node)
+        if node["type"] == "keyword"
+          super.merge(class: "Keyword")
+        else super
         end
       end
 
-      def clause_core(clause, out)
+      # can have supertitle in resolution
+      def clause(clause, out)
         out.div **attr_code(clause_attrs(clause)) do |s|
           clause.elements.each do |c1|
             if c1.name == "title" then clause_name(clause, c1, s, nil)
@@ -198,6 +148,7 @@ module IsoDoc
         end
       end
 
+=begin
       def scope(isoxml, out, num)
         return super unless @meta.get[:doctype_original] == "resolution"
 
@@ -205,6 +156,7 @@ module IsoDoc
         clause_core(f, out)
         num + 1
       end
+=end
     end
   end
 end

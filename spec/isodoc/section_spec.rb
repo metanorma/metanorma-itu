@@ -792,13 +792,7 @@ RSpec.describe Metanorma::ITU do
                     <div class='formula'>
                       <p class='formula'>
                         <span style='mso-tab-count:1'>&#xA0; </span>
-                        <span class='stem'>
-                          <m:oMath>
-                            <m:r>
-                              <m:t>r=1%</m:t>
-                            </m:r>
-                          </m:oMath>
-                        </span>
+                        <span class="stem">(#(r = 1 %)#)</span>
                         <span style='mso-tab-count:1'>&#xA0; </span>
                         (F2-1)
                       </p>

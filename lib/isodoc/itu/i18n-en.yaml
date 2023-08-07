@@ -20,6 +20,7 @@ inequality: Inequality
 clause: clause
 section: Section
 annex_subclause: clause
+keywords: Keywords
 in: in
 to: to
 where: "where:"

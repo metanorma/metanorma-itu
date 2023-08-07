@@ -206,8 +206,6 @@ RSpec.describe Metanorma::ITU do
               <a href='#Anote2'>Figure A.1-b</a>
             </p>
           </div>
-          <p class='zzSTDTitle1'/>
-          <p class='zzSTDTitle2'/>
           <div id='scope'>
             <h1>1.&#160; Scope</h1>
           </div>
@@ -332,7 +330,7 @@ RSpec.describe Metanorma::ITU do
       </p>
         </abstract>
         </preface>
-                 <sections displayorder='3'>
+                 <sections>
                  </sections>
           <annex id="A1" obligation="normative" displayorder='5'>
                   <title>Annex</title>
@@ -365,9 +363,16 @@ RSpec.describe Metanorma::ITU do
                       <xref target='A2'>clause F2.1</xref>
                     </p>
                   </abstract>
+                             <clause type="keyword" displayorder="3">
+              <title depth="1">Keywords</title>
+              <p>A, B.</p>
+            </clause>
                   </preface>
-                  <sections displayorder="3"> </sections>
-                  <annex id='A1' obligation='normative' displayorder='3'>
+                  <sections>
+                    <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
+                    <p class="zzSTDTitle2">An ITU Standard</p>
+                  </sections>
+                  <annex id='A1' obligation='normative' displayorder='4'>
                     <title>
                       <strong>Annex F2</strong>
                       <br/>
@@ -739,13 +744,15 @@ RSpec.describe Metanorma::ITU do
                  </introduction>
                </preface>
                <sections>
-                 <clause id='D' obligation='normative' type='scope'  displayorder='3'>
-                   <p keep-with-next='true' class='supertitle'>SECTION 1</p>
+                   <p class="zzSTDTitle1" align="center" displayorder="3">RESOLUTION  (Peoria, 1871)</p>
+                <p align="center" class="zzSTDTitle2" displayorder="4"><em>(Peoria, 1871</em>)</p>
+                   <p keep-with-next='true' class='supertitle' displayorder="5">SECTION 1</p>
+                 <clause id='D' obligation='normative' type='scope'  displayorder='6'>
       <title depth='1'>Scope</title>
                    <p id='E'>Text</p>
                  </clause>
-                 <clause id='M' inline-header='false' obligation='normative'  displayorder='4'>
-                   <p keep-with-next='true' class='supertitle'>SECTION 2</p>
+                   <p keep-with-next='true' class='supertitle' displayorder="7">SECTION 2</p>
+                 <clause id='M' inline-header='false' obligation='normative'  displayorder='8'>
       <title depth='1'>Clause 4</title>
                    <clause id='N' inline-header='false' obligation='normative'>
                      <title depth='2'>
@@ -763,7 +770,7 @@ RSpec.describe Metanorma::ITU do
                    </clause>
                  </clause>
                </sections>
-               <annex id='P' inline-header='false' obligation='normative' displayorder='5'>
+               <annex id='P' inline-header='false' obligation='normative' displayorder='9'>
                <p class='supertitle'>ANNEX A
         <br/>
         (to RESOLUTION (Peoria, 1871))
@@ -787,7 +794,7 @@ RSpec.describe Metanorma::ITU do
                  </clause>
                </annex>
                <bibliography>
-                 <clause id='S' obligation='informative' displayorder='6'>
+                 <clause id='S' obligation='informative' displayorder='10'>
                    <title depth='1'>Bibliography</title>
                    <references id='T' obligation='informative' normative='false'>
                      <title depth='2'>Bibliography Subsection</title>
@@ -830,18 +837,17 @@ RSpec.describe Metanorma::ITU do
                    </div>
                    <div id='C1'>Text</div>
                  </div>
-                 <p align='center' style='text-align:center;'>RESOLUTION (Peoria, 1871)</p>
-                 <p class='zzSTDTitle2'/>
-                 <p align='center' style='text-align:center;'>
-                   <i>(Peoria, 1871)</i>
+                 <p class='zzSTDTitle1' style='text-align:center;'>RESOLUTION (Peoria, 1871)</p>
+                 <p class='zzSTDTitle2' style='text-align:center;'>
+                   <i>(Peoria, 1871</i>)
                  </p>
-                 <div id='D'>
                  <p style='page-break-after: avoid;' class="supertitle">SECTION 1</p>
+                 <div id='D'>
       <h1>Scope</h1>
                    <p id='E'>Text</p>
                  </div>
-                 <div id='M'>
                  <p style='page-break-after: avoid;' class="supertitle">SECTION 2</p>
+                 <div id='M'>
       <h1>Clause 4</h1>
                    <div id='N'>
                      <h2> 2.1. &#160; Introduction </h2>

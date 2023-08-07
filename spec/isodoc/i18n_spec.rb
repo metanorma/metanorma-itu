@@ -24,40 +24,51 @@ RSpec.describe Metanorma::ITU do
       <abstract displayorder="2"><title>Abstract</title>
       <p>This is an abstract</p>
       </abstract>
-      <foreword obligation="informative" displayorder="3">
+          <clause type="keyword" displayorder="3">
+      <title depth="1">Mots clés</title>
+      <p>A, B.</p>
+      </clause>
+      <foreword obligation="informative" displayorder="4">
          <title>Foreword</title>
          <p id="A">This is a preamble</p>
        </foreword>
-        <introduction id="B" obligation="informative" displayorder="4"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+        <introduction id="B" obligation="informative" displayorder="5">
+        <title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
          <title depth="2">Introduction Subsection</title>
        </clause>
        </introduction>
-      <clause id="A0" displayorder="5"><title depth="1">History</title>
+      <clause id="A0" displayorder="6"><title depth="1">History</title>
       <p>history</p>
       </clause>
       </preface><sections>
-       <clause id="D" obligation="normative" type="scope" displayorder="6">
+      <p class="zzSTDTitle1" displayorder="7">Projet de nouvelle Recommendation 12345</p>
+      <p class="zzSTDTitle2" displayorder="8">Un Standard ITU</p>
+       <clause id="D" obligation="normative" type="scope" displayorder="9">
          <title depth="1">1.<tab/>Scope</title>
          <p id="E">Text</p>
        </clause>
-       <terms id="I" obligation="normative" displayorder="8"><title>3.</title>
+       <terms id="I" obligation="normative" displayorder="11"><title>3.</title>
          <term id="J"><name>3.1.</name>
          <preferred>Term2</preferred>
        </term>
        </terms>
-       <definitions id="L" displayorder="9"><title>4.</title>
+       <definitions id="L" displayorder="12"><title>4.</title>
          <dl>
          <dt>Symbol</dt>
          <dd>Definition</dd>
          </dl>
        </definitions>
-       <clause id="M" inline-header="false" obligation="normative" displayorder="10"><title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
+       <clause id="M" inline-header="false" obligation="normative" displayorder="13">
+        <title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
          <title depth="2">5.1.<tab/>Introduction</title>
        </clause>
        <clause id="O" inline-header="false" obligation="normative">
          <title depth="2">5.2.<tab/>Clause 4.2</title>
        </clause></clause>
-       </sections><annex id="P" inline-header="false" obligation="normative" displayorder="11">
+       <references id="R" obligation="informative" normative="true" displayorder="10">
+         <title depth="1">2.<tab/>References</title>
+       </references>
+       </sections><annex id="P" inline-header="false" obligation="normative" displayorder="14">
          <title><strong>Annexe A</strong><br/><br/><strong>Annex</strong></title>
          <clause id="Q" inline-header="false" obligation="normative">
          <title depth="2">A.1.<tab/>Annex A.1</title>
@@ -65,9 +76,8 @@ RSpec.describe Metanorma::ITU do
          <title depth="3">A.1.1.<tab/>Annex A.1a</title>
          </clause>
        </clause>
-       </annex><bibliography><references id="R" obligation="informative" normative="true" displayorder="7">
-         <title depth="1">2.<tab/>References</title>
-       </references><clause id="S" obligation="informative" displayorder="12">
+       </annex><bibliography>
+       <clause id="S" obligation="informative" displayorder="15">
          <title depth="1">Bibliography</title>
          <references id="T" obligation="informative" normative="false">
          <title depth="2">Bibliography Subsection</title>
@@ -78,15 +88,15 @@ RSpec.describe Metanorma::ITU do
     OUTPUT
 
     html = <<~OUTPUT
-              #{HTML_HDR.sub(/Table of Contents/, "Table des matières")}
+      #{HTML_HDR.sub('Table of Contents', 'Table des matières')}
               <br/>
               <div>
         <h1 class="AbstractTitle">Abstract</h1>
         <p>This is an abstract</p>
       </div>
-      <div id="A0">
-        <h1 class="IntroTitle">History</h1>
-        <p>history</p>
+          <div class="Keyword">
+      <h1 class="IntroTitle">Mots clés</h1>
+      <p>A, B.</p>
       </div>
                    <div>
                        <h1 class="IntroTitle">Foreword</h1>
@@ -98,6 +108,10 @@ RSpec.describe Metanorma::ITU do
                 <h2>Introduction Subsection</h2>
               </div>
                      </div>
+      <div id="A0">
+        <h1 class="IntroTitle">History</h1>
+        <p>history</p>
+      </div>
                      <p class="zzSTDTitle1">Projet de nouvelle Recommendation 12345</p>
                      <p class="zzSTDTitle2">Un Standard ITU</p>
                      <div id="D">
@@ -160,7 +174,8 @@ RSpec.describe Metanorma::ITU do
                    </div>
                  </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", itudoc("fr"), true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
@@ -189,44 +204,54 @@ RSpec.describe Metanorma::ITU do
       <preface>
           <clause type="toc" id="_" displayorder="1">
       <title depth="1">目　录</title>
-    </clause>
+      </clause>
       <abstract displayorder="2"><title>Abstract</title>
       <p>This is an abstract</p>
       </abstract>
-      <foreword obligation="informative" displayorder="3">
+          <clause type="keyword" displayorder="3">
+      <title depth="1">关　键　词</title>
+      <p>A, B.</p>
+      </clause>
+      <foreword obligation="informative" displayorder="4">
          <title>Foreword</title>
          <p id="A">This is a preamble</p>
        </foreword>
-        <introduction id="B" obligation="informative" displayorder="4"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+        <introduction id="B" obligation="informative" displayorder="5">
+        <title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
          <title depth="2">Introduction Subsection</title>
        </clause>
        </introduction>
-      <clause id="A0" displayorder="5"><title depth="1">History</title>
+      <clause id="A0" displayorder="6"><title depth="1">History</title>
       <p>history</p>
       </clause>
       </preface><sections>
-       <clause id="D" obligation="normative" type="scope" displayorder="6">
+      <p class="zzSTDTitle1" displayorder="7">新Recommendation草案 12345</p>
+       <clause id="D" obligation="normative" type="scope" displayorder="8">
          <title depth="1">1.<tab/>Scope</title>
          <p id="E">Text</p>
        </clause>
-       <terms id="I" obligation="normative" displayorder="8"><title>3.</title>
+       <terms id="I" obligation="normative" displayorder="10"><title>3.</title>
          <term id="J"><name>3.1.</name>
          <preferred>Term2</preferred>
        </term>
        </terms>
-       <definitions id="L" displayorder="9"><title>4.</title>
+       <definitions id="L" displayorder="11"><title>4.</title>
          <dl>
          <dt>Symbol</dt>
          <dd>Definition</dd>
          </dl>
        </definitions>
-       <clause id="M" inline-header="false" obligation="normative" displayorder="10"><title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
+       <clause id="M" inline-header="false" obligation="normative" displayorder="12">
+        <title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
          <title depth="2">5.1.<tab/>Introduction</title>
        </clause>
        <clause id="O" inline-header="false" obligation="normative">
          <title depth="2">5.2.<tab/>Clause 4.2</title>
        </clause></clause>
-       </sections><annex id="P" inline-header="false" obligation="normative" displayorder="11">
+       <references id="R" obligation="informative" normative="true" displayorder="9">
+         <title depth="1">2.<tab/>References</title>
+       </references>
+       </sections><annex id="P" inline-header="false" obligation="normative" displayorder="13">
          <title><strong>&#x9644;&#x4EF6;A</strong><br/><br/><strong>Annex</strong></title>
          <clause id="Q" inline-header="false" obligation="normative">
          <title depth="2">A.1.<tab/>Annex A.1</title>
@@ -234,9 +259,8 @@ RSpec.describe Metanorma::ITU do
          <title depth="3">A.1.1.<tab/>Annex A.1a</title>
          </clause>
        </clause>
-       </annex><bibliography><references id="R" obligation="informative" normative="true" displayorder="7">
-         <title depth="1">2.<tab/>References</title>
-       </references><clause id="S" obligation="informative" displayorder="12">
+       </annex><bibliography>
+       <clause id="S" obligation="informative" displayorder="14">
          <title depth="1">Bibliography</title>
          <references id="T" obligation="informative" normative="false">
          <title depth="2">Bibliography Subsection</title>
@@ -247,16 +271,16 @@ RSpec.describe Metanorma::ITU do
     OUTPUT
 
     html = <<~OUTPUT
-       #{HTML_HDR.sub(/Table of Contents/, "目　录")}
+       #{HTML_HDR.sub('Table of Contents', '目　录')}
           <br/>
           <div>
             <h1 class='AbstractTitle'>Abstract</h1>
             <p>This is an abstract</p>
           </div>
-          <div id='A0'>
-            <h1 class='IntroTitle'>History</h1>
-            <p>history</p>
-          </div>
+          <div class="Keyword">
+          <h1 class="IntroTitle">关　键　词</h1>
+          <p>A, B.</p>
+        </div>
           <div>
             <h1 class='IntroTitle'>Foreword</h1>
             <p id='A'>This is a preamble</p>
@@ -267,8 +291,11 @@ RSpec.describe Metanorma::ITU do
               <h2>Introduction Subsection</h2>
             </div>
           </div>
+          <div id='A0'>
+            <h1 class='IntroTitle'>History</h1>
+            <p>history</p>
+          </div>
           <p class='zzSTDTitle1'>&#26032;Recommendation&#33609;&#26696; 12345</p>
-          <p class='zzSTDTitle2'/>
           <div id='D'>
             <h1>1.&#12288;Scope</h1>
             <p id='E'>Text</p>

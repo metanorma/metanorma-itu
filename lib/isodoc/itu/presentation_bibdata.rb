@@ -40,7 +40,7 @@ module IsoDoc
 
       def bibdata_title_service_population(bib)
         date = bib&.at(ns("./date[@type = 'published']"))&.text or return
-        text = l10n(@i18n.get["position_on"].sub(/%/, ddmmmmyyyy(date)))
+        text = l10n(@i18n.get["position_on"].sub("%", ddmmmmyyyy(date)))
         ins = bib.at(ns("./title"))
         ins.next = <<~INS
           <title language="#{@lang}" format="text/plain" type="position-sp">#{text}</title>

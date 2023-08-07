@@ -19,6 +19,7 @@ clause: Klausel
 section: Abschnitt
 summary: Zusammenfassung
 annex_subclause: Klausel
+keywords: Schlüsselwörter
 in: in
 to: bis
 where: "wobei:"

@@ -21,37 +21,10 @@ module IsoDoc
         end
       end
 
-      def make_body2(body, docxml)
-        body.div class: "WordSection2" do |div2|
-          info docxml, div2
-          boilerplate docxml, div2
-          front docxml, div2
-          div2.p { |p| p << "&#xa0;" } # placeholder
-        end
-        section_break(body)
-      end
-
-      def front(isoxml, out)
-        if !isoxml.at(ns("//preface/abstract"))
-          keywords(isoxml, out)
-        end
-        super # do keyword with abstract
-      end
-
       def abstract(clause, out)
         out.div **attr_code(id: clause["id"], class: "Abstract") do |s|
           clause_name(clause, "Summary", s, class: "AbstractTitle")
           clause.elements.each { |e| parse(e, s) unless e.name == "title" }
-        end
-        keywords(nil, out)
-      end
-
-      def keywords(_docxml, out)
-        kw = @meta.get[:keywords]
-        kw.nil? || kw.empty? and return
-        out.div **attr_code(class: "Keyword") do |div|
-          clause_name(nil, "Keywords", div, class: "IntroTitle")
-          div.p "#{kw.join(', ')}."
         end
       end
 

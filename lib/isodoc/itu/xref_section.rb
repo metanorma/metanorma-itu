@@ -1,6 +1,45 @@
 module IsoDoc
   module ITU
     class Xref < IsoDoc::Xref
+      def clause_order_annex(docxml)
+        if docxml.at(ns("//bibdata/ext/structuredidentifier/annexid"))
+          [{ path: "//annex", multi: true }]
+        else
+          [{ path: "//annex[not(@obligation = 'informative')]", multi: true },
+           { path: "//annex[@obligation = 'informative']", multi: true }]
+        end
+      end
+
+      def annex_anchor_names(xml)
+        t = clause_order_annex(xml)
+        if annexid = xml.at(ns("//bibdata/ext/structuredidentifier/annexid"))
+          xml.xpath(ns(t[0][:path])).each do |c|
+            annex_names(c, annexid.text)
+          end
+        else
+          annex_names_with_counter(xml, t[0][:path],
+                                   Counter.new("@", skip_i: true))
+          annex_names_with_counter(xml, t[1][:path],
+                                   Counter.new(0, numerals: :roman))
+        end
+      end
+
+      def annex_names_with_counter(docxml, xpath, counter)
+        docxml.xpath(ns(xpath)).each do |c|
+          annex_names(c, counter.increment(c).print.upcase)
+        end
+      end
+
+      def clause_order_preface(_docxml)
+        [{ path: "//boilerplate/*", multi: true },
+         { path: "//preface/*", multi: true }]
+      end
+
+      def initial_anchor_names(doc)
+        @doctype = doc&.at(ns("//bibdata/ext/doctype"))&.text
+        super
+      end
+
       def annextype(clause)
         if clause["obligation"] == "informative" then @labels["appendix"]
         else @labels["annex"]
@@ -38,19 +77,21 @@ module IsoDoc
         end
       end
 
-      def clause_names(docxml, sect_num)
-        docxml.xpath(ns("//sections/clause[not(@unnumbered = 'true')]" \
-                        "[not(@type = 'scope')][not(descendant::terms)]"))
-          .each do |c|
-          section_names(c, sect_num, 1)
-        end
-        docxml.xpath(ns("//sections/clause[@unnumbered = 'true']")).each do |c|
-          unnumbered_section_names(c, 1)
+      def main_anchor_names(xml)
+        n = Counter.new
+        clause_order_main(xml).each do |a|
+          xml.xpath(ns(a[:path])).each do |c|
+            section_names(c, n, 1)
+            a[:multi] or break
+          end
         end
       end
 
       def section_names(clause, num, lvl)
-        return num if clause.nil?
+        clause.nil? and return num
+        clause["unnumbered"] == "true" and return unnumbered_section_names(
+          clause, 1
+        )
 
         num.increment(clause)
         lbl = @doctype == "resolution" ? @labels["section"] : @labels["clause"]
@@ -79,11 +120,11 @@ module IsoDoc
       end
 
       def unnumbered_section_names(clause, lvl)
-        return if clause.nil?
-
+        clause.nil? and return
         lbl = clause&.at(ns("./title"))&.text || "[#{clause['id']}]"
         @anchors[clause["id"]] =
-          { label: lbl, xref: l10n(%{"#{lbl}"}), level: lvl, type: "clause" }
+          { label: lbl, xref: l10n(%{"#{lbl}"}), level: lvl,
+            type: "clause" }
         clause.xpath(ns(SUBCLAUSES)).each do |c|
           unnumbered_section_names1(c, lvl + 1)
         end
@@ -92,7 +133,8 @@ module IsoDoc
       def unnumbered_section_names1(clause, level)
         lbl = clause&.at(ns("./title"))&.text || "[#{clause['id']}]"
         @anchors[clause["id"]] =
-          { label: lbl, xref: l10n(%{"#{lbl}"}), level: level, type: "clause" }
+          { label: lbl, xref: l10n(%{"#{lbl}"}), level: level,
+            type: "clause" }
         clause.xpath(ns(SUBCLAUSES)).each do |c|
           unnumbered_section_names1(c, level + 1)
         end

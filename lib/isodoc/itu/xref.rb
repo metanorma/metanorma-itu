@@ -1,6 +1,6 @@
 require "isodoc"
 require "fileutils"
-require_relative "./xref_section"
+require_relative "xref_section"
 
 module IsoDoc
   module ITU
@@ -20,59 +20,10 @@ module IsoDoc
         @hierarchical_assets = options[:hierarchicalassets]
       end
 
-      def back_anchor_names(docxml)
-        super
-        if @parse_settings.empty? || @parse_settings[:clauses]
-          if annexid = docxml
-              .at(ns("//bibdata/ext/structuredidentifier/annexid"))&.text
-            docxml.xpath(ns("//annex")).each { |c| annex_names(c, annexid) }
-          else
-            informative_annex_names(docxml)
-            normative_annex_names(docxml)
-          end
-        end
-      end
-
-      def informative_annex_names(docxml)
-        i = Counter.new(0, numerals: :roman)
-        docxml.xpath(ns("//annex[@obligation = 'informative']"))
-          .each do |c|
-          i.increment(c)
-          annex_names(c, i.print.upcase)
-        end
-      end
-
-      def normative_annex_names(docxml)
-        i = Counter.new("@", skip_i: true)
-        docxml.xpath(ns("//annex[not(@obligation = 'informative')]"))
-          .each do |c|
-          i.increment(c)
-          annex_names(c, i.print)
-        end
-      end
-
-      def initial_anchor_names(doc)
-        @doctype = doc&.at(ns("//bibdata/ext/doctype"))&.text
-        if @parse_settings.empty? || @parse_settings[:clauses]
-          doc.xpath(ns("//boilerplate//clause")).each { |c| preface_names(c) }
-          doc.xpath("//xmlns:preface/child::*").each { |c| preface_names(c) }
-        end
-        if @parse_settings.empty? || @parse_settings[:clauses]
-          n = Counter.new
-          n = section_names(doc.at(ns("//clause[@type = 'scope']")), n, 1)
-          n = section_names(doc.at(ns(@klass.norm_ref_xpath)), n, 1)
-          n = section_names(
-            doc.at(ns("//sections/terms | //sections/clause[descendant::terms]")), n, 1
-          )
-          n = section_names(doc.at(ns("//sections/definitions")), n, 1)
-          clause_names(doc, n)
-        end
-      end
-
       def middle_sections
         "//clause[@type = 'scope'] | " \
-          "//foreword | //introduction | //acknowledgements | " \
-          " #{@klass.norm_ref_xpath} | " \
+          "//foreword | //introduction | //acknowledgements |  " \
+          "#{@klass.norm_ref_xpath} | " \
           "//sections/terms | //preface/clause | " \
           "//sections/definitions | //clause[parent::sections]"
       end
@@ -90,8 +41,7 @@ module IsoDoc
       end
 
       def middle_section_asset_names(doc)
-        return super unless @hierarchical_assets
-
+        @hierarchical_assets or return super
         doc.xpath(ns(middle_sections)).each do |c|
           hierarchical_asset_names(c, @anchors[c["id"]][:label])
         end

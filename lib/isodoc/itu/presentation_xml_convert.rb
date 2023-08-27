@@ -83,7 +83,6 @@ module IsoDoc
           "resolution" or return super
         %w(sections bibliography).include? elem.parent.name or return super
         @suppressheadingnumbers || elem["unnumbered"] and return
-
         t = elem.at(ns("./title")) and t["depth"] = "1"
         lbl = @xrefs.anchor(elem["id"], :label, false) or return
         elem.previous =
@@ -94,7 +93,6 @@ module IsoDoc
       def annex1(elem)
         elem.at(ns("//bibdata/ext/doctype"))&.text == "resolution" or
           return super
-
         elem.elements.first.previous = annex1_supertitle(elem)
         t = elem.at(ns("./title")) and
           t.children = "<strong>#{to_xml(t.children)}</strong>"

@@ -79,8 +79,7 @@ module IsoDoc
       end
 
       def clause1(elem)
-        elem.at(ns("//bibdata/ext/doctype"))&.text ==
-          "resolution" or return super
+        @doctype == "resolution" or return super
         %w(sections bibliography).include? elem.parent.name or return super
         @suppressheadingnumbers || elem["unnumbered"] and return
         t = elem.at(ns("./title")) and t["depth"] = "1"
@@ -91,8 +90,7 @@ module IsoDoc
       end
 
       def annex1(elem)
-        elem.at(ns("//bibdata/ext/doctype"))&.text == "resolution" or
-          return super
+        @doctype == "resolution" or return super
         elem.elements.first.previous = annex1_supertitle(elem)
         t = elem.at(ns("./title")) and
           t.children = "<strong>#{to_xml(t.children)}</strong>"
@@ -141,8 +139,7 @@ module IsoDoc
       end
 
       def toc_title(docxml)
-        doctype = docxml.at(ns("//bibdata/ext/doctype"))
-        doctype&.text == "resolution" and return
+        @doctype == "resolution" and return
         super
       end
 

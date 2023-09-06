@@ -9,8 +9,7 @@ module Metanorma
       end
 
       def resolution_inline_header(xml)
-        return unless xml&.at("//bibdata/ext/doctype")&.text == "resolution"
-
+        @doctype == "resolution" or return
         xml.xpath("//clause//clause").each do |c|
           next if (title = c.at("./title")) && !title&.text&.empty?
 

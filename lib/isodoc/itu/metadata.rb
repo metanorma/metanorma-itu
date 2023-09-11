@@ -75,12 +75,12 @@ module IsoDoc
         %i(affiliations addresses emails faxes phones).each { |i| set(i, []) }
         authors.each do |a|
           append(:affiliations,
-                 a&.at(ns("./affiliation/organization/name"))&.text)
-          append(:addresses, a&.at(ns("./affiliation/organization/address/" \
-                                      "formattedAddress"))&.text)
-          append(:emails, a&.at(ns("./email"))&.text)
-          append(:faxes, a&.at(ns("./phone[@type = 'fax']"))&.text)
-          append(:phones, a&.at(ns("./phone[not(@type = 'fax')]"))&.text)
+                 a.at(ns("./affiliation/organization/name"))&.text)
+          append(:addresses, a.at(ns("./affiliation/organization/address/" \
+                                     "formattedAddress"))&.text)
+          append(:emails, a.at(ns("./email"))&.text)
+          append(:faxes, a.at(ns("./phone[@type = 'fax']"))&.text)
+          append(:phones, a.at(ns("./phone[not(@type = 'fax')]"))&.text)
         end
       end
 
@@ -117,7 +117,7 @@ module IsoDoc
         pubdate and
           set(:placedate_year,
               @labels["placedate"]
-          .sub(/%/, pubdate.text.sub(/^(\d\d\d\d).*$/, "\\1")))
+          .sub("%", pubdate.text.sub(/^(\d\d\d\d).*$/, "\\1")))
       end
 
       def monthyr(isodate)
@@ -142,7 +142,7 @@ module IsoDoc
         else super
         end
         d = get[:doctype] and
-          set(:draft_new_doctype, @labels["draft_new"].sub(/%/, d))
+          set(:draft_new_doctype, @labels["draft_new"].sub("%", d))
       end
 
       def ip_notice_received(isoxml, _out)
@@ -187,27 +187,27 @@ module IsoDoc
       end
 
       def techreport(isoxml, _out)
-        if a = isoxml&.at(ns("//bibdata/ext/meeting"))&.text
+        if a = isoxml.at(ns("//bibdata/ext/meeting"))&.text
           set(:meeting, a)
           set(:meeting_acronym, a)
         end
-        a = isoxml&.at(ns("//bibdata/ext/meeting/@acronym"))&.text and
+        a = isoxml.at(ns("//bibdata/ext/meeting/@acronym"))&.text and
           set(:meeting_acronym, a)
-        a = isoxml&.at(ns("//bibdata/ext/meeting-place"))&.text and
+        a = isoxml.at(ns("//bibdata/ext/meeting-place"))&.text and
           set(:meeting_place, a)
-        a = isoxml&.at(ns("//bibdata/ext/intended-type"))&.text and
+        a = isoxml.at(ns("//bibdata/ext/intended-type"))&.text and
           set(:intended_type, a)
-        a = isoxml&.at(ns("//bibdata/ext/source"))&.text and set(:source, a)
+        a = isoxml.at(ns("//bibdata/ext/source"))&.text and set(:source, a)
         meeting(isoxml)
       end
 
       def meeting(isoxml)
         resolution =
-          isoxml&.at(ns("//bibdata/ext/doctype"))&.text == "resolution"
-        if o = isoxml&.at(ns("//bibdata/ext/meeting-date/on"))&.text
+          isoxml.at(ns("//bibdata/ext/doctype"))&.text == "resolution"
+        if o = isoxml.at(ns("//bibdata/ext/meeting-date/on"))&.text
           set(:meeting_date, resolution ? ddMMMMYYYY(o, nil) : ddMMMYYYY(o))
-        elsif f = isoxml&.at(ns("//bibdata/ext/meeting-date/from"))&.text
-          t = isoxml&.at(ns("//bibdata/ext/meeting-date/to"))&.text
+        elsif f = isoxml.at(ns("//bibdata/ext/meeting-date/from"))&.text
+          t = isoxml.at(ns("//bibdata/ext/meeting-date/to"))&.text
           set(:meeting_date,
               resolution ? ddMMMMYYYY(f, t) : "#{ddMMMYYYY(f)}/#{ddMMMYYYY(t)}")
         end

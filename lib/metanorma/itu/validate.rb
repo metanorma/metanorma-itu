@@ -7,13 +7,12 @@ module Metanorma
       end
 
       def doctype_validate(xmldoc)
-        doctype = xmldoc&.at("//bibdata/ext/doctype")&.text
         %w(recommendation recommendation-supplement recommendation-amendment
            recommendation-corrigendum recommendation-errata recommendation-annex
            focus-group implementers-guide technical-paper technical-report
-           joint-itu-iso-iec service-publication).include? doctype or
+           joint-itu-iso-iec service-publication).include? @doctype or
           @log.add("Document Attributes", nil,
-                   "#{doctype} is not a recognised document type")
+                   "#{@doctype} is not a recognised document type")
       end
 
       def stage_validate(xmldoc)
@@ -111,9 +110,8 @@ module Metanorma
       end
 
       def unnumbered_check(xmldoc)
-        doctype = xmldoc&.at("//bibdata/ext/doctype")&.text
         xmldoc.xpath("//clause[@unnumbered = 'true']").each do |c|
-          next if (doctype == "resolution") && (c.parent.name == "sections") &&
+          next if (@doctype == "resolution") && (c.parent.name == "sections") &&
             !c.at("./preceding-sibling::clause")
 
           @log.add("Style", c, "Unnumbered clause out of place")

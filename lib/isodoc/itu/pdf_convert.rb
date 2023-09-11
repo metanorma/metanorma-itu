@@ -12,9 +12,8 @@ module IsoDoc
         super
       end
 
-      def pdf_stylesheet(docxml)
-        doctype = docxml&.at(ns("//bibdata/ext/doctype"))&.text
-        if File.exist?(File.join(@libdir, "itu.#{doctype}.xsl"))
+      def pdf_stylesheet(_docxml)
+        if File.exist?(File.join(@libdir, "itu.#{@doctype}.xsl"))
           "itu.#{doctype}.xsl"
         else
           "itu.recommendation.xsl"

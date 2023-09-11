@@ -42,7 +42,7 @@ module IsoDoc
       end
 
       def convert1(docxml, filename, dir)
-        if docxml&.at(ns("//bibdata/ext/doctype"))&.text == "service-publication"
+        if @doctype == "service-publication"
           @wordcoverpage = html_doc_path("word_itu_titlepage_sp.html")
           options[:bodyfont] = "Arial"
           options[:headerfont] = "Arial"

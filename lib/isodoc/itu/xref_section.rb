@@ -35,11 +35,6 @@ module IsoDoc
          { path: "//preface/*", multi: true }]
       end
 
-      def initial_anchor_names(doc)
-        @doctype = doc&.at(ns("//bibdata/ext/doctype"))&.text
-        super
-      end
-
       def annextype(clause)
         if clause["obligation"] == "informative" then @labels["appendix"]
         else @labels["annex"]

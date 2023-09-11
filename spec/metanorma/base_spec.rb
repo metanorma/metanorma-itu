@@ -360,7 +360,7 @@ RSpec.describe Metanorma::ITU do
                     <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
                   </bibitem>
                 </relation>
-                <relation type='instance'>
+                <relation type='instanceOf'>
                   <bibitem type='standard'>
                     <title type='title-main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
                     <title type='main' format='text/plain' language='en' script='Latn'>Plan for telex destination codes</title>
@@ -486,7 +486,7 @@ RSpec.describe Metanorma::ITU do
                     <docidentifier type='ITU'>F Suppl. 4 (04/2021)</docidentifier>
                   </bibitem>
                 </relation>
-                <relation type='instance'>
+                <relation type='instanceOf'>
                   <bibitem type='standard'>
                     <title type='title-main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>
                     <title type='main' format='text/plain' language='en' script='Latn'>Establishment of the automatic intercontinental telex network</title>

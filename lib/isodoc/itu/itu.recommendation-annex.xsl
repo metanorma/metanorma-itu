@@ -596,7 +596,9 @@
 												<xsl:call-template name="setWritingMode"/>
 												<fo:block font-family="Arial" font-size="36pt" font-weight="bold" margin-top="6pt" letter-spacing="2pt"> <!-- Helvetica for letter-spacing working -->
 													<fo:block>
-														<xsl:value-of select="substring-before(/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU'], ' ')"/>
+														<xsl:variable name="docidentifier_left_part" select="normalize-space(substring-before(/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU'], ' '))"/>
+														<xsl:value-of select="$docidentifier_left_part"/>
+														<xsl:if test="$docidentifier_left_part = ''"><xsl:text>ITU-T</xsl:text></xsl:if>
 													</fo:block>
 												</fo:block>
 											</fo:block-container>
@@ -917,9 +919,12 @@
 																</xsl:call-template>
 																<xsl:text> </xsl:text>
 															</xsl:if>
-															<xsl:value-of select="$doctypeTitle"/>
-															<xsl:text>  </xsl:text>
-															<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type='ITU']"/>
+															<xsl:variable name="identifier" select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type='ITU']"/>
+															<xsl:if test="$identifier != ''">
+																<xsl:value-of select="$doctypeTitle"/>
+																<xsl:text>  </xsl:text>
+																<xsl:value-of select="$identifier"/>
+															</xsl:if>
 														</xsl:when>
 														<xsl:when test="$doctype = 'implementers-guide'"/>
 														<xsl:when test="$doctype = 'resolution'"/>
@@ -929,15 +934,20 @@
 															<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-Supplement']"/>
 														</xsl:when>
 														<xsl:otherwise>
-															<xsl:value-of select="$doctypeTitle"/>
-															<xsl:text>  </xsl:text>
-															<xsl:if test="/itu:itu-standard/itu:bibdata/itu:contributor/itu:organization/itu:abbreviation">
-																<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:contributor/itu:organization/itu:abbreviation"/>
-																<xsl:text>-</xsl:text>
+															<xsl:variable name="identifier">
+																<xsl:text>  </xsl:text>
+																<xsl:if test="/itu:itu-standard/itu:bibdata/itu:contributor/itu:organization/itu:abbreviation">
+																	<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:contributor/itu:organization/itu:abbreviation"/>
+																	<xsl:text>-</xsl:text>
+																</xsl:if>
+																<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:bureau"/>
+																<xsl:text>  </xsl:text>
+																<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:docnumber"/>
+															</xsl:variable>
+															<xsl:if test="normalize-space(translate($identifier, ' ', '')) != ''">
+																<xsl:value-of select="$doctypeTitle"/>
+																<xsl:value-of select="$identifier"/>
 															</xsl:if>
-															<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:bureau"/>
-															<xsl:text>  </xsl:text>
-															<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:docnumber"/>
 														</xsl:otherwise>
 													</xsl:choose>
 

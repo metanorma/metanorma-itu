@@ -940,8 +940,10 @@
 																	<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:contributor/itu:organization/itu:abbreviation"/>
 																	<xsl:text>-</xsl:text>
 																</xsl:if>
-																<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:bureau"/>
-																<xsl:text>  </xsl:text>
+																<xsl:if test="$doctype != 'recommendation'">
+																	<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:bureau"/>
+																	<xsl:text>  </xsl:text>
+																</xsl:if>
 																<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:docnumber"/>
 															</xsl:variable>
 															<xsl:if test="normalize-space(translate($identifier, ' ', '')) != ''">

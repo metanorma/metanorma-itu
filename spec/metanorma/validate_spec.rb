@@ -206,7 +206,7 @@ RSpec.describe Metanorma::ITU do
       Part of the specialized vocabulary of a particular field
     INPUT
     expect(File.read("test.err.html"))
-      .not_to include "No Keywoerds have been provided"
+      .not_to include "No Keywords have been provided"
   end
 
   it "warns if requirement in preface" do

@@ -122,7 +122,7 @@ module Metanorma
       def section_check(xmldoc)
         xmldoc.at("//bibdata/abstract") or
           @log.add("Style", nil, "No Summary has been provided")
-        xmldoc.at("//bibdata/keywords") or
+        xmldoc.at("//bibdata/keyword") or
           @log.add("Style", nil, "No Keywords have been provided")
       end
 

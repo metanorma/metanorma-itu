@@ -35,7 +35,7 @@ Compliance with this Recommendation is voluntary. However, the Recommendation ma
 
 {% endif %}
 
-{% if unpublished %}
+{% if unpublished and docnumber_provisional == nil %}
 [[draft-warning]]
 === CAUTION! PREPUBLISHED {{ doctype  | upcase }}
 

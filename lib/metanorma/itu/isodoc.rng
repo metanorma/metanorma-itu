@@ -1054,6 +1054,17 @@
       <ref name="date_inline"/>
     </choice>
   </define>
+  <define name="PureTextElement" combine="choice">
+    <ref name="passthrough_inline"/>
+  </define>
+  <define name="passthrough_inline">
+    <element name="passthrough">
+      <optional>
+        <attribute name="formats"/>
+      </optional>
+      <text/>
+    </element>
+  </define>
   <define name="add">
     <element name="add">
       <choice>

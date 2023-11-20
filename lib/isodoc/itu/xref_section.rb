@@ -64,11 +64,10 @@ module IsoDoc
           { label: num, elem: @labels["annex_subclause"],
             xref: @doctype == "resolution" ? num : l10n("#{@labels['annex_subclause']} #{num}"),
             level: level, type: "clause" }
-        i = Counter.new
+        i = Counter.new(0, prefix: "#{num}.")
         clause.xpath(ns("./clause | ./references | ./terms | ./definitions"))
           .each do |c|
-          i.increment(c)
-          annex_names1(c, "#{num}.#{i.print}", level + 1)
+          annex_names1(c, i.increment(c).print, level + 1)
         end
       end
 
@@ -93,10 +92,9 @@ module IsoDoc
         @anchors[clause["id"]] =
           { label: num.print, xref: l10n("#{lbl} #{num.print}"),
             level: lvl, type: "clause", elem: lbl }
-        i = Counter.new
+        i = Counter.new(0, prefix: "#{num.print}.")
         clause.xpath(ns(SUBCLAUSES)).each do |c|
-          i.increment(c)
-          section_names1(c, "#{num.print}.#{i.print}", lvl + 1)
+          section_names1(c, i.increment(c).print, lvl + 1)
         end
         num
       end
@@ -107,16 +105,15 @@ module IsoDoc
           { label: num, level: level,
             elem: @doctype == "resolution" ? "" : @labels["clause"],
             xref: x }
-        i = Counter.new
+        i = Counter.new(0, prefix: "#{num}.")
         clause.xpath(ns(SUBCLAUSES)).each do |c|
-          i.increment(c)
-          section_names1(c, "#{num}.#{i.print}", level + 1)
+          section_names1(c, i.increment(c).print, level + 1)
         end
       end
 
       def unnumbered_section_names(clause, lvl)
         clause.nil? and return
-        lbl = clause&.at(ns("./title"))&.text || "[#{clause['id']}]"
+        lbl = clause.at(ns("./title"))&.text || "[#{clause['id']}]"
         @anchors[clause["id"]] =
           { label: lbl, xref: l10n(%{"#{lbl}"}), level: lvl,
             type: "clause" }

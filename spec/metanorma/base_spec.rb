@@ -110,12 +110,14 @@ RSpec.describe Metanorma::ITU do
             <role type="author"/>
             <organization>
               <name>International Telecommunication Union</name>
+              <abbreviation>ITU</abbreviation>
             </organization>
           </contributor>
           <contributor>
             <role type="publisher"/>
             <organization>
               <name>International Telecommunication Union</name>
+              <abbreviation>ITU</abbreviation>
             </organization>
           </contributor>
           <version>
@@ -132,6 +134,7 @@ RSpec.describe Metanorma::ITU do
             <owner>
               <organization>
                 <name>International Telecommunication Union</name>
+                <abbreviation>ITU</abbreviation>
               </organization>
             </owner>
           </copyright>
@@ -263,6 +266,7 @@ RSpec.describe Metanorma::ITU do
               <role type='author'/>
               <organization>
                 <name>International Telecommunication Union</name>
+                <abbreviation>ITU</abbreviation>
               </organization>
             </contributor>
             <contributor>
@@ -286,6 +290,7 @@ RSpec.describe Metanorma::ITU do
               <role type='publisher'/>
               <organization>
                 <name>International Telecommunication Union</name>
+                <abbreviation>ITU</abbreviation>
               </organization>
             </contributor>
             <edition>2</edition>
@@ -302,6 +307,7 @@ RSpec.describe Metanorma::ITU do
               <owner>
                 <organization>
                   <name>International Telecommunication Union</name>
+                  <abbreviation>ITU</abbreviation>
                 </organization>
               </owner>
             </copyright>
@@ -709,7 +715,7 @@ RSpec.describe Metanorma::ITU do
           <contributor>
             <role type='author'/>
             <organization>
-              <name>International Telecommunication Union</name>
+              <name>International Telecommunication Union</name><abbreviation>ITU</abbreviation>
             </organization>
           </contributor>
           <contributor>
@@ -754,6 +760,7 @@ RSpec.describe Metanorma::ITU do
             <role type='publisher'/>
             <organization>
               <name>International Telecommunication Union</name>
+              <abbreviation>ITU</abbreviation>
             </organization>
           </contributor>
           <edition>2</edition>
@@ -771,6 +778,7 @@ RSpec.describe Metanorma::ITU do
             <owner>
               <organization>
                 <name>International Telecommunication Union</name>
+                <abbreviation>ITU</abbreviation>
               </organization>
             </owner>
           </copyright>
@@ -875,12 +883,14 @@ RSpec.describe Metanorma::ITU do
             <role type='author'/>
             <organization>
               <name>International Telecommunication Union</name>
+              <abbreviation>ITU</abbreviation>
             </organization>
           </contributor>
           <contributor>
             <role type='publisher'/>
             <organization>
               <name>International Telecommunication Union</name>
+              <abbreviation>ITU</abbreviation>
             </organization>
           </contributor>
           <edition>2</edition>
@@ -898,6 +908,7 @@ RSpec.describe Metanorma::ITU do
             <owner>
               <organization>
                 <name>International Telecommunication Union</name>
+                <abbreviation>ITU</abbreviation>
               </organization>
             </owner>
           </copyright>
@@ -1014,6 +1025,7 @@ RSpec.describe Metanorma::ITU do
             <role type='author'/>
             <organization>
               <name>International Telecommunication Union</name>
+              <abbreviation>ITU</abbreviation>
             </organization>
           </contributor>
           <contributor>
@@ -1058,6 +1070,7 @@ RSpec.describe Metanorma::ITU do
             <role type='publisher'/>
             <organization>
               <name>International Telecommunication Union</name>
+              <abbreviation>ITU</abbreviation>
             </organization>
           </contributor>
           <edition>2</edition>
@@ -1075,6 +1088,7 @@ RSpec.describe Metanorma::ITU do
             <owner>
               <organization>
                 <name>International Telecommunication Union</name>
+                <abbreviation>ITU</abbreviation>
               </organization>
             </owner>
           </copyright>
@@ -1154,12 +1168,14 @@ RSpec.describe Metanorma::ITU do
           <role type="author"/>
           <organization>
           <name>International Telecommunication Union</name>
+          <abbreviation>ITU</abbreviation>
           </organization>
         </contributor>
         <contributor>
           <role type="publisher"/>
           <organization>
           <name>International Telecommunication Union</name>
+          <abbreviation>ITU</abbreviation>
           </organization>
         </contributor>
         <language>en</language>
@@ -1172,6 +1188,7 @@ RSpec.describe Metanorma::ITU do
           <owner>
             <organization>
             <name>International Telecommunication Union</name>
+            <abbreviation>ITU</abbreviation>
             </organization>
           </owner>
         </copyright>

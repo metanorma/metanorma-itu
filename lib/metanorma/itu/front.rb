@@ -75,7 +75,15 @@ module Metanorma
       end
 
       def default_publisher
-        "International Telecommunication Union"
+        @i18n.get["ITU"] || @i18n.international_telecommunication_union
+      end
+
+      def org_abbrev
+        if @i18n.get["ITU"]
+          { @i18n.international_telecommunication_union => @i18n.get["ITU"] }
+        else
+          {}
+        end
       end
 
       def metadata_committee(node, xml)

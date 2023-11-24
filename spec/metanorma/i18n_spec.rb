@@ -71,7 +71,8 @@ RSpec.describe Metanorma::ITU do
           <contributor>
             <role type='author'/>
             <organization>
-              <name>International Telecommunication Union</name>
+                           <name>Union internationale des télécommunications</name>
+                <abbreviation>UIT</abbreviation>
             </organization>
           </contributor>
           <contributor>
@@ -115,7 +116,8 @@ RSpec.describe Metanorma::ITU do
           <contributor>
             <role type='publisher'/>
             <organization>
-              <name>International Telecommunication Union</name>
+                           <name>Union internationale des télécommunications</name>
+                <abbreviation>UIT</abbreviation>
             </organization>
           </contributor>
           <edition>2</edition>
@@ -132,7 +134,8 @@ RSpec.describe Metanorma::ITU do
             <from>2001</from>
             <owner>
               <organization>
-                <name>International Telecommunication Union</name>
+               <name>Union internationale des télécommunications</name>
+                <abbreviation>UIT</abbreviation>
               </organization>
             </owner>
           </copyright>
@@ -311,7 +314,10 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
             #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
               .sub('<title language="en"', '<title language="fr"')
-              .sub('<language>en</language>', '<language>fr</language>')}
+              .sub('<language>en</language>', '<language>fr</language>')
+              .gsub('<name>International Telecommunication Union</name>', '<name>Union internationale des télécommunications</name>')
+              .gsub('<abbreviation>ITU</abbreviation>', '<abbreviation>UIT</abbreviation>')
+            }
                <preface>
         <abstract id='_'>
           <title>R&#233;sum&#233;</title>
@@ -517,7 +523,7 @@ RSpec.describe Metanorma::ITU do
           <contributor>
             <role type='author'/>
             <organization>
-              <name>International Telecommunication Union</name>
+            <name>国际电信联盟</name>
             </organization>
           </contributor>
           <contributor>
@@ -561,7 +567,7 @@ RSpec.describe Metanorma::ITU do
           <contributor>
             <role type='publisher'/>
             <organization>
-              <name>International Telecommunication Union</name>
+            <name>国际电信联盟</name>
             </organization>
           </contributor>
           <edition>2</edition>
@@ -578,7 +584,7 @@ RSpec.describe Metanorma::ITU do
             <from>2001</from>
             <owner>
               <organization>
-                <name>International Telecommunication Union</name>
+                <name>国际电信联盟</name>
               </organization>
             </owner>
           </copyright>
@@ -732,7 +738,10 @@ RSpec.describe Metanorma::ITU do
       #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
         .sub('<language>en</language>', '<language>zh</language>')
         .sub('<title language="en"', '<title language="zh"')
-        .sub('<script>Latn</script>', '<script>Hans</script>')}
+        .sub('<script>Latn</script>', '<script>Hans</script>')
+        .gsub('<name>International Telecommunication Union</name>', '<name>国际电信联盟</name>')
+        .gsub('<abbreviation>ITU</abbreviation>', '')
+      }
       <preface>
           <abstract id='_'>
             <title>摘要</title>
@@ -944,7 +953,7 @@ RSpec.describe Metanorma::ITU do
         <contributor>
           <role type='author'/>
           <organization>
-            <name>International Telecommunication Union</name>
+          <name>الاتحاد الدولي للاتصالات</na
           </organization>
         </contributor>
         <contributor>
@@ -988,7 +997,7 @@ RSpec.describe Metanorma::ITU do
         <contributor>
           <role type='publisher'/>
           <organization>
-            <name>International Telecommunication Union</name>
+          <name>الاتحاد الدولي للاتصالات</na
           </organization>
         </contributor>
         <edition>2</edition>
@@ -1005,7 +1014,7 @@ RSpec.describe Metanorma::ITU do
           <from>2001</from>
           <owner>
             <organization>
-              <name>International Telecommunication Union</name>
+              <name>الاتحاد الدولي للاتصالات</na
             </organization>
           </owner>
         </copyright>
@@ -1160,7 +1169,10 @@ RSpec.describe Metanorma::ITU do
             #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
               .sub('<language>en</language>', '<language>ar</language>')
               .sub('<title language="en"', '<title language="ar"')
-              .sub('<script>Latn</script>', '<script>Arab</script>')}
+              .sub('<script>Latn</script>', '<script>Arab</script>')
+              .gsub('<name>International Telecommunication Union</name>', '<name>الاتحاد الدولي للاتصالات</name>')
+              .gsub('<abbreviation>ITU</abbreviation>', '')
+              }
                <preface>
         <abstract id='_'>
           <title>&#1605;&#1604;&#1582;&#1589;</title>
@@ -1378,7 +1390,8 @@ RSpec.describe Metanorma::ITU do
         <contributor>
           <role type='author'/>
           <organization>
-            <name>International Telecommunication Union</name>
+                  <name>Unión Internacional de Telecomunicaciones</name>
+        <abbreviation>UIT</abbreviation>
           </organization>
         </contributor>
         <contributor>
@@ -1422,7 +1435,8 @@ RSpec.describe Metanorma::ITU do
         <contributor>
           <role type='publisher'/>
           <organization>
-            <name>International Telecommunication Union</name>
+                  <name>Unión Internacional de Telecomunicaciones</name>
+        <abbreviation>UIT</abbreviation>
           </organization>
         </contributor>
         <edition>2</edition>
@@ -1439,7 +1453,8 @@ RSpec.describe Metanorma::ITU do
           <from>2001</from>
           <owner>
             <organization>
-              <name>International Telecommunication Union</name>
+                    <name>Unión Internacional de Telecomunicaciones</name>
+        <abbreviation>UIT</abbreviation>
             </organization>
           </owner>
         </copyright>
@@ -1592,7 +1607,10 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
              #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
                .sub('<title language="en"', '<title language="es"')
-               .sub('<language>en</language>', '<language>es</language>')}
+               .sub('<language>en</language>', '<language>es</language>')
+               .gsub('<name>International Telecommunication Union</name>', '<name>Unión Internacional de Telecomunicaciones</name>')
+               .gsub('<abbreviation>ITU</abbreviation>', '<abbreviation>UIT</abbreviation>')
+            }
                <preface>
         <abstract id='_'>
           <title>Resumen</title>
@@ -1792,7 +1810,8 @@ RSpec.describe Metanorma::ITU do
         <contributor>
           <role type='author'/>
           <organization>
-            <name>International Telecommunication Union</name>
+                  <name>Internationale Fernmeldeunion</name>
+        <abbreviation>ITU</abbreviation>
           </organization>
         </contributor>
         <contributor>
@@ -1836,7 +1855,8 @@ RSpec.describe Metanorma::ITU do
         <contributor>
           <role type='publisher'/>
           <organization>
-            <name>International Telecommunication Union</name>
+                  <name>Internationale Fernmeldeunion</name>
+        <abbreviation>ITU</abbreviation>
           </organization>
         </contributor>
         <edition>2</edition>
@@ -1853,7 +1873,8 @@ RSpec.describe Metanorma::ITU do
           <from>2001</from>
           <owner>
             <organization>
-              <name>International Telecommunication Union</name>
+                    <name>Internationale Fernmeldeunion</name>
+        <abbreviation>ITU</abbreviation>
             </organization>
           </owner>
         </copyright>
@@ -2007,7 +2028,9 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
              #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
                .sub('<title language="en"', '<title language="de"')
-               .sub('<language>en</language>', '<language>de</language>')}
+               .sub('<language>en</language>', '<language>de</language>')
+               .gsub('<name>International Telecommunication Union</name>', '<name>Internationale Fernmeldeunion</name>')
+              }
                <preface>
         <abstract id='_'>
           <title>Abstrakt</title>
@@ -2213,7 +2236,8 @@ RSpec.describe Metanorma::ITU do
            <contributor>
              <role type='author'/>
              <organization>
-               <name>International Telecommunication Union</name>
+                <name>Международный Союз Электросвязи</name>
+                <abbreviation>МСЭ</abbreviation>
              </organization>
            </contributor>
            <contributor>
@@ -2257,7 +2281,8 @@ RSpec.describe Metanorma::ITU do
            <contributor>
              <role type='publisher'/>
              <organization>
-               <name>International Telecommunication Union</name>
+                <name>Международный Союз Электросвязи</name>
+                <abbreviation>МСЭ</abbreviation>
              </organization>
            </contributor>
            <edition>2</edition>
@@ -2274,7 +2299,8 @@ RSpec.describe Metanorma::ITU do
              <from>2001</from>
              <owner>
                <organization>
-                 <name>International Telecommunication Union</name>
+                 <name>Международный Союз Электросвязи</name>
+                 <abbreviation>МСЭ</abbreviation>
                </organization>
              </owner>
            </copyright>
@@ -2428,7 +2454,10 @@ RSpec.describe Metanorma::ITU do
       #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
         .sub('<language>en</language>', '<language>ru</language>')
         .sub('<script>Latn</script>', '<script>Cyrl</script>')
-        .sub('<title language="en"', '<title language="ru"')}
+        .sub('<title language="en"', '<title language="ru"')
+        .gsub('<name>International Telecommunication Union</name>', '<name>Международный Союз Электросвязи</name>')
+        .gsub('<abbreviation>ITU</abbreviation>', '<abbreviation>МСЭ</abbreviation>')
+        }
         <preface>
           <abstract id='_'>
             <title>Реферат</title>

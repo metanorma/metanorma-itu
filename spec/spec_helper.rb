@@ -223,12 +223,14 @@ BLANK_HDR = <<~"HDR".freeze
       <role type="author"/>
       <organization>
         <name>International Telecommunication Union</name>
+        <abbreviation>ITU</abbreviation>
       </organization>
     </contributor>
     <contributor>
       <role type="publisher"/>
       <organization>
         <name>International Telecommunication Union</name>
+        <abbreviation>ITU</abbreviation>
       </organization>
     </contributor>
 
@@ -243,6 +245,7 @@ BLANK_HDR = <<~"HDR".freeze
       <owner>
         <organization>
         <name>International Telecommunication Union</name>
+        <abbreviation>ITU</abbreviation>
         </organization>
       </owner>
     </copyright>

@@ -761,16 +761,16 @@ RSpec.describe Metanorma::ITU do
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", p, false)
     expect(File.exist?("test.html")).to be true
     html = File.read("test.html", encoding: "UTF-8")
-    expect(xmlpp(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ")
+    expect(xmlpp(strip_guid(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ")
       .sub(%r{</main>.*$}m, "</main>")
       .gsub(%r{<script>.+?</script>}, "")
-      .gsub(/fn:[0-9a-f][0-9a-f-]+/, "fn:_")))
+      .gsub(/fn:[0-9a-f][0-9a-f-]+/, "fn:_"))))
       .to be_equivalent_to xmlpp(<<~OUTPUT)
            <main xmlns:epub="epub" class="main-section">
          <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
          <br/>
          <div>
-           <h1 class="IntroTitle"/>
+           <h1 class="IntroTitle" id="_"/>
            <p>A.<a class="FootnoteRef" href="#fn:1" id="fnref:1"><sup>1</sup></a></p>
            <p>B.<a class="FootnoteRef" href="#fn:1"><sup>1</sup></a></p>
            <p>C.<a class="FootnoteRef" href="#fn:3" id="fnref:3"><sup>2</sup></a></p>
@@ -798,7 +798,7 @@ RSpec.describe Metanorma::ITU do
                  <td colspan="5" style="border-top:0pt;border-bottom:solid windowtext 1.5pt;">
                    <div class="TableFootnote">
                      <div id="fn:tableD-1a">
-                       <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55" class="TableFootnote"><span><span id="tableD-1a" class="TableFootnoteRef">a)</span>  </span>Parboiled rice.</p>
+                       <p id="_" class="TableFootnote"><span><span id="tableD-1a" class="TableFootnoteRef">a)</span>  </span>Parboiled rice.</p>
                      </div>
                    </div>
                  </td>
@@ -809,11 +809,11 @@ RSpec.describe Metanorma::ITU do
          <p class="zzSTDTitle2">An ITU Standard<a class="FootnoteRef" href="#fn:4" id="fnref:4"><sup>3</sup></a><a class="FootnoteRef" href="#fn:5" id="fnref:5"><sup>4</sup></a></p>
          <div/>
          <aside id="fn:1" class="footnote">
-           <p id="_1e228e29-baef-4f38-b048-b05a051747e4"><a class="FootnoteRef" href="#fn:1"><sup>1</sup></a>Formerly denoted as 15 % (m/m).</p>
+           <p id="_"><a class="FootnoteRef" href="#fn:1"><sup>1</sup></a>Formerly denoted as 15 % (m/m).</p>
            <a href="#fnref:1">↩</a>
          </aside>
          <aside id="fn:3" class="footnote">
-           <p id="_1e228e29-baef-4f38-b048-b05a051747e4"><a class="FootnoteRef" href="#fn:3"><sup>2</sup></a>Hello! denoted as 15 % (m/m).</p>
+           <p id="_"><a class="FootnoteRef" href="#fn:3"><sup>2</sup></a>Hello! denoted as 15 % (m/m).</p>
            <a href="#fnref:3">↩</a>
          </aside>
          <aside id="fn:4" class="footnote">
@@ -1079,20 +1079,20 @@ RSpec.describe Metanorma::ITU do
       #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>)))}
       </iso-standard>
     INPUT
-    expect(xmlpp(File.read("test.html", encoding: "utf-8")
+    expect(xmlpp(strip_guid(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<div class="prefatory-section">}m, '<div class="prefatory-section">')
-      .gsub(%r{<nav>.*}m, "</div>")))
+      .gsub(%r{<nav>.*}m, "</div>"))))
       .to be_equivalent_to xmlpp(<<~OUTPUT)
          <div class='prefatory-section'>
           <div class='boilerplate-legal'>
             <div id="_">
-              <h1 class='IntroTitle'>FOREWORD</h1>
+              <h1 class='IntroTitle' id="_">FOREWORD</h1>
               <p id='_'>The International Telecommunication Union (ITU) is the United Nations specialized agency in the field of telecommunications , information and communication technologies (ICTs). The ITU Telecommunication Standardization Sector (ITU-T) is a permanent organ of ITU. ITU-T is responsible for studying technical, operating and tariff questions and issuing Recommendations on them with a view to standardizing telecommunications on a worldwide basis.</p>
               <p id='_'>The World Telecommunication Standardization Assembly (WTSA), which meets every four years, establishes the topics for study by the ITU T study groups which, in turn, produce Recommendations on these topics.</p>
               <p id='_'>The approval of ITU-T Recommendations is covered by the procedure laid down in WTSA Resolution 1.</p>
               <p id='_'>In some areas of information technology which fall within ITU-T's purview, the necessary standards are prepared on a collaborative basis with ISO and IEC.</p>
               <div id="_">
-                <h2 class='IntroTitle'>NOTE</h2>
+                <h2 class='IntroTitle' id="_">NOTE</h2>
                 <p id='_'>In this Recommendation, the expression "Administration" is used for conciseness to indicate both a telecommunication administration and a recognized operating agency.</p>
                 <p id='_'>Compliance with this Recommendation is voluntary. However, the Recommendation may contain certain mandatory provisions (to ensure, e.g., interoperability or applicability) and compliance with the Recommendation is achieved when all of these mandatory provisions are met. The words "shall" or some other obligatory language such as "must" and the negative equivalents are used to express requirements.  The use of such words does not suggest that compliance with the Recommendation is required of any party.</p>
               </div>
@@ -1100,7 +1100,7 @@ RSpec.describe Metanorma::ITU do
           </div>
           <div class='boilerplate-license'>
             <div id="_">
-              <h1 class='IntroTitle'>INTELLECTUAL PROPERTY RIGHTS</h1>
+              <h1 class='IntroTitle' id="_">INTELLECTUAL PROPERTY RIGHTS</h1>
               <p id='_'>
                 ITU draws attention to the possibility that the practice or
                 implementation of this Recommendation may involve the use of a claimed

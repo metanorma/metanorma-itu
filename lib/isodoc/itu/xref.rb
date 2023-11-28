@@ -52,12 +52,12 @@ module IsoDoc
         "-#{(subfignum + 96).chr}"
       end
 
-      def sequential_figure_body(subfignum, counter, block, klass)
+      def sequential_figure_body(subfig, counter, elem, klass, container: false)
         label = counter.print
-        label &&= label + subfigure_label(subfignum)
-        @anchors[block["id"]] = anchor_struct(
-          label, nil, @labels[klass] || klass.capitalize, klass,
-          block["unnumbered"]
+        label &&= label + subfigure_label(subfig)
+        @anchors[elem["id"]] = anchor_struct(
+          label, container ? elem : nil, @labels[klass] || klass.capitalize,
+          klass, elem["unnumbered"]
         )
       end
 
@@ -69,7 +69,7 @@ module IsoDoc
         )
       end
 
-      def sequential_formula_names(clause)
+      def sequential_formula_names(clause, container: false)
         clause.first&.xpath(ns(middle_sections))&.each do |c|
           if c["id"] && @anchors[c["id"]]
             hierarchical_formula_names(c, @anchors[c["id"]][:label] ||

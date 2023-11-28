@@ -18,10 +18,6 @@ module IsoDoc
         super
       end
 
-      def prefix_container(container, linkend, node, _target)
-        l10n("#{linkend} #{@i18n.get['in']} #{anchor_xref(node, container)}")
-      end
-
       def eref(docxml)
         docxml.xpath(ns("//eref")).each { |f| eref1(f) }
       end

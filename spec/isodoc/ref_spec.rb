@@ -228,7 +228,7 @@ RSpec.describe IsoDoc::ITU do
                  <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
                  <br/>
                    <div>
-                     <h1 class="IntroTitle" id="_"></h1>
+                     <h1 class="IntroTitle"></h1>
                      <p id='_'>
         <a href='#ISO712'>[110]</a>
         <a href='#ISBN'>[1]</a>

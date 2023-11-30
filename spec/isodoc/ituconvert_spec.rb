@@ -770,7 +770,7 @@ RSpec.describe Metanorma::ITU do
          <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
          <br/>
          <div>
-           <h1 class="IntroTitle" id="_"/>
+           <h1 class="IntroTitle"/>
            <p>A.<a class="FootnoteRef" href="#fn:1" id="fnref:1"><sup>1</sup></a></p>
            <p>B.<a class="FootnoteRef" href="#fn:1"><sup>1</sup></a></p>
            <p>C.<a class="FootnoteRef" href="#fn:3" id="fnref:3"><sup>2</sup></a></p>
@@ -1086,13 +1086,13 @@ RSpec.describe Metanorma::ITU do
          <div class='prefatory-section'>
           <div class='boilerplate-legal'>
             <div id="_">
-              <h1 class='IntroTitle' id="_">FOREWORD</h1>
+              <h1 class='IntroTitle'>FOREWORD</h1>
               <p id='_'>The International Telecommunication Union (ITU) is the United Nations specialized agency in the field of telecommunications , information and communication technologies (ICTs). The ITU Telecommunication Standardization Sector (ITU-T) is a permanent organ of ITU. ITU-T is responsible for studying technical, operating and tariff questions and issuing Recommendations on them with a view to standardizing telecommunications on a worldwide basis.</p>
               <p id='_'>The World Telecommunication Standardization Assembly (WTSA), which meets every four years, establishes the topics for study by the ITU T study groups which, in turn, produce Recommendations on these topics.</p>
               <p id='_'>The approval of ITU-T Recommendations is covered by the procedure laid down in WTSA Resolution 1.</p>
               <p id='_'>In some areas of information technology which fall within ITU-T's purview, the necessary standards are prepared on a collaborative basis with ISO and IEC.</p>
               <div id="_">
-                <h2 class='IntroTitle' id="_">NOTE</h2>
+                <h2 class='IntroTitle'>NOTE</h2>
                 <p id='_'>In this Recommendation, the expression "Administration" is used for conciseness to indicate both a telecommunication administration and a recognized operating agency.</p>
                 <p id='_'>Compliance with this Recommendation is voluntary. However, the Recommendation may contain certain mandatory provisions (to ensure, e.g., interoperability or applicability) and compliance with the Recommendation is achieved when all of these mandatory provisions are met. The words "shall" or some other obligatory language such as "must" and the negative equivalents are used to express requirements.  The use of such words does not suggest that compliance with the Recommendation is required of any party.</p>
               </div>
@@ -1100,7 +1100,7 @@ RSpec.describe Metanorma::ITU do
           </div>
           <div class='boilerplate-license'>
             <div id="_">
-              <h1 class='IntroTitle' id="_">INTELLECTUAL PROPERTY RIGHTS</h1>
+              <h1 class='IntroTitle'>INTELLECTUAL PROPERTY RIGHTS</h1>
               <p id='_'>
                 ITU draws attention to the possibility that the practice or
                 implementation of this Recommendation may involve the use of a claimed

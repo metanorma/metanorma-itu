@@ -22,7 +22,8 @@ module Metanorma
         super
         @smartquotes = node.attr("smartquotes") == "true"
         @no_insert_missing_sections = doctype(node) != "recommendation" ||
-          node.attr("legacy-do-not-insert-missing-sections")
+          node.attr("legacy-do-not-insert-missing-sections") ||
+          node.attr("document-schema") == "legacy"
       end
 
       def boilerplate_file(_xmldoc)

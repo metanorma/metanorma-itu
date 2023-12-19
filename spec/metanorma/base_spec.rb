@@ -40,6 +40,18 @@ RSpec.describe Metanorma::ITU do
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
     expect(File.exist?("test.html")).to be true
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :novalid:
+      :no-pdf:
+      :document-schema: legacy
+    INPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+    expect(File.exist?("test.html")).to be true
   end
 
   it "converts a blank document and insert missing sections" do
@@ -79,6 +91,18 @@ RSpec.describe Metanorma::ITU do
         </bibliography>
       </itu-standard>
     OUTPUT
+    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to xmlpp(output)
+
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-pdf:
+      :document-schema: not-legacy
+    INPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
   end

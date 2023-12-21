@@ -150,11 +150,13 @@ RSpec.describe Metanorma::ITU do
     expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
       .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
         {:accesseddate=>"XXX",
+        :adapteddate=>"XXX",
         :agency=>"ITU",
         :amendmentid=>"Amendment 2",
         :amendmenttitle=>"Amendment Title",
         :annexid=>"Appendix F1",
         :annextitle=>"Annex Title",
+        :announceddate=>"XXX",
         :bureau=>"R",
         :circulateddate=>"XXX",
         :confirmeddate=>"XXX",
@@ -202,6 +204,7 @@ RSpec.describe Metanorma::ITU do
         :series=>"A3",
         :series1=>"B3",
         :series2=>"C3",
+        :stable_untildate=>"XXX",
         :stage=>"Final Draft",
         :stage_display=>"Final Draft",
         :subgroup=>"I1",
@@ -341,9 +344,11 @@ RSpec.describe Metanorma::ITU do
     expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
       .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
         {:accesseddate=>"XXX",
+        :adapteddate=>"XXX",
         :addresses=>["Canada", "USA"],
         :affiliations=>["Bedrock Quarry", "Bedrock Quarry 2"],
         :agency=>"International Telecommunication Union",
+        :announceddate=>"XXX",
         :authors=>["Fred Flintstone", "Barney Rubble"],
         :authors_affiliations=>{"Bedrock Quarry, Canada"=>["Fred Flintstone"], "Bedrock Quarry 2, USA"=>["Barney Rubble"]},
         :bureau=>"R",
@@ -396,6 +401,7 @@ RSpec.describe Metanorma::ITU do
         :series1=>"B3",
         :series2=>"C3",
         :source=>"Source",
+        :stable_untildate=>"XXX",
         :stage=>"Draft",
         :stage_display=>"Draft",
         :stageabbr=>"D",
@@ -467,7 +473,9 @@ RSpec.describe Metanorma::ITU do
     expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
       .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
         {:accesseddate=>"XXX",
+        :adapteddate=>"XXX",
         :agency=>"International Telecommunication Union",
+        :announceddate=>"XXX",
         :bureau=>"R",
         :circulateddate=>"XXX",
         :confirmeddate=>"XXX",
@@ -507,6 +515,7 @@ RSpec.describe Metanorma::ITU do
         :revdate=>"2000-01-01",
         :revdate_monthyear=>"01/2000",
         :script=>"Latn",
+        :stable_untildate=>"XXX",
         :stage=>"Draft",
         :stage_display=>"Draft",
         :stageabbr=>"D",
@@ -577,7 +586,9 @@ RSpec.describe Metanorma::ITU do
     expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
       .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
         {:accesseddate=>"XXX",
+        :adapteddate=>"XXX",
         :agency=>"International Telecommunication Union",
+        :announceddate=>"XXX",
         :bureau=>"R",
         :circulateddate=>"XXX",
         :confirmeddate=>"XXX",
@@ -617,6 +628,7 @@ RSpec.describe Metanorma::ITU do
         :revdate=>"2000-01-01",
         :revdate_monthyear=>"01/2000",
         :script=>"Latn",
+        :stable_untildate=>"XXX",
         :stage=>"Draft",
         :stage_display=>"Draft",
         :stageabbr=>"D",
@@ -687,7 +699,9 @@ RSpec.describe Metanorma::ITU do
     expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
       .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
         {:accesseddate=>"XXX",
+        :adapteddate=>"XXX",
         :agency=>"International Telecommunication Union",
+        :announceddate=>"XXX",
         :bureau=>"R",
         :circulateddate=>"XXX",
         :confirmeddate=>"XXX",
@@ -727,6 +741,7 @@ RSpec.describe Metanorma::ITU do
         :revdate=>"2000-01-01",
         :revdate_monthyear=>"01/2000",
         :script=>"Latn",
+        :stable_untildate=>"XXX",
         :stage=>"Draft",
         :stage_display=>"Draft",
         :stageabbr=>"D",
@@ -797,7 +812,9 @@ RSpec.describe Metanorma::ITU do
     expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
       .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
         {:accesseddate=>"XXX",
+        :adapteddate=>"XXX",
         :agency=>"International Telecommunication Union",
+        :announceddate=>"XXX",
         :bureau=>"R",
         :circulateddate=>"XXX",
         :confirmeddate=>"XXX",
@@ -837,6 +854,7 @@ RSpec.describe Metanorma::ITU do
         :revdate=>"2000-01-01",
         :revdate_monthyear=>"01/2000",
         :script=>"Latn",
+        :stable_untildate=>"XXX",
         :stage=>"Draft",
         :stage_display=>"Draft",
         :stageabbr=>"D",
@@ -975,9 +993,11 @@ RSpec.describe Metanorma::ITU do
     expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
       .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
         {:accesseddate=>"XXX",
+        :adapteddate=>"XXX",
         :addresses=>["Canada", "USA"],
         :affiliations=>["Bedrock Quarry", "Bedrock Quarry 2"],
         :agency=>"International Telecommunication Union",
+        :announceddate=>"XXX",
         :authors=>["Fred Flintstone", "Barney Rubble"],
         :authors_affiliations=>{"Bedrock Quarry, Canada"=>["Fred Flintstone"], "Bedrock Quarry 2, USA"=>["Barney Rubble"]},
         :bureau=>"R",
@@ -1030,6 +1050,7 @@ RSpec.describe Metanorma::ITU do
         :series1=>"B3",
         :series2=>"C3",
         :source=>"Source",
+        :stable_untildate=>"XXX",
         :stage=>"Draft",
         :stage_display=>"Draft",
         :stageabbr=>"D",
@@ -1083,7 +1104,9 @@ RSpec.describe Metanorma::ITU do
     expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
       .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
         {:accesseddate=>"XXX",
+        :adapteddate=>"XXX",
         :agency=>"ITU",
+        :announceddate=>"XXX",
         :circulateddate=>"XXX",
         :confirmeddate=>"XXX",
         :copieddate=>"XXX",
@@ -1110,6 +1133,7 @@ RSpec.describe Metanorma::ITU do
         :publisher=>"International Telecommunication Union",
         :receiveddate=>"XXX",
         :script=>"Latn",
+        :stable_untildate=>"XXX",
         :stage=>"In Force Prepublished",
         :stage_display=>"In Force Prepublished",
         :stageabbr=>"IFP",

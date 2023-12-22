@@ -11,8 +11,7 @@ module Metanorma
       def resolution_inline_header(xml)
         @doctype == "resolution" or return
         xml.xpath("//clause//clause").each do |c|
-          next if (title = c.at("./title")) && !title&.text&.empty?
-
+          (title = c.at("./title")) && !title.text&.empty? and next
           c["inline-header"] = true
         end
       end
@@ -26,6 +25,8 @@ module Metanorma
       end
 
       def insert_missing_sections(xml)
+        xml.at("//metanorma-extension/semantic-metadata/" \
+              "headless[text() = 'true']") and return nil
         insert_scope(xml)
         insert_norm_ref(xml)
         insert_terms(xml)
@@ -47,7 +48,7 @@ module Metanorma
           ins.previous =
             "<clause type='scope' #{add_id}><title>#{@i18n.scope}</title><p>" \
             "#{@i18n.clause_empty}</p></clause>"
-        xml&.at("//sentinel")&.remove
+        xml.at("//sentinel")&.remove
       end
 
       def insert_norm_ref(xml)
@@ -58,7 +59,7 @@ module Metanorma
         xml.at("//bibliography/references[@normative = 'true']") or
           ins.previous = "<references #{add_id} normative='true'>" \
                          "<title>#{@i18n.normref}</title></references>"
-        xml&.at("//sentinel")&.remove
+        xml.at("//sentinel")&.remove
       end
 
       def insert_terms(xml)

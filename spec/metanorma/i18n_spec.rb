@@ -215,102 +215,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes sections in French" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(':novalid:', ":novalid:\n:language: fr\n:script: Latn")}
-      .Foreword
-
-      Text
-
-      [abstract]
-      == Abstract
-
-      Text
-
-      == Introduction
-
-      === Introduction Subsection
-
-      [preface]
-      == History
-
-      [preface]
-      == Source
-
-      [%unnumbered]
-      == {blank}
-
-      Initial text
-
-      == Scope
-
-      Text
-
-      [bibliography]
-      == References
-
-      == Terms and Definitions
-
-      === Term1
-
-      == Terms, Definitions, Symbols and Abbreviated Terms
-
-      [.nonterm]
-      === Introduction
-
-      ==== Intro 1
-
-      === Intro 2
-
-      [.nonterm]
-      ==== Intro 3
-
-      === Intro 4
-
-      ==== Intro 5
-
-      ===== Term1
-
-      === Normal Terms
-
-      ==== Term2
-
-      ==== Terms defined elsewhere
-
-      === Symbols and Abbreviated Terms
-
-      [.nonterm]
-      ==== General
-
-      ==== Symbols 1
-
-      == Abbreviated Terms
-
-      == Conventions
-
-      == Clause 4
-
-      === Introduction
-
-      === Clause 4.2
-
-      == Terms and Definitions
-
-      == History
-
-      == Source
-
-      [appendix]
-      == Annex
-
-      === Annex A.1
-
-      == Bibliography
-
-      === Bibliography Subsection
-
-      [bibliography]
-      == Second Bibliography
-    INPUT
+    input = section_template("fr", "Latn")
     output = <<~OUTPUT
             #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
               .sub('<title language="en"', '<title language="fr"')
@@ -638,102 +543,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes sections in Chinese" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(':novalid:', ":novalid:\n:language: zh\n:script: Hans")}
-      .Foreword
-
-      Text
-
-      [abstract]
-      == Abstract
-
-      Text
-
-      == Introduction
-
-      === Introduction Subsection
-
-      [preface]
-      == History
-
-      [preface]
-      == Source
-
-      [%unnumbered]
-      == {blank}
-
-      Initial text
-
-      == Scope
-
-      Text
-
-      [bibliography]
-      == References
-
-      == Terms and Definitions
-
-      === Term1
-
-      == Terms, Definitions, Symbols and Abbreviated Terms
-
-      [.nonterm]
-      === Introduction
-
-      ==== Intro 1
-
-      === Intro 2
-
-      [.nonterm]
-      ==== Intro 3
-
-      === Intro 4
-
-      ==== Intro 5
-
-      ===== Term1
-
-      === Normal Terms
-
-      ==== Term2
-
-      ==== Terms defined elsewhere
-
-      === Symbols and Abbreviated Terms
-
-      [.nonterm]
-      ==== General
-
-      ==== Symbols 1
-
-      == Abbreviated Terms
-
-      == Conventions
-
-      == Clause 4
-
-      === Introduction
-
-      === Clause 4.2
-
-      == Terms and Definitions
-
-      == History
-
-      == Source
-
-      [appendix]
-      == Annex
-
-      === Annex A.1
-
-      == Bibliography
-
-      === Bibliography Subsection
-
-      [bibliography]
-      == Second Bibliography
-    INPUT
+    input = section_template("zh", "Hans")
     output = <<~OUTPUT
       #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
         .sub('<language>en</language>', '<language>zh</language>')
@@ -1068,103 +878,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes sections in Arabic" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR
-       .sub(':novalid:', ":novalid:\n:language: ar\n:script: Arab")}
-      .Foreword
-
-      Text
-
-      [abstract]
-      == Abstract
-
-      Text
-
-      == Introduction
-
-      === Introduction Subsection
-
-      [preface]
-      == History
-
-      [preface]
-      == Source
-
-      [%unnumbered]
-      == {blank}
-
-      Initial text
-
-      == Scope
-
-      Text
-
-      [bibliography]
-      == References
-
-      == Terms and Definitions
-
-      === Term1
-
-      == Terms, Definitions, Symbols and Abbreviated Terms
-
-      [.nonterm]
-      === Introduction
-
-      ==== Intro 1
-
-      === Intro 2
-
-      [.nonterm]
-      ==== Intro 3
-
-      === Intro 4
-
-      ==== Intro 5
-
-      ===== Term1
-
-      === Normal Terms
-
-      ==== Term2
-
-      ==== Terms defined elsewhere
-
-      === Symbols and Abbreviated Terms
-
-      [.nonterm]
-      ==== General
-
-      ==== Symbols 1
-
-      == Abbreviated Terms
-
-      == Conventions
-
-      == Clause 4
-
-      === Introduction
-
-      === Clause 4.2
-
-      == Terms and Definitions
-
-      == History
-
-      == Source
-
-      [appendix]
-      == Annex
-
-      === Annex A.1
-
-      == Bibliography
-
-      === Bibliography Subsection
-
-      [bibliography]
-      == Second Bibliography
-    INPUT
+    input = section_template("ar", "Arab")
     output = <<~OUTPUT
             #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
               .sub('<language>en</language>', '<language>ar</language>')
@@ -1172,7 +886,7 @@ RSpec.describe Metanorma::ITU do
               .sub('<script>Latn</script>', '<script>Arab</script>')
               .gsub('<name>International Telecommunication Union</name>', '<name>الاتحاد الدولي للاتصالات</name>')
               .gsub('<abbreviation>ITU</abbreviation>', '')
-              }
+            }
                <preface>
         <abstract id='_'>
           <title>&#1605;&#1604;&#1582;&#1589;</title>
@@ -1508,109 +1222,14 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes sections in Spanish" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(':novalid:', ":novalid:\n:language: es\n:script: Latn")}
-      .Foreword
-
-      Text
-
-      [abstract]
-      == Abstract
-
-      Text
-
-      == Introduction
-
-      === Introduction Subsection
-
-      [preface]
-      == History
-
-      [preface]
-      == Source
-
-      [%unnumbered]
-      == {blank}
-
-      Initial text
-
-      == Scope
-
-      Text
-
-      [bibliography]
-      == References
-
-      == Terms and Definitions
-
-      === Term1
-
-      == Terms, Definitions, Symbols and Abbreviated Terms
-
-      [.nonterm]
-      === Introduction
-
-      ==== Intro 1
-
-      === Intro 2
-
-      [.nonterm]
-      ==== Intro 3
-
-      === Intro 4
-
-      ==== Intro 5
-
-      ===== Term1
-
-      === Normal Terms
-
-      ==== Term2
-
-      ==== Terms defined elsewhere
-
-      === Symbols and Abbreviated Terms
-
-      [.nonterm]
-      ==== General
-
-      ==== Symbols 1
-
-      == Abbreviated Terms
-
-      == Conventions
-
-      == Clause 4
-
-      === Introduction
-
-      === Clause 4.2
-
-      == Terms and Definitions
-
-      == History
-
-      == Source
-
-      [appendix]
-      == Annex
-
-      === Annex A.1
-
-      == Bibliography
-
-      === Bibliography Subsection
-
-      [bibliography]
-      == Second Bibliography
-    INPUT
+    input = section_template("es", "Latn")
     output = <<~OUTPUT
              #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
                .sub('<title language="en"', '<title language="es"')
                .sub('<language>en</language>', '<language>es</language>')
                .gsub('<name>International Telecommunication Union</name>', '<name>Unión Internacional de Telecomunicaciones</name>')
                .gsub('<abbreviation>ITU</abbreviation>', '<abbreviation>UIT</abbreviation>')
-            }
+             }
                <preface>
         <abstract id='_'>
           <title>Resumen</title>
@@ -1928,109 +1547,13 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes sections in German" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR
-      .sub(':novalid:', ":novalid:\n:language: de\n:script: Latn")}
-      .Foreword
-
-      Text
-
-      [abstract]
-      == Abstract
-
-      Text
-
-      == Introduction
-
-      === Introduction Subsection
-
-      [preface]
-      == History
-
-      [preface]
-      == Source
-
-      [%unnumbered]
-      == {blank}
-
-      Initial text
-
-      == Scope
-
-      Text
-
-      [bibliography]
-      == References
-
-      == Terms and Definitions
-
-      === Term1
-
-      == Terms, Definitions, Symbols and Abbreviated Terms
-
-      [.nonterm]
-      === Introduction
-
-      ==== Intro 1
-
-      === Intro 2
-
-      [.nonterm]
-      ==== Intro 3
-
-      === Intro 4
-
-      ==== Intro 5
-
-      ===== Term1
-
-      === Normal Terms
-
-      ==== Term2
-
-      ==== Terms defined elsewhere
-
-      === Symbols and Abbreviated Terms
-
-      [.nonterm]
-      ==== General
-
-      ==== Symbols 1
-
-      == Abbreviated Terms
-
-      == Conventions
-
-      == Clause 4
-
-      === Introduction
-
-      === Clause 4.2
-
-      == Terms and Definitions
-
-      == History
-
-      == Source
-
-      [appendix]
-      == Annex
-
-      === Annex A.1
-
-      == Bibliography
-
-      === Bibliography Subsection
-
-      [bibliography]
-      == Second Bibliography
-    INPUT
+    input = section_template("de", "Latn")
     output = <<~OUTPUT
              #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
                .sub('<title language="en"', '<title language="de"')
                .sub('<language>en</language>', '<language>de</language>')
                .gsub('<name>International Telecommunication Union</name>', '<name>Internationale Fernmeldeunion</name>')
-              }
+             }
                <preface>
         <abstract id='_'>
           <title>Abstrakt</title>
@@ -2354,102 +1877,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes sections in Russian" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR.sub(':novalid:', ":novalid:\n:language: ru\n:script: Cyrl")}
-      .Foreword
-
-      Text
-
-      [abstract]
-      == Abstract
-
-      Text
-
-      == Introduction
-
-      === Introduction Subsection
-
-      [preface]
-      == History
-
-      [preface]
-      == Source
-
-      [%unnumbered]
-      == {blank}
-
-      Initial text
-
-      == Scope
-
-      Text
-
-      [bibliography]
-      == References
-
-      == Terms and Definitions
-
-      === Term1
-
-      == Terms, Definitions, Symbols and Abbreviated Terms
-
-      [.nonterm]
-      === Introduction
-
-      ==== Intro 1
-
-      === Intro 2
-
-      [.nonterm]
-      ==== Intro 3
-
-      === Intro 4
-
-      ==== Intro 5
-
-      ===== Term1
-
-      === Normal Terms
-
-      ==== Term2
-
-      ==== Terms defined elsewhere
-
-      === Symbols and Abbreviated Terms
-
-      [.nonterm]
-      ==== General
-
-      ==== Symbols 1
-
-      == Abbreviated Terms
-
-      == Conventions
-
-      == Clause 4
-
-      === Introduction
-
-      === Clause 4.2
-
-      == Terms and Definitions
-
-      == History
-
-      == Source
-
-      [appendix]
-      == Annex
-
-      === Annex A.1
-
-      == Bibliography
-
-      === Bibliography Subsection
-
-      [bibliography]
-      == Second Bibliography
-    INPUT
+    input = section_template("ru", "Cyrl")
     output = <<~OUTPUT
       #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
         .sub('<language>en</language>', '<language>ru</language>')
@@ -2457,7 +1885,7 @@ RSpec.describe Metanorma::ITU do
         .sub('<title language="en"', '<title language="ru"')
         .gsub('<name>International Telecommunication Union</name>', '<name>Международный Союз Электросвязи</name>')
         .gsub('<abbreviation>ITU</abbreviation>', '<abbreviation>МСЭ</abbreviation>')
-        }
+      }
         <preface>
           <abstract id='_'>
             <title>Реферат</title>
@@ -2604,5 +2032,107 @@ RSpec.describe Metanorma::ITU do
     OUTPUT
     expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to xmlpp(output)
+  end
+
+  private
+
+  def section_template(lang, script)
+    <<~OUTPUT
+      #{ASCIIDOC_BLANK_HDR.sub(':novalid:', ":novalid:\n:language: #{lang}\n:script: #{script}")}
+
+      .Foreword
+
+      Text
+
+      [abstract]
+      == Abstract
+
+      Text
+
+      == Introduction
+
+      === Introduction Subsection
+
+      [preface]
+      == History
+
+      [preface]
+      == Source
+
+      [%unnumbered]
+      == {blank}
+
+      Initial text
+
+      == Scope
+
+      Text
+
+      [bibliography]
+      == References
+
+      == Terms and Definitions
+
+      === Term1
+
+      == Terms, Definitions, Symbols and Abbreviated Terms
+
+      [.nonterm]
+      === Introduction
+
+      ==== Intro 1
+
+      === Intro 2
+
+      [.nonterm]
+      ==== Intro 3
+
+      === Intro 4
+
+      ==== Intro 5
+
+      ===== Term1
+
+      === Normal Terms
+
+      ==== Term2
+
+      ==== Terms defined elsewhere
+
+      === Symbols and Abbreviated Terms
+
+      [.nonterm]
+      ==== General
+
+      ==== Symbols 1
+
+      == Abbreviated Terms
+
+      == Conventions
+
+      == Clause 4
+
+      === Introduction
+
+      === Clause 4.2
+
+      == Terms and Definitions
+
+      == History
+
+      == Source
+
+      [appendix]
+      == Annex
+
+      === Annex A.1
+
+      == Bibliography
+
+      === Bibliography Subsection
+
+      [bibliography]
+      == Second Bibliography
+    OUTPUT
   end
 end

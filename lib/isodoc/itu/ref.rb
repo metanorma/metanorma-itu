@@ -49,41 +49,14 @@ module IsoDoc
         "[#{num}]"
       end
 
-      def reference_format(biblio, ref)
-        reference_format_start(biblio, ref)
-        super
-      end
-
-      def titlecase(str)
-        str.gsub(/ |_|-/, " ").split(/ /).map(&:capitalize).join(" ")
-      end
-
       def pref_ref_code(bibitem)
         ret = bibitem.xpath(ns("./docidentifier[@type = 'ITU']"))
         ret.empty? and ret = super
         ret
       end
 
-      def multi_bibitem_ref_code(bibitem)
-        id = bibitem.xpath(ns("./docidentifier[not(@type = 'metanorma' or " \
-                              "#{IsoDoc::Function::References::SKIP_DOCID} or " \
-                              "@type = 'metanorma-ordinal')]"))
-        id.empty? and
-          id = bibitem.xpath(ns("./docidentifier[not(@type = 'metanorma' or " \
-                                "@type = 'metanorma-ordinal')]"))
-        return [] if id.empty?
-
-        id.sort_by { |i| i["type"] == "ITU" ? 0 : 1 }
-      end
-
-      def render_multi_identifiers(ids)
-        ids.map do |id|
-          if id["type"] == "ITU"
-            doctype_title(id)
-          else
-            docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))
-          end
-        end.join("&#xA0;| ")
+            def titlecase(str)
+        str.gsub(/ |_|-/, " ").split(/ /).map(&:capitalize).join(" ")
       end
 
       def doctype_title(id)
@@ -103,15 +76,6 @@ module IsoDoc
         else
           unbracket1(ident)
         end
-      end
-
-      def reference_format_start(bib, out)
-        id = multi_bibitem_ref_code(bib)
-        id1 = render_multi_identifiers(id)
-        out << id1
-        date = bib.at(ns("./date[@type = 'published']")) and
-          out << " (#{date.text.sub(/-.*$/, '')})"
-        out << ", " if date || !id1.empty?
       end
     end
   end

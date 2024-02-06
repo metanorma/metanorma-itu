@@ -25,17 +25,21 @@ module IsoDoc
 
       def bibdata_title_resolution(bib)
         place = bib.at(ns("./ext/meeting-place"))&.text
-        ed = bib.at(ns("./edition"))&.text
-        rev = ed && ed != "1" ? "#{@i18n.get['revision_abbreviation']} " : ""
         year = bib.at(ns("./ext/meeting-date/from | ./ext/meeting-date/on"))
           &.text&.gsub(/-.*$/, "")
-        num = bib.at(ns("./docnumber"))&.text
-        text = @i18n.l10n("#{@i18n.get['doctype_dict']['resolution'].upcase} " \
-                          "#{num} (#{rev}#{place}, #{year})")
+        text = bibdata_title_resolution_name(bib, place, year)
         bib.at(ns("./title")).next = <<~INS
           <title language="#{@lang}" format="text/plain" type="resolution">#{text}</title>
           <title language="#{@lang}" format="text/plain" type="resolution-placedate">#{place}, #{year}</title>
         INS
+      end
+
+      def bibdata_title_resolution_name(bib, place, year)
+        ed = bib.at(ns("./edition"))&.text
+        rev = ed && ed != "1" ? "#{@i18n.get['revision_abbreviation']} " : ""
+        num = bib.at(ns("./docnumber"))
+        @i18n.l10n("#{@i18n.get['doctype_dict']['resolution'].upcase} " \
+                          "#{num&.text} (#{rev}#{place}, #{year})")
       end
 
       def bibdata_title_service_population(bib)

@@ -900,7 +900,7 @@ RSpec.describe Metanorma::ITU do
       <bibitem id="ISO712" type="standard">
         <title format="text/plain">Cereals and cereal products</title>
         <docidentifier>ISO 712</docidentifier>
-        <date type="published">2019-01-01</date>
+        <date type="published"><on>2019-01-01</on></date>
         <contributor>
           <role type="publisher"/>
           <organization>
@@ -940,7 +940,7 @@ RSpec.describe Metanorma::ITU do
              <bibitem id="ISO712" type="standard">
                <formattedref>ISO 712 (2019), <em>Cereals and cereal products</em>.</formattedref>
                <docidentifier>ISO&#xa0;712</docidentifier>
-               <date type="published">2019-01-01</date>
+               <date type="published"><on>2019-01-01</on></date>
                <biblio-tag>[ISO 712]</biblio-tag>
              </bibitem>
            </references>

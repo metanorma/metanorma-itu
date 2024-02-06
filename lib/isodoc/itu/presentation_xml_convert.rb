@@ -40,10 +40,9 @@ module IsoDoc
       end
 
       def get_eref_linkend(node)
-        contents = non_locality_elems(node).select do |c|
+        non_locality_elems(node).select do |c|
           !c.text? || /\S/.match(c)
-        end
-        contents.empty? or return
+        end.empty? or return
         link = anchor_linkend(node,
                               docid_l10n(node["target"] || node["citeas"]))
         link && !/^\[.*\]$/.match(link) and link = "[#{link}]"
@@ -99,7 +98,7 @@ module IsoDoc
         out = id1
         date = bib.at(ns("./date[@type = 'published']/on | " \
           "./date[@type = 'published']/from")) and
-        out << " (#{date.text.sub(/-.*$/, '')})"
+          out << " (#{date.text.sub(/-.*$/, '')})"
         out += ", " if date || !id1.empty?
         out
       end
@@ -149,9 +148,8 @@ module IsoDoc
       end
 
       def ol_depth(node)
-        return super unless node["class"] == "steps" ||
-          node.at(".//ancestor::xmlns:ol[@class = 'steps']")
-
+        node["class"] == "steps" ||
+          node.at(".//ancestor::xmlns:ol[@class = 'steps']") or return super
         depth = node.ancestors("ul, ol").size + 1
         type = :arabic
         type = :alphabet if [2, 7].include? depth
@@ -167,17 +165,34 @@ module IsoDoc
         super
       end
 
+      def bibliography_bibitem_number1(bib, idx)
+        mn = bib.at(ns(".//docidentifier[@type = 'metanorma']")) and
+          /^\[?\d+\]?$/.match?(mn.text) and
+          mn["type"] = "metanorma-ordinal"
+        if (mn = bib.at(ns(".//docidentifier[@type = 'metanorma-ordinal']"))) &&
+            !bibliography_bibitem_number_skip(bib)
+          idx += 1
+          mn.children = "[#{idx}]"
+        end
+        idx
+      end
+
+      def bibliography_bibitem_number_skip(bibitem)
+        @xrefs.klass.implicit_reference(bibitem) ||
+          bibitem["hidden"] == "true" || bibitem.parent["hidden"] == "true"
+      end
+
       def norm_ref_entry_code(_ordinal, idents, _ids, _standard, datefn, _bib)
-        ret = (idents[:metanorma] || idents[:sdo] || idents[:ordinal]).to_s
-        !idents[:metanorma] && idents[:sdo] and ret = "[#{ret}]"
+        ret = (idents[:metanorma] || idents[:ordinal] || idents[:sdo]).to_s
+        /^\[.+\]$/.match?(ret) or ret = "[#{ret}]"
         ret += datefn
         ret.empty? and return ret
         ret.gsub("-", "&#x2011;").gsub(/ /, "&#xa0;")
       end
 
       def biblio_ref_entry_code(_ordinal, idents, _id, _standard, datefn, _bib)
-        ret = (idents[:metanorma] || idents[:sdo] || idents[:ordinal]).to_s
-        !idents[:metanorma] && idents[:sdo] and ret = "[#{ret}]"
+        ret = (idents[:metanorma] || idents[:ordinal] || idents[:sdo]).to_s
+        /^\[.+\]$/.match?(ret) or ret = "[#{ret}]"
         ret += datefn
         ret.empty? and return ret
         ret.gsub("-", "&#x2011;").gsub(/ /, "&#xa0;")

@@ -55,21 +55,6 @@ module IsoDoc
         ret
       end
 
-            def titlecase(str)
-        str.gsub(/ |_|-/, " ").split(/ /).map(&:capitalize).join(" ")
-      end
-
-      def doctype_title(id)
-        type = id.parent&.at(ns("./ext/doctype"))&.text || "recommendation"
-        if type == "recommendation" &&
-            /^(?<prefix>ITU-[A-Z][  ][A-Z])[  .-]Sup[a-z]*\.[  ]?(?<num>\d+)$/ =~ id.text
-          "#{prefix}-series Recommendations – Supplement #{num}"
-        else
-          d = docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))
-          "#{titlecase(type)} #{d}"
-        end
-      end
-
       def unbracket(ident)
         if ident.respond_to?(:size)
           ident.map { |x| unbracket1(x) }.join("&#xA0;| ")

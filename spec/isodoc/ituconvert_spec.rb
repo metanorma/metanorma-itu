@@ -481,8 +481,8 @@ RSpec.describe Metanorma::ITU do
                   <title depth="1">Table of Contents</title>
             </clause>
              </preface><sections>
-             <clause id="G" displayorder="2"><title>2<tab/>Terms, Definitions, Symbols and Abbreviated Terms</title>
-             <terms id="H" obligation="normative" displayorder="3"><title>2.1<tab/>Terms defined in this recommendation</title>
+             <clause id="G" displayorder="3"><title>2<tab/>Terms, Definitions, Symbols and Abbreviated Terms</title>
+             <terms id="H" obligation="normative"><title>2.1<tab/>Terms defined in this recommendation</title>
                <term id="J">
                <name>2.1.1</name>
                <preferred>Term2</preferred>
@@ -499,7 +499,7 @@ RSpec.describe Metanorma::ITU do
              </clause>
               </sections>
               <bibliography>
-              <references id="_normative_references" obligation="informative" normative="true" displayorder="4"><title>1<tab/>References</title>
+              <references id="_normative_references" obligation="informative" normative="true" displayorder="2"><title>1<tab/>References</title>
       <bibitem id="ISO712" type="standard">
         <formattedref format="text/plain"><em>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</em>.</formattedref>
         <docidentifier>ISO 712</docidentifier>
@@ -516,7 +516,7 @@ RSpec.describe Metanorma::ITU do
       <tbody>
         <tr id='ISO712' class='NormRef'>
           <td  style='vertical-align:top'>[ISO&#160;712]</td>
-                     <td>ISO&#xa0;712, <i>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</i>.</td>
+                     <td><i>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</i>.</td>
                      </tr>
                      </tbody>
                      </table>
@@ -900,7 +900,7 @@ RSpec.describe Metanorma::ITU do
       <bibitem id="ISO712" type="standard">
         <title format="text/plain">Cereals and cereal products</title>
         <docidentifier>ISO 712</docidentifier>
-        <date type="published">2019-01-01</date>
+        <date type="published"><on>2019-01-01</on></date>
         <contributor>
           <role type="publisher"/>
           <organization>
@@ -938,9 +938,9 @@ RSpec.describe Metanorma::ITU do
            <references id="_" obligation="informative" normative="true" displayorder="3">
              <title depth="1">1.<tab/>References</title>
              <bibitem id="ISO712" type="standard">
-               <formattedref><em>Cereals and cereal products</em>.</formattedref>
+               <formattedref>ISO 712 (2019), <em>Cereals and cereal products</em>.</formattedref>
                <docidentifier>ISO&#xa0;712</docidentifier>
-               <date type="published">2019-01-01</date>
+               <date type="published"><on>2019-01-01</on></date>
                <biblio-tag>[ISO 712]</biblio-tag>
              </bibitem>
            </references>
@@ -999,7 +999,7 @@ RSpec.describe Metanorma::ITU do
           <references id="_" obligation="informative" normative="true" displayorder="3">
             <title depth="1">1.<tab/>References</title>
             <bibitem id="ISO712" type="standard">
-              <formattedref format="text/plain"><em>Cereals and cereal products</em>.</formattedref>
+              <formattedref format="text/plain">ISO 712, <em>Cereals and cereal products</em>.</formattedref>
               <docidentifier>ISO 712</docidentifier>
               <biblio-tag>[ISO 712]</biblio-tag>
               <biblio-tag>[ISO 712]</biblio-tag>

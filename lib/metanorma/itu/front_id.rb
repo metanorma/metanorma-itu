@@ -45,7 +45,6 @@ module Metanorma
         xml.docidentifier type: "ITU-lang" do |i|
           i << itu_id1(node, true)
         end
-        xml.docnumber { |i| i << node.attr("docnumber") }
       end
 
       def recommendation_id(node, xml)

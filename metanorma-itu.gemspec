@@ -25,7 +25,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
 
-  spec.add_dependency "metanorma-standoc", "~> 2.7.0"
+  spec.add_dependency "metanorma-standoc", "~> 2.8.2"
+  spec.add_dependency "pubid-itu", "~> 0.1.1"
   spec.add_dependency "ruby-jing"
   spec.add_dependency "twitter_cldr", ">= 3.0.0"
   spec.add_dependency "tzinfo-data" # we need this for windows only

@@ -901,7 +901,6 @@ RSpec.describe Metanorma::ITU do
           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docidentifier type='ITU'>OVERRIDE</docidentifier>
-          <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>

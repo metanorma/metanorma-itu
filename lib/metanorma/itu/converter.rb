@@ -36,7 +36,8 @@ module Metanorma
       end
 
       def doctype(node)
-        ret = node.attr("doctype")&.gsub(/\s+/, "-")&.downcase || "recommendation"
+        ret = node.attr("doctype")&.gsub(/\s+/, "-")&.downcase ||
+          "recommendation"
         ret = "recommendation" if ret == "article"
         ret
       end
@@ -87,7 +88,7 @@ module Metanorma
 
       def sectiontype(node, level = true)
         ret = super
-        hdr = sectiontype_streamline(node&.attr("heading")&.downcase)
+        hdr = sectiontype_streamline(node.attr("heading")&.downcase)
         return nil if ret == "terms and definitions" &&
           hdr != "terms and definitions" && node.level > 1
         return nil if ret == "symbols and abbreviated terms" &&
@@ -120,10 +121,8 @@ module Metanorma
         node.option?("unnumbered") and attrs[:unnumbered] = true
         case sectiontype1(node)
         when "conventions" then attrs = attrs.merge(type: "conventions")
-        when "history"
-          attrs[:preface] and attrs = attrs.merge(type: "history")
-        when "source"
-          attrs[:preface] and attrs = attrs.merge(type: "source")
+        when "history", "source"
+          attrs[:preface] and attrs = attrs.merge(type: sectiontype1(node))
         end
         super
       end
@@ -141,7 +140,8 @@ module Metanorma
       def presentation_xml_converter(node)
         IsoDoc::ITU::PresentationXMLConvert
           .new(html_extract_attributes(node)
-          .merge(output_formats: ::Metanorma::ITU::Processor.new.output_formats))
+          .merge(output_formats: ::Metanorma::ITU::Processor.new
+          .output_formats))
       end
 
       def html_converter(node)

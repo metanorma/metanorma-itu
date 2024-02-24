@@ -427,7 +427,7 @@ RSpec.describe Metanorma::ITU do
           <preface><foreword>
           <table><name>title title</name>
           <thead>
-          <tr><th>title title1</th><th>title title2</th><td>title title3</td></tr>
+          <tr><th>title title1</th><th>title Title2</th><td>title title3</td></tr>
           </thead>
           <tbody>
           <tr><th>title title4</th><th>title title5</th><td>title title6</td></tr>
@@ -448,7 +448,7 @@ RSpec.describe Metanorma::ITU do
                <thead>
                  <tr>
                    <th>Title title1</th>
-                   <th>Title title2</th>
+                   <th>Title Title2</th>
                    <td>title title3</td>
                  </tr>
                </thead>

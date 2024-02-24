@@ -64,7 +64,8 @@ module IsoDoc
           n.name == "span" && /text-transform:/.match?(n["style"]) and
             css = n
           n.text? && /\S/.match?(n.text) or next
-          css && n.ancestors.include?(css) or n.replace(n.text.capitalize)
+          css && n.ancestors.include?(css) or
+            n.replace(::Metanorma::Utils.strict_capitalize_first(n.text))
           break
         end
       end

@@ -18,6 +18,11 @@ module Metanorma
         nil
       end
 
+      def initialize(backend, opts)
+        require "debug"; binding.b
+        super
+      end
+
       def init(node)
         super
         @smartquotes = node.attr("smartquotes") == "true"

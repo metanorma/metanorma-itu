@@ -666,7 +666,8 @@ RSpec.describe Metanorma::ITU do
           <sections> </sections>
         </itu-standard>
       OUTPUT
-      xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension | //xmlns:fetched")
+      xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension | " \
+                "//xmlns:fetched")
         .each(&:remove)
       expect(xmlpp(xml.to_xml))
         .to be_equivalent_to xmlpp(output)
@@ -1838,7 +1839,7 @@ RSpec.describe Metanorma::ITU do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "capitalises table header" do
+  it "capitalises and centers table header" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       [headerrows=2]
@@ -1856,14 +1857,14 @@ RSpec.describe Metanorma::ITU do
           <table id="_">
             <thead>
               <tr>
-                <th valign="top" align="left">A b</th>
-                <th valign="top" align="left">B c</th>
-                <th valign="top" align="left">C</th>
+                <th valign="top" align="center">A b</th>
+                <th valign="top" align="center">B c</th>
+                <th valign="top" align="center">C</th>
               </tr>
               <tr>
-                <th valign="top" align="left">a</th>
-                <th valign="top" align="left">b</th>
-                <th valign="top" align="left">c</th>
+                <th valign="top" align="center">a</th>
+                <th valign="top" align="center">b</th>
+                <th valign="top" align="center">c</th>
               </tr>
             </thead>
             <tbody>

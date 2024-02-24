@@ -208,6 +208,39 @@ module IsoDoc
         ret
       end
 
+      def block(docxml)
+        super
+        dl docxml
+      end
+
+      def dl(xml)
+        (xml.xpath(ns("//dl")) -
+         xml.xpath(ns("//table//dl | //figure//dl | //formula//dl")))
+          .each do |d|
+            dl1(d)
+          end
+      end
+
+      def dl1(dlist)
+        ret = dl2tbody(dlist)
+        n = dlist.at(ns("./name")) and ret = "#{n.remove.to_xml}#{ret}"
+        dlist.name = "table"
+        dlist["class"] = "dl"
+        dlist.children.first.previous = ret
+      end
+
+      def dl2tbody(dlist)
+        ret = ""
+        dlist.elements.select { |n| %w{dt dd}.include? n.name }
+          .each_slice(2) do |dt, dd|
+            ret += "<tr><th width='20%'>#{dt.children.to_xml}</th>" \
+             "<td width='80%'>#{dd.children.to_xml}</td></tr>"
+            dt.replace(" ")
+            dd.remove
+          end
+        "<tbody>#{ret}</tbody>"
+      end
+
       include Init
     end
   end

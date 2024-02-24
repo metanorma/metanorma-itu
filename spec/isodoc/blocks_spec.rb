@@ -30,6 +30,53 @@ RSpec.describe Metanorma::ITU do
       .to be_equivalent_to xmlpp(output)
   end
 
+  it "processes dl" do
+    input = <<~INPUT
+      <itu-standard xmlns="https://www.calconnect.org/standards/itu">
+      <preface>
+          <clause type="toc" id="_" displayorder="1">
+      <title depth="1">Table of Contents</title>
+      </clause>
+      <foreword  displayorder="2">
+      <dl id="A"><name>Deflist</name>
+      <dt>A</dt><dd>B</dd>
+      <dt>C</dt><dd>D</dd>
+      <note>hien?</note>
+      </dl>
+      </foreword></preface>
+      </itu-standard>
+    INPUT
+    output = <<~OUTPUT
+      <itu-standard xmlns="https://www.calconnect.org/standards/itu" type="presentation">
+         <preface>
+           <foreword displayorder="1">
+             <table id="A" class="dl">
+               <name>Deflist</name>
+               <tbody>
+                 <tr>
+                   <th width="20%">A</th>
+                   <td width="80%">B</td>
+                   </tr>
+                   <tr>
+                     <th width="20%">C</th>
+                     <td width="80%">D</td>
+                   </tr>
+               </tbody>
+               <note><name>NOTE</name>hien?</note>
+             </table>
+           </foreword>
+           <clause type="toc" id="_" displayorder="2">
+             <title depth="1">Table of Contents</title>
+           </clause>
+         </preface>
+       </itu-standard>
+    OUTPUT
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true))))
+      .to be_equivalent_to xmlpp(output)
+  end
+
   it "processes formulae" do
     input = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml">

@@ -148,7 +148,8 @@ RSpec.describe Metanorma::ITU do
          </div>
        </div>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)))).to be_equivalent_to xmlpp(presxml)
     expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
       .convert("test", presxml, true)
@@ -159,59 +160,59 @@ RSpec.describe Metanorma::ITU do
 
   it "processes tables (Word)" do
     input = <<~INPUT
-          <iso-standard xmlns="http://riboseinc.com/isoxml">
-          <preface><foreword  displayorder="1">
-          <table id="tableD-1" alt="tool tip" summary="long desc">
-        <name>Table 1&#xA0;&#x2014; Repeatability and reproducibility of <em>husked</em> rice yield</name>
-        <thead>
-          <tr>
-            <td rowspan="2" align="left">Description</td>
-            <td colspan="4" align="center">Rice sample</td>
-          </tr>
-          <tr>
-            <td align="left">Arborio</td>
-            <td align="center">Drago<fn reference="a">
-        <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
-      </fn></td>
-            <td align="center">Balilla<fn reference="a">
-        <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
-      </fn></td>
-            <td align="center">Thaibonnet</td>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <th align="left">Number of laboratories retained after eliminating outliers</td>
-            <td align="center">13</td>
-            <td align="center">11</td>
-            <td align="center">13</td>
-            <td align="center">13</td>
-          </tr>
-          <tr>
-            <td align="left">Mean value, g/100 g</td>
-            <td align="center">81,2</td>
-            <td align="center">82,0</td>
-            <td align="center">81,8</td>
-            <td align="center">77,7</td>
-          </tr>
-          </tbody>
-          <tfoot>
-          <tr>
-            <td align="left">Reproducibility limit, <stem type="AsciiMath">R</stem> (= 2,83 <stem type="AsciiMath">s_R</stem>)</td>
-            <td align="center">2,89</td>
-            <td align="center">0,57</td>
-            <td align="center">2,26</td>
-            <td align="center">6,06</td>
-          </tr>
-        </tfoot>
-               <dl>
-       <dt>Drago</dt>
-     <dd>A type of rice</dd>
-     </dl>
-      <note><name>NOTE</name><p>This is a table about rice</p></note>
-      </table>
-          </foreword></preface>
-          </iso-standard>
+      <iso-standard xmlns="http://riboseinc.com/isoxml">
+           <preface><foreword  displayorder="1">
+           <table id="tableD-1" alt="tool tip" summary="long desc">
+         <name>Table 1&#xA0;&#x2014; Repeatability and reproducibility of <em>husked</em> rice yield</name>
+         <thead>
+           <tr>
+             <td rowspan="2" align="left">Description</td>
+             <td colspan="4" align="center">Rice sample</td>
+           </tr>
+           <tr>
+             <td align="left">Arborio</td>
+             <td align="center">Drago<fn reference="a">
+         <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+       </fn></td>
+             <td align="center">Balilla<fn reference="a">
+         <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+       </fn></td>
+             <td align="center">Thaibonnet</td>
+           </tr>
+           </thead>
+           <tbody>
+           <tr>
+             <th align="left">Number of laboratories retained after eliminating outliers</td>
+             <td align="center">13</td>
+             <td align="center">11</td>
+             <td align="center">13</td>
+             <td align="center">13</td>
+           </tr>
+           <tr>
+             <td align="left">Mean value, g/100 g</td>
+             <td align="center">81,2</td>
+             <td align="center">82,0</td>
+             <td align="center">81,8</td>
+             <td align="center">77,7</td>
+           </tr>
+           </tbody>
+           <tfoot>
+           <tr>
+             <td align="left">Reproducibility limit, <stem type="AsciiMath">R</stem> (= 2,83 <stem type="AsciiMath">s_R</stem>)</td>
+             <td align="center">2,89</td>
+             <td align="center">0,57</td>
+             <td align="center">2,26</td>
+             <td align="center">6,06</td>
+           </tr>
+         </tfoot>
+                <dl>
+        <dt>Drago</dt>
+      <dd>A type of rice</dd>
+      </dl>
+       <note><name>NOTE</name><p>This is a table about rice</p></note>
+       </table>
+           </foreword></preface>
+           </iso-standard>
     INPUT
     output = <<~OUTPUT
           <div>
@@ -418,6 +419,104 @@ RSpec.describe Metanorma::ITU do
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to xmlpp(doc)
+  end
+
+  it "capitalises table titles" do
+    input = <<~INPUT
+          <iso-standard xmlns="http://riboseinc.com/isoxml">
+          <preface><foreword>
+          <table><name>title title</name>
+          <thead>
+          <tr><th>title title1</th><th>title title2</th><td>title title3</td></tr>
+          </thead>
+          <tbody>
+          <tr><th>title title4</th><th>title title5</th><td>title title6</td></tr>
+          </tbody>
+          </table>
+      </foreword></preface>
+      </iso-standard>
+    INPUT
+    presxml = <<~OUTPUT
+      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+         <preface>
+           <clause type="toc" id="_" displayorder="1">
+             <title depth="1">Table of Contents</title>
+           </clause>
+           <foreword displayorder="2">
+             <table>
+               <name>Table — Title title</name>
+               <thead>
+                 <tr>
+                   <th>Title title1</th>
+                   <th>Title title2</th>
+                   <td>title title3</td>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr>
+                   <th>title title4</th>
+                   <th>title title5</th>
+                   <td>title title6</td>
+                 </tr>
+               </tbody>
+             </table>
+           </foreword>
+         </preface>
+       </iso-standard>
+    OUTPUT
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to xmlpp(presxml)
+
+    input = <<~INPUT
+          <iso-standard xmlns="http://riboseinc.com/isoxml">
+          <preface><foreword>
+          <table><name><span style="text-transform:none">title</span> title</name>
+          <thead>
+          <tr><th><span style="text-transform:none">title</span> title1</th><th><em><span style="text-transform:none">ti</span>tle</em> title2</th><td>title title3</td></tr>
+          </thead>
+          <tbody>
+          <tr><th>title title4</th><th>title title5</th><td>title title6</td></tr>
+          </tbody>
+          </table>
+      </foreword></preface>
+      </iso-standard>
+    INPUT
+    presxml = <<~OUTPUT
+      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+         <preface>
+           <clause type="toc" id="_" displayorder="1">
+             <title depth="1">Table of Contents</title>
+           </clause>
+           <foreword displayorder="2">
+             <table>
+               <name>Table — <span style="text-transform:none">title</span> title</name>
+               <thead>
+                 <tr>
+                   <th><span style="text-transform:none">title</span> title1</th>
+                   <th><em><span style="text-transform:none">ti</span>tle</em> title2</th>
+                   <td>title title3</td>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr>
+                   <th>title title4</th>
+                   <th>title title5</th>
+                   <td>title title6</td>
+                 </tr>
+               </tbody>
+             </table>
+           </foreword>
+         </preface>
+       </iso-standard>
+    OUTPUT
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to xmlpp(presxml)
   end
 
   it "post-processes steps class of ordered lists (Word)" do

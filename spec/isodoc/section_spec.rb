@@ -280,10 +280,14 @@ RSpec.describe Metanorma::ITU do
        </term>
        </terms>
        <definitions id="L" displayorder="12"><title>4.</title>
-         <dl>
-         <dt>Symbol</dt>
-         <dd>Definition</dd>
-         </dl>
+       <table class="dl">
+        <tbody>
+          <tr>
+            <th width="20%">Symbol</th>
+            <td width="80%">Definition</td>
+          </tr>
+        </tbody>
+      </table>
        </definitions>
        <clause id="M" inline-header="false" obligation="normative" displayorder="13">
         <title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
@@ -358,12 +362,14 @@ RSpec.describe Metanorma::ITU do
                       </div>
                         <div id="L" class="Symbols">
                           <h1>4.</h1>
-                          <dl>
-                            <dt>
-                              <p>Symbol</p>
-                            </dt>
-                            <dd>Definition</dd>
-                          </dl>
+                            <table class="dl" style="">
+                            <tbody>
+                              <tr>
+                                <th style="font-weight:bold;" scope="row">Symbol</th>
+                                <td style="">Definition</td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                         <div id="M">
                           <h1>5.&#160; Clause 4</h1>
@@ -466,14 +472,16 @@ RSpec.describe Metanorma::ITU do
       </div>
            <div id="L" class="Symbols">
              <h1>4.</h1>
-             <table class="dl">
-               <tr>
-                 <td valign="top" align="left">
-                   <p align="left" style="margin-left:0pt;text-align:left;">Symbol</p>
-                 </td>
-                 <td valign="top">Definition</td>
-               </tr>
-             </table>
+                   <div align="center" class="table_container">
+        <table class="dl" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;">
+          <tbody>
+            <tr>
+              <th valign="top" style="font-weight:bold;page-break-after:auto;">Symbol</th>
+              <td valign="top" style="page-break-after:auto;">Definition</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
            </div>
            <div id="M">
              <h1>5.<span style="mso-tab-count:1">&#160; </span>Clause 4</h1>

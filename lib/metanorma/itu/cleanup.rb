@@ -24,6 +24,13 @@ module Metanorma
         end
       end
 
+      def header_rows_cleanup(xmldoc)
+        super
+        xmldoc.xpath("//table/thead/tr/th").each do |x|
+          x["align"] = "center"
+        end
+      end
+
       def insert_missing_sections(xml)
         xml.at("//metanorma-extension/semantic-metadata/" \
               "headless[text() = 'true']") and return nil

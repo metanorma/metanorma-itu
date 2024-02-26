@@ -60,6 +60,9 @@ revision_abbreviation: Rev.
 tsb: TSB
 br: BR
 bdt: BDT
+tsb_short: Oficina de Normalización de las Telecomunicaciones
+br_short: Oficina de Radiocomunicaciones
+bdt_short: Oficina de Desarrollo de las Telecomunicaciones
 tsb_full: <br/>Oficina de Normalización<br/>de las Telecomunicaciones de la UIT
 br_full: Oficina de Radiocomunicaciones<br/>de la UIT
 bdt_full: <br/>Oficina de Desarrollo<br/>de las Telecomunicaciones de la UIT

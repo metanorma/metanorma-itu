@@ -60,6 +60,9 @@ revision_abbreviation: Rev.
 tsb: TSB
 br: BR
 bdt: BDT
+tsb_short: Telecommunication Standardization Bureau
+br_short: Radiocommunication Bureau
+bdt_short: Telecommunication Development Bureau
 tsb_full: Telecommunication<br/>Standardization Bureau<br/>of ITU
 br_full: Radiocommunication Bureau<br/>of ITU
 bdt_full: Telecommunication<br/>Development Bureau<br/>of ITU

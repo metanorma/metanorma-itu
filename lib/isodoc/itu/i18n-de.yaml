@@ -59,6 +59,9 @@ revision_abbreviation: Rev.
 tsb: TSB
 br: BR
 bdt: BDT
+tsb_short: Büro für Telekommunikations-Standardisierung
+br_short: Büro für Funkkommunikation
+bdt_short: Büro für Entwicklungen in der Telekommunikation
 tsb_full: Büro für Telekommunikations-<br/>Standardisierung<br/>der ITU
 br_full: Büro für Funkkommunikation<br/>der ITU
 bdt_full: Büro für Entwicklungen<br/>in der Telekommunikation<br/>der ITU

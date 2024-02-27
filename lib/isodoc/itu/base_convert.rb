@@ -48,9 +48,8 @@ module IsoDoc
       end
 
       def ol_depth(node)
-        return super unless node["class"] == "steps" ||
-          node.at(".//ancestor::xmlns:ol[@class = 'steps']")
-
+        node["class"] == "steps" ||
+          node.at(".//ancestor::xmlns:ol[@class = 'steps']") or return super
         depth = node.ancestors("ul, ol").size + 1
         type = :arabic
         type = :alphabet if [2, 7].include? depth
@@ -78,17 +77,17 @@ module IsoDoc
       end
 
       def annex(node, out)
-          @meta.get[:doctype_original] == "recommendation-annex" or
-            page_break(out)
-          out.div **attr_code(id: node["id"], class: "Section3") do |s|
-            annex_name(node, nil, s) unless node.at(ns("./title"))
-            node.elements.each do |c1|
-              if c1.name == "title" then annex_name(node, c1, s)
-              else
-                parse(c1, s)
-              end
+        @meta.get[:doctype_original] == "recommendation-annex" or
+          page_break(out)
+        out.div **attr_code(id: node["id"], class: "Section3") do |s|
+          annex_name(node, nil, s) unless node.at(ns("./title"))
+          node.elements.each do |c1|
+            if c1.name == "title" then annex_name(node, c1, s)
+            else
+              parse(c1, s)
             end
           end
+        end
       end
 
       def info(isoxml, out)
@@ -124,8 +123,7 @@ module IsoDoc
       end
 
       def note_parse(node, out)
-        return if node["type"] == "title-footnote"
-
+        node["type"] == "title-footnote" and return
         super
       end
 
@@ -148,15 +146,40 @@ module IsoDoc
         end
       end
 
-=begin
-      def scope(isoxml, out, num)
-        return super unless @meta.get[:doctype_original] == "resolution"
-
-        f = isoxml.at(ns("//clause[@type = 'scope']")) or return num
-        clause_core(f, out)
-        num + 1
+      def dl_parse(node, out)
+        node.ancestors("table, formula, figure").empty? or return super
+        dl1(node)
+        table_parse(node, out)
       end
-=end
+
+      def dl1(dlist)
+        ret = dl2tbody(dlist)
+        n = dlist.at(ns("./colgroup")) and ret = "#{n.remove.to_xml}#{ret}"
+        n = dlist.at(ns("./name")) and ret = "#{n.remove.to_xml}#{ret}"
+        dlist.name = "table"
+        dlist["class"] = "dl"
+        dlist.children.first.previous = ret
+      end
+
+      def dl2tbody(dlist)
+        ret = ""
+        dlist.elements.select { |n| %w{dt dd}.include? n.name }
+          .each_slice(2) do |dt, dd|
+            ret += "<tr><th width='20%'>#{dt.children.to_xml}</th>" \
+             "<td width='80%'>#{dd.children.to_xml}</td></tr>"
+            dt.replace(" ")
+            dd.remove
+          end
+        "<tbody>#{ret}</tbody>"
+      end
+
+      #       def scope(isoxml, out, num)
+      #         return super unless @meta.get[:doctype_original] == "resolution"
+      #
+      #         f = isoxml.at(ns("//clause[@type = 'scope']")) or return num
+      #         clause_core(f, out)
+      #         num + 1
+      #       end
     end
   end
 end

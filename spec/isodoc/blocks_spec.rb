@@ -34,10 +34,7 @@ RSpec.describe Metanorma::ITU do
     input = <<~INPUT
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
       <preface>
-          <clause type="toc" id="_" displayorder="1">
-      <title depth="1">Table of Contents</title>
-      </clause>
-      <foreword  displayorder="2">
+      <foreword>
       <dl id="A"><name>Deflist</name>
       <dt>A</dt><dd>B</dd>
       <dt>C</dt><dd>D</dd>
@@ -46,35 +43,119 @@ RSpec.describe Metanorma::ITU do
       </foreword></preface>
       </itu-standard>
     INPUT
-    output = <<~OUTPUT
+    presxml = <<~OUTPUT
       <itu-standard xmlns="https://www.calconnect.org/standards/itu" type="presentation">
          <preface>
-           <foreword displayorder="1">
-             <table id="A" class="dl">
-               <name>Deflist</name>
-               <tbody>
-                 <tr>
-                   <th width="20%">A</th>
-                   <td width="80%">B</td>
-                   </tr>
-                   <tr>
-                     <th width="20%">C</th>
-                     <td width="80%">D</td>
-                   </tr>
-               </tbody>
-               <note><name>NOTE</name>hien?</note>
-             </table>
-           </foreword>
-           <clause type="toc" id="_" displayorder="2">
+           <clause type="toc" id="_" displayorder="1">
              <title depth="1">Table of Contents</title>
            </clause>
+           <foreword displayorder="2">
+             <dl id="A">
+               <name>Deflist</name>
+               <colgroup>
+                 <col width="20%"/>
+                 <col width="80%"/>
+               </colgroup>
+               <dt>A</dt>
+               <dd>B</dd>
+               <dt>C</dt>
+               <dd>D</dd>
+               <note><name>NOTE</name>hien?</note>
+             </dl>
+           </foreword>
          </preface>
        </itu-standard>
+    OUTPUT
+    html = <<~OUTPUT
+       #{HTML_HDR}
+              <div>
+            <h1 class="IntroTitle"/>
+            <p class="TableTitle" style="text-align:center;">Deflist</p>
+            <table id="A" class="dl" style="table-layout:fixed;">
+              <colgroup>
+                <col style="width: 20%;"/>
+                <col style="width: 80%;"/>
+              </colgroup>
+              <tbody>
+                <tr>
+                  <th style="font-weight:bold;" scope="row">A</th>
+                  <td style="">B</td>
+                </tr>
+                <tr>
+                  <th style="font-weight:bold;" scope="row">C</th>
+                  <td style="">D</td>
+                </tr>
+              </tbody>
+              <div class="Note"><p><span class="note_label">NOTE</span></p>hien?</div>
+            </table>
+          </div>
+        </div>
+      </body>
+    OUTPUT
+    doc = <<~OUTPUT
+      <body lang="EN-US" link="blue" vlink="#954F72">
+         <div class="WordSection1">
+           <p> </p>
+         </div>
+         <p class="section-break">
+           <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection2">
+           <p class="page-break">
+             <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+           </p>
+           <div id="_" class="TOC">
+             <p class="zzContents">Table of Contents</p>
+             <p style="tab-stops:right 17.0cm">
+               <span style="mso-tab-count:1">  </span>
+               <b>Page</b>
+             </p>
+           </div>
+           <div>
+             <h1 class="IntroTitle"/>
+             <p class="TableTitle" style="text-align:center;">Deflist</p>
+             <div align="center" class="table_container">
+               <table id="A" class="dl" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;">
+                 <colgroup>
+                   <col width="20%"/>
+                   <col width="80%"/>
+                 </colgroup>
+                 <tbody>
+                   <tr>
+                     <th valign="top" style="font-weight:bold;page-break-after:avoid;">A</th>
+                     <td valign="top" style="page-break-after:avoid;">B</td>
+                   </tr>
+                   <tr>
+                     <th valign="top" style="font-weight:bold;page-break-after:auto;">C</th>
+                     <td valign="top" style="page-break-after:auto;">D</td>
+                   </tr>
+                 </tbody>
+                 <div class="Note"><p><span class="note_label">NOTE</span></p>hien?</div>
+               </table>
+             </div>
+           </div>
+           <p> </p>
+         </div>
+         <p class="section-break">
+           <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection3"/>
+       </body>
     OUTPUT
     expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true))))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to xmlpp(presxml)
+    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+      .convert("test", presxml, true)
+      .gsub(%r{^.*<body}m, "<body")
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_equivalent_to xmlpp(html)
+    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+      .convert("test", presxml, true)
+      .gsub(%r{^.*<body}m, "<body")
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_equivalent_to xmlpp(doc)
   end
 
   it "processes formulae" do

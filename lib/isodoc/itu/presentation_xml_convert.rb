@@ -222,23 +222,8 @@ module IsoDoc
       end
 
       def dl1(dlist)
-        ret = dl2tbody(dlist)
-        n = dlist.at(ns("./name")) and ret = "#{n.remove.to_xml}#{ret}"
-        dlist.name = "table"
-        dlist["class"] = "dl"
-        dlist.children.first.previous = ret
-      end
-
-      def dl2tbody(dlist)
-        ret = ""
-        dlist.elements.select { |n| %w{dt dd}.include? n.name }
-          .each_slice(2) do |dt, dd|
-            ret += "<tr><th width='20%'>#{dt.children.to_xml}</th>" \
-             "<td width='80%'>#{dd.children.to_xml}</td></tr>"
-            dt.replace(" ")
-            dd.remove
-          end
-        "<tbody>#{ret}</tbody>"
+        ins = dlist.at(ns("./dt"))
+        ins.previous = '<colgroup><col width="20%"/><col width="80%"/></colgroup>'
       end
 
       include Init

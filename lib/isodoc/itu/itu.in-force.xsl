@@ -4,6 +4,8 @@
 
 	<xsl:key name="kfn" match="*[local-name() = 'fn'][not(ancestor::*[(local-name() = 'table' or local-name() = 'figure' or local-name() = 'localized-strings')] and not(ancestor::*[local-name() = 'name']))]" use="@reference"/>
 
+	<xsl:variable name="namespace_full">https://www.metanorma.org/ns/itu</xsl:variable>
+
 	<xsl:variable name="debug">false</xsl:variable>
 
 	<!-- Rec. ITU-T G.650.1 (03/2018) -->
@@ -4119,7 +4121,7 @@
 			<xsl:variable name="cols-count" select="count(xalan:nodeset($simple-table)/*/tr[1]/td)"/>
 
 			<xsl:variable name="colwidths">
-				<xsl:if test="not(*[local-name()='colgroup']/*[local-name()='col'])">
+				<xsl:if test="not(*[local-name()='colgroup']/*[local-name()='col']) and not(@class = 'dl')">
 					<xsl:call-template name="calculate-column-widths">
 						<xsl:with-param name="cols-count" select="$cols-count"/>
 						<xsl:with-param name="table" select="$simple-table"/>
@@ -4228,6 +4230,11 @@
 							<xsl:choose>
 								<xsl:when test="*[local-name()='colgroup']/*[local-name()='col']">
 									<xsl:for-each select="*[local-name()='colgroup']/*[local-name()='col']">
+										<fo:table-column column-width="{@width}"/>
+									</xsl:for-each>
+								</xsl:when>
+								<xsl:when test="@class = 'dl'">
+									<xsl:for-each select=".//*[local-name()='tr'][1]/*">
 										<fo:table-column column-width="{@width}"/>
 									</xsl:for-each>
 								</xsl:when>
@@ -5526,6 +5533,41 @@
 	<!-- ===================== -->
 	<!-- Definition List -->
 	<!-- ===================== -->
+
+	<!-- convert table[@class = 'dl'] to dl with colgroup/col/@colwidth -->
+	<xsl:template match="*[local-name()='table'][@class = 'dl' and count(.//*[local-name() = 'tr'][1]/*) = 2]" priority="4">
+		<xsl:variable name="dl">
+			<xsl:element name="dl" namespace="{$namespace_full}">
+				<xsl:copy-of select="@*"/>
+				<xsl:element name="colgroup" namespace="{$namespace_full}">
+					<xsl:for-each select=".//*[local-name()='tr'][1]/*">
+						<xsl:element name="col" namespace="{$namespace_full}">
+							<xsl:attribute name="width"><xsl:value-of select="@width"/></xsl:attribute>
+						</xsl:element>
+					</xsl:for-each>
+				</xsl:element>
+				<xsl:apply-templates mode="table_to_dl"/>
+			</xsl:element>
+		</xsl:variable>
+		<xsl:apply-templates select="xalan:nodeset($dl)/node()"/>
+	</xsl:template>
+	<xsl:template match="@*|node()" mode="table_to_dl">
+		<xsl:copy>
+			<xsl:apply-templates select="@*|node()" mode="table_to_dl"/>
+		</xsl:copy>
+	</xsl:template>
+	<xsl:template match="*[local-name() = 'tbody']" mode="table_to_dl">
+		<xsl:apply-templates mode="table_to_dl"/>
+	</xsl:template>
+	<xsl:template match="*[local-name() = 'tr']" mode="table_to_dl">
+		<xsl:element name="dt" namespace="{$namespace_full}">
+			<xsl:apply-templates select="*[1]/node()" mode="table_to_dl"/>
+		</xsl:element>
+		<xsl:element name="dd" namespace="{$namespace_full}">
+			<xsl:apply-templates select="*[2]/node()" mode="table_to_dl"/>
+		</xsl:element>
+	</xsl:template>
+
 	<xsl:template match="*[local-name()='dl']">
 		<xsl:variable name="isAdded" select="@added"/>
 		<xsl:variable name="isDeleted" select="@deleted"/>
@@ -5738,10 +5780,21 @@
 										</xsl:variable>
 
 										<xsl:variable name="colwidths">
-											<xsl:call-template name="calculate-column-widths">
-												<xsl:with-param name="cols-count" select="2"/>
-												<xsl:with-param name="table" select="$simple-table"/>
-											</xsl:call-template>
+											<xsl:choose>
+												<!-- dl from table[@class='dl'] -->
+												<xsl:when test="*[local-name() = 'colgroup']">
+													<autolayout/>
+													<xsl:for-each select="*[local-name() = 'colgroup']/*[local-name() = 'col']">
+														<column><xsl:value-of select="translate(@width,'%m','')"/></column>
+													</xsl:for-each>
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:call-template name="calculate-column-widths">
+														<xsl:with-param name="cols-count" select="2"/>
+														<xsl:with-param name="table" select="$simple-table"/>
+													</xsl:call-template>
+												</xsl:otherwise>
+											</xsl:choose>
 										</xsl:variable>
 
 										<!-- <xsl:text disable-output-escaping="yes">&lt;!- -</xsl:text>

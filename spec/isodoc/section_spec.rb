@@ -280,14 +280,14 @@ RSpec.describe Metanorma::ITU do
        </term>
        </terms>
        <definitions id="L" displayorder="12"><title>4.</title>
-       <table class="dl">
-        <tbody>
-          <tr>
-            <th width="20%">Symbol</th>
-            <td width="80%">Definition</td>
-          </tr>
-        </tbody>
-      </table>
+       <dl>
+        <colgroup>
+          <col width="20%"/>
+          <col width="80%"/>
+        </colgroup>
+        <dt>Symbol</dt>
+        <dd>Definition</dd>
+      </dl>
        </definitions>
        <clause id="M" inline-header="false" obligation="normative" displayorder="13">
         <title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
@@ -362,7 +362,11 @@ RSpec.describe Metanorma::ITU do
                       </div>
                         <div id="L" class="Symbols">
                           <h1>4.</h1>
-                            <table class="dl" style="">
+                                <table class="dl" style="table-layout:fixed;">
+        <colgroup>
+          <col style="width: 20%;"/>
+          <col style="width: 80%;"/>
+        </colgroup>
                             <tbody>
                               <tr>
                                 <th style="font-weight:bold;" scope="row">Symbol</th>
@@ -474,6 +478,10 @@ RSpec.describe Metanorma::ITU do
              <h1>4.</h1>
                    <div align="center" class="table_container">
         <table class="dl" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;">
+          <colgroup>
+           <col width="20%"/>
+           <col width="80%"/>
+         </colgroup>
           <tbody>
             <tr>
               <th valign="top" style="font-weight:bold;page-break-after:auto;">Symbol</th>

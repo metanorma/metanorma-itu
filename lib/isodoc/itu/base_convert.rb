@@ -173,6 +173,11 @@ module IsoDoc
         "<tbody>#{ret}</tbody>"
       end
 
+      def bibrenderer(options = {})
+      ::Relaton::Render::ITU::General.new(options.merge(language: @lang,
+                                                          i18nhash: @i18n.get))
+    end
+
       #       def scope(isoxml, out, num)
       #         return super unless @meta.get[:doctype_original] == "resolution"
       #

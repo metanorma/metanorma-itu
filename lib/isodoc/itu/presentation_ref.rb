@@ -8,10 +8,6 @@ require_relative "presentation_preface"
 module IsoDoc
   module ITU
     class PresentationXMLConvert < IsoDoc::PresentationXMLConvert
-      def bibrenderer
-        ::Relaton::Render::ITU::General.new(language: @lang)
-      end
-
       def bibrender_formattedref(formattedref, _xml)
         formattedref << "." unless /\.$/.match?(formattedref.text)
         id = reference_format_start(formattedref.parent) and

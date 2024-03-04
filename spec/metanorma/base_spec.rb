@@ -6,6 +6,14 @@ RSpec.describe Metanorma::ITU do
     @blank_hdr = blank_hdr_gen
   end
 
+  before do
+    # Force to download Relaton index file
+    allow_any_instance_of(Relaton::Index::Type).to receive(:actual?)
+      .and_return(false)
+    allow_any_instance_of(Relaton::Index::FileIO).to receive(:check_file)
+      .and_return(nil)
+  end
+
   it "has a version number" do
     expect(Metanorma::ITU::VERSION).not_to be nil
   end
@@ -184,7 +192,8 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes explicit metadata" do
-    VCR.use_cassette "ITU-complements" do
+    VCR.use_cassette("ITU-complements",
+                     match_requests_on: %i[method uri body]) do
       xml = Nokogiri::XML(Asciidoctor.convert(<<~INPUT, *OPTIONS))
         = Document title
         Author

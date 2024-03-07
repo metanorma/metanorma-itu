@@ -7,7 +7,7 @@ module Metanorma
   module ITU
     class Converter < Standoc::Converter
       def metadata_status(node, xml)
-        stage = (node.attr("status") || node.attr("docstage") || "published")
+        stage = node.attr("status") || node.attr("docstage") || "published"
         stage = "draft" if node.attributes.has_key?("draft")
         xml.status do |s|
           s.stage stage
@@ -36,7 +36,7 @@ module Metanorma
 
       def title_otherlangs(node, xml)
         node.attributes.each do |k, v|
-          next unless /^(annex)?title-(?<lang>.+)$/ =~ k
+          next unless /^(?:annex)?title-(?<lang>.+)$/ =~ k
           next if lang == @lang
 
           type = /^annex/.match?(k) ? "annex" : "main"
@@ -49,7 +49,8 @@ module Metanorma
       def title(node, xml)
         title_defaultlang(node, xml)
         title_otherlangs(node, xml)
-        %w(subtitle amendment-title corrigendum-title).each do |t|
+        %w(subtitle amendment-title corrigendum-title collection-title)
+          .each do |t|
           other_title_defaultlang(node, xml, t)
           other_title_otherlangs(node, xml, t)
         end
@@ -87,11 +88,19 @@ module Metanorma
       end
 
       def metadata_committee(node, xml)
+        metadata_sector(node, xml)
         metadata_committee1(node, xml, "")
         suffix = 2
         while node.attr("bureau_#{suffix}")
           metadata_committee1(node, xml, "_#{suffix}")
           suffix += 1
+        end
+      end
+
+      def metadata_sector(node, xml)
+        s = node.attr("sector") or return
+        xml.editorialgroup do |a|
+          a.sector { |x| x << s }
         end
       end
 

@@ -32,6 +32,7 @@ module IsoDoc
           series2: "//bibdata/series[@type='tertiary']/title",
           annextitle: "//bibdata/title[@type='annex']",
           collectiontitle: "//bibdata/title[@type='collection']",
+          slogantitle: "//bibdata/title[@type='slogan']",
           positiontitle: "//bibdata/title[@type='position-sp']" }.each do |k, v|
           titleset(isoxml, k, v)
         end

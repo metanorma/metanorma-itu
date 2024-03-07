@@ -48,8 +48,8 @@ module Metanorma
       def title(node, xml)
         title_defaultlang(node, xml)
         title_otherlangs(node, xml)
-        %w(subtitle amendment-title corrigendum-title collection-title)
-          .each do |t|
+        %w(subtitle amendment-title corrigendum-title collection-title
+           slogan-title).each do |t|
           other_title_defaultlang(node, xml, t)
           other_title_otherlangs(node, xml, t)
         end

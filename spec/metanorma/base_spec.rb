@@ -274,6 +274,7 @@ RSpec.describe Metanorma::ITU do
         :recommendationnumber: G.7713.1/Y.1704.1
         :complements: ITU-T F.69;ITU-T F.68
         :collection-title: Articles
+        :slogan-title: Slogan
         :sector: Sector
         :coverpage-image: images/image1.gif,images/image2.gif
       INPUT
@@ -292,6 +293,7 @@ RSpec.describe Metanorma::ITU do
             <title language='en' format='text/plain' type='corrigendum'>Corrigendum Title</title>
             <title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
             <title language="en" format="text/plain" type="collection">Articles</title>
+            <title language="en" format="text/plain" type="slogan">Slogan</title>
             <docidentifier type='ITU-provisional'>ABC</docidentifier>
             <docidentifier type="ITU-TemporaryDocument">SG17-TD611</docidentifier>
             <docidentifier type='ITU'>ITU-R 1000</docidentifier>

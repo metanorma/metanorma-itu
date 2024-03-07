@@ -182,10 +182,32 @@ RSpec.describe Metanorma::ITU do
         </structuredidentifier>
           </ext>
         </bibdata>
+        <metanorma-extension>
+           <presentation-metadata>
+             <name>document-scheme</name>
+             <value>current</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>HTML TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>DOC TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>PDF TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+         </metanorma-extension>
         <sections/>
       </itu-standard>
     OUTPUT
-    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+    xml.xpath("//xmlns:boilerplate")
       .each(&:remove)
     expect(xmlpp(xml.to_xml))
       .to be_equivalent_to xmlpp(output)
@@ -277,6 +299,7 @@ RSpec.describe Metanorma::ITU do
         :slogan-title: Slogan
         :sector: Sector
         :coverpage-image: images/image1.gif,images/image2.gif
+        :document-scheme: legacy
       INPUT
       output = <<~"OUTPUT"
            <?xml version="1.0" encoding="UTF-8"?>
@@ -681,11 +704,39 @@ RSpec.describe Metanorma::ITU do
               </structuredidentifier>
             </ext>
           </bibdata>
+                   <metanorma-extension>
+           <presentation-metadata>
+             <name>document-scheme</name>
+             <value>legacy</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>coverpage-image</name>
+             <value>
+               <image src="images/image1.gif"/>
+               <image src="images/image2.gif"/>
+             </value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>HTML TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>DOC TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>PDF TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+         </metanorma-extension>
           <sections> </sections>
         </itu-standard>
       OUTPUT
-      xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension | " \
-                "//xmlns:fetched")
+      xml.xpath("//xmlns:boilerplate | //xmlns:fetched")
         .each(&:remove)
       expect(xmlpp(xml.to_xml))
         .to be_equivalent_to xmlpp(output)
@@ -728,6 +779,10 @@ RSpec.describe Metanorma::ITU do
            <name>PDF TOC Heading Levels</name>
            <value>2</value>
          </presentation-metadata>
+         <presentation-metadata>
+          <name>document-scheme</name>
+          <value>current</value>
+        </presentation-metadata>
       </metanorma-extension>
     OUTPUT
     expect(xmlpp(strip_guid(Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))

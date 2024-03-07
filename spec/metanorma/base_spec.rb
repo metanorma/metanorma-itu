@@ -710,17 +710,21 @@ RSpec.describe Metanorma::ITU do
             <image src="images/image2.gif"/>
           </value>
         </presentation-metadata>
-                 <presentation-metadata>
+         <presentation-metadata>
            <name>TOC Heading Levels</name>
-           <value>1</value>
+           <value>2</value>
          </presentation-metadata>
          <presentation-metadata>
            <name>HTML TOC Heading Levels</name>
-           <value>1</value>
+           <value>2</value>
+         </presentation-metadata>
+         <presentation-metadata>
+           <name>DOC TOC Heading Levels</name>
+           <value>2</value>
          </presentation-metadata>
          <presentation-metadata>
            <name>PDF TOC Heading Levels</name>
-           <value>1</value>
+           <value>2</value>
          </presentation-metadata>
       </metanorma-extension>
     OUTPUT

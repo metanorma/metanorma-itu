@@ -275,6 +275,7 @@ RSpec.describe Metanorma::ITU do
         :complements: ITU-T F.69;ITU-T F.68
         :collection-title: Articles
         :sector: Sector
+        :coverpage-image: images/image1.gif,images/image2.gif
       INPUT
       output = <<~"OUTPUT"
            <?xml version="1.0" encoding="UTF-8"?>
@@ -687,6 +688,45 @@ RSpec.describe Metanorma::ITU do
       expect(xmlpp(xml.to_xml))
         .to be_equivalent_to xmlpp(output)
     end
+  end
+
+  it "populates cover images" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :docnumber: 1000
+      :coverpage-image: images/image1.gif,images/image2.gif
+    INPUT
+    output = <<~OUTPUT
+      <metanorma-extension>
+        <presentation-metadata>
+          <name>coverpage-image</name>
+          <value>
+            <image src="images/image1.gif"/>
+            <image src="images/image2.gif"/>
+          </value>
+        </presentation-metadata>
+                 <presentation-metadata>
+           <name>TOC Heading Levels</name>
+           <value>1</value>
+         </presentation-metadata>
+         <presentation-metadata>
+           <name>HTML TOC Heading Levels</name>
+           <value>1</value>
+         </presentation-metadata>
+         <presentation-metadata>
+           <name>PDF TOC Heading Levels</name>
+           <value>1</value>
+         </presentation-metadata>
+      </metanorma-extension>
+    OUTPUT
+    expect(xmlpp(strip_guid(Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+      .at("//xmlns:metanorma-extension").to_xml)))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes explicit metadata, technical report" do

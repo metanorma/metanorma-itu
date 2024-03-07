@@ -273,6 +273,8 @@ RSpec.describe Metanorma::ITU do
         :corrigendum-title-fr: Titre de Corrigendum
         :recommendationnumber: G.7713.1/Y.1704.1
         :complements: ITU-T F.69;ITU-T F.68
+        :collection-title: Articles
+        :sector: Sector
       INPUT
       output = <<~"OUTPUT"
            <?xml version="1.0" encoding="UTF-8"?>
@@ -288,6 +290,7 @@ RSpec.describe Metanorma::ITU do
             <title language='fr' format='text/plain' type='amendment'>Titre de Amendment</title>
             <title language='en' format='text/plain' type='corrigendum'>Corrigendum Title</title>
             <title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
+            <title language="en" format="text/plain" type="collection">Articles</title>
             <docidentifier type='ITU-provisional'>ABC</docidentifier>
             <docidentifier type="ITU-TemporaryDocument">SG17-TD611</docidentifier>
             <docidentifier type='ITU'>ITU-R 1000</docidentifier>
@@ -603,6 +606,9 @@ RSpec.describe Metanorma::ITU do
             <keyword>word2</keyword>
             <ext>
               <doctype>directive</doctype>
+              <editorialgroup>
+                <sector>Sector</sector>
+              </editorial>
               <editorialgroup>
                 <bureau>R</bureau>
                 <group type='A'>

@@ -274,6 +274,10 @@ BLANK_HDR = <<~"HDR".freeze
               <name>PDF TOC Heading Levels</name>
               <value>2</value>
             </presentation-metadata>
+            <presentation-metadata>
+              <name>document-scheme</name>
+              <value>current</value>
+            </presentation-metadata>
           </metanorma-extension>
 HDR
 

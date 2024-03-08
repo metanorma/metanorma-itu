@@ -182,10 +182,32 @@ RSpec.describe Metanorma::ITU do
         </structuredidentifier>
           </ext>
         </bibdata>
+        <metanorma-extension>
+           <presentation-metadata>
+             <name>document-scheme</name>
+             <value>current</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>HTML TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>DOC TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>PDF TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+         </metanorma-extension>
         <sections/>
       </itu-standard>
     OUTPUT
-    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+    xml.xpath("//xmlns:boilerplate")
       .each(&:remove)
     expect(xmlpp(xml.to_xml))
       .to be_equivalent_to xmlpp(output)
@@ -273,6 +295,11 @@ RSpec.describe Metanorma::ITU do
         :corrigendum-title-fr: Titre de Corrigendum
         :recommendationnumber: G.7713.1/Y.1704.1
         :complements: ITU-T F.69;ITU-T F.68
+        :collection-title: Articles
+        :slogan-title: Slogan
+        :sector: Sector
+        :coverpage-image: images/image1.gif,images/image2.gif
+        :document-scheme: legacy
       INPUT
       output = <<~"OUTPUT"
            <?xml version="1.0" encoding="UTF-8"?>
@@ -288,6 +315,8 @@ RSpec.describe Metanorma::ITU do
             <title language='fr' format='text/plain' type='amendment'>Titre de Amendment</title>
             <title language='en' format='text/plain' type='corrigendum'>Corrigendum Title</title>
             <title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
+            <title language="en" format="text/plain" type="collection">Articles</title>
+            <title language="en" format="text/plain" type="slogan">Slogan</title>
             <docidentifier type='ITU-provisional'>ABC</docidentifier>
             <docidentifier type="ITU-TemporaryDocument">SG17-TD611</docidentifier>
             <docidentifier type='ITU'>ITU-R 1000</docidentifier>
@@ -604,6 +633,9 @@ RSpec.describe Metanorma::ITU do
             <ext>
               <doctype>directive</doctype>
               <editorialgroup>
+                <sector>Sector</sector>
+              </editorial>
+              <editorialgroup>
                 <bureau>R</bureau>
                 <group type='A'>
                   <name>I</name>
@@ -672,15 +704,90 @@ RSpec.describe Metanorma::ITU do
               </structuredidentifier>
             </ext>
           </bibdata>
+                   <metanorma-extension>
+           <presentation-metadata>
+             <name>document-scheme</name>
+             <value>legacy</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>coverpage-image</name>
+             <value>
+               <image src="images/image1.gif"/>
+               <image src="images/image2.gif"/>
+             </value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>HTML TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>DOC TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+           <presentation-metadata>
+             <name>PDF TOC Heading Levels</name>
+             <value>2</value>
+           </presentation-metadata>
+         </metanorma-extension>
           <sections> </sections>
         </itu-standard>
       OUTPUT
-      xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension | " \
-                "//xmlns:fetched")
+      xml.xpath("//xmlns:boilerplate | //xmlns:fetched")
         .each(&:remove)
       expect(xmlpp(xml.to_xml))
         .to be_equivalent_to xmlpp(output)
     end
+  end
+
+  it "populates cover images" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :docnumber: 1000
+      :coverpage-image: images/image1.gif,images/image2.gif
+    INPUT
+    output = <<~OUTPUT
+      <metanorma-extension>
+        <presentation-metadata>
+          <name>coverpage-image</name>
+          <value>
+            <image src="images/image1.gif"/>
+            <image src="images/image2.gif"/>
+          </value>
+        </presentation-metadata>
+         <presentation-metadata>
+           <name>TOC Heading Levels</name>
+           <value>2</value>
+         </presentation-metadata>
+         <presentation-metadata>
+           <name>HTML TOC Heading Levels</name>
+           <value>2</value>
+         </presentation-metadata>
+         <presentation-metadata>
+           <name>DOC TOC Heading Levels</name>
+           <value>2</value>
+         </presentation-metadata>
+         <presentation-metadata>
+           <name>PDF TOC Heading Levels</name>
+           <value>2</value>
+         </presentation-metadata>
+         <presentation-metadata>
+          <name>document-scheme</name>
+          <value>current</value>
+        </presentation-metadata>
+      </metanorma-extension>
+    OUTPUT
+    expect(xmlpp(strip_guid(Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+      .at("//xmlns:metanorma-extension").to_xml)))
+      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes explicit metadata, technical report" do

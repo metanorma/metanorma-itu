@@ -20,6 +20,8 @@ RSpec.describe Metanorma::ITU do
       <title language='fr' format='text/plain' type='amendment'>Titre de Amendment</title>
       <title language='en' format='text/plain' type='corrigendum'>Corrigendum Title</title>
       <title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
+      <title language="en" format="text/plain" type="collection">Articles</title>
+      <title language="en" format="text/plain" type="slogan">Slogan</title>
         <docidentifier type="ITU-provisional">ABC</docidentifier>
         <docidentifier type="ITU-TemporaryDocument">SG1</docidentifier>
         <docidentifier type="ITU">ITU-R 1000</docidentifier>
@@ -74,6 +76,9 @@ RSpec.describe Metanorma::ITU do
        <keyword>word1</keyword>
         <ext>
         <doctype>directive</doctype>
+            <editorialgroup>
+              <sector>Sector</sector>
+            </editorialgroup>
             <editorialgroup>
             <bureau>R</bureau>
             <group type="A">
@@ -159,6 +164,7 @@ RSpec.describe Metanorma::ITU do
         :announceddate=>"XXX",
         :bureau=>"R",
         :circulateddate=>"XXX",
+        :collectiontitle=>"Articles",
         :confirmeddate=>"XXX",
         :copieddate=>"XXX",
         :correcteddate=>"XXX",
@@ -201,9 +207,11 @@ RSpec.describe Metanorma::ITU do
         :revdate=>"2000-01-01",
         :revdate_monthyear=>"01/2000",
         :script=>"Latn",
+        :sector=>"Sector",
         :series=>"A3",
         :series1=>"B3",
         :series2=>"C3",
+        :slogantitle=>"Slogan",
         :stable_untildate=>"XXX",
         :stage=>"Final Draft",
         :stage_display=>"Final Draft",

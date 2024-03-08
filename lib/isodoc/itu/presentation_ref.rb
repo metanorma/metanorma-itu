@@ -24,29 +24,34 @@ module IsoDoc
       end
 
       def multi_bibitem_ref_code(bib)
-        skip = IsoDoc::Function::References::SKIP_DOCID
-        skip1 = "@type = 'metanorma' or @type = 'metanorma-ordinal'"
-        prim = "[@primary = 'true']"
-        id = bib.xpath(ns("./docidentifier#{prim}[not(#{skip} or #{skip1})]"))
-        id.empty? and id = bib.xpath(ns("./docidentifier#{prim}[not(#{skip1})]"))
-        id.empty? and id = bib.xpath(ns("./docidentifier[not(#{skip} or #{skip1})]"))
-        id.empty? and id = bib.xpath(ns("./docidentifier[not(#{skip1})]"))
-        id.empty? and return id
-        id.sort_by { |i| i["type"] == "ITU" ? 0 : 1 }
+        id = pref_ref_code_parse(bib)
+        id.nil? and return []
+        id.sort_by { |i| /^ITU/.match?(i) ? 0 : 1 }
       end
 
-      def render_multi_identifiers(ids)
+      def render_multi_identifiers(ids, bib)
         ids.map do |id|
-          if id["type"] == "ITU" then doctype_title(id)
+          if /^ITU/.match?(id) then doctype_title(id, bib)
           else
-            docid_prefix(id["type"], id.text.sub(/^\[/, "").sub(/\]$/, ""))
+            id.sub(/^\[/, "").sub(/\]$/, "")
           end
         end.join("&#xA0;| ")
       end
 
+      def doctype_title(id, bib)
+        type = bib.at(ns("./ext/doctype"))&.text || "recommendation"
+        if type == "recommendation" &&
+            /^(?<prefix>ITU-[A-Z][  ][A-Z])[  .-]Sup[a-z]*\.[  ]?(?<num>\d+)$/ =~ id
+          "#{prefix}-series Recommendations – Supplement #{num}"
+        else
+          d = id.sub(/^\[/, "").sub(/\]$/, "")
+          "#{titlecase(type)} #{d}"
+        end
+      end
+
       def reference_format_start(bib)
         id = multi_bibitem_ref_code(bib)
-        id1 = render_multi_identifiers(id)
+        id1 = render_multi_identifiers(id, bib)
         out = id1
         date = bib.at(ns("./date[@type = 'published']/on | " \
           "./date[@type = 'published']/from")) and

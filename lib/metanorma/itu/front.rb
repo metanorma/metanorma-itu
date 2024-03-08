@@ -7,7 +7,7 @@ module Metanorma
   module ITU
     class Converter < Standoc::Converter
       def metadata_status(node, xml)
-        stage = (node.attr("status") || node.attr("docstage") || "published")
+        stage = node.attr("status") || node.attr("docstage") || "published"
         stage = "draft" if node.attributes.has_key?("draft")
         xml.status do |s|
           s.stage stage
@@ -36,9 +36,8 @@ module Metanorma
 
       def title_otherlangs(node, xml)
         node.attributes.each do |k, v|
-          next unless /^(annex)?title-(?<lang>.+)$/ =~ k
-          next if lang == @lang
-
+          /^(?:annex)?title-(?<lang>.+)$/ =~ k or next
+          lang == @lang and next
           type = /^annex/.match?(k) ? "annex" : "main"
           xml.title **attr_code(title_attr(type, lang)) do |t|
             t << Metanorma::Utils::asciidoc_sub(v)
@@ -49,7 +48,8 @@ module Metanorma
       def title(node, xml)
         title_defaultlang(node, xml)
         title_otherlangs(node, xml)
-        %w(subtitle amendment-title corrigendum-title).each do |t|
+        %w(subtitle amendment-title corrigendum-title collection-title
+           slogan-title).each do |t|
           other_title_defaultlang(node, xml, t)
           other_title_otherlangs(node, xml, t)
         end
@@ -64,9 +64,8 @@ module Metanorma
 
       def other_title_otherlangs(node, xml, type)
         node.attributes.each do |k, v|
-          next unless m = /^#{type}-(?<lang>.+)$/.match(k)
-          next if m[:lang] == @lang
-
+          m = /^#{type}-(?<lang>.+)$/.match(k) or next
+          m[:lang] == @lang and next
           xml.title **attr_code(title_attr(type.sub(/-title/, ""),
                                            m[:lang])) do |t|
             t << Metanorma::Utils::asciidoc_sub(v)
@@ -87,11 +86,19 @@ module Metanorma
       end
 
       def metadata_committee(node, xml)
+        metadata_sector(node, xml)
         metadata_committee1(node, xml, "")
         suffix = 2
         while node.attr("bureau_#{suffix}")
           metadata_committee1(node, xml, "_#{suffix}")
           suffix += 1
+        end
+      end
+
+      def metadata_sector(node, xml)
+        s = node.attr("sector") or return
+        xml.editorialgroup do |a|
+          a.sector { |x| x << s }
         end
       end
 
@@ -123,23 +130,17 @@ module Metanorma
       end
 
       def metadata_series(node, xml)
-        node.attr("series") and
-          xml.series **{ type: "main" } do |s|
-            s.title node.attr("series")
-          end
-        node.attr("series1") and
-          xml.series **{ type: "secondary" } do |s|
-            s.title node.attr("series1")
-          end
-        node.attr("series2") and
-          xml.series **{ type: "tertiary" } do |s|
-            s.title node.attr("series2")
-          end
+        { series: "main", series1: "secondary", series2: "tertiary" }
+          .each do |k, v|
+          node.attr(k.to_s) and
+            xml.series **{ type: v } do |s|
+              s.title node.attr(k.to_s)
+            end
+        end
       end
 
       def metadata_recommendationstatus(node, xml)
-        return unless node.attr("recommendation-from")
-
+        node.attr("recommendation-from") or return
         xml.recommendationstatus do |s|
           s.from node.attr("recommendation-from")
           s.to node.attr("recommendation-to") if node.attr("recommendation-to")
@@ -190,6 +191,18 @@ module Metanorma
         end
       end
 
+      def metadata_coverpage_images(node, xml)
+        %w(coverpage-image).each do |n|
+          if a = node.attr(n)
+            xml.send n do |c|
+              a.split(",").each do |x|
+                c.image src: x
+              end
+            end
+          end
+        end
+      end
+
       def metadata_ext(node, xml)
         metadata_doctype(node, xml)
         metadata_subdoctype(node, xml)
@@ -199,6 +212,7 @@ module Metanorma
         metadata_ip_notice(node, xml)
         metadata_techreport(node, xml)
         structured_id(node, xml)
+        metadata_coverpage_images(node, xml)
       end
     end
   end

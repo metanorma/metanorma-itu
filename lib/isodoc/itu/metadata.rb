@@ -31,6 +31,8 @@ module IsoDoc
           series1: "//bibdata/series[@type='secondary']/title",
           series2: "//bibdata/series[@type='tertiary']/title",
           annextitle: "//bibdata/title[@type='annex']",
+          collectiontitle: "//bibdata/title[@type='collection']",
+          slogantitle: "//bibdata/title[@type='slogan']",
           positiontitle: "//bibdata/title[@type='position-sp']" }.each do |k, v|
           titleset(isoxml, k, v)
         end
@@ -51,6 +53,8 @@ module IsoDoc
       end
 
       def author(xml, _out)
+        sector = xml.at(ns("//bibdata/ext/editorialgroup/sector"))
+        set(:sector, sector.text) if sector
         bureau = xml.at(ns("//bibdata/ext/editorialgroup/bureau"))
         set(:bureau, bureau.text) if bureau
         tc = xml.at(ns("//bibdata/ext/editorialgroup/committee"))

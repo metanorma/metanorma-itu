@@ -127,6 +127,10 @@ module Metanorma
         super
       end
 
+      def document_scheme(node)
+        super || "current"
+      end
+
       def html_extract_attributes(node)
         super.merge(hierarchicalassets:
                     node.attr("hierarchical-object-numbering"))

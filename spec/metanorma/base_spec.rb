@@ -300,6 +300,7 @@ RSpec.describe Metanorma::ITU do
         :sector: Sector
         :coverpage-image: images/image1.gif,images/image2.gif
         :document-scheme: legacy
+        :question: Q10/17: Identity management and telebiometrics architecture and mechanisms, "Q11/17: Generic technologies (such as Directory, PKI, formal languages, object identifiers) to support secure applications"
       INPUT
       output = <<~"OUTPUT"
            <?xml version="1.0" encoding="UTF-8"?>
@@ -689,6 +690,14 @@ RSpec.describe Metanorma::ITU do
                   </period>
                 </workgroup>
               </editorialgroup>
+              <question>
+               <identifier>Q10/17</identifier>
+               <name>Identity management and telebiometrics architecture and mechanisms</name>
+             </question>
+             <question>
+               <identifier>Q11/17</identifier>
+               <name>Generic technologies (such as Directory, PKI, formal languages, object identifiers) to support secure applications</name>
+             </question>
               <recommendationstatus>
                 <from>D3</from>
                 <to>E3</to>

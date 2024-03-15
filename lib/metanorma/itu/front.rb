@@ -86,12 +86,24 @@ module Metanorma
       end
 
       def metadata_committee(node, xml)
+        hyphenate_node_attributes(node)
         metadata_sector(node, xml)
         metadata_committee1(node, xml, "")
         suffix = 2
         while node.attr("bureau_#{suffix}")
           metadata_committee1(node, xml, "_#{suffix}")
           suffix += 1
+        end
+        metadata_question(node, xml)
+      end
+
+      def hyphenate_node_attributes(node)
+        a = node.attributes.dup
+        a.each do |k, v|
+          /group(type|acronym)/.match?(k) and
+            node.set_attr(k.sub(/group(type|acronym)/, "group-\\1"), v)
+          /group(yearstart|yearend)/.match?(k) and
+            node.set_attr(k.sub(/groupyear(start|end)/, "group-year-\\1"), v)
         end
       end
 
@@ -102,13 +114,25 @@ module Metanorma
         end
       end
 
+      def metadata_question(node, xml)
+        vals = csv_split(node.attr("question"), ",").map do |s1|
+          t, v = s1.split(":", 2).map(&:strip)
+          { id: t, value: v }
+        end
+        vals.each do |v|
+          xml.question do |q|
+            a = v[:id] and q.identifier a
+            a = v[:value] and q.name a
+          end
+        end
+      end
+
       def metadata_committee1(node, xml, suffix)
         xml.editorialgroup do |a|
           a.bureau ( node.attr("bureau#{suffix}") || "T")
           ["", "sub", "work"].each do |p|
-            next unless node.attr("#{p}group#{suffix}")
-
-            type = node.attr("#{p}grouptype#{suffix}")
+            node.attr("#{p}group#{suffix}") or next
+            type = node.attr("#{p}group-type#{suffix}")
             a.send "#{p}group", **attr_code(type: type) do |g|
               metadata_committee2(node, g, suffix, p)
             end
@@ -118,13 +142,11 @@ module Metanorma
 
       def metadata_committee2(node, group, suffix, prefix)
         group.name node.attr("#{prefix}group#{suffix}")
-        node.attr("#{prefix}groupacronym#{suffix}") and
-          group.acronym node.attr("#{prefix}groupacronym#{suffix}")
-        if node.attr("#{prefix}groupyearstart#{suffix}")
+        a = node.attr("#{prefix}group-acronym#{suffix}") and group.acronym a
+        if s = node.attr("#{prefix}group-year-start#{suffix}")
           group.period do |p|
-            p.start node.attr("#{prefix}groupyearstart#{suffix}")
-            node.attr("#{prefix}groupacronym#{suffix}") and
-              p.end node.attr("#{prefix}groupyearend#{suffix}")
+            p.start s
+            a = node.attr("#{prefix}group-year-end#{suffix}") and p.end a
           end
         end
       end

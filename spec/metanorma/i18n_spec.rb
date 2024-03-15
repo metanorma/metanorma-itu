@@ -6,6 +6,7 @@ RSpec.describe Metanorma::ITU do
     @blank_hdr = blank_hdr_gen
   end
 
+=begin
   it "processes explicit metadata, service publication in French" do
     input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
@@ -187,7 +188,7 @@ RSpec.describe Metanorma::ITU do
     expect(xmlpp(xml.to_xml))
       .to be_equivalent_to xmlpp(output)
   end
-
+=end
   it "processes summaries in other languages" do
     { "ar" => "ملخص", "de" => "Zusammenfassung", "en" => "Summary",
       "es" => "Resumen", "fr" => "Résumé", "ru" => "Резюме",

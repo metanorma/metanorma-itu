@@ -139,7 +139,7 @@ module Metanorma
           sym.next = "<p>#{@i18n.symbols_boilerplate}</p>"
       end
 
-      def sections_names_cleanup(xml)
+      def sections_names_pref_cleanup(xml)
         super
         t = xml.at("//preface//abstract") or return
         t["id"] == "_summary" and

@@ -2976,6 +2976,7 @@
 	<xsl:variable name="zero_width_space">​</xsl:variable>
 	<xsl:variable name="hair_space"> </xsl:variable>
 	<xsl:variable name="en_dash">–</xsl:variable>
+	<xsl:variable name="em_dash">—</xsl:variable>
 
 	<xsl:template name="getTitle">
 		<xsl:param name="name"/>

@@ -22,7 +22,10 @@
     </define>
     <define name="editorialgroup">
       <element name="editorialgroup">
-        <ref name="bureau"/>
+        <choice>
+          <ref name="bureau"/>
+          <ref name="sector"/>
+        </choice>
         <optional>
           <ref name="group"/>
         </optional>
@@ -67,7 +70,12 @@
       <optional>
         <ref name="docsubtype"/>
       </optional>
-      <ref name="editorialgroup"/>
+      <oneOrMore>
+        <ref name="editorialgroup"/>
+      </oneOrMore>
+      <zeroOrMore>
+        <ref name="question"/>
+      </zeroOrMore>
       <zeroOrMore>
         <ref name="ics"/>
       </zeroOrMore>
@@ -196,6 +204,11 @@
       </choice>
     </element>
   </define>
+  <define name="sector">
+    <element name="sector">
+      <text/>
+    </element>
+  </define>
   <define name="group">
     <element name="group">
       <ref name="ItuGroup"/>
@@ -209,11 +222,7 @@
   <define name="ItuGroup">
     <optional>
       <attribute name="type">
-        <choice>
-          <value>tsag</value>
-          <value>study-group</value>
-          <value>work-group</value>
-        </choice>
+        <ref name="ItuGroupType"/>
       </attribute>
     </optional>
     <ref name="tname"/>
@@ -223,6 +232,21 @@
     <optional>
       <ref name="groupperiod"/>
     </optional>
+  </define>
+  <define name="ItuGroupType">
+    <choice>
+      <value>tsag</value>
+      <value>study-group</value>
+      <value>focus-group</value>
+      <value>adhoc-group</value>
+      <value>correspondence-group</value>
+      <value>joint-coordination-activity</value>
+      <value>working-party</value>
+      <value>working-group</value>
+      <value>rapporteur-group</value>
+      <value>intersector-rapporteur-group</value>
+      <value>regional-group</value>
+    </choice>
   </define>
   <define name="groupacronym">
     <element name="acronym">
@@ -250,6 +274,18 @@
   <define name="workgroup">
     <element name="workgroup">
       <ref name="ItuGroup"/>
+    </element>
+  </define>
+  <define name="question">
+    <element name="question">
+      <element name="identifier">
+        <text/>
+      </element>
+      <optional>
+        <element name="name">
+          <text/>
+        </element>
+      </optional>
     </element>
   </define>
 </grammar>

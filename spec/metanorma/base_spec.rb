@@ -135,7 +135,7 @@ RSpec.describe Metanorma::ITU do
         <bibdata type="standard">
           <title language="en" format="text/plain" type="main">Main Title</title>
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-          <docidentifier type="ITU">ITU-T 1000</docidentifier>
+          <docidentifier primary="true" type="ITU">ITU-T 1000</docidentifier>
           <docidentifier type="ITU-lang">ITU-T 1000-E</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
@@ -300,6 +300,7 @@ RSpec.describe Metanorma::ITU do
         :sector: Sector
         :coverpage-image: images/image1.gif,images/image2.gif
         :document-scheme: legacy
+        :question: Q10/17: Identity management and telebiometrics architecture and mechanisms, "Q11/17: Generic technologies (such as Directory, PKI, formal languages, object identifiers) to support secure applications"
       INPUT
       output = <<~"OUTPUT"
            <?xml version="1.0" encoding="UTF-8"?>
@@ -319,7 +320,7 @@ RSpec.describe Metanorma::ITU do
             <title language="en" format="text/plain" type="slogan">Slogan</title>
             <docidentifier type='ITU-provisional'>ABC</docidentifier>
             <docidentifier type="ITU-TemporaryDocument">SG17-TD611</docidentifier>
-            <docidentifier type='ITU'>ITU-R 1000</docidentifier>
+            <docidentifier primary="true" type='ITU'>ITU-R 1000</docidentifier>
             <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
             <docidentifier type='ITU-Recommendation'>G.7713.1</docidentifier>
             <docidentifier type='ITU-Recommendation'>Y.1704.1</docidentifier>
@@ -689,6 +690,14 @@ RSpec.describe Metanorma::ITU do
                   </period>
                 </workgroup>
               </editorialgroup>
+              <question>
+               <identifier>Q10/17</identifier>
+               <name>Identity management and telebiometrics architecture and mechanisms</name>
+             </question>
+             <question>
+               <identifier>Q11/17</identifier>
+               <name>Generic technologies (such as Directory, PKI, formal languages, object identifiers) to support secure applications</name>
+             </question>
               <recommendationstatus>
                 <from>D3</from>
                 <to>E3</to>
@@ -850,7 +859,7 @@ RSpec.describe Metanorma::ITU do
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-          <docidentifier type='ITU'>ITU-R 1000</docidentifier>
+          <docidentifier primary="true" type='ITU'>ITU-R 1000</docidentifier>
           <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
@@ -1017,7 +1026,7 @@ RSpec.describe Metanorma::ITU do
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-          <docidentifier type='ITU'>OVERRIDE</docidentifier>
+          <docidentifier primary="true" type='ITU'>OVERRIDE</docidentifier>
           <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
@@ -1159,7 +1168,7 @@ RSpec.describe Metanorma::ITU do
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-          <docidentifier type='ITU'>Annex to ITU OB 1000</docidentifier>
+          <docidentifier primary="true" type='ITU'>Annex to ITU OB 1000</docidentifier>
           <docidentifier type='ITU-lang'>Annex to ITU OB 1000-E</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
@@ -1302,7 +1311,7 @@ RSpec.describe Metanorma::ITU do
       <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
       <bibdata type="standard">
         <title language="en" format="text/plain" type="main">Main Title</title>
-        <docidentifier type="ITU">ITU-T 1000</docidentifier>
+        <docidentifier primary="true" type="ITU">ITU-T 1000</docidentifier>
         <docidentifier type="ITU-lang">ITU-T 1000-E</docidentifier>
         <docnumber>1000</docnumber>
         <contributor>

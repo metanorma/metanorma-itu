@@ -65,7 +65,7 @@ RSpec.describe Metanorma::ITU do
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-          <docidentifier type='ITU'>Annexe au BE de l'UIT 1000</docidentifier>
+          <docidentifier primary="true" type='ITU'>Annexe au BE de l'UIT 1000</docidentifier>
           <docidentifier type='ITU-lang'>Annexe au BE de l'UIT 1000-F</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
@@ -418,7 +418,7 @@ RSpec.describe Metanorma::ITU do
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-          <docidentifier type='ITU'>
+          <docidentifier primary="true" type='ITU'>
             &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;
           </docidentifier>
           <docidentifier type='ITU-lang'>
@@ -747,7 +747,7 @@ RSpec.describe Metanorma::ITU do
         <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
         <title language='ar' format='text/plain' type='subtitle'>Soustitre</title>
         <docidentifier type='ITU-provisional'>ABC</docidentifier>
-        <docidentifier type='ITU'>
+        <docidentifier primary="true" type='ITU'>
           &#1605;&#1604;&#1581;&#1602;
           &#1576;&#1575;&#1604;&#1606;&#1588;&#1585;&#1577;
           &#1575;&#1604;&#1578;&#1588;&#1594;&#1610;&#1604;&#1610;&#1577;
@@ -1098,7 +1098,7 @@ RSpec.describe Metanorma::ITU do
         <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
         <title language='es' format='text/plain' type='subtitle'>Soustitre</title>
         <docidentifier type='ITU-provisional'>ABC</docidentifier>
-        <docidentifier type='ITU'>Anexo al BE de la UIT 1000</docidentifier>
+        <docidentifier primary="true" type='ITU'>Anexo al BE de la UIT 1000</docidentifier>
         <docidentifier type='ITU-lang'>Anexo al BE de la UIT 1000-S</docidentifier>
         <docnumber>1000</docnumber>
         <contributor>
@@ -1423,7 +1423,7 @@ RSpec.describe Metanorma::ITU do
         <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
         <title language='de' format='text/plain' type='subtitle'>Soustitre</title>
         <docidentifier type='ITU-provisional'>ABC</docidentifier>
-        <docidentifier type='ITU'>Anhang zum  ITU OB 1000</docidentifier>
+        <docidentifier primary="true" type='ITU'>Anhang zum  ITU OB 1000</docidentifier>
         <docidentifier type='ITU-lang'>Anhang zum  ITU OB 1000-</docidentifier>
         <docnumber>1000</docnumber>
         <contributor>
@@ -1747,7 +1747,7 @@ RSpec.describe Metanorma::ITU do
            <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
            <title language='ru' format='text/plain' type='subtitle'>Soustitre</title>
            <docidentifier type='ITU-provisional'>ABC</docidentifier>
-           <docidentifier type='ITU'>
+           <docidentifier primary="true" type='ITU'>
              &#1055;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;
              &#1082; &#1054;&#1041; &#1052;&#1057;&#1069; 1000
            </docidentifier>

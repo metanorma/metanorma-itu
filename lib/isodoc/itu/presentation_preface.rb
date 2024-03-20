@@ -32,14 +32,14 @@ module IsoDoc
           <tr><th rowspan="3"><image src="#{@meta.get[:logo_sp]}"/></th>
           <th rowspan="3"><p>#{@i18n.international_telecommunication_union}</p>
           <p class="bureau_big">#{@meta.get[:bureau_full]}</p>
-          <p>#{@i18n.studyperiod.sub('%', @meta.get[:study_group_period])}</th>
-          <th>#{@meta.get[:docnumber]}<th></tr>
+          <p>#{@i18n.studyperiod.sub('%', @meta.get[:study_group_period])}</p></th>
+          <th>#{@meta.get[:docnumber]}</th></tr>
           <tr><th>#{@meta.get[:group]}</th></tr>
           <tr><th>#{@i18n.l10n("#{@i18n.original}: #{@i18n.current_language}")}</th></tr></thead>
           <tbody>
           <tr><th>#{@i18n.l10n("#{@i18n.questions}:")}</th><td>#{@meta.get[:questions]}</td>
           <td align="right">#{@i18n.l10n("#{@meta.get[:meeting_place]}, #{@meta.get[:meeting_date]}")}</td></tr>
-          <tr><th align="center">#{@i18n.get['doctype_dict']['contribution']}</th></tr>
+          <tr><th align="center" colspan="3">#{@i18n.get['doctype_dict']['contribution']}</th></tr>
           <tr><th>#{@i18n.document_source}</th><td>#{@meta.get[:source]}</td></tr>
           <tr><th>#{@i18n.title}</th><td>#{@meta.get[:doctitle_en]}</td></tr>
           #{contribution_table_contacts}

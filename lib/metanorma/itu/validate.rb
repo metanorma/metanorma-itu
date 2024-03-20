@@ -72,7 +72,7 @@ module Metanorma
       def numbers_validate(xmldoc); end
 
       def style_two_regex_not_prev(node, text, regex, regex_prev, warning)
-        text.nil? and next
+        text.nil? and return
         arr = text.split(/\W+/)
         arr.each_index do |i|
           m = regex.match arr[i]

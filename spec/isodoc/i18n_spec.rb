@@ -220,7 +220,7 @@ RSpec.describe Metanorma::ITU do
       </abstract>
           <clause type="keyword" displayorder="3">
       <title depth="1">关　键　词</title>
-      <p>A, B.</p>
+       <p>A，B.</p>
       </clause>
       <foreword obligation="informative" displayorder="4">
          <title>Foreword</title>
@@ -293,7 +293,7 @@ RSpec.describe Metanorma::ITU do
           </div>
           <div class="Keyword">
           <h1 class="IntroTitle">关　键　词</h1>
-          <p>A, B.</p>
+          <p>A，B.</p>
         </div>
           <div>
             <h1 class='IntroTitle'>Foreword</h1>

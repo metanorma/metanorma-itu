@@ -27,18 +27,29 @@ module Metanorma
 
       def itu_id1(node, lang)
         bureau = node.attr("bureau") || "T"
-        id = if doctype(node) == "service-publication"
-               @i18n.annex_to_itu_ob_abbrev.sub(/%/,
-                                                node.attr("docnumber"))
+        id = case doctype(node)
+             when "service-publication"
+               itu_service_pub_id(node)
+             when "contribution"
+               itu_contrib_id(node)
              else
                "ITU-#{bureau} #{node.attr('docnumber')}"
              end
         id + (lang ? "-#{ITULANG[@lang]}" : "")
       end
 
-      def itu_id(node, xml)
-        return unless node.attr("docnumber") || node.attr("docidentifier")
+      def itu_service_pub_id(node)
+        @i18n.annex_to_itu_ob_abbrev.sub(/%/, node.attr("docnumber"))
+      end
 
+      def itu_contrib_id(node)
+        group = node.attr("group-acronym") ||
+          node.attr("group").sub("Study Group ", "SG")
+        "#{group}-C#{node.attr('docnumber')}"
+      end
+
+      def itu_id(node, xml)
+        node.attr("docnumber") || node.attr("docidentifier") or return
         xml.docidentifier type: "ITU", primary: "true" do |i|
           i << (node.attr("docidentifier") || itu_id1(node, false))
         end

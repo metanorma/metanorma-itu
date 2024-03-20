@@ -856,7 +856,8 @@ RSpec.describe Metanorma::ITU do
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
     expect(xmlpp(html
-      .gsub(%r{.*<p class="h1Preface">History</p>}m, '<div><p class="h1Preface">History</p>')
+      .gsub(%r{.*<p class="h1Preface">History</p>}m,
+            '<div><p class="h1Preface">History</p>')
       .sub(%r{</table>.*$}m, "</table></div></div>")))
       .to be_equivalent_to xmlpp(<<~OUTPUT)
               <div>
@@ -891,7 +892,6 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes unnumbered clauses" do
-    FileUtils.rm_f "test.html"
     input = <<~INPUT
              <itu-standard xmlns="http://riboseinc.com/isoxml">
              <bibdata type="standard">
@@ -950,7 +950,6 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes bis, ter etc clauses" do
-    FileUtils.rm_f "test.html"
     input = <<~INPUT
                      <itu-standard xmlns="http://riboseinc.com/isoxml">
                      <bibdata type="standard">
@@ -1026,7 +1025,6 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes editor clauses, one editor" do
-    FileUtils.rm_f "test.html"
     input = <<~INPUT
       <itu-standard xmlns="http://riboseinc.com/isoxml">
       <bibdata type="standard">
@@ -1088,7 +1086,6 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes editor clauses, two editors" do
-    FileUtils.rm_f "test.html"
     input = <<~INPUT
       <itu-standard xmlns="http://riboseinc.com/isoxml">
       <bibdata type="standard">
@@ -1146,6 +1143,282 @@ RSpec.describe Metanorma::ITU do
     OUTPUT
     xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
+    xml = xml.at("//xmlns:preface").to_xml
+    expect(xmlpp(strip_guid(xml)))
+      .to be_equivalent_to xmlpp(presxml)
+  end
+
+  it "generates contribution prefatory table" do
+    logoloc = File.expand_path(
+      File.join(File.dirname(__FILE__), "..", "..", "lib", "isodoc", "itu",
+                "html"),
+    )
+    input = <<~INPUT
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic'>
+        <bibdata type='standard'>
+          <title language='en' format='text/plain' type='main'>Main Title</title>
+          <title language='fr' format='text/plain' type='main'>Titre Principal</title>
+          <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+          <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+          <docidentifier type='ITU-provisional'>ABC</docidentifier>
+          <docidentifier primary="true" type='ITU'>SG17-C1000</docidentifier>
+          <docidentifier type='ITU-lang'>SG17-C1000-E</docidentifier>
+          <docnumber>1000</docnumber>
+          <contributor>
+            <role type='author'/>
+            <organization>
+              <name>International Telecommunication Union</name><abbreviation>ITU</abbreviation>
+            </organization>
+          </contributor>
+          <contributor>
+          <role type='editor'>raporteur</role>
+            <person>
+              <name>
+                <completename>Fred Flintstone</completename>
+              </name>
+              <affiliation>
+                <organization>
+                  <name>Bedrock Quarry</name>
+                  <address>
+                    <formattedAddress>Canada</formattedAddress>
+                  </address>
+                </organization>
+              </affiliation>
+              <phone>555</phone>
+              <phone type='fax'>556</phone>
+              <email>x@example.com</email>
+            </person>
+          </contributor>
+          <contributor>
+            <role type='editor'/>
+            <person>
+              <name>
+                <completename>Barney Rubble</completename>
+              </name>
+              <affiliation>
+                <organization>
+                  <name>Bedrock Quarry 2</name>
+                  <address>
+                    <formattedAddress>USA</formattedAddress>
+                  </address>
+                </organization>
+              </affiliation>
+              <phone>557</phone>
+              <phone type='fax'>558</phone>
+              <email>y@example.com</email>
+            </person>
+          </contributor>
+          <contributor>
+            <role type='publisher'/>
+            <organization>
+              <name>International Telecommunication Union</name>
+              <abbreviation>ITU</abbreviation>
+            </organization>
+          </contributor>
+          <edition>2</edition>
+          <version>
+            <revision-date>2000-01-01</revision-date>
+            <draft>5</draft>
+          </version>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>draft</stage>
+          </status>
+          <copyright>
+            <from>2001</from>
+            <owner>
+              <organization>
+                <name>International Telecommunication Union</name>
+                <abbreviation>ITU</abbreviation>
+              </organization>
+            </owner>
+          </copyright>
+          <series type='main'>
+            <title>A3</title>
+          </series>
+          <series type='secondary'>
+            <title>B3</title>
+          </series>
+          <series type='tertiary'>
+            <title>C3</title>
+          </series>
+          <keyword>VoIP</keyword>
+          <keyword>word1</keyword>
+          <ext>
+            <doctype>contribution</doctype>
+            <editorialgroup>
+              <bureau>R</bureau>
+              <group type="study-group">
+                <name>Study Group 17</name>
+                <acronym>SG17</acronym>
+                <period>
+                  <start>2000</start>
+                  <end>2002</end>
+                </period>
+              </group>
+              <subgroup>
+                <name>I1</name>
+              </subgroup>
+              <workgroup>
+                <name>I2</name>
+              </workgroup>
+            </editorialgroup>
+            <ip-notice-received>false</ip-notice-received>
+            <meeting acronym='MX'>Meeting X</meeting>
+            <meeting-place>Kronos</meeting-place>
+            <meeting-date>
+              <from>2000-01-01</from>
+              <to>2000-01-02</to>
+            </meeting-date>
+            <intended-type>TD</intended-type>
+            <source>Source1</source>
+            <structuredidentifier>
+              <bureau>R</bureau>
+              <docnumber>1000</docnumber>
+            </structuredidentifier>
+          </ext>
+        </bibdata>
+        <sections> </sections>
+        </itu-standard>
+    INPUT
+    presxml = <<~OUTPUT
+      <preface>
+         <clause unnumbered="true" displayorder="1">
+           <table class="contribution-metadata" unnumbered="true">
+             <thead>
+               <tr>
+                 <th rowspan="3">
+                   <image src="#{File.join(logoloc, '/logo-sp.png')}"/>
+                 </th>
+                 <th rowspan="3">
+                   <p>International Telecommunication Union</p>
+                   <p class="bureau_big">Radiocommunication Bureau<br/>of ITU</p>
+                   <p>Study Period 2000–2002</p>
+                   <th>SG17-C1000<th/><tr><th>Study Group 17</th></tr><tr><th>Original: English</th></tr></th>
+                   <tbody>
+                     <tr>
+                       <th>Question(s):</th>
+                       <td/>
+                       <td align="right">Kronos, 01 Jan 2000/02 Jan 2000</td>
+                     </tr>
+                     <tr>
+                       <th align="center">Contribution</th>
+                     </tr>
+                     <tr>
+                       <th>Source</th>
+                       <td>Source1</td>
+                     </tr>
+                     <tr>
+                       <th>Title</th>
+                       <td>Main Title</td>
+                     </tr>
+                     <tr>
+                       <th>Contact</th>
+                       <td>Fred Flintstone<br/>
+       Bedrock Quarry<br/>
+       Canada</td>
+                       <td>Tel.<tab/>555<br/>
+       E-mail<tab/>x@example.com</td>
+                     </tr>
+                     <tr>
+                       <th>Contact</th>
+                       <td>Barney Rubble<br/>
+       Bedrock Quarry 2<br/>
+       USA</td>
+                       <td>Tel.<tab/>557<br/>
+       E-mail<tab/>y@example.com</td>
+                     </tr>
+                     <tr>
+                       <th>Contact</th>
+                       <td>
+                         <br/>
+                         <br/>
+                       </td>
+                       <td>Tel.<tab/><br/>
+       E-mail<tab/></td>
+                     </tr>
+                   </tbody>
+                 </th>
+               </tr>
+             </thead>
+           </table>
+         </clause>
+       </preface>
+    OUTPUT
+    xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+      .convert("test", input, true))
+    xml = xml.at("//xmlns:preface").to_xml
+    expect(xmlpp(strip_guid(xml)))
+      .to be_equivalent_to xmlpp(presxml)
+
+    presxml = <<~OUTPUT
+      <preface>
+        <clause unnumbered="true" displayorder="1">
+          <table class="contribution-metadata" unnumbered="true">
+            <thead>
+              <tr>
+                <th rowspan="3">
+                  <image src="/Users/nickn/Documents/Arbeit/upwork/ribose/metanorma-itu/lib/isodoc/itu/html/logo-sp.png"/>
+                </th>
+                <th rowspan="3">
+                  <p>Union internationale des télécommunications</p>
+                  <p class="bureau_big">Bureau des radiocommunications<br/>de l’UIT</p>
+                  <p>Période d’études 2000–2002</p>
+                  <th>SG17-C1000<th/><tr><th>Study Group 17</th></tr><tr><th>Original : Français</th></tr></th>
+                  <tbody>
+                    <tr>
+                      <th>Question(s):</th>
+                      <td/>
+                      <td align="right">Kronos, 01 janv. 2000/02 janv. 2000</td>
+                    </tr>
+                    <tr>
+                      <th align="center">Contribution</th>
+                    </tr>
+                    <tr>
+                      <th>Source</th>
+                      <td>Source1</td>
+                    </tr>
+                    <tr>
+                      <th>Titre</th>
+                      <td>Main Title</td>
+                    </tr>
+                    <tr>
+                      <th>Contact</th>
+                      <td>Fred Flintstone<br/>
+      Bedrock Quarry<br/>
+      Canada</td>
+                      <td>Tél.<tab/>555<br/>
+      E-mail<tab/>x@example.com</td>
+                    </tr>
+                    <tr>
+                      <th>Contact</th>
+                      <td>Barney Rubble<br/>
+      Bedrock Quarry 2<br/>
+      USA</td>
+                      <td>Tél.<tab/>557<br/>
+      E-mail<tab/>y@example.com</td>
+                    </tr>
+                    <tr>
+                      <th>Contact</th>
+                      <td>
+                        <br/>
+                        <br/>
+                      </td>
+                      <td>Tél.<tab/><br/>
+      E-mail<tab/></td>
+                    </tr>
+                  </tbody>
+                </th>
+              </tr>
+            </thead>
+          </table>
+        </clause>
+      </preface>
+    OUTPUT
+    xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+      .convert("test", input
+      .sub("<language>en</language>", "<language>fr</language>"), true))
     xml = xml.at("//xmlns:preface").to_xml
     expect(xmlpp(strip_guid(xml)))
       .to be_equivalent_to xmlpp(presxml)

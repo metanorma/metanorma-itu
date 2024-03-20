@@ -36,6 +36,10 @@ module IsoDoc
           positiontitle: "//bibdata/title[@type='position-sp']" }.each do |k, v|
           titleset(isoxml, k, v)
         end
+        titleset(isoxml, :doctitle_en,
+                 "//bibdata/title[@language='en'][@type = 'main']") or
+          titleset(isoxml, :doctitle_en,
+                   "//bibdata/title[@language='#{@lang}'][@type = 'main']")
       end
 
       def titleset(isoxml, key, xpath)
@@ -46,6 +50,7 @@ module IsoDoc
           end
         end.join
         set(key, out.sub(%r{^<span>}, "").sub(%r{</span>$}, ""))
+        true
       end
 
       def subtitle(_isoxml, _out)
@@ -55,12 +60,19 @@ module IsoDoc
       def author(xml, _out)
         sector = xml.at(ns("//bibdata/ext/editorialgroup/sector"))
         set(:sector, sector.text) if sector
-        bureau = xml.at(ns("//bibdata/ext/editorialgroup/bureau"))
-        set(:bureau, bureau.text) if bureau
+        bureau(xml)
         tc = xml.at(ns("//bibdata/ext/editorialgroup/committee"))
         set(:tc, tc.text) if tc
         tc = xml.at(ns("//bibdata/ext/editorialgroup/group/name"))
         set(:group, tc.text) if tc
+        tc = xml.at(ns("//bibdata/ext/editorialgroup/group/acronym"))
+        set(:group_acronym, tc.text) if tc
+        start1 = xml.at(ns("//bibdata/ext/editorialgroup/group/period/start"))
+        end1 = xml.at(ns("//bibdata/ext/editorialgroup/group/period/end"))
+        if start1
+          set(:study_group_period,
+              @i18n.l10n("#{start1.text}–#{end1.text}"))
+        end
         tc = xml.at(ns("//bibdata/ext/editorialgroup/subgroup/name"))
         set(:subgroup, tc.text) if tc
         tc = xml.at(ns("//bibdata/ext/editorialgroup/workgroup/name"))
@@ -69,6 +81,17 @@ module IsoDoc
         authors = xml.xpath(ns("//bibdata/contributor[role/@type = 'author' " \
                                "or xmlns:role/@type = 'editor']/person"))
         person_attributes(authors) unless authors.empty?
+      end
+
+      def bureau(xml)
+        if bureau = xml.at(ns("//bibdata/ext/editorialgroup/bureau"))
+          set(:bureau, bureau.text)
+          case bureau.text
+          when "T" then set(:bureau_full, @i18n.tsb_full)
+          when "D" then set(:bureau_full, @i18n.bdt_full)
+          when "R" then set(:bureau_full, @i18n.br_full)
+          end
+        end
       end
 
       def append(key, value)
@@ -134,6 +157,9 @@ module IsoDoc
       def keywords(isoxml, _out)
         super
         set(:keywords, get[:keywords].sort)
+        q = isoxml.xpath(ns("//bibdata/ext/question/identifier"))
+        q.empty? or set(:questions,
+                        q.map { |x| x.text.sub(/^Q/, "") }.join(", "))
       end
 
       def doctype(isoxml, _out)

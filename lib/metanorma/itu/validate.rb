@@ -6,11 +6,12 @@ module Metanorma
         stage_validate(doc)
       end
 
-      def doctype_validate(xmldoc)
+      def doctype_validate(_xmldoc)
         %w(recommendation recommendation-supplement recommendation-amendment
            recommendation-corrigendum recommendation-errata recommendation-annex
            focus-group implementers-guide technical-paper technical-report
-           joint-itu-iso-iec service-publication).include? @doctype or
+           joint-itu-iso-iec service-publication
+           contribution).include? @doctype or
           @log.add("Document Attributes", nil,
                    "#{@doctype} is not a recognised document type")
       end
@@ -71,8 +72,7 @@ module Metanorma
       def numbers_validate(xmldoc); end
 
       def style_two_regex_not_prev(node, text, regex, regex_prev, warning)
-        return if text.nil?
-
+        text.nil? and next
         arr = text.split(/\W+/)
         arr.each_index do |i|
           m = regex.match arr[i]

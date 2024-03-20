@@ -29,7 +29,7 @@ module IsoDoc
         <<~TABLE
           <clause unnumbered="true">
           <table class="contribution-metadata" unnumbered="true"><thead>
-          <tr><th rowspan="3"><image src="#{@meta.get[:logo_sp]}"/></th>
+          <tr><th rowspan="3"><image src="#{@meta.get[:logo_small]}"/></th>
           <th rowspan="3"><p>#{@i18n.international_telecommunication_union}</p>
           <p class="bureau_big">#{@meta.get[:bureau_full]}</p>
           <p>#{@i18n.studyperiod.sub('%', @meta.get[:study_group_period])}</p></th>

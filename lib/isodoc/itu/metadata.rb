@@ -11,6 +11,7 @@ module IsoDoc
         set(:logo_comb, fileloc("itu-document-comb.png"))
         set(:logo_word, fileloc(n))
         set(:logo_sp, fileloc("logo-sp.png"))
+        set(:logo_small, fileloc("logo-small.png"))
         @isodoc = IsoDoc::ITU::HtmlConvert.new({})
       end
 

@@ -1316,11 +1316,11 @@ RSpec.describe Metanorma::ITU do
                </tr>
                <tr>
                  <th>Source</th>
-                 <td>Source1</td>
+                 <td colspan="2">Source1</td>
                </tr>
                <tr>
                  <th>Title</th>
-                 <td>Main Title</td>
+                 <td colspan="2">Main Title</td>
                </tr>
                <tr>
                  <th>Contact</th>
@@ -1392,11 +1392,11 @@ RSpec.describe Metanorma::ITU do
                </tr>
                <tr>
                  <th>Source</th>
-                 <td>Source1</td>
+                 <td  colspan="2">Source1</td>
                </tr>
                <tr>
                  <th>Titre</th>
-                 <td>Main Title</td>
+                 <td  colspan="2">Main Title</td>
                </tr>
                <tr>
                  <th>Contact</th>

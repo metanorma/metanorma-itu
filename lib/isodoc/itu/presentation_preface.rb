@@ -40,8 +40,8 @@ module IsoDoc
           <tr><th>#{@i18n.l10n("#{@i18n.questions}:")}</th><td>#{@meta.get[:questions]}</td>
           <td align="right">#{@i18n.l10n("#{@meta.get[:meeting_place]}, #{@meta.get[:meeting_date]}")}</td></tr>
           <tr><th align="center" colspan="3">#{@i18n.get['doctype_dict']['contribution']}</th></tr>
-          <tr><th>#{@i18n.document_source}</th><td>#{@meta.get[:source]}</td></tr>
-          <tr><th>#{@i18n.title}</th><td>#{@meta.get[:doctitle_en]}</td></tr>
+          <tr><th>#{@i18n.document_source}</th><td colspan="2">#{@meta.get[:source]}</td></tr>
+          <tr><th>#{@i18n.title}</th><td colspan="2">#{@meta.get[:doctitle_en]}</td></tr>
           #{contribution_table_contacts}
           </tbody></table>
           </clause>

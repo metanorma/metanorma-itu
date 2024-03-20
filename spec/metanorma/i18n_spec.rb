@@ -156,12 +156,15 @@ RSpec.describe Metanorma::ITU do
               <bureau>R</bureau>
               <group>
                 <name>I</name>
+                #{current_study_period}
               </group>
               <subgroup>
                 <name>I1</name>
+                #{current_study_period}
               </subgroup>
               <workgroup>
                 <name>I2</name>
+                #{current_study_period}
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
@@ -510,12 +513,15 @@ RSpec.describe Metanorma::ITU do
               <bureau>R</bureau>
               <group>
                 <name>I</name>
+                #{current_study_period}
               </group>
               <subgroup>
                 <name>I1</name>
+                #{current_study_period}
               </subgroup>
               <workgroup>
                 <name>I2</name>
+                #{current_study_period}
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
@@ -845,12 +851,15 @@ RSpec.describe Metanorma::ITU do
             <bureau>R</bureau>
             <group>
               <name>I</name>
+                #{current_study_period}
             </group>
             <subgroup>
               <name>I1</name>
+                #{current_study_period}
             </subgroup>
             <workgroup>
               <name>I2</name>
+                #{current_study_period}
             </workgroup>
           </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
@@ -1189,12 +1198,15 @@ RSpec.describe Metanorma::ITU do
             <bureau>R</bureau>
             <group>
               <name>I</name>
+                #{current_study_period}
             </group>
             <subgroup>
               <name>I1</name>
+                #{current_study_period}
             </subgroup>
             <workgroup>
               <name>I2</name>
+                #{current_study_period}
             </workgroup>
           </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
@@ -1514,12 +1526,15 @@ RSpec.describe Metanorma::ITU do
             <bureau>R</bureau>
             <group>
               <name>I</name>
+                #{current_study_period}
             </group>
             <subgroup>
               <name>I1</name>
+                #{current_study_period}
             </subgroup>
             <workgroup>
               <name>I2</name>
+                #{current_study_period}
             </workgroup>
           </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
@@ -1844,12 +1859,15 @@ RSpec.describe Metanorma::ITU do
                <bureau>R</bureau>
                <group>
                  <name>I</name>
+                #{current_study_period}
                </group>
                <subgroup>
                  <name>I1</name>
+                #{current_study_period}
                </subgroup>
                <workgroup>
                  <name>I2</name>
+                #{current_study_period}
                </workgroup>
              </editorialgroup>
              <ip-notice-received>false</ip-notice-received>

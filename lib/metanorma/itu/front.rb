@@ -1,5 +1,3 @@
-require "asciidoctor"
-require "metanorma/standoc/converter"
 require "fileutils"
 require_relative "./front_id"
 
@@ -143,12 +141,18 @@ module Metanorma
       def metadata_committee2(node, group, suffix, prefix)
         group.name node.attr("#{prefix}group#{suffix}")
         a = node.attr("#{prefix}group-acronym#{suffix}") and group.acronym a
-        if s = node.attr("#{prefix}group-year-start#{suffix}")
-          group.period do |p|
-            p.start s
-            a = node.attr("#{prefix}group-year-end#{suffix}") and p.end a
-          end
+        s, e = group_period(node, prefix, suffix)
+        group.period do |p|
+          p.start s
+          p.end e
         end
+      end
+
+      def group_period(node, prefix, suffix)
+        s = node.attr("#{prefix}group-year-start#{suffix}") ||
+          Date.today.year - (Date.today.year % 2)
+        e = node.attr("#{prefix}group-year-end#{suffix}") || s.to_i + 2
+        [s, e]
       end
 
       def metadata_series(node, xml)

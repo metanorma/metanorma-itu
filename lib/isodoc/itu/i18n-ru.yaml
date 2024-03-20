@@ -1,3 +1,11 @@
+questions: Вопрос(ы)
+studyperiod: Исследовательский период % гг.
+original: Оригинал
+contact: Контакт
+tel_abbrev: Тел.
+document_source: Источник
+title: Название
+current_language: Русский
 termsdef: Определения
 termsdefsymbolsabbrev: Определения
 termsdefsymbols: Определения
@@ -86,6 +94,7 @@ doctype_dict:
   technical-report: Технический Отчет
   joint-itu-iso-iec: Совместно ITU/ISO/IEC
   service-publication: Публикация Услуг
+  contribution: Вклад
 doctype_abbrev:
   recommendation: Рек.
   recommendation-supplement: Рек.
@@ -99,6 +108,7 @@ doctype_abbrev:
   technical-report: ТО
   joint-itu-iso-iec: ITU/ISO/IEC
   service-publication: 
+  contribution: 
 inflection:
   редактор:
     sg: редактор

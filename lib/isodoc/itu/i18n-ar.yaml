@@ -1,3 +1,11 @@
+questions: المسألة
+studyperiod: "% فترة الدراسة "
+original: إبداعي
+contact: الاتصال
+tel_abbrev: هاتف
+document_source: المصدر
+title: العنوان
+current_language: العربية
 termsdef: مصطلحات معرفة
 termsdefsymbolsabbrev: تعريف
 termsdefsymbols: تعريف
@@ -82,6 +90,7 @@ doctype_dict:
   technical-report: تقرير فني
   joint-itu-iso-iec: ITU/ISO/IEC مشترك
   service-publication: منشور خدمي
+  contribution: مساهمة
 doctype_abbrev:
   recommendation: Rec.
   recommendation-supplement: Rec.
@@ -95,6 +104,7 @@ doctype_abbrev:
   technical-report: TR
   joint-itu-iso-iec: ITU/ISO/IEC
   service-publication:
+  contribution:
 inflection:
   محرر:
     sg: محرر

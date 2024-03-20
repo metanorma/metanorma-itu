@@ -25,7 +25,7 @@ module IsoDoc
         super
       end
 
-      def convert1(docxml, filename, dir)
+      def section(docxml)
         insert_preface_sections(docxml)
         super
       end
@@ -92,14 +92,18 @@ module IsoDoc
       end
 
       def clause1(elem)
-        @doctype == "resolution" or return super
-        %w(sections bibliography).include? elem.parent.name or return super
+        clause1_super?(elem) and return super
         @suppressheadingnumbers || elem["unnumbered"] and return
         t = elem.at(ns("./title")) and t["depth"] = "1"
         lbl = @xrefs.anchor(elem["id"], :label, false) or return
         elem.previous =
           "<p keep-with-next='true' class='supertitle'>" \
           "#{@i18n.get['section'].upcase} #{lbl}</p>"
+      end
+
+      def clause1_super?(elem)
+        @doctype != "resolution" ||
+          !%w(sections bibliography).include?(elem.parent.name)
       end
 
       def annex1(elem)
@@ -134,11 +138,6 @@ module IsoDoc
         super
       end
 
-      def toc_title(docxml)
-        @doctype == "resolution" and return
-        super
-      end
-
       def middle_title(isoxml)
         s = isoxml.at(ns("//sections")) or return
         titfn = isoxml.at(ns("//note[@type = 'title-footnote']"))
@@ -151,7 +150,8 @@ module IsoDoc
       end
 
       def renumber_footnotes(isoxml)
-        (isoxml.xpath(ns("//fn")) - isoxml.xpath(ns("//table//fn | //figure//fn")))
+        (isoxml.xpath(ns("//fn")) -
+         isoxml.xpath(ns("//table//fn | //figure//fn")))
           .each_with_index do |fn, i|
             fn["reference"] = (i + 1).to_s
           end
@@ -212,7 +212,8 @@ module IsoDoc
 
       def dl1(dlist)
         ins = dlist.at(ns("./dt"))
-        ins.previous = '<colgroup><col width="20%"/><col width="80%"/></colgroup>'
+        ins.previous =
+          '<colgroup><col width="20%"/><col width="80%"/></colgroup>'
       end
 
       include Init

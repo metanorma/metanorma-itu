@@ -21,6 +21,11 @@ module IsoDoc
         end
       end
 
+      def make_body1(body, _docxml)
+        @wordcoverpage or return
+        super
+      end
+
       def abstract(clause, out)
         out.div **attr_code(id: clause["id"], class: "Abstract") do |s|
           clause_name(clause, "Summary", s, class: "AbstractTitle")
@@ -42,10 +47,14 @@ module IsoDoc
       end
 
       def convert1(docxml, filename, dir)
-        if @doctype == "service-publication"
+        case @doctype
+        when "service-publication"
           @wordcoverpage = html_doc_path("word_itu_titlepage_sp.html")
           options[:bodyfont] = "Arial"
           options[:headerfont] = "Arial"
+        when "contribution"
+          @wordcoverpage = nil
+          @wordintropage = nil
         end
         super
       end

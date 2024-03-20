@@ -1289,7 +1289,7 @@ RSpec.describe Metanorma::ITU do
              <thead>
                <tr>
                  <th rowspan="3">
-                   <image src="#{File.join(logoloc, '/logo-sp.png')}"/>
+                   <image src="#{File.join(logoloc, '/logo-small.png')}"/>
                  </th>
                  <th rowspan="3">
                    <p>International Telecommunication Union</p>

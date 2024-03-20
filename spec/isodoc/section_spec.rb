@@ -1295,53 +1295,59 @@ RSpec.describe Metanorma::ITU do
                    <p>International Telecommunication Union</p>
                    <p class="bureau_big">Radiocommunication Bureau<br/>of ITU</p>
                    <p>Study Period 2000–2002</p>
-                   <th>SG17-C1000<th/><tr><th>Study Group 17</th></tr><tr><th>Original: English</th></tr></th>
-                   <tbody>
-                     <tr>
-                       <th>Question(s):</th>
-                       <td/>
-                       <td align="right">Kronos, 01 Jan 2000/02 Jan 2000</td>
-                     </tr>
-                     <tr>
-                       <th align="center">Contribution</th>
-                     </tr>
-                     <tr>
-                       <th>Source</th>
-                       <td>Source1</td>
-                     </tr>
-                     <tr>
-                       <th>Title</th>
-                       <td>Main Title</td>
-                     </tr>
-                     <tr>
-                       <th>Contact</th>
-                       <td>Fred Flintstone<br/>
-       Bedrock Quarry<br/>
-       Canada</td>
-                       <td>Tel.<tab/>555<br/>
-       E-mail<tab/>x@example.com</td>
-                     </tr>
-                     <tr>
-                       <th>Contact</th>
-                       <td>Barney Rubble<br/>
-       Bedrock Quarry 2<br/>
-       USA</td>
-                       <td>Tel.<tab/>557<br/>
-       E-mail<tab/>y@example.com</td>
-                     </tr>
-                     <tr>
-                       <th>Contact</th>
-                       <td>
-                         <br/>
-                         <br/>
-                       </td>
-                       <td>Tel.<tab/><br/>
-       E-mail<tab/></td>
-                     </tr>
-                   </tbody>
                  </th>
+                 <th>SG17-C1000</th>
+               </tr>
+               <tr>
+                 <th>Study Group 17</th>
+               </tr>
+               <tr>
+                 <th>Original: English</th>
                </tr>
              </thead>
+             <tbody>
+               <tr>
+                 <th>Question(s):</th>
+                 <td/>
+                 <td align="right">Kronos, 01 Jan 2000/02 Jan 2000</td>
+               </tr>
+               <tr>
+                 <th align="center"  colspan="3">Contribution</th>
+               </tr>
+               <tr>
+                 <th>Source</th>
+                 <td>Source1</td>
+               </tr>
+               <tr>
+                 <th>Title</th>
+                 <td>Main Title</td>
+               </tr>
+               <tr>
+                 <th>Contact</th>
+                 <td>Fred Flintstone<br/>
+       Bedrock Quarry<br/>
+       Canada</td>
+                 <td>Tel.<tab/>555<br/>
+       E-mail<tab/>x@example.com</td>
+               </tr>
+               <tr>
+                 <th>Contact</th>
+                 <td>Barney Rubble<br/>
+       Bedrock Quarry 2<br/>
+       USA</td>
+                 <td>Tel.<tab/>557<br/>
+       E-mail<tab/>y@example.com</td>
+               </tr>
+               <tr>
+                 <th>Contact</th>
+                 <td>
+                   <br/>
+                   <br/>
+                 </td>
+                 <td>Tel.<tab/><br/>
+       E-mail<tab/></td>
+               </tr>
+             </tbody>
            </table>
          </clause>
        </preface>
@@ -1354,67 +1360,73 @@ RSpec.describe Metanorma::ITU do
 
     presxml = <<~OUTPUT
       <preface>
-        <clause unnumbered="true" displayorder="1">
-          <table class="contribution-metadata" unnumbered="true">
-            <thead>
-              <tr>
-                <th rowspan="3">
-                  <image src="/Users/nickn/Documents/Arbeit/upwork/ribose/metanorma-itu/lib/isodoc/itu/html/logo-sp.png"/>
-                </th>
-                <th rowspan="3">
-                  <p>Union internationale des télécommunications</p>
-                  <p class="bureau_big">Bureau des radiocommunications<br/>de l’UIT</p>
-                  <p>Période d’études 2000–2002</p>
-                  <th>SG17-C1000<th/><tr><th>Study Group 17</th></tr><tr><th>Original : Français</th></tr></th>
-                  <tbody>
-                    <tr>
-                      <th>Question(s):</th>
-                      <td/>
-                      <td align="right">Kronos, 01 janv. 2000/02 janv. 2000</td>
-                    </tr>
-                    <tr>
-                      <th align="center">Contribution</th>
-                    </tr>
-                    <tr>
-                      <th>Source</th>
-                      <td>Source1</td>
-                    </tr>
-                    <tr>
-                      <th>Titre</th>
-                      <td>Main Title</td>
-                    </tr>
-                    <tr>
-                      <th>Contact</th>
-                      <td>Fred Flintstone<br/>
-      Bedrock Quarry<br/>
-      Canada</td>
-                      <td>Tél.<tab/>555<br/>
-      E-mail<tab/>x@example.com</td>
-                    </tr>
-                    <tr>
-                      <th>Contact</th>
-                      <td>Barney Rubble<br/>
-      Bedrock Quarry 2<br/>
-      USA</td>
-                      <td>Tél.<tab/>557<br/>
-      E-mail<tab/>y@example.com</td>
-                    </tr>
-                    <tr>
-                      <th>Contact</th>
-                      <td>
-                        <br/>
-                        <br/>
-                      </td>
-                      <td>Tél.<tab/><br/>
-      E-mail<tab/></td>
-                    </tr>
-                  </tbody>
-                </th>
-              </tr>
-            </thead>
-          </table>
-        </clause>
-      </preface>
+         <clause unnumbered="true" displayorder="1">
+           <table class="contribution-metadata" unnumbered="true">
+             <thead>
+               <tr>
+                 <th rowspan="3">
+                   <image src="#{File.join(logoloc, '/logo-sp.png')}"/>
+                 </th>
+                 <th rowspan="3">
+                   <p>Union internationale des télécommunications</p>
+                   <p class="bureau_big">Bureau des radiocommunications<br/>de l’UIT</p>
+                   <p>Période d’études 2000–2002</p>
+                 </th>
+                 <th>SG17-C1000</th>
+               </tr>
+               <tr>
+                 <th>Study Group 17</th>
+               </tr>
+               <tr>
+                 <th>Original : Français</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <th>Question(s):</th>
+                 <td/>
+                 <td align="right">Kronos, 01 janv. 2000/02 janv. 2000</td>
+               </tr>
+               <tr>
+                 <th align="center"  colspan="3">Contribution</th>
+               </tr>
+               <tr>
+                 <th>Source</th>
+                 <td>Source1</td>
+               </tr>
+               <tr>
+                 <th>Titre</th>
+                 <td>Main Title</td>
+               </tr>
+               <tr>
+                 <th>Contact</th>
+                 <td>Fred Flintstone<br/>
+       Bedrock Quarry<br/>
+       Canada</td>
+                 <td>Tél.<tab/>555<br/>
+       E-mail<tab/>x@example.com</td>
+               </tr>
+               <tr>
+                 <th>Contact</th>
+                 <td>Barney Rubble<br/>
+       Bedrock Quarry 2<br/>
+       USA</td>
+                 <td>Tél.<tab/>557<br/>
+       E-mail<tab/>y@example.com</td>
+               </tr>
+               <tr>
+                 <th>Contact</th>
+                 <td>
+                   <br/>
+                   <br/>
+                 </td>
+                 <td>Tél.<tab/><br/>
+       E-mail<tab/></td>
+               </tr>
+             </tbody>
+           </table>
+         </clause>
+       </preface>
     OUTPUT
     xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input

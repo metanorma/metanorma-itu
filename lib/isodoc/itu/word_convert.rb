@@ -26,9 +26,19 @@ module IsoDoc
         super
       end
 
+      def make_body2(body, docxml)
+        body.div class: "WordSection2" do |div2|
+          boilerplate docxml, div2
+          content(div2, docxml, ns("//preface/*[@displayorder]"))
+          div2.p { |p| p << "&#xa0;" } # placeholder
+        end
+        @doctype == "contribution" or section_break(body)
+      end
+
       def abstract(clause, out)
         out.div **attr_code(id: clause["id"], class: "Abstract") do |s|
-          clause_name(clause, "Summary", s, class: "AbstractTitle")
+          @doctype == "contribution" or
+            clause_name(clause, "Summary", s, class: "AbstractTitle")
           clause.elements.each { |e| parse(e, s) unless e.name == "title" }
         end
       end

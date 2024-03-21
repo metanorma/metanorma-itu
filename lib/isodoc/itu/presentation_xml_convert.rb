@@ -141,8 +141,10 @@ module IsoDoc
       def middle_title(isoxml)
         s = isoxml.at(ns("//sections")) or return
         titfn = isoxml.at(ns("//note[@type = 'title-footnote']"))
-        if @meta.get[:doctype] == "Resolution"
+        case @doctype
+        when "resolution"
           middle_title_resolution(isoxml, s.children.first)
+        when "contribution"
         else
           middle_title_recommendation(isoxml, s.children.first)
         end

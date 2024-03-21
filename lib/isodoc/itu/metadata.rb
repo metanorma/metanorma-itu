@@ -1,4 +1,3 @@
-require "isodoc"
 require "twitter_cldr"
 
 module IsoDoc
@@ -20,13 +19,13 @@ module IsoDoc
         File.expand_path(File.join(here, "html", file))
       end
 
-      def title(isoxml, _out)
-        { doctitle: "//bibdata/title[@language='#{@lang}'][@type = 'main']",
-          docsubtitle: "//bibdata/title[@language='#{@lang}']" \
+      TITLE_XPATHS =
+        { doctitle: "//bibdata/title[@language='@_lang'][@type = 'main']",
+          docsubtitle: "//bibdata/title[@language='@_lang']" \
                        "[@type = 'subtitle']",
-          amendmenttitle: "//bibdata/title[@language='#{@lang}']" \
+          amendmenttitle: "//bibdata/title[@language='@_lang']" \
                           "[@type = 'amendment']",
-          corrigendumtitle: "//bibdata/title[@language='#{@lang}']" \
+          corrigendumtitle: "//bibdata/title[@language='@_lang']" \
                             "[@type = 'corrigendum']",
           series: "//bibdata/series[@type='main']/title",
           series1: "//bibdata/series[@type='secondary']/title",
@@ -34,8 +33,11 @@ module IsoDoc
           annextitle: "//bibdata/title[@type='annex']",
           collectiontitle: "//bibdata/title[@type='collection']",
           slogantitle: "//bibdata/title[@type='slogan']",
-          positiontitle: "//bibdata/title[@type='position-sp']" }.each do |k, v|
-          titleset(isoxml, k, v)
+          positiontitle: "//bibdata/title[@type='position-sp']" }.freeze
+
+      def title(isoxml, _out)
+        TITLE_XPATHS.each do |k, v|
+          titleset(isoxml, k, v.sub("@_lang", @lang))
         end
         titleset(isoxml, :doctitle_en,
                  "//bibdata/title[@language='en'][@type = 'main']") or
@@ -99,16 +101,19 @@ module IsoDoc
         @metadata[key] << value
       end
 
+      PERSON_ATTRS = { affiliations: "./affiliation/organization/name",
+                       addresses: "./affiliation/organization/address/" \
+                                     "formattedAddress",
+                       emails: "./email",
+                       faxes: "./phone[@type = 'fax']",
+                       phones: "./phone[not(@type = 'fax')]" }.freeze
+
       def person_attributes(authors)
-        %i(affiliations addresses emails faxes phones).each { |i| set(i, []) }
+        PERSON_ATTRS.each_key { |k| set(k, []) }
         authors.each do |a|
-          append(:affiliations,
-                 a.at(ns("./affiliation/organization/name"))&.text)
-          append(:addresses, a.at(ns("./affiliation/organization/address/" \
-                                     "formattedAddress"))&.text)
-          append(:emails, a.at(ns("./email"))&.text)
-          append(:faxes, a.at(ns("./phone[@type = 'fax']"))&.text)
-          append(:phones, a.at(ns("./phone[not(@type = 'fax')]"))&.text)
+          PERSON_ATTRS.each do |k, v|
+            append(k, a.at(ns(v))&.text)
+          end
         end
       end
 

@@ -3291,6 +3291,10 @@
 
 	</xsl:attribute-set> <!-- example-name-style -->
 
+	<xsl:template name="refine_example-name-style">
+
+	</xsl:template>
+
 	<xsl:attribute-set name="example-p-style">
 
 			<xsl:attribute name="font-size">10pt</xsl:attribute>
@@ -3306,6 +3310,10 @@
 	<xsl:attribute-set name="termexample-name-style">
 
 	</xsl:attribute-set> <!-- termexample-name-style -->
+
+	<xsl:template name="refine_termexample-name-style">
+
+	</xsl:template>
 
 	<!-- ========================== -->
 	<!-- Table styles -->
@@ -3510,6 +3518,10 @@
 
 	</xsl:attribute-set> <!-- table-fn-style -->
 
+	<xsl:template name="refine_table-fn-style">
+
+	</xsl:template>
+
 	<xsl:attribute-set name="table-fn-number-style">
 		<xsl:attribute name="font-size">80%</xsl:attribute>
 		<xsl:attribute name="padding-right">5mm</xsl:attribute>
@@ -3519,6 +3531,10 @@
 			<xsl:attribute name="font-size">70%</xsl:attribute>
 
 	</xsl:attribute-set> <!-- table-fn-number-style -->
+
+	<xsl:template name="refine_table-fn-number-style">
+
+	</xsl:template>
 
 	<xsl:attribute-set name="fn-container-body-style">
 		<xsl:attribute name="text-indent">0</xsl:attribute>
@@ -4852,6 +4868,7 @@
 				<!-- centered table when table name is centered (see table-name-style) -->
 
 					<fo:table table-layout="fixed" width="100%" xsl:use-attribute-sets="table-container-style">
+
 						<fo:table-column column-width="proportional-column-width(1)"/>
 						<fo:table-column column-width="{@width}"/>
 						<fo:table-column column-width="proportional-column-width(1)"/>
@@ -5907,8 +5924,9 @@
 			<xsl:if test="not(preceding-sibling::*[@reference = $reference])"> <!-- only unique reference puts in note-->
 
 						<fo:block xsl:use-attribute-sets="table-fn-style">
-
+							<xsl:call-template name="refine_table-fn-style"/>
 							<fo:inline id="{@id}" xsl:use-attribute-sets="table-fn-number-style">
+								<xsl:call-template name="refine_table-fn-number-style"/>
 
 								<xsl:value-of select="@reference"/>
 
@@ -7098,11 +7116,16 @@
 	<xsl:template match="text()[ancestor::*[local-name()='smallcap']]">
 		<!-- <xsl:variable name="text" select="normalize-space(.)"/> --> <!-- https://github.com/metanorma/metanorma-iso/issues/1115 -->
 		<xsl:variable name="text" select="."/>
-		<fo:inline font-size="75%" role="SKIP">
+		<xsl:variable name="ratio_">
+			0.75
+		</xsl:variable>
+		<xsl:variable name="ratio" select="number(normalize-space($ratio_))"/>
+		<fo:inline font-size="{$ratio * 100}%" role="SKIP">
 				<xsl:if test="string-length($text) &gt; 0">
 					<xsl:variable name="smallCapsText">
 						<xsl:call-template name="recursiveSmallCaps">
 							<xsl:with-param name="text" select="$text"/>
+							<xsl:with-param name="ratio" select="$ratio"/>
 						</xsl:call-template>
 					</xsl:variable>
 					<!-- merge neighboring fo:inline -->
@@ -7139,12 +7162,13 @@
 
 	<xsl:template name="recursiveSmallCaps">
     <xsl:param name="text"/>
+    <xsl:param name="ratio"/>
     <xsl:variable name="char" select="substring($text,1,1)"/>
     <!-- <xsl:variable name="upperCase" select="translate($char, $lower, $upper)"/> -->
 		<xsl:variable name="upperCase" select="java:toUpperCase(java:java.lang.String.new($char))"/>
     <xsl:choose>
       <xsl:when test="$char=$upperCase">
-        <fo:inline font-size="{100 div 0.75}%" role="SKIP">
+        <fo:inline font-size="{100 div $ratio}%" role="SKIP">
           <xsl:value-of select="$upperCase"/>
         </fo:inline>
       </xsl:when>
@@ -7155,6 +7179,7 @@
     <xsl:if test="string-length($text) &gt; 1">
       <xsl:call-template name="recursiveSmallCaps">
         <xsl:with-param name="text" select="substring($text,2)"/>
+        <xsl:with-param name="ratio" select="$ratio"/>
       </xsl:call-template>
     </xsl:if>
   </xsl:template>
@@ -7190,6 +7215,9 @@
 				</xsl:variable>
 				<xsl:if test="$key = 'font-family' or $key = 'font-size' or $key = 'color'">
 					<style name="{$key}"><xsl:value-of select="$value"/></style>
+				</xsl:if>
+				<xsl:if test="$key = 'text-indent'">
+					<style name="padding-left"><xsl:value-of select="$value"/></style>
 				</xsl:if>
 			</xsl:for-each>
 		</xsl:variable>
@@ -8591,6 +8619,11 @@
 				</fo:basic-link>
 			</xsl:with-param>
 		</xsl:call-template>
+	</xsl:template>
+
+	<!-- command between two xref points to non-standard bibitem -->
+	<xsl:template match="text()[. = ','][preceding-sibling::node()[1][local-name() = 'sup'][*[local-name() = 'xref'][@type = 'footnote']] and    following-sibling::node()[1][local-name() = 'sup'][*[local-name() = 'xref'][@type = 'footnote']]]">
+		<xsl:value-of select="."/>
 	</xsl:template>
 
 	<!-- ====== -->
@@ -10824,6 +10857,7 @@
 	<xsl:template match="*[local-name() = 'termexample']/*[local-name() = 'name']">
 		<xsl:if test="normalize-space() != ''">
 			<fo:inline xsl:use-attribute-sets="termexample-name-style">
+				<xsl:call-template name="refine_termexample-name-style"/>
 				<xsl:apply-templates/>
 			</fo:inline>
 		</xsl:if>
@@ -10974,6 +11008,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<fo:inline xsl:use-attribute-sets="example-name-style">
+					<xsl:call-template name="refine_example-name-style"/>
 					<xsl:apply-templates/>
 				</fo:inline>
 			</xsl:otherwise>
@@ -12187,6 +12222,7 @@
 	<xsl:template match="*[local-name() = 'references'][@normative='true']/*[local-name() = 'bibitem']" name="bibitem" priority="2">
 
 				<fo:block id="{@id}" xsl:use-attribute-sets="bibitem-normative-style">
+
 					<xsl:call-template name="processBibitem"/>
 				</fo:block>
 
@@ -12207,6 +12243,7 @@
 			<xsl:when test="@hidden = 'true'"><!-- skip --></xsl:when>
 			<xsl:otherwise>
 				<fo:list-item id="{@id}" xsl:use-attribute-sets="bibitem-non-normative-list-item-style">
+
 					<fo:list-item-label end-indent="label-end()">
 						<fo:block role="SKIP">
 							<fo:inline role="SKIP">

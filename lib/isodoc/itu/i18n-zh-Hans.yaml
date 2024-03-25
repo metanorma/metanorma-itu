@@ -1,3 +1,11 @@
+questions: 课题
+studyperiod: "%年研究期"
+original: 原本的
+contact: 接触
+tel_abbrev: 电话
+document_source: 来源
+title: 标题
+current_language: 中文
 termsdef: 定义
 termsdefsymbolsabbrev: 定义
 termsdefsymbols: 定义
@@ -76,6 +84,7 @@ doctype_dict:
   technical-report: 技术报告
   joint-itu-iso-iec: ITU/ISO/IEC 联合出版
   service-publication: 业务出版物
+  contribution: 文稿
 doctype_abbrev:
   recommendation: Rec.
   recommendation-supplement: Rec.
@@ -89,3 +98,4 @@ doctype_abbrev:
   technical-report: TR
   joint-itu-iso-iec: ITU/ISO/IEC
   service-publication: 
+  contribution: 

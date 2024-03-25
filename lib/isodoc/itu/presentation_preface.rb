@@ -2,8 +2,13 @@ module IsoDoc
   module ITU
     class PresentationXMLConvert < IsoDoc::PresentationXMLConvert
       def insert_preface_sections(docxml)
-        x = insert_editors_clause(docxml) and
-          editors_insert_pt(docxml).next = x
+        if @doctype == "contribution"
+          x = contribution_table(docxml) and
+            contribution_table_insert_pt(docxml).next = x
+        else
+          x = insert_editors_clause(docxml) and
+            editors_insert_pt(docxml).next = x
+        end
       end
 
       def editors_insert_pt(docxml)
@@ -11,6 +16,74 @@ module IsoDoc
           .add_previous_sibling("<preface> </preface>").first
         ins = docxml.at(ns("//preface/acknolwedgements")) and return ins
         docxml.at(ns("//preface")).children[-1]
+      end
+
+      def contribution_table_insert_pt(docxml)
+        docxml.at(ns("//preface")) || docxml.at(ns("//sections"))
+          .add_previous_sibling("<preface> </preface>").first
+        docxml.at(ns("//preface")).children.first.before(" ").previous
+      end
+
+      def contribution_table(_doc)
+        @doctype == "contribution" or return
+        bureau = bold_and_upcase(@meta.get[:bureau_full])
+        <<~TABLE
+          <clause unnumbered="true" type="contribution-metadata">
+          <table class="contribution-metadata" unnumbered="true" width="100%">
+          <colgroup><col width="11.8%"/><col width="41.2%"/><col width="47.0%"/></colgroup>
+          <thead>
+          <tr><th rowspan="3"><image height="56" width="56" src="#{@meta.get[:logo_small]}"/></th>
+          <td rowspan="3"><p style="font-size:8pt;margin-top:6pt;margin-bottom:0pt;">#{@i18n.international_telecommunication_union.upcase}</p>
+          <p class="bureau_big" style="font-size:13pt;margin-top:6pt;margin-bottom:0pt;">#{bureau}</p>
+          <p style="font-size:10pt;margin-top:6pt;margin-bottom:0pt;">#{@i18n.studyperiod.sub('%', @meta.get[:study_group_period]).upcase}</p></th>
+          <th align="right"><p style="font-size:16pt;">#{@meta.get[:docnumber]}</p></th></tr>
+          <tr><th align="right"><p  style="font-size:14pt;">#{@meta.get[:group].upcase}</p></th></tr>
+          <tr>
+          <th align="right"><p style="font-size:14pt;">#{@i18n.l10n("#{@i18n.original}: #{@i18n.current_language}")}</p></th>
+          </tr></thead>
+          <tbody>
+          <tr><th align="left" width="95">#{colon_i18n(@i18n.questions)}</th><td>#{@meta.get[:questions]}</td>
+          <td align="right">#{@i18n.l10n("#{@meta.get[:meeting_place]}, #{@meta.get[:meeting_date]}")}</td></tr>
+          <tr><th align="center" colspan="3">#{@i18n.get['doctype_dict']['contribution'].upcase}</th></tr>
+          <tr><th align="left" width="95">#{colon_i18n(@i18n.document_source)}</th><td colspan="2">#{@meta.get[:source]}</td></tr>
+          <tr><th align="left" width="95">#{colon_i18n(@i18n.title)}</th><td colspan="2">#{@meta.get[:doctitle_en]}</td></tr>
+          #{contribution_table_contacts}
+          </tbody></table>
+          </clause>
+        TABLE
+      end
+
+      def colon_i18n(text)
+        @i18n.l10n("#{text}:")
+      end
+
+      def bold_and_upcase(xml)
+        x = Nokogiri::XML("<root>#{xml}</root>")
+        x.traverse do |e|
+          e.text? or next
+          e.replace("<strong>#{e.text.upcase}</strong>")
+        end
+        x.root.children.to_xml
+      end
+
+      def contribution_table_contacts
+        n = (0..@meta.get[:authors]&.size).each_with_object([]) do |i, ret|
+          ret << contribution_table_contact(i)
+        end
+        n.map do |x|
+          lbl = colon_i18n(@i18n.contact)
+          "<tr><th align='left' width='95'>#{lbl}</th>#{x}</tr>"
+        end.join("\n")
+      end
+
+      def contribution_table_contact(idx)
+        <<~CELL
+          <td>#{@meta.get[:authors][idx]}<br/>
+          #{@meta.get[:affiliations][idx]}<br/>
+          #{@meta.get[:addresses][idx]}</td>
+          <td>#{@i18n.tel_abbrev}<tab/>#{@meta.get[:phones][idx]}<br/>
+          #{@i18n.email}<tab/>#{@meta.get[:emails][idx]}</td>
+        CELL
       end
 
       def insert_editors_clause(doc)
@@ -57,19 +130,46 @@ module IsoDoc
 
       def rearrange_clauses(docxml)
         super
-        k = keywords(docxml) or return
-        if a = docxml.at(ns("//preface/abstract"))
-          a.next = k
-        elsif a = docxml.at(ns("//preface"))
-          a.children.first.previous = k
+        a = docxml.at(ns("//preface/abstract"))
+        keywords_abstract_swap(a, keywords(docxml), docxml)
+        c = docxml.at(ns("//preface/clause[@type='contribution-metadata']")) and
+          a and c.next = a
+        abstract_render(a)
+      end
+
+      def keywords_abstract_swap(abstract, keywords, docxml)
+        @doctype == "contribution" and return
+        keywords or return
+        if abstract then abstract.next = keywords
+        else
+          p = contribution_table_insert_pt(docxml)
+          p.next = keywords
         end
+      end
+
+      def abstract_render(abstract)
+        @doctype == "contribution" or return
+        abstract.at(ns("./title"))&.remove
+        abstract.children = <<~TABLE
+          <table class="abstract" unnumbered="true" width="100%">
+          <colgroup><col width="11.8%"/><col width="78.2%"/></colgroup>
+          <tbody>
+          <tr><th align="left" width="95"><p>#{colon_i18n(@i18n.abstract)}</p></th>
+          <td>#{abstract.children.to_xml}</td></tr>
+          </tbody></table>
+        TABLE
       end
 
       def keywords(_docxml)
         kw = @meta.get[:keywords]
-        kw.nil? || kw.empty? and return
+        kw.nil? || kw.empty? || @doctype == "contribution" and return
         "<clause type='keyword'><title>#{@i18n.keywords}</title>" \
-          "<p>#{kw.join(', ')}.</p>"
+          "<p>#{@i18n.l10n(kw.join(', '))}.</p>"
+      end
+
+      def toc_title(docxml)
+        %w(resolution contribution).include?(@doctype) and return
+        super
       end
 
       include Init

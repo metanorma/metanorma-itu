@@ -69,6 +69,16 @@ module IsoDoc
         super
       end
 
+      def convert1(docxml, filename, dir)
+        case @doctype
+        when "contribution"
+          @wordcoverpage = nil
+          @wordintropage = nil
+        end
+        super
+      end
+
+
       include BaseConvert
       include Init
     end

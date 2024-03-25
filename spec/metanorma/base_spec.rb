@@ -62,59 +62,6 @@ RSpec.describe Metanorma::ITU do
     expect(File.exist?("test.html")).to be true
   end
 
-  it "converts a blank document and insert missing sections" do
-    input = <<~INPUT
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :no-pdf:
-    INPUT
-    output = <<~OUTPUT
-        #{@blank_hdr}
-        <sections>
-          <clause obligation='normative' type="scope" id="_">
-            <title>Scope</title>
-            <p id='_'>None.</p>
-          </clause>
-          <terms obligation='normative' id="_">
-            <title>Definitions</title>
-            <p id='_'>None.</p>
-          </terms>
-          <definitions obligation='normative' id="_">
-            <title>Abbreviations and acronyms</title>
-            <p id='_'>None.</p>
-          </definitions>
-          <clause obligation='normative' id='_' type="conventions">
-            <title>Conventions</title>
-            <p id='_'>None.</p>
-          </clause>
-        </sections>
-        <bibliography>
-          <references obligation='informative' normative="true" id="_">
-            <title>References</title>
-            <p id='_'>None.</p>
-          </references>
-        </bibliography>
-      </itu-standard>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-
-    input = <<~INPUT
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :no-pdf:
-      :document-schema: not-legacy
-    INPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
   it "processes default metadata" do
     xml = Nokogiri::XML(Asciidoctor.convert(<<~INPUT, *OPTIONS))
       = Document title
@@ -752,6 +699,70 @@ RSpec.describe Metanorma::ITU do
     end
   end
 
+  it "infer study period" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :docnumber: 1000
+      :group: G
+      :grouptype: A
+      :groupacronym: C
+      :groupyearstart: 2000
+      :groupyearend: 2002
+    INPUT
+    output = <<~OUTPUT
+      <editorialgroup>
+         <bureau>T</bureau>
+         <group type="A">
+           <name>G</name>
+           <acronym>C</acronym>
+           <period>
+             <start>2000</start>
+             <end>2002</end>
+           </period>
+         </group>
+       </editorialgroup>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.at("//xmlns:editorialgroup")
+    expect(xmlpp(xml.to_xml))
+      .to be_equivalent_to xmlpp(output)
+    xml = Nokogiri::XML(Asciidoctor.convert(input
+      .sub(":groupyearend: 2002", ""), *OPTIONS))
+    xml = xml.at("//xmlns:editorialgroup")
+    expect(xmlpp(xml.to_xml))
+      .to be_equivalent_to xmlpp(output)
+    mock_year(2000)
+    xml = Nokogiri::XML(Asciidoctor.convert(input
+      .sub(":groupyearend: 2002", "")
+      .sub(":groupyearstart: 2000", ""),
+                                            *OPTIONS))
+    xml = xml.at("//xmlns:editorialgroup")
+    expect(xmlpp(xml.to_xml))
+      .to be_equivalent_to xmlpp(output)
+    mock_year(2001)
+    xml = Nokogiri::XML(Asciidoctor.convert(input
+      .sub(":groupyearend: 2002", "")
+      .sub(":groupyearstart: 2000", ""),
+                                            *OPTIONS))
+    xml = xml.at("//xmlns:editorialgroup")
+    expect(xmlpp(xml.to_xml))
+      .to be_equivalent_to xmlpp(output)
+    mock_year(2002)
+    xml = Nokogiri::XML(Asciidoctor.convert(input
+      .sub(":groupyearend: 2002", "")
+      .sub(":groupyearstart: 2000", ""),
+                                            *OPTIONS))
+    xml = xml.at("//xmlns:editorialgroup")
+    expect(xmlpp(xml.to_xml))
+      .to be_equivalent_to xmlpp(output
+      .sub("2002", "2004")
+      .sub("2000", "2002"))
+  end
+
   it "populates cover images" do
     input = <<~INPUT
       = Document title
@@ -797,6 +808,204 @@ RSpec.describe Metanorma::ITU do
     expect(xmlpp(strip_guid(Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
       .at("//xmlns:metanorma-extension").to_xml)))
       .to be_equivalent_to xmlpp(output)
+  end
+
+  it "processes explicit metadata, contribution" do
+    input = <<~INPUT
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :docnumber: 1000
+      :provisional-name: ABC
+      :doctype: contribution
+      :edition: 2
+      :revdate: 2000-01-01
+      :technical-committee: TC
+      :technical-committee-type: provisional
+      :copyright-year: 2001
+      :status: final-draft
+      :iteration: 3
+      :language: en
+      :title-en: Main Title
+      :title-fr: Titre Principal
+      :subtitle-en: Subtitle
+      :subtitle-fr: Soustitre
+      :bureau: R
+      :group: Study Group 17
+      :group-acronym: SG17
+      :group-type: study-group
+      :group-year-start: 2000
+      :group-year-end: 2002
+      :subgroup: I1
+      :workgroup: I2
+      :series: A3
+      :series1: B3
+      :series2: C3
+      :keywords: voIP,word1
+      :meeting: Meeting X
+      :meeting-date: 2000-01-01/2000-01-02
+      :meeting-place: Kronos
+      :meeting-acronym: MX
+      :intended-type: TD
+      :source: Source
+      :draft: 5
+      :role: rapporteur
+      :fullname: Fred Flintstone
+      :affiliation: Bedrock Quarry
+      :address: Canada
+      :phone: 555
+      :fax: 556
+      :email: x@example.com
+      :role_2: editor
+      :fullname_2: Barney Rubble
+      :affiliation_2: Bedrock Quarry 2
+      :address_2: USA
+      :phone_2: 557
+      :fax_2: 558
+      :email_2: y@example.com
+    INPUT
+    output = <<~OUTPUT
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+        <bibdata type='standard'>
+          <title language='en' format='text/plain' type='main'>Main Title</title>
+          <title language='fr' format='text/plain' type='main'>Titre Principal</title>
+          <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+          <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+          <docidentifier type='ITU-provisional'>ABC</docidentifier>
+          <docidentifier primary="true" type='ITU'>SG17-C1000</docidentifier>
+          <docidentifier type='ITU-lang'>SG17-C1000-E</docidentifier>
+          <docnumber>1000</docnumber>
+          <contributor>
+            <role type='author'/>
+            <organization>
+              <name>International Telecommunication Union</name><abbreviation>ITU</abbreviation>
+            </organization>
+          </contributor>
+          <contributor>
+          <role type='editor'>raporteur</role>
+            <person>
+              <name>
+                <completename>Fred Flintstone</completename>
+              </name>
+              <affiliation>
+                <organization>
+                  <name>Bedrock Quarry</name>
+                  <address>
+                    <formattedAddress>Canada</formattedAddress>
+                  </address>
+                </organization>
+              </affiliation>
+              <phone>555</phone>
+              <phone type='fax'>556</phone>
+              <email>x@example.com</email>
+            </person>
+          </contributor>
+          <contributor>
+            <role type='editor'/>
+            <person>
+              <name>
+                <completename>Barney Rubble</completename>
+              </name>
+              <affiliation>
+                <organization>
+                  <name>Bedrock Quarry 2</name>
+                  <address>
+                    <formattedAddress>USA</formattedAddress>
+                  </address>
+                </organization>
+              </affiliation>
+              <phone>557</phone>
+              <phone type='fax'>558</phone>
+              <email>y@example.com</email>
+            </person>
+          </contributor>
+          <contributor>
+            <role type='publisher'/>
+            <organization>
+              <name>International Telecommunication Union</name>
+              <abbreviation>ITU</abbreviation>
+            </organization>
+          </contributor>
+          <edition>2</edition>
+          <version>
+            <revision-date>2000-01-01</revision-date>
+            <draft>5</draft>
+          </version>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>draft</stage>
+          </status>
+          <copyright>
+            <from>2001</from>
+            <owner>
+              <organization>
+                <name>International Telecommunication Union</name>
+                <abbreviation>ITU</abbreviation>
+              </organization>
+            </owner>
+          </copyright>
+          <series type='main'>
+            <title>A3</title>
+          </series>
+          <series type='secondary'>
+            <title>B3</title>
+          </series>
+          <series type='tertiary'>
+            <title>C3</title>
+          </series>
+          <keyword>VoIP</keyword>
+          <keyword>word1</keyword>
+          <ext>
+            <doctype>contribution</doctype>
+            <editorialgroup>
+              <bureau>R</bureau>
+              <group type="study-group">
+                <name>Study Group 17</name>
+                <acronym>SG17</acronym>
+                <period><start>2000</start><end>2002</end></period>
+              </group>
+              <subgroup>
+                <name>I1</name>
+                #{current_study_period}
+              </subgroup>
+              <workgroup>
+                <name>I2</name>
+                #{current_study_period}
+              </workgroup>
+            </editorialgroup>
+            <ip-notice-received>false</ip-notice-received>
+            <meeting acronym='MX'>Meeting X</meeting>
+            <meeting-place>Kronos</meeting-place>
+            <meeting-date>
+              <from>2000-01-01</from>
+              <to>2000-01-02</to>
+            </meeting-date>
+            <intended-type>TD</intended-type>
+            <source>Source</source>
+            <structuredidentifier>
+              <bureau>R</bureau>
+              <docnumber>1000</docnumber>
+            </structuredidentifier>
+          </ext>
+        </bibdata>
+        <sections> </sections>
+        </itu-standard>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+      .each(&:remove)
+    expect(xmlpp(xml.to_xml))
+      .to be_equivalent_to xmlpp(output)
+    xml = Nokogiri::XML(Asciidoctor.convert(input
+      .sub(/:group-acronym: SG17\s+:/m, ":"), *OPTIONS))
+    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
+      .each(&:remove)
+    expect(xmlpp(xml.to_xml))
+      .to be_equivalent_to xmlpp(output
+      .sub("<acronym>SG17</acronym>", ""))
   end
 
   it "processes explicit metadata, technical report" do
@@ -949,12 +1158,15 @@ RSpec.describe Metanorma::ITU do
               <bureau>R</bureau>
               <group>
                 <name>I</name>
+                #{current_study_period}
               </group>
               <subgroup>
                 <name>I1</name>
+                #{current_study_period}
               </subgroup>
               <workgroup>
                 <name>I2</name>
+                #{current_study_period}
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
@@ -1079,12 +1291,15 @@ RSpec.describe Metanorma::ITU do
               <bureau>R</bureau>
               <group>
                 <name>I</name>
+                #{current_study_period}
               </group>
               <subgroup>
                 <name>I1</name>
+                #{current_study_period}
               </subgroup>
               <workgroup>
                 <name>I2</name>
+                #{current_study_period}
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
@@ -1259,12 +1474,15 @@ RSpec.describe Metanorma::ITU do
               <bureau>R</bureau>
               <group>
                 <name>I</name>
+                #{current_study_period}
               </group>
               <subgroup>
                 <name>I1</name>
+                #{current_study_period}
               </subgroup>
               <workgroup>
                 <name>I2</name>
+                #{current_study_period}
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
@@ -1363,102 +1581,6 @@ RSpec.describe Metanorma::ITU do
       .to be_equivalent_to xmlpp(output)
   end
 
-  it "does not strip inline header" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      This is a preamble
-
-      [%inline-header]
-      == Section 1
-    INPUT
-    output = <<~OUTPUT
-        #{@blank_hdr}
-        <preface>
-          <foreword id="_" obligation="informative">
-            <title>Foreword</title>
-            <p id="_">This is a preamble</p>
-          </foreword>
-        </preface>
-        <sections>
-          <clause id="_" obligation="normative" inline-header="true">
-            <title>Section 1</title>
-          </clause>
-        </sections>
-      </itu-standard>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "makes empty subclause titles have inline headers in resolutions" do
-    input = <<~INPUT
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :legacy-do-not-insert-missing-sections:
-      :doctype: resolution
-
-      This is a preamble
-
-      == {blank}
-      === {blank}
-    INPUT
-    output = <<~OUTPUT
-        #{BLANK_HDR.sub('recommendation', 'resolution')}
-        #{boilerplate(Nokogiri::XML("#{BLANK_HDR.sub('recommendation', 'resolution')}</itu-standard>"))}
-        <preface>
-          <foreword id="_" obligation="informative">
-            <title>Foreword</title>
-            <p id="_">This is a preamble</p>
-          </foreword>
-        </preface>
-        <sections>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <clause id='_' inline-header='true' obligation='normative'> </clause>
-          </clause>
-        </sections>
-      </itu-standard>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "does not make empty subclause titles have inline headers outside of resolutions" do
-    input = <<~INPUT
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :legacy-do-not-insert-missing-sections:
-      :doctype: recommendation
-
-      This is a preamble
-
-      == {blank}
-      === {blank}
-    INPUT
-    output = <<~OUTPUT
-          #{@blank_hdr}
-          <preface>
-            <foreword id="_" obligation="informative">
-              <title>Foreword</title>
-              <p id="_">This is a preamble</p>
-            </foreword>
-          </preface>
-          <sections>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <clause id='_' inline-header='false' obligation='normative'> </clause>
-          </clause>
-        </sections>
-      </itu-standard>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
   it "uses default fonts" do
     Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
@@ -1518,271 +1640,6 @@ RSpec.describe Metanorma::ITU do
     expect(html).to match(%r[\bpre[^{]+\{[^{]+font-family: Andale Mono;]m)
     expect(html).to match(%r[ div,[^{]+\{[^}]+font-family: Zapf Chancery;]m)
     expect(html).to match(%r[h1, h2, h3, h4, h5, h6 \{[^}]+font-family: Comic Sans;]m)
-  end
-
-  it "move sections to preface" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-
-      [preface]
-      == Prefatory
-      section
-
-      == Section
-
-      text
-    INPUT
-    output = <<~OUTPUT
-        #{@blank_hdr}
-        <preface>
-          <clause id="_" obligation="informative" inline-header='false'>
-            <title>Prefatory</title>
-            <p id="_">section</p>
-          </clause>
-        </preface>
-        <sections>
-          <clause id="_" obligation="normative" inline-header="false">
-            <title>Section</title>
-            <p id="_">text</p>
-          </clause>
-        </sections>
-      </itu-standard>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "processes sections" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-      .Foreword
-
-      Text
-
-      [abstract]
-      == Abstract
-
-      Text
-
-      == Introduction
-
-      === Introduction Subsection
-
-      [preface]
-      == History
-
-      [preface]
-      == Source
-
-      [%unnumbered]
-      == {blank}
-
-      Initial text
-
-      == Scope
-
-      Text
-
-      [bibliography]
-      == References
-
-      == Terms and Definitions
-
-      === Term1
-
-      == Terms, Definitions, Symbols and Abbreviated Terms
-
-      [.nonterm]
-      === Introduction
-
-      ==== Intro 1
-
-      === Intro 2
-
-      [.nonterm]
-      ==== Intro 3
-
-      === Intro 4
-
-      ==== Intro 5
-
-      ===== Term1
-
-      === Normal Terms
-
-      ==== Term2
-
-      ==== Terms defined elsewhere
-
-      === Symbols and Abbreviated Terms
-
-      [.nonterm]
-      ==== General
-
-      ==== Symbols 1
-
-      == Abbreviated Terms
-
-      == Conventions
-
-      == Clause 4
-
-      === Introduction
-
-      === Clause 4.2
-
-      == Terms and Definitions
-
-      == History
-
-      == Source
-
-      [appendix]
-      == Annex
-
-      === Annex A.1
-
-      == Bibliography
-
-      === Bibliography Subsection
-
-      [bibliography]
-      == Second Bibliography
-    INPUT
-    output = <<~OUTPUT
-        #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')}
-        <preface>
-          <abstract id='_'>
-            <title>Abstract</title>
-            <p id='_'>Text</p>
-          </abstract>
-          <foreword id='_' obligation='informative'>
-            <title>Foreword</title>
-            <p id='_'>Text</p>
-          </foreword>
-          <introduction id='_' obligation='informative'>
-            <title>Introduction</title>
-            <clause id='_' inline-header='false' obligation='informative'>
-              <title>Introduction Subsection</title>
-            </clause>
-          </introduction>
-          <clause id='_' type='history' inline-header='false' obligation='informative'>
-            <title>History</title>
-          </clause>
-          <clause id='_' type='source' inline-header='false' obligation='informative'>
-            <title>Source</title>
-          </clause>
-        </preface>
-        <sections>
-          <clause id='_' unnumbered='true' inline-header='false' obligation='normative'>
-            <p id='_'>Initial text</p>
-          </clause>
-          <clause id='_' type='scope' inline-header='false' obligation='normative'>
-            <title>Scope</title>
-            <p id='_'>Text</p>
-          </clause>
-          <terms id='_' obligation='normative'>
-            <title>Definitions</title>
-            <p id='_'>This Recommendation defines the following terms:</p>
-            <term id='term-Term1'>
-              <preferred><expression><name>Term1</name></expression></preferred>
-            </term>
-          </terms>
-          <clause id='_' obligation='normative'>
-            <title>Terms, Definitions, Symbols and Abbreviated Terms</title>
-            <clause id='_' inline-header='false' obligation='normative'>
-              <title>Introduction</title>
-              <clause id='_' inline-header='false' obligation='normative'>
-                <title>Intro 1</title>
-              </clause>
-            </clause>
-            <terms id='_' obligation='normative'>
-              <title>Intro 2</title>
-              <p id='_'>None.</p>
-              <clause id='_' inline-header='false' obligation='normative'>
-                <title>Intro 3</title>
-              </clause>
-            </terms>
-            <clause id='_' obligation='normative'>
-              <title>Intro 4</title>
-              <terms id='_' obligation='normative'>
-                <title>Intro 5</title>
-                <term id='term-Term1-1'>
-                  <preferred><expression><name>Term1</name></expression></preferred>
-                </term>
-              </terms>
-            </clause>
-            <terms id='_' obligation='normative'>
-              <title>Normal Terms</title>
-              <term id='term-Term2'>
-                <preferred><expression><name>Term2</name></expression></preferred>
-              </term>
-              <terms id='_' type='external' obligation='normative'>
-                <title>Terms defined elsewhere</title>
-                <p id='_'>None.</p>
-              </terms>
-            </terms>
-            <terms id='_' obligation='normative'>
-              <title>Symbols and Abbreviated Terms</title>
-              <clause id='_' inline-header='false' obligation='normative'>
-                <title>General</title>
-              </clause>
-              <term id='term-Symbols-1'>
-                <preferred><expression><name>Symbols 1</name></expression></preferred>
-              </term>
-            </terms>
-          </clause>
-          <definitions id='_' type='abbreviated_terms' obligation='normative'>
-            <title>Abbreviations and acronyms</title>
-            <p id='_'>None.</p>
-          </definitions>
-          <clause id='_' type='conventions' inline-header='false' obligation='normative'>
-            <title>Conventions</title>
-          </clause>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <title>Clause 4</title>
-            <clause id='_' inline-header='false' obligation='normative'>
-              <title>Introduction</title>
-            </clause>
-            <clause id='_' inline-header='false' obligation='normative'>
-              <title>Clause 4.2</title>
-            </clause>
-          </clause>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <title>Terms and Definitions</title>
-          </clause>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <title>History</title>
-          </clause>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <title>Source</title>
-          </clause>
-        </sections>
-        <annex id='_' inline-header='false' obligation='normative'>
-          <title>Annex</title>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <title>Annex A.1</title>
-          </clause>
-        </annex>
-        <bibliography>
-          <references id='_' normative='true' obligation='informative'>
-            <title>References</title>
-            <p id='_'>None.</p>
-          </references>
-          <clause id='_' obligation='informative'>
-            <title>Bibliography</title>
-            <references id='_' normative='false' obligation='informative'>
-              <title>Bibliography Subsection</title>
-            </references>
-          </clause>
-          <references id='_' normative='false' obligation='informative'>
-            <title>Second Bibliography</title>
-          </references>
-        </bibliography>
-      </itu-standard>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
   end
 
   it "processes stem blocks" do
@@ -1924,19 +1781,19 @@ RSpec.describe Metanorma::ITU do
         .xpath("//xmlns:references/xmlns:bibitem/xmlns:docidentifier")
       expect(xmlpp("<div>#{xpath.to_xml}</div>"))
         .to be_equivalent_to xmlpp(<<~OUTPUT)
-          <div>
-          <docidentifier type="ITU" primary="true">ITU-T Y.1001</docidentifier>
-         <docidentifier type="ITU" primary="true">ITU-T Y.140</docidentifier>
-         <docidentifier type="ITU" primary="true">ITU-T Z.100</docidentifier>
-         <docidentifier type="ISO" primary="true">ISO 55000</docidentifier>
-         <docidentifier type="iso-reference">ISO 55000(E)</docidentifier>
-         <docidentifier type="URN">urn:iso:std:iso:55000:stage-90.92</docidentifier>
-         <docidentifier type="ISO" primary="true">ISO/IEC 27001</docidentifier>
-         <docidentifier type="iso-reference">ISO/IEC 27001(E)</docidentifier>
-         <docidentifier type="URN">urn:iso:std:iso-iec:27001:stage-60.60</docidentifier>
-          <docidentifier type="IEC" primary="true">IEC 60027</docidentifier>
-          <docidentifier type="URN">urn:iec:std:iec:60027::::</docidentifier>
-          </div>
+           <div>
+           <docidentifier type="ITU" primary="true">ITU-T Y.1001</docidentifier>
+          <docidentifier type="ITU" primary="true">ITU-T Y.140</docidentifier>
+          <docidentifier type="ITU" primary="true">ITU-T Z.100</docidentifier>
+          <docidentifier type="ISO" primary="true">ISO 55000</docidentifier>
+          <docidentifier type="iso-reference">ISO 55000(E)</docidentifier>
+          <docidentifier type="URN">urn:iso:std:iso:55000:stage-90.92</docidentifier>
+          <docidentifier type="ISO" primary="true">ISO/IEC 27001</docidentifier>
+          <docidentifier type="iso-reference">ISO/IEC 27001(E)</docidentifier>
+          <docidentifier type="URN">urn:iso:std:iso-iec:27001:stage-60.60</docidentifier>
+           <docidentifier type="IEC" primary="true">IEC 60027</docidentifier>
+           <docidentifier type="URN">urn:iec:std:iec:60027::::</docidentifier>
+           </div>
         OUTPUT
     end
   end
@@ -2000,103 +1857,6 @@ RSpec.describe Metanorma::ITU do
               </tr>
             </tbody>
           </table>
-        </sections>
-      </itu-standard>
-    OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "has unique terms and definitions clauses" do
-    input = <<~INPUT
-      #{ASCIIDOC_BLANK_HDR}
-
-      == Definitions
-
-      === Term 1
-
-      == Abbreviations and acronyms
-
-      a:: b
-
-      == Clause
-
-      === Definitions
-
-      ==== Term 1
-
-      === Abbreviations and acronyms
-
-      a:: b
-
-      == Clause 2
-
-      [heading=Definitions]
-      === Definitions
-
-      ==== Term 1
-
-      [heading=Abbreviations and acronyms]
-      === Abbreviations and acronyms
-
-      a:: b
-    INPUT
-    output = <<~OUTPUT
-        #{@blank_hdr}
-        <sections>
-          <terms id='_' obligation='normative'>
-            <title>Definitions</title>
-            <p id='_'>This Recommendation defines the following terms:</p>
-            <term id='term-Term-1'>
-            <preferred><expression><name>Term 1</name></expression></preferred>
-            </term>
-          </terms>
-          <definitions id='_' obligation='normative'>
-            <title>Abbreviations and acronyms</title>
-            <p id='_'>This Recommendation uses the following abbreviations and acronyms:</p>
-            <dl id='_'>
-              <dt id='symbol-a'>a</dt>
-              <dd>
-                <p id='_'>b</p>
-              </dd>
-            </dl>
-          </definitions>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <title>Clause</title>
-            <clause id='_' inline-header='false' obligation='normative'>
-              <title>Definitions</title>
-              <clause id='_' inline-header='false' obligation='normative'>
-                <title>Term 1</title>
-              </clause>
-            </clause>
-            <clause id='_' inline-header='false' obligation='normative'>
-              <title>Abbreviations and acronyms</title>
-              <dl id='_'>
-                <dt>a</dt>
-                <dd>
-                  <p id='_'>b</p>
-                </dd>
-              </dl>
-            </clause>
-          </clause>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <title>Clause 2</title>
-            <clause id='_' inline-header='false' obligation='normative'>
-              <title>Definitions</title>
-              <clause id='_' inline-header='false' obligation='normative'>
-                <title>Term 1</title>
-              </clause>
-            </clause>
-            <definitions id='_' obligation='normative'>
-              <title>Abbreviations and acronyms</title>
-              <dl id='_'>
-                <dt id='symbol-a-1'>a</dt>
-                <dd>
-                  <p id='_'>b</p>
-                </dd>
-              </dl>
-            </definitions>
-          </clause>
         </sections>
       </itu-standard>
     OUTPUT

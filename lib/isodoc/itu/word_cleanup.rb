@@ -32,11 +32,11 @@ module IsoDoc
 
       def word_title_cleanup(docxml)
         docxml.xpath("//p[@class = 'annex_obligation']").each do |h|
-          h&.next_element&.name == "p" or next
+          h.next_element&.name == "p" or next
           h.next_element["class"] ||= "Normalaftertitle"
         end
         docxml.xpath("//p[@class = 'FigureTitle']").each do |h|
-          h&.parent&.next_element&.name == "p" or next
+          h.parent&.next_element&.name == "p" or next
           h.parent.next_element["class"] ||= "Normalaftertitle"
         end
       end
@@ -103,8 +103,8 @@ module IsoDoc
 
       def authority_hdr_cleanup2(docxml)
         %w(copyright license legal).each do |t|
-          docxml&.xpath("//div[@class = 'boilerplate-#{t}']")&.each do |d|
-            para = d&.at("./descendant::h1[2]") and
+          docxml.xpath("//div[@class = 'boilerplate-#{t}']")&.each do |d|
+            para = d.at("./descendant::h1[2]") and
               para.previous = "<p>&#xa0;</p><p>&#xa0;</p><p>&#xa0;</p>"
             d.xpath(".//h1 | .//h2").each do |p|
               p.name = "p"

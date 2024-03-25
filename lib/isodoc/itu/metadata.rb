@@ -1,4 +1,3 @@
-require "isodoc"
 require "twitter_cldr"
 
 module IsoDoc
@@ -11,6 +10,7 @@ module IsoDoc
         set(:logo_comb, fileloc("itu-document-comb.png"))
         set(:logo_word, fileloc(n))
         set(:logo_sp, fileloc("logo-sp.png"))
+        set(:logo_small, fileloc("logo-small.png"))
         @isodoc = IsoDoc::ITU::HtmlConvert.new({})
       end
 
@@ -19,13 +19,13 @@ module IsoDoc
         File.expand_path(File.join(here, "html", file))
       end
 
-      def title(isoxml, _out)
-        { doctitle: "//bibdata/title[@language='#{@lang}'][@type = 'main']",
-          docsubtitle: "//bibdata/title[@language='#{@lang}']" \
+      TITLE_XPATHS =
+        { doctitle: "//bibdata/title[@language='@_lang'][@type = 'main']",
+          docsubtitle: "//bibdata/title[@language='@_lang']" \
                        "[@type = 'subtitle']",
-          amendmenttitle: "//bibdata/title[@language='#{@lang}']" \
+          amendmenttitle: "//bibdata/title[@language='@_lang']" \
                           "[@type = 'amendment']",
-          corrigendumtitle: "//bibdata/title[@language='#{@lang}']" \
+          corrigendumtitle: "//bibdata/title[@language='@_lang']" \
                             "[@type = 'corrigendum']",
           series: "//bibdata/series[@type='main']/title",
           series1: "//bibdata/series[@type='secondary']/title",
@@ -33,9 +33,16 @@ module IsoDoc
           annextitle: "//bibdata/title[@type='annex']",
           collectiontitle: "//bibdata/title[@type='collection']",
           slogantitle: "//bibdata/title[@type='slogan']",
-          positiontitle: "//bibdata/title[@type='position-sp']" }.each do |k, v|
-          titleset(isoxml, k, v)
+          positiontitle: "//bibdata/title[@type='position-sp']" }.freeze
+
+      def title(isoxml, _out)
+        TITLE_XPATHS.each do |k, v|
+          titleset(isoxml, k, v.sub("@_lang", @lang))
         end
+        titleset(isoxml, :doctitle_en,
+                 "//bibdata/title[@language='en'][@type = 'main']") or
+          titleset(isoxml, :doctitle_en,
+                   "//bibdata/title[@language='#{@lang}'][@type = 'main']")
       end
 
       def titleset(isoxml, key, xpath)
@@ -46,6 +53,7 @@ module IsoDoc
           end
         end.join
         set(key, out.sub(%r{^<span>}, "").sub(%r{</span>$}, ""))
+        true
       end
 
       def subtitle(_isoxml, _out)
@@ -55,12 +63,19 @@ module IsoDoc
       def author(xml, _out)
         sector = xml.at(ns("//bibdata/ext/editorialgroup/sector"))
         set(:sector, sector.text) if sector
-        bureau = xml.at(ns("//bibdata/ext/editorialgroup/bureau"))
-        set(:bureau, bureau.text) if bureau
+        bureau(xml)
         tc = xml.at(ns("//bibdata/ext/editorialgroup/committee"))
         set(:tc, tc.text) if tc
         tc = xml.at(ns("//bibdata/ext/editorialgroup/group/name"))
         set(:group, tc.text) if tc
+        tc = xml.at(ns("//bibdata/ext/editorialgroup/group/acronym"))
+        set(:group_acronym, tc.text) if tc
+        start1 = xml.at(ns("//bibdata/ext/editorialgroup/group/period/start"))
+        end1 = xml.at(ns("//bibdata/ext/editorialgroup/group/period/end"))
+        if start1
+          set(:study_group_period,
+              @i18n.l10n("#{start1.text}–#{end1.text}"))
+        end
         tc = xml.at(ns("//bibdata/ext/editorialgroup/subgroup/name"))
         set(:subgroup, tc.text) if tc
         tc = xml.at(ns("//bibdata/ext/editorialgroup/workgroup/name"))
@@ -71,20 +86,34 @@ module IsoDoc
         person_attributes(authors) unless authors.empty?
       end
 
+      def bureau(xml)
+        if bureau = xml.at(ns("//bibdata/ext/editorialgroup/bureau"))
+          set(:bureau, bureau.text)
+          case bureau.text
+          when "T" then set(:bureau_full, @i18n.tsb_full)
+          when "D" then set(:bureau_full, @i18n.bdt_full)
+          when "R" then set(:bureau_full, @i18n.br_full)
+          end
+        end
+      end
+
       def append(key, value)
         @metadata[key] << value
       end
 
+      PERSON_ATTRS = { affiliations: "./affiliation/organization/name",
+                       addresses: "./affiliation/organization/address/" \
+                                     "formattedAddress",
+                       emails: "./email",
+                       faxes: "./phone[@type = 'fax']",
+                       phones: "./phone[not(@type = 'fax')]" }.freeze
+
       def person_attributes(authors)
-        %i(affiliations addresses emails faxes phones).each { |i| set(i, []) }
+        PERSON_ATTRS.each_key { |k| set(k, []) }
         authors.each do |a|
-          append(:affiliations,
-                 a.at(ns("./affiliation/organization/name"))&.text)
-          append(:addresses, a.at(ns("./affiliation/organization/address/" \
-                                     "formattedAddress"))&.text)
-          append(:emails, a.at(ns("./email"))&.text)
-          append(:faxes, a.at(ns("./phone[@type = 'fax']"))&.text)
-          append(:phones, a.at(ns("./phone[not(@type = 'fax')]"))&.text)
+          PERSON_ATTRS.each do |k, v|
+            append(k, a.at(ns(v))&.text)
+          end
         end
       end
 
@@ -134,6 +163,9 @@ module IsoDoc
       def keywords(isoxml, _out)
         super
         set(:keywords, get[:keywords].sort)
+        q = isoxml.xpath(ns("//bibdata/ext/question/identifier"))
+        q.empty? or set(:questions,
+                        q.map { |x| x.text.sub(/^Q/, "") }.join(", "))
       end
 
       def doctype(isoxml, _out)

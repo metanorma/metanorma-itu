@@ -1,3 +1,11 @@
+questions: Frage(n)
+studyperiod: Studiendauer %
+original: Original
+contact: Kontakt
+tel_abbrev: Tel.
+document_source: Quelle
+title: Titel
+current_language: Deutsch
 termsdef: Definitionen
 termsdefsymbolsabbrev: Definitionen
 termsdefsymbols: Definitionen
@@ -83,6 +91,7 @@ doctype_dict:
   technical-report: Technischer Bericht
   joint-itu-iso-iec: Gemeinsame ITU/ISO/IEC
   service-publication: Service Veröffentlichung
+  contribution: Beitrag
 doctype_abbrev:
   recommendation: Empf.
   recommendation-supplement: Empf.
@@ -96,6 +105,7 @@ doctype_abbrev:
   technical-report: TR
   joint-itu-iso-iec: ITU/ISO/IEC
   service-publication:
+  contribution: 
 inflection:
   Redakteur:
     sg: Redakteur

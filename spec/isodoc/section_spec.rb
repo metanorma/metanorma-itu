@@ -219,7 +219,8 @@ RSpec.describe Metanorma::ITU do
                  </div>
                </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
@@ -527,7 +528,8 @@ RSpec.describe Metanorma::ITU do
          </div>
        </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", itudoc("en"), true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
@@ -719,9 +721,10 @@ RSpec.describe Metanorma::ITU do
             </annex>
           </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
- .convert("test", input, true)
- .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to xmlpp(presxml)
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, false)
     html = File.read("test.html", encoding: "utf-8")
@@ -856,7 +859,8 @@ RSpec.describe Metanorma::ITU do
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
     expect(xmlpp(html
-      .gsub(%r{.*<p class="h1Preface">History</p>}m, '<div><p class="h1Preface">History</p>')
+      .gsub(%r{.*<p class="h1Preface">History</p>}m,
+            '<div><p class="h1Preface">History</p>')
       .sub(%r{</table>.*$}m, "</table></div></div>")))
       .to be_equivalent_to xmlpp(<<~OUTPUT)
               <div>
@@ -891,7 +895,6 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes unnumbered clauses" do
-    FileUtils.rm_f "test.html"
     input = <<~INPUT
              <itu-standard xmlns="http://riboseinc.com/isoxml">
              <bibdata type="standard">
@@ -950,7 +953,6 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes bis, ter etc clauses" do
-    FileUtils.rm_f "test.html"
     input = <<~INPUT
                      <itu-standard xmlns="http://riboseinc.com/isoxml">
                      <bibdata type="standard">
@@ -1026,7 +1028,6 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes editor clauses, one editor" do
-    FileUtils.rm_f "test.html"
     input = <<~INPUT
       <itu-standard xmlns="http://riboseinc.com/isoxml">
       <bibdata type="standard">
@@ -1088,7 +1089,6 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes editor clauses, two editors" do
-    FileUtils.rm_f "test.html"
     input = <<~INPUT
       <itu-standard xmlns="http://riboseinc.com/isoxml">
       <bibdata type="standard">
@@ -1146,6 +1146,373 @@ RSpec.describe Metanorma::ITU do
     OUTPUT
     xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
+    xml = xml.at("//xmlns:preface").to_xml
+    expect(xmlpp(strip_guid(xml)))
+      .to be_equivalent_to xmlpp(presxml)
+  end
+
+  it "generates contribution prefatory table and abstract table" do
+    logoloc = File.expand_path(
+      File.join(File.dirname(__FILE__), "..", "..", "lib", "isodoc", "itu",
+                "html"),
+    )
+    input = <<~INPUT
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic'>
+        <bibdata type='standard'>
+          <title language='en' format='text/plain' type='main'>Main Title</title>
+          <title language='fr' format='text/plain' type='main'>Titre Principal</title>
+          <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+          <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+          <docidentifier type='ITU-provisional'>ABC</docidentifier>
+          <docidentifier primary="true" type='ITU'>SG17-C1000</docidentifier>
+          <docidentifier type='ITU-lang'>SG17-C1000-E</docidentifier>
+          <docnumber>1000</docnumber>
+          <contributor>
+            <role type='author'/>
+            <organization>
+              <name>International Telecommunication Union</name><abbreviation>ITU</abbreviation>
+            </organization>
+          </contributor>
+          <contributor>
+          <role type='editor'>raporteur</role>
+            <person>
+              <name>
+                <completename>Fred Flintstone</completename>
+              </name>
+              <affiliation>
+                <organization>
+                  <name>Bedrock Quarry</name>
+                  <address>
+                    <formattedAddress>Canada</formattedAddress>
+                  </address>
+                </organization>
+              </affiliation>
+              <phone>555</phone>
+              <phone type='fax'>556</phone>
+              <email>x@example.com</email>
+            </person>
+          </contributor>
+          <contributor>
+            <role type='editor'/>
+            <person>
+              <name>
+                <completename>Barney Rubble</completename>
+              </name>
+              <affiliation>
+                <organization>
+                  <name>Bedrock Quarry 2</name>
+                  <address>
+                    <formattedAddress>USA</formattedAddress>
+                  </address>
+                </organization>
+              </affiliation>
+              <phone>557</phone>
+              <phone type='fax'>558</phone>
+              <email>y@example.com</email>
+            </person>
+          </contributor>
+          <contributor>
+            <role type='publisher'/>
+            <organization>
+              <name>International Telecommunication Union</name>
+              <abbreviation>ITU</abbreviation>
+            </organization>
+          </contributor>
+          <edition>2</edition>
+          <version>
+            <revision-date>2000-01-01</revision-date>
+            <draft>5</draft>
+          </version>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>draft</stage>
+          </status>
+          <copyright>
+            <from>2001</from>
+            <owner>
+              <organization>
+                <name>International Telecommunication Union</name>
+                <abbreviation>ITU</abbreviation>
+              </organization>
+            </owner>
+          </copyright>
+          <series type='main'>
+            <title>A3</title>
+          </series>
+          <series type='secondary'>
+            <title>B3</title>
+          </series>
+          <series type='tertiary'>
+            <title>C3</title>
+          </series>
+          <keyword>VoIP</keyword>
+          <keyword>word1</keyword>
+          <ext>
+            <doctype>contribution</doctype>
+            <editorialgroup>
+              <bureau>R</bureau>
+              <group type="study-group">
+                <name>Study Group 17</name>
+                <acronym>SG17</acronym>
+                <period>
+                  <start>2000</start>
+                  <end>2002</end>
+                </period>
+              </group>
+              <subgroup>
+                <name>I1</name>
+              </subgroup>
+              <workgroup>
+                <name>I2</name>
+              </workgroup>
+            </editorialgroup>
+            <ip-notice-received>false</ip-notice-received>
+            <meeting acronym='MX'>Meeting X</meeting>
+            <meeting-place>Kronos</meeting-place>
+            <meeting-date>
+              <from>2000-01-01</from>
+              <to>2000-01-02</to>
+            </meeting-date>
+            <intended-type>TD</intended-type>
+            <source>Source1</source>
+            <structuredidentifier>
+              <bureau>R</bureau>
+              <docnumber>1000</docnumber>
+            </structuredidentifier>
+          </ext>
+        </bibdata>
+        <preface>
+        <abstract id="A"><p>This is an abstract.</p></abstract>
+        </preface>
+        <sections>
+        <clause id="B"><title>First</title><p>This is the first clause</p></clause>
+        </sections>
+        </itu-standard>
+    INPUT
+    presxml = <<~OUTPUT
+      <itu-standard>
+        <preface>
+          <clause unnumbered="true" type="contribution-metadata" displayorder="1">
+            <table class="contribution-metadata" unnumbered="true" width="100%">
+              <colgroup>
+                <col width="11.8%"/>
+                <col width="41.2%"/>
+                <col width="47.0%"/>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th rowspan="3">
+                   <image height="56" width="56" src="#{File.join(logoloc, '/logo-small.png')}"/>
+                  </th>
+                  <td rowspan="3">
+                    <p style="font-size:8pt;margin-top:6pt;margin-bottom:0pt;">INTERNATIONAL TELECOMMUNICATION UNION</p>
+                    <p class="bureau_big" style="font-size:13pt;margin-top:6pt;margin-bottom:0pt;">
+                      <strong>RADIOCOMMUNICATION BUREAU</strong>
+                      <br/>
+                      <strong>OF ITU</strong>
+                    </p>
+                    <p style="font-size:10pt;margin-top:6pt;margin-bottom:0pt;">STUDY PERIOD 2000–2002</p>
+                  </td>
+                  <th align="right">
+                    <p style="font-size:16pt;">SG17-C1000</p>
+                  </th>
+                </tr>
+                <tr>
+                  <th align="right">
+                    <p style="font-size:14pt;">STUDY GROUP 17</p>
+                  </th>
+                </tr>
+                <tr>
+                  <th align="right">
+                    <p style="font-size:14pt;">Original: English</p>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th align="left" width="95">Question(s):</th>
+                  <td/>
+                  <td align="right">Kronos, 01 Jan 2000/02 Jan 2000</td>
+                </tr>
+                <tr>
+                  <th align="center" colspan="3">CONTRIBUTION</th>
+                </tr>
+                <tr>
+                  <th align="left" width="95">Source:</th>
+                  <td colspan="2">Source1</td>
+                </tr>
+                <tr>
+                  <th align="left" width="95">Title:</th>
+                  <td colspan="2">Main Title</td>
+                </tr>
+                <tr>
+                  <th align="left" width="95">Contact:</th>
+                  <td>Fred Flintstone<br/>
+        Bedrock Quarry<br/>
+        Canada</td>
+                  <td>Tel.<tab/>555<br/>
+        E-mail<tab/>x@example.com</td>
+                </tr>
+                <tr>
+                  <th align="left" width="95">Contact:</th>
+                  <td>Barney Rubble<br/>
+        Bedrock Quarry 2<br/>
+        USA</td>
+                  <td>Tel.<tab/>557<br/>
+        E-mail<tab/>y@example.com</td>
+                </tr>
+                <tr>
+                  <th align="left" width="95">Contact:</th>
+                  <td>
+                    <br/>
+                    <br/>
+                  </td>
+                  <td>Tel.<tab/><br/>
+        E-mail<tab/></td>
+                </tr>
+              </tbody>
+            </table>
+          </clause>
+          <abstract id="A" displayorder="2">
+            <table class="abstract" unnumbered="true" width="100%">
+              <colgroup>
+                <col width="11.8%"/>
+                <col width="78.2%"/>
+              </colgroup>
+              <tbody>
+                <tr>
+                  <th align="left" width="95">
+                    <p>Abstract:</p>
+                  </th>
+                  <td>
+                    <p>This is an abstract.</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </abstract>
+        </preface>
+          <sections>
+          <clause id="B" displayorder="3">
+            <title depth="1">1.<tab/>First</title>
+            <p>This is the first clause</p>
+          </clause>
+        </sections>
+      </itu-standard>`
+    OUTPUT
+    xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+      .convert("test", input, true))
+    xml = xml.xpath("//xmlns:preface | //xmlns:sections").to_xml
+    expect(xmlpp(strip_guid("<itu-standard>#{xml}</itu-standard>")))
+      .to be_equivalent_to xmlpp(presxml)
+
+    presxml = <<~OUTPUT
+      <preface>
+         <clause unnumbered="true" type="contribution-metadata" displayorder="1">
+           <table class="contribution-metadata" unnumbered="true" width="100%">
+             <colgroup>
+               <col width="11.8%"/>
+               <col width="41.2%"/>
+               <col width="47.0%"/>
+             </colgroup>
+             <thead>
+               <tr>
+                 <th rowspan="3">
+                   <image height="56" width="56" src="#{File.join(logoloc, '/logo-small.png')}"/>
+                 </th>
+                 <td rowspan="3">
+                   <p style="font-size:8pt;margin-top:6pt;margin-bottom:0pt;">UNION INTERNATIONALE DES TÉLÉCOMMUNICATIONS</p>
+                   <p class="bureau_big" style="font-size:13pt;margin-top:6pt;margin-bottom:0pt;">
+                     <strong>BUREAU DES RADIOCOMMUNICATIONS</strong>
+                     <br/>
+                     <strong>DE L’UIT</strong>
+                   </p>
+                   <p style="font-size:10pt;margin-top:6pt;margin-bottom:0pt;">PÉRIODE D’ÉTUDES 2000–2002</p>
+                 </td>
+                 <th align="right">
+                   <p style="font-size:16pt;">SG17-C1000</p>
+                 </th>
+               </tr>
+               <tr>
+                 <th align="right">
+                   <p style="font-size:14pt;">STUDY GROUP 17</p>
+                 </th>
+               </tr>
+               <tr>
+                 <th align="right">
+                   <p style="font-size:14pt;">Original : Français</p>
+                 </th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <th align="left" width="95">Question(s):</th>
+                 <td/>
+                 <td align="right">Kronos, 01 janv. 2000/02 janv. 2000</td>
+               </tr>
+               <tr>
+                 <th align="center" colspan="3">CONTRIBUTION</th>
+               </tr>
+               <tr>
+                 <th align="left" width="95">Source :</th>
+                 <td colspan="2">Source1</td>
+               </tr>
+               <tr>
+                 <th align="left" width="95">Titre :</th>
+                 <td colspan="2">Main Title</td>
+               </tr>
+               <tr>
+                 <th align="left" width="95">Contact :</th>
+                 <td>Fred Flintstone<br/>
+       Bedrock Quarry<br/>
+       Canada</td>
+                 <td>Tél.<tab/>555<br/>
+       E-mail<tab/>x@example.com</td>
+               </tr>
+               <tr>
+                 <th align="left" width="95">Contact :</th>
+                 <td>Barney Rubble<br/>
+       Bedrock Quarry 2<br/>
+       USA</td>
+                 <td>Tél.<tab/>557<br/>
+       E-mail<tab/>y@example.com</td>
+               </tr>
+               <tr>
+                 <th align="left" width="95">Contact :</th>
+                 <td>
+                   <br/>
+                   <br/>
+                 </td>
+                 <td>Tél.<tab/><br/>
+       E-mail<tab/></td>
+               </tr>
+             </tbody>
+           </table>
+         </clause>
+         <abstract id="A" displayorder="2">
+           <table class="abstract" unnumbered="true" width="100%">
+             <colgroup>
+               <col width="11.8%"/>
+               <col width="78.2%"/>
+             </colgroup>
+             <tbody>
+               <tr>
+                 <th align="left" width="95">
+                   <p>Résumé :</p>
+                 </th>
+                 <td>
+                   <p>This is an abstract.</p>
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+         </abstract>
+       </preface>
+    OUTPUT
+    xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+      .convert("test", input
+      .sub("<language>en</language>", "<language>fr</language>"), true))
     xml = xml.at("//xmlns:preface").to_xml
     expect(xmlpp(strip_guid(xml)))
       .to be_equivalent_to xmlpp(presxml)

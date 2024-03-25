@@ -1,3 +1,11 @@
+questions: Question(s)
+studyperiod: Période d’études %
+original: Original
+contact: Contact
+tel_abbrev: Tél.
+document_source: Source
+title: Titre
+current_language: Français
 termsdef: Définitions
 termsdefsymbolsabbrev: Définitions
 termsdefsymbols: Définitions
@@ -86,6 +94,7 @@ doctype_dict:
   technical-report: Rapport technique
   joint-itu-iso-iec: Joint UIT / ISO / CEI
   service-publication: Publication de service
+  contribution: Contribution
 doctype_abbrev:
   recommendation: Rec.
   recommendation-supplement: Rec.
@@ -99,6 +108,7 @@ doctype_abbrev:
   technical-report: TR
   joint-itu-iso-iec: ITU/ISO/IEC
   service-publication: 
+  contribution: 
 inflection:
   éditeur:
     sg: éditeur

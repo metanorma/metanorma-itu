@@ -87,25 +87,91 @@ exactly'></p>
 </div>
 
 <div style='mso-element:header' id=eh2>
+{% if doctype == "Contribution" %}
+<p class=MsoHeader><span lang=EN-GB>- </span><!--[if supportFields]><span
+lang=EN-GB><span style='mso-element:field-begin'></span><span
+style='mso-spacerun:yes'> </span>PAGE<span style='mso-spacerun:yes'>  </span>\*
+MERGEFORMAT <span style='mso-element:field-separator'></span></span><![endif]--><span
+lang=EN-GB><span style='mso-no-proof:yes'>2</span></span><!--[if supportFields]><span
+lang=EN-GB><span style='mso-element:field-end'></span></span><![endif]--><span
+lang=EN-GB> -</span></p>
+
+<p class=MsoHeader><span lang=EN-GB><span style='mso-no-proof:yes'>{{ docnumber}}</span></span></p>
+{% else %}
 <p class=MsoHeader align=left style='text-align:left;line-height:12.0pt;
 mso-line-height-rule:exactly'><span lang=EN-GB>{% if document_td or document_provisional %}{% if document_td %}{{ document_td }}{% endif %}{% if document_td and document_provisional %}; {% endif %}{% if document_provisional %}{{ document_provisional }}{% endif %}{% endif %}</span></p>
+{% endif %}
 </div>
 
 <div style='mso-element:header' id=eh2l>
+{% if doctype == "Contribution" %}
+<p class=MsoHeader><span lang=EN-GB>- </span><!--[if supportFields]><span
+lang=EN-GB><span style='mso-element:field-begin'></span><span
+style='mso-spacerun:yes'> </span>PAGE<span style='mso-spacerun:yes'>  </span>\*
+MERGEFORMAT <span style='mso-element:field-separator'></span></span><![endif]--><span
+lang=EN-GB><span style='mso-no-proof:yes'>2</span></span><!--[if supportFields]><span
+lang=EN-GB><span style='mso-element:field-end'></span></span><![endif]--><span
+lang=EN-GB> -</span></p>
+<p class=MsoHeader><span lang=EN-GB><span style='mso-no-proof:yes'>{{ docnumber}}</span></span></p>
+
+{% else %}
 <p class=MsoHeaderLandscape align=left style='text-align:left;line-height:12.0pt;
 mso-line-height-rule:exactly'><span lang=EN-GB>{% if document_td or document_provisional %}{% if document_td %}{{ document_td }}{% endif %}{% if document_td and document_provisional %}; {% endif %}{% if document_provisional %}{{ document_provisional }}{% endif %}{% endif %}</span></p>
+{% endif %}
 </div>
 
 <div style='mso-element:header' id=h2>
+{% if doctype == "Contribution" %}
+<p class=MsoHeader><span lang=EN-GB>- </span><!--[if supportFields]><span
+lang=EN-GB><span style='mso-element:field-begin'></span><span
+style='mso-spacerun:yes'> </span>PAGE<span style='mso-spacerun:yes'>  </span>\*
+MERGEFORMAT <span style='mso-element:field-separator'></span></span><![endif]--><span
+lang=EN-GB><span style='mso-no-proof:yes'>2</span></span><!--[if supportFields]><span
+lang=EN-GB><span style='mso-element:field-end'></span></span><![endif]--><span
+lang=EN-GB> -</span></p>
+<p class=MsoHeader><span lang=EN-GB><span style='mso-no-proof:yes'>{{ docnumber}}</span></span></p>
+{% else %}
 <p class=MsoHeader align=right style='text-align:right;line-height:12.0pt;
 mso-line-height-rule:exactly'><span lang=EN-GB>{% if document_td or document_provisional %}{% if document_td %}{{ document_td }}{% endif %}{% if document_td and document_provisional %}; {% endif %}{% if document_provisional %}{{ document_provisional }}{% endif %}{% endif %}</span></p>
+{% endif %}
 </div>
 
 <div style='mso-element:header' id=h2l>
+{% if doctype == "Contribution" %}
+<p class=MsoHeader><span lang=EN-GB>- </span><!--[if supportFields]><span
+lang=EN-GB><span style='mso-element:field-begin'></span><span
+style='mso-spacerun:yes'> </span>PAGE<span style='mso-spacerun:yes'>  </span>\*
+MERGEFORMAT <span style='mso-element:field-separator'></span></span><![endif]--><span
+lang=EN-GB><span style='mso-no-proof:yes'>2</span></span><!--[if supportFields]><span
+lang=EN-GB><span style='mso-element:field-end'></span></span><![endif]--><span
+lang=EN-GB> -</span></p>
+<p class=MsoHeader><span lang=EN-GB><span style='mso-no-proof:yes'>{{ docnumber}}</span></span></p>
+{% else %}
 <p class=MsoHeaderLandscape align=right style='text-align:right;line-height:12.0pt;
 mso-line-height-rule:exactly'><span lang=EN-GB>{% if document_td or document_provisional %}{% if document_td %}{{ document_td }}{% endif %}{% if document_td and document_provisional %}; {% endif %}{% if document_provisional %}{{ document_provisional }}{% endif %}{% endif %}</span></p>
+{% endif %}
 </div>
 
+<div style='mso-element:header' id=fh2>
+{% if doctype == "Contribution" %}
+<p class=MsoHeader></p>
+{% else %}
+<p class=MsoHeader align=right style='text-align:right;line-height:12.0pt;
+mso-line-height-rule:exactly'><span lang=EN-GB>{% if document_td or document_provisional %}{% if document_td %}{{ document_td }}{% endif %}{% if document_td and document_provisional %}; {% endif %}{% if document_provisional %}{{ document_provisional }}{% endif %}{% endif %}</span></p>
+{% endif %}
+</div>
+
+<div style='mso-element:header' id=fh2l>
+{% if doctype == "Contribution" %}
+<p class=MsoHeader></p>
+{% else %}
+<p class=MsoHeaderLandscape align=right style='text-align:right;line-height:12.0pt;
+mso-line-height-rule:exactly'><span lang=EN-GB>{% if document_td or document_provisional %}{% if document_td %}{{ document_td }}{% endif %}{% if document_td and document_provisional %}; {% endif %}{% if document_provisional %}{{ document_provisional }}{% endif %}{% endif %}</span></p>
+{% endif %}
+</div>
+
+
+{% if doctype != "Contribution" %}
 <div style='mso-element:footer' id=ef2>
 <p class=FooterQP style='line-height:12.0pt;mso-line-height-rule:exactly'><!--[if supportFields]><span lang=EN-GB style='font-weight:
 normal'><span style='mso-element:field-begin'></span></span><span lang=FR-CH
@@ -197,6 +263,8 @@ style='font-weight:normal'><span style='mso-no-proof:yes'>29</span></span><!--[i
 lang=EN-GB style='font-weight:normal'><span style='mso-element:field-end'></span></span><![endif]--><span
 lang=EN-GB style='font-weight:normal'><o:p></o:p></span></p>
 </div>
+
+{% endif %}
 
 </body>
 

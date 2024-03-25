@@ -131,7 +131,7 @@ def boilerplate(xmldoc)
   )
   ret = Nokogiri::XML(boilerplate_read(file, xmldoc))
   ret.root.to_xml(encoding: "UTF-8", indent: 2,
-             save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
+                  save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
 end
 
 def itudoc(lang)
@@ -309,4 +309,14 @@ def mock_pdf
   allow(Mn2pdf).to receive(:convert) do |url, output, _c, _d|
     FileUtils.cp(url.gsub(/"/, ""), output.gsub(/"/, ""))
   end
+end
+
+def mock_year(year)
+  allow(Date).to receive(:today)
+    .and_return(Date.parse("#{year}-02-01"))
+end
+
+def current_study_period
+  yr = Date.today.year - (Date.today.year % 2)
+  "<period><start>#{yr}</start><end>#{yr + 2}</end></period>"
 end

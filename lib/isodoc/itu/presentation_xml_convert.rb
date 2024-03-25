@@ -25,11 +25,6 @@ module IsoDoc
         super
       end
 
-      def section(docxml)
-        insert_preface_sections(docxml)
-        super
-      end
-
       def eref(docxml)
         docxml.xpath(ns("//eref")).each { |f| eref1(f) }
       end

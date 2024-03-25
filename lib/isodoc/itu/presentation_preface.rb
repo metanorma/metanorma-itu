@@ -130,6 +130,7 @@ module IsoDoc
 
       def rearrange_clauses(docxml)
         super
+        insert_preface_sections(docxml)
         a = docxml.at(ns("//preface/abstract"))
         keywords_abstract_swap(a, keywords(docxml), docxml)
         c = docxml.at(ns("//preface/clause[@type='contribution-metadata']")) and

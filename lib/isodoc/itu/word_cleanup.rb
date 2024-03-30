@@ -93,6 +93,7 @@ module IsoDoc
           @wordstylesheet&.write(@landscapestyle)
           @wordstylesheet&.close
         end
+        @wordstylesheet
       end
 
       def authority_hdr_cleanup(docxml)

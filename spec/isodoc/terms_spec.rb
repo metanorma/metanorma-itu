@@ -119,7 +119,7 @@ RSpec.describe Metanorma::ITU do
       .gsub(%r{</main>.*}m, "</main>"))))
       .to be_equivalent_to xmlpp(<<~OUTPUT)
          <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-              <div id="H"><h1 id="_">1&#xA0; Terms</h1>
+              <div id="H"><h1 id="_"><a class="anchor" href="#H"/><a class="header" href="#H">1&#xA0; Terms</a></h1>
           <div id="J"><p class="TermNum" id="J"><b>1.1&#xA0; Term2</b>: [XYZ] This is a journey into sound</p>
 
 

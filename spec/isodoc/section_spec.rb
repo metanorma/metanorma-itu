@@ -751,7 +751,7 @@ RSpec.describe Metanorma::ITU do
                    </p>
                    <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
                    <div id='A2'>
-                     <h2 id='_'>F2.1.&#xA0; Subtitle</h2>
+                     <h2 id='_'><a class="anchor" href="#A2"/><a class="header" href="#A2">F2.1.&#xA0; Subtitle</a></h2>
                      <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
                      <table id='T' class='MsoISOTable' style='border-width:1px;border-spacing:0;'/>
                      <div id='U' class='figure'>

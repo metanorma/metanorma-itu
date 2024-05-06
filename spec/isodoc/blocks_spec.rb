@@ -384,7 +384,9 @@ RSpec.describe Metanorma::ITU do
                 <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">6,06</td>
               </tr>
             </tfoot>
+            <div class="figdl">
             <p style="text-indent: -2.0cm; margin-left: 2.0cm; tab-stops: 2.0cm;">Drago<span style="mso-tab-count:1">  </span>A type of rice</p>
+            </div>
             <div class="Note">
               <p><span class="note_label">NOTE – </span>This is a table about rice</p>
             </div>
@@ -459,25 +461,31 @@ RSpec.describe Metanorma::ITU do
       #{HTML_HDR}
             <div>
               <h1 class="IntroTitle"/>
+               <div class="ol_wrap">
                            <ol type="1" id="_">
                <li id="_">
                  <p id="_">all information necessary for the complete identification of the sample;</p>
                </li>
                <li id="_">
+                <div class="ol_wrap">
                  <ol type="a" id="A">
                    <li id="_">
                      <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
                    </li>
                    <li id="_">
+                    <div class="ol_wrap">
                      <ol type="i" id="B">
                        <li id="_">
                          <p id="_">the sampling method used;</p>
                        </li>
                      </ol>
+                     </div>
                    </li>
                  </ol>
+                 </div>
                </li>
              </ol>
+             </div>
            </div>
          </div>
        </body>
@@ -503,33 +511,38 @@ RSpec.describe Metanorma::ITU do
            </div>
            <div>
              <h1 class="IntroTitle"/>
-             <ol class="steps" id="_">
-               <li id="_">
-                 <p id="_">all information necessary for the complete identification of the sample;</p>
-               </li>
-               <li id="_">
-                 <ol id="A">
-                   <li id="_">
-                     <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
-                   </li>
-                   <li id="_">
-                     <ol id="B">
+             <div class="ol_wrap">
+               <ol class="steps" id="_">
+                 <li id="_">
+                   <p id="_">all information necessary for the complete identification of the sample;</p>
+                 </li>
+                 <li id="_">
+                   <div class="ol_wrap">
+                     <ol id="A">
                        <li id="_">
-                         <p id="_">the sampling method used;</p>
+                         <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
+                       </li>
+                       <li id="_">
+                         <div class="ol_wrap">
+                           <ol id="B">
+                             <li id="_">
+                               <p id="_">the sampling method used;</p>
+                             </li>
+                           </ol>
+                         </div>
                        </li>
                      </ol>
-                   </li>
-                 </ol>
-               </li>
-             </ol>
+                   </div>
+                 </li>
+               </ol>
+             </div>
            </div>
            <p> </p>
          </div>
          <p class="section-break">
            <br clear="all" class="section"/>
          </p>
-         <div class="WordSection3">
-         </div>
+         <div class="WordSection3"/>
        </body>
     OUTPUT
     expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
@@ -678,9 +691,13 @@ RSpec.describe Metanorma::ITU do
     expect(xmlpp(html)).to be_equivalent_to xmlpp(<<~OUTPUT)
           <div>
         <p class='h1Preface'/>
+        <div class="ol_wrap">
         <p style='mso-list:l4 level1 lfo1;' class='MsoListParagraphCxSpFirst'> all information necessary for the complete identification of the sample; </p>
+        <div class="ol_wrap">
         <p style='mso-list:l4 level1 lfo2;' class='MsoListParagraphCxSpFirst'> a reference to this document (i.e. ISO 17301-1); </p>
+        <div class="ol_wrap">
         <p style='mso-list:l4 level1 lfo3;;mso-list:l4 level1 lfo4;' class='MsoListParagraphCxSpFirst'> the sampling method used; </p>
+        </div></div></div>
       </div>
     OUTPUT
   end

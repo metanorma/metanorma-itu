@@ -1288,6 +1288,36 @@ RSpec.describe Metanorma::ITU do
         <sections>
         <clause id="B"><title>First</title><p>This is the first clause</p></clause>
         </sections>
+        <annex id="A1"><title>Annex</title></annex>
+        <annex id="A2" type="justification">
+        clause id="_a6ac7b3c-2a73-4afb-502c-c683372215ca" type="scope" inline-header="false" obligation="normative">
+        <title>Scope</title><p id="_37adf2c4-28f1-ea9c-0f52-b2ff84b33b55">TEXT 1</p>
+        </clause>
+        <clause id="_2" type="summary" inline-header="false" obligation="normative">
+        <p id="_5f7e73d1-bd2e-8b40-bd86-c2ba5a400577">TEXT 2</p>
+        </clause>
+        <clause id="_3" type="relatedstandards" inline-header="false" obligation="normative">
+        <ol id="_5d94d081-b33a-6cb0-61f3-d4ce3bb47ea2"><li><p id="_7e51a815-c9d7-074a-7125-bea511e3927d">TEXT 3</p>
+        </li>
+        <li><p id="_d8492089-77f3-0b7d-2750-aaacd5c0e8d3">TEXT 4</p>
+        </li>
+        <li><p id="_16595e62-ff08-3742-84c1-dbbae8ac1fab">TEXT 5</p>
+        </li>
+        </ol>
+        </clause>
+        <clause id="_4" type="liaisons" inline-header="false" obligation="normative">
+        <ol id="_22e6d6a2-63f6-8afc-2adb-329f4bef13e7"><li><p id="_111c6bfd-8e98-c405-a425-c6112d028f8e">TEXT 6</p>
+        </li>
+        <li><p id="_7df8ce97-29db-c8c9-46ef-5731bc258a16">TEXT 7</p>
+        </li>
+        <li><p id="_ea1810b1-db12-e76f-6597-c67aea0160f5">TEXT 8</p>
+        </li>
+        </ol>
+        </clause>
+        <clause id="_5" type="supportingmembers" inline-header="false" obligation="normative">
+        <p id="_a42297b2-5f04-5da9-64c2-7e92670d5cad">TEXT 9</p>
+        </clause>
+        </annex>
         </itu-standard>
     INPUT
     presxml = <<~OUTPUT

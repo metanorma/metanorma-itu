@@ -5,6 +5,7 @@ require_relative "../../relaton/render/general"
 require_relative "presentation_bibdata"
 require_relative "presentation_preface"
 require_relative "presentation_ref"
+require_relative "presentation_contribution"
 
 module Nokogiri
   module XML

@@ -64,7 +64,7 @@ module IsoDoc
       def rearrange_clauses(docxml)
         super
         insert_preface_sections(docxml)
-        a = docxml.at(ns("//preface/abstract")) or return
+        a = docxml.at(ns("//preface/abstract"))
         keywords_abstract_swap(a, keywords(docxml), docxml)
         c = docxml.at(ns("//preface/clause[@type='contribution-metadata']")) and
           a and c.next = a
@@ -73,15 +73,16 @@ module IsoDoc
 
       def keywords_abstract_swap(abstract, keywords, docxml)
         @doctype == "contribution" and return
-        keywords or return
-        if abstract then abstract.next = keywords
+        k = keywords or return
+        if abstract then abstract.next = k
         else
           p = contribution_table_insert_pt(docxml)
-          p.next = keywords
+          p.next = k
         end
       end
 
       def abstract_render(abstract)
+        abstract or return
         @doctype == "contribution" or return
         abstract.at(ns("./title"))&.remove
         abstract.children = <<~TABLE

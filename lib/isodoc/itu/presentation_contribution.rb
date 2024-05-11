@@ -130,11 +130,11 @@ module IsoDoc
             <th rowspan="#{authcount}">Approval process:</th><td><td>#{@meta.get[:approvalprocess]}</td>
             </tr>
             #{auths_tail}
-            <tr><td colspan="5"><p><strong>Scope</strong> (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):</p>>#{extract_clause_data(annex, 'scope')}</td></tr>
-            <tr><td colspan="5"><p><strong>Summary</strong> (provides a brief overview of the purpose and contents of the Recommendation, thus permitting readers to judge its usefulness for their work):</p>>#{extract_clause_data(annex, 'summary')}</td></tr>
-            <tr><td colspan="5"><p><strong>Relations to ITU-T Recommendations or to other standards</strong> (approved or uder development):</p>>#{extract_clause_data(annex, 'relatedstandards')}</td></tr>
-            <tr><td colspan="5"><p><strong>Liaisons with other study groups or with other standards bodies:</strong></p>>#{extract_clause_data(annex, 'liaisons')}</td></tr>
-            <tr><td colspan="5"><p><strong>Supporting members that are committing to contributing actively to the work item::</strong></p>>#{extract_clause_data(annex, 'supportingmembers')}</td></tr>
+            <tr><td colspan="5"><p><strong>Scope</strong> (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):</p>#{extract_clause_data(annex, 'scope')}</td></tr>
+            <tr><td colspan="5"><p><strong>Summary</strong> (provides a brief overview of the purpose and contents of the Recommendation, thus permitting readers to judge its usefulness for their work):</p>#{extract_clause_data(annex, 'summary')}</td></tr>
+            <tr><td colspan="5"><p><strong>Relations to ITU-T Recommendations or to other standards</strong> (approved or under development):</p>#{extract_clause_data(annex, 'relatedstandards')}</td></tr>
+            <tr><td colspan="5"><p><strong>Liaisons with other study groups or with other standards bodies:</strong></p>#{extract_clause_data(annex, 'liaisons')}</td></tr>
+            <tr><td colspan="5"><p><strong>Supporting members that are committing to contributing actively to the work item:</strong></p>#{extract_clause_data(annex, 'supportingmembers')}</td></tr>
             </tbody>
           </table>
         TABLE

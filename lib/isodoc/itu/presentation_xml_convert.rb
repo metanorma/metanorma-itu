@@ -128,12 +128,6 @@ module IsoDoc
         type
       end
 
-      def info(isoxml, out)
-        @meta.ip_notice_received isoxml, out
-        @meta.techreport isoxml, out
-        super
-      end
-
       def middle_title(isoxml)
         s = isoxml.at(ns("//sections")) or return
         titfn = isoxml.at(ns("//note[@type = 'title-footnote']"))

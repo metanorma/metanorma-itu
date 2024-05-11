@@ -248,6 +248,7 @@ RSpec.describe Metanorma::ITU do
         :coverpage-image: images/image1.gif,images/image2.gif
         :document-scheme: legacy
         :question: Q10/17: Identity management and telebiometrics architecture and mechanisms, "Q11/17: Generic technologies (such as Directory, PKI, formal languages, object identifiers) to support secure applications"
+        :timing: 2025-Q4
       INPUT
       output = <<~"OUTPUT"
            <?xml version="1.0" encoding="UTF-8"?>
@@ -651,6 +652,7 @@ RSpec.describe Metanorma::ITU do
                 <approvalstage process='F3'>G3</approvalstage>
               </recommendationstatus>
               <ip-notice-received>false</ip-notice-received>
+              <timing>2025-Q4</timing>
               <structuredidentifier>
                 <bureau>R</bureau>
                 <docnumber>1000</docnumber>

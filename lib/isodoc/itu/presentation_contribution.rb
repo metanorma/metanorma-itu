@@ -60,12 +60,13 @@ module IsoDoc
       end
 
       def contribution_table_contact(idx)
+        @meta.get[:emails][idx] and
+          e = "<br/>#{@i18n.email}<tab/>#{@meta.get[:emails][idx]}"
         <<~CELL
           <td>#{@meta.get[:authors][idx]}<br/>
           #{@meta.get[:affiliations][idx]}<br/>
           #{@meta.get[:addresses][idx]}</td>
-          <td>#{@i18n.tel_abbrev}<tab/>#{@meta.get[:phones][idx]}<br/>
-          #{@i18n.email}<tab/>#{@meta.get[:emails][idx]}</td>
+          <td>#{@i18n.tel_abbrev}<tab/>#{@meta.get[:phones][idx]}#{e}</td>
         CELL
       end
 
@@ -77,11 +78,12 @@ module IsoDoc
       end
 
       def contribution_justification_contact(idx)
+        @meta.get[:emails][idx] and
+          e = ", #{@i18n.email}<tab/>#{@meta.get[:emails][idx]}"
         <<~CELL
           #{@meta.get[:authors][idx]}<br/>
-                  #{@meta.get[:affiliations][idx]}<br/>
-                  #{@meta.get[:addresses][idx]},
-                  #{@i18n.email}<tab/>#{@meta.get[:emails][idx]}
+          #{@meta.get[:affiliations][idx]}<br/>
+          #{@meta.get[:addresses][idx]}#{e}
         CELL
       end
 
@@ -96,18 +98,24 @@ module IsoDoc
         if @meta.get[:subdoctype] == "recommendation"
           "A.1 justification for proposed draft new Recommendation #{n}"
         else
-          "A.13 justification for proposed draft new #{@meta.get[:subdoctype]} #{n} “#{@meta.get[:doctitle_en]}”"
+          s = @meta.get[:subdoctype]
+          "A.13 justification for proposed draft new #{s} "\
+            "#{n} “#{@meta.get[:doctitle_en]}”"
         end
+      end
+
+      def contribution_justification_auths
+        auths = contrib_justification_contacts
+        auths_tail = auths[1..auths.size].map do |x|
+          "<tr><td colspan='2'>#{x}</td></td>"
+        end.join("\n")
+        [auths, auths_tail]
       end
 
       def contribution_justification(doc)
         @doctype == "contribution" or return
         annex = doc.at(ns("//annex[@type = 'justification']")) or return
-        authcount = @meta.get[:authors]&.size
-        auths = contrib_justification_contacts
-        auths_tail = auths[1..authcount].map do |x|
-          "<tr><td colspan='2'>#{x}</td></td>"
-        end.join("\n")
+        auths, auths_tail = contribution_justification_auths
         annex.children = <<~TABLE
           <title>#{contribution_justification_title(doc)}</title>
           <table class="contribution-metadata" unnumbered="true" width="100%">
@@ -125,9 +133,10 @@ module IsoDoc
             <th align="left">Base text:</th><td colspan="2">#{extract_clause_data(annex, 'basetext')}</td>
             <th align="left">Timing:</th><td>#{@meta.get[:timing]}</td>
             </tr>
-            <tr><th align="left" rowspan="#{authcount}">Editor(s):</th>
+            <tr><th align="left" rowspan="#{auths.size - 1}">Editor(s):</th>
             <td colspan="2">#{auths[0]}</td>
-            <th align="left" rowspan="#{authcount}">Approval process:</th><td>#{@meta.get[:approvalprocess]}</td>
+            <th align="left" rowspan="#{auths.size - 1}">Approval process:</th>
+            <td rowspan="#{auths.size - 1}">#{@meta.get[:approval_process]}</td>
             </tr>
             #{auths_tail}
             <tr><td colspan="5"><p><strong>Scope</strong> (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):</p>#{extract_clause_data(annex, 'scope')}</td></tr>

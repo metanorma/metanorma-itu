@@ -1444,7 +1444,7 @@ RSpec.describe Metanorma::ITU do
              <br/>
              <strong>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</strong>
            </title>
-           <table class="contribution-metadata" unnumbered="true" width="100%">
+                      <table class="contribution-metadata" unnumbered="true" width="100%">
              <colgroup>
                <col width="15.9%"/>
                <col width="6.1%"/>
@@ -1457,70 +1457,68 @@ RSpec.describe Metanorma::ITU do
                  <th align="left">Question(s):</th>
                  <td/>
                  <th align="left">Proposed new ITU-T </th>
-                 <td>iKronos, 01 Jan 2000/02 Jan 2000</td>
+                 <td colspan="2">Kronos, 01 Jan 2000/02 Jan 2000</td>
                </tr>
                <tr>
                  <th align="left">Reference and title:</th>
                  <td colspan="4">Draft new  on “Main Title”</td>
                </tr>
                <tr>
-                 <th>Base text:</th>
+                 <th align="left">Base text:</th>
                  <td colspan="2"/>
-                 <th>Timing:</th>
+                 <th align="left">Timing:</th>
                  <td/>
                </tr>
                <tr>
-                 <th rowspan="2">Editor(s):</th>
-                 <td colsoan="2">Fred Flintstone<br/>
+                 <th align="left" rowspan="2">Editor(s):</th>
+                 <td colspan="2">Fred Flintstone<br/>
                Bedrock Quarry<br/>
                Canada,
                E-mail<tab/>x@example.com
        </td>
-                 <th rowspan="2">Approval process:</th>
-                 <td>
-                   <td/>
-                 </td>
-                 <tr>
-                   <td colspan="2">Barney Rubble<br/>
+                 <th align="left" rowspan="2">Approval process:</th>
+                 <td/>
+               </tr>
+               <tr>
+                 <td colspan="2">Barney Rubble<br/>
                Bedrock Quarry 2<br/>
                USA,
                E-mail<tab/>y@example.com
        </td>
-                 </tr>
-                 <tr>
-                   <td colspan="2"><br/><br/>
+               </tr>
+               <tr>
+                 <td colspan="2"><br/><br/>
                ,
                E-mail<tab/></td>
-                 </tr>
-                                  <tr>
-                   <td colspan="5">
-                     <p><strong>Scope</strong> (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):</p>
-                   </td>
-                 </tr>
-                 <tr>
-                   <td colspan="5">
-                     <p><strong>Summary</strong> (provides a brief overview of the purpose and contents of the Recommendation, thus permitting readers to judge its usefulness for their work):</p>
-                   </td>
-                 </tr>
-                 <tr>
-                   <td colspan="5">
-                     <p><strong>Relations to ITU-T Recommendations or to other standards</strong> (approved or under development):</p>
-                   </td>
-                 </tr>
-                 <tr>
-                   <td colspan="5">
-                     <p>
-                       <strong>Liaisons with other study groups or with other standards bodies:</strong>
-                     </p>
-                   </td>
-                 </tr>
-                 <tr>
-                   <td colspan="5">
-                     <p>
-                       <strong>Supporting members that are committing to contributing actively to the work item:</strong>
-                     </p>
-                   </td>
-                 </tr>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p><strong>Scope</strong> (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):</p>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p><strong>Summary</strong> (provides a brief overview of the purpose and contents of the Recommendation, thus permitting readers to judge its usefulness for their work):</p>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p><strong>Relations to ITU-T Recommendations or to other standards</strong> (approved or under development):</p>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p>
+                     <strong>Liaisons with other study groups or with other standards bodies:</strong>
+                   </p>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p>
+                     <strong>Supporting members that are committing to contributing actively to the work item:</strong>
+                   </p>
+                 </td>
                </tr>
              </tbody>
            </table>

@@ -93,11 +93,12 @@ module IsoDoc
       def info(isoxml, out)
         @meta.ip_notice_received isoxml, out
         @meta.techreport isoxml, out
+        @meta.contribution isoxml, out
         super
       end
 
       def note_p_parse(node, div)
-        name = node&.at(ns("./name"))&.remove
+        name = node.at(ns("./name"))&.remove
         div.p do |p|
           name and p.span class: "note_label" do |s|
             name.children.each { |n| parse(n, s) }
@@ -109,7 +110,7 @@ module IsoDoc
       end
 
       def note_parse1(node, div)
-        name = node&.at(ns("./name"))&.remove
+        name = node.at(ns("./name"))&.remove
         div.p do |p|
           name and p.span class: "note_label" do |s|
             name.children.each { |n| parse(n, s) }
@@ -172,14 +173,6 @@ module IsoDoc
           end
         "<tbody>#{ret}</tbody>"
       end
-
-      #       def scope(isoxml, out, num)
-      #         return super unless @meta.get[:doctype_original] == "resolution"
-      #
-      #         f = isoxml.at(ns("//clause[@type = 'scope']")) or return num
-      #         clause_core(f, out)
-      #         num + 1
-      #       end
     end
   end
 end

@@ -116,18 +116,18 @@ module IsoDoc
             <tr>
             <th align="left">#{colon_i18n(@i18n.questions)}</th><td>#{@meta.get[:questions]}</td>
             <th align="left">Proposed new ITU-T #{@meta.get[:subdoctype]}</th>
-            <td>i#{@i18n.l10n("#{@meta.get[:meeting_place]}, #{@meta.get[:meeting_date]}")}</td>
+            <td colspan="2">#{@i18n.l10n("#{@meta.get[:meeting_place]}, #{@meta.get[:meeting_date]}")}</td>
             </tr>
             <tr><th align="left">Reference and title:</th>
             <td colspan="4">Draft new #{@meta.get[:subdoctype]} on “#{@meta.get[:doctitle_en]}”</td>
             </tr>
             <tr>
-            <th>Base text:</th><td colspan="2">#{extract_clause_data(annex, 'basetext')}</td>
-            <th>Timing:</th><td>#{@meta.get[:timing]}</td>
+            <th align="left">Base text:</th><td colspan="2">#{extract_clause_data(annex, 'basetext')}</td>
+            <th align="left">Timing:</th><td>#{@meta.get[:timing]}</td>
             </tr>
-            <tr><th rowspan="#{authcount}">Editor(s):</th>
-            <td colsoan="2">#{auths[0]}</td>
-            <th rowspan="#{authcount}">Approval process:</th><td><td>#{@meta.get[:approvalprocess]}</td>
+            <tr><th align="left" rowspan="#{authcount}">Editor(s):</th>
+            <td colspan="2">#{auths[0]}</td>
+            <th align="left" rowspan="#{authcount}">Approval process:</th><td>#{@meta.get[:approvalprocess]}</td>
             </tr>
             #{auths_tail}
             <tr><td colspan="5"><p><strong>Scope</strong> (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):</p>#{extract_clause_data(annex, 'scope')}</td></tr>

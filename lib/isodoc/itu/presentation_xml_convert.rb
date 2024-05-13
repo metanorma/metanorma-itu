@@ -5,6 +5,7 @@ require_relative "../../relaton/render/general"
 require_relative "presentation_bibdata"
 require_relative "presentation_preface"
 require_relative "presentation_ref"
+require_relative "presentation_contribution"
 
 module Nokogiri
   module XML
@@ -125,12 +126,6 @@ module IsoDoc
         type = :alphabet_upper if [4, 9].include? depth
         type = :roman_upper if [5, 10].include? depth
         type
-      end
-
-      def info(isoxml, out)
-        @meta.ip_notice_received isoxml, out
-        @meta.techreport isoxml, out
-        super
       end
 
       def middle_title(isoxml)

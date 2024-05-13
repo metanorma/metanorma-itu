@@ -147,6 +147,7 @@ RSpec.describe Metanorma::ITU do
         <approvalstage process="F3">G3</approvalstage>
       </recommendationstatus>
       <ip-notice-received>false</ip-notice-received>
+      <timing>Q4-2025</timing>
       <structuredidentifier>
       <bureau>R</bureau>
       <docnumber>1000</docnumber>
@@ -169,6 +170,7 @@ RSpec.describe Metanorma::ITU do
       :annexid=>"Appendix F1",
       :annextitle=>"Annex Title",
       :announceddate=>"XXX",
+      :approval_process=>"F3",
       :bureau=>"R",
       :bureau_full=>"Radiocommunication Bureau<br/>of ITU",
       :circulateddate=>"XXX",
@@ -229,6 +231,7 @@ RSpec.describe Metanorma::ITU do
       :stage_display=>"Final Draft",
       :study_group_period=>"E&#x2013;G",
       :subgroup=>"I1",
+      :timing=>"Q4-2025",
       :transmitteddate=>"XXX",
       :unchangeddate=>"XXX",
       :unpublished=>false,
@@ -250,6 +253,7 @@ RSpec.describe Metanorma::ITU do
       :annexid=>"Appendice F1",
       :annextitle=>"Annex Title",
       :announceddate=>"XXX",
+      :approval_process=>"F3",
       :bureau=>"R",
       :bureau_full=>"Bureau des radiocommunications<br/>de l&#x2019;UIT",
       :circulateddate=>"XXX",
@@ -310,6 +314,7 @@ RSpec.describe Metanorma::ITU do
       :stage_display=>"Final Draft",
       :study_group_period=>"E&#x2013;G",
       :subgroup=>"I1",
+      :timing=>"Q4-2025",
       :transmitteddate=>"XXX",
       :unchangeddate=>"XXX",
       :unpublished=>false,

@@ -16,19 +16,18 @@ module Metanorma
         super + %w(complements)
       end
 
-      def title_attr(type, lang = "en")
-        { language: lang, format: "text/plain", type: type }
+      def insert_title(xml, type, lang, content)
+        attr = { language: lang, format: "text/plain", type: type }
+        xml.title **attr_code(attr) do |t|
+          t << Metanorma::Utils::asciidoc_sub(content)
+        end
       end
 
       def title_defaultlang(node, xml)
-        a = node.attr("title") || node.attr("title-#{@lang}")
-        xml.title **attr_code(title_attr("main", @lang)) do |t|
-          t << (Metanorma::Utils::asciidoc_sub(a) || node.title)
-        end
+        a = node.attr("title") || node.attr("title-#{@lang}") || node.title
+        insert_title(xml, "main", @lang, a)
         if a = node.attr("annextitle") || node.attr("annextitle-#{@lang}")
-          xml.title **attr_code(title_attr("annex", @lang)) do |t|
-            t << Metanorma::Utils::asciidoc_sub(a)
-          end
+          insert_title(xml, "annex", @lang, a)
         end
       end
 
@@ -37,9 +36,7 @@ module Metanorma
           /^(?:annex)?title-(?<lang>.+)$/ =~ k or next
           lang == @lang and next
           type = /^annex/.match?(k) ? "annex" : "main"
-          xml.title **attr_code(title_attr(type, lang)) do |t|
-            t << Metanorma::Utils::asciidoc_sub(v)
-          end
+          insert_title(xml, type, lang, v)
         end
       end
 
@@ -55,19 +52,14 @@ module Metanorma
 
       def other_title_defaultlang(node, xml, type)
         a = node.attr(type) || node.attr("#{type}-#{@lang}")
-        xml.title **attr_code(title_attr(type.sub(/-title/, ""), @lang)) do |t|
-          t << Metanorma::Utils::asciidoc_sub(a)
-        end
+        insert_title(xml, type.sub(/-title/, ""), @lang, a)
       end
 
       def other_title_otherlangs(node, xml, type)
         node.attributes.each do |k, v|
           m = /^#{type}-(?<lang>.+)$/.match(k) or next
           m[:lang] == @lang and next
-          xml.title **attr_code(title_attr(type.sub(/-title/, ""),
-                                           m[:lang])) do |t|
-            t << Metanorma::Utils::asciidoc_sub(v)
-          end
+          insert_title(xml, type.sub(/-title/, ""), m[:lang], v)
         end
       end
 
@@ -78,9 +70,7 @@ module Metanorma
       def org_abbrev
         if @i18n.get["ITU"]
           { @i18n.international_telecommunication_union => @i18n.get["ITU"] }
-        else
-          {}
-        end
+        else {} end
       end
 
       def metadata_committee(node, xml)
@@ -166,15 +156,15 @@ module Metanorma
       end
 
       def metadata_recommendationstatus(node, xml)
-        node.attr("recommendation-from") or return
+        node.attr("recommendation-from") || node.attr("approval-process") or
+          return
         xml.recommendationstatus do |s|
-          s.from node.attr("recommendation-from")
-          s.to node.attr("recommendation-to") if node.attr("recommendation-to")
-          if node.attr("approval-process")
-            s.approvalstage **{ process: node.attr("approval-process") } do |a|
-              a << node.attr("approval-status")
+          a = node.attr("recommendation-from") and s.from a
+          a = node.attr("recommendation-to") and s.to a
+          node.attr("approval-process") and
+            s.approvalstage **{ process: node.attr("approval-process") } do |x|
+              x << node.attr("approval-status")
             end
-          end
         end
       end
 
@@ -194,6 +184,12 @@ module Metanorma
       def metadata_meeting(mtg, acronym, xml)
         xml.meeting **attr_code(acronym: acronym) do |m|
           m << mtg
+        end
+      end
+
+      def metadata_contribution(node, xml)
+        %w(timing).each do |k|
+          a = node.attr(k) and xml.send k, a
         end
       end
 
@@ -237,6 +233,7 @@ module Metanorma
         metadata_recommendationstatus(node, xml)
         metadata_ip_notice(node, xml)
         metadata_techreport(node, xml)
+        metadata_contribution(node, xml)
         structured_id(node, xml)
         metadata_coverpage_images(node, xml)
       end

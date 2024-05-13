@@ -1208,7 +1208,6 @@ RSpec.describe Metanorma::ITU do
               </affiliation>
               <phone>557</phone>
               <phone type='fax'>558</phone>
-              <email>y@example.com</email>
             </person>
           </contributor>
           <contributor>
@@ -1267,7 +1266,13 @@ RSpec.describe Metanorma::ITU do
                 <name>I2</name>
               </workgroup>
             </editorialgroup>
-            <ip-notice-received>false</ip-notice-received>
+            <recommendationstatus>
+                <from>D3</from>
+                <to>E3</to>
+                <approvalstage process='F3'>G3</approvalstage>
+              </recommendationstatus>
+              <ip-notice-received>false</ip-notice-received>
+              <timing>2025-Q4</timing>
             <meeting acronym='MX'>Meeting X</meeting>
             <meeting-place>Kronos</meeting-place>
             <meeting-date>
@@ -1288,6 +1293,36 @@ RSpec.describe Metanorma::ITU do
         <sections>
         <clause id="B"><title>First</title><p>This is the first clause</p></clause>
         </sections>
+        <annex id="A1"><title>Annex</title></annex>
+        <annex id="A2" type="justification">
+        clause id="_a6ac7b3c-2a73-4afb-502c-c683372215ca" type="scope" inline-header="false" obligation="normative">
+        <title>Scope</title><p id="_37adf2c4-28f1-ea9c-0f52-b2ff84b33b55">TEXT 1</p>
+        </clause>
+        <clause id="_2" type="summary" inline-header="false" obligation="normative">
+        <p id="_5f7e73d1-bd2e-8b40-bd86-c2ba5a400577">TEXT 2</p>
+        </clause>
+        <clause id="_3" type="relatedstandards" inline-header="false" obligation="normative">
+        <ol id="_5d94d081-b33a-6cb0-61f3-d4ce3bb47ea2"><li><p id="_7e51a815-c9d7-074a-7125-bea511e3927d">TEXT 3</p>
+        </li>
+        <li><p id="_d8492089-77f3-0b7d-2750-aaacd5c0e8d3">TEXT 4</p>
+        </li>
+        <li><p id="_16595e62-ff08-3742-84c1-dbbae8ac1fab">TEXT 5</p>
+        </li>
+        </ol>
+        </clause>
+        <clause id="_4" type="liaisons" inline-header="false" obligation="normative">
+        <ol id="_22e6d6a2-63f6-8afc-2adb-329f4bef13e7"><li><p id="_111c6bfd-8e98-c405-a425-c6112d028f8e">TEXT 6</p>
+        </li>
+        <li><p id="_7df8ce97-29db-c8c9-46ef-5731bc258a16">TEXT 7</p>
+        </li>
+        <li><p id="_ea1810b1-db12-e76f-6597-c67aea0160f5">TEXT 8</p>
+        </li>
+        </ol>
+        </clause>
+        <clause id="_5" type="supportingmembers" inline-header="false" obligation="normative">
+        <p id="_a42297b2-5f04-5da9-64c2-7e92670d5cad">TEXT 9</p>
+        </clause>
+        </annex>
         </itu-standard>
     INPUT
     presxml = <<~OUTPUT
@@ -1329,81 +1364,171 @@ RSpec.describe Metanorma::ITU do
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <th align="left" width="95">Question(s):</th>
-                  <td/>
-                  <td align="right">Kronos, 01 Jan 2000/02 Jan 2000</td>
-                </tr>
-                <tr>
-                  <th align="center" colspan="3">CONTRIBUTION</th>
-                </tr>
-                <tr>
-                  <th align="left" width="95">Source:</th>
-                  <td colspan="2">Source1</td>
-                </tr>
-                <tr>
-                  <th align="left" width="95">Title:</th>
-                  <td colspan="2">Main Title</td>
-                </tr>
-                <tr>
-                  <th align="left" width="95">Contact:</th>
-                  <td>Fred Flintstone<br/>
-        Bedrock Quarry<br/>
-        Canada</td>
-                  <td>Tel.<tab/>555<br/>
-        E-mail<tab/>x@example.com</td>
-                </tr>
-                <tr>
-                  <th align="left" width="95">Contact:</th>
-                  <td>Barney Rubble<br/>
-        Bedrock Quarry 2<br/>
-        USA</td>
-                  <td>Tel.<tab/>557<br/>
-        E-mail<tab/>y@example.com</td>
-                </tr>
-                <tr>
-                  <th align="left" width="95">Contact:</th>
-                  <td>
-                    <br/>
-                    <br/>
-                  </td>
-                  <td>Tel.<tab/><br/>
-        E-mail<tab/></td>
-                </tr>
-              </tbody>
-            </table>
-          </clause>
-          <abstract id="A" displayorder="2">
-            <table class="abstract" unnumbered="true" width="100%">
-              <colgroup>
-                <col width="11.8%"/>
-                <col width="78.2%"/>
-              </colgroup>
-              <tbody>
-                <tr>
-                  <th align="left" width="95">
-                    <p>Abstract:</p>
-                  </th>
-                  <td>
-                    <p>This is an abstract.</p>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </abstract>
-        </preface>
-          <sections>
-          <clause id="B" displayorder="3">
-            <title depth="1">1.<tab/>First</title>
-            <p>This is the first clause</p>
-          </clause>
-        </sections>
-      </itu-standard>`
+                             <tbody>
+                 <tr>
+                   <th align="left" width="95">Question(s):</th>
+                   <td/>
+                   <td align="right">Kronos, 01 Jan 2000/02 Jan 2000</td>
+                 </tr>
+                 <tr>
+                   <th align="center" colspan="3">CONTRIBUTION</th>
+                 </tr>
+                 <tr>
+                   <th align="left" width="95">Source:</th>
+                   <td colspan="2">Source1</td>
+                 </tr>
+                 <tr>
+                   <th align="left" width="95">Title:</th>
+                   <td colspan="2">Main Title</td>
+                 </tr>
+                 <tr>
+                   <th align="left" width="95">Contact:</th>
+                   <td>Fred Flintstone<br/>
+       Bedrock Quarry<br/>
+       Canada</td>
+                   <td>Tel.<tab/>555<br/>E-mail<tab/>x@example.com</td>
+                 </tr>
+                 <tr>
+                   <th align="left" width="95">Contact:</th>
+                   <td>Barney Rubble<br/>
+       Bedrock Quarry 2<br/>
+       USA</td>
+                   <td>Tel.<tab/>557</td>
+                 </tr>
+                 <tr>
+                   <th align="left" width="95">Contact:</th>
+                   <td>
+                     <br/>
+                     <br/>
+                   </td>
+                   <td>Tel.<tab/></td>
+                 </tr>
+               </tbody>
+             </table>
+           </clause>
+           <abstract id="A" displayorder="2">
+             <table class="abstract" unnumbered="true" width="100%">
+               <colgroup>
+                 <col width="11.8%"/>
+                 <col width="78.2%"/>
+               </colgroup>
+               <tbody>
+                 <tr>
+                   <th align="left" width="95">
+                     <p>Abstract:</p>
+                   </th>
+                   <td>
+                     <p>This is an abstract.</p>
+                   </td>
+                 </tr>
+               </tbody>
+             </table>
+           </abstract>
+         </preface>
+         <sections>
+           <clause id="B" displayorder="3">
+             <title depth="1">1.<tab/>First</title>
+             <p>This is the first clause</p>
+           </clause>
+         </sections>
+         <annex id="A1" displayorder="4">
+           <title>
+             <strong>Annex A</strong>
+             <br/>
+             <br/>
+             <strong>Annex</strong>
+           </title>
+         </annex>
+         <annex id="A2" type="justification" displayorder="5">
+           <title>
+             <strong>Annex B</strong>
+             <br/>
+             <br/>
+             <strong>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</strong>
+           </title>
+           <table class="contribution-metadata" unnumbered="true" width="100%">
+             <colgroup>
+               <col width="15.9%"/>
+               <col width="6.1%"/>
+               <col width="45.5%"/>
+               <col width="17.4%"/>
+               <col width="15.1%"/>
+             </colgroup>
+             <tbody>
+               <tr>
+                 <th align="left">Question(s):</th>
+                 <td/>
+                 <th align="left">Proposed new ITU-T </th>
+                 <td colspan="2">Kronos, 01 Jan 2000/02 Jan 2000</td>
+               </tr>
+               <tr>
+                 <th align="left">Reference and title:</th>
+                 <td colspan="4">Draft new  on “Main Title”</td>
+               </tr>
+               <tr>
+                 <th align="left">Base text:</th>
+                 <td colspan="2"/>
+                 <th align="left">Timing:</th>
+                 <td>2025-Q4</td>
+               </tr>
+               <tr>
+                 <th align="left" rowspan="2">Editor(s):</th>
+                 <td colspan="2">Fred Flintstone<br/>
+       Bedrock Quarry<br/>
+       Canada, E-mail<tab/>x@example.com
+       </td>
+                 <th align="left" rowspan="2">Approval process:</th>
+                 <td rowspan="2">F3</td>
+               </tr>
+               <tr>
+                 <td colspan="2">Barney Rubble<br/>
+       Bedrock Quarry 2<br/>
+       USA
+       </td>
+               </tr>
+               <tr>
+                 <td colspan="2">
+                   <br/>
+                   <br/>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p><strong>Scope</strong> (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):</p>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p><strong>Summary</strong> (provides a brief overview of the purpose and contents of the Recommendation, thus permitting readers to judge its usefulness for their work):</p>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p><strong>Relations to ITU-T Recommendations or to other standards</strong> (approved or under development):</p>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p>
+                     <strong>Liaisons with other study groups or with other standards bodies:</strong>
+                   </p>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p>
+                     <strong>Supporting members that are committing to contributing actively to the work item:</strong>
+                   </p>
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+         </annex>
+       </itu-standard>
     OUTPUT
     xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-    xml = xml.xpath("//xmlns:preface | //xmlns:sections").to_xml
+    xml = xml.xpath("//xmlns:preface | //xmlns:sections | //xmlns:annex").to_xml
     expect(xmlpp(strip_guid("<itu-standard>#{xml}</itu-standard>")))
       .to be_equivalent_to xmlpp(presxml)
 
@@ -1445,7 +1570,7 @@ RSpec.describe Metanorma::ITU do
                  </th>
                </tr>
              </thead>
-             <tbody>
+                         <tbody>
                <tr>
                  <th align="left" width="95">Question(s):</th>
                  <td/>
@@ -1467,16 +1592,14 @@ RSpec.describe Metanorma::ITU do
                  <td>Fred Flintstone<br/>
        Bedrock Quarry<br/>
        Canada</td>
-                 <td>Tél.<tab/>555<br/>
-       E-mail<tab/>x@example.com</td>
+                 <td>Tél.<tab/>555<br/>E-mail<tab/>x@example.com</td>
                </tr>
                <tr>
                  <th align="left" width="95">Contact :</th>
                  <td>Barney Rubble<br/>
        Bedrock Quarry 2<br/>
        USA</td>
-                 <td>Tél.<tab/>557<br/>
-       E-mail<tab/>y@example.com</td>
+                 <td>Tél.<tab/>557</td>
                </tr>
                <tr>
                  <th align="left" width="95">Contact :</th>
@@ -1484,8 +1607,7 @@ RSpec.describe Metanorma::ITU do
                    <br/>
                    <br/>
                  </td>
-                 <td>Tél.<tab/><br/>
-       E-mail<tab/></td>
+                 <td>Tél.<tab/></td>
                </tr>
              </tbody>
            </table>

@@ -17,7 +17,7 @@
   these elements; we just want one namespace for any child grammars
   of this.
 -->
-<!-- VERSION v1.3.1 -->
+<!-- VERSION v1.3.2 -->
 <grammar xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
   <include href="reqt.rng"/>
   <include href="basicdoc.rng">
@@ -243,7 +243,7 @@
     </define>
     <define name="dt">
       <element name="dt">
-        <ref name="RequiredId"/>
+        <ref name="OptionalId"/>
         <zeroOrMore>
           <ref name="TextElement"/>
         </zeroOrMore>
@@ -336,9 +336,6 @@
       </optional>
     </define>
     <define name="FigureAttr">
-      <attribute name="id">
-        <data type="ID"/>
-      </attribute>
       <optional>
         <attribute name="unnumbered">
           <data type="boolean"/>

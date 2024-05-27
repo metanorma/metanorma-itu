@@ -35,11 +35,9 @@ module Metanorma
         super
       end
 
-      def doctype(node)
-        ret = node.attr("doctype")&.gsub(/\s+/, "-")&.downcase ||
-          "recommendation"
-        ret = "recommendation" if ret == "article"
-        ret
+      def init_misc(node)
+        super
+        @default_doctype = "recommendation"
       end
 
       def olist(node)

@@ -3871,8 +3871,9 @@
 		<xsl:attribute name="content-height">100%</xsl:attribute>
 		<xsl:attribute name="scaling">uniform</xsl:attribute>
 
-			<xsl:attribute name="width">75%</xsl:attribute>
 			<xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
+
+			<xsl:attribute name="width">75%</xsl:attribute>
 
 	</xsl:attribute-set>
 
@@ -9250,17 +9251,19 @@
 							</xsl:variable>
 							<xsl:value-of select="concat('scale=', $scale,', indent=', $indent)"/>
 							</fo:block> -->
-							<fo:external-graphic src="{$src}" fox:alt-text="Image {@alt}" xsl:use-attribute-sets="image-graphic-style">
-								<xsl:if test="not(@mimetype = 'image/svg+xml') and (../*[local-name() = 'name'] or parent::*[local-name() = 'figure'][@unnumbered = 'true']) and not(ancestor::*[local-name() = 'table'])">
 
-									<xsl:call-template name="setImageWidthHeight"/>
+							<fo:external-graphic src="{$src}" fox:alt-text="Image {@alt}">
 
-									<xsl:choose>
-										<xsl:when test="@width != '' and @width != 'auto' and @height != '' and @height != 'auto'">
-											<xsl:attribute name="scaling">non-uniform</xsl:attribute>
-										</xsl:when>
-										<xsl:otherwise>
+								<xsl:choose>
+									<!-- default -->
+									<xsl:when test="((@width = 'auto' or @width = 'text-width' or @width = 'full-page-width' or @width = 'narrow') and @height = 'auto') or            (normalize-space(@width) = '' and normalize-space(@height) = '') ">
+										<!-- add attribute for automatic scaling -->
+										<xsl:variable name="image-graphic-style_attributes">
+											<attributes xsl:use-attribute-sets="image-graphic-style"/>
+										</xsl:variable>
+										<xsl:copy-of select="xalan:nodeset($image-graphic-style_attributes)/attributes/@*"/>
 
+										<xsl:if test="not(@mimetype = 'image/svg+xml') and not(ancestor::*[local-name() = 'table'])">
 											<xsl:variable name="scale">
 												<xsl:call-template name="getImageScale">
 													<xsl:with-param name="indent" select="$indent"/>
@@ -9274,10 +9277,30 @@
 											<xsl:if test="number($scale) &lt; 100">
 												<xsl:attribute name="content-width"><xsl:value-of select="number($scale) * number($scaleRatio)"/>%</xsl:attribute>
 											</xsl:if>
-										</xsl:otherwise>
-									</xsl:choose>
+										</xsl:if>
 
-								</xsl:if>
+									</xsl:when> <!-- default -->
+									<xsl:otherwise>
+
+										<xsl:variable name="width_height_">
+											<attributes>
+												<xsl:call-template name="setImageWidthHeight"/>
+											</attributes>
+										</xsl:variable>
+										<xsl:variable name="width_height" select="xalan:nodeset($width_height_)"/>
+
+										<xsl:copy-of select="$width_height/attributes/@*"/>
+
+										<xsl:if test="$width_height/attributes/@content-width != '' and             $width_height/attributes/@content-height != ''">
+											<xsl:attribute name="scaling">non-uniform</xsl:attribute>
+										</xsl:if>
+
+									</xsl:otherwise>
+								</xsl:choose>
+
+								<!-- 
+								<xsl:if test="not(@mimetype = 'image/svg+xml') and (../*[local-name() = 'name'] or parent::*[local-name() = 'figure'][@unnumbered = 'true']) and not(ancestor::*[local-name() = 'table'])">
+								-->
 
 							</fo:external-graphic>
 						</xsl:otherwise>
@@ -9303,7 +9326,7 @@
 			<xsl:call-template name="setImageWidth"/>
 		</xsl:variable>
 		<xsl:if test="$width != ''">
-			<xsl:attribute name="width">
+			<xsl:attribute name="content-width">
 				<xsl:value-of select="$width"/>
 			</xsl:attribute>
 		</xsl:if>
@@ -9311,7 +9334,7 @@
 			<xsl:call-template name="setImageHeight"/>
 		</xsl:variable>
 		<xsl:if test="$height != ''">
-			<xsl:attribute name="height">
+			<xsl:attribute name="content-height">
 				<xsl:value-of select="$height"/>
 			</xsl:attribute>
 		</xsl:if>

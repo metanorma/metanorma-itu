@@ -1898,9 +1898,9 @@
 		</xsl:variable>
 		<xsl:element name="{$element-name}">
 			<xsl:attribute name="margin-top">6pt</xsl:attribute>
-			<xsl:if test="@keep-with-next = 'true'">
-				<xsl:attribute name="keep-with-next">always</xsl:attribute>
-			</xsl:if>
+
+			<xsl:call-template name="setKeepAttributes"/>
+
 			<xsl:if test="@class='supertitle'">
 				<xsl:attribute name="space-before">36pt</xsl:attribute>
 				<xsl:attribute name="margin-bottom">24pt</xsl:attribute>
@@ -14343,7 +14343,10 @@
 		<xsl:call-template name="setTextAlignment">
 			<xsl:with-param name="default" select="$text_align_default"/>
 		</xsl:call-template>
+		<xsl:call-template name="setKeepAttributes"/>
+	</xsl:template>
 
+	<xsl:template xmlns:redirect="http://xml.apache.org/xalan/redirect" name="setKeepAttributes">
 		<!-- https://www.metanorma.org/author/topics/document-format/text/#avoiding-page-breaks -->
 		<!-- Example: keep-lines-together="true" -->
 		<xsl:if test="@keep-lines-together = 'true'">

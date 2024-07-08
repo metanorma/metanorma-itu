@@ -1789,7 +1789,7 @@ RSpec.describe Metanorma::ITU do
           <docidentifier type="ITU" primary="true">ITU-T Z.100</docidentifier>
           <docidentifier type="ISO" primary="true">ISO 55000</docidentifier>
           <docidentifier type="iso-reference">ISO 55000(E)</docidentifier>
-          <docidentifier type="URN">urn:iso:std:iso:55000:stage-90.92</docidentifier>
+          <docidentifier type="URN">urn:iso:std:iso:55000:stage-60.60</docidentifier>
           <docidentifier type="ISO" primary="true">ISO/IEC 27001</docidentifier>
           <docidentifier type="iso-reference">ISO/IEC 27001(E)</docidentifier>
           <docidentifier type="URN">urn:iso:std:iso-iec:27001:stage-60.60</docidentifier>

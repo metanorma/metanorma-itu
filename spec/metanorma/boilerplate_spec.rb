@@ -71,7 +71,7 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id='_' obligation='normative'>
+          <clause id='_' obligation='normative' type="terms">
             <title>Definitions</title>
             <terms id='_' type='external' obligation='normative'>
               <title>Terms defined elsewhere</title>
@@ -105,7 +105,7 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id='_' obligation='normative'>
+          <clause id='_' obligation='normative' type="terms">
             <title>Definitions</title>
             <terms id='_' type='external' obligation='normative'>
               <title>Terms defined elsewhere</title>
@@ -141,7 +141,7 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
        #{@blank_hdr}
        <sections>
-          <clause id='_' obligation='normative'>
+          <clause id='_' obligation='normative' type="terms">
             <title>Definitions</title>
             <terms id='_' type='external' obligation='normative'>
               <title>Terms defined elsewhere</title>
@@ -177,7 +177,7 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id="_" obligation="normative">
+          <clause id="_" obligation="normative" type="terms">
             <title>Definitions</title>
             <p id="_">This Recommendation defines the following terms:</p>
             <terms id="_" obligation="normative">
@@ -215,7 +215,7 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id="_" obligation="normative">
+          <clause id="_" obligation="normative" type="terms">
             <title>Definitions</title>
             <p id="_">Boilerplate</p>
             <terms id="_" obligation="normative">

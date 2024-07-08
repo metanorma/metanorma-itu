@@ -10524,8 +10524,11 @@
 	</xsl:template>
 
 	<xsl:template match="*[local-name() = 'strong']" mode="contents_item">
+		<xsl:param name="element"/>
 		<xsl:copy>
-			<xsl:apply-templates mode="contents_item"/>
+			<xsl:apply-templates mode="contents_item">
+				<xsl:with-param name="element" select="$element"/>
+			</xsl:apply-templates>
 		</xsl:copy>
 	</xsl:template>
 
@@ -10592,7 +10595,10 @@
 
 	<!-- Note: to enable the addition of character span markup with semantic styling for DIS Word output -->
 	<xsl:template match="*[local-name() = 'span']" mode="contents_item">
-		<xsl:apply-templates mode="contents_item"/>
+		<xsl:param name="element"/>
+		<xsl:apply-templates mode="contents_item">
+			<xsl:with-param name="element" select="$element"/>
+		</xsl:apply-templates>
 	</xsl:template>
 
 	<!-- =============== -->

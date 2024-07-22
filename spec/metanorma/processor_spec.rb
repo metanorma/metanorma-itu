@@ -30,8 +30,8 @@ RSpec.describe Metanorma::ITU::Processor do
         <sections/>
       </itu-standard>
     OUTPUT
-    expect(strip_guid(xmlpp(processor.input_to_isodoc(input, nil))))
-      .to be_equivalent_to xmlpp(output)
+    expect(strip_guid(Xml::C14n.format(processor.input_to_isodoc(input, nil))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "generates HTML from IsoDoc XML" do
@@ -49,10 +49,10 @@ RSpec.describe Metanorma::ITU::Processor do
         </sections>
       </itu-standard>
     INPUT
-    expect(xmlpp(strip_guid(File.read("test.html", encoding: "utf-8")
+    expect(Xml::C14n.format(strip_guid(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<main}m, "<main")
       .gsub(%r{</main>.*}m, "</main>"))))
-      .to be_equivalent_to xmlpp(<<~OUTPUT)
+      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
         <main class="main-section">
           <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
           <div id="H">

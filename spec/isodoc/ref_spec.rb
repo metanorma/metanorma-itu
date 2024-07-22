@@ -242,11 +242,11 @@ RSpec.describe IsoDoc::ITU do
     OUTPUT
 
     FileUtils.rm_f "test.html"
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
+      .to be_equivalent_to Xml::C14n.format(presxml)
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, false)
     output = <<~OUTPUT
                  <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
@@ -339,10 +339,10 @@ RSpec.describe IsoDoc::ITU do
                    </div>
                  </main>
     OUTPUT
-    expect(xmlpp(strip_guid(File.read("test.html", encoding: "utf-8")
+    expect(Xml::C14n.format(strip_guid(File.read("test.html", encoding: "utf-8")
       .sub(/^.*<main/m, "<main")
       .sub(%r{</main>.*$}m, "</main>"))))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes IsoXML bibliographies (2)" do
@@ -526,16 +526,16 @@ RSpec.describe IsoDoc::ITU do
            </body>
 
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(html)
+      .to be_equivalent_to Xml::C14n.format(html)
   end
 
   it "selects multiple primary identifiers" do
@@ -572,10 +572,10 @@ RSpec.describe IsoDoc::ITU do
         </p>
       </foreword>
     PRESXML
-    expect(xmlpp(Nokogiri::XML(
+    expect(Xml::C14n.format(Nokogiri::XML(
       IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true),
     ).at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to xmlpp(presxml)
+      .to be_equivalent_to Xml::C14n.format(presxml)
   end
 end

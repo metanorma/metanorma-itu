@@ -84,16 +84,16 @@ RSpec.describe Metanorma::ITU do
         </div>
       </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "postprocesses simple terms & definitions" do
@@ -114,10 +114,10 @@ RSpec.describe Metanorma::ITU do
        </sections>
        </itu-standard>
     INPUT
-    expect(xmlpp(strip_guid(File.read("test.html", encoding: "utf-8").to_s
+    expect(Xml::C14n.format(strip_guid(File.read("test.html", encoding: "utf-8").to_s
       .gsub(%r{^.*<main}m, "<main")
       .gsub(%r{</main>.*}m, "</main>"))))
-      .to be_equivalent_to xmlpp(<<~OUTPUT)
+      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
          <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
               <div id="H"><h1 id="_"><a class="anchor" href="#H"/><a class="header" href="#H">1&#xA0; Terms</a></h1>
           <div id="J"><p class="TermNum" id="J"><b>1.1&#xA0; Term2</b>: [XYZ] This is a journey into sound</p>
@@ -194,11 +194,11 @@ RSpec.describe Metanorma::ITU do
                </div>
                </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "rearranges term headers" do
@@ -245,8 +245,8 @@ RSpec.describe Metanorma::ITU do
              </body>
              </html>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .cleanup(Nokogiri::XML(input)).to_s))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 end

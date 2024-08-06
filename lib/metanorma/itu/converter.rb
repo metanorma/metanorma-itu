@@ -47,7 +47,7 @@ module Metanorma
             list_caption(node, xml_ol)
             node.items.each { |item| li(xml_ol, item) }
           end
-        end.join("")
+        end
       end
 
       def outputs(node, ret)

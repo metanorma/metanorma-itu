@@ -1,3 +1,11 @@
+questions: Frage(n)
+studyperiod: Studiendauer %
+original: Original
+contact: Kontakt
+tel_abbrev: Tel.
+document_source: Quelle
+title: Titel
+current_language: Deutsch
 termsdef: Definitionen
 termsdefsymbolsabbrev: Definitionen
 termsdefsymbols: Definitionen
@@ -59,6 +67,9 @@ revision_abbreviation: Rev.
 tsb: TSB
 br: BR
 bdt: BDT
+tsb_short: Büro für Telekommunikations-Standardisierung
+br_short: Büro für Funkkommunikation
+bdt_short: Büro für Entwicklungen in der Telekommunikation
 tsb_full: Büro für Telekommunikations-<br/>Standardisierung<br/>der ITU
 br_full: Büro für Funkkommunikation<br/>der ITU
 bdt_full: Büro für Entwicklungen<br/>in der Telekommunikation<br/>der ITU
@@ -80,6 +91,7 @@ doctype_dict:
   technical-report: Technischer Bericht
   joint-itu-iso-iec: Gemeinsame ITU/ISO/IEC
   service-publication: Service Veröffentlichung
+  contribution: Beitrag
 doctype_abbrev:
   recommendation: Empf.
   recommendation-supplement: Empf.
@@ -93,6 +105,7 @@ doctype_abbrev:
   technical-report: TR
   joint-itu-iso-iec: ITU/ISO/IEC
   service-publication:
+  contribution: 
 inflection:
   Redakteur:
     sg: Redakteur

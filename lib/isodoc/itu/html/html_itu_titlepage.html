@@ -43,7 +43,8 @@
 
         <div class="doc-info-left">
           <div class="doc-identifier">
-            {% if doctype != "Recommendation" %}{{doctype }} {% endif %}{{ docnumeric }}
+            {% if collectiontitle  %}<div>{{ collectiontitle}}</div>{%endif%}
+            <div>{% if doctype != "Recommendation" %}{{doctype }} {% endif %}{{ docnumeric }}</div>
             {% if amendmentid %}<div class="doc-subidentifier">{{ amendmentid }}</div>{% endif %} 
             {% if corrigendumid %}<div class="doc-subidentifier">{{ corrigendumid }}</div>{% endif %}       
             {% if edition %} <div> Revision {{ edition }}</div> {% endif %}
@@ -59,9 +60,11 @@
         </div>
 
         <div class="doc-category">
-          {% if bureau == "T" %}Telecommunication <br/>Standardization Sector <br/>of ITU{% endif %}
-          {% if bureau == "D" %}Telecommunication <br/>Development Sector <br/>of ITU{% endif %}
-          {% if bureau == "R" %}Radiocommunication <br/>Sector of ITU{% endif %}
+          {% if sector %}{{sector}}{%else%}
+          {% if bureau == "T" %}{{ labels["tsb_full"] }}{% endif %}
+          {% if bureau == "D" %}{{ labels["bdt_full"] }}{% endif %}
+          {% if bureau == "R" %}{{ labels["br_full"] }}{% endif %}
+          {%endif%}
         </div>
 
         <div class="coverpage-title">

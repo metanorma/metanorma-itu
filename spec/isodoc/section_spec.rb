@@ -22,11 +22,11 @@ RSpec.describe Metanorma::ITU do
         <p>&#160;</p>
       </div>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::ITU::WordConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<div class="WordSection2">}m, '<div class="WordSection2">')
       .gsub(%r{<p>\s*<br clear="all" class="section"/>\s*</p>\s*<div class="WordSection3">.*}m, "")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes annexes and appendixes" do
@@ -219,14 +219,15 @@ RSpec.describe Metanorma::ITU do
                  </div>
                </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(html)
+      .to be_equivalent_to Xml::C14n.format(html)
   end
 
   it "processes section names" do
@@ -280,10 +281,14 @@ RSpec.describe Metanorma::ITU do
        </term>
        </terms>
        <definitions id="L" displayorder="12"><title>4.</title>
-         <dl>
-         <dt>Symbol</dt>
-         <dd>Definition</dd>
-         </dl>
+       <dl>
+        <colgroup>
+          <col width="20%"/>
+          <col width="80%"/>
+        </colgroup>
+        <dt>Symbol</dt>
+        <dd>Definition</dd>
+      </dl>
        </definitions>
        <clause id="M" inline-header="false" obligation="normative" displayorder="13">
         <title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
@@ -358,12 +363,18 @@ RSpec.describe Metanorma::ITU do
                       </div>
                         <div id="L" class="Symbols">
                           <h1>4.</h1>
-                          <dl>
-                            <dt>
-                              <p>Symbol</p>
-                            </dt>
-                            <dd>Definition</dd>
-                          </dl>
+                                <table class="dl" style="table-layout:fixed;">
+        <colgroup>
+          <col style="width: 20%;"/>
+          <col style="width: 80%;"/>
+        </colgroup>
+                            <tbody>
+                              <tr>
+                                <th style="font-weight:bold;" scope="row">Symbol</th>
+                                <td style="">Definition</td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                         <div id="M">
                           <h1>5.&#160; Clause 4</h1>
@@ -466,14 +477,20 @@ RSpec.describe Metanorma::ITU do
       </div>
            <div id="L" class="Symbols">
              <h1>4.</h1>
-             <table class="dl">
-               <tr>
-                 <td valign="top" align="left">
-                   <p align="left" style="margin-left:0pt;text-align:left;">Symbol</p>
-                 </td>
-                 <td valign="top">Definition</td>
-               </tr>
-             </table>
+                   <div align="center" class="table_container">
+        <table class="dl" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;">
+          <colgroup>
+           <col width="20%"/>
+           <col width="80%"/>
+         </colgroup>
+          <tbody>
+            <tr>
+              <th valign="top" style="font-weight:bold;page-break-after:auto;">Symbol</th>
+              <td valign="top" style="page-break-after:auto;">Definition</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
            </div>
            <div id="M">
              <h1>5.<span style="mso-tab-count:1">&#160; </span>Clause 4</h1>
@@ -511,20 +528,21 @@ RSpec.describe Metanorma::ITU do
          </div>
        </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", itudoc("en"), true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(html)
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(html)
+    expect(Xml::C14n.format(IsoDoc::ITU::WordConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(word)
+      .to be_equivalent_to Xml::C14n.format(word)
   end
 
   it "post-processes section names (Word)" do
@@ -576,10 +594,10 @@ RSpec.describe Metanorma::ITU do
     INPUT
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(xmlpp(html
+    expect(Xml::C14n.format(html
       .sub(%r{^.*<div class="WordSection3">}m, %{<body><div class="WordSection3">})
       .gsub(%r{</body>.*$}m, "</body>")))
-      .to be_equivalent_to xmlpp(<<~OUTPUT)
+      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
         <body><div class="WordSection3">
               <div><a name="D" id="D"></a>
                 <h1>1<span style="mso-tab-count:1">&#xA0; </span>Scope</h1>
@@ -703,15 +721,16 @@ RSpec.describe Metanorma::ITU do
             </annex>
           </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
- .convert("test", input, true)
- .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to Xml::C14n.format(presxml)
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, false)
     html = File.read("test.html", encoding: "utf-8")
-    expect(xmlpp(strip_guid(html.gsub(%r{^.*<main}m, "<main")
+    expect(Xml::C14n.format(strip_guid(html.gsub(%r{^.*<main}m, "<main")
       .gsub(%r{</main>.*}m, "</main>"))))
-      .to be_equivalent_to xmlpp(<<~OUTPUT)
+      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
             <main class='main-section'>
                  <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
                    <div class="Keyword">
@@ -732,7 +751,7 @@ RSpec.describe Metanorma::ITU do
                    </p>
                    <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
                    <div id='A2'>
-                     <h2 id='_'>F2.1.&#xA0; Subtitle</h2>
+                     <h2 id='_'><a class="anchor" href="#A2"/><a class="header" href="#A2">F2.1.&#xA0; Subtitle</a></h2>
                      <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
                      <table id='T' class='MsoISOTable' style='border-width:1px;border-spacing:0;'/>
                      <div id='U' class='figure'>
@@ -752,10 +771,10 @@ RSpec.describe Metanorma::ITU do
 
     IsoDoc::ITU::WordConvert.new({}).convert("test", presxml, false)
     html = File.read("test.doc", encoding: "utf-8")
-    expect(xmlpp(html
+    expect(Xml::C14n.format(html
  .gsub(%r{^.*<div class="WordSection3">}m, '<div class="WordSection3" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">')
  .gsub(%r{<div style="mso-element:footnote-list"/>.*}m, "")))
-      .to be_equivalent_to xmlpp(<<~OUTPUT)
+      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
         <div class='WordSection3' xmlns:m='http://schemas.microsoft.com/office/2004/12/omml'>
               <p class='zzSTDTitle1'>Draft new Recommendation 12345</p>
               <p class='zzSTDTitle2'>An ITU Standard</p>
@@ -839,10 +858,11 @@ RSpec.describe Metanorma::ITU do
     INPUT
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(xmlpp(html
-      .gsub(%r{.*<p class="h1Preface">History</p>}m, '<div><p class="h1Preface">History</p>')
+    expect(Xml::C14n.format(html
+      .gsub(%r{.*<p class="h1Preface">History</p>}m,
+            '<div><p class="h1Preface">History</p>')
       .sub(%r{</table>.*$}m, "</table></div></div>")))
-      .to be_equivalent_to xmlpp(<<~OUTPUT)
+      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
               <div>
               <p class="h1Preface">History</p>
                        <p class="TableTitle" style="text-align:center;">Table 1</p>
@@ -875,7 +895,6 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes unnumbered clauses" do
-    FileUtils.rm_f "test.html"
     input = <<~INPUT
              <itu-standard xmlns="http://riboseinc.com/isoxml">
              <bibdata type="standard">
@@ -927,14 +946,13 @@ RSpec.describe Metanorma::ITU do
         </sections>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
-      .to be_equivalent_to xmlpp(presxml)
+      .to be_equivalent_to Xml::C14n.format(presxml)
   end
 
   it "processes bis, ter etc clauses" do
-    FileUtils.rm_f "test.html"
     input = <<~INPUT
                      <itu-standard xmlns="http://riboseinc.com/isoxml">
                      <bibdata type="standard">
@@ -1003,14 +1021,13 @@ RSpec.describe Metanorma::ITU do
           </sections>
         </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
-      .to be_equivalent_to xmlpp(presxml)
+      .to be_equivalent_to Xml::C14n.format(presxml)
   end
 
   it "processes editor clauses, one editor" do
-    FileUtils.rm_f "test.html"
     input = <<~INPUT
       <itu-standard xmlns="http://riboseinc.com/isoxml">
       <bibdata type="standard">
@@ -1067,12 +1084,11 @@ RSpec.describe Metanorma::ITU do
     xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
     xml = xml.at("//xmlns:preface").to_xml
-    expect(xmlpp(strip_guid(xml)))
-      .to be_equivalent_to xmlpp(presxml)
+    expect(Xml::C14n.format(strip_guid(xml)))
+      .to be_equivalent_to Xml::C14n.format(presxml)
   end
 
   it "processes editor clauses, two editors" do
-    FileUtils.rm_f "test.html"
     input = <<~INPUT
       <itu-standard xmlns="http://riboseinc.com/isoxml">
       <bibdata type="standard">
@@ -1131,7 +1147,496 @@ RSpec.describe Metanorma::ITU do
     xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
     xml = xml.at("//xmlns:preface").to_xml
-    expect(xmlpp(strip_guid(xml)))
-      .to be_equivalent_to xmlpp(presxml)
+    expect(Xml::C14n.format(strip_guid(xml)))
+      .to be_equivalent_to Xml::C14n.format(presxml)
+  end
+
+  it "generates contribution prefatory table and abstract table" do
+    logoloc = File.expand_path(
+      File.join(File.dirname(__FILE__), "..", "..", "lib", "isodoc", "itu",
+                "html"),
+    )
+    input = <<~INPUT
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic'>
+        <bibdata type='standard'>
+          <title language='en' format='text/plain' type='main'>Main Title</title>
+          <title language='fr' format='text/plain' type='main'>Titre Principal</title>
+          <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
+          <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+          <docidentifier type='ITU-provisional'>ABC</docidentifier>
+          <docidentifier primary="true" type='ITU'>SG17-C1000</docidentifier>
+          <docidentifier type='ITU-lang'>SG17-C1000-E</docidentifier>
+          <docnumber>1000</docnumber>
+          <contributor>
+            <role type='author'/>
+            <organization>
+              <name>International Telecommunication Union</name><abbreviation>ITU</abbreviation>
+            </organization>
+          </contributor>
+          <contributor>
+          <role type='editor'>raporteur</role>
+            <person>
+              <name>
+                <completename>Fred Flintstone</completename>
+              </name>
+              <affiliation>
+                <organization>
+                  <name>Bedrock Quarry</name>
+                  <address>
+                    <formattedAddress>Canada</formattedAddress>
+                  </address>
+                </organization>
+              </affiliation>
+              <phone>555</phone>
+              <phone type='fax'>556</phone>
+              <email>x@example.com</email>
+            </person>
+          </contributor>
+          <contributor>
+            <role type='editor'/>
+            <person>
+              <name>
+                <completename>Barney Rubble</completename>
+              </name>
+              <affiliation>
+                <organization>
+                  <name>Bedrock Quarry 2</name>
+                  <address>
+                    <formattedAddress>USA</formattedAddress>
+                  </address>
+                </organization>
+              </affiliation>
+              <phone>557</phone>
+              <phone type='fax'>558</phone>
+            </person>
+          </contributor>
+          <contributor>
+            <role type='publisher'/>
+            <organization>
+              <name>International Telecommunication Union</name>
+              <abbreviation>ITU</abbreviation>
+            </organization>
+          </contributor>
+          <edition>2</edition>
+          <version>
+            <revision-date>2000-01-01</revision-date>
+            <draft>5</draft>
+          </version>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+            <stage>draft</stage>
+          </status>
+          <copyright>
+            <from>2001</from>
+            <owner>
+              <organization>
+                <name>International Telecommunication Union</name>
+                <abbreviation>ITU</abbreviation>
+              </organization>
+            </owner>
+          </copyright>
+          <series type='main'>
+            <title>A3</title>
+          </series>
+          <series type='secondary'>
+            <title>B3</title>
+          </series>
+          <series type='tertiary'>
+            <title>C3</title>
+          </series>
+          <keyword>VoIP</keyword>
+          <keyword>word1</keyword>
+          <ext>
+            <doctype>contribution</doctype>
+            <editorialgroup>
+              <bureau>R</bureau>
+              <group type="study-group">
+                <name>Study Group 17</name>
+                <acronym>SG17</acronym>
+                <period>
+                  <start>2000</start>
+                  <end>2002</end>
+                </period>
+              </group>
+              <subgroup>
+                <name>I1</name>
+              </subgroup>
+              <workgroup>
+                <name>I2</name>
+              </workgroup>
+            </editorialgroup>
+            <recommendationstatus>
+                <from>D3</from>
+                <to>E3</to>
+                <approvalstage process='F3'>G3</approvalstage>
+              </recommendationstatus>
+              <ip-notice-received>false</ip-notice-received>
+              <timing>2025-Q4</timing>
+            <meeting acronym='MX'>Meeting X</meeting>
+            <meeting-place>Kronos</meeting-place>
+            <meeting-date>
+              <from>2000-01-01</from>
+              <to>2000-01-02</to>
+            </meeting-date>
+            <intended-type>TD</intended-type>
+            <source>Source1</source>
+            <structuredidentifier>
+              <bureau>R</bureau>
+              <docnumber>1000</docnumber>
+            </structuredidentifier>
+          </ext>
+        </bibdata>
+        <preface>
+        <abstract id="A"><p>This is an abstract.</p></abstract>
+        </preface>
+        <sections>
+        <clause id="B"><title>First</title><p>This is the first clause</p></clause>
+        </sections>
+        <annex id="A1"><title>Annex</title></annex>
+        <annex id="A2" type="justification">
+        clause id="_a6ac7b3c-2a73-4afb-502c-c683372215ca" type="scope" inline-header="false" obligation="normative">
+        <title>Scope</title><p id="_37adf2c4-28f1-ea9c-0f52-b2ff84b33b55">TEXT 1</p>
+        </clause>
+        <clause id="_2" type="summary" inline-header="false" obligation="normative">
+        <p id="_5f7e73d1-bd2e-8b40-bd86-c2ba5a400577">TEXT 2</p>
+        </clause>
+        <clause id="_3" type="relatedstandards" inline-header="false" obligation="normative">
+        <ol id="_5d94d081-b33a-6cb0-61f3-d4ce3bb47ea2"><li><p id="_7e51a815-c9d7-074a-7125-bea511e3927d">TEXT 3</p>
+        </li>
+        <li><p id="_d8492089-77f3-0b7d-2750-aaacd5c0e8d3">TEXT 4</p>
+        </li>
+        <li><p id="_16595e62-ff08-3742-84c1-dbbae8ac1fab">TEXT 5</p>
+        </li>
+        </ol>
+        </clause>
+        <clause id="_4" type="liaisons" inline-header="false" obligation="normative">
+        <ol id="_22e6d6a2-63f6-8afc-2adb-329f4bef13e7"><li><p id="_111c6bfd-8e98-c405-a425-c6112d028f8e">TEXT 6</p>
+        </li>
+        <li><p id="_7df8ce97-29db-c8c9-46ef-5731bc258a16">TEXT 7</p>
+        </li>
+        <li><p id="_ea1810b1-db12-e76f-6597-c67aea0160f5">TEXT 8</p>
+        </li>
+        </ol>
+        </clause>
+        <clause id="_5" type="supportingmembers" inline-header="false" obligation="normative">
+        <p id="_a42297b2-5f04-5da9-64c2-7e92670d5cad">TEXT 9</p>
+        </clause>
+        </annex>
+        </itu-standard>
+    INPUT
+    presxml = <<~OUTPUT
+      <itu-standard>
+        <preface>
+          <clause unnumbered="true" type="contribution-metadata" displayorder="1">
+            <table class="contribution-metadata" unnumbered="true" width="100%">
+              <colgroup>
+                <col width="11.8%"/>
+                <col width="41.2%"/>
+                <col width="47.0%"/>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th rowspan="3">
+                   <image height="56" width="56" src="#{File.join(logoloc, '/logo-small.png')}"/>
+                  </th>
+                  <td rowspan="3">
+                    <p style="font-size:8pt;margin-top:6pt;margin-bottom:0pt;">INTERNATIONAL TELECOMMUNICATION UNION</p>
+                    <p class="bureau_big" style="font-size:13pt;margin-top:6pt;margin-bottom:0pt;">
+                      <strong>RADIOCOMMUNICATION BUREAU</strong>
+                      <br/>
+                      <strong>OF ITU</strong>
+                    </p>
+                    <p style="font-size:10pt;margin-top:6pt;margin-bottom:0pt;">STUDY PERIOD 2000–2002</p>
+                  </td>
+                  <th align="right">
+                    <p style="font-size:16pt;">SG17-C1000</p>
+                  </th>
+                </tr>
+                <tr>
+                  <th align="right">
+                    <p style="font-size:14pt;">STUDY GROUP 17</p>
+                  </th>
+                </tr>
+                <tr>
+                  <th align="right">
+                    <p style="font-size:14pt;">Original: English</p>
+                  </th>
+                </tr>
+              </thead>
+                             <tbody>
+                 <tr>
+                   <th align="left" width="95">Question(s):</th>
+                   <td/>
+                   <td align="right">Kronos, 01 Jan 2000/02 Jan 2000</td>
+                 </tr>
+                 <tr>
+                   <th align="center" colspan="3">CONTRIBUTION</th>
+                 </tr>
+                 <tr>
+                   <th align="left" width="95">Source:</th>
+                   <td colspan="2">Source1</td>
+                 </tr>
+                 <tr>
+                   <th align="left" width="95">Title:</th>
+                   <td colspan="2">Main Title</td>
+                 </tr>
+                 <tr>
+                   <th align="left" width="95">Contact:</th>
+                   <td>Fred Flintstone<br/>
+       Bedrock Quarry<br/>
+       Canada</td>
+                   <td>Tel.<tab/>555<br/>E-mail<tab/>x@example.com</td>
+                 </tr>
+                 <tr>
+                   <th align="left" width="95">Contact:</th>
+                   <td>Barney Rubble<br/>
+       Bedrock Quarry 2<br/>
+       USA</td>
+                   <td>Tel.<tab/>557</td>
+                 </tr>
+                 <tr>
+                   <th align="left" width="95">Contact:</th>
+                   <td>
+                     <br/>
+                     <br/>
+                   </td>
+                   <td>Tel.<tab/></td>
+                 </tr>
+               </tbody>
+             </table>
+           </clause>
+           <abstract id="A" displayorder="2">
+             <table class="abstract" unnumbered="true" width="100%">
+               <colgroup>
+                 <col width="11.8%"/>
+                 <col width="78.2%"/>
+               </colgroup>
+               <tbody>
+                 <tr>
+                   <th align="left" width="95">
+                     <p>Abstract:</p>
+                   </th>
+                   <td>
+                     <p>This is an abstract.</p>
+                   </td>
+                 </tr>
+               </tbody>
+             </table>
+           </abstract>
+         </preface>
+         <sections>
+           <clause id="B" displayorder="3">
+             <title depth="1">1.<tab/>First</title>
+             <p>This is the first clause</p>
+           </clause>
+         </sections>
+         <annex id="A1" displayorder="4">
+           <title>
+             <strong>Annex A</strong>
+             <br/>
+             <br/>
+             <strong>Annex</strong>
+           </title>
+         </annex>
+         <annex id="A2" type="justification" displayorder="5">
+           <title>
+             <strong>Annex B</strong>
+             <br/>
+             <br/>
+             <strong>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</strong>
+           </title>
+           <table class="contribution-metadata" unnumbered="true" width="100%">
+             <colgroup>
+               <col width="15.9%"/>
+               <col width="6.1%"/>
+               <col width="45.5%"/>
+               <col width="17.4%"/>
+               <col width="15.1%"/>
+             </colgroup>
+             <tbody>
+               <tr>
+                 <th align="left">Question(s):</th>
+                 <td/>
+                 <th align="left">Proposed new ITU-T </th>
+                 <td colspan="2">Kronos, 01 Jan 2000/02 Jan 2000</td>
+               </tr>
+               <tr>
+                 <th align="left">Reference and title:</th>
+                 <td colspan="4">Draft new  on “Main Title”</td>
+               </tr>
+               <tr>
+                 <th align="left">Base text:</th>
+                 <td colspan="2"/>
+                 <th align="left">Timing:</th>
+                 <td>2025-Q4</td>
+               </tr>
+               <tr>
+                 <th align="left" rowspan="2">Editor(s):</th>
+                 <td colspan="2">Fred Flintstone<br/>
+       Bedrock Quarry<br/>
+       Canada, E-mail<tab/>x@example.com
+       </td>
+                 <th align="left" rowspan="2">Approval process:</th>
+                 <td rowspan="2">F3</td>
+               </tr>
+               <tr>
+                 <td colspan="2">Barney Rubble<br/>
+       Bedrock Quarry 2<br/>
+       USA
+       </td>
+               </tr>
+               <tr>
+                 <td colspan="2">
+                   <br/>
+                   <br/>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p><strong>Scope</strong> (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):</p>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p><strong>Summary</strong> (provides a brief overview of the purpose and contents of the Recommendation, thus permitting readers to judge its usefulness for their work):</p>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p><strong>Relations to ITU-T Recommendations or to other standards</strong> (approved or under development):</p>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p>
+                     <strong>Liaisons with other study groups or with other standards bodies:</strong>
+                   </p>
+                 </td>
+               </tr>
+               <tr>
+                 <td colspan="5">
+                   <p>
+                     <strong>Supporting members that are committing to contributing actively to the work item:</strong>
+                   </p>
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+         </annex>
+       </itu-standard>
+    OUTPUT
+    xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+      .convert("test", input, true))
+    xml = xml.xpath("//xmlns:preface | //xmlns:sections | //xmlns:annex").to_xml
+    expect(Xml::C14n.format(strip_guid("<itu-standard>#{xml}</itu-standard>")))
+      .to be_equivalent_to Xml::C14n.format(presxml)
+
+    presxml = <<~OUTPUT
+      <preface>
+         <clause unnumbered="true" type="contribution-metadata" displayorder="1">
+           <table class="contribution-metadata" unnumbered="true" width="100%">
+             <colgroup>
+               <col width="11.8%"/>
+               <col width="41.2%"/>
+               <col width="47.0%"/>
+             </colgroup>
+             <thead>
+               <tr>
+                 <th rowspan="3">
+                   <image height="56" width="56" src="#{File.join(logoloc, '/logo-small.png')}"/>
+                 </th>
+                 <td rowspan="3">
+                   <p style="font-size:8pt;margin-top:6pt;margin-bottom:0pt;">UNION INTERNATIONALE DES TÉLÉCOMMUNICATIONS</p>
+                   <p class="bureau_big" style="font-size:13pt;margin-top:6pt;margin-bottom:0pt;">
+                     <strong>BUREAU DES RADIOCOMMUNICATIONS</strong>
+                     <br/>
+                     <strong>DE L’UIT</strong>
+                   </p>
+                   <p style="font-size:10pt;margin-top:6pt;margin-bottom:0pt;">PÉRIODE D’ÉTUDES 2000–2002</p>
+                 </td>
+                 <th align="right">
+                   <p style="font-size:16pt;">SG17-C1000</p>
+                 </th>
+               </tr>
+               <tr>
+                 <th align="right">
+                   <p style="font-size:14pt;">STUDY GROUP 17</p>
+                 </th>
+               </tr>
+               <tr>
+                 <th align="right">
+                   <p style="font-size:14pt;">Original : Français</p>
+                 </th>
+               </tr>
+             </thead>
+                         <tbody>
+               <tr>
+                 <th align="left" width="95">Question(s):</th>
+                 <td/>
+                 <td align="right">Kronos, 01 janv. 2000/02 janv. 2000</td>
+               </tr>
+               <tr>
+                 <th align="center" colspan="3">CONTRIBUTION</th>
+               </tr>
+               <tr>
+                 <th align="left" width="95">Source :</th>
+                 <td colspan="2">Source1</td>
+               </tr>
+               <tr>
+                 <th align="left" width="95">Titre :</th>
+                 <td colspan="2">Main Title</td>
+               </tr>
+               <tr>
+                 <th align="left" width="95">Contact :</th>
+                 <td>Fred Flintstone<br/>
+       Bedrock Quarry<br/>
+       Canada</td>
+                 <td>Tél.<tab/>555<br/>E-mail<tab/>x@example.com</td>
+               </tr>
+               <tr>
+                 <th align="left" width="95">Contact :</th>
+                 <td>Barney Rubble<br/>
+       Bedrock Quarry 2<br/>
+       USA</td>
+                 <td>Tél.<tab/>557</td>
+               </tr>
+               <tr>
+                 <th align="left" width="95">Contact :</th>
+                 <td>
+                   <br/>
+                   <br/>
+                 </td>
+                 <td>Tél.<tab/></td>
+               </tr>
+             </tbody>
+           </table>
+         </clause>
+         <abstract id="A" displayorder="2">
+           <table class="abstract" unnumbered="true" width="100%">
+             <colgroup>
+               <col width="11.8%"/>
+               <col width="78.2%"/>
+             </colgroup>
+             <tbody>
+               <tr>
+                 <th align="left" width="95">
+                   <p>Résumé :</p>
+                 </th>
+                 <td>
+                   <p>This is an abstract.</p>
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+         </abstract>
+       </preface>
+    OUTPUT
+    xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+      .convert("test", input
+      .sub("<language>en</language>", "<language>fr</language>"), true))
+    xml = xml.at("//xmlns:preface").to_xml
+    expect(Xml::C14n.format(strip_guid(xml)))
+      .to be_equivalent_to Xml::C14n.format(presxml)
   end
 end

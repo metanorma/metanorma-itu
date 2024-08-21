@@ -81,7 +81,7 @@ RSpec.describe IsoDoc::ITU do
       </bibitem>
       <bibitem id="ISSN" type="journal">
         <title format="text/plain">Instruments for analytical laboratory use</title>
-        <docidentifier type="ISSN">ISSN</docidentifier>
+        <docidentifier type="ISSN">1</docidentifier>
         <docidentifier type="metanorma">[4]</docidentifier>
         <contributor>
           <role type="publisher"/>
@@ -150,11 +150,13 @@ RSpec.describe IsoDoc::ITU do
                <formattedref>ISO 712, <em>Cereals and cereal products</em>.</formattedref>
                <docidentifier type="ISO">ISO 712</docidentifier>
                <docidentifier type="metanorma">[110]</docidentifier>
+               <docidentifier scope="biblio-tag">ISO 712</docidentifier>
                <biblio-tag>[110]</biblio-tag>
              </bibitem>
              <bibitem id="ISO16634" type="standard">
                <formattedref>ISO 16634:-- (all parts) (), <em>Cereals, pulses, milled cereal products, oilseeds and animal feeding stuffs</em>.</formattedref>
                <docidentifier type="ISO">ISO 16634:-- (all parts)</docidentifier>
+               <docidentifier scope="biblio-tag">ISO 16634:-- (all parts)</docidentifier>
                <date type="published">
                  <on>--</on>
                </date>
@@ -163,6 +165,7 @@ RSpec.describe IsoDoc::ITU do
              <bibitem id="ISO20483" type="standard">
                <formattedref>ISO 20483:2013-2014 (2013), <em>Cereals and pulses</em>.</formattedref>
                <docidentifier type="ISO">ISO 20483:2013-2014</docidentifier>
+               <docidentifier scope="biblio-tag">ISO 20483:2013-2014</docidentifier>
                <date type="published">
                  <from>2013</from>
                  <to>2014</to>
@@ -172,6 +175,7 @@ RSpec.describe IsoDoc::ITU do
              <bibitem id="ref1">
                <formattedref format="application/x-isodoc+xml">ICC 167, <smallcap>Standard No I.C.C 167</smallcap>. <em>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</em> (see <link target="http://www.icc.or.at"/>).</formattedref>
                <docidentifier type="ICC">ICC 167</docidentifier>
+               <docidentifier scope="biblio-tag">ICC 167</docidentifier>
                <biblio-tag>[ICC 167]</biblio-tag>
              </bibitem>
              <note>
@@ -189,14 +193,14 @@ RSpec.describe IsoDoc::ITU do
            <references id="_" obligation="informative" normative="false" displayorder="4">
              <title depth="1">Bibliography</title>
              <bibitem id="ISBN" type="book">
-               <formattedref>ISBN, <em>Chemicals for analytical laboratory use</em>. n.p.: n.d. ISBN: ISBN.</formattedref>
+               <formattedref><em>Chemicals for analytical laboratory use</em>. n.p.: n.d. ISBN: ISBN.</formattedref>
                <docidentifier type="ISBN">ISBN</docidentifier>
                <docidentifier type="metanorma-ordinal">[1]</docidentifier>
                <biblio-tag>[1]</biblio-tag>
              </bibitem>
              <bibitem id="ISSN" type="journal">
-               <formattedref>ISSN, <em>Instruments for analytical laboratory use</em>. n.d. ISSN: ISSN.</formattedref>
-               <docidentifier type="ISSN">ISSN</docidentifier>
+               <formattedref><em>Instruments for analytical laboratory use</em>. n.d. ISSN: ISSN 1.</formattedref>
+                <docidentifier type="ISSN">ISSN 1</docidentifier>
                <docidentifier type="metanorma-ordinal">[2]</docidentifier>
                <biblio-tag>[2]</biblio-tag>
              </bibitem>
@@ -211,6 +215,7 @@ RSpec.describe IsoDoc::ITU do
              <bibitem id="ISO3696" type="standard">
                <formattedref>ISO 3696, <em>Water for analytical laboratory use</em>.</formattedref>
                <docidentifier type="ISO">ISO 3696</docidentifier>
+               <docidentifier scope="biblio-tag">ISO 3696</docidentifier>
                <biblio-tag>[ISO 3696]</biblio-tag>
              </bibitem>
              <bibitem id="ref10">
@@ -221,12 +226,14 @@ RSpec.describe IsoDoc::ITU do
              <bibitem id="ref11">
                <formattedref>IETF RFC 10, <em>Internet Calendaring and Scheduling Core Object Specification (iCalendar)</em>.</formattedref>
                <docidentifier type="IETF">IETF RFC 10</docidentifier>
+               <docidentifier scope="biblio-tag">IETF RFC 10</docidentifier>
                <biblio-tag>[IETF RFC 10]</biblio-tag>
              </bibitem>
              <bibitem id="ref12">
                <formattedref format="application/x-isodoc+xml">IETF RFC 20, CitationWorks. 2019. <em>How to cite a reference</em>.</formattedref>
                <docidentifier type="metanorma">[Citn]</docidentifier>
                <docidentifier type="IETF">IETF RFC 20</docidentifier>
+               <docidentifier scope="biblio-tag">IETF RFC 20</docidentifier>
                <biblio-tag>[Citn]</biblio-tag>
              </bibitem>
            </references>
@@ -235,11 +242,11 @@ RSpec.describe IsoDoc::ITU do
     OUTPUT
 
     FileUtils.rm_f "test.html"
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
+      .to be_equivalent_to Xml::C14n.format(presxml)
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, false)
     output = <<~OUTPUT
                  <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
@@ -297,11 +304,11 @@ RSpec.describe IsoDoc::ITU do
                        <tbody>
                          <tr id="ISBN" class="Biblio">
                            <td style='vertical-align:top'>[1]</td>
-                           <td>ISBN, <i>Chemicals for analytical laboratory use</i>. n.p.: n.d. ISBN: ISBN.</td>
+                           <td><i>Chemicals for analytical laboratory use</i>. n.p.: n.d. ISBN: ISBN.</td>
                          </tr>
                          <tr id="ISSN" class="Biblio">
                            <td style='vertical-align:top'>[2]</td>
-                           <td>ISSN, <i>Instruments for analytical laboratory use</i>. n.d. ISSN: ISSN.</td>
+                           <td><i>Instruments for analytical laboratory use</i>. n.d. ISSN: ISSN 1.</td>
                          </tr>
                          <tr><td colspan="2">
                            <div class="Note">
@@ -332,10 +339,10 @@ RSpec.describe IsoDoc::ITU do
                    </div>
                  </main>
     OUTPUT
-    expect(xmlpp(strip_guid(File.read("test.html", encoding: "utf-8")
+    expect(Xml::C14n.format(strip_guid(File.read("test.html", encoding: "utf-8")
       .sub(/^.*<main/m, "<main")
       .sub(%r{</main>.*$}m, "</main>"))))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes IsoXML bibliographies (2)" do
@@ -430,6 +437,7 @@ RSpec.describe IsoDoc::ITU do
             <bibitem id='ISO712' type='standard'>
               <formattedref>ISO 712 (2001), <em>Cereals and cereal products</em>.</formattedref>
               <docidentifier type='ISO'>ISO&#xa0;712</docidentifier>
+              <docidentifier scope="biblio-tag">ISO 712</docidentifier>
               <date type='published'><on>2001-01</on></date>
               <biblio-tag>[ISO&#xa0;712]</biblio-tag>
             </bibitem>
@@ -518,16 +526,16 @@ RSpec.describe IsoDoc::ITU do
            </body>
 
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(html)
+      .to be_equivalent_to Xml::C14n.format(html)
   end
 
   it "selects multiple primary identifiers" do
@@ -564,10 +572,10 @@ RSpec.describe IsoDoc::ITU do
         </p>
       </foreword>
     PRESXML
-    expect(xmlpp(Nokogiri::XML(
+    expect(Xml::C14n.format(Nokogiri::XML(
       IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true),
     ).at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to xmlpp(presxml)
+      .to be_equivalent_to Xml::C14n.format(presxml)
   end
 end

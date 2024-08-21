@@ -21,9 +21,24 @@ module IsoDoc
         end
       end
 
+      def make_body1(body, _docxml)
+        @wordcoverpage or return
+        super
+      end
+
+      def make_body2(body, docxml)
+        body.div class: "WordSection2" do |div2|
+          boilerplate docxml, div2
+          content(div2, docxml, ns("//preface/*[@displayorder]"))
+          div2.p { |p| p << "&#xa0;" } # placeholder
+        end
+        @doctype == "contribution" or section_break(body)
+      end
+
       def abstract(clause, out)
         out.div **attr_code(id: clause["id"], class: "Abstract") do |s|
-          clause_name(clause, "Summary", s, class: "AbstractTitle")
+          @doctype == "contribution" or
+            clause_name(clause, "Summary", s, class: "AbstractTitle")
           clause.elements.each { |e| parse(e, s) unless e.name == "title" }
         end
       end
@@ -42,10 +57,14 @@ module IsoDoc
       end
 
       def convert1(docxml, filename, dir)
-        if @doctype == "service-publication"
+        case @doctype
+        when "service-publication"
           @wordcoverpage = html_doc_path("word_itu_titlepage_sp.html")
           options[:bodyfont] = "Arial"
           options[:headerfont] = "Arial"
+        when "contribution"
+          @wordcoverpage = nil
+          @wordintropage = nil
         end
         super
       end

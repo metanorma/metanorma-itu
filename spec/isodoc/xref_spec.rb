@@ -80,10 +80,10 @@ RSpec.describe Metanorma::ITU do
         </p>
       </foreword>
     OUTPUT
-    expect(xmlpp(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "cross-references subfigures" do
@@ -258,16 +258,16 @@ RSpec.describe Metanorma::ITU do
         </div>
       </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(html)
+      .to be_equivalent_to Xml::C14n.format(html)
   end
 
   it "cross-references formulae" do
@@ -300,10 +300,10 @@ RSpec.describe Metanorma::ITU do
             </p>
           </foreword>
     OUTPUT
-    expect(xmlpp(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "cross-references annex subclauses" do
@@ -389,10 +389,10 @@ RSpec.describe Metanorma::ITU do
                   </annex>
               </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes figures as hierarchical assets (Presentation XML)" do
@@ -460,11 +460,11 @@ RSpec.describe Metanorma::ITU do
         </p>
       </foreword>
     OUTPUT
-    expect(xmlpp(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert
       .new({ hierarchicalassets: true })
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes formulae as non-hierarchical assets" do
@@ -522,10 +522,10 @@ RSpec.describe Metanorma::ITU do
         </p>
       </foreword>
     OUTPUT
-    expect(xmlpp(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "cross-references sections" do
@@ -636,10 +636,10 @@ RSpec.describe Metanorma::ITU do
         </p>
       </foreword>
     OUTPUT
-    expect(xmlpp(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "cross-references sections in resolutions" do
@@ -889,15 +889,15 @@ RSpec.describe Metanorma::ITU do
                </div>
              </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .sub(%r{<localized-strings>.*</localized-strings>}m, "")))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(html)
+      .to be_equivalent_to Xml::C14n.format(html)
   end
 
   it "cross-references list items" do
@@ -985,10 +985,10 @@ RSpec.describe Metanorma::ITU do
         </p>
       </foreword>
     OUTPUT
-    expect(xmlpp(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "cross-references list items of steps class" do
@@ -1062,9 +1062,9 @@ RSpec.describe Metanorma::ITU do
         </p>
       </foreword>
     OUTPUT
-    expect(xmlpp(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 end

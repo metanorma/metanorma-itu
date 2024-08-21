@@ -1,3 +1,11 @@
+questions: المسألة
+studyperiod: "% فترة الدراسة "
+original: إبداعي
+contact: الاتصال
+tel_abbrev: هاتف
+document_source: المصدر
+title: العنوان
+current_language: العربية
 termsdef: مصطلحات معرفة
 termsdefsymbolsabbrev: تعريف
 termsdefsymbols: تعريف
@@ -51,13 +59,16 @@ page: الصفحة
 placedate: "جنيف، %"
 annex_to_itu_ob: ملحق بالنشرة التشغيلية للاتحاد
 number_abbrev: رقم
-annex_to_itu_ob_abbrev: ملحق بالنشرة التشغيلية للاتحاد رقم
+annex_to_itu_ob_abbrev: "% ملحق بالنشرة التشغيلية للاتحاد "
 international_telecommunication_union: الاتحاد الدولي للاتصالات
 position_on: الوضع في
 revision_abbreviation: المراجعة
 tsb: TSB
 br: BR
 bdt: BDT
+tsb_short: مكتب تقييس الاتصالات
+br_short: مكتب الاتصالات الراديوية
+bdt_short: مكتب تنمية الاتصالات
 tsb_full: مكتب تقييس الاتصالات
 br_full: مكتب الاتصالات الراديوية
 bdt_full: مكتب تنمية الاتصالات
@@ -79,6 +90,7 @@ doctype_dict:
   technical-report: تقرير فني
   joint-itu-iso-iec: ITU/ISO/IEC مشترك
   service-publication: منشور خدمي
+  contribution: مساهمة
 doctype_abbrev:
   recommendation: Rec.
   recommendation-supplement: Rec.
@@ -92,6 +104,7 @@ doctype_abbrev:
   technical-report: TR
   joint-itu-iso-iec: ITU/ISO/IEC
   service-publication:
+  contribution:
 inflection:
   محرر:
     sg: محرر

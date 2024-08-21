@@ -33,11 +33,11 @@ RSpec.describe Metanorma::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes titles for service publications" do
@@ -70,11 +70,11 @@ RSpec.describe Metanorma::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes titles for resolutions" do
@@ -210,26 +210,26 @@ RSpec.describe Metanorma::ITU do
          </div>
        </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")
       .gsub(/fn:[0-9a-f-][0-9a-f-]+/, "fn:_")
       .gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>")))
-      .to be_equivalent_to xmlpp(html)
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(html)
+    expect(Xml::C14n.format(IsoDoc::ITU::WordConvert.new({})
       .convert("test", presxml, true)
       .sub(%r{^.*<body }m, "<body xmlns:epub='epub' ")
       .sub(%r{</body>.*$}m, "</body>")
       .gsub(%r{_Ref\d+}, "_Ref")
       .gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>")
       .gsub(%r{ftn[0-9a-f-][0-9a-f-]+}, "ftn_")))
-      .to be_equivalent_to xmlpp(word)
+      .to be_equivalent_to Xml::C14n.format(word)
   end
 
   it "processes titles for revised resolutions" do
@@ -303,16 +303,16 @@ RSpec.describe Metanorma::ITU do
         </div>
       </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(html)
+      .to be_equivalent_to Xml::C14n.format(html)
   end
 
   it "processes keyword" do
@@ -336,259 +336,11 @@ RSpec.describe Metanorma::ITU do
          </div>
        </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "processes simple terms & definitions" do
-    input = <<~INPUT
-              <itu-standard xmlns="http://riboseinc.com/isoxml">
-      <sections>
-      <terms id="H" obligation="normative"><title>Terms</title>
-        <term id="J">
-        <preferred><expression><name>Term2</name></expression></preferred>
-        <definition><verbal-definition><p>This is a journey into sound</p></verbal-definition></definition>
-        <termsource><origin citeas="XYZ">x y z</origin></termsource>
-        <termnote id="J1" keep-with-next="true" keep-lines-together="true"><p>This is a note</p></termnote>
-      </term>
-        <term id="K">
-        <preferred><expression><name>Term3</name></expression></preferred>
-        <definition><verbal-definition><p>This is a journey into sound</p></verbal-definition></definition>
-        <termsource><origin citeas="XYZ">x y z</origin></termsource>
-        <termnote id="J2"><p>This is a note</p></termnote>
-        <termnote id="J3"><p>This is a note</p></termnote>
-      </term>
-       </terms>
-       </sections>
-       </itu-standard>
-    INPUT
-
-    presxml = <<~INPUT
-                <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-                <preface>
-                    <clause type="toc" id="_" displayorder="1">
-        <title depth="1">Table of Contents</title>
-      </clause>
-        </preface><sections>
-        <terms id="H" obligation="normative" displayorder='2'><title depth="1">1.<tab/>Terms</title>
-          <term id="J">
-          <name>1.1.</name>
-          <preferred><strong>Term2</strong></preferred>
-          <definition><p>This is a journey into sound</p></definition>
-          <termsource>[SOURCE: <origin citeas="XYZ">x y z</origin>]</termsource>
-          <termnote id="J1" keep-with-next="true" keep-lines-together="true"><name>NOTE</name><p>This is a note</p></termnote>
-        </term>
-          <term id="K">
-          <name>1.2.</name>
-          <preferred><strong>Term3</strong></preferred>
-          <definition><p>This is a journey into sound</p></definition>
-          <termsource>[SOURCE: <origin citeas="XYZ">x y z</origin>]</termsource>
-          <termnote id="J2"><name>NOTE 1</name><p>This is a note</p></termnote>
-          <termnote id="J3"><name>NOTE 2</name><p>This is a note</p></termnote>
-        </term>
-         </terms>
-         </sections>
-         </itu-standard>
-    INPUT
-
-    output = <<~OUTPUT
-       #{HTML_HDR}
-          <div id='H'>
-            <h1>1.&#160; Terms</h1>
-            <div id='J'>
-              <p class='TermNum' id='J'>
-                <b>1.1.&#160; <b>Term2</b></b>:
-                 [XYZ]
-              </p>
-              <p>This is a journey into sound</p>
-              <div id='J1' class='Note' style='page-break-after: avoid;page-break-inside: avoid;'>
-                <p>NOTE &#8211; This is a note</p>
-              </div>
-            </div>
-            <div id='K'>
-              <p class='TermNum' id='K'>
-                <b>1.2.&#160; <b>Term3</b></b>:
-                 [XYZ]
-              </p>
-              <p>This is a journey into sound</p>
-              <div id='J2' class='Note'>
-                <p>NOTE 1 &#8211; This is a note</p>
-              </div>
-              <div id='J3' class='Note'>
-                <p>NOTE 2 &#8211; This is a note</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </body>
-    OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
-      .new(presxml_options)
-      .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
-      .convert("test", presxml, true)
-      .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "postprocesses simple terms & definitions" do
-    FileUtils.rm_f "test.html"
-    FileUtils.rm_f "test.doc"
-    IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~INPUT, false)
-              <itu-standard xmlns="http://riboseinc.com/isoxml">
-      <preface/><sections>
-      <terms id="H" obligation="normative" displayorder="1"><title>1<tab/>Terms</title>
-        <term id="J">
-        <name>1.1</name>
-        <preferred>Term2</preferred>
-        <definition><p>This is a journey into sound</p></definition>
-        <termsource><origin citeas="XYZ">x y z</origin></termsource>
-        <termnote id="J1"><name>NOTE</name><p>This is a note</p></termnote>
-      </term>
-       </terms>
-       </sections>
-       </itu-standard>
-    INPUT
-    expect(xmlpp(strip_guid(File.read("test.html", encoding: "utf-8").to_s
-      .gsub(%r{^.*<main}m, "<main")
-      .gsub(%r{</main>.*}m, "</main>"))))
-      .to be_equivalent_to xmlpp(<<~OUTPUT)
-         <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-              <div id="H"><h1 id="_">1&#xA0; Terms</h1>
-          <div id="J"><p class="TermNum" id="J"><b>1.1&#xA0; Term2</b>: [XYZ] This is a journey into sound</p>
-
-
-
-          <div id="J1" class="Note"><p>NOTE &#x2013; This is a note</p></div>
-        </div>
-         </div>
-            </main>
-      OUTPUT
-  end
-
-  it "processes terms & definitions subclauses with external, internal, and empty definitions" do
-    input = <<~INPUT
-                     <itu-standard xmlns="http://riboseinc.com/isoxml">
-               <termdocsource type="inline" bibitemid="ISO712"/>
-               <preface>
-                   <clause type="toc" id="_" displayorder="1">
-                  <title depth="1">Table of Contents</title>
-            </clause>
-             </preface><sections>
-             <clause id="G" displayorder="3"><title>2<tab/>Terms, Definitions, Symbols and Abbreviated Terms</title>
-             <terms id="H" obligation="normative"><title>2.1<tab/>Terms defined in this recommendation</title>
-               <term id="J">
-               <name>2.1.1</name>
-               <preferred>Term2</preferred>
-             </term>
-             </terms>
-             <terms id="I" obligation="normative"><title>2.2<tab/>Terms defined elsewhere</title>
-               <term id="K">
-               <name>2.2.1</name>
-               <preferred>Term2</preferred>
-             </term>
-             </terms>
-             <terms id="L" obligation="normative"><title>2.3<tab/>Other terms</title>
-             </terms>
-             </clause>
-              </sections>
-              <bibliography>
-              <references id="_normative_references" obligation="informative" normative="true" displayorder="2"><title>1<tab/>References</title>
-      <bibitem id="ISO712" type="standard">
-        <formattedref format="text/plain"><em>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</em>.</formattedref>
-        <docidentifier>ISO 712</docidentifier>
-        <biblio-tag>[ISO 712]</biblio-tag>
-      </bibitem></references>
-      </bibliography>
-              </itu-standard>
-    INPUT
-    output = <<~OUTPUT
-            #{HTML_HDR}
-                   <div>
-                     <h1>1&#160; References</h1>
-                     <table class='biblio' border='0'>
-      <tbody>
-        <tr id='ISO712' class='NormRef'>
-          <td  style='vertical-align:top'>[ISO&#160;712]</td>
-                     <td><i>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</i>.</td>
-                     </tr>
-                     </tbody>
-                     </table>
-                   </div>
-                <div id="G"><h1>2&#160; Terms, Definitions, Symbols and Abbreviated Terms</h1>
-                  <div id="H"><h2>2.1&#160; Terms defined in this recommendation</h2>
-                    <div id="J"><p class="TermNum" id="J"><b>2.1.1&#160; Term2</b>:</p>
-                  </div>
-                  </div>
-                  <div id="I"><h2>2.2&#160; Terms defined elsewhere</h2>
-                    <div id="K"><p class="TermNum" id="K"><b>2.2.1&#160; Term2</b>:</p>
-                  </div>
-                  </div>
-                  <div id="L"><h2>2.3&#160; Other terms</h2></div>
-                  </div>
-               </div>
-               </body>
-    OUTPUT
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
-      .convert("test", input, true)
-      .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(output)
-  end
-
-  it "rearranges term headers" do
-    input = <<~INPUT
-      <html>
-             <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
-               <div class="title-section">
-                 <p>&#160;</p>
-               </div>
-               <br/>
-               <div class="WordSection2">
-                 <p>&#160;</p>
-               </div>
-               <br/>
-               <div class="WordSection3">
-                 <div id="H"><h1>1.&#160; Terms and definitions</h1><p>For the purposes of this document,
-             the following terms and definitions apply.</p>
-         <p class="TermNum" id="J">1.1.</p>
-           <p class="Terms" style="text-align:left;">Term2</p>
-         </div>
-               </div>
-             </body>
-             </html>
-    INPUT
-    output = <<~OUTPUT
-                <?xml version="1.0"?>
-      <html>
-             <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
-               <div class="title-section">
-                 <p>&#xA0;</p>
-               </div>
-               <br/>
-               <div class="WordSection2">
-                 <p>&#xA0;</p>
-               </div>
-               <br/>
-               <div class="WordSection3">
-                 <div id="H"><h1>1.&#xA0; Terms and definitions</h1><p>For the purposes of this document,
-             the following terms and definitions apply.</p>
-         <p class="Terms" style='text-align:left;' id="J"><b>1.1.</b>&#xA0;Term2</p>
-
-         </div>
-               </div>
-             </body>
-             </html>
-    OUTPUT
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
-      .cleanup(Nokogiri::XML(input)).to_s))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes IsoXML footnotes (Word)" do
@@ -653,12 +405,12 @@ RSpec.describe Metanorma::ITU do
                  </div>
                </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::ITU::WordConvert.new({})
       .convert("test", input, true)
       .sub(%r{^.*<body }m, "<body xmlns:epub='epub' ")
       .sub(%r{</body>.*$}m, "</body>")
       .gsub(%r{_Ref\d+}, "_Ref")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "cleans up footnotes" do
@@ -711,7 +463,7 @@ RSpec.describe Metanorma::ITU do
           </itu-standard>
     INPUT
     presxml = <<~PRESXML
-            <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+      <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <bibdata>
             <title language="en" format="text/plain" type="main">An ITU Standard</title>
             <ext>
@@ -755,86 +507,86 @@ RSpec.describe Metanorma::ITU do
     p = IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(xmlpp(strip_guid(p
+    expect(Xml::C14n.format(strip_guid(p
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
+      .to be_equivalent_to Xml::C14n.format(presxml)
     IsoDoc::ITU::HtmlConvert.new({}).convert("test", p, false)
     expect(File.exist?("test.html")).to be true
     html = File.read("test.html", encoding: "UTF-8")
-    expect(xmlpp(strip_guid(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ")
+    expect(Xml::C14n.format(strip_guid(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ")
       .sub(%r{</main>.*$}m, "</main>")
       .gsub(%r{<script>.+?</script>}, "")
       .gsub(/fn:[0-9a-f][0-9a-f-]+/, "fn:_"))))
-      .to be_equivalent_to xmlpp(<<~OUTPUT)
-           <main xmlns:epub="epub" class="main-section">
-         <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-         <br/>
-         <div>
-           <h1 class="IntroTitle"/>
-           <p>A.<a class="FootnoteRef" href="#fn:1" id="fnref:1"><sup>1</sup></a></p>
-           <p>B.<a class="FootnoteRef" href="#fn:1"><sup>1</sup></a></p>
-           <p>C.<a class="FootnoteRef" href="#fn:3" id="fnref:3"><sup>2</sup></a></p>
-           <p class="TableTitle" style="text-align:center;">Table 1 — Table 1 — Repeatability and reproducibility of <i>husked</i> rice yield</p>
-           <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;" title="tool tip">
-             <caption>
-               <span style="display:none">long desc</span>
-             </caption>
-             <thead>
-               <tr>
-                 <td rowspan="2" style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="col">Description</td>
-                 <td colspan="4" style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="colgroup">Rice sample</td>
-               </tr>
-             </thead>
-             <tbody>
-               <tr>
-                 <td style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Arborio</td>
-                 <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Drago<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
-                 <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
-                 <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Thaibonnet</td>
-               </tr>
-             </tbody>
-             <tfoot>
-               <tr>
-                 <td colspan="5" style="border-top:0pt;border-bottom:solid windowtext 1.5pt;">
-                   <div class="TableFootnote">
-                     <div id="fn:tableD-1a">
-                       <p id="_" class="TableFootnote"><span><span id="tableD-1a" class="TableFootnoteRef">a)</span>  </span>Parboiled rice.</p>
-                     </div>
-                   </div>
-                 </td>
-               </tr>
-             </tfoot>
-           </table>
-         </div>
-         <p class="zzSTDTitle2">An ITU Standard<a class="FootnoteRef" href="#fn:4" id="fnref:4"><sup>3</sup></a><a class="FootnoteRef" href="#fn:5" id="fnref:5"><sup>4</sup></a></p>
-         <div/>
-         <aside id="fn:1" class="footnote">
-           <p id="_"><a class="FootnoteRef" href="#fn:1"><sup>1</sup></a>Formerly denoted as 15 % (m/m).</p>
-           <a href="#fnref:1">↩</a>
-         </aside>
-         <aside id="fn:3" class="footnote">
-           <p id="_"><a class="FootnoteRef" href="#fn:3"><sup>2</sup></a>Hello! denoted as 15 % (m/m).</p>
-           <a href="#fnref:3">↩</a>
-         </aside>
-         <aside id="fn:4" class="footnote">
-           <p><a class="FootnoteRef" href="#fn:4"><sup>3</sup></a>One fn</p>
-           <a href="#fnref:4">↩</a>
-         </aside>
-         <aside id="fn:5" class="footnote">
-           <p><a class="FootnoteRef" href="#fn:5"><sup>4</sup></a>Another fn</p>
-           <a href="#fnref:5">↩</a>
-         </aside>
-       </main>
+      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
+          <main xmlns:epub="epub" class="main-section">
+          <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+          <br/>
+          <div>
+            <h1 class="IntroTitle"/>
+            <p>A.<a class="FootnoteRef" href="#fn:1" id="fnref:1"><sup>1</sup></a></p>
+            <p>B.<a class="FootnoteRef" href="#fn:1"><sup>1</sup></a></p>
+            <p>C.<a class="FootnoteRef" href="#fn:3" id="fnref:3"><sup>2</sup></a></p>
+            <p class="TableTitle" style="text-align:center;">Table 1 — Table 1 — Repeatability and reproducibility of <i>husked</i> rice yield</p>
+            <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;" title="tool tip">
+              <caption>
+                <span style="display:none">long desc</span>
+              </caption>
+              <thead>
+                <tr>
+                  <td rowspan="2" style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="col">Description</td>
+                  <td colspan="4" style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="colgroup">Rice sample</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Arborio</td>
+                  <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Drago<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
+                  <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
+                  <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Thaibonnet</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="5" style="border-top:0pt;border-bottom:solid windowtext 1.5pt;">
+                    <div class="TableFootnote">
+                      <div id="fn:tableD-1a">
+                        <p id="_" class="TableFootnote"><span><span id="tableD-1a" class="TableFootnoteRef">a)</span>  </span>Parboiled rice.</p>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <p class="zzSTDTitle2">An ITU Standard<a class="FootnoteRef" href="#fn:4" id="fnref:4"><sup>3</sup></a><a class="FootnoteRef" href="#fn:5" id="fnref:5"><sup>4</sup></a></p>
+          <div/>
+          <aside id="fn:1" class="footnote">
+            <p id="_"><a class="FootnoteRef" href="#fn:1"><sup>1</sup></a>Formerly denoted as 15 % (m/m).</p>
+            <a href="#fnref:1">↩</a>
+          </aside>
+          <aside id="fn:3" class="footnote">
+            <p id="_"><a class="FootnoteRef" href="#fn:3"><sup>2</sup></a>Hello! denoted as 15 % (m/m).</p>
+            <a href="#fnref:3">↩</a>
+          </aside>
+          <aside id="fn:4" class="footnote">
+            <p><a class="FootnoteRef" href="#fn:4"><sup>3</sup></a>One fn</p>
+            <a href="#fnref:4">↩</a>
+          </aside>
+          <aside id="fn:5" class="footnote">
+            <p><a class="FootnoteRef" href="#fn:5"><sup>4</sup></a>Another fn</p>
+            <a href="#fnref:5">↩</a>
+          </aside>
+        </main>
       OUTPUT
 
     FileUtils.rm_f "test.doc"
     IsoDoc::ITU::WordConvert.new({}).convert("test", p, false)
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(xmlpp(html
+    expect(Xml::C14n.format(html
       .sub(%r{^.*<div align="center" class="table_container">}m, "")
       .sub(%r{</table>.*$}m, "</table>")))
-      .to be_equivalent_to xmlpp(<<~OUTPUT)
+      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
             <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;" title="tool tip" summary="long desc">
           <a name="tableD-1" id="tableD-1"/>
           <thead>
@@ -940,6 +692,7 @@ RSpec.describe Metanorma::ITU do
              <bibitem id="ISO712" type="standard">
                <formattedref>ISO 712 (2019), <em>Cereals and cereal products</em>.</formattedref>
                <docidentifier>ISO&#xa0;712</docidentifier>
+               <docidentifier scope="biblio-tag">ISO 712</docidentifier>
                <date type="published"><on>2019-01-01</on></date>
                <biblio-tag>[ISO 712]</biblio-tag>
              </bibitem>
@@ -948,11 +701,11 @@ RSpec.describe Metanorma::ITU do
          <bibliography/>
        </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes erefs and xrefs and links (Word)" do
@@ -971,7 +724,6 @@ RSpec.describe Metanorma::ITU do
       <bibitem id="ISO712" type="standard">
         <formattedref format="text/plain"><em>Cereals and cereal products</em>.</formattedref>
         <docidentifier>ISO 712</docidentifier>
-        <biblio-tag>[ISO 712]</biblio-tag>
       </bibitem>
           </references>
           </bibliography>
@@ -1001,7 +753,7 @@ RSpec.describe Metanorma::ITU do
             <bibitem id="ISO712" type="standard">
               <formattedref format="text/plain">ISO 712, <em>Cereals and cereal products</em>.</formattedref>
               <docidentifier>ISO 712</docidentifier>
-              <biblio-tag>[ISO 712]</biblio-tag>
+              <docidentifier scope="biblio-tag">ISO 712</docidentifier>
               <biblio-tag>[ISO 712]</biblio-tag>
             </bibitem>
           </references>
@@ -1060,81 +812,61 @@ RSpec.describe Metanorma::ITU do
         </div>
       </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::ITU::WordConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes boilerplate" do
     FileUtils.rm_f "test.html"
-    IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~"INPUT", false)
+    input = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml">
       #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>)))}
       </iso-standard>
     INPUT
-    expect(xmlpp(strip_guid(File.read("test.html", encoding: "utf-8")
+    IsoDoc::ITU::HtmlConvert.new({}).convert("test", input, false)
+    expect(Xml::C14n.format(strip_guid(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<div class="prefatory-section">}m, '<div class="prefatory-section">')
       .gsub(%r{<nav>.*}m, "</div>"))))
-      .to be_equivalent_to xmlpp(<<~OUTPUT)
+      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
          <div class='prefatory-section'>
           <div class='boilerplate-legal'>
             <div id="_">
-              <h1 class='IntroTitle'>FOREWORD</h1>
+              <h1 class='IntroTitle'><a class="anchor" href="#_"/><a class="header" href="#_">FOREWORD</a></h1>
               <p id='_'>The International Telecommunication Union (ITU) is the United Nations specialized agency in the field of telecommunications , information and communication technologies (ICTs). The ITU Telecommunication Standardization Sector (ITU-T) is a permanent organ of ITU. ITU-T is responsible for studying technical, operating and tariff questions and issuing Recommendations on them with a view to standardizing telecommunications on a worldwide basis.</p>
               <p id='_'>The World Telecommunication Standardization Assembly (WTSA), which meets every four years, establishes the topics for study by the ITU T study groups which, in turn, produce Recommendations on these topics.</p>
               <p id='_'>The approval of ITU-T Recommendations is covered by the procedure laid down in WTSA Resolution 1.</p>
               <p id='_'>In some areas of information technology which fall within ITU-T's purview, the necessary standards are prepared on a collaborative basis with ISO and IEC.</p>
               <div id="_">
-                <h2 class='IntroTitle'>NOTE</h2>
+                <h2 class='IntroTitle'><a class="anchor" href="#_"/><a class="header" href="#_">NOTE</a></h2>
                 <p id='_'>In this Recommendation, the expression "Administration" is used for conciseness to indicate both a telecommunication administration and a recognized operating agency.</p>
-                <p id='_'>Compliance with this Recommendation is voluntary. However, the Recommendation may contain certain mandatory provisions (to ensure, e.g., interoperability or applicability) and compliance with the Recommendation is achieved when all of these mandatory provisions are met. The words "shall" or some other obligatory language such as "must" and the negative equivalents are used to express requirements.  The use of such words does not suggest that compliance with the Recommendation is required of any party.</p>
+                <p id='_'>Compliance with this Recommendation is voluntary. However, the Recommendation may contain certain mandatory provisions (to ensure, e.g., interoperability or applicability) and compliance with the Recommendation is achieved when all of these mandatory provisions are met. The words "shall" or some other obligatory language such as "must" and the negative equivalents are used to express requirements. The use of such words does not suggest that compliance with the Recommendation is required of any party.</p>
               </div>
             </div>
           </div>
           <div class='boilerplate-license'>
             <div id="_">
-              <h1 class='IntroTitle'>INTELLECTUAL PROPERTY RIGHTS</h1>
-              <p id='_'>
-                ITU draws attention to the possibility that the practice or
-                implementation of this Recommendation may involve the use of a claimed
-                Intellectual Property Right. ITU takes no position concerning the
-                evidence, validity or applicability of claimed Intellectual Property
-                Rights, whether asserted by ITU members or others outside of the
-                Recommendation development process.
-              </p>
-              <p id='_'>
-                As of the date of approval of this Recommendation, ITU had received
-                notice of intellectual property, protected by patents, which may be
-                required to implement this Recommendation. However, implementers are
-                cautioned that this may not represent the latest information and are
-                therefore strongly urged to consult the TSB patent database at
-                <a href='http://www.itu.int/ITU-T/ipr/'>http://www.itu.int/ITU-T/ipr/</a>
-                .
-              </p>
+              <h1 class='IntroTitle'><a class="anchor" href="#_"/><a class="header" href="#_">INTELLECTUAL PROPERTY RIGHTS</a></h1>
+               <p id="_">ITU draws attention to the possibility that the practice or implementation of this Recommendation may involve the use of a claimed Intellectual Property Right. ITU takes no position concerning the evidence, validity or applicability of claimed Intellectual Property Rights, whether asserted by ITU members or others outside of the Recommendation development process.</p>
+             <p id="_">As of the date of approval of this Recommendation, ITU had not received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <a href="http://www.itu.int/ITU-T/ipr/">http://www.itu.int/ITU-T/ipr/</a>.</p>
             </div>
           </div>
         </div>
       OUTPUT
-  end
 
-  it "processes boilerplate (Word)" do
     FileUtils.rm_f "test.doc"
-    IsoDoc::ITU::WordConvert.new({}).convert("test", <<~"INPUT", false)
-      <iso-standard xmlns="http://riboseinc.com/isoxml">
-      #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>)))}
-      </iso-standard>
-    INPUT
-    expect(xmlpp(File.read("test.doc", encoding: "utf-8")
+    IsoDoc::ITU::WordConvert.new({}).convert("test", input, false)
+    expect(Xml::C14n.format(File.read("test.doc", encoding: "utf-8")
       .gsub(%r{^.*<div class="boilerplate-legal">}m, '<div><div class="boilerplate-legal">')
       .gsub(%r{<b>Table of Contents</b></p>.*}m, "<b>Table of Contents</b></p></div>")))
-      .to be_equivalent_to xmlpp(<<~"OUTPUT")
+      .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
             <div><div class="boilerplate-legal">
             <div><a name="_" id="_"/><p class="boilerplateHdr">FOREWORD</p>
 
@@ -1160,7 +892,7 @@ RSpec.describe Metanorma::ITU do
             <div><a name="_" id="_"/><p class="boilerplateHdr">INTELLECTUAL PROPERTY RIGHTS</p>
 
               <p class="boilerplate"><a name="_" id="_"></a>ITU draws attention to the possibility that the practice or implementation of this Recommendation may involve the use of a claimed Intellectual Property Right. ITU takes no position concerning the evidence, validity or applicability of claimed Intellectual Property Rights, whether asserted by ITU members or others outside of the Recommendation development process.</p>
-        <p class="boilerplate"><a name="_" id="_"></a>As of the date of approval of this Recommendation, ITU had received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <a href="http://www.itu.int/ITU-T/ipr/" class="url">http://www.itu.int/ITU-T/ipr/</a>.
+        <p class="boilerplate"><a name="_" id="_"></a>As of the date of approval of this Recommendation, ITU had not received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <a href="http://www.itu.int/ITU-T/ipr/" class="url">http://www.itu.int/ITU-T/ipr/</a>.
         </p>
         </div>
         <p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p></div>
@@ -1220,11 +952,11 @@ RSpec.describe Metanorma::ITU do
     INPUT
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(xmlpp(html
+    expect(Xml::C14n.format(html
       .sub(%r{^.*<div align="center" class="table_container">}m, "")
       .sub(%r{</table>.*$}m, "</table>")))
-      .to be_equivalent_to xmlpp(<<~OUTPUT)
-            <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;">
+      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
+        <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;">
           <a name="_2a8bd899-ab80-483a-90dc-002b6f497f54" id="_2a8bd899-ab80-483a-90dc-002b6f497f54"/>
           <thead>
             <tr>
@@ -1236,15 +968,15 @@ RSpec.describe Metanorma::ITU do
             <tr>
               <td valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">C</td>
               <td valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">
-                <p style="margin-left: 0.5cm;text-indent: -0.5cm;;mso-list:l3 level1 lfo1;margin-left: 0.5cm;text-indent: -0.5cm;page-break-after:auto" class="MsoListParagraphCxSpFirst">
+                <div class="ul_wrap" style="page-break-after:auto">
+                  <p style="margin-left: 0.5cm;text-indent: -0.5cm;;mso-list:l3 level1 lfo1;margin-left: 0.5cm;text-indent: -0.5cm;page-break-after:auto" class="MsoListParagraphCxSpFirst">
         A
-
-        <p style="margin-left: 1.0cm;text-indent: -0.5cm;;mso-list:l3 level2 lfo1;margin-left: 1.0cm;text-indent: -0.5cm;page-break-after:auto" class="MsoListParagraphCxSpFirst">
+        <div class="ListContLevel1"><div class="ul_wrap" style="margin-left: 0.5cm;text-indent: -0.5cm;page-break-after:auto"><p style="margin-left: 1.0cm;text-indent: -0.5cm;;mso-list:l3 level2 lfo1;margin-left: 1.0cm;text-indent: -0.5cm;page-break-after:auto" class="MsoListParagraphCxSpFirst">
         B
-
-        <p style="margin-left: 1.5cm;text-indent: -0.5cm;;mso-list:l3 level3 lfo1;margin-left: 1.5cm;text-indent: -0.5cm;page-break-after:auto" class="MsoListParagraphCxSpFirst">
+        <div class="ListContLevel2"><div class="ul_wrap" style="margin-left: 1.0cm;text-indent: -0.5cm;page-break-after:auto"><p style="margin-left: 1.5cm;text-indent: -0.5cm;;mso-list:l3 level3 lfo1;margin-left: 1.5cm;text-indent: -0.5cm;page-break-after:auto" class="MsoListParagraphCxSpFirst">
         C
-        </p></p></p>
+        </p></div></div></p></div></div></p>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -1286,10 +1018,10 @@ RSpec.describe Metanorma::ITU do
          </preface>
        </iso-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true))
       .sub(%r{<localized-strings>.*</localized-strings>}m, "")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 end

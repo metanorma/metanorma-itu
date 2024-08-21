@@ -26,8 +26,8 @@ RSpec.describe Metanorma::ITU do
         </bibliography>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "inserts boilerplate before non-empty Normative References" do
@@ -55,8 +55,8 @@ RSpec.describe Metanorma::ITU do
         </bibliography>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "inserts boilerplate before internal and external terms clause" do
@@ -71,7 +71,7 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id='_' obligation='normative'>
+          <clause id='_' obligation='normative' type="terms">
             <title>Definitions</title>
             <terms id='_' type='external' obligation='normative'>
               <title>Terms defined elsewhere</title>
@@ -91,8 +91,8 @@ RSpec.describe Metanorma::ITU do
         </sections>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "inserts boilerplate before empty internal and external terms clause" do
@@ -105,7 +105,7 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id='_' obligation='normative'>
+          <clause id='_' obligation='normative' type="terms">
             <title>Definitions</title>
             <terms id='_' type='external' obligation='normative'>
               <title>Terms defined elsewhere</title>
@@ -119,8 +119,8 @@ RSpec.describe Metanorma::ITU do
         </sections>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "does not insert boilerplate before internal and external terms clause if already populated" do
@@ -141,7 +141,7 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
        #{@blank_hdr}
        <sections>
-          <clause id='_' obligation='normative'>
+          <clause id='_' obligation='normative' type="terms">
             <title>Definitions</title>
             <terms id='_' type='external' obligation='normative'>
               <title>Terms defined elsewhere</title>
@@ -161,8 +161,8 @@ RSpec.describe Metanorma::ITU do
         </sections>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "inserts boilerplate before definitions with no internal and external terms clauses" do
@@ -177,7 +177,7 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id="_" obligation="normative">
+          <clause id="_" obligation="normative" type="terms">
             <title>Definitions</title>
             <p id="_">This Recommendation defines the following terms:</p>
             <terms id="_" obligation="normative">
@@ -196,8 +196,8 @@ RSpec.describe Metanorma::ITU do
         </sections>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "doesn't insert boilerplate before definitions with no internal & external terms clauses if already populated" do
@@ -215,7 +215,7 @@ RSpec.describe Metanorma::ITU do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id="_" obligation="normative">
+          <clause id="_" obligation="normative" type="terms">
             <title>Definitions</title>
             <p id="_">Boilerplate</p>
             <terms id="_" obligation="normative">
@@ -234,8 +234,8 @@ RSpec.describe Metanorma::ITU do
         </sections>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "inserts boilerplate before symbols" do
@@ -261,8 +261,8 @@ RSpec.describe Metanorma::ITU do
         </sections>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "does not insert boilerplate before symbols if already populated" do
@@ -288,8 +288,8 @@ RSpec.describe Metanorma::ITU do
         </sections>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "inserts empty clause boilerplate" do
@@ -317,7 +317,7 @@ RSpec.describe Metanorma::ITU do
         </bibliography>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to xmlpp(output)
+    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 end

@@ -30,11 +30,14 @@ module Metanorma
       ITULANG = { "en" => "E", "fr" => "F", "ar" => "A", "es" => "S",
                   "zh" => "C", "ru" => "R" }.freeze
 
-      def itu_id1(node, lang)
+      # delete
+      def itu_id1_x(node, lang)
         bureau = node.attr("bureau") || "T"
-        id = if doctype(node) == "service-publication"
-               @i18n.annex_to_itu_ob_abbrev.sub(/%/,
-                                                node.attr("docnumber"))
+        id = case @doctype
+             when "service-publication"
+               itu_service_pub_id(node)
+             when "contribution"
+               itu_contrib_id(node)
              else
                "ITU-#{bureau} #{node.attr('docnumber')}"
              end
@@ -44,7 +47,7 @@ module Metanorma
       def itu_id(node, xml)
         node.attr("docnumber") or return
         params = itu_id_params(node)
-        itu_id_out(xml, params)
+        itu_id_out(node, xml, params)
       end
 
       def compact_blank(hash)
@@ -57,7 +60,16 @@ module Metanorma
       end
 
       def itu_id_params(node)
-        itu_id_params_core(node).merge(itu_id_params_add(node))
+        itu_id_resolve(node, itu_id_params_core(node), itu_id_params_add(node))
+      end
+
+      def itu_id_resolve(node, core, add)
+        ret = core.merge(add)
+        if @doctype == "service-publication"
+          base = ret.merge(series: "OB")
+          ret = { type: :annex, base: base }
+        end
+        ret
       end
 
       def itu_id_params_core(node)
@@ -78,26 +90,58 @@ module Metanorma
         end
       end
 
+      # delete
+      def itu_service_pub_id_x(node)
+        @i18n.annex_to_itu_ob_abbrev.sub(/%/, node.attr("docnumber"))
+      end
+
+      def itu_contrib_id(node)
+        group = node.attr("group-acronym") ||
+          node.attr("group").sub("Study Group ", "SG")
+        "#{group}-C#{node.attr('docnumber')}"
+      end
+
+      # delete
+      def itu_id_x(node, xml)
+        node.attr("docnumber") || node.attr("docidentifier") or return
+        xml.docidentifier type: "ITU", primary: "true" do |i|
+          i << (node.attr("docidentifier") || itu_id1(node, false))
+        end
+        xml.docidentifier type: "ITU-lang" do |i|
+          i << itu_id1(node, true)
+        end
+      end
+
       def itu_id_params_add(node)
         ret = { part: node.attr("partnumber"),
                 language: node.attr("language") || "en" }
         compact_blank(ret)
       end
 
-      def itu_id_out(xml, params)
-        xml.docidentifier itu_id_default(params).to_s,
-                          **attr_code(type: "ITU")
-        xml.docidentifier itu_id_lang(params).to_s,
+      def itu_id_out(node, xml, params)
+        xml.docidentifier itu_id_default(node, params).to_s,
+                          **attr_code(type: "ITU", primary: "true")
+        xml.docidentifier itu_id_lang(node, params).to_s,
                           **attr_code(type: "ITU-lang")
       end
 
-      def itu_id_default(params)
+      def itu_id_default(node, params)
+        if @doctype == "contribution"
+          return itu_contrib_id(node)
+        end
+
         p = params.dup
         p.delete(:language)
+        p[:base] &&= itu_id_default(node, p[:base])
         Pubid::Itu::Identifier.create(**p)
       end
 
-      def itu_id_lang(params)
+      def itu_id_lang(node, params)
+        if @doctype == "contribution"
+          return itu_contrib_id(node) + "-#{ITULANG[@lang]}"
+        end
+
+        params[:base] &&= itu_id_lang(node, params[:base])
         Pubid::Itu::Identifier.create(**params)
       end
 

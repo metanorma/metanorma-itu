@@ -882,10 +882,13 @@ div.WordSection1
 	margin:54.45pt 54.45pt 54.45pt 54.45pt;
 	mso-header-margin:24.1pt;
 	mso-footer-margin:24.1pt;
-        {% if doctype == "Service Publication" %}
+        {% if doctype == "Service Publication" or doctype == "Contribution" %}
 	mso-page-numbers:1;
         {% else %}
 	mso-page-numbers:roman-lower 1;
+        {% endif %}
+        {% if doctype == "Contribution" %}
+        mso-title-page:yes;
         {% endif %}
 	mso-even-header:url("file:///C:/Doc/FILENAME_files/header.html") eh2;
 	mso-header:url("file:///C:/Doc/FILENAME_files/header.html") h2;

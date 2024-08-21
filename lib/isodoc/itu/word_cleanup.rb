@@ -4,9 +4,9 @@ module IsoDoc
       def word_preface_cleanup(docxml)
         docxml.xpath("//h1[@class = 'AbstractTitle'] | "\
                      "//h1[@class = 'IntroTitle']").each do |h2|
-          h2.name = "p"
-          h2["class"] = "h1Preface"
-        end
+                       h2.name = "p"
+                       h2["class"] = "h1Preface"
+                     end
       end
 
       def word_term_cleanup(docxml); end
@@ -32,11 +32,11 @@ module IsoDoc
 
       def word_title_cleanup(docxml)
         docxml.xpath("//p[@class = 'annex_obligation']").each do |h|
-          h&.next_element&.name == "p" or next
+          h.next_element&.name == "p" or next
           h.next_element["class"] ||= "Normalaftertitle"
         end
         docxml.xpath("//p[@class = 'FigureTitle']").each do |h|
-          h&.parent&.next_element&.name == "p" or next
+          h.parent&.next_element&.name == "p" or next
           h.parent.next_element["class"] ||= "Normalaftertitle"
         end
       end
@@ -68,23 +68,32 @@ module IsoDoc
       end
 
       def toWord(result, filename, dir, header)
-        result = populate_template(result, :word)
-        result = from_xhtml(word_cleanup(to_xhtml(result)))
-          .gsub(/-DOUBLE_HYPHEN_ESCAPE-/, "--")
-        unless @landscapestyle.nil? || @landscapestyle.empty?
-          @wordstylesheet&.open
-          @wordstylesheet&.write(@landscapestyle)
-          @wordstylesheet&.close
-        end
         Html2Doc.new(
-          filename: filename,
+          filename: filename, imagedir: @localdir,
           stylesheet: @wordstylesheet&.path,
           header_file: header&.path, dir: dir,
           asciimathdelims: [@openmathdelim, @closemathdelim],
           liststyles: { ul: @ulstyle, ol: @olstyle, steps: "l4" }
         ).process(result)
         header&.unlink
-        @wordstylesheet&.unlink
+        @wordstylesheet&.unlink if @wordstylesheet.is_a?(Tempfile)
+      end
+
+      def postprocess_cleanup(result)
+        result = from_xhtml(cleanup(to_xhtml(textcleanup(result))))
+        result = populate_template(result, :word)
+        result = from_xhtml(word_cleanup(to_xhtml(result)))
+          .gsub(/-DOUBLE_HYPHEN_ESCAPE-/, "--")
+      end
+
+      def wordstylesheet_update
+        super
+        unless @landscapestyle.nil? || @landscapestyle.empty?
+          @wordstylesheet&.open
+          @wordstylesheet&.write(@landscapestyle)
+          @wordstylesheet&.close
+        end
+        @wordstylesheet
       end
 
       def authority_hdr_cleanup(docxml)
@@ -103,8 +112,8 @@ module IsoDoc
 
       def authority_hdr_cleanup2(docxml)
         %w(copyright license legal).each do |t|
-          docxml&.xpath("//div[@class = 'boilerplate-#{t}']")&.each do |d|
-            para = d&.at("./descendant::h1[2]") and
+          docxml.xpath("//div[@class = 'boilerplate-#{t}']")&.each do |d|
+            para = d.at("./descendant::h1[2]") and
               para.previous = "<p>&#xa0;</p><p>&#xa0;</p><p>&#xa0;</p>"
             d.xpath(".//h1 | .//h2").each do |p|
               p.name = "p"

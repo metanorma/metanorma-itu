@@ -1,3 +1,11 @@
+questions: Question(s)
+studyperiod: Study Period %
+original: Original
+contact: Contact
+tel_abbrev: Tel.
+document_source: Source
+title: Title
+current_language: English
 termsdef: Definitions
 termsdefsymbolsabbrev: Definitions
 termsdefsymbols: Definitions
@@ -60,6 +68,9 @@ revision_abbreviation: Rev.
 tsb: TSB
 br: BR
 bdt: BDT
+tsb_short: Telecommunication Standardization Bureau
+br_short: Radiocommunication Bureau
+bdt_short: Telecommunication Development Bureau
 tsb_full: Telecommunication<br/>Standardization Bureau<br/>of ITU
 br_full: Radiocommunication Bureau<br/>of ITU
 bdt_full: Telecommunication<br/>Development Bureau<br/>of ITU
@@ -83,6 +94,7 @@ doctype_dict:
   technical-report: Technical Report
   joint-itu-iso-iec: Joint ITU/ISO/IEC
   service-publication: Service Publication
+  contribution: Contribution
 doctype_abbrev:
   recommendation: Rec.
   recommendation-supplement: Rec.
@@ -96,6 +108,7 @@ doctype_abbrev:
   technical-report: TR
   joint-itu-iso-iec: ITU/ISO/IEC
   service-publication: 
+  contribution: 
 inflection:
   editor:
     sg: editor

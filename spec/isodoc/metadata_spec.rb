@@ -8,7 +8,7 @@ logoloc = File.expand_path(
 RSpec.describe Metanorma::ITU do
   it "processes default metadata" do
     csdc = IsoDoc::ITU::HtmlConvert.new({})
-    docxml, = csdc.convert_init(<<~"INPUT", "test", true)
+    input = <<~INPUT
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
         <bibdata type="standard">
         <title language="en" format="text/plain" type="main">Main Title<br/>in multiple lines</title>
@@ -20,6 +20,8 @@ RSpec.describe Metanorma::ITU do
       <title language='fr' format='text/plain' type='amendment'>Titre de Amendment</title>
       <title language='en' format='text/plain' type='corrigendum'>Corrigendum Title</title>
       <title language='fr' format='text/plain' type='corrigendum'>Titre de Corrigendum</title>
+      <title language="en" format="text/plain" type="collection">Articles</title>
+      <title language="en" format="text/plain" type="slogan">Slogan</title>
         <docidentifier type="ITU-provisional">ABC</docidentifier>
         <docidentifier type="ITU-TemporaryDocument">SG1</docidentifier>
         <docidentifier type="ITU">ITU-R 1000</docidentifier>
@@ -75,6 +77,9 @@ RSpec.describe Metanorma::ITU do
         <ext>
         <doctype>directive</doctype>
             <editorialgroup>
+              <sector>Sector</sector>
+            </editorialgroup>
+            <editorialgroup>
             <bureau>R</bureau>
             <group type="A">
               <name>I</name>
@@ -128,12 +133,21 @@ RSpec.describe Metanorma::ITU do
               </period>
             </workgroup>
           </editorialgroup>
+           <question>
+               <identifier>Q10/17</identifier>
+               <name>Identity management and telebiometrics architecture and mechanisms</name>
+             </question>
+             <question>
+               <identifier>Q11/17</identifier>
+               <name>Generic technologies (such as Directory, PKI, formal languages, object identifiers) to support secure applications</name>
+             </question>
        <recommendationstatus>
         <from>D3</from>
         <to>E3</to>
         <approvalstage process="F3">G3</approvalstage>
       </recommendationstatus>
       <ip-notice-received>false</ip-notice-received>
+      <timing>Q4-2025</timing>
       <structuredidentifier>
       <bureau>R</bureau>
       <docnumber>1000</docnumber>
@@ -147,75 +161,173 @@ RSpec.describe Metanorma::ITU do
       <annex obligation="informative"/>
       </itu-standard>
     INPUT
+    output = <<~OUTPUT
+      {:accesseddate=>"XXX",
+      :adapteddate=>"XXX",
+      :agency=>"ITU",
+      :amendmentid=>"Amendment 2",
+      :amendmenttitle=>"Amendment Title",
+      :annexid=>"Appendix F1",
+      :annextitle=>"Annex Title",
+      :announceddate=>"XXX",
+      :approval_process=>"F3",
+      :bureau=>"R",
+      :bureau_full=>"Radiocommunication Bureau<br/>of ITU",
+      :circulateddate=>"XXX",
+      :collectiontitle=>"Articles",
+      :confirmeddate=>"XXX",
+      :copieddate=>"XXX",
+      :correcteddate=>"XXX",
+      :corrigendumid=>"Corrigendum 3",
+      :corrigendumtitle=>"Corrigendum Title",
+      :createddate=>"XXX",
+      :docnumber=>"ITU-R 1000",
+      :docnumber_lang=>"ITU-R 1000-E",
+      :docnumber_provisional=>"ABC",
+      :docnumber_td=>"SG1",
+      :docnumeric=>"1000",
+      :docsubtitle=>"Subtitle",
+      :doctitle=>"Main Title<br/>in multiple lines",
+      :doctitle_en=>"Main Title<br/>in multiple lines",
+      :doctype=>"Directive",
+      :doctype_display=>"Directive",
+      :doctype_original=>"directive",
+      :docyear=>"2001",
+      :draft=>"3.4",
+      :draft_new_doctype=>"Draft new Directive",
+      :draftinfo=>" (draft 3.4, 2000-01-01)",
+      :edition=>"2",
+      :group=>"I",
+      :group_acronym=>"C",
+      :implementeddate=>"XXX",
+      :ip_notice_received=>"false",
+      :issueddate=>"XXX",
+      :iteration=>"3",
+      :keywords=>["word1", "word2"],
+      :lang=>"en",
+      :logo_comb=>"#{File.join(logoloc, 'itu-document-comb.png')}",
+      :logo_html=>"#{File.join(logoloc, '/International_Telecommunication_Union_Logo.svg')}",
+      :logo_small=>"#{File.join(logoloc, '/logo-small.png')}",
+      :logo_sp=>"#{File.join(logoloc, '/logo-sp.png')}",
+      :logo_word=>"#{File.join(logoloc, 'International_Telecommunication_Union_Logo.svg')}",
+      :obsoleteddate=>"XXX",
+      :placedate_year=>"Geneva, 2018",
+      :pubdate_ddMMMyyyy=>"1.IX.2018",
+      :pubdate_monthyear=>"09/2018",
+      :publisheddate=>"XXX",
+      :publisher=>"International Telecommunication Union",
+      :questions=>"10/17, 11/17",
+      :receiveddate=>"XXX",
+      :revdate=>"2000-01-01",
+      :revdate_monthyear=>"01/2000",
+      :script=>"Latn",
+      :sector=>"Sector",
+      :series=>"A3",
+      :series1=>"B3",
+      :series2=>"C3",
+      :slogantitle=>"Slogan",
+      :stable_untildate=>"XXX",
+      :stage=>"Final Draft",
+      :stage_display=>"Final Draft",
+      :study_group_period=>"E&#x2013;G",
+      :subgroup=>"I1",
+      :timing=>"Q4-2025",
+      :transmitteddate=>"XXX",
+      :unchangeddate=>"XXX",
+      :unpublished=>false,
+      :updateddate=>"XXX",
+      :vote_endeddate=>"XXX",
+      :vote_starteddate=>"XXX",
+      :workgroup=>"I2"}
+    OUTPUT
+    docxml, = csdc.convert_init(input, "test", true)
     expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
-      .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
-        {:accesseddate=>"XXX",
-        :adapteddate=>"XXX",
-        :agency=>"ITU",
-        :amendmentid=>"Amendment 2",
-        :amendmenttitle=>"Amendment Title",
-        :annexid=>"Appendix F1",
-        :annextitle=>"Annex Title",
-        :announceddate=>"XXX",
-        :bureau=>"R",
-        :circulateddate=>"XXX",
-        :confirmeddate=>"XXX",
-        :copieddate=>"XXX",
-        :correcteddate=>"XXX",
-        :corrigendumid=>"Corrigendum 3",
-        :corrigendumtitle=>"Corrigendum Title",
-        :createddate=>"XXX",
-        :docnumber=>"ITU-R 1000",
-        :docnumber_lang=>"ITU-R 1000-E",
-        :docnumber_provisional=>"ABC",
-        :docnumber_td=>"SG1",
-        :docnumeric=>"1000",
-        :docsubtitle=>"Subtitle",
-        :doctitle=>"Main Title<br/>in multiple lines",
-        :doctype=>"Directive",
-        :doctype_display=>"Directive",
-        :doctype_original=>"directive",
-        :docyear=>"2001",
-        :draft=>"3.4",
-        :draft_new_doctype=>"Draft new Directive",
-        :draftinfo=>" (draft 3.4, 2000-01-01)",
-        :edition=>"2",
-        :group=>"I",
-        :implementeddate=>"XXX",
-        :ip_notice_received=>"false",
-        :issueddate=>"XXX",
-        :iteration=>"3",
-        :keywords=>["word1", "word2"],
-        :lang=>"en",
-        :logo_comb=>"#{File.join(logoloc, 'itu-document-comb.png')}",
-        :logo_html=>"#{File.join(logoloc, '/International_Telecommunication_Union_Logo.svg')}",
-        :logo_sp=>"#{File.join(logoloc, '/logo-sp.png')}",
-        :logo_word=>"#{File.join(logoloc, 'International_Telecommunication_Union_Logo.svg')}",
-        :obsoleteddate=>"XXX",
-        :placedate_year=>"Geneva, 2018",
-        :pubdate_ddMMMyyyy=>"1.IX.2018",
-        :pubdate_monthyear=>"09/2018",
-        :publisheddate=>"XXX",
-        :publisher=>"International Telecommunication Union",
-        :receiveddate=>"XXX",
-        :revdate=>"2000-01-01",
-        :revdate_monthyear=>"01/2000",
-        :script=>"Latn",
-        :series=>"A3",
-        :series1=>"B3",
-        :series2=>"C3",
-        :stable_untildate=>"XXX",
-        :stage=>"Final Draft",
-        :stage_display=>"Final Draft",
-        :subgroup=>"I1",
-        :transmitteddate=>"XXX",
-        :unchangeddate=>"XXX",
-        :unpublished=>false,
-        :updateddate=>"XXX",
-        :vote_endeddate=>"XXX",
-        :vote_starteddate=>"XXX",
-        :workgroup=>"I2"}
-      OUTPUT
+      .gsub(/, :/, ",\n:"))).to be_equivalent_to output
+
+    output = <<~OUTPUT
+      {:accesseddate=>"XXX",
+      :adapteddate=>"XXX",
+      :agency=>"ITU",
+      :amendmentid=>"Amendement 2",
+      :amendmenttitle=>"Titre de Amendment",
+      :annexid=>"Appendice F1",
+      :annextitle=>"Annex Title",
+      :announceddate=>"XXX",
+      :approval_process=>"F3",
+      :bureau=>"R",
+      :bureau_full=>"Bureau des radiocommunications<br/>de l&#x2019;UIT",
+      :circulateddate=>"XXX",
+      :collectiontitle=>"Articles",
+      :confirmeddate=>"XXX",
+      :copieddate=>"XXX",
+      :correcteddate=>"XXX",
+      :corrigendumid=>"Rectificatif 3",
+      :corrigendumtitle=>"Titre de Corrigendum",
+      :createddate=>"XXX",
+      :docnumber=>"ITU-R 1000",
+      :docnumber_lang=>"ITU-R 1000-E",
+      :docnumber_provisional=>"ABC",
+      :docnumber_td=>"SG1",
+      :docnumeric=>"1000",
+      :docsubtitle=>"Soustitre",
+      :doctitle=>"Titre Principal",
+      :doctitle_en=>"Main Title<br/>in multiple lines",
+      :doctype=>"Directive",
+      :doctype_display=>"Directive",
+      :doctype_original=>"directive",
+      :docyear=>"2001",
+      :draft=>"3.4",
+      :draft_new_doctype=>"Projet de nouvelle Directive",
+      :draftinfo=>" (brouillon 3.4, 2000-01-01)",
+      :edition=>"2",
+      :group=>"I",
+      :group_acronym=>"C",
+      :implementeddate=>"XXX",
+      :ip_notice_received=>"false",
+      :issueddate=>"XXX",
+      :iteration=>"3",
+      :keywords=>["word1", "word2"],
+      :lang=>"fr",
+      :logo_comb=>"#{File.join(logoloc, 'itu-document-comb.png')}",
+      :logo_html=>"#{File.join(logoloc, '/International_Telecommunication_Union_Logo.svg')}",
+      :logo_small=>"#{File.join(logoloc, '/logo-small.png')}",
+      :logo_sp=>"#{File.join(logoloc, '/logo-sp.png')}",
+      :logo_word=>"#{File.join(logoloc, 'International_Telecommunication_Union_Logo.svg')}",
+      :obsoleteddate=>"XXX",
+      :placedate_year=>"Gen&#xe8;ve, 2018",
+      :pubdate_ddMMMyyyy=>"1.IX.2018",
+      :pubdate_monthyear=>"09/2018",
+      :publisheddate=>"XXX",
+      :publisher=>"International Telecommunication Union",
+      :questions=>"10/17, 11/17",
+      :receiveddate=>"XXX",
+      :revdate=>"2000-01-01",
+      :revdate_monthyear=>"01/2000",
+      :script=>"Latn",
+      :sector=>"Sector",
+      :series=>"A3",
+      :series1=>"B3",
+      :series2=>"C3",
+      :slogantitle=>"Slogan",
+      :stable_untildate=>"XXX",
+      :stage=>"Final Draft",
+      :stage_display=>"Final Draft",
+      :study_group_period=>"E&#x2013;G",
+      :subgroup=>"I1",
+      :timing=>"Q4-2025",
+      :transmitteddate=>"XXX",
+      :unchangeddate=>"XXX",
+      :unpublished=>false,
+      :updateddate=>"XXX",
+      :vote_endeddate=>"XXX",
+      :vote_starteddate=>"XXX",
+      :workgroup=>"I2"}
+    OUTPUT
+
+    docxml, = csdc.convert_init(input
+      .sub("<language>en</language>", "<language>fr</language>"), "test", true)
+    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
+      .gsub(/, :/, ",\n:"))).to be_equivalent_to output
   end
 
   it "processes default metadata for technical report" do
@@ -352,6 +464,7 @@ RSpec.describe Metanorma::ITU do
         :authors=>["Fred Flintstone", "Barney Rubble"],
         :authors_affiliations=>{"Bedrock Quarry, Canada"=>["Fred Flintstone"], "Bedrock Quarry 2, USA"=>["Barney Rubble"]},
         :bureau=>"R",
+        :bureau_full=>"Radiocommunication Bureau<br/>of ITU",
         :circulateddate=>"XXX",
         :confirmeddate=>"XXX",
         :copieddate=>"XXX",
@@ -361,6 +474,7 @@ RSpec.describe Metanorma::ITU do
         :docnumeric=>"1000",
         :docsubtitle=>"Subtitle",
         :doctitle=>"Main Title",
+        :doctitle_en=>"Main Title",
         :doctype=>"Technical Report",
         :doctype_abbreviated=>"TR",
         :doctype_display=>"Technical Report",
@@ -381,6 +495,7 @@ RSpec.describe Metanorma::ITU do
         :lang=>"en",
         :logo_comb=>"#{File.join(logoloc, 'itu-document-comb.png')}",
         :logo_html=>"#{File.join(logoloc, '/International_Telecommunication_Union_Logo.svg')}",
+        :logo_small=>"#{File.join(logoloc, '/logo-small.png')}",
         :logo_sp=>"#{File.join(logoloc, '/logo-sp.png')}",
         :logo_word=>"#{File.join(logoloc, 'International_Telecommunication_Union_Logo.svg')}",
         :meeting=>"Meeting X",
@@ -477,6 +592,7 @@ RSpec.describe Metanorma::ITU do
         :agency=>"International Telecommunication Union",
         :announceddate=>"XXX",
         :bureau=>"R",
+        :bureau_full=>"Radiocommunication Bureau<br/>of ITU",
         :circulateddate=>"XXX",
         :confirmeddate=>"XXX",
         :copieddate=>"XXX",
@@ -486,6 +602,7 @@ RSpec.describe Metanorma::ITU do
         :docnumeric=>"1000",
         :docsubtitle=>"Subtitle",
         :doctitle=>"Main Title",
+        :doctitle_en=>"Main Title",
         :doctype=>"Resolution",
         :doctype_display=>"Resolution",
         :doctype_original=>"resolution",
@@ -501,6 +618,7 @@ RSpec.describe Metanorma::ITU do
         :lang=>"en",
         :logo_comb=>"#{File.join(logoloc, 'itu-document-comb.png')}",
         :logo_html=>"#{File.join(logoloc, '/International_Telecommunication_Union_Logo.svg')}",
+        :logo_small=>"#{File.join(logoloc, '/logo-small.png')}",
         :logo_sp=>"#{File.join(logoloc, '/logo-sp.png')}",
         :logo_word=>"#{File.join(logoloc, 'International_Telecommunication_Union_Logo.svg')}",
         :meeting=>"Meeting X",
@@ -590,6 +708,7 @@ RSpec.describe Metanorma::ITU do
         :agency=>"International Telecommunication Union",
         :announceddate=>"XXX",
         :bureau=>"R",
+        :bureau_full=>"Radiocommunication Bureau<br/>of ITU",
         :circulateddate=>"XXX",
         :confirmeddate=>"XXX",
         :copieddate=>"XXX",
@@ -599,6 +718,7 @@ RSpec.describe Metanorma::ITU do
         :docnumeric=>"1000",
         :docsubtitle=>"Subtitle",
         :doctitle=>"Main Title",
+        :doctitle_en=>"Main Title",
         :doctype=>"Resolution",
         :doctype_display=>"Resolution",
         :doctype_original=>"resolution",
@@ -614,6 +734,7 @@ RSpec.describe Metanorma::ITU do
         :lang=>"en",
         :logo_comb=>"#{File.join(logoloc, 'itu-document-comb.png')}",
         :logo_html=>"#{File.join(logoloc, '/International_Telecommunication_Union_Logo.svg')}",
+        :logo_small=>"#{File.join(logoloc, '/logo-small.png')}",
         :logo_sp=>"#{File.join(logoloc, '/logo-sp.png')}",
         :logo_word=>"#{File.join(logoloc, 'International_Telecommunication_Union_Logo.svg')}",
         :meeting=>"Meeting X",
@@ -703,6 +824,7 @@ RSpec.describe Metanorma::ITU do
         :agency=>"International Telecommunication Union",
         :announceddate=>"XXX",
         :bureau=>"R",
+        :bureau_full=>"Radiocommunication Bureau<br/>of ITU",
         :circulateddate=>"XXX",
         :confirmeddate=>"XXX",
         :copieddate=>"XXX",
@@ -712,6 +834,7 @@ RSpec.describe Metanorma::ITU do
         :docnumeric=>"1000",
         :docsubtitle=>"Subtitle",
         :doctitle=>"Main Title",
+        :doctitle_en=>"Main Title",
         :doctype=>"Resolution",
         :doctype_display=>"Resolution",
         :doctype_original=>"resolution",
@@ -727,6 +850,7 @@ RSpec.describe Metanorma::ITU do
         :lang=>"en",
         :logo_comb=>"#{File.join(logoloc, 'itu-document-comb.png')}",
         :logo_html=>"#{File.join(logoloc, '/International_Telecommunication_Union_Logo.svg')}",
+        :logo_small=>"#{File.join(logoloc, '/logo-small.png')}",
         :logo_sp=>"#{File.join(logoloc, '/logo-sp.png')}",
         :logo_word=>"#{File.join(logoloc, 'International_Telecommunication_Union_Logo.svg')}",
         :meeting=>"Meeting X",
@@ -816,6 +940,7 @@ RSpec.describe Metanorma::ITU do
         :agency=>"International Telecommunication Union",
         :announceddate=>"XXX",
         :bureau=>"R",
+        :bureau_full=>"Radiocommunication Bureau<br/>of ITU",
         :circulateddate=>"XXX",
         :confirmeddate=>"XXX",
         :copieddate=>"XXX",
@@ -825,6 +950,7 @@ RSpec.describe Metanorma::ITU do
         :docnumeric=>"1000",
         :docsubtitle=>"Subtitle",
         :doctitle=>"Main Title",
+        :doctitle_en=>"Main Title",
         :doctype=>"Resolution",
         :doctype_display=>"Resolution",
         :doctype_original=>"resolution",
@@ -840,6 +966,7 @@ RSpec.describe Metanorma::ITU do
         :lang=>"en",
         :logo_comb=>"#{File.join(logoloc, 'itu-document-comb.png')}",
         :logo_html=>"#{File.join(logoloc, '/International_Telecommunication_Union_Logo.svg')}",
+        :logo_small=>"#{File.join(logoloc, '/logo-small.png')}",
         :logo_sp=>"#{File.join(logoloc, '/logo-sp.png')}",
         :logo_word=>"#{File.join(logoloc, 'International_Telecommunication_Union_Logo.svg')}",
         :meeting=>"Meeting X",
@@ -1001,6 +1128,7 @@ RSpec.describe Metanorma::ITU do
         :authors=>["Fred Flintstone", "Barney Rubble"],
         :authors_affiliations=>{"Bedrock Quarry, Canada"=>["Fred Flintstone"], "Bedrock Quarry 2, USA"=>["Barney Rubble"]},
         :bureau=>"R",
+        :bureau_full=>"Radiocommunication Bureau<br/>of ITU",
         :circulateddate=>"XXX",
         :confirmeddate=>"XXX",
         :copieddate=>"XXX",
@@ -1010,6 +1138,7 @@ RSpec.describe Metanorma::ITU do
         :docnumeric=>"1000",
         :docsubtitle=>"Subtitle",
         :doctitle=>"Main Title",
+        :doctitle_en=>"Main Title",
         :doctype=>"Technical Report",
         :doctype_abbreviated=>"TR",
         :doctype_display=>"Technical Report",
@@ -1030,6 +1159,7 @@ RSpec.describe Metanorma::ITU do
         :lang=>"en",
         :logo_comb=>"#{File.join(logoloc, 'itu-document-comb.png')}",
         :logo_html=>"#{File.join(logoloc, '/International_Telecommunication_Union_Logo.svg')}",
+        :logo_small=>"#{File.join(logoloc, '/logo-small.png')}",
         :logo_sp=>"#{File.join(logoloc, '/logo-sp.png')}",
         :logo_word=>"#{File.join(logoloc, 'International_Telecommunication_Union_Logo.svg')}",
         :meeting=>"Meeting X",
@@ -1115,6 +1245,7 @@ RSpec.describe Metanorma::ITU do
         :docnumber=>"ITU-R 1000",
         :docnumeric=>"1000",
         :doctitle=>"Main Title",
+        :doctitle_en=>"Main Title",
         :doctype=>"Recommendation",
         :doctype_abbreviated=>"Rec.",
         :doctype_display=>"Recommendation",
@@ -1126,6 +1257,7 @@ RSpec.describe Metanorma::ITU do
         :lang=>"en",
         :logo_comb=>"#{File.join(logoloc, 'itu-document-comb.png')}",
         :logo_html=>"#{File.join(logoloc, '/International_Telecommunication_Union_Logo.svg')}",
+        :logo_small=>"#{File.join(logoloc, '/logo-small.png')}",
         :logo_sp=>"#{File.join(logoloc, '/logo-sp.png')}",
         :logo_word=>"#{File.join(logoloc, 'International_Telecommunication_Union_Logo.svg')}",
         :obsoleteddate=>"XXX",
@@ -1170,10 +1302,10 @@ RSpec.describe Metanorma::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "localises dates in Arabic" do
@@ -1200,10 +1332,10 @@ RSpec.describe Metanorma::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "localises dates in Chinese" do
@@ -1232,9 +1364,9 @@ RSpec.describe Metanorma::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 end

@@ -23,11 +23,139 @@ RSpec.describe Metanorma::ITU do
              </div>
            </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
+  end
+
+  it "processes dl" do
+    input = <<~INPUT
+      <itu-standard xmlns="https://www.calconnect.org/standards/itu">
+      <preface>
+      <foreword>
+      <dl id="A"><name>Deflist</name>
+      <dt>A</dt><dd>B</dd>
+      <dt>C</dt><dd>D</dd>
+      <note>hien?</note>
+      </dl>
+      </foreword></preface>
+      </itu-standard>
+    INPUT
+    presxml = <<~OUTPUT
+      <itu-standard xmlns="https://www.calconnect.org/standards/itu" type="presentation">
+         <preface>
+           <clause type="toc" id="_" displayorder="1">
+             <title depth="1">Table of Contents</title>
+           </clause>
+           <foreword displayorder="2">
+             <dl id="A">
+               <name>Deflist</name>
+               <colgroup>
+                 <col width="20%"/>
+                 <col width="80%"/>
+               </colgroup>
+               <dt>A</dt>
+               <dd>B</dd>
+               <dt>C</dt>
+               <dd>D</dd>
+               <note><name>NOTE</name>hien?</note>
+             </dl>
+           </foreword>
+         </preface>
+       </itu-standard>
+    OUTPUT
+    html = <<~OUTPUT
+       #{HTML_HDR}
+              <div>
+            <h1 class="IntroTitle"/>
+            <p class="TableTitle" style="text-align:center;">Deflist</p>
+            <table id="A" class="dl" style="table-layout:fixed;">
+              <colgroup>
+                <col style="width: 20%;"/>
+                <col style="width: 80%;"/>
+              </colgroup>
+              <tbody>
+                <tr>
+                  <th style="font-weight:bold;" scope="row">A</th>
+                  <td style="">B</td>
+                </tr>
+                <tr>
+                  <th style="font-weight:bold;" scope="row">C</th>
+                  <td style="">D</td>
+                </tr>
+              </tbody>
+              <div class="Note"><p><span class="note_label">NOTE</span></p>hien?</div>
+            </table>
+          </div>
+        </div>
+      </body>
+    OUTPUT
+    doc = <<~OUTPUT
+      <body lang="EN-US" link="blue" vlink="#954F72">
+         <div class="WordSection1">
+           <p> </p>
+         </div>
+         <p class="section-break">
+           <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection2">
+           <p class="page-break">
+             <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+           </p>
+           <div id="_" class="TOC">
+             <p class="zzContents">Table of Contents</p>
+             <p style="tab-stops:right 17.0cm">
+               <span style="mso-tab-count:1">  </span>
+               <b>Page</b>
+             </p>
+           </div>
+           <div>
+             <h1 class="IntroTitle"/>
+             <p class="TableTitle" style="text-align:center;">Deflist</p>
+             <div align="center" class="table_container">
+               <table id="A" class="dl" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;">
+                 <colgroup>
+                   <col width="20%"/>
+                   <col width="80%"/>
+                 </colgroup>
+                 <tbody>
+                   <tr>
+                     <th valign="top" style="font-weight:bold;page-break-after:avoid;">A</th>
+                     <td valign="top" style="page-break-after:avoid;">B</td>
+                   </tr>
+                   <tr>
+                     <th valign="top" style="font-weight:bold;page-break-after:auto;">C</th>
+                     <td valign="top" style="page-break-after:auto;">D</td>
+                   </tr>
+                 </tbody>
+                 <div class="Note"><p><span class="note_label">NOTE</span></p>hien?</div>
+               </table>
+             </div>
+           </div>
+           <p> </p>
+         </div>
+         <p class="section-break">
+           <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection3"/>
+       </body>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true))))
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
+      .convert("test", presxml, true)
+      .gsub(%r{^.*<body}m, "<body")
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_equivalent_to Xml::C14n.format(html)
+    expect(Xml::C14n.format(IsoDoc::ITU::WordConvert.new({})
+      .convert("test", presxml, true)
+      .gsub(%r{^.*<body}m, "<body")
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_equivalent_to Xml::C14n.format(doc)
   end
 
   it "processes formulae" do
@@ -148,70 +276,71 @@ RSpec.describe Metanorma::ITU do
          </div>
        </div>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
-      .convert("test", input, true)))).to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)))).to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::ITU::WordConvert.new({})
       .convert("test", presxml, true)
       .gsub(/.*<h1 class="IntroTitle"\/>/m, "<div>")
       .sub(/<p>&#160;<\/p>.*$/m, "")))
-      .to be_equivalent_to xmlpp(word)
+      .to be_equivalent_to Xml::C14n.format(word)
   end
 
   it "processes tables (Word)" do
     input = <<~INPUT
-          <iso-standard xmlns="http://riboseinc.com/isoxml">
-          <preface><foreword  displayorder="1">
-          <table id="tableD-1" alt="tool tip" summary="long desc">
-        <name>Table 1&#xA0;&#x2014; Repeatability and reproducibility of <em>husked</em> rice yield</name>
-        <thead>
-          <tr>
-            <td rowspan="2" align="left">Description</td>
-            <td colspan="4" align="center">Rice sample</td>
-          </tr>
-          <tr>
-            <td align="left">Arborio</td>
-            <td align="center">Drago<fn reference="a">
-        <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
-      </fn></td>
-            <td align="center">Balilla<fn reference="a">
-        <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
-      </fn></td>
-            <td align="center">Thaibonnet</td>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <th align="left">Number of laboratories retained after eliminating outliers</td>
-            <td align="center">13</td>
-            <td align="center">11</td>
-            <td align="center">13</td>
-            <td align="center">13</td>
-          </tr>
-          <tr>
-            <td align="left">Mean value, g/100 g</td>
-            <td align="center">81,2</td>
-            <td align="center">82,0</td>
-            <td align="center">81,8</td>
-            <td align="center">77,7</td>
-          </tr>
-          </tbody>
-          <tfoot>
-          <tr>
-            <td align="left">Reproducibility limit, <stem type="AsciiMath">R</stem> (= 2,83 <stem type="AsciiMath">s_R</stem>)</td>
-            <td align="center">2,89</td>
-            <td align="center">0,57</td>
-            <td align="center">2,26</td>
-            <td align="center">6,06</td>
-          </tr>
-        </tfoot>
-               <dl>
-       <dt>Drago</dt>
-     <dd>A type of rice</dd>
-     </dl>
-      <note><name>NOTE</name><p>This is a table about rice</p></note>
-      </table>
-          </foreword></preface>
-          </iso-standard>
+      <iso-standard xmlns="http://riboseinc.com/isoxml">
+           <preface><foreword  displayorder="1">
+           <table id="tableD-1" alt="tool tip" summary="long desc">
+         <name>Table 1&#xA0;&#x2014; Repeatability and reproducibility of <em>husked</em> rice yield</name>
+         <thead>
+           <tr>
+             <td rowspan="2" align="left">Description</td>
+             <td colspan="4" align="center">Rice sample</td>
+           </tr>
+           <tr>
+             <td align="left">Arborio</td>
+             <td align="center">Drago<fn reference="a">
+         <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+       </fn></td>
+             <td align="center">Balilla<fn reference="a">
+         <p id="_0fe65e9a-5531-408e-8295-eeff35f41a55">Parboiled rice.</p>
+       </fn></td>
+             <td align="center">Thaibonnet</td>
+           </tr>
+           </thead>
+           <tbody>
+           <tr>
+             <th align="left">Number of laboratories retained after eliminating outliers</td>
+             <td align="center">13</td>
+             <td align="center">11</td>
+             <td align="center">13</td>
+             <td align="center">13</td>
+           </tr>
+           <tr>
+             <td align="left">Mean value, g/100 g</td>
+             <td align="center">81,2</td>
+             <td align="center">82,0</td>
+             <td align="center">81,8</td>
+             <td align="center">77,7</td>
+           </tr>
+           </tbody>
+           <tfoot>
+           <tr>
+             <td align="left">Reproducibility limit, <stem type="AsciiMath">R</stem> (= 2,83 <stem type="AsciiMath">s_R</stem>)</td>
+             <td align="center">2,89</td>
+             <td align="center">0,57</td>
+             <td align="center">2,26</td>
+             <td align="center">6,06</td>
+           </tr>
+         </tfoot>
+                <dl>
+        <dt>Drago</dt>
+      <dd>A type of rice</dd>
+      </dl>
+       <note><name>NOTE</name><p>This is a table about rice</p></note>
+       </table>
+           </foreword></preface>
+           </iso-standard>
     INPUT
     output = <<~OUTPUT
           <div>
@@ -255,7 +384,9 @@ RSpec.describe Metanorma::ITU do
                 <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">6,06</td>
               </tr>
             </tfoot>
+            <div class="figdl">
             <p style="text-indent: -2.0cm; margin-left: 2.0cm; tab-stops: 2.0cm;">Drago<span style="mso-tab-count:1">  </span>A type of rice</p>
+            </div>
             <div class="Note">
               <p><span class="note_label">NOTE – </span>This is a table about rice</p>
             </div>
@@ -263,11 +394,11 @@ RSpec.describe Metanorma::ITU do
         </div>
       </div>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::ITU::WordConvert.new({})
       .convert("test", input, true)
       .gsub(/.*<h1 class="IntroTitle"\/>/m, "<div>")
       .sub(/<p>&#160;<\/p>.*$/m, "")))
-      .to be_equivalent_to xmlpp(output)
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "processes steps class of ordered lists" do
@@ -330,25 +461,31 @@ RSpec.describe Metanorma::ITU do
       #{HTML_HDR}
             <div>
               <h1 class="IntroTitle"/>
+               <div class="ol_wrap">
                            <ol type="1" id="_">
                <li id="_">
                  <p id="_">all information necessary for the complete identification of the sample;</p>
                </li>
                <li id="_">
+                <div class="ol_wrap">
                  <ol type="a" id="A">
                    <li id="_">
                      <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
                    </li>
                    <li id="_">
+                    <div class="ol_wrap">
                      <ol type="i" id="B">
                        <li id="_">
                          <p id="_">the sampling method used;</p>
                        </li>
                      </ol>
+                     </div>
                    </li>
                  </ol>
+                 </div>
                </li>
              </ol>
+             </div>
            </div>
          </div>
        </body>
@@ -374,50 +511,153 @@ RSpec.describe Metanorma::ITU do
            </div>
            <div>
              <h1 class="IntroTitle"/>
-             <ol class="steps" id="_">
-               <li id="_">
-                 <p id="_">all information necessary for the complete identification of the sample;</p>
-               </li>
-               <li id="_">
-                 <ol id="A">
-                   <li id="_">
-                     <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
-                   </li>
-                   <li id="_">
-                     <ol id="B">
+             <div class="ol_wrap">
+               <ol class="steps" id="_">
+                 <li id="_">
+                   <p id="_">all information necessary for the complete identification of the sample;</p>
+                 </li>
+                 <li id="_">
+                   <div class="ol_wrap">
+                     <ol id="A">
                        <li id="_">
-                         <p id="_">the sampling method used;</p>
+                         <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
+                       </li>
+                       <li id="_">
+                         <div class="ol_wrap">
+                           <ol id="B">
+                             <li id="_">
+                               <p id="_">the sampling method used;</p>
+                             </li>
+                           </ol>
+                         </div>
                        </li>
                      </ol>
-                   </li>
-                 </ol>
-               </li>
-             </ol>
+                   </div>
+                 </li>
+               </ol>
+             </div>
            </div>
            <p> </p>
          </div>
          <p class="section-break">
            <br clear="all" class="section"/>
          </p>
-         <div class="WordSection3">
-         </div>
+         <div class="WordSection3"/>
        </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(html)
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(html)
+    expect(Xml::C14n.format(IsoDoc::ITU::WordConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(doc)
+      .to be_equivalent_to Xml::C14n.format(doc)
+  end
+
+  it "capitalises table titles" do
+    input = <<~INPUT
+          <iso-standard xmlns="http://riboseinc.com/isoxml">
+          <preface><foreword>
+          <table><name>title title</name>
+          <thead>
+          <tr><th>title title1</th><th>title Title2</th><td>title title3</td></tr>
+          </thead>
+          <tbody>
+          <tr><th>title title4</th><th>title title5</th><td>title title6</td></tr>
+          </tbody>
+          </table>
+      </foreword></preface>
+      </iso-standard>
+    INPUT
+    presxml = <<~OUTPUT
+      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+         <preface>
+           <clause type="toc" id="_" displayorder="1">
+             <title depth="1">Table of Contents</title>
+           </clause>
+           <foreword displayorder="2">
+             <table>
+               <name>Table — Title title</name>
+               <thead>
+                 <tr>
+                   <th>Title title1</th>
+                   <th>Title Title2</th>
+                   <td>title title3</td>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr>
+                   <th>title title4</th>
+                   <th>title title5</th>
+                   <td>title title6</td>
+                 </tr>
+               </tbody>
+             </table>
+           </foreword>
+         </preface>
+       </iso-standard>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to Xml::C14n.format(presxml)
+
+    input = <<~INPUT
+          <iso-standard xmlns="http://riboseinc.com/isoxml">
+          <preface><foreword>
+          <table><name><span style="text-transform:none">title</span> title</name>
+          <thead>
+          <tr><th><span style="text-transform:none">title</span> title1</th><th><em><span style="text-transform:none">ti</span>tle</em> title2</th><td>title title3</td></tr>
+          </thead>
+          <tbody>
+          <tr><th>title title4</th><th>title title5</th><td>title title6</td></tr>
+          </tbody>
+          </table>
+      </foreword></preface>
+      </iso-standard>
+    INPUT
+    presxml = <<~OUTPUT
+      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+         <preface>
+           <clause type="toc" id="_" displayorder="1">
+             <title depth="1">Table of Contents</title>
+           </clause>
+           <foreword displayorder="2">
+             <table>
+               <name>Table — <span style="text-transform:none">title</span> title</name>
+               <thead>
+                 <tr>
+                   <th><span style="text-transform:none">title</span> title1</th>
+                   <th><em><span style="text-transform:none">ti</span>tle</em> title2</th>
+                   <td>title title3</td>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr>
+                   <th>title title4</th>
+                   <th>title title5</th>
+                   <td>title title6</td>
+                 </tr>
+               </tbody>
+             </table>
+           </foreword>
+         </preface>
+       </iso-standard>
+    OUTPUT
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to Xml::C14n.format(presxml)
   end
 
   it "post-processes steps class of ordered lists (Word)" do
@@ -448,12 +688,16 @@ RSpec.describe Metanorma::ITU do
     html = File.read("test.doc")
       .sub(/^.*<div>\s*<p class="h1Preface">/m, '<div><p class="h1Preface">')
       .sub(%r{</div>.*$}m, "</div>")
-    expect(xmlpp(html)).to be_equivalent_to xmlpp(<<~OUTPUT)
+    expect(Xml::C14n.format(html)).to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
           <div>
         <p class='h1Preface'/>
+        <div class="ol_wrap">
         <p style='mso-list:l4 level1 lfo1;' class='MsoListParagraphCxSpFirst'> all information necessary for the complete identification of the sample; </p>
+        <div class="ol_wrap">
         <p style='mso-list:l4 level1 lfo2;' class='MsoListParagraphCxSpFirst'> a reference to this document (i.e. ISO 17301-1); </p>
+        <div class="ol_wrap">
         <p style='mso-list:l4 level1 lfo3;;mso-list:l4 level1 lfo4;' class='MsoListParagraphCxSpFirst'> the sampling method used; </p>
+        </div></div></div>
       </div>
     OUTPUT
   end
@@ -521,16 +765,16 @@ RSpec.describe Metanorma::ITU do
            </div>
          </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(html)
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(html)
+    expect(Xml::C14n.format(IsoDoc::ITU::WordConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(doc)
+      .to be_equivalent_to Xml::C14n.format(doc)
   end
 
   it "processes sequences of notes" do
@@ -625,15 +869,15 @@ RSpec.describe Metanorma::ITU do
                </div>
              </body>
     OUTPUT
-    expect(xmlpp(IsoDoc::ITU::HtmlConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(html)
-    expect(xmlpp(IsoDoc::ITU::WordConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(html)
+    expect(Xml::C14n.format(IsoDoc::ITU::WordConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to xmlpp(doc)
+      .to be_equivalent_to Xml::C14n.format(doc)
   end
 end

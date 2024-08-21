@@ -18,11 +18,6 @@ module Metanorma
         nil
       end
 
-      def initialize(backend, opts)
-        require "debug"; binding.b
-        super
-      end
-
       def init(node)
         super
         @smartquotes = node.attr("smartquotes") == "true"
@@ -40,10 +35,9 @@ module Metanorma
         super
       end
 
-      def doctype(node)
-        ret = node.attr("doctype")&.gsub(/\s+/, "-")&.downcase || "recommendation"
-        ret = "recommendation" if ret == "article"
-        ret
+      def init_misc(node)
+        super
+        @default_doctype = "recommendation"
       end
 
       def olist(node)
@@ -53,7 +47,7 @@ module Metanorma
             list_caption(node, xml_ol)
             node.items.each { |item| li(xml_ol, item) }
           end
-        end.join("\n")
+        end
       end
 
       def outputs(node, ret)
@@ -92,7 +86,7 @@ module Metanorma
 
       def sectiontype(node, level = true)
         ret = super
-        hdr = sectiontype_streamline(node&.attr("heading")&.downcase)
+        hdr = sectiontype_streamline(node.attr("heading")&.downcase)
         return nil if ret == "terms and definitions" &&
           hdr != "terms and definitions" && node.level > 1
         return nil if ret == "symbols and abbreviated terms" &&
@@ -125,12 +119,14 @@ module Metanorma
         node.option?("unnumbered") and attrs[:unnumbered] = true
         case sectiontype1(node)
         when "conventions" then attrs = attrs.merge(type: "conventions")
-        when "history"
-          attrs[:preface] and attrs = attrs.merge(type: "history")
-        when "source"
-          attrs[:preface] and attrs = attrs.merge(type: "source")
+        when "history", "source"
+          attrs[:preface] and attrs = attrs.merge(type: sectiontype1(node))
         end
         super
+      end
+
+      def document_scheme(node)
+        super || "current"
       end
 
       def html_extract_attributes(node)
@@ -146,7 +142,8 @@ module Metanorma
       def presentation_xml_converter(node)
         IsoDoc::ITU::PresentationXMLConvert
           .new(html_extract_attributes(node)
-          .merge(output_formats: ::Metanorma::ITU::Processor.new.output_formats))
+          .merge(output_formats: ::Metanorma::ITU::Processor.new
+          .output_formats))
       end
 
       def html_converter(node)

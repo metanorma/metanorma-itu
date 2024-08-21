@@ -53,10 +53,14 @@ RSpec.describe Metanorma::ITU do
        </term>
        </terms>
        <definitions id="L" displayorder="12"><title>4.</title>
-         <dl>
-         <dt>Symbol</dt>
-         <dd>Definition</dd>
-         </dl>
+             <dl>
+        <colgroup>
+          <col width="20%"/>
+          <col width="80%"/>
+        </colgroup>
+        <dt>Symbol</dt>
+        <dd>Definition</dd>
+      </dl>
        </definitions>
        <clause id="M" inline-header="false" obligation="normative" displayorder="13">
         <title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
@@ -131,12 +135,18 @@ RSpec.describe Metanorma::ITU do
                    </div>
                      <div id="L" class="Symbols">
                        <h1>4.</h1>
-                       <dl>
-                         <dt>
-                           <p>Symbol</p>
-                         </dt>
-                         <dd>Definition</dd>
-                       </dl>
+                             <table class="dl" style="table-layout:fixed;">
+        <colgroup>
+          <col style="width: 20%;"/>
+          <col style="width: 80%;"/>
+        </colgroup>
+                            <tbody>
+                              <tr>
+                                <th style="font-weight:bold;" scope="row">Symbol</th>
+                                <td style="">Definition</td>
+                              </tr>
+                            </tbody>
+                          </table>
                      </div>
                      <div id="M">
                        <h1>5.&#160; Clause 4</h1>
@@ -174,16 +184,16 @@ RSpec.describe Metanorma::ITU do
                    </div>
                  </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", itudoc("fr"), true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(strip_guid(IsoDoc::ITU::HtmlConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to xmlpp(html)
+      .to be_equivalent_to Xml::C14n.format(html)
   end
 
   it "processes section names in Chinese" do
@@ -210,7 +220,7 @@ RSpec.describe Metanorma::ITU do
       </abstract>
           <clause type="keyword" displayorder="3">
       <title depth="1">关　键　词</title>
-      <p>A, B.</p>
+       <p>A，B.</p>
       </clause>
       <foreword obligation="informative" displayorder="4">
          <title>Foreword</title>
@@ -236,10 +246,14 @@ RSpec.describe Metanorma::ITU do
        </term>
        </terms>
        <definitions id="L" displayorder="11"><title>4.</title>
-         <dl>
-         <dt>Symbol</dt>
-         <dd>Definition</dd>
-         </dl>
+             <dl>
+        <colgroup>
+          <col width="20%"/>
+          <col width="80%"/>
+        </colgroup>
+        <dt>Symbol</dt>
+        <dd>Definition</dd>
+      </dl>
        </definitions>
        <clause id="M" inline-header="false" obligation="normative" displayorder="12">
         <title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
@@ -279,7 +293,7 @@ RSpec.describe Metanorma::ITU do
           </div>
           <div class="Keyword">
           <h1 class="IntroTitle">关　键　词</h1>
-          <p>A, B.</p>
+          <p>A，B.</p>
         </div>
           <div>
             <h1 class='IntroTitle'>Foreword</h1>
@@ -317,12 +331,18 @@ RSpec.describe Metanorma::ITU do
           </div>
           <div id='L' class='Symbols'>
             <h1>4.</h1>
-            <dl>
-              <dt>
-                <p>Symbol</p>
-              </dt>
-              <dd>Definition</dd>
-            </dl>
+                  <table class="dl" style="table-layout:fixed;">
+        <colgroup>
+          <col style="width: 20%;"/>
+          <col style="width: 80%;"/>
+        </colgroup>
+              <tbody>
+              <tr>
+              <th style="font-weight:bold;" scope="row">Symbol</th>
+              <td style="">Definition</td>
+              </tr>
+              </tbody>
+              </table>
           </div>
           <div id='M'>
             <h1>5.&#12288;Clause 4</h1>
@@ -367,15 +387,15 @@ RSpec.describe Metanorma::ITU do
         </div>
       </body>
     OUTPUT
-    expect(xmlpp(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", itudoc("zh"), true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to xmlpp(presxml)
-    expect(xmlpp(strip_guid(IsoDoc::ITU::HtmlConvert.new({})
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to xmlpp(html)
+      .to be_equivalent_to Xml::C14n.format(html)
   end
 
   it "processes editor clauses, two editors in French" do
@@ -438,7 +458,7 @@ RSpec.describe Metanorma::ITU do
     xml = Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
     xml = xml.at("//xmlns:preface").to_xml
-    expect(xmlpp(strip_guid(xml)))
-      .to be_equivalent_to xmlpp(presxml)
+    expect(Xml::C14n.format(strip_guid(xml)))
+      .to be_equivalent_to Xml::C14n.format(presxml)
   end
 end

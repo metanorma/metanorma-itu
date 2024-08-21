@@ -223,44 +223,27 @@
   width="95" colspan="2"><p class='MsoNormal'>&#xA0;</p></td>
   <td width="303" colspan="2" valign="top" style='width:227.45pt;padding:0cm 4.25pt 0cm 4.25pt;
   height:48.7pt'>
-    {% if bureau == "T" %}
-  <p class="MsoNormal" align="left" style='text-align:left'><span style='mso-bookmark:
-  _Hlk526346232'><span lang="EN-US" style='font-size:10.0pt;font-family:"Arial",sans-serif;
-  mso-bidi-font-family:"Times New Roman";mso-ansi-language:EN-US'>TELECOMMUNICATION</span></span><span
-  style='mso-bookmark:_Hlk526346232'><span lang="EN-US" style='font-size:10.0pt;
-  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'><br/>
-  </span></span><span style='mso-bookmark:_Hlk526346232'><span lang="EN-US"
-  style='font-size:10.0pt;font-family:"Arial",sans-serif;mso-bidi-font-family:
-  "Times New Roman";mso-ansi-language:EN-US'>STANDARDIZATION SECTOR<br/>
-  OF ITU</span></span><span style='mso-bookmark:_Hlk526346232'><b
-  style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-size:10.0pt;
-  mso-ansi-language:EN-US'><o:p></o:p></span></b></span></p>
+
+  {% if sector %}
+  <p class="MsoNormal" align="left" style='text-align:left'>
+  <span lang="EN-US" style='font-size:10.0pt;font-family:"Arial",sans-serif;
+              mso-bidi-font-family:"Times New Roman";mso-ansi-language:EN-US'>{{ sector }}</span></p>
+  {% else %}
+  {% if bureau == "T" %}
+  <p class="MsoNormal" align="left" style='text-align:left'>
+  <span lang="EN-US" style='font-size:10.0pt;font-family:"Arial",sans-serif;
+              mso-bidi-font-family:"Times New Roman";mso-ansi-language:EN-US'>{{ labels["tsb_full"] }}</span></p>
   {% endif %}
       {% if bureau == "D" %}
-  <p class="MsoNormal" align="left" style='text-align:left'><span style='mso-bookmark:
-  _Hlk526346232'><span lang="EN-US" style='font-size:10.0pt;font-family:"Arial",sans-serif;
-  mso-bidi-font-family:"Times New Roman";mso-ansi-language:EN-US'>TELECOMMUNICATION</span></span><span
-  style='mso-bookmark:_Hlk526346232'><span lang="EN-US" style='font-size:10.0pt;
-  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'><br/>
-  </span></span><span style='mso-bookmark:_Hlk526346232'><span lang="EN-US"
-  style='font-size:10.0pt;font-family:"Arial",sans-serif;mso-bidi-font-family:
-  "Times New Roman";mso-ansi-language:EN-US'>DEVELOPMENT SECTOR<br/>
-  OF ITU</span></span><span style='mso-bookmark:_Hlk526346232'><b
-  style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-size:10.0pt;
-  mso-ansi-language:EN-US'><o:p></o:p></span></b></span></p>
+  <p class="MsoNormal" align="left" style='text-align:left'>
+  <span lang="EN-US" style='font-size:10.0pt;font-family:"Arial",sans-serif;
+              mso-bidi-font-family:"Times New Roman";mso-ansi-language:EN-US'>{{ labels["bdt_full"] }}</span></p>
   {% endif %}
     {% if bureau == "R" %}
-  <p class="MsoNormal" align="left" style='text-align:left'><span style='mso-bookmark:
-  _Hlk526346232'><span lang="EN-US" style='font-size:10.0pt;font-family:"Arial",sans-serif;
-  mso-bidi-font-family:"Times New Roman";mso-ansi-language:EN-US'>RADIOCOMMUNICATION</span></span><span
-  style='mso-bookmark:_Hlk526346232'><span lang="EN-US" style='font-size:10.0pt;
-  font-family:"Arial",sans-serif;mso-ansi-language:EN-US'><br/>
-  </span></span><span style='mso-bookmark:_Hlk526346232'><span lang="EN-US"
-  style='font-size:10.0pt;font-family:"Arial",sans-serif;mso-bidi-font-family:
-  "Times New Roman";mso-ansi-language:EN-US'>SECTOR<br/>
-  OF ITU</span></span><span style='mso-bookmark:_Hlk526346232'><b
-  style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-size:10.0pt;
-  mso-ansi-language:EN-US'><o:p></o:p></span></b></span></p>
+  <p class="MsoNormal" align="left" style='text-align:left'>
+  <span lang="EN-US" style='font-size:10.0pt;font-family:"Arial",sans-serif;
+              mso-bidi-font-family:"Times New Roman";mso-ansi-language:EN-US'>{{ labels["br_full"] }}</span></p>
+  {% endif %}
   {% endif %}
 
   </td>

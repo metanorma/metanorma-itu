@@ -2,8 +2,14 @@ module IsoDoc
   module ITU
     class PresentationXMLConvert < IsoDoc::PresentationXMLConvert
       def insert_preface_sections(docxml)
-        x = insert_editors_clause(docxml) and
-          editors_insert_pt(docxml).next = x
+        if @doctype == "contribution"
+          contribution_justification(docxml)
+          x = contribution_table(docxml) and
+            contribution_table_insert_pt(docxml).next = x
+        else
+          x = insert_editors_clause(docxml) and
+            editors_insert_pt(docxml).next = x
+        end
       end
 
       def editors_insert_pt(docxml)
@@ -57,19 +63,48 @@ module IsoDoc
 
       def rearrange_clauses(docxml)
         super
-        k = keywords(docxml) or return
-        if a = docxml.at(ns("//preface/abstract"))
-          a.next = k
-        elsif a = docxml.at(ns("//preface"))
-          a.children.first.previous = k
+        insert_preface_sections(docxml)
+        a = docxml.at(ns("//preface/abstract"))
+        keywords_abstract_swap(a, keywords(docxml), docxml)
+        c = docxml.at(ns("//preface/clause[@type='contribution-metadata']")) and
+          a and c.next = a
+        abstract_render(a)
+      end
+
+      def keywords_abstract_swap(abstract, keywords, docxml)
+        @doctype == "contribution" and return
+        k = keywords or return
+        if abstract then abstract.next = k
+        else
+          p = contribution_table_insert_pt(docxml)
+          p.next = k
         end
+      end
+
+      def abstract_render(abstract)
+        abstract or return
+        @doctype == "contribution" or return
+        abstract.at(ns("./title"))&.remove
+        abstract.children = <<~TABLE
+          <table class="abstract" unnumbered="true" width="100%">
+          <colgroup><col width="11.8%"/><col width="78.2%"/></colgroup>
+          <tbody>
+          <tr><th align="left" width="95"><p>#{colon_i18n(@i18n.abstract)}</p></th>
+          <td>#{abstract.children.to_xml}</td></tr>
+          </tbody></table>
+        TABLE
       end
 
       def keywords(_docxml)
         kw = @meta.get[:keywords]
-        kw.nil? || kw.empty? and return
+        kw.nil? || kw.empty? || @doctype == "contribution" and return
         "<clause type='keyword'><title>#{@i18n.keywords}</title>" \
-          "<p>#{kw.join(', ')}.</p>"
+          "<p>#{@i18n.l10n(kw.join(', '))}.</p>"
+      end
+
+      def toc_title(docxml)
+        %w(resolution contribution).include?(@doctype) and return
+        super
       end
 
       include Init

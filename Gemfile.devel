@@ -1,0 +1,1 @@
+gem "pubid-itu", git: "https://github.com/metanorma/pubid-itu", branch: "annex-to-ob"

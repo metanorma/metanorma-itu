@@ -1,3 +1,11 @@
+questions: Question(s)
+studyperiod: Période d’études %
+original: Original
+contact: Contact
+tel_abbrev: Tél.
+document_source: Source
+title: Titre
+current_language: Français
 termsdef: Définitions
 termsdefsymbolsabbrev: Définitions
 termsdefsymbols: Définitions
@@ -60,6 +68,9 @@ revision_abbreviation: Rev.
 tsb: TSB
 br: BR
 bdt: BDT
+tsb_short: Bureau de la normalisation des télécommunications
+br_short: Bureau des radiocommunications
+bdt_short: Bureau de développement des télécommunications
 tsb_full: Bureau de la normalisation<br/>des télécommunications<br/>de l’UIT
 br_full: Bureau des radiocommunications<br/>de l’UIT
 bdt_full: Bureau de développement<br/>des télécommunications<br/>de l’UIT
@@ -83,6 +94,7 @@ doctype_dict:
   technical-report: Rapport technique
   joint-itu-iso-iec: Joint UIT / ISO / CEI
   service-publication: Publication de service
+  contribution: Contribution
 doctype_abbrev:
   recommendation: Rec.
   recommendation-supplement: Rec.
@@ -96,6 +108,7 @@ doctype_abbrev:
   technical-report: TR
   joint-itu-iso-iec: ITU/ISO/IEC
   service-publication: 
+  contribution: 
 inflection:
   éditeur:
     sg: éditeur

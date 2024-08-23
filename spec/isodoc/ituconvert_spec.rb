@@ -515,7 +515,7 @@ RSpec.describe Metanorma::ITU do
     html = File.read("test.html", encoding: "UTF-8")
     expect(Xml::C14n.format(strip_guid(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ")
       .sub(%r{</main>.*$}m, "</main>")
-      .gsub(%r{<script>.+?</script>}, "")
+      .gsub(%r{<script>.+?</script>}i, "")
       .gsub(/fn:[0-9a-f][0-9a-f-]+/, "fn:_"))))
       .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
           <main xmlns:epub="epub" class="main-section">

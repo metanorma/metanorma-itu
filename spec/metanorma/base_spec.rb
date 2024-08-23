@@ -251,8 +251,7 @@ RSpec.describe Metanorma::ITU do
         :timing: 2025-Q4
       INPUT
       output = <<~"OUTPUT"
-           <?xml version="1.0" encoding="UTF-8"?>
-           <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
+        <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
                     <bibdata type='standard'>
                                  <title language="en" format="text/plain" type="main">Main Title</title>
              <title language="en" format="text/plain" type="annex">I3</title>
@@ -273,7 +272,7 @@ RSpec.describe Metanorma::ITU do
              <docidentifier type="ITU-Recommendation">G.7713.1</docidentifier>
              <docidentifier type="ITU-Recommendation">Y.1704.1</docidentifier>
              <docnumber>1000</docnumber>
-             <contributor>
+                          <contributor>
                 <role type="author"/>
                 <organization>
                    <name>International Telecommunication Union</name>
@@ -328,7 +327,7 @@ RSpec.describe Metanorma::ITU do
                    <title type="main" format="text/plain" language="en" script="Latn">Plan for telex destination codes</title>
                    <uri type="src">https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en</uri>
                    <uri type="obp">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.69-198811-S!!PDF-E&amp;type=items</uri>
-                   <docidentifier type="ITU" primary="true">ITU-T F.69</docidentifier>
+                   <docidentifier type="ITU" primary="true">ITU-T F.69 (11/1988)</docidentifier>
                    <contributor>
                       <role type="publisher"/>
                       <organization>
@@ -337,7 +336,7 @@ RSpec.describe Metanorma::ITU do
                          <uri>www.itu.int</uri>
                       </organization>
                    </contributor>
-                   <edition>7</edition>
+                   <edition>5</edition>
                    <language>en</language>
                    <script>Latn</script>
                    <status>
@@ -383,7 +382,7 @@ RSpec.describe Metanorma::ITU do
                          <title type="main" format="text/plain" language="en" script="Latn">Plan for telex destination codes</title>
                          <uri type="src">https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en</uri>
                          <uri type="obp">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.69-198811-S!!PDF-E&amp;type=items</uri>
-                         <docidentifier type="ITU" primary="true">ITU-T F.69</docidentifier>
+                         <docidentifier type="ITU" primary="true">ITU-T F.69 (11/1988)</docidentifier>
                          <date type="published">
                             <on>1988-11-25</on>
                          </date>
@@ -395,10 +394,9 @@ RSpec.describe Metanorma::ITU do
                                <uri>www.itu.int</uri>
                             </organization>
                          </contributor>
-                         <edition>7</edition>
+                         <edition>5</edition>
                          <language>en</language>
                          <script>Latn</script>
-                         <abstract format="text/plain" language="en" script="Latn">This Recommendation describes theprocedures to be followed in the allocation of telex destination codes andtelex network identification codes. The means of promulgation publication, anddate of entry into effect of code allocations are also identified.</abstract>
                          <status>
                             <stage>Withdrawal</stage>
                          </status>
@@ -448,7 +446,7 @@ RSpec.describe Metanorma::ITU do
                    <title type="main" format="text/plain" language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
                    <uri type="src">https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&amp;lang=en</uri>
                    <uri type="obp">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.68-198811-I!!PDF-E&amp;type=items</uri>
-                   <docidentifier type="ITU" primary="true">ITU-T F.68</docidentifier>
+                   <docidentifier type="ITU" primary="true">ITU-T F.68 (11/1988)</docidentifier>
                    <contributor>
                       <role type="publisher"/>
                       <organization>
@@ -503,7 +501,7 @@ RSpec.describe Metanorma::ITU do
                          <title type="main" format="text/plain" language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
                          <uri type="src">https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&amp;lang=en</uri>
                          <uri type="obp">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.68-198811-I!!PDF-E&amp;type=items</uri>
-                         <docidentifier type="ITU" primary="true">ITU-T F.68</docidentifier>
+                         <docidentifier type="ITU" primary="true">ITU-T F.68 (11/1988)</docidentifier>
                          <date type="published">
                             <on>1988-11-25</on>
                          </date>
@@ -1778,9 +1776,9 @@ RSpec.describe Metanorma::ITU do
       expect(Xml::C14n.format(strip_guid("<div>#{xpath.to_xml}</div>")))
         .to be_equivalent_to Xml::C14n.format(strip_guid(<<~OUTPUT))
            <div>
-           <docidentifier type="ITU" primary="true">ITU-T Y.1001</docidentifier>
-          <docidentifier type="ITU" primary="true">ITU-T Y.140</docidentifier>
-          <docidentifier type="ITU" primary="true">ITU-T Z.100</docidentifier>
+           <docidentifier type="ITU" primary="true">ITU-T Y.1001 (11/2000)</docidentifier>
+          <docidentifier type="ITU" primary="true">ITU-T Y.140 (11/2000)</docidentifier>
+          <docidentifier type="ITU" primary="true">ITU-T Z.100 (06/2021)</docidentifier>
           <docidentifier type="ISO" primary="true">ISO 55000</docidentifier>
           <docidentifier type="iso-reference">ISO 55000(E)</docidentifier>
           <docidentifier type="URN">urn:iso:std:iso:55000:stage-60.60</docidentifier>

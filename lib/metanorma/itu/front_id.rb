@@ -30,20 +30,6 @@ module Metanorma
       ITULANG = { "en" => "E", "fr" => "F", "ar" => "A", "es" => "S",
                   "zh" => "C", "ru" => "R" }.freeze
 
-      # delete
-      def itu_id1_x(node, lang)
-        bureau = node.attr("bureau") || "T"
-        id = case @doctype
-             when "service-publication"
-               itu_service_pub_id(node)
-             when "contribution"
-               itu_contrib_id(node)
-             else
-               "ITU-#{bureau} #{node.attr('docnumber')}"
-             end
-        id + (lang ? "-#{ITULANG[@lang]}" : "")
-      end
-
       def itu_id(node, xml)
         node.attr("docnumber") or return
         params = itu_id_params(node)
@@ -63,11 +49,14 @@ module Metanorma
         itu_id_resolve(node, itu_id_params_core(node), itu_id_params_add(node))
       end
 
-      def itu_id_resolve(node, core, add)
+      def itu_id_resolve(_node, core, add)
         ret = core.merge(add)
-        if @doctype == "service-publication"
+        case @doctype
+        when "service-publication"
           base = ret.merge(series: "OB")
           ret = { type: :annex, base: base }
+        when "contribution"
+          ret[:type] = :contribution
         end
         ret
       end
@@ -90,31 +79,12 @@ module Metanorma
         end
       end
 
-      # delete
-      def itu_service_pub_id_x(node)
-        @i18n.annex_to_itu_ob_abbrev.sub(/%/, node.attr("docnumber"))
-      end
-
-      def itu_contrib_id(node)
-        group = node.attr("group-acronym") ||
-          node.attr("group").sub("Study Group ", "SG")
-        "#{group}-C#{node.attr('docnumber')}"
-      end
-
-      # delete
-      def itu_id_x(node, xml)
-        node.attr("docnumber") || node.attr("docidentifier") or return
-        xml.docidentifier type: "ITU", primary: "true" do |i|
-          i << (node.attr("docidentifier") || itu_id1(node, false))
-        end
-        xml.docidentifier type: "ITU-lang" do |i|
-          i << itu_id1(node, true)
-        end
-      end
-
       def itu_id_params_add(node)
         ret = { part: node.attr("partnumber"),
                 language: node.attr("language") || "en" }
+        @doctype == "contribution" and
+          ret[:series] = node.attr("group-acronym") ||
+            node.attr("group")&.sub("Study Group ", "SG")
         compact_blank(ret)
       end
 
@@ -126,10 +96,6 @@ module Metanorma
       end
 
       def itu_id_default(node, params)
-        if @doctype == "contribution"
-          return itu_contrib_id(node)
-        end
-
         p = params.dup
         p.delete(:language)
         p[:base] &&= itu_id_default(node, p[:base])
@@ -137,10 +103,6 @@ module Metanorma
       end
 
       def itu_id_lang(node, params)
-        if @doctype == "contribution"
-          return itu_contrib_id(node) + "-#{ITULANG[@lang]}"
-        end
-
         params[:base] &&= itu_id_lang(node, params[:base])
         Pubid::Itu::Identifier.create(**params)
       end

@@ -36,7 +36,7 @@ RSpec.describe Metanorma::ITU do
       text
     INPUT
     expect(File.read("test.err.html"))
-      .to include "pizza is not a recognised document type"
+      .to include("pizza is not a recognised document type")
   end
 
   it "Warns of illegal status" do
@@ -50,7 +50,7 @@ RSpec.describe Metanorma::ITU do
 
       text
     INPUT
-    expect(File.read("test.err.html")).to include "pizza is not a recognised status"
+    expect(File.read("test.err.html")).to include("pizza is not a recognised status")
   end
 
   it "Warns if document identifier is invalid" do
@@ -65,7 +65,7 @@ RSpec.describe Metanorma::ITU do
       text
     INPUT
     expect(File.read("test.err.html"))
-      .to include "does not match ITU document identifier conventions"
+      .to include("does not match ITU document identifier conventions")
 
     Asciidoctor.convert(<<~INPUT, backend: :itu, header_footer: true)
       = Document title
@@ -78,7 +78,7 @@ RSpec.describe Metanorma::ITU do
       text
     INPUT
     expect(File.read("test.err.html"))
-      .not_to include "does not match ITU document identifier conventions"
+      .not_to include("does not match ITU document identifier conventions")
   end
 
   it "Warns if Recommendation Status determined and Process AAP" do
@@ -94,7 +94,7 @@ RSpec.describe Metanorma::ITU do
       text
     INPUT
     expect(File.read("test.err.html"))
-      .to include "Recommendation Status determined inconsistent with AAP"
+      .to include("Recommendation Status determined inconsistent with AAP")
   end
 
   it "Warns if not Recommendation Status determined or in-force, and Process TAP" do
@@ -110,7 +110,7 @@ RSpec.describe Metanorma::ITU do
       text
     INPUT
     expect(File.read("test.err.html"))
-      .to include "Recommendation Status undetermined inconsistent with TAP"
+      .to include("Recommendation Status undetermined inconsistent with TAP")
   end
 
   it "Warns if term definition does not start with capital" do
@@ -123,7 +123,7 @@ RSpec.describe Metanorma::ITU do
       the definition of a term is a part of the specialized vocabulary of a particular field
     INPUT
     expect(File.read("test.err.html"))
-      .to include "term definition does not start with capital"
+      .to include("term definition does not start with capital")
   end
 
   it "Warns if term definition does not end with period" do
@@ -136,7 +136,7 @@ RSpec.describe Metanorma::ITU do
       Part of the specialized vocabulary of a particular field
     INPUT
     expect(File.read("test.err.html"))
-      .to include "term definition does not end with period"
+      .to include("term definition does not end with period")
   end
 
   it "Warns if term is not lowercase" do
@@ -148,7 +148,7 @@ RSpec.describe Metanorma::ITU do
 
       Part of the specialized vocabulary of a particular field
     INPUT
-    expect(File.read("test.err.html")).to include "Fred: term is not lowercase"
+    expect(File.read("test.err.html")).to include("Fred: term is not lowercase")
   end
 
   it "Warns if title includes series title" do
@@ -161,7 +161,7 @@ RSpec.describe Metanorma::ITU do
 
       Part of the specialized vocabulary of a particular field
     INPUT
-    expect(File.read("test.err.html")).to include "Title includes series name"
+    expect(File.read("test.err.html")).to include("Title includes series name")
   end
 
   it "Warns if no Summary provided" do
@@ -170,7 +170,7 @@ RSpec.describe Metanorma::ITU do
 
       Part of the specialized vocabulary of a particular field
     INPUT
-    expect(File.read("test.err.html")).to include "No Summary has been provided"
+    expect(File.read("test.err.html")).to include("No Summary has been provided")
   end
 
   it "does not warn if Summary provided" do
@@ -181,7 +181,7 @@ RSpec.describe Metanorma::ITU do
       == Abstract
       Part of the specialized vocabulary of a particular field
     INPUT
-    expect(File.read("test.err.html")).not_to include "No Summary has been provided"
+    expect(File.read("test.err.html")).not_to include("No Summary has been provided")
   end
 
   it "Warns if no Keywords provided" do
@@ -190,7 +190,7 @@ RSpec.describe Metanorma::ITU do
 
       Part of the specialized vocabulary of a particular field
     INPUT
-    expect(File.read("test.err.html")).to include "No Keywords have been provided"
+    expect(File.read("test.err.html")).to include("No Keywords have been provided")
   end
 
   it "does not warn if Keywords provided" do
@@ -206,7 +206,7 @@ RSpec.describe Metanorma::ITU do
       Part of the specialized vocabulary of a particular field
     INPUT
     expect(File.read("test.err.html"))
-      .not_to include "No Keywords have been provided"
+      .not_to include("No Keywords have been provided")
   end
 
   it "warns if requirement in preface" do
@@ -221,7 +221,7 @@ RSpec.describe Metanorma::ITU do
       == Abstract
       This shall not pass.
     INPUT
-    expect(File.read("test.err.html")).to include "Requirement possibly in preface"
+    expect(File.read("test.err.html")).to include("Requirement possibly in preface")
   end
 
   it "warns of unnumbered clause not in resolution" do
@@ -235,7 +235,7 @@ RSpec.describe Metanorma::ITU do
       [%unnumbered]
       == Clause
     INPUT
-    expect(File.read("test.err.html")).to include "Unnumbered clause out of place"
+    expect(File.read("test.err.html")).to include("Unnumbered clause out of place")
 
     Asciidoctor.convert(<<~INPUT, backend: :itu, header_footer: true)
       = Transmission Systems and Media, Digital Systems and Networks: Software tools for speech and audio coding standardization
@@ -248,7 +248,7 @@ RSpec.describe Metanorma::ITU do
       == Clause
     INPUT
     expect(File.read("test.err.html"))
-      .not_to include "Unnumbered clause out of place"
+      .not_to include("Unnumbered clause out of place")
   end
 
   it "warns of unnumbered clause not first clause in resolution" do
@@ -265,7 +265,7 @@ RSpec.describe Metanorma::ITU do
       === Subclause
 
     INPUT
-    expect(File.read("test.err.html")).to include "Unnumbered clause out of place"
+    expect(File.read("test.err.html")).to include("Unnumbered clause out of place")
     Asciidoctor.convert(<<~INPUT, backend: :itu, header_footer: true)
       = Transmission Systems and Media, Digital Systems and Networks: Software tools for speech and audio coding standardization
       Author
@@ -278,6 +278,6 @@ RSpec.describe Metanorma::ITU do
       [%unnumbered]
       == {blank}
     INPUT
-    expect(File.read("test.err.html")).to include "Unnumbered clause out of place"
+    expect(File.read("test.err.html")).to include("Unnumbered clause out of place")
   end
 end

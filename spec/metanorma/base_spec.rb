@@ -272,7 +272,7 @@ RSpec.describe Metanorma::ITU do
              <docidentifier type="ITU-Recommendation">G.7713.1</docidentifier>
              <docidentifier type="ITU-Recommendation">Y.1704.1</docidentifier>
              <docnumber>1000</docnumber>
-             <contributor>
+                          <contributor>
                 <role type="author"/>
                 <organization>
                    <name>International Telecommunication Union</name>

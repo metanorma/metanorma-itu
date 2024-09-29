@@ -21,7 +21,7 @@ module IsoDoc
       end
 
       def middle_sections
-        "//clause[@type = 'scope'] | " \
+        "//clause[@type = 'scope'] | //preface/abstract | " \
           "//foreword | //introduction | //acknowledgements |  " \
           "#{@klass.norm_ref_xpath} | " \
           "//sections/terms | //preface/clause | " \

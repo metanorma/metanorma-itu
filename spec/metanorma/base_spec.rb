@@ -321,7 +321,7 @@ RSpec.describe Metanorma::ITU do
                    </organization>
                 </owner>
              </copyright>
-             <relation type="complements">
+                          <relation type="complements">
                 <bibitem type="standard">
                    <title type="title-main" format="text/plain" language="en" script="Latn">Plan for telex destination codes</title>
                    <title type="main" format="text/plain" language="en" script="Latn">Plan for telex destination codes</title>
@@ -1232,8 +1232,7 @@ RSpec.describe Metanorma::ITU do
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-          <docidentifier primary="true" type='ITU'>OVERRIDE</docidentifier>
-          <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
+          <docidentifier type='ITU'>OVERRIDE</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>
@@ -1377,8 +1376,8 @@ RSpec.describe Metanorma::ITU do
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-          <docidentifier primary="true" type='ITU'>Annex to ITU OB 1000</docidentifier>
-          <docidentifier type='ITU-lang'>Annex to ITU OB 1000-E</docidentifier>
+          <docidentifier primary="true" type='ITU'>Annex to ITU-R OB No. 1000</docidentifier>
+          <docidentifier type='ITU-lang'>Annex to ITU-R OB No. 1000-E</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>

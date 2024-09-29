@@ -1635,10 +1635,12 @@ which can be bookmarks as well as block or section references</a:documentation>
       <a:documentation>The location or online identifier of the external document or resource</a:documentation>
       <data type="anyURI"/>
     </attribute>
-    <attribute name="type">
-      <a:documentation>The type of Reference Element, prescribing how it is to be rendered</a:documentation>
-      <ref name="ReferenceFormat"/>
-    </attribute>
+    <optional>
+      <attribute name="type">
+        <a:documentation>The type of Reference Element, prescribing how it is to be rendered</a:documentation>
+        <ref name="ReferenceFormat"/>
+      </attribute>
+    </optional>
     <optional>
       <attribute name="alt">
         <a:documentation>Alternate text, used for accessibility</a:documentation>

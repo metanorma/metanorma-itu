@@ -8892,14 +8892,16 @@
 	<xsl:template match="*[local-name()='link']" name="link">
 		<xsl:variable name="target_normalized" select="translate(@target, '\', '/')"/>
 		<xsl:variable name="target_attachment_name" select="substring-after($target_normalized, '_attachments/')"/>
+		<xsl:variable name="isLinkToEmbeddedFile" select="normalize-space(@attachment = 'true' and $pdfAttachmentsList//attachment[@filename = current()/@target])"/>
 		<xsl:variable name="target">
 			<xsl:choose>
 				<xsl:when test="@updatetype = 'true'">
 					<xsl:value-of select="concat(normalize-space(@target), '.pdf')"/>
 				</xsl:when>
 				<!-- link to the PDF attachment -->
-				<xsl:when test="@attachment = 'true' and $pdfAttachmentsList//attachment[@filename = current()/@target]">
-					<xsl:value-of select="concat('url(embedded-file:', @target, ')')"/>
+				<xsl:when test="$isLinkToEmbeddedFile = 'true'">
+					<xsl:variable name="target_file" select="java:org.metanorma.fop.Util.getFilenameFromPath(@target)"/>
+					<xsl:value-of select="concat('url(embedded-file:', $target_file, ')')"/>
 				</xsl:when>
 				<!-- <xsl:when test="starts-with($target_normalized, '_') and contains($target_normalized, '_attachments/') and $pdfAttachmentsList//attachment[@filename = $target_attachment_name]">
 					<xsl:value-of select="concat('url(embedded-file:', $target_attachment_name, ')')"/>
@@ -8930,6 +8932,11 @@
 				<xsl:attribute name="keep-together.within-line">always</xsl:attribute>
 			</xsl:if>
 
+			<xsl:if test="$isLinkToEmbeddedFile = 'true'">
+				<xsl:attribute name="color">inherit</xsl:attribute>
+				<xsl:attribute name="text-decoration">none</xsl:attribute>
+			</xsl:if>
+
 			<xsl:call-template name="refine_link-style"/>
 
 			<xsl:choose>
@@ -8952,6 +8959,10 @@
 									</xsl:otherwise>
 								</xsl:choose>
 							</fo:basic-link>
+							<xsl:if test="$isLinkToEmbeddedFile = 'true'">
+								<!-- reserve space at right for PaperClip icon -->
+								<fo:inline keep-with-previous.within-line="always">        </fo:inline>
+							</xsl:if>
 						</xsl:with-param>
 					</xsl:call-template>
 				</xsl:otherwise>
@@ -14395,6 +14406,39 @@
 		</pdf:catalog>
 		<x:xmpmeta xmlns:x="adobe:ns:meta/">
 			<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+				<rdf:Description xmlns:pdfaExtension="http://www.aiim.org/pdfa/ns/extension/" xmlns:pdfaProperty="http://www.aiim.org/pdfa/ns/property#" xmlns:pdfaSchema="http://www.aiim.org/pdfa/ns/schema#" rdf:about="">
+					<pdfaExtension:schemas>
+						<rdf:Bag>
+							<rdf:li rdf:parseType="Resource">
+								<pdfaSchema:namespaceURI>http://www.aiim.org/pdfua/ns/id/</pdfaSchema:namespaceURI>
+								<pdfaSchema:prefix>pdfuaid</pdfaSchema:prefix>
+								<pdfaSchema:schema>PDF/UA identification schema</pdfaSchema:schema>
+								<pdfaSchema:property>
+									<rdf:Seq>
+										<rdf:li rdf:parseType="Resource">
+											<pdfaProperty:category>internal</pdfaProperty:category>
+											<pdfaProperty:description>PDF/UA version identifier</pdfaProperty:description>
+											<pdfaProperty:name>part</pdfaProperty:name>
+											<pdfaProperty:valueType>Integer</pdfaProperty:valueType>
+										</rdf:li>
+										<rdf:li rdf:parseType="Resource">
+											<pdfaProperty:category>internal</pdfaProperty:category>
+											<pdfaProperty:description>PDF/UA amendment identifier</pdfaProperty:description>
+											<pdfaProperty:name>amd</pdfaProperty:name>
+											<pdfaProperty:valueType>Text</pdfaProperty:valueType>
+										</rdf:li>
+										<rdf:li rdf:parseType="Resource">
+											<pdfaProperty:category>internal</pdfaProperty:category>
+											<pdfaProperty:description>PDF/UA corrigenda identifier</pdfaProperty:description>
+											<pdfaProperty:name>corr</pdfaProperty:name>
+											<pdfaProperty:valueType>Text</pdfaProperty:valueType>
+										</rdf:li>
+									</rdf:Seq>
+								</pdfaSchema:property>
+							</rdf:li>
+						</rdf:Bag>
+					</pdfaExtension:schemas>
+				</rdf:Description>
 				<rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:pdf="http://ns.adobe.com/pdf/1.3/" rdf:about="">
 				<!-- Dublin Core properties go here -->
 					<dc:title>
@@ -14405,33 +14449,57 @@
 
 							</xsl:for-each>
 						</xsl:variable>
-						<xsl:choose>
-							<xsl:when test="normalize-space($title) != ''">
-								<xsl:value-of select="$title"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:text> </xsl:text>
-							</xsl:otherwise>
-						</xsl:choose>
+						<rdf:Alt>
+							<rdf:li xml:lang="x-default">
+								<xsl:choose>
+									<xsl:when test="normalize-space($title) != ''">
+										<xsl:value-of select="$title"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:text> </xsl:text>
+									</xsl:otherwise>
+								</xsl:choose>
+							</rdf:li>
+						</rdf:Alt>
 					</dc:title>
-					<dc:creator>
+					<xsl:variable name="dc_creator">
 						<xsl:for-each select="(//*[contains(local-name(), '-standard')])[1]/*[local-name() = 'bibdata']">
 
-									<xsl:for-each select="*[local-name() = 'contributor'][*[local-name() = 'role']/@type='author']">
-										<xsl:value-of select="*[local-name() = 'organization']/*[local-name() = 'name']"/>
-										<xsl:if test="position() != last()">; </xsl:if>
-									</xsl:for-each>
+									<rdf:Seq>
+										<xsl:for-each select="*[local-name() = 'contributor'][*[local-name() = 'role']/@type='author']">
+											<rdf:li>
+												<xsl:value-of select="*[local-name() = 'organization']/*[local-name() = 'name']"/>
+											</rdf:li>
+											<!-- <xsl:if test="position() != last()">; </xsl:if> -->
+										</xsl:for-each>
+									</rdf:Seq>
 
 						</xsl:for-each>
-					</dc:creator>
-					<dc:description>
+					</xsl:variable>
+					<xsl:if test="normalize-space($dc_creator) != ''">
+						<dc:creator>
+							<xsl:copy-of select="$dc_creator"/>
+						</dc:creator>
+					</xsl:if>
+
+					<xsl:variable name="dc_description">
 						<xsl:variable name="abstract">
 
 									<xsl:copy-of select="//*[contains(local-name(), '-standard')]/*[local-name() = 'preface']/*[local-name() = 'abstract']//text()[not(ancestor::*[local-name() = 'title'])]"/>
 
 						</xsl:variable>
-						<xsl:value-of select="normalize-space($abstract)"/>
-					</dc:description>
+						<rdf:Alt>
+							<rdf:li xml:lang="x-default">
+								<xsl:value-of select="normalize-space($abstract)"/>
+							</rdf:li>
+						</rdf:Alt>
+					</xsl:variable>
+					<xsl:if test="normalize-space($dc_description)">
+						<dc:description>
+							<xsl:copy-of select="$dc_description"/>
+						</dc:description>
+					</xsl:if>
+
 					<pdf:Keywords>
 						<xsl:call-template name="insertKeywords">
 							<xsl:with-param name="meta">true</xsl:with-param>
@@ -14446,9 +14514,14 @@
 		</x:xmpmeta>
 		<!-- add attachments -->
 		<xsl:for-each select="//*[contains(local-name(), '-standard')]/*[local-name() = 'metanorma-extension']/*[local-name() = 'attachment']">
-			<xsl:variable name="description" select="normalize-space(//*[local-name() = 'bibitem'][@hidden = 'true'][*[local-name() = 'uri'][@type = 'attachment'] = current()/@name]/*[local-name() = 'formattedref'])"/>
+			<xsl:variable name="bibitem_attachment_" select="//*[local-name() = 'bibitem'][@hidden = 'true'][*[local-name() = 'uri'][@type = 'attachment'] = current()/@name]"/>
+			<xsl:variable name="bibitem_attachment" select="xalan:nodeset($bibitem_attachment_)"/>
+			<xsl:variable name="description" select="normalize-space($bibitem_attachment/*[local-name() = 'formattedref'])"/>
+			<xsl:variable name="filename" select="java:org.metanorma.fop.Util.getFilenameFromPath(@name)"/>
+			<!-- Todo: need update -->
+			<xsl:variable name="afrelationship" select="normalize-space($bibitem_attachment//*[local-name() = 'span'][@class = 'pdf-AFRelationship'])"/>
 
-			<pdf:embedded-file xmlns:pdf="http://xmlgraphics.apache.org/fop/extensions/pdf" filename="{@name}">
+			<pdf:embedded-file xmlns:pdf="http://xmlgraphics.apache.org/fop/extensions/pdf" filename="{$filename}" link-as-file-annotation="true">
 				<xsl:attribute name="src">
 					<xsl:choose>
 						<xsl:when test="normalize-space() != ''">
@@ -14464,18 +14537,27 @@
 				<xsl:if test="$description != ''">
 					<xsl:attribute name="description"><xsl:value-of select="$description"/></xsl:attribute>
 				</xsl:if>
+				<xsl:if test="$afrelationship != ''">
+					<xsl:attribute name="afrelationship"><xsl:value-of select="$afrelationship"/></xsl:attribute>
+				</xsl:if>
 			</pdf:embedded-file>
 		</xsl:for-each>
 		<!-- references to external attachments (no binary-encoded within the Metanorma XML file) -->
 		<xsl:if test="not(//*[contains(local-name(), '-standard')]/*[local-name() = 'metanorma-extension']/*[local-name() = 'attachment'])">
 			<xsl:for-each select="//*[local-name() = 'bibitem'][@hidden = 'true'][*[local-name() = 'uri'][@type = 'attachment']]">
 				<xsl:variable name="attachment_path" select="*[local-name() = 'uri'][@type = 'attachment']"/>
+				<xsl:variable name="attachment_name" select="java:org.metanorma.fop.Util.getFilenameFromPath($attachment_path)"/>
 				<xsl:variable name="url" select="concat('url(file:///',$basepath, $attachment_path, ')')"/>
 				<xsl:variable name="description" select="normalize-space(*[local-name() = 'formattedref'])"/>
-				<pdf:embedded-file xmlns:pdf="http://xmlgraphics.apache.org/fop/extensions/pdf" src="{$url}" filename="{$attachment_path}">
+				<!-- Todo: need update -->
+			<xsl:variable name="afrelationship" select="normalize-space(.//*[local-name() = 'span'][@class = 'pdf-AFRelationship'])"/>
+				<pdf:embedded-file xmlns:pdf="http://xmlgraphics.apache.org/fop/extensions/pdf" src="{$url}" filename="{$attachment_name}" link-as-file-annotation="true">
 					<xsl:if test="$description != ''">
 						<xsl:attribute name="description"><xsl:value-of select="$description"/></xsl:attribute>
 					</xsl:if>
+					<xsl:if test="$afrelationship != ''">
+					<xsl:attribute name="afrelationship"><xsl:value-of select="$afrelationship"/></xsl:attribute>
+				</xsl:if>
 				</pdf:embedded-file>
 			</xsl:for-each>
 		</xsl:if>
@@ -14881,6 +14963,20 @@
 	</xsl:template>
 
 	<!-- END: insert cover page image -->
+
+	<xsl:template name="insertVerticalChar">
+		<xsl:param name="str"/>
+		<xsl:if test="string-length($str) &gt; 0">
+			<fo:inline-container writing-mode="lr-tb" text-align="center" alignment-baseline="central" reference-orientation="90" width="1em" margin="0" padding="0" text-indent="0mm" last-line-end-indent="0mm" start-indent="0mm" end-indent="0mm">
+				<fo:block-container width="1em">
+						<fo:block line-height="1em"><xsl:value-of select="substring($str,1,1)"/></fo:block>
+				</fo:block-container>
+			</fo:inline-container>
+			<xsl:call-template name="insertVerticalChar">
+				<xsl:with-param name="str" select="substring($str, 2)"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
 
 	<xsl:template name="number-to-words">
 		<xsl:param name="number"/>

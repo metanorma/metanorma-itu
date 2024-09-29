@@ -6,7 +6,7 @@ RSpec.describe Metanorma::ITU do
     @blank_hdr = blank_hdr_gen
   end
 
-  xit "processes explicit metadata, service publication in French" do
+  it "processes explicit metadata, service publication in French" do
     input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
@@ -360,7 +360,7 @@ RSpec.describe Metanorma::ITU do
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
   end
 
-  xit "processes explicit metadata, service publication in Chinese" do
+  it "processes explicit metadata, service publication in Chinese" do
     input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
@@ -694,7 +694,7 @@ RSpec.describe Metanorma::ITU do
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
   end
 
-  xit "processes explicit metadata, service publication in Arabic" do
+  it "processes explicit metadata, service publication in Arabic" do
     input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
@@ -1048,7 +1048,7 @@ RSpec.describe Metanorma::ITU do
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
   end
 
-  xit "processes explicit metadata, service publication in Spanish" do
+  it "processes explicit metadata, service publication in Spanish" do
     input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
@@ -1376,7 +1376,7 @@ RSpec.describe Metanorma::ITU do
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
   end
 
-  xit "processes explicit metadata, service publication in German" do
+  it "processes explicit metadata, service publication in German" do
     input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author
@@ -1703,7 +1703,7 @@ RSpec.describe Metanorma::ITU do
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
   end
 
-  xit "processes explicit metadata, service publication in Russian" do
+  it "processes explicit metadata, service publication in Russian" do
     input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
       Author

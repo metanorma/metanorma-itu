@@ -1376,8 +1376,8 @@ RSpec.describe Metanorma::ITU do
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-          <docidentifier primary="true" type='ITU'>Annex to ITU-R OB.1000</docidentifier>
-          <docidentifier type='ITU-lang'>Annex to ITU-R OB.1000-E</docidentifier>
+          <docidentifier primary="true" type='ITU'>Annex to ITU-R OB No. 1000</docidentifier>
+          <docidentifier type='ITU-lang'>Annex to ITU-R OB No. 1000-E</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>

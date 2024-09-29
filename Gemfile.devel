@@ -1,1 +1,1 @@
-gem "pubid-itu", git: "https://github.com/metanorma/pubid-itu", branch: "main"
+gem "pubid-itu", git: "https://github.com/metanorma/pubid-itu", branch: "translate-recommendations"

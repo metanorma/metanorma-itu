@@ -70,6 +70,7 @@
       <optional>
         <ref name="docsubtype"/>
       </optional>
+      <ref name="flavor"/>
       <oneOrMore>
         <ref name="editorialgroup"/>
       </oneOrMore>

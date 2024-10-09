@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Metanorma::ITU do
+RSpec.describe Metanorma::Itu do
   before(:all) do
     @blank_hdr = blank_hdr_gen
   end
@@ -58,7 +58,7 @@ RSpec.describe Metanorma::ITU do
 
     INPUT
     output = <<~"OUTPUT"
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -152,6 +152,7 @@ RSpec.describe Metanorma::ITU do
           <keyword>word2</keyword>
           <ext>
             <doctype>service-publication</doctype>
+            <flavor>itu</flavor>
             <editorialgroup>
               <bureau>R</bureau>
               <group>
@@ -413,7 +414,7 @@ RSpec.describe Metanorma::ITU do
 
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
       <bibdata type='standard'>
           <title language='zh' format='text/plain' type='main'>Document title</title>
           <title language='en' format='text/plain' type='main'>Main Title</title>
@@ -509,6 +510,7 @@ RSpec.describe Metanorma::ITU do
           <keyword>word2</keyword>
           <ext>
             <doctype>service-publication</doctype>
+            <flavor>itu</flavor>
             <editorialgroup>
               <bureau>R</bureau>
               <group>
@@ -746,7 +748,7 @@ RSpec.describe Metanorma::ITU do
 
     INPUT
     output = <<~OUTPUT
-           <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+           <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
       <bibdata type='standard'>
         <title language='en' format='text/plain' type='main'>Main Title</title>
         <title language='ar' format='text/plain' type='main'>Titre Principal</title>
@@ -847,6 +849,7 @@ RSpec.describe Metanorma::ITU do
         <keyword>word2</keyword>
         <ext>
           <doctype>service-publication</doctype>
+            <flavor>itu</flavor>
           <editorialgroup>
             <bureau>R</bureau>
             <group>
@@ -1100,7 +1103,7 @@ RSpec.describe Metanorma::ITU do
 
     INPUT
     output = <<~OUTPUT
-           <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+           <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
             <bibdata type='standard'>
         <title language='en' format='text/plain' type='main'>Main Title</title>
         <title language='es' format='text/plain' type='main'>Titre Principal</title>
@@ -1194,6 +1197,7 @@ RSpec.describe Metanorma::ITU do
         <keyword>word2</keyword>
         <ext>
           <doctype>service-publication</doctype>
+            <flavor>itu</flavor>
           <editorialgroup>
             <bureau>R</bureau>
             <group>
@@ -1428,7 +1432,7 @@ RSpec.describe Metanorma::ITU do
 
     INPUT
     output = <<~OUTPUT
-          <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+          <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
       <bibdata type='standard'>
         <title language='en' format='text/plain' type='main'>Main Title</title>
         <title language='de' format='text/plain' type='main'>Titre Principal</title>
@@ -1522,6 +1526,7 @@ RSpec.describe Metanorma::ITU do
         <keyword>word2</keyword>
         <ext>
           <doctype>service-publication</doctype>
+            <flavor>itu</flavor>
           <editorialgroup>
             <bureau>R</bureau>
             <group>
@@ -1755,7 +1760,7 @@ RSpec.describe Metanorma::ITU do
 
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
       <bibdata type='standard'>
            <title language='en' format='text/plain' type='main'>Main Title</title>
            <title language='ru' format='text/plain' type='main'>Titre Principal</title>
@@ -1855,6 +1860,7 @@ RSpec.describe Metanorma::ITU do
            <keyword>word2</keyword>
            <ext>
              <doctype>service-publication</doctype>
+            <flavor>itu</flavor>
              <editorialgroup>
                <bureau>R</bureau>
                <group>

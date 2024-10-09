@@ -5,9 +5,9 @@ logoloc = File.expand_path(
   File.join(File.dirname(__FILE__), "..", "..", "lib", "isodoc", "itu", "html"),
 )
 
-RSpec.describe Metanorma::ITU do
+RSpec.describe Metanorma::Itu do
   it "processes default metadata" do
-    csdc = IsoDoc::ITU::HtmlConvert.new({})
+    csdc = IsoDoc::Itu::HtmlConvert.new({})
     input = <<~INPUT
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
         <bibdata type="standard">
@@ -331,7 +331,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes default metadata for technical report" do
-    csdc = IsoDoc::ITU::HtmlConvert.new({})
+    csdc = IsoDoc::Itu::HtmlConvert.new({})
     docxml, = csdc.convert_init(<<~"INPUT", "test", true)
       <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='1.2.4'>
            <bibdata type='standard'>
@@ -532,7 +532,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes default metadata for resolution" do
-    csdc = IsoDoc::ITU::HtmlConvert.new({})
+    csdc = IsoDoc::Itu::HtmlConvert.new({})
     docxml, = csdc.convert_init(<<~"INPUT", "test", true)
       <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='1.2.4'>
            <bibdata type='standard'>
@@ -647,7 +647,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes default metadata for resolution, date range, days" do
-    csdc = IsoDoc::ITU::HtmlConvert.new({})
+    csdc = IsoDoc::Itu::HtmlConvert.new({})
     docxml, = csdc.convert_init(<<~"INPUT", "test", true)
       <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='1.2.4'>
            <bibdata type='standard'>
@@ -763,7 +763,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes default metadata for resolution, date range, months" do
-    csdc = IsoDoc::ITU::HtmlConvert.new({})
+    csdc = IsoDoc::Itu::HtmlConvert.new({})
     docxml, = csdc.convert_init(<<~"INPUT", "test", true)
       <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='1.2.4'>
            <bibdata type='standard'>
@@ -879,7 +879,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes default metadata for resolution, date range, years" do
-    csdc = IsoDoc::ITU::HtmlConvert.new({})
+    csdc = IsoDoc::Itu::HtmlConvert.new({})
     docxml, = csdc.convert_init(<<~"INPUT", "test", true)
       <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='1.2.4'>
            <bibdata type='standard'>
@@ -995,7 +995,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes default metadata for service publication" do
-    csdc = IsoDoc::ITU::HtmlConvert.new({})
+    csdc = IsoDoc::Itu::HtmlConvert.new({})
     docxml, = csdc.convert_init(<<~"INPUT", "test", true)
       <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='1.2.4'>
            <bibdata type='standard'>
@@ -1196,7 +1196,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "processes metadata for in-force-prepublished, recommendation annex" do
-    csdc = IsoDoc::ITU::HtmlConvert.new({})
+    csdc = IsoDoc::Itu::HtmlConvert.new({})
     docxml, = csdc.convert_init(<<~"INPUT", "test", true)
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
         <bibdata type="standard">
@@ -1302,7 +1302,7 @@ RSpec.describe Metanorma::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1332,7 +1332,7 @@ RSpec.describe Metanorma::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1364,7 +1364,7 @@ RSpec.describe Metanorma::ITU do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to Xml::C14n.format(output)

@@ -1,5 +1,5 @@
 module IsoDoc
-  module ITU
+  module Itu
     class I18n < IsoDoc::I18n
       def load_file(fname)
         f = File.join(File.dirname(__FILE__), fname)

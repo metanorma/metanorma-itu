@@ -4,7 +4,7 @@ require_relative "xref"
 require_relative "i18n"
 
 module IsoDoc
-  module ITU
+  module Itu
     module Init
       def metadata_init(lang, script, locale, i18n)
         @meta = Metadata.new(lang, script, locale, i18n)
@@ -22,7 +22,7 @@ module IsoDoc
       end
 
       def bibrenderer(options = {})
-        ::Relaton::Render::ITU::General.new(options.merge(language: @lang,
+        ::Relaton::Render::Itu::General.new(options.merge(language: @lang,
                                                           i18nhash: @i18n.get))
       end
 

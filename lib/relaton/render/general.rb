@@ -3,7 +3,7 @@ require_relative "parse"
 
 module Relaton
   module Render
-    module ITU
+    module Itu
       class General < ::Relaton::Render::IsoDoc::General
         def config_loc
           YAML.load_file(File.join(File.dirname(__FILE__), "config.yml"))
@@ -11,7 +11,7 @@ module Relaton
 
         def klass_initialize(_options)
           super
-          @parseklass = Relaton::Render::ITU::Parse
+          @parseklass = Relaton::Render::Itu::Parse
         end
       end
     end

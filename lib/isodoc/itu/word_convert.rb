@@ -4,7 +4,7 @@ require_relative "word_cleanup"
 require "fileutils"
 
 module IsoDoc
-  module ITU
+  module Itu
     class WordConvert < IsoDoc::WordConvert
       def initialize(options)
         @libdir = File.dirname(__FILE__)

@@ -19,7 +19,7 @@ module Nokogiri
 end
 
 module IsoDoc
-  module ITU
+  module Itu
     class PresentationXMLConvert < IsoDoc::PresentationXMLConvert
       def initialize(options)
         @hierarchical_assets = options[:hierarchicalassets]

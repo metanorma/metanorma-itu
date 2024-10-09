@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Metanorma::ITU do
+RSpec.describe Metanorma::Itu do
   before(:all) do
     @blank_hdr = blank_hdr_gen
   end
@@ -15,7 +15,7 @@ RSpec.describe Metanorma::ITU do
   end
 
   it "has a version number" do
-    expect(Metanorma::ITU::VERSION).not_to be nil
+    expect(Metanorma::Itu::VERSION).not_to be nil
   end
 
   it "processes a blank document" do
@@ -78,7 +78,7 @@ RSpec.describe Metanorma::ITU do
       :legacy-do-not-insert-missing-sections:
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
+      <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::Itu::VERSION}">
         <bibdata type="standard">
           <title language="en" format="text/plain" type="main">Main Title</title>
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
@@ -119,6 +119,7 @@ RSpec.describe Metanorma::ITU do
           </copyright>
           <ext>
             <doctype>recommendation</doctype>
+            <flavor>itu</flavor>
             <editorialgroup>
               <bureau>T</bureau>
             </editorialgroup>
@@ -251,7 +252,7 @@ RSpec.describe Metanorma::ITU do
         :timing: 2025-Q4
       INPUT
       output = <<~"OUTPUT"
-        <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
+        <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::Itu::VERSION}">
                     <bibdata type='standard'>
                                  <title language="en" format="text/plain" type="main">Main Title</title>
              <title language="en" format="text/plain" type="annex">I3</title>
@@ -573,6 +574,7 @@ RSpec.describe Metanorma::ITU do
              <keyword>word2</keyword>
              <ext>
                 <doctype>directive</doctype>
+            <flavor>itu</flavor>
                 <editorialgroup>
                    <sector>Sector</sector>
                 </editorialgroup>
@@ -861,7 +863,7 @@ RSpec.describe Metanorma::ITU do
       :email_2: y@example.com
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -954,6 +956,7 @@ RSpec.describe Metanorma::ITU do
           <keyword>word1</keyword>
           <ext>
             <doctype>contribution</doctype>
+            <flavor>itu</flavor>
             <editorialgroup>
               <bureau>R</bureau>
               <group type="study-group">
@@ -1055,7 +1058,7 @@ RSpec.describe Metanorma::ITU do
       :email_2: y@example.com
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -1148,6 +1151,7 @@ RSpec.describe Metanorma::ITU do
           <keyword>word1</keyword>
           <ext>
             <doctype>technical-report</doctype>
+            <flavor>itu</flavor>
             <editorialgroup>
               <bureau>R</bureau>
               <group>
@@ -1225,7 +1229,7 @@ RSpec.describe Metanorma::ITU do
       :draft: 5
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -1281,6 +1285,7 @@ RSpec.describe Metanorma::ITU do
           <keyword>word2</keyword>
           <ext>
             <doctype>technical-report</doctype>
+            <flavor>itu</flavor>
             <editorialgroup>
               <bureau>R</bureau>
               <group>
@@ -1370,7 +1375,7 @@ RSpec.describe Metanorma::ITU do
     INPUT
 
     output = <<~OUTPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::ITU::VERSION}'>
+      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -1464,6 +1469,7 @@ RSpec.describe Metanorma::ITU do
           <keyword>word2</keyword>
           <ext>
             <doctype>service-publication</doctype>
+            <flavor>itu</flavor>
             <editorialgroup>
               <bureau>R</bureau>
               <group>
@@ -1520,7 +1526,7 @@ RSpec.describe Metanorma::ITU do
     INPUT
     output = <<~"OUTPUT"
       <?xml version="1.0" encoding="UTF-8"?>
-      <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
+      <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::Itu::VERSION}">
       <bibdata type="standard">
         <title language="en" format="text/plain" type="main">Main Title</title>
         <docidentifier primary="true" type="ITU">ITU-T 1000</docidentifier>
@@ -1556,6 +1562,7 @@ RSpec.describe Metanorma::ITU do
         </copyright>
         <ext>
           <doctype>technical-corrigendum</doctype>
+            <flavor>itu</flavor>
           <editorialgroup>
             <bureau>T</bureau>
           </editorialgroup>

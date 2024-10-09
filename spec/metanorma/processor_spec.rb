@@ -2,9 +2,9 @@ require "spec_helper"
 require "metanorma"
 
 # RSpec.describe Asciidoctor::Csand do
-RSpec.describe Metanorma::ITU::Processor do
+RSpec.describe Metanorma::Itu::Processor do
   registry = Metanorma::Registry.instance
-  registry.register(Metanorma::ITU::Processor)
+  registry.register(Metanorma::Itu::Processor)
   processor = registry.find_processor(:itu)
 
   it "registers against metanorma" do
@@ -18,7 +18,7 @@ RSpec.describe Metanorma::ITU::Processor do
   end
 
   it "registers version against metanorma" do
-    expect(processor.version.to_s).to match(%r{^Metanorma::ITU })
+    expect(processor.version.to_s).to match(%r{^Metanorma::Itu })
   end
 
   it "generates IsoDoc XML from a blank document" do

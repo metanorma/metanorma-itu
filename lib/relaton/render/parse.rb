@@ -1,6 +1,6 @@
 module Relaton
   module Render
-    module ITU
+    module Itu
       class Parse < ::Relaton::Render::Parse
       end
     end

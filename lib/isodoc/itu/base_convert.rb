@@ -6,7 +6,7 @@ require_relative "terms"
 require_relative "cleanup"
 
 module IsoDoc
-  module ITU
+  module Itu
     module BaseConvert
       FRONT_CLAUSE = "//*[parent::preface]" \
                      "[not(local-name() = 'abstract')]".freeze

@@ -1,5 +1,5 @@
 module IsoDoc
-  module ITU
+  module Itu
     module BaseConvert
       def termdef_parse1(node, div, defn, source)
         div.p **{ class: "TermNum", id: node["id"] } do |p|

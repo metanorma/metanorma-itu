@@ -2,7 +2,7 @@ require "twitter_cldr"
 require_relative "metadata_date"
 
 module IsoDoc
-  module ITU
+  module Itu
     class Metadata < IsoDoc::Metadata
       def initialize(lang, script, locale, labels)
         super
@@ -12,7 +12,7 @@ module IsoDoc
         set(:logo_word, fileloc(n))
         set(:logo_sp, fileloc("logo-sp.png"))
         set(:logo_small, fileloc("logo-small.png"))
-        @isodoc = IsoDoc::ITU::HtmlConvert.new({})
+        @isodoc = IsoDoc::Itu::HtmlConvert.new({})
       end
 
       def fileloc(file)

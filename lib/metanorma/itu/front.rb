@@ -2,7 +2,7 @@ require "fileutils"
 require_relative "./front_id"
 
 module Metanorma
-  module ITU
+  module Itu
     class Converter < Standoc::Converter
       def metadata_status(node, xml)
         stage = node.attr("status") || node.attr("docstage") || "published"
@@ -228,6 +228,7 @@ module Metanorma
       def metadata_ext(node, xml)
         metadata_doctype(node, xml)
         metadata_subdoctype(node, xml)
+        metadata_flavor(node, xml)
         metadata_committee(node, xml)
         metadata_ics(node, xml)
         metadata_recommendationstatus(node, xml)

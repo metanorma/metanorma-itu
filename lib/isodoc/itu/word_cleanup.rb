@@ -1,5 +1,5 @@
 module IsoDoc
-  module ITU
+  module Itu
     class WordConvert < IsoDoc::WordConvert
       def word_preface_cleanup(docxml)
         docxml.xpath("//h1[@class = 'AbstractTitle'] | "\

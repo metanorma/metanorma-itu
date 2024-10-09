@@ -1,5 +1,5 @@
 module IsoDoc
-  module ITU
+  module Itu
     class Xref < IsoDoc::Xref
       def clause_order_annex(docxml)
         if docxml.at(ns("//bibdata/ext/structuredidentifier/annexid"))

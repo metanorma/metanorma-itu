@@ -1,5 +1,5 @@
 module IsoDoc
-  module ITU
+  module Itu
     module BaseConvert
       def cleanup(docxml)
         super

@@ -95,7 +95,7 @@ VALIDATING_BLANK_HDR = <<~HDR.freeze
 HDR
 
 def boilerplate_read(file, xmldoc)
-  conv = Metanorma::ITU::Converter.new(:itu, {})
+  conv = Metanorma::Itu::Converter.new(:itu, {})
   conv.init(Asciidoctor::Document.new([]))
   x = conv.boilerplate_isodoc(xmldoc).populate_template(file, nil)
   ret = conv.boilerplate_file_restructure(x)
@@ -133,6 +133,7 @@ def itudoc(lang)
              <keyword>B</keyword>
              <ext>
              <doctype>recommendation</doctype>
+             <flavor>itu</flavor>
              </ext>
              </bibdata>
     <preface>
@@ -196,7 +197,7 @@ end
 
 BLANK_HDR = <<~"HDR".freeze
   <?xml version="1.0" encoding="UTF-8"?>
-  <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::ITU::VERSION}">
+  <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::Itu::VERSION}">
   <bibdata type="standard">
    <title language="en" format="text/plain" type="main">Document title</title>
 
@@ -232,6 +233,7 @@ BLANK_HDR = <<~"HDR".freeze
     </copyright>
     <ext>
            <doctype>recommendation</doctype>
+             <flavor>itu</flavor>
            <editorialgroup>
            <bureau>T</bureau>
            </editorialgroup>

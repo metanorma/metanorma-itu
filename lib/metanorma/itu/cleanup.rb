@@ -1,7 +1,7 @@
 require_relative "cleanup_section"
 
 module Metanorma
-  module ITU
+  module Itu
     class Converter < Standoc::Converter
       def table_cleanup(xmldoc)
         super

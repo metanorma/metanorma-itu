@@ -4,7 +4,7 @@ require "metanorma/itu/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "metanorma-itu"
-  spec.version       = Metanorma::ITU::VERSION
+  spec.version       = Metanorma::Itu::VERSION
   spec.authors       = ["Ribose Inc."]
   spec.email         = ["open.source@ribose.com"]
 

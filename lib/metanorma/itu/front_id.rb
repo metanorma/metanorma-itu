@@ -1,5 +1,5 @@
 module Metanorma
-  module ITU
+  module Itu
     class Converter < Standoc::Converter
       def metadata_id(node, xml)
         provisional_id(node, xml)

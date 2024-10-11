@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Metanorma::ITU do
+RSpec.describe Metanorma::Itu do
   context "when xref_error.adoc compilation" do
     FileUtils.rm_rf "xref_error.err.html"
     it "generates error file" do

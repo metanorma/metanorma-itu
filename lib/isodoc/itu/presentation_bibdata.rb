@@ -1,5 +1,5 @@
 module IsoDoc
-  module ITU
+  module Itu
     class PresentationXMLConvert < IsoDoc::PresentationXMLConvert
       def bibdata_i18n(bib)
         super

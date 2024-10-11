@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Metanorma::ITU do
+RSpec.describe Metanorma::Itu do
   it "cross-references notes" do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">
@@ -80,7 +80,7 @@ RSpec.describe Metanorma::ITU do
         </p>
       </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -258,12 +258,12 @@ RSpec.describe Metanorma::ITU do
         </div>
       </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>"))))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
@@ -300,7 +300,7 @@ RSpec.describe Metanorma::ITU do
             </p>
           </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -389,7 +389,7 @@ RSpec.describe Metanorma::ITU do
                   </annex>
               </itu-standard>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -460,7 +460,7 @@ RSpec.describe Metanorma::ITU do
         </p>
       </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert
       .new({ hierarchicalassets: true })
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
@@ -522,7 +522,7 @@ RSpec.describe Metanorma::ITU do
         </p>
       </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -636,7 +636,7 @@ RSpec.describe Metanorma::ITU do
         </p>
       </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -889,11 +889,11 @@ RSpec.describe Metanorma::ITU do
                </div>
              </body>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .sub(%r{<localized-strings>.*</localized-strings>}m, "")))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
@@ -985,7 +985,7 @@ RSpec.describe Metanorma::ITU do
         </p>
       </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -1062,7 +1062,7 @@ RSpec.describe Metanorma::ITU do
         </p>
       </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
       .at("//xmlns:foreword").to_xml))
       .to be_equivalent_to Xml::C14n.format(output)

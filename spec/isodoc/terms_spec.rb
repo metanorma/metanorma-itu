@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe Metanorma::ITU do
+RSpec.describe Metanorma::Itu do
   it "processes simple terms & definitions" do
     input = <<~INPUT
               <itu-standard xmlns="http://riboseinc.com/isoxml">
@@ -84,12 +84,12 @@ RSpec.describe Metanorma::ITU do
         </div>
       </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
@@ -99,7 +99,7 @@ RSpec.describe Metanorma::ITU do
   it "postprocesses simple terms & definitions" do
     FileUtils.rm_f "test.html"
     FileUtils.rm_f "test.doc"
-    IsoDoc::ITU::HtmlConvert.new({}).convert("test", <<~INPUT, false)
+    IsoDoc::Itu::HtmlConvert.new({}).convert("test", <<~INPUT, false)
               <itu-standard xmlns="http://riboseinc.com/isoxml">
       <preface/><sections>
       <terms id="H" obligation="normative" displayorder="1"><title>1<tab/>Terms</title>
@@ -194,7 +194,7 @@ RSpec.describe Metanorma::ITU do
                </div>
                </body>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
@@ -245,7 +245,7 @@ RSpec.describe Metanorma::ITU do
              </body>
              </html>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
       .cleanup(Nokogiri::XML(input)).to_s))
       .to be_equivalent_to Xml::C14n.format(output)
   end

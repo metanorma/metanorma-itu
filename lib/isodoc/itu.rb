@@ -6,6 +6,6 @@ require "isodoc/itu/word_convert"
 require "isodoc/itu/presentation_xml_convert"
 
 module IsoDoc
-  module ITU
+  module Itu
   end
 end

@@ -1,2 +1,2 @@
-#gem "pubid-itu", git: "https://github.com/metanorma/pubid-itu", branch: "translate-recommendations"
+gem "pubid-itu", git: "https://github.com/metanorma/pubid-itu", branch: "annex-itu-ob-translation"
 gem "metanorma-standoc", git: "https://github.com/metanorma/metanorma-standoc", branch: "feature/ext-flavor"

@@ -41,7 +41,7 @@ module Metanorma
       end
 
       def itu_id_pub(node)
-        (node.attr("publisher") || default_publisher).split(/[;,]/)
+        (node.attr("publisher") || "ITU").split(/[;,]/)
           .map(&:strip).map { |x| org_abbrev[x] || x }
       end
 
@@ -80,8 +80,7 @@ module Metanorma
       end
 
       def itu_id_params_add(node)
-        ret = { part: node.attr("partnumber"),
-                language: node.attr("language") || "en" }
+        ret = { part: node.attr("partnumber") }
         @doctype == "contribution" and
           ret[:series] = node.attr("group-acronym") ||
             node.attr("group")&.sub("Study Group ", "SG")
@@ -91,19 +90,23 @@ module Metanorma
       def itu_id_out(node, xml, params)
         xml.docidentifier itu_id_default(node, params).to_s,
                           **attr_code(type: "ITU", primary: "true")
-        xml.docidentifier itu_id_lang(node, params).to_s,
+        id_lang = itu_id_lang(node, params)
+        xml.docidentifier id_lang.to_s(language: @lang),
                           **attr_code(type: "ITU-lang")
+        xml.docidentifier id_lang
+          .to_s(language: @lang, format: :long),
+                          **attr_code(type: "ITU-lang-long")
       end
 
       def itu_id_default(node, params)
         p = params.dup
-        p.delete(:language)
         p[:base] &&= itu_id_default(node, p[:base])
         Pubid::Itu::Identifier.create(**p)
       end
 
       def itu_id_lang(node, params)
         params[:base] &&= itu_id_lang(node, params[:base])
+        params[:language] = @lang
         Pubid::Itu::Identifier.create(**params)
       end
 

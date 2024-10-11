@@ -7,7 +7,7 @@ require_relative "./validate"
 require_relative "./cleanup"
 
 module Metanorma
-  module ITU
+  module Itu
     class Converter < Standoc::Converter
       XML_ROOT_TAG = "itu-standard".freeze
       XML_NAMESPACE = "https://www.metanorma.org/ns/itu".freeze
@@ -140,22 +140,22 @@ module Metanorma
       end
 
       def presentation_xml_converter(node)
-        IsoDoc::ITU::PresentationXMLConvert
+        IsoDoc::Itu::PresentationXMLConvert
           .new(html_extract_attributes(node)
-          .merge(output_formats: ::Metanorma::ITU::Processor.new
+          .merge(output_formats: ::Metanorma::Itu::Processor.new
           .output_formats))
       end
 
       def html_converter(node)
-        IsoDoc::ITU::HtmlConvert.new(html_extract_attributes(node))
+        IsoDoc::Itu::HtmlConvert.new(html_extract_attributes(node))
       end
 
       def pdf_converter(node)
-        IsoDoc::ITU::PdfConvert.new(pdf_extract_attributes(node))
+        IsoDoc::Itu::PdfConvert.new(pdf_extract_attributes(node))
       end
 
       def doc_converter(node)
-        IsoDoc::ITU::WordConvert.new(doc_extract_attributes(node))
+        IsoDoc::Itu::WordConvert.new(doc_extract_attributes(node))
       end
     end
   end

@@ -1,5 +1,5 @@
 module Metanorma
-  module ITU
+  module Itu
     class Converter < Standoc::Converter
       def bibdata_validate(doc)
         doctype_validate(doc)

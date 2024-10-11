@@ -1,5 +1,5 @@
 module IsoDoc
-  module ITU
+  module Itu
     class PresentationXMLConvert < IsoDoc::PresentationXMLConvert
       def contribution_table_insert_pt(docxml)
         docxml.at(ns("//preface")) || docxml.at(ns("//sections"))

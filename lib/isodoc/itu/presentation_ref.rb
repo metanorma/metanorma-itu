@@ -6,7 +6,7 @@ require_relative "presentation_bibdata"
 require_relative "presentation_preface"
 
 module IsoDoc
-  module ITU
+  module Itu
     class PresentationXMLConvert < IsoDoc::PresentationXMLConvert
       def bibrender_formattedref(formattedref, _xml)
         formattedref << "." unless /\.$/.match?(formattedref.text)

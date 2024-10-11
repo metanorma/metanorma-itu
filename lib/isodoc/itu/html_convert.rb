@@ -3,7 +3,7 @@ require_relative "init"
 require "fileutils"
 
 module IsoDoc
-  module ITU
+  module Itu
     # A {Converter} implementation that generates HTML output, and a document
     # schema encapsulation of the document for validation
     #

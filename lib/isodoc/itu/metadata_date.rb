@@ -1,5 +1,5 @@
 module IsoDoc
-  module ITU
+  module Itu
     class Metadata < IsoDoc::Metadata
       def monthyr(isodate)
         m = /(?<yr>\d\d\d\d)-(?<mo>\d\d)/.match isodate

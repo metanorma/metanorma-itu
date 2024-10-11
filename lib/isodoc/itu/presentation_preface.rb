@@ -1,5 +1,5 @@
 module IsoDoc
-  module ITU
+  module Itu
     class PresentationXMLConvert < IsoDoc::PresentationXMLConvert
       def insert_preface_sections(docxml)
         if @doctype == "contribution"

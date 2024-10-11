@@ -5994,6 +5994,7 @@
 
 			<fo:block role="SKIP">
 				<xsl:apply-templates/>
+				<xsl:if test="$isGenerateTableIF = 'false' and count(node()) = 0"> </xsl:if>
 			</fo:block>
 		</fo:table-cell>
 	</xsl:template> <!-- cell in table header row - 'th' -->
@@ -6056,6 +6057,8 @@
 				<xsl:apply-templates/>
 
 				<xsl:if test="$isGenerateTableIF = 'true'"> <fo:inline id="{@id}_end">end</fo:inline></xsl:if> <!-- to determine width of text --> <!-- <xsl:value-of select="$hair_space"/> -->
+
+				<xsl:if test="$isGenerateTableIF = 'false' and count(node()) = 0"> </xsl:if>
 
 			</fo:block>
 		</fo:table-cell>
@@ -6128,7 +6131,8 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="current_fn_number_text">
-			<xsl:value-of select="$current_fn_number"/>
+
+					<xsl:value-of select="$current_fn_number"/>
 
 		</xsl:variable>
 
@@ -6164,8 +6168,10 @@
 
 				<xsl:call-template name="insert_basic_link">
 					<xsl:with-param name="element">
-						<fo:basic-link internal-destination="{$ref_id}" fox:alt-text="footnote {$current_fn_number}" role="Lbl">
-							<xsl:copy-of select="$current_fn_number_text"/>
+						<fo:basic-link internal-destination="{$ref_id}" fox:alt-text="footnote {$current_fn_number}"> <!-- note: role="Lbl" removed in https://github.com/metanorma/mn2pdf/issues/291 -->
+							<fo:inline role="Lbl"> <!-- need for https://github.com/metanorma/metanorma-iso/issues/1003 -->
+								<xsl:copy-of select="$current_fn_number_text"/>
+							</fo:inline>
 						</fo:basic-link>
 					</xsl:with-param>
 				</xsl:call-template>
@@ -6452,7 +6458,7 @@
 
 			<xsl:call-template name="refine_fn-reference-style"/>
 
-			<fo:basic-link internal-destination="{@reference}_{ancestor::*[@id][1]/@id}" fox:alt-text="{@reference}"> <!-- @reference   | ancestor::*[local-name()='clause'][1]/@id-->
+			<fo:basic-link internal-destination="{@reference}_{ancestor::*[@id][1]/@id}" fox:alt-text="footnote {@reference}"> <!-- @reference   | ancestor::*[local-name()='clause'][1]/@id-->
 				<xsl:if test="ancestor::*[local-name()='table'][1]/@id"> <!-- for footnotes in tables -->
 					<xsl:attribute name="internal-destination">
 						<xsl:value-of select="concat(@reference, '_', ancestor::*[local-name()='table'][1]/@id)"/>
@@ -7496,9 +7502,19 @@
 		</fo:inline>
 	</xsl:template>
 
-	<xsl:template match="text()[ancestor::*[local-name()='smallcap']]">
+	<xsl:template match="text()[ancestor::*[local-name()='smallcap']]" name="smallcaps">
+		<xsl:param name="txt"/>
 		<!-- <xsl:variable name="text" select="normalize-space(.)"/> --> <!-- https://github.com/metanorma/metanorma-iso/issues/1115 -->
-		<xsl:variable name="text" select="."/>
+		<xsl:variable name="text">
+			<xsl:choose>
+				<xsl:when test="$txt != ''">
+					<xsl:value-of select="$txt"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="."/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<xsl:variable name="ratio_">
 			0.75
 		</xsl:variable>
@@ -8944,9 +8960,15 @@
 					<xsl:apply-templates/>
 				</xsl:when>
 				<xsl:otherwise>
+					<xsl:variable name="alt_text">
+						<xsl:call-template name="getAltText"/>
+					</xsl:variable>
 					<xsl:call-template name="insert_basic_link">
 						<xsl:with-param name="element">
-							<fo:basic-link external-destination="{$target}" fox:alt-text="{$target}">
+							<fo:basic-link external-destination="{$target}" fox:alt-text="{$alt_text}">
+								<xsl:if test="$isLinkToEmbeddedFile = 'true'">
+									<xsl:attribute name="role">Annot</xsl:attribute>
+								</xsl:if>
 								<xsl:choose>
 									<xsl:when test="normalize-space(.) = ''">
 										<xsl:call-template name="add-zero-spaces-link-java">
@@ -8969,6 +8991,14 @@
 			</xsl:choose>
 		</fo:inline>
 	</xsl:template> <!-- link -->
+
+	<xsl:template name="getAltText">
+		<xsl:choose>
+			<xsl:when test="normalize-space(.) = ''"><xsl:value-of select="@target"/></xsl:when>
+			<xsl:otherwise><xsl:value-of select="normalize-space(translate(normalize-space(), ' —', ' -'))"/></xsl:otherwise>
+			<!-- <xsl:otherwise><xsl:value-of select="@target"/></xsl:otherwise> -->
+		</xsl:choose>
+	</xsl:template>
 
 	<!-- ======================== -->
 	<!-- Appendix processing -->
@@ -9000,7 +9030,7 @@
 	<xsl:template match="*[local-name() = 'callout']">
 		<xsl:choose>
 			<xsl:when test="normalize-space(@target) = ''">&lt;<xsl:apply-templates/>&gt;</xsl:when>
-			<xsl:otherwise><fo:basic-link internal-destination="{@target}" fox:alt-text="{@target}">&lt;<xsl:apply-templates/>&gt;</fo:basic-link></xsl:otherwise>
+			<xsl:otherwise><fo:basic-link internal-destination="{@target}" fox:alt-text="{normalize-space()}">&lt;<xsl:apply-templates/>&gt;</fo:basic-link></xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
 
@@ -9029,7 +9059,10 @@
 	<xsl:template match="*[local-name() = 'xref']">
 		<xsl:call-template name="insert_basic_link">
 			<xsl:with-param name="element">
-				<fo:basic-link internal-destination="{@target}" fox:alt-text="{@target}" xsl:use-attribute-sets="xref-style">
+				<xsl:variable name="alt_text">
+					<xsl:call-template name="getAltText"/>
+				</xsl:variable>
+				<fo:basic-link internal-destination="{@target}" fox:alt-text="{$alt_text}" xsl:use-attribute-sets="xref-style">
 					<xsl:if test="string-length(normalize-space()) &lt; 30 and not(contains(normalize-space(), 'http://')) and not(contains(normalize-space(), 'https://')) and not(ancestor::*[local-name() = 'table' or local-name() = 'dl'])">
 						<xsl:attribute name="keep-together.within-line">always</xsl:attribute>
 					</xsl:if>
@@ -11517,12 +11550,14 @@
 
 					<xsl:when test="contains(normalize-space($fo_element), 'list')">
 
-						<xsl:variable name="provisional_distance_between_starts">
+						<xsl:variable name="provisional_distance_between_starts_">
 							7
 						</xsl:variable>
-						<xsl:variable name="indent">
+						<xsl:variable name="provisional_distance_between_starts" select="normalize-space($provisional_distance_between_starts_)"/>
+						<xsl:variable name="indent_">
 							0
 						</xsl:variable>
+						<xsl:variable name="indent" select="normalize-space($indent_)"/>
 
 						<fo:list-block provisional-distance-between-starts="{$provisional_distance_between_starts}mm">
 							<fo:list-item>
@@ -12254,13 +12289,16 @@
 			</xsl:when>
 			<xsl:when test="local-name(..) = 'ol' and @label"> <!-- for ordered lists 'ol', and if there is @label, for instance label="1.1.2" -->
 
-				<xsl:variable name="label">
+				<xsl:variable name="type" select="../@type"/>
 
-					<xsl:variable name="type" select="../@type"/>
+				<xsl:variable name="label">
 
 					<xsl:variable name="style_prefix_">
 						<xsl:if test="$type = 'roman'">
 							 <!-- Example: (i) -->
+						</xsl:if>
+						<xsl:if test="$type = 'alphabet'">
+
 						</xsl:if>
 					</xsl:variable>
 					<xsl:variable name="style_prefix" select="normalize-space($style_prefix_)"/>
@@ -12287,13 +12325,15 @@
 					<xsl:if test="$style_prefix != '' and not(starts-with(@label, $style_prefix))">
 						<xsl:value-of select="$style_prefix"/>
 					</xsl:if>
+
 					<xsl:value-of select="@label"/>
+
 					<xsl:if test="not(java:endsWith(java:java.lang.String.new(@label),$style_suffix))">
 						<xsl:value-of select="$style_suffix"/>
 					</xsl:if>
 				</xsl:variable>
 
-				<xsl:value-of select="normalize-space($label)"/>
+						<xsl:value-of select="normalize-space($label)"/>
 
 			</xsl:when>
 			<xsl:otherwise> <!-- for ordered lists 'ol' -->
@@ -14519,7 +14559,8 @@
 			<xsl:variable name="description" select="normalize-space($bibitem_attachment/*[local-name() = 'formattedref'])"/>
 			<xsl:variable name="filename" select="java:org.metanorma.fop.Util.getFilenameFromPath(@name)"/>
 			<!-- Todo: need update -->
-			<xsl:variable name="afrelationship" select="normalize-space($bibitem_attachment//*[local-name() = 'span'][@class = 'pdf-AFRelationship'])"/>
+			<xsl:variable name="afrelationship" select="normalize-space($bibitem_attachment//*[local-name() = 'classification'][@type = 'pdf-AFRelationship'])"/>
+			<xsl:variable name="volatile" select="normalize-space($bibitem_attachment//*[local-name() = 'classification'][@type = 'pdf-volatile'])"/>
 
 			<pdf:embedded-file xmlns:pdf="http://xmlgraphics.apache.org/fop/extensions/pdf" filename="{$filename}" link-as-file-annotation="true">
 				<xsl:attribute name="src">
@@ -14540,6 +14581,9 @@
 				<xsl:if test="$afrelationship != ''">
 					<xsl:attribute name="afrelationship"><xsl:value-of select="$afrelationship"/></xsl:attribute>
 				</xsl:if>
+				<xsl:if test="$volatile != ''">
+					<xsl:attribute name="volatile"><xsl:value-of select="$volatile"/></xsl:attribute>
+				</xsl:if>
 			</pdf:embedded-file>
 		</xsl:for-each>
 		<!-- references to external attachments (no binary-encoded within the Metanorma XML file) -->
@@ -14550,14 +14594,18 @@
 				<xsl:variable name="url" select="concat('url(file:///',$basepath, $attachment_path, ')')"/>
 				<xsl:variable name="description" select="normalize-space(*[local-name() = 'formattedref'])"/>
 				<!-- Todo: need update -->
-			<xsl:variable name="afrelationship" select="normalize-space(.//*[local-name() = 'span'][@class = 'pdf-AFRelationship'])"/>
+				<xsl:variable name="afrelationship" select="normalize-space(.//*[local-name() = 'classification'][@type = 'pdf-AFRelationship'])"/>
+				<xsl:variable name="volatile" select="normalize-space(.//*[local-name() = 'classification'][@type = 'pdf-volatile'])"/>
 				<pdf:embedded-file xmlns:pdf="http://xmlgraphics.apache.org/fop/extensions/pdf" src="{$url}" filename="{$attachment_name}" link-as-file-annotation="true">
 					<xsl:if test="$description != ''">
 						<xsl:attribute name="description"><xsl:value-of select="$description"/></xsl:attribute>
 					</xsl:if>
 					<xsl:if test="$afrelationship != ''">
-					<xsl:attribute name="afrelationship"><xsl:value-of select="$afrelationship"/></xsl:attribute>
-				</xsl:if>
+						<xsl:attribute name="afrelationship"><xsl:value-of select="$afrelationship"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$volatile != ''">
+						<xsl:attribute name="volatile"><xsl:value-of select="$volatile"/></xsl:attribute>
+					</xsl:if>
 				</pdf:embedded-file>
 			</xsl:for-each>
 		</xsl:if>
@@ -14577,6 +14625,12 @@
 	<!-- Get or calculate depth of the element -->
 	<xsl:template name="getLevel">
 		<xsl:param name="depth"/>
+		<!-- <xsl:message>
+			<xsl:choose>
+				<xsl:when test="local-name() = 'title'">title=<xsl:value-of select="."/></xsl:when>
+				<xsl:when test="local-name() = 'clause'">clause/title=<xsl:value-of select="*[local-name() = 'title']"/></xsl:when>
+			</xsl:choose>
+		</xsl:message> -->
 		<xsl:choose>
 			<xsl:when test="normalize-space(@depth) != ''">
 				<xsl:value-of select="@depth"/>
@@ -14597,14 +14651,65 @@
 						<xsl:when test="ancestor::*[local-name() = 'preface']">
 							<xsl:value-of select="$level_total - 2"/>
 						</xsl:when>
+						<xsl:when test="ancestor::*[local-name() = 'sections'] and self::*[local-name() = 'title']">
+							<!-- determine 'depth' depends on upper clause with title/@depth -->
+							<!-- <xsl:message>title=<xsl:value-of select="."/></xsl:message> -->
+							<xsl:variable name="clause_with_depth_depth" select="ancestor::*[local-name() = 'clause'][*[local-name() = 'title']/@depth][1]/*[local-name() = 'title']/@depth"/>
+							<!-- <xsl:message>clause_with_depth_depth=<xsl:value-of select="$clause_with_depth_depth"/></xsl:message> -->
+							<xsl:variable name="clause_with_depth_level" select="count(ancestor::*[local-name() = 'clause'][*[local-name() = 'title']/@depth][1]/ancestor::*)"/>
+							<!-- <xsl:message>clause_with_depth_level=<xsl:value-of select="$clause_with_depth_level"/></xsl:message> -->
+							<xsl:variable name="curr_level" select="count(ancestor::*) - 1"/>
+							<!-- <xsl:message>curr_level=<xsl:value-of select="$curr_level"/></xsl:message> -->
+							<!-- <xsl:variable name="upper_clause_depth" select="normalize-space(ancestor::*[local-name() = 'clause'][2]/*[local-name() = 'title']/@depth)"/> -->
+							<xsl:variable name="curr_clause_depth" select="number($clause_with_depth_depth) + (number($curr_level) - number($clause_with_depth_level)) "/>
+							<!-- <xsl:message>curr_clause_depth=<xsl:value-of select="$curr_clause_depth"/></xsl:message> -->
+							<xsl:choose>
+								<xsl:when test="string(number($curr_clause_depth)) != 'NaN'">
+									<xsl:value-of select="number($curr_clause_depth)"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$level_total - 2"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:when>
+						<xsl:when test="ancestor::*[local-name() = 'sections'] and self::*[local-name() = 'name'] and parent::*[local-name() = 'term']">
+							<xsl:variable name="upper_terms_depth" select="normalize-space(ancestor::*[local-name() = 'terms'][1]/*[local-name() = 'title']/@depth)"/>
+							<xsl:choose>
+								<xsl:when test="string(number($upper_terms_depth)) != 'NaN'">
+									<xsl:value-of select="number($upper_terms_depth + 1)"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$level_total - 2"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:when>
 						<xsl:when test="ancestor::*[local-name() = 'sections']">
-							<xsl:value-of select="$level_total - 1"/>
+							<xsl:variable name="upper_clause_depth" select="normalize-space(ancestor::*[local-name() = 'clause' or local-name() = 'terms'][1]/*[local-name() = 'title']/@depth)"/>
+							<xsl:choose>
+								<xsl:when test="string(number($upper_clause_depth)) != 'NaN'">
+									<xsl:value-of select="number($upper_clause_depth + 1)"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$level_total - 1"/>
+								</xsl:otherwise>
+							</xsl:choose>
 						</xsl:when>
 						<xsl:when test="ancestor::*[local-name() = 'bibliography']">
 							<xsl:value-of select="$level_total - 1"/>
 						</xsl:when>
 						<xsl:when test="parent::*[local-name() = 'annex']">
 							<xsl:value-of select="$level_total - 1"/>
+						</xsl:when>
+						<xsl:when test="ancestor::*[local-name() = 'annex'] and self::*[local-name() = 'title']">
+							<xsl:variable name="upper_clause_depth" select="normalize-space(ancestor::*[local-name() = 'clause'][2]/*[local-name() = 'title']/@depth)"/>
+							<xsl:choose>
+								<xsl:when test="string(number($upper_clause_depth)) != 'NaN'">
+									<xsl:value-of select="number($upper_clause_depth + 1)"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$level_total - 1"/>
+								</xsl:otherwise>
+							</xsl:choose>
 						</xsl:when>
 						<xsl:when test="ancestor::*[local-name() = 'annex']">
 							<xsl:value-of select="$level_total"/>
@@ -15263,6 +15368,20 @@
 				<xsl:text>&gt;</xsl:text>
 			</fo:block>
 		</xsl:if>
+	</xsl:template>
+
+	<xsl:template match="@*|node()" mode="set_table_role_skip">
+		<xsl:copy>
+			<xsl:apply-templates select="@*|node()" mode="set_table_role_skip"/>
+		</xsl:copy>
+	</xsl:template>
+
+	<xsl:template match="*[starts-with(local-name(), 'table')]" mode="set_table_role_skip">
+		<xsl:copy>
+			<xsl:apply-templates select="@*" mode="set_table_role_skip"/>
+			<xsl:attribute name="role">SKIP</xsl:attribute>
+			<xsl:apply-templates select="node()" mode="set_table_role_skip"/>
+		</xsl:copy>
 	</xsl:template>
 
 </xsl:stylesheet>

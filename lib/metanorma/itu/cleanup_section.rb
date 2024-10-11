@@ -1,5 +1,5 @@
 module Metanorma
-  module ITU
+  module Itu
     class Converter < Standoc::Converter
       def sections_cleanup(xml)
         super

@@ -2,7 +2,7 @@ require "isodoc"
 require "fileutils"
 
 module IsoDoc
-  module ITU
+  module Itu
     # A {Converter} implementation that generates PDF HTML output, and a
     # document schema encapsulation of the document for validation
     class PdfConvert < IsoDoc::XslfoPdfConvert

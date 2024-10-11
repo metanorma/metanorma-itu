@@ -3,7 +3,7 @@ require_relative "metadata"
 require "fileutils"
 
 module IsoDoc
-  module ITU
+  module Itu
     module BaseConvert
       def nonstd_bibitem(list, bibitem, _ordinal, biblio)
         list.tr **attr_code(iso_bibitem_entry_attrs(bibitem, biblio)) do |ref|

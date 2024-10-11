@@ -3,7 +3,7 @@ require "fileutils"
 require_relative "xref_section"
 
 module IsoDoc
-  module ITU
+  module Itu
     class Counter < IsoDoc::XrefGen::Counter
       def print
         ret = super or return nil

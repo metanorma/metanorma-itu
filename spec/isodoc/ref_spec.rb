@@ -1,7 +1,7 @@
 require "spec_helper"
 require "fileutils"
 
-RSpec.describe IsoDoc::ITU do
+RSpec.describe IsoDoc::Itu do
   it "processes IsoXML bibliographies (1)" do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">
@@ -242,12 +242,12 @@ RSpec.describe IsoDoc::ITU do
     OUTPUT
 
     FileUtils.rm_f "test.html"
-    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    IsoDoc::ITU::HtmlConvert.new({}).convert("test", presxml, false)
+    IsoDoc::Itu::HtmlConvert.new({}).convert("test", presxml, false)
     output = <<~OUTPUT
                  <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
                  <br/>
@@ -526,12 +526,12 @@ RSpec.describe IsoDoc::ITU do
            </body>
 
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::ITU::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::ITU::HtmlConvert.new({})
+    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
@@ -573,7 +573,7 @@ RSpec.describe IsoDoc::ITU do
       </foreword>
     PRESXML
     expect(Xml::C14n.format(Nokogiri::XML(
-      IsoDoc::ITU::PresentationXMLConvert.new(presxml_options)
+      IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true),
     ).at("//xmlns:foreword").to_xml))
       .to be_equivalent_to Xml::C14n.format(presxml)

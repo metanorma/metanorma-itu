@@ -28,7 +28,7 @@ RSpec.describe Metanorma::Itu do
       :title-fr: Titre Principal
       :subtitle-en: Subtitle
       :subtitle-fr: Soustitre
-      :bureau: R
+      :bureau: T
       :group: I
       :subgroup: I1
       :workgroup: I2
@@ -65,8 +65,9 @@ RSpec.describe Metanorma::Itu do
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
           <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-          <docidentifier primary="true" type='ITU'>Annexe au BE de l'UIT 1000</docidentifier>
-          <docidentifier type='ITU-lang'>Annexe au BE de l'UIT 1000-F</docidentifier>
+          <docidentifier type="ITU" primary="true">Annex to ITU-T OB No. 1000</docidentifier>
+          <docidentifier type="ITU-lang">Annexe au UIT-T OB No. 1000-F</docidentifier>
+          <docidentifier type="ITU-lang-long">Annexe au BE de l'UIT 1000-F</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>
@@ -154,7 +155,7 @@ RSpec.describe Metanorma::Itu do
             <doctype>service-publication</doctype>
             <flavor>itu</flavor>
             <editorialgroup>
-              <bureau>R</bureau>
+              <bureau>T</bureau>
               <group>
                 <name>I</name>
                 #{current_study_period}
@@ -177,7 +178,7 @@ RSpec.describe Metanorma::Itu do
             <intended-type>TD</intended-type>
             <source>Source</source>
             <structuredidentifier>
-              <bureau>R</bureau>
+              <bureau>T</bureau>
               <docnumber>1000</docnumber>
             </structuredidentifier>
           </ext>
@@ -384,7 +385,7 @@ RSpec.describe Metanorma::Itu do
       :title-fr: Titre Principal
       :subtitle-en: Subtitle
       :subtitle-fr: Soustitre
-      :bureau: R
+      :bureau: T
       :group: I
       :subgroup: I1
       :workgroup: I2
@@ -426,6 +427,9 @@ RSpec.describe Metanorma::Itu do
             &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;
           </docidentifier>
           <docidentifier type='ITU-lang'>
+            &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;-C
+          </docidentifier>
+          <docidentifier type='ITU-lang-long'>
             &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;-C
           </docidentifier>
           <docnumber>1000</docnumber>
@@ -512,7 +516,7 @@ RSpec.describe Metanorma::Itu do
             <doctype>service-publication</doctype>
             <flavor>itu</flavor>
             <editorialgroup>
-              <bureau>R</bureau>
+              <bureau>T</bureau>
               <group>
                 <name>I</name>
                 #{current_study_period}
@@ -535,7 +539,7 @@ RSpec.describe Metanorma::Itu do
             <intended-type>TD</intended-type>
             <source>Source</source>
             <structuredidentifier>
-              <bureau>R</bureau>
+              <bureau>T</bureau>
               <docnumber>1000</docnumber>
             </structuredidentifier>
           </ext>
@@ -718,7 +722,7 @@ RSpec.describe Metanorma::Itu do
       :title-ar: Titre Principal
       :subtitle-en: Subtitle
       :subtitle-ar: Soustitre
-      :bureau: R
+      :bureau: T
       :group: I
       :subgroup: I1
       :workgroup: I2
@@ -755,18 +759,9 @@ RSpec.describe Metanorma::Itu do
         <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
         <title language='ar' format='text/plain' type='subtitle'>Soustitre</title>
         <docidentifier type='ITU-provisional'>ABC</docidentifier>
-        <docidentifier primary="true" type='ITU'>
-          &#1605;&#1604;&#1581;&#1602;
-          &#1576;&#1575;&#1604;&#1606;&#1588;&#1585;&#1577;
-          &#1575;&#1604;&#1578;&#1588;&#1594;&#1610;&#1604;&#1610;&#1577;
-          &#1604;&#1604;&#1575;&#1578;&#1581;&#1575;&#1583; &#1585;&#1602;&#1605;
-        </docidentifier>
-        <docidentifier type='ITU-lang'>
-          &#1605;&#1604;&#1581;&#1602;
-          &#1576;&#1575;&#1604;&#1606;&#1588;&#1585;&#1577;
-          &#1575;&#1604;&#1578;&#1588;&#1594;&#1610;&#1604;&#1610;&#1577;
-          &#1604;&#1604;&#1575;&#1578;&#1581;&#1575;&#1583; &#1585;&#1602;&#1605;-A
-        </docidentifier>
+        <docidentifier type="ITU" primary="true">Annex to ITU-T OB No. 1000</docidentifier>
+        <docidentifier type="ITU-lang">ITU-T OB No. 1000 ملحق-A</docidentifier>
+        <docidentifier type="ITU-lang-long">ملحق ابلنشرة التشغيلية رقم 1000-A</docidentifier>
         <docnumber>1000</docnumber>
         <contributor>
           <role type='author'/>
@@ -851,7 +846,7 @@ RSpec.describe Metanorma::Itu do
           <doctype>service-publication</doctype>
             <flavor>itu</flavor>
           <editorialgroup>
-            <bureau>R</bureau>
+            <bureau>T</bureau>
             <group>
               <name>I</name>
                 #{current_study_period}
@@ -874,7 +869,7 @@ RSpec.describe Metanorma::Itu do
           <intended-type>TD</intended-type>
           <source>Source</source>
           <structuredidentifier>
-            <bureau>R</bureau>
+            <bureau>T</bureau>
             <docnumber>1000</docnumber>
           </structuredidentifier>
         </ext>
@@ -1073,7 +1068,7 @@ RSpec.describe Metanorma::Itu do
       :title-es: Titre Principal
       :subtitle-en: Subtitle
       :subtitle-es: Soustitre
-      :bureau: R
+      :bureau: T
       :group: I
       :subgroup: I1
       :workgroup: I2
@@ -1110,8 +1105,9 @@ RSpec.describe Metanorma::Itu do
         <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
         <title language='es' format='text/plain' type='subtitle'>Soustitre</title>
         <docidentifier type='ITU-provisional'>ABC</docidentifier>
-        <docidentifier primary="true" type='ITU'>Anexo al BE de la UIT 1000</docidentifier>
-        <docidentifier type='ITU-lang'>Anexo al BE de la UIT 1000-S</docidentifier>
+        <docidentifier type="ITU" primary="true">Annex to ITU-T OB No. 1000</docidentifier>
+        <docidentifier type="ITU-lang">Anexo al UIT-T OB No. 1000-S</docidentifier>
+        <docidentifier type="ITU-lang-long">Anexo al BE de la UIT N.º 1000-S</docidentifier>
         <docnumber>1000</docnumber>
         <contributor>
           <role type='author'/>
@@ -1199,7 +1195,7 @@ RSpec.describe Metanorma::Itu do
           <doctype>service-publication</doctype>
             <flavor>itu</flavor>
           <editorialgroup>
-            <bureau>R</bureau>
+            <bureau>T</bureau>
             <group>
               <name>I</name>
                 #{current_study_period}
@@ -1222,7 +1218,7 @@ RSpec.describe Metanorma::Itu do
           <intended-type>TD</intended-type>
           <source>Source</source>
           <structuredidentifier>
-            <bureau>R</bureau>
+            <bureau>T</bureau>
             <docnumber>1000</docnumber>
           </structuredidentifier>
         </ext>
@@ -1380,334 +1376,6 @@ RSpec.describe Metanorma::Itu do
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
   end
 
-  it "processes explicit metadata, service publication in German" do
-    input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
-      = Document title
-      Author
-      :docfile: test.adoc
-      :nodoc:
-      :novalid:
-      :docnumber: 1000
-      :provisional-name: ABC
-      :doctype: service-publication
-      :edition: 2
-      :revdate: 2000-01-01
-      :technical-committee: TC
-      :technical-committee-type: provisional
-      :copyright-year: 2001
-      :status: final-draft
-      :iteration: 3
-      :language: de
-      :title-en: Main Title
-      :title-de: Titre Principal
-      :subtitle-en: Subtitle
-      :subtitle-de: Soustitre
-      :bureau: R
-      :group: I
-      :subgroup: I1
-      :workgroup: I2
-      :series: A3
-      :series1: B3
-      :series2: C3
-      :keywords: word2,word1
-      :meeting: Meeting X
-      :meeting-date: 2000-01-01/2000-01-02
-      :intended-type: TD
-      :source: Source
-      :draft: 5
-      :role: rapporteur
-      :fullname: Fred Flintstone
-      :affiliation: Bedrock Quarry
-      :address: Canada
-      :phone: 555
-      :fax: 556
-      :email: x@example.com
-      :role_2: editor
-      :fullname_2: Barney Rubble
-      :affiliation_2: Bedrock Quarry 2
-      :address_2: USA
-      :phone_2: 557
-      :fax_2: 558
-      :email_2: y@example.com
-
-    INPUT
-    output = <<~OUTPUT
-          <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
-      <bibdata type='standard'>
-        <title language='en' format='text/plain' type='main'>Main Title</title>
-        <title language='de' format='text/plain' type='main'>Titre Principal</title>
-        <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-        <title language='de' format='text/plain' type='subtitle'>Soustitre</title>
-        <docidentifier type='ITU-provisional'>ABC</docidentifier>
-        <docidentifier primary="true" type='ITU'>Anhang zum  ITU OB 1000</docidentifier>
-        <docidentifier type='ITU-lang'>Anhang zum  ITU OB 1000-</docidentifier>
-        <docnumber>1000</docnumber>
-        <contributor>
-          <role type='author'/>
-          <organization>
-                  <name>Internationale Fernmeldeunion</name>
-        <abbreviation>ITU</abbreviation>
-          </organization>
-        </contributor>
-        <contributor>
-          <role type='editor'>raporteur</role>
-          <person>
-            <name>
-              <completename>Fred Flintstone</completename>
-            </name>
-            <affiliation>
-              <organization>
-                <name>Bedrock Quarry</name>
-                <address>
-                  <formattedAddress>Canada</formattedAddress>
-                </address>
-              </organization>
-            </affiliation>
-            <phone>555</phone>
-            <phone type='fax'>556</phone>
-            <email>x@example.com</email>
-          </person>
-        </contributor>
-        <contributor>
-          <role type='editor'/>
-          <person>
-            <name>
-              <completename>Barney Rubble</completename>
-            </name>
-            <affiliation>
-              <organization>
-                <name>Bedrock Quarry 2</name>
-                <address>
-                  <formattedAddress>USA</formattedAddress>
-                </address>
-              </organization>
-            </affiliation>
-            <phone>557</phone>
-            <phone type='fax'>558</phone>
-            <email>y@example.com</email>
-          </person>
-        </contributor>
-        <contributor>
-          <role type='publisher'/>
-          <organization>
-                  <name>Internationale Fernmeldeunion</name>
-        <abbreviation>ITU</abbreviation>
-          </organization>
-        </contributor>
-        <edition>2</edition>
-        <version>
-          <revision-date>2000-01-01</revision-date>
-          <draft>5</draft>
-        </version>
-        <language>de</language>
-        <script>Latn</script>
-        <status>
-          <stage>draft</stage>
-        </status>
-        <copyright>
-          <from>2001</from>
-          <owner>
-            <organization>
-                    <name>Internationale Fernmeldeunion</name>
-        <abbreviation>ITU</abbreviation>
-            </organization>
-          </owner>
-        </copyright>
-        <series type='main'>
-          <title>A3</title>
-        </series>
-        <series type='secondary'>
-          <title>B3</title>
-        </series>
-        <series type='tertiary'>
-          <title>C3</title>
-        </series>
-        <keyword>Word1</keyword>
-        <keyword>word2</keyword>
-        <ext>
-          <doctype>service-publication</doctype>
-            <flavor>itu</flavor>
-          <editorialgroup>
-            <bureau>R</bureau>
-            <group>
-              <name>I</name>
-                #{current_study_period}
-            </group>
-            <subgroup>
-              <name>I1</name>
-                #{current_study_period}
-            </subgroup>
-            <workgroup>
-              <name>I2</name>
-                #{current_study_period}
-            </workgroup>
-          </editorialgroup>
-          <ip-notice-received>false</ip-notice-received>
-          <meeting>Meeting X</meeting>
-          <meeting-date>
-            <from>2000-01-01</from>
-            <to>2000-01-02</to>
-          </meeting-date>
-          <intended-type>TD</intended-type>
-          <source>Source</source>
-          <structuredidentifier>
-            <bureau>R</bureau>
-            <docnumber>1000</docnumber>
-          </structuredidentifier>
-        </ext>
-      </bibdata>
-      <sections> </sections>
-           </itu-standard>
-    OUTPUT
-    xml = Nokogiri::XML(input)
-    xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
-      .each(&:remove)
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
-  end
-
-  it "processes sections in German" do
-    input = section_template("de", "Latn")
-    output = <<~OUTPUT
-             #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
-               .sub('<title language="en"', '<title language="de"')
-               .sub('<language>en</language>', '<language>de</language>')
-               .gsub('<name>International Telecommunication Union</name>', '<name>Internationale Fernmeldeunion</name>')
-             }
-               <preface>
-        <abstract id='_'>
-          <title>Abstrakt</title>
-          <p id='_'>Text</p>
-        </abstract>
-        <foreword id='_' obligation='informative'>
-          <title>Vorwort</title>
-          <p id='_'>Text</p>
-        </foreword>
-        <introduction id='_' obligation='informative'>
-          <title>Einf&#252;hrung</title>
-          <clause id='_' inline-header='false' obligation='informative'>
-            <title>Introduction Subsection</title>
-          </clause>
-        </introduction>
-        <clause id='_' type='history' inline-header='false' obligation='informative'>
-          <title>History</title>
-        </clause>
-        <clause id='_' type='source' inline-header='false' obligation='informative'>
-          <title>Source</title>
-        </clause>
-      </preface>
-      <sections>
-        <clause id='_' unnumbered='true' inline-header='false' obligation='normative'>
-          <p id='_'>Initial text</p>
-        </clause>
-        <clause id='_' type='scope' inline-header='false' obligation='normative'>
-          <title>Umfang</title>
-          <p id='_'>Text</p>
-        </clause>
-        <terms id='_' obligation='normative'>
-          <title>Definitionen</title>
-          <p id='_'>Diese Empfehlung definiert die folgenden Begriffe:</p>
-          <term id='term-Term1'>
-            <preferred><expression><name>Term1</name></expression></preferred>
-          </term>
-        </terms>
-        <clause id='_' obligation='normative' type="terms">
-          <title>Terms, Definitions, Symbols and Abbreviated Terms</title>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <title>Introduction</title>
-            <clause id='_' inline-header='false' obligation='normative'>
-              <title>Intro 1</title>
-            </clause>
-          </clause>
-          <terms id='_' obligation='normative'>
-            <title>Intro 2</title>
-            <p id='_'>Keine.</p>
-            <clause id='_' inline-header='false' obligation='normative'>
-              <title>Intro 3</title>
-            </clause>
-          </terms>
-          <clause id='_' obligation='normative' type="terms">
-            <title>Intro 4</title>
-            <terms id='_' obligation='normative'>
-              <title>Intro 5</title>
-              <term id='term-Term1-1'>
-                <preferred><expression><name>Term1</name></expression></preferred>
-              </term>
-            </terms>
-          </clause>
-          <terms id='_' obligation='normative'>
-            <title>Normal Terms</title>
-            <term id='term-Term2'>
-              <preferred><expression><name>Term2</name></expression></preferred>
-            </term>
-            <terms id='_' type='external' obligation='normative'>
-              <title>An anderer Stelle definierte Begriffe</title>
-              <p id='_'>Keine.</p>
-            </terms>
-          </terms>
-          <terms id='_' obligation='normative'>
-            <title>Symbols and Abbreviated Terms</title>
-            <clause id='_' inline-header='false' obligation='normative'>
-              <title>General</title>
-            </clause>
-            <term id='term-Symbols-1'>
-              <preferred><expression><name>Symbols 1</name></expression></preferred>
-            </term>
-          </terms>
-        </clause>
-        <definitions id='_' type='abbreviated_terms' obligation='normative'>
-          <title>Abk&#252;rzungen und Akronyme</title>
-          <p id='_'>Keine.</p>
-        </definitions>
-        <clause id='_' type='conventions' inline-header='false' obligation='normative'>
-          <title>Conventions</title>
-        </clause>
-        <clause id='_' inline-header='false' obligation='normative'>
-          <title>Clause 4</title>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <title>Introduction</title>
-          </clause>
-          <clause id='_' inline-header='false' obligation='normative'>
-            <title>Clause 4.2</title>
-          </clause>
-        </clause>
-        <clause id='_' inline-header='false' obligation='normative'>
-          <title>Terms and Definitions</title>
-        </clause>
-        <clause id='_' inline-header='false' obligation='normative'>
-          <title>History</title>
-        </clause>
-        <clause id='_' inline-header='false' obligation='normative'>
-          <title>Source</title>
-        </clause>
-      </sections>
-      <annex id='_' inline-header='false' obligation='normative'>
-        <title>Annex</title>
-        <clause id='_' inline-header='false' obligation='normative'>
-          <title>Annex A.1</title>
-        </clause>
-      </annex>
-      <bibliography>
-        <references id='_' normative='true' obligation='informative'>
-          <title>Referenzen</title>
-          <p id='_'>Keine.</p>
-        </references>
-        <clause id='_' obligation='informative'>
-          <title>Bibliographie</title>
-          <references id='_' normative='false' obligation='informative'>
-            <title>Bibliography Subsection</title>
-          </references>
-        </clause>
-        <references id='_' normative='false' obligation='informative'>
-          <title>Second Bibliography</title>
-        </references>
-      </bibliography>
-             </itu-standard>
-    OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
-  end
-
   it "processes explicit metadata, service publication in Russian" do
     input = Asciidoctor.convert(<<~INPUT, *OPTIONS)
       = Document title
@@ -1730,7 +1398,7 @@ RSpec.describe Metanorma::Itu do
       :title-ru: Titre Principal
       :subtitle-en: Subtitle
       :subtitle-ru: Soustitre
-      :bureau: R
+      :bureau: T
       :group: I
       :subgroup: I1
       :workgroup: I2
@@ -1767,14 +1435,9 @@ RSpec.describe Metanorma::Itu do
            <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
            <title language='ru' format='text/plain' type='subtitle'>Soustitre</title>
            <docidentifier type='ITU-provisional'>ABC</docidentifier>
-           <docidentifier primary="true" type='ITU'>
-             &#1055;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;
-             &#1082; &#1054;&#1041; &#1052;&#1057;&#1069; 1000
-           </docidentifier>
-           <docidentifier type='ITU-lang'>
-             &#1055;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;
-             &#1082; &#1054;&#1041; &#1052;&#1057;&#1069; 1000-R
-           </docidentifier>
+           <docidentifier type="ITU" primary="true">Annex to ITU-T OB No. 1000</docidentifier>
+           <docidentifier type='ITU-lang'>Приложение к МСЭ-T OB No. 1000-R</docidentifier>
+           <docidentifier type="ITU-lang-long">Приложение к ОБ 1000 МСЭ-R</docidentifier>
            <docnumber>1000</docnumber>
            <contributor>
              <role type='author'/>
@@ -1862,7 +1525,7 @@ RSpec.describe Metanorma::Itu do
              <doctype>service-publication</doctype>
             <flavor>itu</flavor>
              <editorialgroup>
-               <bureau>R</bureau>
+               <bureau>T</bureau>
                <group>
                  <name>I</name>
                 #{current_study_period}
@@ -1885,7 +1548,7 @@ RSpec.describe Metanorma::Itu do
              <intended-type>TD</intended-type>
              <source>Source</source>
              <structuredidentifier>
-               <bureau>R</bureau>
+               <bureau>T</bureau>
                <docnumber>1000</docnumber>
              </structuredidentifier>
            </ext>

@@ -213,24 +213,8 @@ module Metanorma
         end
       end
 
-      def metadata_coverpage_images(node, xml)
-        %w(coverpage-image).each do |n|
-          if a = node.attr(n)
-            xml.send n do |c|
-              a.split(",").each do |x|
-                c.image src: x
-              end
-            end
-          end
-        end
-      end
-
       def metadata_ext(node, xml)
-        metadata_doctype(node, xml)
-        metadata_subdoctype(node, xml)
-        metadata_flavor(node, xml)
-        metadata_committee(node, xml)
-        metadata_ics(node, xml)
+        super
         metadata_recommendationstatus(node, xml)
         metadata_ip_notice(node, xml)
         metadata_techreport(node, xml)

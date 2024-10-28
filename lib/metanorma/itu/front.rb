@@ -220,7 +220,6 @@ module Metanorma
         metadata_techreport(node, xml)
         metadata_contribution(node, xml)
         structured_id(node, xml)
-        metadata_coverpage_images(node, xml)
       end
     end
   end

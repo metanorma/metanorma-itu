@@ -715,7 +715,7 @@ RSpec.describe Metanorma::Itu do
                   <name>Figure F2.1</name>
                 </figure>
                 <formula id='V'>
-                  <name>F2-1</name>
+                  <name>(F2-1)</name>
                   <stem type='AsciiMath'>r = 1 %</stem>
                 </formula>
               </clause>

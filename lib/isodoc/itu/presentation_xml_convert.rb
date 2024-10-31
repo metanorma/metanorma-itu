@@ -35,7 +35,7 @@ module IsoDoc
       end
 
       def quotesource(docxml)
-        docxml.xpath(ns("//quote/source")).each { |f| eref1(f) }
+        docxml.xpath(ns("//quote//source")).each { |f| eref1(f) }
       end
 
       def eref1(elem)
@@ -187,11 +187,6 @@ module IsoDoc
             ret += "<fn reference='H#{i}'>#{f.remove.children.to_xml}</fn>"
           end
         ret
-      end
-
-      def block(docxml)
-        super
-        dl docxml
       end
 
       def dl(xml)

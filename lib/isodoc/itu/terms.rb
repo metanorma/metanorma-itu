@@ -19,7 +19,6 @@ module IsoDoc
         source = node.at(ns("./termsource/origin/@citeas"))
         out.div **attr_code(id: node["id"]) do |div|
           termdef_parse1(node, div, defn, source)
-          set_termdomain("")
           node.children.each do |n|
             next if %w(preferred definition termsource title
                        name).include? n.name

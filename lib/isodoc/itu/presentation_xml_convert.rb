@@ -47,6 +47,14 @@ module IsoDoc
         super
       end
 
+      def note_delim(elem)
+        if elem.at(ns("./*[local-name() != 'name'][1]"))&.name == "p"
+          "\u00a0\u2013\u00a0"
+        else
+          ""
+        end
+      end
+
       def table1(elem)
         elem.xpath(ns("./name | ./thead/tr/th")).each do |n|
           capitalise_unless_text_transform(n)

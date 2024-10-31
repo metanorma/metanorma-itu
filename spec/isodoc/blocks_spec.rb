@@ -337,7 +337,7 @@ RSpec.describe Metanorma::Itu do
         <dt>Drago</dt>
       <dd>A type of rice</dd>
       </dl>
-       <note><name>NOTE</name><p>This is a table about rice</p></note>
+       <note><name>NOTE – </name><p>This is a table about rice</p></note>
        </table>
            </foreword></preface>
            </iso-standard>
@@ -388,7 +388,7 @@ RSpec.describe Metanorma::Itu do
             <p style="text-indent: -2.0cm; margin-left: 2.0cm; tab-stops: 2.0cm;">Drago<span style="mso-tab-count:1">  </span>A type of rice</p>
             </div>
             <div class="Note">
-              <p><span class="note_label">NOTE – </span>This is a table about rice</p>
+              <p><span class="note_label">NOTE – </span>This is a table about rice</p>
             </div>
           </table>
         </div>
@@ -705,26 +705,40 @@ RSpec.describe Metanorma::Itu do
   it "processes unlabelled notes" do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">
-          <preface><clause type="toc" id="_" displayorder="1">
-            <title depth="1">Table of Contents</title>
-        </clause>
-        <foreword displayorder="2">
-          <note><name>NOTE</name>
+          <preface>
+        <foreword id="A">
+          <note unnumbered="true">
         <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
       </note>
           </foreword></preface>
           </iso-standard>
     INPUT
+    presxml = <<~INPUT
+      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <preface><clause type="toc" id="_" displayorder="1">
+            <title depth="1">Table of Contents</title>
+        </clause>
+        <foreword id="A" displayorder="2">
+                <note unnumbered="true">
+           <name>NOTE – </name>
+           <p id="_">These results are based on a study carried out on three different types of kernel.</p>
+        </note>
+          </foreword></preface>
+          </iso-standard>
+    INPUT
     html = <<~OUTPUT
       #{HTML_HDR}
-                 <div>
-                 <h1 class='IntroTitle'/>
-                   <div class="Note">
-                     <p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p>
-                   </div>
-                 </div>
-               </div>
-             </body>
+             <div id="A">
+                <h1 class="IntroTitle"/>
+                <div class="Note">
+                   <p>
+                      <span class="note_label">NOTE – </span>
+                      These results are based on a study carried out on three different types of kernel.
+                   </p>
+                </div>
+             </div>
+          </div>
+       </body>
     OUTPUT
 
     doc = <<~OUTPUT
@@ -746,11 +760,11 @@ RSpec.describe Metanorma::Itu do
                   <b>Page</b>
                 </p>
               </div>
-             <div>
+             <div id="A">
                <h1 class='IntroTitle'/>
                <div class='Note'>
                  <p>
-                   <span class='note_label'>NOTE &#8211; </span>
+                   <span class="note_label">NOTE – </span>
                    These results are based on a study carried out on three different
                    types of kernel.
                  </p>
@@ -765,13 +779,18 @@ RSpec.describe Metanorma::Itu do
            </div>
          </body>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(html)
     expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", input, true)
+      .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(doc)
@@ -781,36 +800,55 @@ RSpec.describe Metanorma::Itu do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">
           <preface>
-          <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-          <foreword displayorder="2">
-          <note id="note1"><name>NOTE 1</name>
+          <foreword id="A">
+          <note id="note1">
         <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
       </note>
-          <note id="note2"><name>NOTE 2</name>
+          <note id="note2">
         <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83a">These results are based on a study carried out on three different types of kernel.</p>
         <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b">These results are based on a study carried out on three different types of kernel.</p>
       </note>
           </foreword></preface>
           </iso-standard>
     INPUT
+    presxml = <<~INPUT
+       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <title depth="1">Table of Contents</title>
+             </clause>
+             <foreword id="A" displayorder="2">
+                <note id="note1">
+                   <name>NOTE  1 – </name>
+                   <p id="_">These results are based on a study carried out on three different types of kernel.</p>
+                </note>
+                <note id="note2">
+                   <name>NOTE  2 – </name>
+                   <p id="_">These results are based on a study carried out on three different types of kernel.</p>
+                   <p id="_">These results are based on a study carried out on three different types of kernel.</p>
+                </note>
+             </foreword>
+          </preface>
+       </iso-standard>
+    INPUT
     html = <<~OUTPUT
       #{HTML_HDR}
-      <div>
+      <div id="A">
                <h1 class='IntroTitle'/>
                <div id='note1' class='Note'>
                  <p>
-                   <span class='note_label'>NOTE 1 &#8211; </span>
+                   <span class='note_label'>NOTE 1 – </span>
                    These results are based on a study carried out on three
                    different types of kernel.
                  </p>
                </div>
                <div id='note2' class='Note'>
                  <p>
-                   <span class='note_label'>NOTE 2 &#8211; </span>
+                   <span class='note_label'>NOTE 2 – </span>
                    These results are based on a study carried out on three
                    different types of kernel.
                  </p>
-                 <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b'>
+                 <p id='_'>
                    These results are based on a study carried out on three different
                    types of kernel.
                  </p>
@@ -839,22 +877,22 @@ RSpec.describe Metanorma::Itu do
                       <b>Page</b>
                     </p>
                   </div>
-                 <div>
+                 <div id="A">
                    <h1 class='IntroTitle'/>
                    <div id='note1' class='Note'>
                      <p>
-                       <span class='note_label'>NOTE 1 &#8211; </span>
+                       <span class='note_label'>NOTE 1 – </span>
                        These results are based on a study carried out on three different
                        types of kernel.
                      </p>
                    </div>
                    <div id='note2' class='Note'>
                      <p>
-                       <span class='note_label'>NOTE 2 &#8211; </span>
+                       <span class='note_label'>NOTE 2 – </span>
                        These results are based on a study carried out on three different
                        types of kernel.
                      </p>
-                     <p class='Note' id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b'>
+                     <p class='Note' id='_'>
                        These results are based on a study carried out on three different
                        types of kernel.
                      </p>
@@ -869,13 +907,18 @@ RSpec.describe Metanorma::Itu do
                </div>
              </body>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(html)
     expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", input, true)
+      .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(doc)

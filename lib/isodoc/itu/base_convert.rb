@@ -37,10 +37,6 @@ module IsoDoc
         ""
       end
 
-      def note_delim
-        " &#x2013; "
-      end
-
       def para_class(node)
         return "supertitle" if node["class"] == "supertitle"
 
@@ -102,7 +98,6 @@ module IsoDoc
         div.p do |p|
           name and p.span class: "note_label" do |s|
             name.children.each { |n| parse(n, s) }
-            s << note_delim
           end
           node.first_element_child.children.each { |n| parse(n, p) }
         end

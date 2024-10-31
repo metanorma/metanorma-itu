@@ -121,7 +121,7 @@ RSpec.describe IsoDoc::Itu do
     INPUT
 
     presxml = <<~OUTPUT
-           <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
          <bibdata>
            <language current="true">en</language>
          </bibdata>
@@ -179,7 +179,7 @@ RSpec.describe IsoDoc::Itu do
                <biblio-tag>[ICC 167]</biblio-tag>
              </bibitem>
              <note>
-               <name>NOTE</name>
+             <name>NOTE – </name>
                <p>This is an annotation of ISO 20483:2013-2014</p>
              </note>
              <bibitem id="zip_ffs">
@@ -205,11 +205,11 @@ RSpec.describe IsoDoc::Itu do
                <biblio-tag>[2]</biblio-tag>
              </bibitem>
              <note>
-               <name>NOTE</name>
+             <name>NOTE – </name>
                <p>This is an annotation of document ISSN.</p>
              </note>
              <note>
-               <name>NOTE</name>
+             <name>NOTE – </name>
                <p>This is another annotation of document ISSN.</p>
              </note>
              <bibitem id="ISO3696" type="standard">
@@ -287,7 +287,7 @@ RSpec.describe IsoDoc::Itu do
                          </tr>
                          <tr><td colspan="2">
                            <div class="Note">
-                             <p><span class="note_label">NOTE &#x2013; </span>This is an annotation of ISO 20483:2013-2014</p>
+                             <p><span class="note_label">NOTE&#xa0;&#x2013;&#xa0;</span>This is an annotation of ISO 20483:2013-2014</p>
                            </div>
                          </td></tr>
                          <tr id="zip_ffs" class="NormRef">
@@ -312,10 +312,10 @@ RSpec.describe IsoDoc::Itu do
                          </tr>
                          <tr><td colspan="2">
                            <div class="Note">
-                             <p><span class="note_label">NOTE &#x2013; </span>This is an annotation of document ISSN.</p>
+                             <p><span class="note_label">NOTE&#xa0;&#x2013;&#xa0;</span>This is an annotation of document ISSN.</p>
                            </div>
                            <div class="Note">
-                             <p><span class="note_label">NOTE &#x2013; </span>This is another annotation of document ISSN.</p>
+                             <p><span class="note_label">NOTE&#xa0;&#x2013;&#xa0;</span>This is another annotation of document ISSN.</p>
                            </div>
                          </td></tr>
                          <tr id="ISO3696" class="Biblio">

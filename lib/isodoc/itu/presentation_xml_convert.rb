@@ -211,6 +211,10 @@ module IsoDoc
           '<colgroup><col width="20%"/><col width="80%"/></colgroup>'
       end
 
+      def termnote_delim(_elem)
+        " &#x2013; "
+      end
+
       include Init
     end
   end

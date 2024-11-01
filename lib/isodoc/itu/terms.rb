@@ -34,10 +34,6 @@ module IsoDoc
 
         "[#{text}]"
       end
-
-      def termnote_delim
-        " &#x2013; "
-      end
     end
   end
 end

@@ -53,7 +53,11 @@ RSpec.describe Metanorma::Itu do
          <preferred>Term2</preferred>
        </term>
        </terms>
-       <definitions id="L" displayorder="12"><title>4.</title>
+       <definitions id="L" displayorder="12"><title depth="1">
+            4.
+            <tab/>
+            Abréviations et acronymes
+         </title>
              <dl>
         <colgroup>
           <col width="20%"/>
@@ -135,7 +139,12 @@ RSpec.describe Metanorma::Itu do
               </div>
                    </div>
                      <div id="L" class="Symbols">
-                       <h1>4.</h1>
+                              <h1>
+          4.
+       
+           Abréviations et acronymes
+         </h1>
+
                              <table class="dl" style="table-layout:fixed;">
         <colgroup>
           <col style="width: 20%;"/>
@@ -247,7 +256,11 @@ RSpec.describe Metanorma::Itu do
          <preferred>Term2</preferred>
        </term>
        </terms>
-       <definitions id="L" displayorder="11"><title>4.</title>
+       <definitions id="L" displayorder="11"><title depth="1">
+            4.
+            <tab/>
+            缩略语与缩写
+         </title>
              <dl>
         <colgroup>
           <col width="20%"/>
@@ -332,7 +345,11 @@ RSpec.describe Metanorma::Itu do
             </div>
           </div>
           <div id='L' class='Symbols'>
-            <h1>4.</h1>
+                     <h1>
+          4.
+      　
+            缩略语与缩写
+          </h1>
                   <table class="dl" style="table-layout:fixed;">
         <colgroup>
           <col style="width: 20%;"/>

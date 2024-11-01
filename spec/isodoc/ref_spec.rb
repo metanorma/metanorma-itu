@@ -129,7 +129,7 @@ RSpec.describe IsoDoc::Itu do
            <clause type="toc" id="_" displayorder="1">
              <title depth="1">Table of Contents</title>
            </clause>
-           <foreword displayorder="2">
+           <foreword displayorder="2"><title>Foreword</title>
              <p id="_">
                <xref target="ISO712">[110]</xref>
                <xref target="ISBN">[1]</xref>
@@ -252,7 +252,7 @@ RSpec.describe IsoDoc::Itu do
                  <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
                  <br/>
                    <div>
-                     <h1 class="IntroTitle"></h1>
+                     <h1 class="IntroTitle" id="_">Foreword</h1>
                      <p id='_'>
         <a href='#ISO712'>[110]</a>
         <a href='#ISBN'>[1]</a>
@@ -418,7 +418,7 @@ RSpec.describe IsoDoc::Itu do
         </bibdata>
         <preface>
           <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-          <foreword displayorder='2'>
+          <foreword displayorder='2'><title>Foreword</title>
             <p id='_'>
               <xref target="ISO712">[ISO 712]</xref>
             </p>
@@ -469,7 +469,7 @@ RSpec.describe IsoDoc::Itu do
     html = <<~OUTPUT
               #{HTML_HDR}
       <div>
-                 <h1 class="IntroTitle"/>
+                 <h1 class="IntroTitle">Foreword</h1>
                  <p id="_">
            <a href="#ISO712">[ISO&#xa0;712]</a>
            </p>
@@ -566,7 +566,7 @@ RSpec.describe IsoDoc::Itu do
       </references></bibliography></iso-standard>
     INPUT
     presxml = <<~PRESXML
-      <foreword displayorder='2'>
+      <foreword displayorder='2'><title>Foreword</title>
         <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f'>
           <xref target="ISO712">[ISO 712 | IEC 217]</xref>
         </p>

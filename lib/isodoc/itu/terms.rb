@@ -1,6 +1,7 @@
 module IsoDoc
   module Itu
     module BaseConvert
+      # TODO to Presentation XML
       def termdef_parse1(node, div, defn, source)
         div.p **{ class: "TermNum", id: node["id"] } do |p|
           p.b do |b|
@@ -28,6 +29,7 @@ module IsoDoc
         end
       end
 
+      # TODO to Presentation XML
       def bracket_opt(text)
         return text if text.nil?
         return text if /^\[.+\]$/.match?(text)

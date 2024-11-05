@@ -107,6 +107,12 @@ module IsoDoc
         super
       end
 
+      def reference_name(ref)
+        super
+        @xrefs.get[ref["id"]] =
+          { xref: @xrefs.get[ref["id"]][:xref].sub(/^\[/, "").sub(/\]$/, "") }
+      end
+
       include Init
     end
   end

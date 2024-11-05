@@ -35,7 +35,7 @@ module IsoDoc
       end
 
       def quotesource(docxml)
-        docxml.xpath(ns("//quote/source")).each { |f| eref1(f) }
+        docxml.xpath(ns("//quote//source")).each { |f| eref1(f) }
       end
 
       def eref1(elem)
@@ -45,6 +45,14 @@ module IsoDoc
       def note1(elem)
         elem["type"] == "title-footnote" and return
         super
+      end
+
+      def note_delim(elem)
+        if elem.at(ns("./*[local-name() != 'name'][1]"))&.name == "p"
+          "\u00a0\u2013\u00a0"
+        else
+          ""
+        end
       end
 
       def table1(elem)
@@ -189,11 +197,6 @@ module IsoDoc
         ret
       end
 
-      def block(docxml)
-        super
-        dl docxml
-      end
-
       def dl(xml)
         (xml.xpath(ns("//dl")) -
          xml.xpath(ns("//table//dl | //figure//dl | //formula//dl")))
@@ -206,6 +209,10 @@ module IsoDoc
         ins = dlist.at(ns("./dt"))
         ins.previous =
           '<colgroup><col width="20%"/><col width="80%"/></colgroup>'
+      end
+
+      def termnote_delim(_elem)
+        " &#x2013; "
       end
 
       include Init

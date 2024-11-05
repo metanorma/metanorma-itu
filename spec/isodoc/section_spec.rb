@@ -281,7 +281,12 @@ RSpec.describe Metanorma::Itu do
          <preferred>Term2</preferred>
        </term>
        </terms>
-       <definitions id="L" displayorder="12"><title>4.</title>
+       <definitions id="L" displayorder="12">
+                <title depth="1">
+            4.
+            <tab/>
+            Abbreviations and acronyms
+         </title>
        <dl>
         <colgroup>
           <col width="20%"/>
@@ -363,7 +368,11 @@ RSpec.describe Metanorma::Itu do
                  </div>
                       </div>
                         <div id="L" class="Symbols">
-                          <h1>4.</h1>
+                                 <h1>
+          4.
+       
+          Abbreviations and acronyms
+      </h1>
                                 <table class="dl" style="table-layout:fixed;">
         <colgroup>
           <col style="width: 20%;"/>
@@ -477,7 +486,12 @@ RSpec.describe Metanorma::Itu do
       </div>
       </div>
            <div id="L" class="Symbols">
-             <h1>4.</h1>
+           <h1>
+            4.
+            <span style="mso-tab-count:1">  </span>
+            Abbreviations and acronyms
+         </h1>
+
                    <div align="center" class="table_container">
         <table class="dl" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;">
           <colgroup>
@@ -715,7 +729,7 @@ RSpec.describe Metanorma::Itu do
                   <name>Figure F2.1</name>
                 </figure>
                 <formula id='V'>
-                  <name>F2-1</name>
+                  <name>(F2-1)</name>
                   <stem type='AsciiMath'>r = 1 %</stem>
                 </formula>
               </clause>

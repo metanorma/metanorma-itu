@@ -5,7 +5,7 @@ require "fileutils"
 module IsoDoc
   module Itu
     module BaseConvert
-      def nonstd_bibitem(list, bibitem, _ordinal, biblio)
+      def bibitem_entry(list, bibitem, _ordinal, biblio)
         list.tr **attr_code(iso_bibitem_entry_attrs(bibitem, biblio)) do |ref|
           ref.td style: "vertical-align:top" do |td|
             tag = bibitem.at(ns("./biblio-tag"))
@@ -15,20 +15,15 @@ module IsoDoc
         end
       end
 
-      def std_bibitem_entry(list, bibitem, ordinal, biblio)
-        nonstd_bibitem(list, bibitem, ordinal, biblio)
-      end
-
       def biblio_list(clause, div, biblio)
         div.table class: "biblio", border: "0" do |t|
           i = 0
           t.tbody do |tbody|
             clause.elements.each do |b|
               if b.name == "bibitem"
-                next if implicit_reference(b)
-
+                b["hidden"] == "true" and next
                 i += 1
-                nonstd_bibitem(tbody, b, i, biblio)
+                bibitem_entry(tbody, b, i, biblio)
               else
                 unless %w(title clause references).include? b.name
                   tbody.tx { |tx| parse(b, tx) }
@@ -37,30 +32,7 @@ module IsoDoc
             end
           end
         end
-        clause.xpath(ns("./clause | ./references")).each do |x|
-          parse(x, div)
-        end
-      end
-
-      def bracket_if_num(num)
-        return nil if num.nil?
-
-        num = num.text.sub(/^\[/, "").sub(/\]$/, "")
-        "[#{num}]"
-      end
-
-      def pref_ref_code(bibitem)
-        ret = bibitem.xpath(ns("./docidentifier[@type = 'ITU']"))
-        ret.empty? and ret = super
-        ret
-      end
-
-      def unbracket(ident)
-        if ident.respond_to?(:size)
-          ident.map { |x| unbracket1(x) }.join("&#xA0;| ")
-        else
-          unbracket1(ident)
-        end
+        clause.xpath(ns("./clause | ./references")).each { |x| parse(x, div) }
       end
     end
   end

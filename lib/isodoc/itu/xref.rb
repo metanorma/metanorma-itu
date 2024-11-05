@@ -91,12 +91,6 @@ module IsoDoc
         end
       end
 
-      def reference_names(ref)
-        super
-        @anchors[ref["id"]] =
-          { xref: @anchors[ref["id"]][:xref].sub(/^\[/, "").sub(/\]$/, "") }
-      end
-
       def termnote_anchor_names(docxml)
         docxml.xpath(ns("//term[termnote]")).each do |t|
           c = Counter.new

@@ -1,6 +1,7 @@
 module IsoDoc
   module Itu
     module BaseConvert
+      # TODO to Presentation XML
       def termdef_parse1(node, div, defn, source)
         div.p **{ class: "TermNum", id: node["id"] } do |p|
           p.b do |b|
@@ -19,7 +20,6 @@ module IsoDoc
         source = node.at(ns("./termsource/origin/@citeas"))
         out.div **attr_code(id: node["id"]) do |div|
           termdef_parse1(node, div, defn, source)
-          set_termdomain("")
           node.children.each do |n|
             next if %w(preferred definition termsource title
                        name).include? n.name
@@ -29,15 +29,12 @@ module IsoDoc
         end
       end
 
+      # TODO to Presentation XML
       def bracket_opt(text)
         return text if text.nil?
         return text if /^\[.+\]$/.match?(text)
 
         "[#{text}]"
-      end
-
-      def termnote_delim
-        " &#x2013; "
       end
     end
   end

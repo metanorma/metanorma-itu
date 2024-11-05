@@ -25,8 +25,8 @@ module IsoDoc
 
       def word_footnote_cleanup(docxml)
         docxml.xpath("//aside").each do |a|
-          a.first_element_child.children.first.previous =
-            '<span style="mso-tab-count:1"/>'
+          a.first_element_child.
+            add_first_child '<span style="mso-tab-count:1"/>'
         end
       end
 

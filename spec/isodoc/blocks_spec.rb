@@ -49,7 +49,7 @@ RSpec.describe Metanorma::Itu do
            <clause type="toc" id="_" displayorder="1">
              <title depth="1">Table of Contents</title>
            </clause>
-           <foreword displayorder="2">
+           <foreword displayorder="2"><title>Foreword</title>
              <dl id="A">
                <name>Deflist</name>
                <colgroup>
@@ -69,7 +69,7 @@ RSpec.describe Metanorma::Itu do
     html = <<~OUTPUT
        #{HTML_HDR}
               <div>
-            <h1 class="IntroTitle"/>
+              <h1 class="IntroTitle">Foreword</h1>
             <p class="TableTitle" style="text-align:center;">Deflist</p>
             <table id="A" class="dl" style="table-layout:fixed;">
               <colgroup>
@@ -112,7 +112,7 @@ RSpec.describe Metanorma::Itu do
              </p>
            </div>
            <div>
-             <h1 class="IntroTitle"/>
+             <h1 class="IntroTitle">Foreword</h1>
              <p class="TableTitle" style="text-align:center;">Deflist</p>
              <div align="center" class="table_container">
                <table id="A" class="dl" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;">
@@ -185,7 +185,7 @@ RSpec.describe Metanorma::Itu do
       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
          <preface>
           <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-           <foreword displayorder="2">
+           <foreword displayorder="2"><title>Foreword</title>
              <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
                <stem type="AsciiMath">r = 1 %</stem>
                <p keep-with-next="true">where</p>
@@ -221,75 +221,101 @@ RSpec.describe Metanorma::Itu do
        </iso-standard>
     OUTPUT
     word = <<~OUTPUT
-      <div>
-         <div id="_" style="page-break-after: avoid;page-break-inside: avoid;">
-           <div class="formula">
-             <p class="formula">
-               <span style="mso-tab-count:1">  </span>
-               <span class="stem">(#(r = 1 %)#)</span>
+       <body lang="EN-US" link="blue" vlink="#954F72">
+          <div class="WordSection1">
+             <p> </p>
+          </div>
+          <p class="section-break">
+             <br clear="all" class="section"/>
+          </p>
+          <div class="WordSection2">
+             <p class="page-break">
+                <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
              </p>
-           </div>
-           <p style="page-break-after: avoid;">where</p>
-           <table id="_" class="formula_dl">
-             <tr>
-               <td valign="top" align="left">
-                 <p align="left" style="margin-left:0pt;text-align:left;">
-                   <span class="stem">(#(r)#)</span>
-                 </p>
-               </td>
-               <td valign="top">
-                 <p id="_">is the repeatability limit.</p>
-               </td>
-             </tr>
-           </table>
-         </div>
-         <div id="_" style="page-break-after: avoid;page-break-inside: avoid;">
-           <div class="formula">
-             <p class="formula">
-               <span style="mso-tab-count:1">  </span>
-               <span class="stem">(#(r = 1 %)#)</span>
-             </p>
-           </div>
-           <p style="page-break-after: avoid;">where:</p>
-           <table id="_" class="formula_dl">
-             <tr>
-               <td valign="top" align="left">
-                 <p align="left" style="margin-left:0pt;text-align:left;">
-                   <span class="stem">(#(r)#)</span>
-                 </p>
-               </td>
-               <td valign="top">
-                 <p id="_">is the repeatability limit.</p>
-               </td>
-             </tr>
-             <tr>
-               <td valign="top" align="left">
-                 <p align="left" style="margin-left:0pt;text-align:left;">
-                   <span class="stem">(#(s)#)</span>
-                 </p>
-               </td>
-               <td valign="top">
-                 <p id="_">is the other repeatability limit.</p>
-               </td>
-             </tr>
-           </table>
-         </div>
-       </div>
+             <div id="_" class="TOC">
+                <p class="zzContents">Table of Contents</p>
+                <p style="tab-stops:right 17.0cm">
+                   <span style="mso-tab-count:1">  </span>
+                   <b>Page</b>
+                </p>
+             </div>
+             <div>
+                <h1 class="IntroTitle">Foreword</h1>
+                <div id="_" style="page-break-after: avoid;page-break-inside: avoid;">
+                   <div class="formula">
+                      <p class="formula">
+                         <span style="mso-tab-count:1">  </span>
+                         <span class="stem">(#(r = 1 %)#)</span>
+                      </p>
+                   </div>
+                   <p style="page-break-after: avoid;">where</p>
+                   <table id="_" class="formula_dl">
+                      <tr>
+                         <td valign="top" align="left">
+                            <p align="left" style="margin-left:0pt;text-align:left;">
+                               <span class="stem">(#(r)#)</span>
+                            </p>
+                         </td>
+                         <td valign="top">
+                            <p id="_">is the repeatability limit.</p>
+                         </td>
+                      </tr>
+                   </table>
+                </div>
+                <div id="_" style="page-break-after: avoid;page-break-inside: avoid;">
+                   <div class="formula">
+                      <p class="formula">
+                         <span style="mso-tab-count:1">  </span>
+                         <span class="stem">(#(r = 1 %)#)</span>
+                      </p>
+                   </div>
+                   <p style="page-break-after: avoid;">where:</p>
+                   <table id="_" class="formula_dl">
+                      <tr>
+                         <td valign="top" align="left">
+                            <p align="left" style="margin-left:0pt;text-align:left;">
+                               <span class="stem">(#(r)#)</span>
+                            </p>
+                         </td>
+                         <td valign="top">
+                            <p id="_">is the repeatability limit.</p>
+                         </td>
+                      </tr>
+                      <tr>
+                         <td valign="top" align="left">
+                            <p align="left" style="margin-left:0pt;text-align:left;">
+                               <span class="stem">(#(s)#)</span>
+                            </p>
+                         </td>
+                         <td valign="top">
+                            <p id="_">is the other repeatability limit.</p>
+                         </td>
+                      </tr>
+                   </table>
+                </div>
+             </div>
+             <p> </p>
+          </div>
+          <p class="section-break">
+             <br clear="all" class="section"/>
+          </p>
+          <div class="WordSection3"/>
+       </body>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)))).to be_equivalent_to Xml::C14n.format(presxml)
     expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
       .convert("test", presxml, true)
-      .gsub(/.*<h1 class="IntroTitle"\/>/m, "<div>")
-      .sub(/<p>&#160;<\/p>.*$/m, "")))
+      .gsub(/^.*<body/m, "<body")
+      .sub(/<\/body>.*$/m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(word)
   end
 
   it "processes tables (Word)" do
     input = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml">
-           <preface><foreword  displayorder="1">
+           <preface><foreword  displayorder="1"><title>Foreword</title>
            <table id="tableD-1" alt="tool tip" summary="long desc">
          <name>Table 1&#xA0;&#x2014; Repeatability and reproducibility of <em>husked</em> rice yield</name>
          <thead>
@@ -337,13 +363,13 @@ RSpec.describe Metanorma::Itu do
         <dt>Drago</dt>
       <dd>A type of rice</dd>
       </dl>
-       <note><name>NOTE</name><p>This is a table about rice</p></note>
+       <note><name>NOTE – </name><p>This is a table about rice</p></note>
        </table>
            </foreword></preface>
            </iso-standard>
     INPUT
     output = <<~OUTPUT
-          <div>
+          <div><h1 class="IntroTitle">Foreword</h1>
         <p class="TableTitle" style="text-align:center;">Table 1 — Repeatability and reproducibility of <i>husked</i> rice yield</p>
         <div align="center" class="table_container">
           <table id="tableD-1" class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;" title="tool tip" summary="long desc">
@@ -388,7 +414,7 @@ RSpec.describe Metanorma::Itu do
             <p style="text-indent: -2.0cm; margin-left: 2.0cm; tab-stops: 2.0cm;">Drago<span style="mso-tab-count:1">  </span>A type of rice</p>
             </div>
             <div class="Note">
-              <p><span class="note_label">NOTE – </span>This is a table about rice</p>
+              <p><span class="note_label">NOTE – </span>This is a table about rice</p>
             </div>
           </table>
         </div>
@@ -396,7 +422,7 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
       .convert("test", input, true)
-      .gsub(/.*<h1 class="IntroTitle"\/>/m, "<div>")
+      .gsub(/.*<h1 class="IntroTitle"/m, '<div><h1 class="IntroTitle"')
       .sub(/<p>&#160;<\/p>.*$/m, "")))
       .to be_equivalent_to Xml::C14n.format(output)
   end
@@ -433,7 +459,7 @@ RSpec.describe Metanorma::Itu do
            <clause type="toc" id="_" displayorder="1">
              <title depth="1">Table of Contents</title>
            </clause>
-           <foreword displayorder="2">
+           <foreword displayorder="2"><title>Foreword</title>
              <ol id="_" class="steps" type="arabic">
                <li id="_" label="1">
                  <p id="_">all information necessary for the complete identification of the sample;</p>
@@ -460,7 +486,7 @@ RSpec.describe Metanorma::Itu do
     html = <<~OUTPUT
       #{HTML_HDR}
             <div>
-              <h1 class="IntroTitle"/>
+              <h1 class="IntroTitle">Foreword</h1>
                <div class="ol_wrap">
                            <ol type="1" id="_">
                <li id="_">
@@ -510,7 +536,7 @@ RSpec.describe Metanorma::Itu do
              </p>
            </div>
            <div>
-             <h1 class="IntroTitle"/>
+             <h1 class="IntroTitle">Foreword</h1>
              <div class="ol_wrap">
                <ol class="steps" id="_">
                  <li id="_">
@@ -583,7 +609,7 @@ RSpec.describe Metanorma::Itu do
            <clause type="toc" id="_" displayorder="1">
              <title depth="1">Table of Contents</title>
            </clause>
-           <foreword displayorder="2">
+           <foreword displayorder="2"><title>Foreword</title>
              <table>
                <name>Table — Title title</name>
                <thead>
@@ -631,7 +657,7 @@ RSpec.describe Metanorma::Itu do
            <clause type="toc" id="_" displayorder="1">
              <title depth="1">Table of Contents</title>
            </clause>
-           <foreword displayorder="2">
+           <foreword displayorder="2"><title>Foreword</title>
              <table>
                <name>Table — <span style="text-transform:none">title</span> title</name>
                <thead>
@@ -705,26 +731,40 @@ RSpec.describe Metanorma::Itu do
   it "processes unlabelled notes" do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">
-          <preface><clause type="toc" id="_" displayorder="1">
-            <title depth="1">Table of Contents</title>
-        </clause>
-        <foreword displayorder="2">
-          <note><name>NOTE</name>
+          <preface>
+        <foreword id="A">
+          <note unnumbered="true">
         <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
       </note>
           </foreword></preface>
           </iso-standard>
     INPUT
+    presxml = <<~INPUT
+      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <preface><clause type="toc" id="_" displayorder="1">
+            <title depth="1">Table of Contents</title>
+        </clause>
+        <foreword id="A" displayorder="2"><title>Foreword</title>
+                <note unnumbered="true">
+           <name>NOTE – </name>
+           <p id="_">These results are based on a study carried out on three different types of kernel.</p>
+        </note>
+          </foreword></preface>
+          </iso-standard>
+    INPUT
     html = <<~OUTPUT
       #{HTML_HDR}
-                 <div>
-                 <h1 class='IntroTitle'/>
-                   <div class="Note">
-                     <p><span class="note_label">NOTE &#8211; </span>These results are based on a study carried out on three different types of kernel.</p>
-                   </div>
-                 </div>
-               </div>
-             </body>
+             <div id="A">
+                <h1 class="IntroTitle">Foreword</h1>
+                <div class="Note">
+                   <p>
+                      <span class="note_label">NOTE – </span>
+                      These results are based on a study carried out on three different types of kernel.
+                   </p>
+                </div>
+             </div>
+          </div>
+       </body>
     OUTPUT
 
     doc = <<~OUTPUT
@@ -746,11 +786,11 @@ RSpec.describe Metanorma::Itu do
                   <b>Page</b>
                 </p>
               </div>
-             <div>
-               <h1 class='IntroTitle'/>
+             <div id="A">
+               <h1 class="IntroTitle">Foreword</h1>
                <div class='Note'>
                  <p>
-                   <span class='note_label'>NOTE &#8211; </span>
+                   <span class="note_label">NOTE – </span>
                    These results are based on a study carried out on three different
                    types of kernel.
                  </p>
@@ -765,13 +805,18 @@ RSpec.describe Metanorma::Itu do
            </div>
          </body>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(html)
     expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", input, true)
+      .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(doc)
@@ -781,36 +826,55 @@ RSpec.describe Metanorma::Itu do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">
           <preface>
-          <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-          <foreword displayorder="2">
-          <note id="note1"><name>NOTE 1</name>
+          <foreword id="A">
+          <note id="note1">
         <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83f">These results are based on a study carried out on three different types of kernel.</p>
       </note>
-          <note id="note2"><name>NOTE 2</name>
+          <note id="note2">
         <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83a">These results are based on a study carried out on three different types of kernel.</p>
         <p id="_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b">These results are based on a study carried out on three different types of kernel.</p>
       </note>
           </foreword></preface>
           </iso-standard>
     INPUT
+    presxml = <<~INPUT
+       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <title depth="1">Table of Contents</title>
+             </clause>
+             <foreword id="A" displayorder="2"><title>Foreword</title>
+                <note id="note1">
+                   <name>NOTE  1 – </name>
+                   <p id="_">These results are based on a study carried out on three different types of kernel.</p>
+                </note>
+                <note id="note2">
+                   <name>NOTE  2 – </name>
+                   <p id="_">These results are based on a study carried out on three different types of kernel.</p>
+                   <p id="_">These results are based on a study carried out on three different types of kernel.</p>
+                </note>
+             </foreword>
+          </preface>
+       </iso-standard>
+    INPUT
     html = <<~OUTPUT
       #{HTML_HDR}
-      <div>
-               <h1 class='IntroTitle'/>
+      <div id="A">
+               <h1 class="IntroTitle">Foreword</h1>
                <div id='note1' class='Note'>
                  <p>
-                   <span class='note_label'>NOTE 1 &#8211; </span>
+                   <span class='note_label'>NOTE 1 – </span>
                    These results are based on a study carried out on three
                    different types of kernel.
                  </p>
                </div>
                <div id='note2' class='Note'>
                  <p>
-                   <span class='note_label'>NOTE 2 &#8211; </span>
+                   <span class='note_label'>NOTE 2 – </span>
                    These results are based on a study carried out on three
                    different types of kernel.
                  </p>
-                 <p id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b'>
+                 <p id='_'>
                    These results are based on a study carried out on three different
                    types of kernel.
                  </p>
@@ -839,22 +903,22 @@ RSpec.describe Metanorma::Itu do
                       <b>Page</b>
                     </p>
                   </div>
-                 <div>
-                   <h1 class='IntroTitle'/>
+                 <div id="A">
+                   <h1 class="IntroTitle">Foreword</h1>
                    <div id='note1' class='Note'>
                      <p>
-                       <span class='note_label'>NOTE 1 &#8211; </span>
+                       <span class='note_label'>NOTE 1 – </span>
                        These results are based on a study carried out on three different
                        types of kernel.
                      </p>
                    </div>
                    <div id='note2' class='Note'>
                      <p>
-                       <span class='note_label'>NOTE 2 &#8211; </span>
+                       <span class='note_label'>NOTE 2 – </span>
                        These results are based on a study carried out on three different
                        types of kernel.
                      </p>
-                     <p class='Note' id='_f06fd0d1-a203-4f3d-a515-0bdba0f8d83b'>
+                     <p class='Note' id='_'>
                        These results are based on a study carried out on three different
                        types of kernel.
                      </p>
@@ -869,13 +933,18 @@ RSpec.describe Metanorma::Itu do
                </div>
              </body>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(html)
     expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", input, true)
+      .convert("test", presxml, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(doc)

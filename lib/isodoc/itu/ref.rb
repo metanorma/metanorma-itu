@@ -21,8 +21,7 @@ module IsoDoc
           t.tbody do |tbody|
             clause.elements.each do |b|
               if b.name == "bibitem"
-                next if b["hidden"] = "true"
-
+                b["hidden"] == "true" and next
                 i += 1
                 bibitem_entry(tbody, b, i, biblio)
               else
@@ -33,9 +32,7 @@ module IsoDoc
             end
           end
         end
-        clause.xpath(ns("./clause | ./references")).each do |x|
-          parse(x, div)
-        end
+        clause.xpath(ns("./clause | ./references")).each { |x| parse(x, div) }
       end
     end
   end

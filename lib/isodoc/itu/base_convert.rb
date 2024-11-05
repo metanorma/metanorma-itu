@@ -37,13 +37,8 @@ module IsoDoc
         ""
       end
 
-      def note_delim
-        " &#x2013; "
-      end
-
       def para_class(node)
-        return "supertitle" if node["class"] == "supertitle"
-
+        node["class"] == "supertitle" and return "supertitle"
         super
       end
 
@@ -64,6 +59,7 @@ module IsoDoc
         div.h1 class: r_a ? "RecommendationAnnex" : "Annex" do |t|
           name&.children&.each { |c2| parse(c2, t) }
         end
+        # TODO to Presentation XML
         @meta.get[:doctype_original] == "resolution" or
           annex_obligation_subtitle(annex, div)
       end
@@ -102,7 +98,6 @@ module IsoDoc
         div.p do |p|
           name and p.span class: "note_label" do |s|
             name.children.each { |n| parse(n, s) }
-            s << note_delim
           end
           node.first_element_child.children.each { |n| parse(n, p) }
         end
@@ -119,6 +114,7 @@ module IsoDoc
         node.children.each { |n| parse(n, div) }
       end
 
+      # TODO to Presentation XML
       def table_footnote_reference_format(node)
         node.content += ")"
       end

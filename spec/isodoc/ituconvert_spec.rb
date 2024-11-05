@@ -475,7 +475,7 @@ RSpec.describe Metanorma::Itu do
             <clause type="toc" id="_" displayorder="1">
               <title depth="1">Table of Contents</title>
             </clause>
-            <foreword displayorder="2">
+            <foreword displayorder="2"><title>Foreword</title>
               <p>A.<fn reference="1"><p id="_">Formerly denoted as 15 % (m/m).</p></fn></p>
               <p>B.<fn reference="2"><p id="_">Formerly denoted as 15 % (m/m).</p></fn></p>
               <p>C.<fn reference="3"><p id="_">Hello! denoted as 15 % (m/m).</p></fn></p>
@@ -522,7 +522,7 @@ RSpec.describe Metanorma::Itu do
           <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
           <br/>
           <div>
-            <h1 class="IntroTitle"/>
+            <h1 class="IntroTitle" id="_">Foreword</h1>
             <p>A.<a class="FootnoteRef" href="#fn:1" id="fnref:1"><sup>1</sup></a></p>
             <p>B.<a class="FootnoteRef" href="#fn:1"><sup>1</sup></a></p>
             <p>C.<a class="FootnoteRef" href="#fn:3" id="fnref:3"><sup>2</sup></a></p>
@@ -668,7 +668,7 @@ RSpec.describe Metanorma::Itu do
       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
          <preface>
              <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-           <foreword displayorder="2">
+           <foreword displayorder="2"><title>Foreword</title>
              <p>
                     <sup>
          <xref type="footnote" target="ISO712">A</xref>
@@ -735,7 +735,7 @@ RSpec.describe Metanorma::Itu do
           <clause type="toc" id="_" displayorder="1">
             <title depth="1">Table of Contents</title>
           </clause>
-          <foreword displayorder="2">
+          <foreword displayorder="2"><title>Foreword</title>
             <p>
               <sup>
                 <xref type="footnote" target="ISO712">A</xref>
@@ -781,7 +781,7 @@ RSpec.describe Metanorma::Itu do
             </p>
           </div>
           <div>
-            <h1 class="IntroTitle"/>
+            <h1 class="IntroTitle">Foreword</h1>
             <p>
               <sup>
                 <a href="#ISO712">A</a>

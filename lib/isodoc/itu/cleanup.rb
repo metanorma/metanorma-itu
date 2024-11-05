@@ -25,7 +25,7 @@ module IsoDoc
       def term_cleanup1(docxml)
         docxml.xpath("//p[@class = 'Terms']").each do |d|
           h2 = d.at("./preceding-sibling::*[@class = 'TermNum'][1]")
-          d.children.first.previous = "<b>#{h2.children.to_xml}</b>&#xa0;"
+          d.add_first_child "<b>#{h2.children.to_xml}</b>&#xa0;"
           d["id"] = h2["id"]
           h2.remove
         end

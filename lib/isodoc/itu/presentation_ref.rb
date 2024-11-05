@@ -11,7 +11,7 @@ module IsoDoc
       def bibrender_formattedref(formattedref, _xml)
         formattedref << "." unless /\.$/.match?(formattedref.text)
         id = reference_format_start(formattedref.parent) and
-          formattedref.children.first.previous = id
+          formattedref.add_first_child id
       end
 
       def bibrender_relaton(xml, renderings)
@@ -73,7 +73,7 @@ module IsoDoc
       end
 
       def bibliography_bibitem_number_skip(bibitem)
-        @xrefs.klass.implicit_reference(bibitem) ||
+        implicit_reference(bibitem) ||
           bibitem["hidden"] == "true" || bibitem.parent["hidden"] == "true"
       end
 
@@ -91,6 +91,27 @@ module IsoDoc
         ret += datefn
         ret.empty? and return ret
         ret.gsub("-", "&#x2011;").gsub(/ /, "&#xa0;")
+      end
+
+      def bracket_if_num(num)
+        return nil if num.nil?
+
+        num = num.text.sub(/^\[/, "").sub(/\]$/, "")
+        "[#{num}]"
+      end
+
+      def pref_ref_code(bibitem)
+        ret = bibitem.xpath(ns("./docidentifier[@type = 'ITU']"))
+        ret.empty? and ret = super
+        ret
+      end
+
+      def unbracket(ident)
+        if ident.respond_to?(:size)
+          ident.map { |x| unbracket1(x) }.join("&#xA0;| ")
+        else
+          unbracket1(ident)
+        end
       end
     end
   end

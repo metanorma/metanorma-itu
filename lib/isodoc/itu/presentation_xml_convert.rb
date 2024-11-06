@@ -38,6 +38,12 @@ module IsoDoc
         docxml.xpath(ns("//quote//source")).each { |f| eref1(f) }
       end
 
+      def designation1(desgn)
+        super
+        desgn.name == "preferred" or return
+        desgn.children = l10n "#{to_xml desgn.children}:"
+      end
+
       def eref1(elem)
         get_eref_linkend(elem)
       end

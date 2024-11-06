@@ -298,7 +298,7 @@ RSpec.describe Metanorma::Itu do
        </clause>
        <terms id="I" obligation="normative" displayorder="11"><title>3.</title>
          <term id="J"><name>3.1.</name>
-         <preferred>Term2</preferred>
+         <preferred>Term2:</preferred>
        </term>
        </terms>
        <definitions id="L" displayorder="12">
@@ -385,7 +385,7 @@ RSpec.describe Metanorma::Itu do
                         </div>
                         <div id="I">
                         <h1>3.</h1>
-                        <div id="J"><p class="TermNum" id="J"><b>3.1.&#160; Term2</b>:</p>
+                        <div id="J"><p class="TermNum" id="J"><b>3.1.&#160; Term2:</b></p>
                  </div>
                       </div>
                         <div id="L" class="Symbols">
@@ -503,7 +503,7 @@ RSpec.describe Metanorma::Itu do
             </table>
            </div>
            <div id="I"><h1>3.</h1>
-        <div id="J"><p class="TermNum" id="J"><b>3.1.<span style="mso-tab-count:1">&#160; </span>Term2</b>: </p>
+        <div id="J"><p class="TermNum" id="J"><b>3.1.<span style="mso-tab-count:1">&#160; </span>Term2:</b> </p>
       </div>
       </div>
            <div id="L" class="Symbols">

@@ -54,7 +54,7 @@ module IsoDoc
         ol_style(type)
       end
 
-      def annex_name(annex, name, div)
+      def annex_name(_annex, name, div)
         r_a = @meta.get[:doctype_original] == "recommendation-annex"
         div.h1 class: r_a ? "RecommendationAnnex" : "Annex" do |t|
           name&.children&.each { |c2| parse(c2, t) }
@@ -101,11 +101,6 @@ module IsoDoc
           end
         end
         node.children.each { |n| parse(n, div) }
-      end
-
-      # TODO to Presentation XML
-      def table_footnote_reference_format(node)
-        node.content += ")"
       end
 
       def note_parse(node, out)

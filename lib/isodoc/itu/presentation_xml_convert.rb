@@ -6,17 +6,7 @@ require_relative "presentation_bibdata"
 require_relative "presentation_preface"
 require_relative "presentation_ref"
 require_relative "presentation_contribution"
-
-module Nokogiri
-  module XML
-    class Node
-      def traverse_topdown(&block)
-        yield(self)
-        children.each { |j| j.traverse_topdown(&block) }
-      end
-    end
-  end
-end
+require_relative "../../nokogiri/xml"
 
 module IsoDoc
   module Itu
@@ -57,7 +47,7 @@ module IsoDoc
         while elem&.next_element&.name == "termsource"
           elem << "; #{to_xml(elem.next_element.remove.children)}"
         end
-        elem.children = l10n("#{to_xml(elem.children).strip}")
+        elem.children = l10n(to_xml(elem.children).strip)
       end
 
       def eref1(elem)
@@ -72,8 +62,7 @@ module IsoDoc
       def note_delim(elem)
         if elem.at(ns("./*[local-name() != 'name'][1]"))&.name == "p"
           "\u00a0\u2013\u00a0"
-        else
-          ""
+        else ""
         end
       end
 
@@ -94,6 +83,10 @@ module IsoDoc
             n.replace(::Metanorma::Utils.strict_capitalize_first(n.text))
           break
         end
+      end
+
+      def table_fn1(_table, fnote, _idx)
+        fnote["reference"] += ")"
       end
 
       def get_eref_linkend(node)

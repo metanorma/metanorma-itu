@@ -490,8 +490,8 @@ RSpec.describe Metanorma::Itu do
                 <tbody>
                   <tr>
                     <td align="left">Arborio</td>
-                    <td align="center">Drago<fn reference="a"><p id="_">Parboiled rice.</p></fn></td>
-                    <td align="center">Balilla<fn reference="a"><p id="_">Parboiled rice.</p></fn></td>
+                    <td align="center">Drago<fn reference="a)"><p id="_">Parboiled rice.</p></fn></td>
+                    <td align="center">Balilla<fn reference="a)"><p id="_">Parboiled rice.</p></fn></td>
                     <td align="center">Thaibonnet</td>
                   </tr>
                 </tbody>
@@ -518,64 +518,123 @@ RSpec.describe Metanorma::Itu do
       .gsub(%r{<script>.+?</script>}i, "")
       .gsub(/fn:[0-9a-f][0-9a-f-]+/, "fn:_"))))
       .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
-          <main xmlns:epub="epub" class="main-section">
-          <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-          <br/>
-          <div>
-            <h1 class="IntroTitle" id="_">Foreword</h1>
-            <p>A.<a class="FootnoteRef" href="#fn:1" id="fnref:1"><sup>1</sup></a></p>
-            <p>B.<a class="FootnoteRef" href="#fn:1"><sup>1</sup></a></p>
-            <p>C.<a class="FootnoteRef" href="#fn:3" id="fnref:3"><sup>2</sup></a></p>
-            <p class="TableTitle" style="text-align:center;">Table 1 — Table 1 — Repeatability and reproducibility of <i>husked</i> rice yield</p>
-            <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;" title="tool tip">
-              <caption>
-                <span style="display:none">long desc</span>
-              </caption>
-              <thead>
-                <tr>
-                  <td rowspan="2" style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="col">Description</td>
-                  <td colspan="4" style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="colgroup">Rice sample</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Arborio</td>
-                  <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Drago<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
-                  <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
-                  <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Thaibonnet</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="5" style="border-top:0pt;border-bottom:solid windowtext 1.5pt;">
-                    <div class="TableFootnote">
-                      <div id="fn:tableD-1a">
-                        <p id="_" class="TableFootnote"><span><span id="tableD-1a" class="TableFootnoteRef">a)</span>  </span>Parboiled rice.</p>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-          <p class="zzSTDTitle2">An ITU Standard<a class="FootnoteRef" href="#fn:4" id="fnref:4"><sup>3</sup></a><a class="FootnoteRef" href="#fn:5" id="fnref:5"><sup>4</sup></a></p>
-          <div/>
-          <aside id="fn:1" class="footnote">
-            <p id="_"><a class="FootnoteRef" href="#fn:1"><sup>1</sup></a>Formerly denoted as 15 % (m/m).</p>
-            <a href="#fnref:1">↩</a>
-          </aside>
-          <aside id="fn:3" class="footnote">
-            <p id="_"><a class="FootnoteRef" href="#fn:3"><sup>2</sup></a>Hello! denoted as 15 % (m/m).</p>
-            <a href="#fnref:3">↩</a>
-          </aside>
-          <aside id="fn:4" class="footnote">
-            <p><a class="FootnoteRef" href="#fn:4"><sup>3</sup></a>One fn</p>
-            <a href="#fnref:4">↩</a>
-          </aside>
-          <aside id="fn:5" class="footnote">
-            <p><a class="FootnoteRef" href="#fn:5"><sup>4</sup></a>Another fn</p>
-            <a href="#fnref:5">↩</a>
-          </aside>
+            <main xmlns:epub="epub" class="main-section">
+           <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+           <br/>
+           <div>
+              <h1 class="IntroTitle" id="_">Foreword</h1>
+              <p>
+                 A.
+                 <a class="FootnoteRef" href="#fn:1" id="fnref:1">
+                    <sup>1</sup>
+                 </a>
+              </p>
+              <p>
+                 B.
+                 <a class="FootnoteRef" href="#fn:1">
+                    <sup>1</sup>
+                 </a>
+              </p>
+              <p>
+                 C.
+                 <a class="FootnoteRef" href="#fn:3" id="fnref:3">
+                    <sup>2</sup>
+                 </a>
+              </p>
+              <p class="TableTitle" style="text-align:center;">
+                 Table 1 — Table 1 — Repeatability and reproducibility of
+                 <i>husked</i>
+                 rice yield
+              </p>
+              <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;" title="tool tip">
+                 <caption>
+                    <span style="display:none">long desc</span>
+                 </caption>
+                 <thead>
+                    <tr>
+                       <td rowspan="2" style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="col">Description</td>
+                       <td colspan="4" style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="colgroup">Rice sample</td>
+                    </tr>
+                 </thead>
+                 <tbody>
+                    <tr>
+                       <td style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Arborio</td>
+                       <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">
+                          Drago
+                          <a href="#tableD-1a)" class="TableFootnoteRef">a)</a>
+                       </td>
+                       <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">
+                          Balilla
+                          <a href="#tableD-1a)" class="TableFootnoteRef">a)</a>
+                       </td>
+                       <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Thaibonnet</td>
+                    </tr>
+                 </tbody>
+                 <tfoot>
+                    <tr>
+                       <td colspan="5" style="border-top:0pt;border-bottom:solid windowtext 1.5pt;">
+                          <div class="TableFootnote">
+                             <div id="fn:tableD-1a)">
+                                <p id="_" class="TableFootnote">
+                                   <span>
+                                      <span id="tableD-1a)" class="TableFootnoteRef">a)</span>
+                                       
+                                   </span>
+                                   Parboiled rice.
+                                </p>
+                             </div>
+                          </div>
+                       </td>
+                    </tr>
+                 </tfoot>
+              </table>
+           </div>
+           <p class="zzSTDTitle2">
+              An ITU Standard
+              <a class="FootnoteRef" href="#fn:4" id="fnref:4">
+                 <sup>3</sup>
+              </a>
+              <a class="FootnoteRef" href="#fn:5" id="fnref:5">
+                 <sup>4</sup>
+              </a>
+           </p>
+           <div/>
+           <aside id="fn:1" class="footnote">
+              <p id="_">
+                 <a class="FootnoteRef" href="#fn:1">
+                    <sup>1</sup>
+                 </a>
+                 Formerly denoted as 15 % (m/m).
+              </p>
+              <a href="#fnref:1">↩</a>
+           </aside>
+           <aside id="fn:3" class="footnote">
+              <p id="_">
+                 <a class="FootnoteRef" href="#fn:3">
+                    <sup>2</sup>
+                 </a>
+                 Hello! denoted as 15 % (m/m).
+              </p>
+              <a href="#fnref:3">↩</a>
+           </aside>
+           <aside id="fn:4" class="footnote">
+              <p>
+                 <a class="FootnoteRef" href="#fn:4">
+                    <sup>3</sup>
+                 </a>
+                 One fn
+              </p>
+              <a href="#fnref:4">↩</a>
+           </aside>
+           <aside id="fn:5" class="footnote">
+              <p>
+                 <a class="FootnoteRef" href="#fn:5">
+                    <sup>4</sup>
+                 </a>
+                 Another fn
+              </p>
+              <a href="#fnref:5">↩</a>
+           </aside>
         </main>
       OUTPUT
 
@@ -587,34 +646,50 @@ RSpec.describe Metanorma::Itu do
       .sub(%r{^.*<div align="center" class="table_container">}m, "")
       .sub(%r{</table>.*$}m, "</table>")))
       .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
-            <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;" title="tool tip" summary="long desc">
-          <a name="tableD-1" id="tableD-1"/>
-          <thead>
-            <tr>
-              <td rowspan="2" valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Description</td>
-              <td colspan="4" valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Rice sample</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Arborio</td>
-              <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Drago<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
-              <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
-              <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Thaibonnet</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="5" style="border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;">
-                <div class="TableFootnote">
-                  <div>
-                    <a name="ftntableD-1a" id="ftntableD-1a"/>
-                    <p class="TableFootnote"><a name="_0fe65e9a-5531-408e-8295-eeff35f41a55" id="_0fe65e9a-5531-408e-8295-eeff35f41a55"/><span><span class="TableFootnoteRef"><a name="tableD-1a" id="tableD-1a"/>a)</span><span style="mso-tab-count:1">  </span></span>Parboiled rice.</p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </tfoot>
+          <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;" title="tool tip" summary="long desc">
+           <a name="tableD-1" id="tableD-1"/>
+           <thead>
+              <tr>
+                 <td rowspan="2" valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Description</td>
+                 <td colspan="4" valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Rice sample</td>
+              </tr>
+           </thead>
+           <tbody>
+              <tr>
+                 <td valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Arborio</td>
+                 <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">
+                    Drago
+                    <a href="#tableD-1a)" class="TableFootnoteRef">a)</a>
+                 </td>
+                 <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">
+                    Balilla
+                    <a href="#tableD-1a)" class="TableFootnoteRef">a)</a>
+                 </td>
+                 <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Thaibonnet</td>
+              </tr>
+           </tbody>
+           <tfoot>
+              <tr>
+                 <td colspan="5" style="border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;">
+                    <div class="TableFootnote">
+                       <div>
+                          <a name="ftntableD-1a)" id="ftntableD-1a)"/>
+                          <p class="TableFootnote">
+                             <a name="_0fe65e9a-5531-408e-8295-eeff35f41a55" id="_0fe65e9a-5531-408e-8295-eeff35f41a55"/>
+                             <span>
+                                <span class="TableFootnoteRef">
+                                   <a name="tableD-1a)" id="tableD-1a)"/>
+                                   a)
+                                </span>
+                                <span style="mso-tab-count:1">  </span>
+                             </span>
+                             Parboiled rice.
+                          </p>
+                       </div>
+                    </div>
+                 </td>
+              </tr>
+           </tfoot>
         </table>
       OUTPUT
   end

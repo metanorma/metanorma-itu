@@ -111,10 +111,26 @@ module IsoDoc
       end
 
       def annex1(elem)
-        @doctype == "resolution" or return super
+        if @doctype == "resolution"
+          annex1_resolution(elem)
+        else
+          super
+          annex1_non_resolution(elem)
+        end
+      end
+
+      def annex1_resolution(elem)
         elem.elements.first.previous = annex1_supertitle(elem)
         t = elem.at(ns("./title")) and
           t.children = "<strong>#{to_xml(t.children)}</strong>"
+      end
+
+      def annex1_non_resolution(elem)
+        info = elem["obligation"] == "informative"
+        ins = elem.at(ns("./title"))
+        p = (info ? @i18n.inform_annex : @i18n.norm_annex)
+          .sub("%", @i18n.doctype_dict[@meta.get[:doctype_original]] || "")
+        ins.next = %(<p class="annex_obligation">#{p}</p>)
       end
 
       def annex1_supertitle(elem)

@@ -79,6 +79,7 @@ RSpec.describe Metanorma::Itu do
        </references>
        </sections><annex id="P" inline-header="false" obligation="normative" displayorder="14">
          <title><strong>Annexe A</strong><br/><br/><strong>Annex</strong></title>
+         <p class="annex_obligation">(Cette annexe fait partie intégrante de ce Recommendation.)</p>
          <clause id="Q" inline-header="false" obligation="normative">
          <title depth="2">A.1.<tab/>Annex A.1</title>
          <clause id="Q1" inline-header="false" obligation="normative">
@@ -170,7 +171,7 @@ RSpec.describe Metanorma::Itu do
                      <br/>
                      <div id="P" class="Section3">
                        <h1 class="Annex"><b>Annexe A</b> <br/><br/><b>Annex</b></h1>
-                      <p class="annex_obligation">(Cette annexe fait partie int&#233;grante de ce Recommendation.)</p>
+                      <p class="annex_obligation">(Cette annexe fait partie intégrante de ce Recommandation.)</p>
                        <div id="Q">
                 <h2>A.1.&#160; Annex A.1</h2>
                 <div id="Q1">
@@ -282,6 +283,7 @@ RSpec.describe Metanorma::Itu do
        </references>
        </sections><annex id="P" inline-header="false" obligation="normative" displayorder="13">
          <title><strong>&#x9644;&#x4EF6;A</strong><br/><br/><strong>Annex</strong></title>
+         <p class="annex_obligation">（本附件不构成本Recommendation的不可或缺部分）</p>
          <clause id="Q" inline-header="false" obligation="normative">
          <title depth="2">A.1.<tab/>Annex A.1</title>
          <clause id="Q1" inline-header="false" obligation="normative">
@@ -380,9 +382,7 @@ RSpec.describe Metanorma::Itu do
               <br/>
               <b>Annex</b>
             </h1>
-            <p class='annex_obligation'>
-              &#65288;&#26412;&#38468;&#20214;&#19981;&#26500;&#25104;&#26412;Recommendation&#30340;&#19981;&#21487;&#25110;&#32570;&#37096;&#20998;&#65289;
-            </p>
+            <p class='annex_obligation'>（本附件不构成本建议书的不可或缺部分）</p>
             <div id='Q'>
               <h2>A.1.&#12288;Annex A.1</h2>
               <div id='Q1'>
@@ -406,7 +406,8 @@ RSpec.describe Metanorma::Itu do
         </div>
       </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", itudoc("zh"), true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)

@@ -59,17 +59,6 @@ module IsoDoc
         div.h1 class: r_a ? "RecommendationAnnex" : "Annex" do |t|
           name&.children&.each { |c2| parse(c2, t) }
         end
-        # TODO to Presentation XML
-        @meta.get[:doctype_original] == "resolution" or
-          annex_obligation_subtitle(annex, div)
-      end
-
-      def annex_obligation_subtitle(annex, div)
-        info = annex["obligation"] == "informative"
-        div.p class: "annex_obligation" do |p|
-          p << (info ? @i18n.inform_annex : @i18n.norm_annex)
-            .sub("%", @meta.get[:doctype] || "")
-        end
       end
 
       def annex(node, out)

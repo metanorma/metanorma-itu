@@ -175,6 +175,7 @@ RSpec.describe Metanorma::Itu do
                 </clause>
                 </sections>
                 <annex id="annex1"   displayorder='6'><title><strong>Annex A</strong></title>
+                <p class="annex_obligation">(This annex forms an integral part of this .)</p>
                 <clause id="annex1a"><title>A.1.</title>
                 </clause>
                 <clause id="annex1b"><title>A.2.</title>
@@ -379,6 +380,7 @@ RSpec.describe Metanorma::Itu do
                       <br/>
                       <strong>Annex</strong>
                     </title>
+                    <p class="annex_obligation">(This annex forms an integral part of this Recommendation Annex.)</p>
                     <clause id='A2'>
                       <title depth='2'>
                         F2.1.
@@ -389,7 +391,8 @@ RSpec.describe Metanorma::Itu do
                   </annex>
               </itu-standard>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(output)

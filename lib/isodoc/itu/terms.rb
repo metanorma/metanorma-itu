@@ -8,7 +8,7 @@ module IsoDoc
             insert_tab(b, 1)
             node&.at(ns("./preferred"))&.children&.each { |n| parse(n, b) }
           end
-          source and p << "#{bracket_opt(source.value)} "
+          source and p << "#{source.value} "
         end
         defn&.children&.each { |n| parse(n, div) }
       end
@@ -25,14 +25,6 @@ module IsoDoc
             parse(n, out)
           end
         end
-      end
-
-      # TODO to Presentation XML
-      def bracket_opt(text)
-        return text if text.nil?
-        return text if /^\[.+\]$/.match?(text)
-
-        "[#{text}]"
       end
     end
   end

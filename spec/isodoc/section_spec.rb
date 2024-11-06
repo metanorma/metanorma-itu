@@ -654,7 +654,7 @@ RSpec.describe Metanorma::Itu do
               </p>
               <div class="Section3"><a name="P" id="P"></a>
                 <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex 1</b></h1>
-                <p class="annex_obligation">(This annex forms an integral part of this Recommendation Annex.)</p>
+                <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
                 <div><a name="Q" id="Q"></a><h2>A.1<span style="mso-tab-count:1">&#xA0; </span>Annex A.1</h2>
                  <p class="MsoNormal">Hello</p>
                  </div>
@@ -743,7 +743,7 @@ RSpec.describe Metanorma::Itu do
                 <br/>
                 <strong>Annex</strong>
               </title>
-              <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
+              <p class="annex_obligation">(This annex forms an integral part of this Recommendation Annex.)</p>
               <clause id='A2'>
                 <title depth='2'>F2.1.<tab/>Subtitle</title>
                 <table id='T'>
@@ -788,7 +788,7 @@ RSpec.describe Metanorma::Itu do
                      <br/>
                      <b>Annex</b>
                    </p>
-                   <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
+                   <p class='annex_obligation'>(This annex forms an integral part of this Recommendation Annex.)</p>
                    <div id='A2'>
                      <h2 id='_'><a class="anchor" href="#A2"/><a class="header" href="#A2">F2.1.&#xA0; Subtitle</a></h2>
                      <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
@@ -827,7 +827,7 @@ RSpec.describe Metanorma::Itu do
                   <br/>
                   <b>Annex</b>
                 </p>
-                <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
+                <p class='annex_obligation'>(This annex forms an integral part of this Recommendation Annex.)</p>
                 <div>
                   <a name='A2' id='A2'/>
                   <h2>

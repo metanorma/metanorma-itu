@@ -79,7 +79,7 @@ RSpec.describe Metanorma::Itu do
        </references>
        </sections><annex id="P" inline-header="false" obligation="normative" displayorder="14">
          <title><strong>Annexe A</strong><br/><br/><strong>Annex</strong></title>
-         <p class="annex_obligation">(Cette annexe fait partie intégrante de ce Recommendation.)</p>
+         <p class="annex_obligation">(Cette annexe fait partie intégrante de ce Recommandation.)</p>
          <clause id="Q" inline-header="false" obligation="normative">
          <title depth="2">A.1.<tab/>Annex A.1</title>
          <clause id="Q1" inline-header="false" obligation="normative">
@@ -283,7 +283,7 @@ RSpec.describe Metanorma::Itu do
        </references>
        </sections><annex id="P" inline-header="false" obligation="normative" displayorder="13">
          <title><strong>&#x9644;&#x4EF6;A</strong><br/><br/><strong>Annex</strong></title>
-         <p class="annex_obligation">（本附件不构成本Recommendation的不可或缺部分）</p>
+         <p class="annex_obligation">（本附件不构成本建议书的不可或缺部分）</p>
          <clause id="Q" inline-header="false" obligation="normative">
          <title depth="2">A.1.<tab/>Annex A.1</title>
          <clause id="Q1" inline-header="false" obligation="normative">

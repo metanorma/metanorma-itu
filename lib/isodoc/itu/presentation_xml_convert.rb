@@ -31,17 +31,33 @@ module IsoDoc
       end
 
       def origin(docxml)
-        docxml.xpath(ns("//origin[not(termref)]")).each { |f| eref1(f) }
+        docxml.xpath(ns("//origin[not(termref)]")).each do |f|
+          f["citeas"] = bracket_opt(f["citeas"])
+          eref1(f)
+        end
       end
 
       def quotesource(docxml)
         docxml.xpath(ns("//quote//source")).each { |f| eref1(f) }
       end
 
+      def bracket_opt(text)
+        text.nil? and return
+        /^\[.+\]$/.match?(text) and return text
+        "[#{text}]"
+      end
+
       def designation1(desgn)
         super
         desgn.name == "preferred" or return
         desgn.children = l10n "#{to_xml desgn.children}:"
+      end
+
+      def termsource1(elem)
+        while elem&.next_element&.name == "termsource"
+          elem << "; #{to_xml(elem.next_element.remove.children)}"
+        end
+        elem.children = l10n("#{to_xml(elem.children).strip}")
       end
 
       def eref1(elem)

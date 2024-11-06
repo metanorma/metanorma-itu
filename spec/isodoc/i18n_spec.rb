@@ -50,7 +50,7 @@ RSpec.describe Metanorma::Itu do
        </clause>
        <terms id="I" obligation="normative" displayorder="11"><title>3.</title>
          <term id="J"><name>3.1.</name>
-         <preferred>Term2:</preferred>
+         <preferred>Term2 :</preferred>
        </term>
        </terms>
        <definitions id="L" displayorder="12"><title depth="1">

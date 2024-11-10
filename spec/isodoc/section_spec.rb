@@ -876,7 +876,7 @@ RSpec.describe Metanorma::Itu do
             <td align="left">Recommendation</td>
             <td align="left">Approval</td>
             <td align="left">Study Group</td>
-            <td align="left">Unique ID<fn reference="a">
+            <td align="left">Unique ID<fn reference="a)">
         <p id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9">To access the Recommendation, type the URL <link target="http://handle.itu.int/"/> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <link target="http://handle.itu.int/11.1002/1000/11830-en"/></p>
       </fn>.</td>
           </tr>
@@ -914,7 +914,7 @@ RSpec.describe Metanorma::Itu do
                                <td align="left" style="" valign="top">Recommendation</td>
                                <td align="left" style="" valign="top">Approval</td>
                                <td align="left" style="" valign="top">Study Group</td>
-                               <td align="left" style="" valign="top">Unique ID<a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" class="TableFootnoteRef">a)</a>.</td>
+                               <td align="left" style="" valign="top">Unique ID<a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)" class="TableFootnoteRef">a)</a>.</td>
                              </tr>
                              <tr>
                                <td align="left" style="" valign="top">1.0</td>
@@ -926,8 +926,8 @@ RSpec.describe Metanorma::Itu do
                      </td>
                              </tr>
                            </tbody>
-                         <tfoot><tr><td colspan="5" style=""><div class="TableFootnote"><div><a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>
-                 <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11.1002/1000/11830-en</a></p>
+                         <tfoot><tr><td colspan="5" style=""><div class="TableFootnote"><div><a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)"></a>
+                 <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11.1002/1000/11830-en</a></p>
                </div></div></td></tr></tfoot></table>
                </div></div>
       OUTPUT

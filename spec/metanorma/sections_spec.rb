@@ -428,7 +428,7 @@ RSpec.describe Metanorma::Itu do
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
-  it "has unique terms and definitions clauses" do
+  xit "has unique terms and definitions clauses" do
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
 

@@ -1,7 +1,6 @@
 module IsoDoc
   module Itu
     module BaseConvert
-      # TODO to Presentation XML
       def termdef_parse1(node, div, defn, source)
         div.p **{ class: "TermNum", id: node["id"] } do |p|
           p.b do |b|
@@ -9,8 +8,7 @@ module IsoDoc
             insert_tab(b, 1)
             node&.at(ns("./preferred"))&.children&.each { |n| parse(n, b) }
           end
-          p << ": "
-          source and p << "#{bracket_opt(source.value)} "
+          source and p << "#{source.value} "
         end
         defn&.children&.each { |n| parse(n, div) }
       end
@@ -27,14 +25,6 @@ module IsoDoc
             parse(n, out)
           end
         end
-      end
-
-      # TODO to Presentation XML
-      def bracket_opt(text)
-        return text if text.nil?
-        return text if /^\[.+\]$/.match?(text)
-
-        "[#{text}]"
       end
     end
   end

@@ -6,17 +6,7 @@ require_relative "presentation_bibdata"
 require_relative "presentation_preface"
 require_relative "presentation_ref"
 require_relative "presentation_contribution"
-
-module Nokogiri
-  module XML
-    class Node
-      def traverse_topdown(&block)
-        yield(self)
-        children.each { |j| j.traverse_topdown(&block) }
-      end
-    end
-  end
-end
+require_relative "../../nokogiri/xml"
 
 module IsoDoc
   module Itu
@@ -31,11 +21,33 @@ module IsoDoc
       end
 
       def origin(docxml)
-        docxml.xpath(ns("//origin[not(termref)]")).each { |f| eref1(f) }
+        docxml.xpath(ns("//origin[not(termref)]")).each do |f|
+          f["citeas"] = bracket_opt(f["citeas"])
+          eref1(f)
+        end
       end
 
       def quotesource(docxml)
         docxml.xpath(ns("//quote//source")).each { |f| eref1(f) }
+      end
+
+      def bracket_opt(text)
+        text.nil? and return
+        /^\[.+\]$/.match?(text) and return text
+        "[#{text}]"
+      end
+
+      def designation1(desgn)
+        super
+        desgn.name == "preferred" or return
+        desgn.children = l10n "#{to_xml desgn.children}:"
+      end
+
+      def termsource1(elem)
+        while elem&.next_element&.name == "termsource"
+          elem << "; #{to_xml(elem.next_element.remove.children)}"
+        end
+        elem.children = l10n(to_xml(elem.children).strip)
       end
 
       def eref1(elem)
@@ -50,8 +62,7 @@ module IsoDoc
       def note_delim(elem)
         if elem.at(ns("./*[local-name() != 'name'][1]"))&.name == "p"
           "\u00a0\u2013\u00a0"
-        else
-          ""
+        else ""
         end
       end
 
@@ -72,6 +83,10 @@ module IsoDoc
             n.replace(::Metanorma::Utils.strict_capitalize_first(n.text))
           break
         end
+      end
+
+      def table_fn1(_table, fnote, _idx)
+        fnote["reference"] += ")"
       end
 
       def get_eref_linkend(node)
@@ -111,10 +126,26 @@ module IsoDoc
       end
 
       def annex1(elem)
-        @doctype == "resolution" or return super
+        if @doctype == "resolution"
+          annex1_resolution(elem)
+        else
+          super
+          annex1_non_resolution(elem)
+        end
+      end
+
+      def annex1_resolution(elem)
         elem.elements.first.previous = annex1_supertitle(elem)
         t = elem.at(ns("./title")) and
           t.children = "<strong>#{to_xml(t.children)}</strong>"
+      end
+
+      def annex1_non_resolution(elem)
+        info = elem["obligation"] == "informative"
+        ins = elem.at(ns("./title"))
+        p = (info ? @i18n.inform_annex : @i18n.norm_annex)
+          .sub("%", @i18n.doctype_dict[@meta.get[:doctype_original]] || "")
+        ins.next = %(<p class="annex_obligation">#{p}</p>)
       end
 
       def annex1_supertitle(elem)

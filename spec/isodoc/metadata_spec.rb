@@ -161,8 +161,7 @@ RSpec.describe Metanorma::Itu do
       <annex obligation="informative"/>
       </itu-standard>
     INPUT
-    output = <<~OUTPUT
-      {:accesseddate=>"XXX",
+    output = {:accesseddate=>"XXX",
       :adapteddate=>"XXX",
       :agency=>"ITU",
       :amendmentid=>"Amendment 2",
@@ -239,12 +238,11 @@ RSpec.describe Metanorma::Itu do
       :vote_endeddate=>"XXX",
       :vote_starteddate=>"XXX",
       :workgroup=>"I2"}
-    OUTPUT
     docxml, = csdc.convert_init(input, "test", true)
-    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
-      .gsub(/, :/, ",\n:"))).to be_equivalent_to output
+    expect(metadata(csdc.info(docxml, nil)))
+      .to be_equivalent_to output
 
-    output = <<~OUTPUT
+    output = 
       {:accesseddate=>"XXX",
       :adapteddate=>"XXX",
       :agency=>"ITU",
@@ -322,12 +320,11 @@ RSpec.describe Metanorma::Itu do
       :vote_endeddate=>"XXX",
       :vote_starteddate=>"XXX",
       :workgroup=>"I2"}
-    OUTPUT
 
     docxml, = csdc.convert_init(input
       .sub("<language>en</language>", "<language>fr</language>"), "test", true)
-    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
-      .gsub(/, :/, ",\n:"))).to be_equivalent_to output
+    expect(metadata(csdc.info(docxml, nil)))
+      .to be_equivalent_to output
   end
 
   it "processes default metadata for technical report" do
@@ -453,9 +450,8 @@ RSpec.describe Metanorma::Itu do
            <sections> </sections>
          </itu-standard>
     INPUT
-    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
-      .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
-        {:accesseddate=>"XXX",
+    expect(metadata(csdc.info(docxml, nil)))
+      .to be_equivalent_to({:accesseddate=>"XXX",
         :adapteddate=>"XXX",
         :addresses=>["Canada", "USA"],
         :affiliations=>["Bedrock Quarry", "Bedrock Quarry 2"],
@@ -527,8 +523,7 @@ RSpec.describe Metanorma::Itu do
         :updateddate=>"XXX",
         :vote_endeddate=>"XXX",
         :vote_starteddate=>"XXX",
-        :workgroup=>"I2"}
-      OUTPUT
+        :workgroup=>"I2"})
   end
 
   it "processes default metadata for resolution" do
@@ -585,9 +580,8 @@ RSpec.describe Metanorma::Itu do
            <sections> </sections>
          </itu-standard>
     INPUT
-    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
-      .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
-        {:accesseddate=>"XXX",
+    expect(metadata(csdc.info(docxml, nil)))
+      .to be_equivalent_to({:accesseddate=>"XXX",
         :adapteddate=>"XXX",
         :agency=>"International Telecommunication Union",
         :announceddate=>"XXX",
@@ -642,8 +636,7 @@ RSpec.describe Metanorma::Itu do
         :unpublished=>true,
         :updateddate=>"XXX",
         :vote_endeddate=>"XXX",
-        :vote_starteddate=>"XXX"}
-      OUTPUT
+        :vote_starteddate=>"XXX"})
   end
 
   it "processes default metadata for resolution, date range, days" do
@@ -701,9 +694,8 @@ RSpec.describe Metanorma::Itu do
            <sections> </sections>
          </itu-standard>
     INPUT
-    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
-      .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
-        {:accesseddate=>"XXX",
+    expect(metadata(csdc.info(docxml, nil)))
+      .to be_equivalent_to({:accesseddate=>"XXX",
         :adapteddate=>"XXX",
         :agency=>"International Telecommunication Union",
         :announceddate=>"XXX",
@@ -758,8 +750,7 @@ RSpec.describe Metanorma::Itu do
         :unpublished=>true,
         :updateddate=>"XXX",
         :vote_endeddate=>"XXX",
-        :vote_starteddate=>"XXX"}
-      OUTPUT
+        :vote_starteddate=>"XXX"})
   end
 
   it "processes default metadata for resolution, date range, months" do
@@ -817,9 +808,8 @@ RSpec.describe Metanorma::Itu do
            <sections> </sections>
          </itu-standard>
     INPUT
-    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
-      .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
-        {:accesseddate=>"XXX",
+    expect(metadata(csdc.info(docxml, nil)))
+      .to be_equivalent_to({:accesseddate=>"XXX",
         :adapteddate=>"XXX",
         :agency=>"International Telecommunication Union",
         :announceddate=>"XXX",
@@ -874,8 +864,7 @@ RSpec.describe Metanorma::Itu do
         :unpublished=>true,
         :updateddate=>"XXX",
         :vote_endeddate=>"XXX",
-        :vote_starteddate=>"XXX"}
-      OUTPUT
+        :vote_starteddate=>"XXX"})
   end
 
   it "processes default metadata for resolution, date range, years" do
@@ -933,9 +922,8 @@ RSpec.describe Metanorma::Itu do
            <sections> </sections>
          </itu-standard>
     INPUT
-    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
-      .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
-        {:accesseddate=>"XXX",
+    expect(metadata(csdc.info(docxml, nil)))
+      .to be_equivalent_to({:accesseddate=>"XXX",
         :adapteddate=>"XXX",
         :agency=>"International Telecommunication Union",
         :announceddate=>"XXX",
@@ -990,8 +978,7 @@ RSpec.describe Metanorma::Itu do
         :unpublished=>true,
         :updateddate=>"XXX",
         :vote_endeddate=>"XXX",
-        :vote_starteddate=>"XXX"}
-      OUTPUT
+        :vote_starteddate=>"XXX"})
   end
 
   it "processes default metadata for service publication" do
@@ -1117,9 +1104,8 @@ RSpec.describe Metanorma::Itu do
            <sections> </sections>
          </itu-standard>
     INPUT
-    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
-      .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
-        {:accesseddate=>"XXX",
+    expect(metadata(csdc.info(docxml, nil)))
+      .to be_equivalent_to({:accesseddate=>"XXX",
         :adapteddate=>"XXX",
         :addresses=>["Canada", "USA"],
         :affiliations=>["Bedrock Quarry", "Bedrock Quarry 2"],
@@ -1191,8 +1177,7 @@ RSpec.describe Metanorma::Itu do
         :updateddate=>"XXX",
         :vote_endeddate=>"XXX",
         :vote_starteddate=>"XXX",
-        :workgroup=>"I2"}
-      OUTPUT
+        :workgroup=>"I2"})
   end
 
   it "processes metadata for in-force-prepublished, recommendation annex" do
@@ -1231,9 +1216,8 @@ RSpec.describe Metanorma::Itu do
       <annex obligation="informative"/>
       </itu-standard>
     INPUT
-    expect(htmlencode(metadata(csdc.info(docxml, nil)).to_s
-      .gsub(/, :/, ",\n:"))).to be_equivalent_to <<~"OUTPUT"
-        {:accesseddate=>"XXX",
+    expect(metadata(csdc.info(docxml, nil)))
+      .to be_equivalent_to({:accesseddate=>"XXX",
         :adapteddate=>"XXX",
         :agency=>"ITU",
         :announceddate=>"XXX",
@@ -1274,8 +1258,7 @@ RSpec.describe Metanorma::Itu do
         :unpublished=>true,
         :updateddate=>"XXX",
         :vote_endeddate=>"XXX",
-        :vote_starteddate=>"XXX"}
-      OUTPUT
+        :vote_starteddate=>"XXX"})
   end
 
   it "localises dates in English" do

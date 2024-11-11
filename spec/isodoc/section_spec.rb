@@ -86,26 +86,46 @@ RSpec.describe Metanorma::Itu do
                  <xref target="B1">Appendix I</xref>
              </abstract>
              </preface>
-      <annex id="A1" obligation="normative" displayorder="3"><title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A2" obligation="normative" displayorder="4"><title><strong>Annex B</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A3" obligation="normative" displayorder="5"><title><strong>Annex C</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A4" obligation="normative" displayorder="6"><title><strong>Annex D</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A5" obligation="normative" displayorder="7"><title><strong>Annex E</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A6" obligation="normative" displayorder="8"><title><strong>Annex F</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A7" obligation="normative" displayorder="9"><title><strong>Annex G</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A8" obligation="normative" displayorder="10"><title><strong>Annex H</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A9" obligation="normative" displayorder="11"><title><strong>Annex J</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A10" obligation="normative" displayorder="12"><title><strong>Annex K</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B1" obligation="informative" displayorder="13"><title><strong>Appendix I</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B2" obligation="informative" displayorder="14"><title><strong>Appendix II</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B3" obligation="informative" displayorder="15"><title><strong>Appendix III</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B4" obligation="informative" displayorder="16"><title><strong>Appendix IV</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B5" obligation="informative" displayorder="17"><title><strong>Appendix V</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B6" obligation="informative" displayorder="18"><title><strong>Appendix VI</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B7" obligation="informative" displayorder="19"><title><strong>Appendix VII</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B8" obligation="informative" displayorder="20"><title><strong>Appendix VIII</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B9" obligation="informative" displayorder="21"><title><strong>Appendix IX</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B10" obligation="informative" displayorder="22"><title><strong>Appendix X</strong><br/><br/><strong>Annex</strong></title></annex>
+      <annex id="A1" obligation="normative" displayorder="3"><title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p></annex>
+      <annex id="A2" obligation="normative" displayorder="4"><title><strong>Annex B</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p></annex>
+      <annex id="A3" obligation="normative" displayorder="5"><title><strong>Annex C</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p></annex>
+      <annex id="A4" obligation="normative" displayorder="6"><title><strong>Annex D</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p></annex>
+      <annex id="A5" obligation="normative" displayorder="7"><title><strong>Annex E</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p></annex>
+      <annex id="A6" obligation="normative" displayorder="8"><title><strong>Annex F</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p></annex>
+      <annex id="A7" obligation="normative" displayorder="9"><title><strong>Annex G</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p></annex>
+      <annex id="A8" obligation="normative" displayorder="10"><title><strong>Annex H</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p></annex>
+      <annex id="A9" obligation="normative" displayorder="11"><title><strong>Annex J</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p></annex>
+      <annex id="A10" obligation="normative" displayorder="12"><title><strong>Annex K</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p></annex>
+      <annex id="B1" obligation="informative" displayorder="13"><title><strong>Appendix I</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This appendix does not form an integral part of this Recommendation.)</p></annex>
+      <annex id="B2" obligation="informative" displayorder="14"><title><strong>Appendix II</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This appendix does not form an integral part of this Recommendation.)</p></annex>
+      <annex id="B3" obligation="informative" displayorder="15"><title><strong>Appendix III</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This appendix does not form an integral part of this Recommendation.)</p></annex>
+      <annex id="B4" obligation="informative" displayorder="16"><title><strong>Appendix IV</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This appendix does not form an integral part of this Recommendation.)</p></annex>
+      <annex id="B5" obligation="informative" displayorder="17"><title><strong>Appendix V</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This appendix does not form an integral part of this Recommendation.)</p></annex>
+      <annex id="B6" obligation="informative" displayorder="18"><title><strong>Appendix VI</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This appendix does not form an integral part of this Recommendation.)</p></annex>
+      <annex id="B7" obligation="informative" displayorder="19"><title><strong>Appendix VII</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This appendix does not form an integral part of this Recommendation.)</p></annex>
+      <annex id="B8" obligation="informative" displayorder="20"><title><strong>Appendix VIII</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This appendix does not form an integral part of this Recommendation.)</p></annex>
+      <annex id="B9" obligation="informative" displayorder="21"><title><strong>Appendix IX</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This appendix does not form an integral part of this Recommendation.)</p></annex>
+      <annex id="B10" obligation="informative" displayorder="22"><title><strong>Appendix X</strong><br/><br/><strong>Annex</strong></title>
+      <p class="annex_obligation">(This appendix does not form an integral part of this Recommendation.)</p></annex>
       </itu-standard>
     OUTPUT
     html = <<~OUTPUT
@@ -278,7 +298,7 @@ RSpec.describe Metanorma::Itu do
        </clause>
        <terms id="I" obligation="normative" displayorder="11"><title>3.</title>
          <term id="J"><name>3.1.</name>
-         <preferred>Term2</preferred>
+         <preferred>Term2:</preferred>
        </term>
        </terms>
        <definitions id="L" displayorder="12">
@@ -308,6 +328,7 @@ RSpec.describe Metanorma::Itu do
        </references><
        </sections><annex id="P" inline-header="false" obligation="normative" displayorder="14">
          <title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title>
+         <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
          <clause id="Q" inline-header="false" obligation="normative">
          <title depth="2">A.1.<tab/>Annex A.1</title>
          <clause id="Q1" inline-header="false" obligation="normative">
@@ -364,7 +385,7 @@ RSpec.describe Metanorma::Itu do
                         </div>
                         <div id="I">
                         <h1>3.</h1>
-                        <div id="J"><p class="TermNum" id="J"><b>3.1.&#160; Term2</b>:</p>
+                        <div id="J"><p class="TermNum" id="J"><b>3.1.&#160; Term2:</b></p>
                  </div>
                       </div>
                         <div id="L" class="Symbols">
@@ -482,7 +503,7 @@ RSpec.describe Metanorma::Itu do
             </table>
            </div>
            <div id="I"><h1>3.</h1>
-        <div id="J"><p class="TermNum" id="J"><b>3.1.<span style="mso-tab-count:1">&#160; </span>Term2</b>: </p>
+        <div id="J"><p class="TermNum" id="J"><b>3.1.<span style="mso-tab-count:1">&#160; </span>Term2:</b> </p>
       </div>
       </div>
            <div id="L" class="Symbols">
@@ -591,6 +612,7 @@ RSpec.describe Metanorma::Itu do
              </sections>
               <annex id="P" inline-header="false" obligation="normative" displayorder="2">
                <title><strong>Annex A</strong><br/><br/><strong>Annex 1</strong></title>
+               <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
                <clause id="Q" inline-header="false" obligation="normative">
                <title>A.1<tab/>Annex A.1</title>
                <p>Hello</p>
@@ -598,6 +620,7 @@ RSpec.describe Metanorma::Itu do
              </annex>
                  <annex id="P1" inline-header="false" obligation="normative" displayorder="3">
                <title><strong>Annex B</strong><br/><br/><strong>Annex 2</strong></title>
+               <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
                <p>Hello</p>
                <clause id="Q1" inline-header="false" obligation="normative">
                <title>B.1<tab/>Annex A1.1</title>
@@ -720,6 +743,7 @@ RSpec.describe Metanorma::Itu do
                 <br/>
                 <strong>Annex</strong>
               </title>
+              <p class="annex_obligation">(This annex forms an integral part of this Recommendation Annex.)</p>
               <clause id='A2'>
                 <title depth='2'>F2.1.<tab/>Subtitle</title>
                 <table id='T'>
@@ -764,7 +788,7 @@ RSpec.describe Metanorma::Itu do
                      <br/>
                      <b>Annex</b>
                    </p>
-                   <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
+                   <p class='annex_obligation'>(This annex forms an integral part of this Recommendation Annex.)</p>
                    <div id='A2'>
                      <h2 id='_'><a class="anchor" href="#A2"/><a class="header" href="#A2">F2.1.&#xA0; Subtitle</a></h2>
                      <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
@@ -803,7 +827,7 @@ RSpec.describe Metanorma::Itu do
                   <br/>
                   <b>Annex</b>
                 </p>
-                <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
+                <p class='annex_obligation'>(This annex forms an integral part of this Recommendation Annex.)</p>
                 <div>
                   <a name='A2' id='A2'/>
                   <h2>
@@ -852,7 +876,7 @@ RSpec.describe Metanorma::Itu do
             <td align="left">Recommendation</td>
             <td align="left">Approval</td>
             <td align="left">Study Group</td>
-            <td align="left">Unique ID<fn reference="a">
+            <td align="left">Unique ID<fn reference="a)">
         <p id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9">To access the Recommendation, type the URL <link target="http://handle.itu.int/"/> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <link target="http://handle.itu.int/11.1002/1000/11830-en"/></p>
       </fn>.</td>
           </tr>
@@ -890,7 +914,7 @@ RSpec.describe Metanorma::Itu do
                                <td align="left" style="" valign="top">Recommendation</td>
                                <td align="left" style="" valign="top">Approval</td>
                                <td align="left" style="" valign="top">Study Group</td>
-                               <td align="left" style="" valign="top">Unique ID<a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" class="TableFootnoteRef">a)</a>.</td>
+                               <td align="left" style="" valign="top">Unique ID<a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)" class="TableFootnoteRef">a)</a>.</td>
                              </tr>
                              <tr>
                                <td align="left" style="" valign="top">1.0</td>
@@ -902,8 +926,8 @@ RSpec.describe Metanorma::Itu do
                      </td>
                              </tr>
                            </tbody>
-                         <tfoot><tr><td colspan="5" style=""><div class="TableFootnote"><div><a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>
-                 <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11.1002/1000/11830-en</a></p>
+                         <tfoot><tr><td colspan="5" style=""><div class="TableFootnote"><div><a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)"></a>
+                 <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11.1002/1000/11830-en</a></p>
                </div></div></td></tr></tfoot></table>
                </div></div>
       OUTPUT
@@ -1453,6 +1477,7 @@ RSpec.describe Metanorma::Itu do
              <br/>
              <strong>Annex</strong>
            </title>
+           <p class="annex_obligation">(This annex forms an integral part of this Contribution.)</p>
          </annex>
          <annex id="A2" type="justification" displayorder="5">
            <title>
@@ -1461,6 +1486,7 @@ RSpec.describe Metanorma::Itu do
              <br/>
              <strong>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</strong>
            </title>
+           <p class="annex_obligation">(This annex forms an integral part of this Contribution.)</p>
            <table class="contribution-metadata" unnumbered="true" width="100%">
              <colgroup>
                <col width="15.9%"/>

@@ -61,7 +61,7 @@ RSpec.describe Metanorma::Itu::Processor do
               <a class="header" href="#H">Terms</a>
             </h1>
             <div id="J">
-              <p class="TermNum" id="J"><b>1.1.  Term2</b>: </p>
+              <p class="TermNum" id="J"><b>1.1.  Term2</b></p>
             </div>
           </div>
         </main>

@@ -127,7 +127,10 @@ RSpec.describe Metanorma::Itu do
         <sections>
                   <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION 1 (Andorra, 1204)</p>
            <p align="center" class="zzSTDTitle2" displayorder="2"><em>(Andorra, 1204</em>)<fn reference="1"><p>One fn</p></fn><fn reference="2"><p>Another fn</p></fn></p>
-           <p keep-with-next="true" class="supertitle" displayorder="3">SECTION 1</p>
+        <p keep-with-next="true" class="supertitle" displayorder="3">
+         <span element="fmt-element-name">SECTION</span>
+         <semx element="autonum" source="A">1</semx>
+      </p>
         <clause id='A' displayorder='4'>
           <p>Hello.<fn reference='3'><p>Normal footnote</p></fn></p>
         </clause>
@@ -906,7 +909,7 @@ RSpec.describe Metanorma::Itu do
     FileUtils.rm_f "test.html"
     input = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml">
-      #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>)))}
+      #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>))).gsub("<title", "<fmt-title").gsub("</title", "</fmt-title")}{
       </iso-standard>
     INPUT
     IsoDoc::Itu::HtmlConvert.new({}).convert("test", input, false)
@@ -1090,7 +1093,9 @@ RSpec.describe Metanorma::Itu do
                  <title language='en'>test</title>
                </bibdata>
                <preface>
-                 <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+                 <clause type="toc" id="_" displayorder="1">
+                 <fmt-title depth="1">Table of Contents</fmt-title>
+                  </clause>
                  <p displayorder='2'>30'000
                    <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mfenced open="(" close=")"><mrow><mi>X</mi><mo>≥</mo><msub><mrow><mi>X</mi></mrow><mrow><mo>max</mo></mrow></msub></mrow></mfenced><mo>=</mo><munderover><mrow><mo>∑</mo></mrow><mrow><mrow><mi>j</mi><mo>=</mo><msub><mrow><mi>X</mi></mrow><mrow><mo>max</mo></mrow></msub></mrow></mrow><mrow><mn>1'000</mn></mrow></munderover><mfenced open="(" close=")"><mtable><mtr><mtd><mn>1'000</mn></mtd></mtr><mtr><mtd><mi>j</mi></mtd></mtr></mtable></mfenced><msup><mrow><mi>p</mi></mrow><mrow><mi>j</mi></mrow></msup><msup><mrow><mfenced open="(" close=")"><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfenced></mrow><mrow><mrow><mn>1.003</mn><mo>−</mo><mi>j</mi></mrow></mrow></msup></math><asciimath>P (X ge X_(max)) = sum_(j = X_(max))^(1000) ([[1000], [j]]) p^(j) (1 - p)^(1.003 - j)</asciimath></stem></p>
          </preface>

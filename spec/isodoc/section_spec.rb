@@ -1062,9 +1062,9 @@ RSpec.describe Metanorma::Itu do
           </sections>
         </itu-standard>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
   end
 
@@ -1101,7 +1101,9 @@ RSpec.describe Metanorma::Itu do
     INPUT
     presxml = <<~OUTPUT
       <preface>
-        <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+        <clause type="toc" id="_" displayorder="1"> 
+        <fmt-title depth="1">Table of Contents</fmt-title>
+          </clause>
          <clause id='_' type='editors' displayorder='2'>
            <table id='_' unnumbered='true'>
              <tbody>

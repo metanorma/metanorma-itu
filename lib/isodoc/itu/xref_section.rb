@@ -63,13 +63,15 @@ module IsoDoc
 
       def annex_names1(clause, parentnum, num, level)
         lbl = clause_number_semx(parentnum, clause, num)
+            #require 'debug'; binding.b
         @anchors[clause["id"]] =
           { label: lbl, elem: @labels["annex_subclause"],
-            xref: @doctype == "resolution" ? lbl : labelled_autonum(@labels['annex_subclause'], num),  # l10n("#{@labels['annex_subclause']} #{num}"),
+            xref: @doctype == "resolution" ? lbl : labelled_autonum(@labels['annex_subclause'], lbl),  # l10n("#{@labels['annex_subclause']} #{num}"),
             level: level, type: "clause" }
         i = Counter.new(0)
         clause.xpath(ns("./clause | ./references | ./terms | ./definitions"))
           .each do |c|
+            #require 'debug'; binding.b
           annex_names1(c, lbl, i.increment(c).print, level + 1)
         end
       end
@@ -96,7 +98,7 @@ module IsoDoc
         @anchors[clause["id"]] =
           { label: lbl, xref: labelled_autonum(elem, lbl),# l10n("#{lbl} #{num.print}"),
             level: lvl, type: "clause", elem: elem }
-        i = Counter.new(0, prefix: num.print)
+        i = Counter.new(0)
         clause.xpath(ns(SUBCLAUSES)).each do |c|
           section_names1(c, lbl, i.increment(c).print, lvl + 1)
         end
@@ -107,7 +109,7 @@ module IsoDoc
         lbl = clause_number_semx(parentnum, clause, num)
         x = @doctype == "resolution" ? semx(clause, lbl) : labelled_autonum(@labels['clause'], lbl) #l10n("#{@labels['clause']} #{num}")
         @anchors[clause["id"]] =
-          { label: num, level: level,
+          { label: lbl, level: level,
             elem: @doctype == "resolution" ? "" : @labels["clause"],
             xref: x }
         i = Counter.new(0)

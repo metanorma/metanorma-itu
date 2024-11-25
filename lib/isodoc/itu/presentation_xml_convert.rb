@@ -159,7 +159,7 @@ module IsoDoc
 
       def annex1_non_resolution(elem)
         info = elem["obligation"] == "informative"
-        ins = elem.at(ns("./fmt-title"))
+        ins = elem.at(ns("./fmt-xref-label")) || elem.at(ns("./fmt-title"))
         p = (info ? @i18n.inform_annex : @i18n.norm_annex)
           .sub("%", @i18n.doctype_dict[@meta.get[:doctype_original]] || "")
         ins.next = %(<p class="annex_obligation"><span class='fmt-obligation'>#{p}</span></p>)

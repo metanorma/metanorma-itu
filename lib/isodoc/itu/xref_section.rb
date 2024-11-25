@@ -123,7 +123,7 @@ module IsoDoc
         lbl = clause.at(ns("./title"))&.text || "[#{clause['id']}]"
         @anchors[clause["id"]] =
           { label: lbl, 
-            # xref: l10n(%{"#{lbl}"}), 
+            # xref: l10n(%{"#{lbl}"}),
             xref: semx(clause, lbl),
             level: lvl,
             type: "clause" }
@@ -135,7 +135,7 @@ module IsoDoc
       def unnumbered_section_names1(clause, level)
         lbl = clause&.at(ns("./title"))&.text || "[#{clause['id']}]"
         @anchors[clause["id"]] =
-          { label: lbl, 
+          { label: lbl,
             #xref: l10n(%{"#{lbl}"}), 
             xref: semx(clause, lbl),
             level: level,

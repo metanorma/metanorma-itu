@@ -31,7 +31,7 @@ annex_subclause: cláusula
 keywords: Palabras clave
 in: en
 to: a
-nested_xref: "%2 en %1"
+nested_xref: "%2 <conn>en</conn> %1"
 where: "donde:"
 where_one: "donde"
 blankclause: Esta cláusula se deja en blanco intencionalmente.

@@ -30,7 +30,7 @@ annex_subclause: Klausel
 keywords: Schlüsselwörter
 in: in
 to: bis
-nested_xref: "%2 in %1"
+nested_xref: "%2 <conn>in</conn> %1"
 where: "wobei:"
 where_one: "wobei"
 blankclause: Diese Klausel ist absichtlich leer gelassen

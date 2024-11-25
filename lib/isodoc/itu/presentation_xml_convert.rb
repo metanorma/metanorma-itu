@@ -117,7 +117,8 @@ module IsoDoc
         clause1_super?(elem) and return super
         @suppressheadingnumbers || elem["unnumbered"] and return
         t = elem.at(ns("./title")) and t["depth"] = "1"
-        lbl = @xrefs.anchor(elem["id"], :label, false) or return
+        lbl = @xrefs.anchor(elem["id"], :label, false)
+        lbl.blank? and return
         elem.previous =
           "<p keep-with-next='true' class='supertitle'>" \
           "#{@i18n.get['section'].upcase} #{lbl}</p>"
@@ -129,10 +130,11 @@ module IsoDoc
         oldsuppressheadingnumbers = @suppressheadingnumbers
         @suppressheadingnumbers = true
         super
+        @suppressheadingnumbers = oldsuppressheadingnumbers
+        lbl.blank? and return
         elem.previous =
           "<p keep-with-next='true' class='supertitle'>" \
           "<span element='fmt-element-name'>#{@i18n.get['section'].upcase}</span> #{autonum(elem['id'], lbl)}</p>"
-        @suppressheadingnumbers = oldsuppressheadingnumbers
       end
 
       def clause1_super?(elem)

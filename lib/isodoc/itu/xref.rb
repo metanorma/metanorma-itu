@@ -78,15 +78,16 @@ module IsoDoc
       end
 
       def subfigure_anchor(elem, sublabel, label, klass, container: false)
-        figlabel = "#{label} #{sublabel}"
+        #require "debug"; binding.b
+        figlabel = "#{semx(elem.parent, label)}<span class='fmt-autonum-delim'>-</span>#{semx(elem, sublabel)}"
         @anchors[elem["id"]] = anchor_struct(
           figlabel, elem, @labels[klass] || klass.capitalize, klass,
           { unnumb: elem["unnumbered"], container: }
         )
         if elem["unnumbered"] != "true"
-          @anchors[elem["id"]][:label] = sublabel
+          #@anchors[elem["id"]][:label] = sublabel
           @anchors[elem["id"]][:xref] = @anchors[elem.parent["id"]][:xref] +
-            " " + semx(elem, sublabel) + subfigure_delim
+            "<span class='fmt-autonum-delim'>-</span>" + semx(elem, sublabel)
         end
       end
 

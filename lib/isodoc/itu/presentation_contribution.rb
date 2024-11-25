@@ -74,6 +74,7 @@ module IsoDoc
         x = clause.at(ns("./clause[@type = '#{type}']")) or return
         ret = x.dup
         ret.at(ns("./title"))&.remove
+        ret.at(ns("./fmt-title"))&.remove
         ret.children.to_xml
       end
 
@@ -117,7 +118,7 @@ module IsoDoc
         annex = doc.at(ns("//annex[@type = 'justification']")) or return
         auths, auths_tail = contribution_justification_auths
         annex.children = <<~TABLE
-          <title>#{contribution_justification_title(doc)}</title>
+          <fmt-title>#{contribution_justification_title(doc)}</fmt-title>
           <table class="contribution-metadata" unnumbered="true" width="100%">
             <colgroup><col width="15.9%"/><col width="6.1%"/><col width="45.5%"/><col width="17.4%"/><col width="15.1%"/></colgroup>
             <tbody>

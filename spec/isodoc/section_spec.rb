@@ -6,8 +6,8 @@ RSpec.describe Metanorma::Itu do
     input = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml">
       <preface>
-      <clause type="history" id="H" displayorder="1"><title>History</title></clause>
-      <clause type="source" id="I" displayorder="2"><title>Source</title></clause>
+      <clause type="history" id="H" displayorder="1"><fmt-title>History</fmt-title></clause>
+      <clause type="source" id="I" displayorder="2"><fmt-title>Source</fmt-title></clause>
       </preface>
       </iso-standard>
     INPUT
@@ -239,13 +239,14 @@ RSpec.describe Metanorma::Itu do
                  </div>
                </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
     expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(html)
   end
@@ -268,45 +269,45 @@ RSpec.describe Metanorma::Itu do
                </bibdata>
       <preface>
         <clause type="toc" id="_" displayorder="1">
-        <title depth="1">Table of Contents</title>
+        <fmt-title depth="1">Table of Contents</fmt-title>
         </clause>
-      <abstract displayorder="2"><title>Abstract</title>
+      <abstract displayorder="2"><fmt-title>Abstract</fmt-title>
       <p>This is an abstract</p>
       </abstract>
           <clause type="keyword" displayorder="3">
-          <title depth="1">Keywords</title>
+          <fmt-title depth="1">Keywords</fmt-title>
           <p>A, B.</p>
         </clause>
       <foreword obligation="informative" displayorder="4">
-         <title>Foreword</title>
+         <fmt-title>Foreword</fmt-title>
          <p id="A">This is a preamble</p>
        </foreword>
         <introduction id="B" obligation="informative" displayorder="5">
-        <title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
-         <title depth="2">Introduction Subsection</title>
+        <fmt-title>Introduction</fmt-title><clause id="C" inline-header="false" obligation="informative">
+         <fmt-title depth="2">Introduction Subsection</fmt-title>
        </clause>
        </introduction>
-      <clause id="A0" displayorder="6"><title depth="1">History</title>
+      <clause id="A0" displayorder="6"><fmt-title depth="1">History</fmt-title>
       <p>history</p>
       </clause>
         </preface><sections>
             <p class="zzSTDTitle1" displayorder="7">Draft new Recommendation 12345</p>
         <p class="zzSTDTitle2" displayorder="8">An ITU Standard</p>
        <clause id="D" obligation="normative" type="scope" displayorder="9">
-         <title depth="1">1.<tab/>Scope</title>
+         <fmt-title depth="1">1.<tab/>Scope</fmt-title>
          <p id="E">Text</p>
        </clause>
-       <terms id="I" obligation="normative" displayorder="11"><title>3.</title>
+       <terms id="I" obligation="normative" displayorder="11"><fmt-title>3.</fmt-title>
          <term id="J"><name>3.1.</name>
          <preferred>Term2:</preferred>
        </term>
        </terms>
        <definitions id="L" displayorder="12">
-                <title depth="1">
+                <fmt-title depth="1">
             4.
             <tab/>
             Abbreviations and acronyms
-         </title>
+         </fmt-title>
        <dl>
         <colgroup>
           <col width="20%"/>
@@ -317,29 +318,29 @@ RSpec.describe Metanorma::Itu do
       </dl>
        </definitions>
        <clause id="M" inline-header="false" obligation="normative" displayorder="13">
-        <title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
-         <title depth="2">5.1.<tab/>Introduction</title>
+        <fmt-title depth="1">5.<tab/>Clause 4</fmt-title><clause id="N" inline-header="false" obligation="normative">
+         <fmt-title depth="2">5.1.<tab/>Introduction</fmt-title>
        </clause>
        <clause id="O" inline-header="false" obligation="normative">
-         <title depth="2">5.2.<tab/>Clause 4.2</title>
+         <fmt-title depth="2">5.2.<tab/>Clause 4.2</fmt-title>
        </clause></clause>
        <references id="R" obligation="informative" normative="true" displayorder="10">
-         <title depth="1">2.<tab/>References</title>
+         <fmt-title depth="1">2.<tab/>References</fmt-title>
        </references><
        </sections><annex id="P" inline-header="false" obligation="normative" displayorder="14">
-         <title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title>
+         <fmt-title><strong>Annex A</strong><br/><br/><strong>Annex</strong></fmt-title>
          <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
          <clause id="Q" inline-header="false" obligation="normative">
-         <title depth="2">A.1.<tab/>Annex A.1</title>
+         <fmt-title depth="2">A.1.<tab/>Annex A.1</fmt-title>
          <clause id="Q1" inline-header="false" obligation="normative">
-         <title depth="3">A.1.1.<tab/>Annex A.1a</title>
+         <fmt-title depth="3">A.1.1.<tab/>Annex A.1a</fmt-title>
          </clause>
        </clause>
        </annex><bibliography>
        <clause id="S" obligation="informative" displayorder="15">
-         <title depth="1">Bibliography</title>
+         <fmt-title depth="1">Bibliography</fmt-title>
          <references id="T" obligation="informative" normative="false">
-         <title depth="2">Bibliography Subsection</title>
+         <fmt-title depth="2">Bibliography Subsection</fmt-title>
        </references>
        </clause>
        </bibliography>
@@ -598,32 +599,32 @@ RSpec.describe Metanorma::Itu do
             <preface/>
              <sections>
              <clause id="D" obligation="normative" type="scope" displayorder="1">
-               <title>1<tab/>Scope</title>
+               <fmt-title>1<tab/>Scope</fmt-title>
                <p id="E">Text</p>
                <figure id="fig-f1-1">
-        <name>Static aspects of SDL‑2010</name>
+        <fmt-name>Static aspects of SDL‑2010</fmt-name>
         </figure>
         <p>Hello</p>
         <figure id="fig-f1-2">
-        <name>Static aspects of SDL‑2010</name>
+        <fmt-name>Static aspects of SDL‑2010</fmt-name>
         </figure>
         <note><p>Hello</p></note>
              </clause>
              </sections>
               <annex id="P" inline-header="false" obligation="normative" displayorder="2">
-               <title><strong>Annex A</strong><br/><br/><strong>Annex 1</strong></title>
+               <fmt-title><strong>Annex A</strong><br/><br/><strong>Annex 1</strong></fmt-title>
                <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
                <clause id="Q" inline-header="false" obligation="normative">
-               <title>A.1<tab/>Annex A.1</title>
+               <fmt-title>A.1<tab/>Annex A.1</fmt-title>
                <p>Hello</p>
                </clause>
              </annex>
                  <annex id="P1" inline-header="false" obligation="normative" displayorder="3">
-               <title><strong>Annex B</strong><br/><br/><strong>Annex 2</strong></title>
+               <fmt-title><strong>Annex B</strong><br/><br/><strong>Annex 2</strong></fmt-title>
                <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
                <p>Hello</p>
                <clause id="Q1" inline-header="false" obligation="normative">
-               <title>B.1<tab/>Annex A1.1</title>
+               <fmt-title>B.1<tab/>Annex A1.1</fmt-title>
                <p>Hello</p>
                </clause>
                </clause>
@@ -760,12 +761,13 @@ RSpec.describe Metanorma::Itu do
             </annex>
           </itu-standard>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    IsoDoc::Itu::HtmlConvert.new({}).convert("test", presxml, false)
+    IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
     html = File.read("test.html", encoding: "utf-8")
     expect(Xml::C14n.format(strip_guid(html.gsub(%r{^.*<main}m, "<main")
       .gsub(%r{</main>.*}m, "</main>"))))
@@ -808,7 +810,7 @@ RSpec.describe Metanorma::Itu do
                </main>
       OUTPUT
 
-    IsoDoc::Itu::WordConvert.new({}).convert("test", presxml, false)
+    IsoDoc::Itu::WordConvert.new({}).convert("test", pres_output, false)
     html = File.read("test.doc", encoding: "utf-8")
     expect(Xml::C14n.format(html
  .gsub(%r{^.*<div class="WordSection3">}m, '<div class="WordSection3" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">')
@@ -867,9 +869,9 @@ RSpec.describe Metanorma::Itu do
     IsoDoc::Itu::WordConvert.new({}).convert("test", <<~INPUT, false)
             <iso-standard xmlns="http://riboseinc.com/isoxml">
             <preface><clause id="_history" obligation="normative" displayorder="1">
-        <title>History</title>
+        <fmt-title>History</fmt-title>
         <table id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4">
-        <name>Table 1</name>
+        <fmt-name>Table 1</fmt-name>
         <tbody>
           <tr>
             <td align="left">Edition</td>

@@ -67,10 +67,13 @@ module IsoDoc
       end
 
       def table1(elem)
-        elem.xpath(ns("./name | ./thead/tr/th")).each do |n|
+        elem.xpath(ns("./thead/tr/th")).each do |n|
           capitalise_unless_text_transform(n)
         end
         super
+        elem.xpath(ns("./fmt-name//semx[@element = 'name']")).each do |n|
+          capitalise_unless_text_transform(n)
+        end
       end
 
       def capitalise_unless_text_transform(elem)
@@ -120,6 +123,18 @@ module IsoDoc
           "#{@i18n.get['section'].upcase} #{lbl}</p>"
       end
 
+            def clause1(elem)
+        clause1_super?(elem) and return super
+        lbl = @xrefs.anchor(elem["id"], :label, false)
+        oldsuppressheadingnumbers = @suppressheadingnumbers
+        @suppressheadingnumbers = true
+        super
+        elem.previous =
+          "<p keep-with-next='true' class='supertitle'>" \
+          "<span element='fmt-element-name'>#{@i18n.get['section'].upcase}</span> #{autonum(elem['id'], lbl)}</p>"
+        @suppressheadingnumbers = oldsuppressheadingnumbers
+      end
+
       def clause1_super?(elem)
         @doctype != "resolution" ||
           !%w(sections bibliography).include?(elem.parent.name)
@@ -136,23 +151,25 @@ module IsoDoc
 
       def annex1_resolution(elem)
         elem.elements.first.previous = annex1_supertitle(elem)
+         # TODO: do not alter title, alter semx/@element = title
         t = elem.at(ns("./title")) and
           t.children = "<strong>#{to_xml(t.children)}</strong>"
+        prefix_name(elem, {}, nil, "title")
       end
 
       def annex1_non_resolution(elem)
         info = elem["obligation"] == "informative"
-        ins = elem.at(ns("./title"))
+        ins = elem.at(ns("./fmt-title"))
         p = (info ? @i18n.inform_annex : @i18n.norm_annex)
           .sub("%", @i18n.doctype_dict[@meta.get[:doctype_original]] || "")
-        ins.next = %(<p class="annex_obligation">#{p}</p>)
+        ins.next = %(<p class="annex_obligation"><span class='fmt-obligation'>#{p}</span></p>)
       end
 
       def annex1_supertitle(elem)
         lbl = @xrefs.anchor(elem["id"], :label)
         res = elem.at(ns("//bibdata/title[@type = 'resolution']"))
         subhead = @i18n.l10n("(#{@i18n.get['to']} #{to_xml(res.children)})")
-        "<p class='supertitle'>#{lbl}<br/>#{subhead}</p>"
+        "<p class='supertitle'>#{autonum(elem['id'], lbl)}<br/>#{subhead}</p>"
       end
 
       def ol_depth(node)
@@ -229,14 +246,15 @@ module IsoDoc
       end
 
       def dl(xml)
+        super
         (xml.xpath(ns("//dl")) -
          xml.xpath(ns("//table//dl | //figure//dl | //formula//dl")))
           .each do |d|
-            dl1(d)
+            dl2(d)
           end
       end
 
-      def dl1(dlist)
+      def dl2(dlist)
         ins = dlist.at(ns("./dt"))
         ins.previous =
           '<colgroup><col width="20%"/><col width="80%"/></colgroup>'

@@ -259,13 +259,15 @@ RSpec.describe Metanorma::Itu do
         </div>
       </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>"))))
       .to be_equivalent_to Xml::C14n.format(presxml)
     expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(html)
@@ -301,9 +303,9 @@ RSpec.describe Metanorma::Itu do
             </p>
           </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml))
+      .at("//xmlns:foreword").to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -638,9 +640,9 @@ RSpec.describe Metanorma::Itu do
         </p>
       </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml))
+      .at("//xmlns:foreword").to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -890,12 +892,14 @@ RSpec.describe Metanorma::Itu do
                </div>
              </body>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
-      .sub(%r{<localized-strings>.*</localized-strings>}m, "")))
+    expect(Xml::C14n.format(strip_guid(pres_output
+      .sub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
     expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(html)
@@ -986,9 +990,9 @@ RSpec.describe Metanorma::Itu do
         </p>
       </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml))
+      .at("//xmlns:foreword").to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -1055,17 +1059,44 @@ RSpec.describe Metanorma::Itu do
           </iso-standard>
     INPUT
     output = <<~OUTPUT
-      <foreword displayorder='2'><title>Foreword</title>
-        <p>
-        <xref target='N1'>1) in Introduction</xref>
-        <xref target='N11'>1) a) in Introduction</xref>
-        <xref target='N12'>1) a) i) in Introduction</xref>
-        </p>
-      </foreword>
+      <foreword displayorder="2">
+           <title id="_">Foreword</title>
+           <fmt-title depth="1">
+              <span class="fmt-caption-label">
+                 <semx element="title" target="_">Foreword</semx>
+              </span>
+           </fmt-title>
+           <p>
+              <xref target="N1">
+                 <semx element="autonum" source="N1">1</semx>
+                 <span class="fmt-autonum-delim">)</span>
+                 in
+                 <semx element="introduction" source="intro">Introduction</semx>
+              </xref>
+              <xref target="N11">
+                 <semx element="autonum" source="N1">1</semx>
+                 <span class="fmt-autonum-delim">)</span>
+                 <semx element="autonum" source="N11">a</semx>
+                 <span class="fmt-autonum-delim">)</span>
+                 in
+                 <semx element="introduction" source="intro">Introduction</semx>
+              </xref>
+              <xref target="N12">
+                 <semx element="autonum" source="N1">1</semx>
+                 <span class="fmt-autonum-delim">)</span>
+                 <semx element="autonum" source="N11">a</semx>
+                 <span class="fmt-autonum-delim">)</span>
+                 <semx element="autonum" source="N12">i</semx>
+                 <span class="fmt-autonum-delim">)</span>
+                 in
+                 <semx element="introduction" source="intro">Introduction</semx>
+              </xref>
+           </p>
+        </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Xml::C14n.format(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml))
+      .at("//xmlns:foreword").to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 end

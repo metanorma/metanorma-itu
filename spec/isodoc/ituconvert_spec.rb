@@ -210,20 +210,21 @@ RSpec.describe Metanorma::Itu do
          </div>
        </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
     expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")
       .gsub(/fn:[0-9a-f-][0-9a-f-]+/, "fn:_")
       .gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>")))
       .to be_equivalent_to Xml::C14n.format(html)
     expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", presxml, true)
+      .convert("test", pres_output, true)
       .sub(%r{^.*<body }m, "<body xmlns:epub='epub' ")
       .sub(%r{</body>.*$}m, "</body>")
       .gsub(%r{_Ref\d+}, "_Ref")
@@ -303,13 +304,14 @@ RSpec.describe Metanorma::Itu do
         </div>
       </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+        pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
     expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(html)
@@ -320,7 +322,7 @@ RSpec.describe Metanorma::Itu do
         <itu-standard xmlns="https://www.calconnect.org/standards/itu">
         <preface>
             <clause type="toc" id="_" displayorder="1">
-        <title depth="1">Table of Contents</title>
+        <fmt-title depth="1">Table of Contents</fmt-title>
       </clause>
         <foreword displayorder="2">
         <keyword>ABC</keyword>
@@ -504,13 +506,13 @@ RSpec.describe Metanorma::Itu do
           </sections>
         </itu-standard>
     PRESXML
-    p = IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Xml::C14n.format(strip_guid(p
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    IsoDoc::Itu::HtmlConvert.new({}).convert("test", p, false)
+    IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
     expect(File.exist?("test.html")).to be true
     html = File.read("test.html", encoding: "UTF-8")
     expect(Xml::C14n.format(strip_guid(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ")
@@ -639,7 +641,7 @@ RSpec.describe Metanorma::Itu do
       OUTPUT
 
     FileUtils.rm_f "test.doc"
-    IsoDoc::Itu::WordConvert.new({}).convert("test", p, false)
+    IsoDoc::Itu::WordConvert.new({}).convert("test", pres_output, false)
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
     expect(Xml::C14n.format(html
@@ -887,13 +889,14 @@ RSpec.describe Metanorma::Itu do
         </div>
       </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
     expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", presxml, true)
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(output)

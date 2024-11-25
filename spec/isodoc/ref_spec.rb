@@ -242,12 +242,13 @@ RSpec.describe IsoDoc::Itu do
     OUTPUT
 
     FileUtils.rm_f "test.html"
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    IsoDoc::Itu::HtmlConvert.new({}).convert("test", presxml, false)
+    IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
     output = <<~OUTPUT
                  <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
                  <br/>
@@ -526,13 +527,14 @@ RSpec.describe IsoDoc::Itu do
            </body>
 
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
     expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(html)

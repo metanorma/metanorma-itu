@@ -4,7 +4,7 @@ module IsoDoc
       def termdef_parse1(node, div, defn, source)
         div.p **{ class: "TermNum", id: node["id"] } do |p|
           p.b do |b|
-            node&.at(ns("./name"))&.children&.each { |n| parse(n, b) }
+            node&.at(ns("./fmt-name"))&.children&.each { |n| parse(n, b) }
             insert_tab(b, 1)
             node&.at(ns("./preferred"))&.children&.each { |n| parse(n, b) }
           end
@@ -19,8 +19,8 @@ module IsoDoc
         out.div **attr_code(id: node["id"]) do |div|
           termdef_parse1(node, div, defn, source)
           node.children.each do |n|
-            next if %w(preferred definition termsource title
-                       name).include? n.name
+            next if %w(preferred definition termsource fmt-title
+                       fmt-name).include? n.name
 
             parse(n, out)
           end

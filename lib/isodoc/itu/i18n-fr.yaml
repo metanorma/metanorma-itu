@@ -31,7 +31,7 @@ annex_subclause: article
 keywords: Mots clés
 in: dans
 to: à
-nested_xref: "%2 dans %1"
+nested_xref: "%2 <conn>dans</conn> %1"
 where: "où:"
 where_one: "où"
 blankclause: Cette clause est laissée en blanc intentionnellement.

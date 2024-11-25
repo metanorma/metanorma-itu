@@ -31,7 +31,7 @@ annex_subclause: пункт
 keywords: Ключевые слова
 in: в
 to: до
-nested_xref: "%2 в %1"
+nested_xref: "%2 <conn>в</conn> %1"
 where: "где:"
 where_one: "где"
 blankclause: Этот пункт намеренно оставлен пустым.

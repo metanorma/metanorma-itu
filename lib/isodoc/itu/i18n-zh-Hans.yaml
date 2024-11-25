@@ -31,7 +31,7 @@ annex_subclause: 条款
 keywords: 关键词
 in: 中的
 to: 至
-nested_xref: "%1中的%2"
+nested_xref: "%1<conn>中的</conn>%2"
 where:  式中：
 where_one:  式中
 blankclause: This clause is intentionally left blank.

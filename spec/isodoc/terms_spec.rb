@@ -39,11 +39,11 @@ RSpec.describe Metanorma::Itu do
                     <span class="fmt-caption-label">
                        <semx element="autonum" source="H">1</semx>
                        <span class="fmt-autonum-delim">.</span>
+                       </span>
                        <span class="fmt-caption-delim">
                           <tab/>
                        </span>
                        <semx element="title" source="_">Terms</semx>
-                    </span>
                  </fmt-title>
                  <fmt-xref-label>
                     <span class="fmt-element-name">clause</span>
@@ -236,11 +236,11 @@ RSpec.describe Metanorma::Itu do
                     <span class="fmt-caption-label">
                        <semx element="autonum" source="H">1</semx>
                        <span class="fmt-autonum-delim">.</span>
+                       </span>
                        <span class="fmt-caption-delim">
                           <tab/>
                        </span>
                        <semx element="title" source="_">Terms</semx>
-                    </span>
                  </fmt-title>
                  <fmt-xref-label>
                     <span class="fmt-element-name">clause</span>
@@ -346,7 +346,7 @@ RSpec.describe Metanorma::Itu do
               </itu-standard>
     INPUT
     presxml = <<~INPUT
-       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+        <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
            <termdocsource type="inline" bibitemid="ISO712"/>
            <preface>
               <clause type="toc" id="_" displayorder="1">
@@ -360,11 +360,11 @@ RSpec.describe Metanorma::Itu do
                     <span class="fmt-caption-label">
                        <semx element="autonum" source="G">2</semx>
                        <span class="fmt-autonum-delim">.</span>
-                       <span class="fmt-caption-delim">
-                          <tab/>
-                       </span>
-                       <semx element="title" source="_">Terms, Definitions, Symbols and Abbreviated Terms</semx>
                     </span>
+                    <span class="fmt-caption-delim">
+                       <tab/>
+                    </span>
+                    <semx element="title" source="_">Terms, Definitions, Symbols and Abbreviated Terms</semx>
                  </fmt-title>
                  <fmt-xref-label>
                     <span class="fmt-element-name">clause</span>
@@ -378,11 +378,11 @@ RSpec.describe Metanorma::Itu do
                           <span class="fmt-autonum-delim">.</span>
                           <semx element="autonum" source="H">1</semx>
                           <span class="fmt-autonum-delim">.</span>
-                          <span class="fmt-caption-delim">
-                             <tab/>
-                          </span>
-                          <semx element="title" source="_">Terms defined in this recommendation</semx>
                        </span>
+                       <span class="fmt-caption-delim">
+                          <tab/>
+                       </span>
+                       <semx element="title" source="_">Terms defined in this recommendation</semx>
                     </fmt-title>
                     <fmt-xref-label>
                        <span class="fmt-element-name">clause</span>
@@ -420,11 +420,11 @@ RSpec.describe Metanorma::Itu do
                           <span class="fmt-autonum-delim">.</span>
                           <semx element="autonum" source="I">2</semx>
                           <span class="fmt-autonum-delim">.</span>
-                          <span class="fmt-caption-delim">
-                             <tab/>
-                          </span>
-                          <semx element="title" source="_">Terms defined elsewhere</semx>
                        </span>
+                       <span class="fmt-caption-delim">
+                          <tab/>
+                       </span>
+                       <semx element="title" source="_">Terms defined elsewhere</semx>
                     </fmt-title>
                     <fmt-xref-label>
                        <span class="fmt-element-name">clause</span>
@@ -462,11 +462,11 @@ RSpec.describe Metanorma::Itu do
                           <span class="fmt-autonum-delim">.</span>
                           <semx element="autonum" source="L">3</semx>
                           <span class="fmt-autonum-delim">.</span>
-                          <span class="fmt-caption-delim">
-                             <tab/>
-                          </span>
-                          <semx element="title" source="_">Other terms</semx>
                        </span>
+                       <span class="fmt-caption-delim">
+                          <tab/>
+                       </span>
+                       <semx element="title" source="_">Other terms</semx>
                     </fmt-title>
                     <fmt-xref-label>
                        <span class="fmt-element-name">clause</span>
@@ -482,11 +482,11 @@ RSpec.describe Metanorma::Itu do
                     <span class="fmt-caption-label">
                        <semx element="autonum" source="_">1</semx>
                        <span class="fmt-autonum-delim">.</span>
-                       <span class="fmt-caption-delim">
-                          <tab/>
-                       </span>
-                       <semx element="title" source="_">References</semx>
                     </span>
+                    <span class="fmt-caption-delim">
+                       <tab/>
+                    </span>
+                    <semx element="title" source="_">References</semx>
                  </fmt-title>
                  <fmt-xref-label>
                     <span class="fmt-element-name">clause</span>

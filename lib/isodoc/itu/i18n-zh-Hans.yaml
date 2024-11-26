@@ -10,7 +10,7 @@ termsdef: 定义
 termsdefsymbolsabbrev: 定义
 termsdefsymbols: 定义
 termsdefabbrev: 定义
-termnote:  注 %
+termnote:  <span class='fmt-element-name'>注</span>%
 normref: 规范性参考文献
 symbolsabbrev: 缩略语与缩写
 abbrev: 缩略语与缩写

@@ -10,7 +10,7 @@ termsdef: Definitionen
 termsdefsymbolsabbrev: Definitionen
 termsdefsymbols: Definitionen
 termsdefabbrev: Definitionen
-termnote: HINWEIS %
+termnote: <span class='fmt-element-name'>HINWEIS</span> %
 normref: Referenzen
 symbolsabbrev: Abkürzungen und Akronyme
 abbrev: Abkürzungen und Akronyme

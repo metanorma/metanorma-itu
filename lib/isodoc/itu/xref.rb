@@ -127,10 +127,11 @@ module IsoDoc
           c = Counter.new
           notes = t.xpath(ns("./termnote"))
           notes.noblank.each do |n|
-            idx = notes.size == 1 ? "" : " #{c.increment(n).print}"
+            idx = notes.size == 1 ? "" : c.increment(n).print
+            idx.blank? or notenum = " #{semx(n, idx)}"
             @anchors[n["id"]] =
               { label: termnote_label(n, idx).strip, type: "termnote", value: idx,
-                xref: l10n("#{semx(t, anchor(t['id'], :xref))}<span class='fmt-comma'>,</span> <span class='fmt-element-name'>#{@labels['note_xref']}</span> #{semx(n, c.print)}") }
+                xref: l10n("#{semx(t, anchor(t['id'], :xref))}<span class='fmt-comma'>,</span> <span class='fmt-element-name'>#{@labels['note_xref']}</span>#{notenum}") }
           end
         end
       end

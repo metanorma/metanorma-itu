@@ -10,7 +10,7 @@ termsdef: Définitions
 termsdefsymbolsabbrev: Définitions
 termsdefsymbols: Définitions
 termsdefabbrev: Définitions
-termnote: NOTE %
+termnote: <span class='fmt-element-name'>NOTE</span> %
 normref: Références
 symbolsabbrev: Abréviations et acronymes
 abbrev: Abréviations et acronymes

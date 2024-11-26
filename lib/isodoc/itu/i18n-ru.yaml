@@ -10,7 +10,7 @@ termsdef: Определения
 termsdefsymbolsabbrev: Определения
 termsdefsymbols: Определения
 termsdefabbrev: Определения
-termnote: ПРИМЕЧАНИЕ %
+termnote: <span class='fmt-element-name'>ПРИМЕЧАНИЕ</span> %
 normref: Ссылки
 symbolsabbrev: Сокращения и акронимы
 abbrev: Сокращения и акронимы

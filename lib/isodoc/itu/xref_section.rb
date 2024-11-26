@@ -46,7 +46,7 @@ module IsoDoc
         if @doctype == "resolution"
           l10n("<span class='fmt-element-name'>#{lbl.upcase}</span> #{semx(clause, num)}")
         else
-          l10n("<strong><span class='fmt-element-name'>#{lbl}</span> #{semx(clause, num)}</strong>")
+          l10n("<strong><span class='fmt-caption-label'><span class='fmt-element-name'>#{lbl}</span> #{semx(clause, num)}</span></strong>")
         end
       end
 

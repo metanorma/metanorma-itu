@@ -52,16 +52,12 @@ RSpec.describe Metanorma::Itu do
              <foreword displayorder="2">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
-                   <span class="fmt-caption-label">
                       <semx element="title" source="_">Foreword</semx>
-                   </span>
                 </fmt-title>
                 <dl id="A" autonum="">
                    <name id="_">Deflist</name>
                    <fmt-name>
-                      <span class="fmt-caption-label">
                          <semx element="name" source="_">Deflist</semx>
-                      </span>
                    </fmt-name>
                    <colgroup>
                       <col width="20%"/>
@@ -209,9 +205,7 @@ RSpec.describe Metanorma::Itu do
              <foreword displayorder="2">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
-                   <span class="fmt-caption-label">
                       <semx element="title" source="_">Foreword</semx>
-                   </span>
                 </fmt-title>
                 <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
                    <stem type="AsciiMath">r = 1 %</stem>
@@ -491,9 +485,7 @@ RSpec.describe Metanorma::Itu do
              <foreword displayorder="2">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
-                   <span class="fmt-caption-label">
                       <semx element="title" source="_">Foreword</semx>
-                   </span>
                 </fmt-title>
                 <ol id="_" class="steps" type="arabic">
                    <li id="_" label="1">
@@ -648,9 +640,7 @@ RSpec.describe Metanorma::Itu do
              <foreword displayorder="2">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
-                   <span class="fmt-caption-label">
                       <semx element="title" source="_">Foreword</semx>
-                   </span>
                 </fmt-title>
                 <table>
                    <name id="_">title title</name>
@@ -658,9 +648,9 @@ RSpec.describe Metanorma::Itu do
                       <span class="fmt-caption-label">
                          <span class="fmt-element-name">Table</span>
                          <semx element="autonum" source=""/>
+                         </span>
                          <span class="fmt-caption-delim"> — </span>
                          <semx element="name" source="_">Title title</semx>
-                      </span>
                    </fmt-name>
                    <thead>
                       <tr>
@@ -710,9 +700,7 @@ RSpec.describe Metanorma::Itu do
              <foreword displayorder="2">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
-                   <span class="fmt-caption-label">
                       <semx element="title" source="_">Foreword</semx>
-                   </span>
                 </fmt-title>
                 <table>
                    <name id="_">
@@ -723,12 +711,12 @@ RSpec.describe Metanorma::Itu do
                       <span class="fmt-caption-label">
                          <span class="fmt-element-name">Table</span>
                          <semx element="autonum" source=""/>
+                         </span>
                          <span class="fmt-caption-delim"> — </span>
                          <semx element="name" source="_">
                             <span style="text-transform:none">title</span>
                             title
                          </semx>
-                      </span>
                    </fmt-name>
                    <thead>
                       <tr>
@@ -827,9 +815,7 @@ RSpec.describe Metanorma::Itu do
              <foreword id="A" displayorder="2">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
-                   <span class="fmt-caption-label">
                       <semx element="title" source="_">Foreword</semx>
-                   </span>
                 </fmt-title>
                 <note unnumbered="true">
                    <fmt-name>
@@ -939,9 +925,7 @@ RSpec.describe Metanorma::Itu do
              <foreword id="A" displayorder="2">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
-                   <span class="fmt-caption-label">
                       <semx element="title" source="_">Foreword</semx>
-                   </span>
                 </fmt-title>
                 <note id="note1" autonum="1">
                    <fmt-name>

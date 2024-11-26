@@ -132,9 +132,7 @@ RSpec.describe IsoDoc::Itu do
              <foreword displayorder="2">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
-                   <span class="fmt-caption-label">
                       <semx element="title" source="_">Foreword</semx>
-                   </span>
                 </fmt-title>
                 <p id="_">
                    <xref target="ISO712">[110]</xref>
@@ -155,11 +153,11 @@ RSpec.describe IsoDoc::Itu do
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="_">1</semx>
                       <span class="fmt-autonum-delim">.</span>
+                      </span>
                       <span class="fmt-caption-delim">
                          <tab/>
                       </span>
                       <semx element="title" source="_">Normative References</semx>
-                   </span>
                 </fmt-title>
                 <fmt-xref-label>
                    <span class="fmt-element-name">clause</span>
@@ -238,9 +236,7 @@ RSpec.describe IsoDoc::Itu do
              <references id="_" obligation="informative" normative="false" displayorder="4">
                 <title id="_">Bibliography</title>
                 <fmt-title depth="1">
-                   <span class="fmt-caption-label">
                       <semx element="title" source="_">Bibliography</semx>
-                   </span>
                 </fmt-title>
                 <bibitem id="ISBN" type="book">
                    <formattedref>
@@ -509,9 +505,7 @@ RSpec.describe IsoDoc::Itu do
              <foreword displayorder="2">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
-                   <span class="fmt-caption-label">
                       <semx element="title" source="_">Foreword</semx>
-                   </span>
                 </fmt-title>
                 <p id="_">
                    <xref target="ISO712">[ISO 712]</xref>
@@ -525,11 +519,11 @@ RSpec.describe IsoDoc::Itu do
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="_">1</semx>
                       <span class="fmt-autonum-delim">.</span>
+                      </span>
                       <span class="fmt-caption-delim">
                          <tab/>
                       </span>
                       <semx element="title" source="_">References</semx>
-                   </span>
                 </fmt-title>
                 <fmt-xref-label>
                    <span class="fmt-element-name">clause</span>

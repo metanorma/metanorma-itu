@@ -113,6 +113,7 @@ module IsoDoc
         { group: "'" }
       end
 
+      # KILL
       def clause1(elem)
         clause1_super?(elem) and return super
         @suppressheadingnumbers || elem["unnumbered"] and return
@@ -131,7 +132,7 @@ module IsoDoc
         @suppressheadingnumbers = true
         super
         @suppressheadingnumbers = oldsuppressheadingnumbers
-        lbl.blank? and return
+        lbl.blank? || elem["unnumbered"] and return
         elem.previous =
           "<p keep-with-next='true' class='supertitle'>" \
           "<span element='fmt-element-name'>#{@i18n.get['section'].upcase}</span> #{autonum(elem['id'], lbl)}</p>"

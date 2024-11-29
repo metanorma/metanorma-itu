@@ -2234,7 +2234,6 @@ RSpec.describe Metanorma::Itu do
         </sections>
         <annex id="A1"><title>Annex</title></annex>
         <annex id="A2" type="justification">
-        clause id="_a6ac7b3c-2a73-4afb-502c-c683372215ca" type="scope" inline-header="false" obligation="normative">
         <title>Scope</title><p id="_37adf2c4-28f1-ea9c-0f52-b2ff84b33b55">TEXT 1</p>
         </clause>
         <clause id="_2" type="summary" inline-header="false" obligation="normative">
@@ -2435,6 +2434,9 @@ RSpec.describe Metanorma::Itu do
               </p>
            </annex>
            <annex id="A2" type="justification" autonum="B" displayorder="5">
+              <title id="_">
+         <strong>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</strong>
+      </title>
               <fmt-title>
                  <strong>
                     <span class="fmt-caption-label">
@@ -2442,6 +2444,13 @@ RSpec.describe Metanorma::Itu do
                        <semx element="autonum" source="A2">B</semx>
                     </span>
                  </strong>
+         <span class="fmt-caption-delim">
+            <br/>
+            <br/>
+         </span>
+         <semx element="title" source="_">
+            <strong>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</strong>
+         </semx>
               </fmt-title>
               <fmt-xref-label>
                  <span class="fmt-element-name">Annex</span>
@@ -2450,7 +2459,6 @@ RSpec.describe Metanorma::Itu do
               <p class="annex_obligation">
                  <span class="fmt-obligation">(This annex forms an integral part of this Contribution.)</span>
               </p>
-              <fmt-title>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</fmt-title>
               <table class="contribution-metadata" unnumbered="true" width="100%">
                  <colgroup>
                     <col width="15.9%"/>

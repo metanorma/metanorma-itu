@@ -939,6 +939,14 @@ RSpec.describe Metanorma::Itu do
                       <span class="fmt-element-name">Note</span>
                       <semx element="autonum" source="note1">1</semx>
                    </fmt-xref-label>
+                               <fmt-xref-label container="A">
+               <span class="fmt-element-name">Note</span>
+               <semx element="autonum" source="note1">1</semx>
+               <span class="fmt-conn">in</span>
+               <span class="fmt-xref-container">
+                  <semx element="foreword" source="A">Foreword</semx>
+               </span>
+            </fmt-xref-label>
                    <p id="_">These results are based on a study carried out on three different types of kernel.</p>
                 </note>
                 <note id="note2" autonum="2">
@@ -953,6 +961,14 @@ RSpec.describe Metanorma::Itu do
                       <span class="fmt-element-name">Note</span>
                       <semx element="autonum" source="note2">2</semx>
                    </fmt-xref-label>
+                               <fmt-xref-label container="A">
+               <span class="fmt-element-name">Note</span>
+               <semx element="autonum" source="note2">2</semx>
+               <span class="fmt-conn">in</span>
+               <span class="fmt-xref-container">
+                  <semx element="foreword" source="A">Foreword</semx>
+               </span>
+            </fmt-xref-label>
                    <p id="_">These results are based on a study carried out on three different types of kernel.</p>
                    <p id="_">These results are based on a study carried out on three different types of kernel.</p>
                 </note>

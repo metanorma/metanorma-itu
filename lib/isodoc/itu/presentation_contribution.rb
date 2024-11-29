@@ -118,7 +118,7 @@ module IsoDoc
         annex = doc.at(ns("//annex[@type = 'justification']")) or return
         auths, auths_tail = contribution_justification_auths
         annex.children = <<~TABLE
-          <fmt-title>#{contribution_justification_title(doc)}</fmt-title>
+          <title>#{contribution_justification_title(doc)}</title>
           <table class="contribution-metadata" unnumbered="true" width="100%">
             <colgroup><col width="15.9%"/><col width="6.1%"/><col width="45.5%"/><col width="17.4%"/><col width="15.1%"/></colgroup>
             <tbody>

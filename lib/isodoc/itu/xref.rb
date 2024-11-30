@@ -85,12 +85,14 @@ module IsoDoc
         figlabel = fig_subfig_label(semx(elem.parent, label), semx(elem, sublabel))
         @anchors[elem["id"]] = anchor_struct(
           figlabel, elem, @labels[klass] || klass.capitalize, klass,
-          { unnumb: elem["unnumbered"], container: }
+          { unnumb: elem["unnumbered"] }
         )
         if elem["unnumbered"] != "true"
           #@anchors[elem["id"]][:label] = sublabel
           @anchors[elem["id"]][:xref] = @anchors[elem.parent["id"]][:xref] +
             delim_wrap("-") + semx(elem, sublabel)
+          x = @anchors[elem.parent["id"]][:container] and
+          @anchors[elem["id"]][:container] = x
         end
       end
 

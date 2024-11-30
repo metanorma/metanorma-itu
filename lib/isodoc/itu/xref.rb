@@ -53,7 +53,7 @@ module IsoDoc
       end
 
       def subfigure_delim
-        '<span class="fmt-autonum-delim">)</span>'
+        ")"
       end
 
       # KILL
@@ -79,7 +79,7 @@ module IsoDoc
 
       def subfigure_anchor(elem, sublabel, label, klass, container: false)
         #require "debug"; binding.b
-        figlabel = "#{semx(elem.parent, label)}<span class='fmt-autonum-delim'>-</span>#{semx(elem, sublabel)}"
+        figlabel = "#{semx(elem.parent, label)}#{delim_wrap("-")}#{semx(elem, sublabel)}"
         @anchors[elem["id"]] = anchor_struct(
           figlabel, elem, @labels[klass] || klass.capitalize, klass,
           { unnumb: elem["unnumbered"], container: }
@@ -87,7 +87,7 @@ module IsoDoc
         if elem["unnumbered"] != "true"
           #@anchors[elem["id"]][:label] = sublabel
           @anchors[elem["id"]][:xref] = @anchors[elem.parent["id"]][:xref] +
-            "<span class='fmt-autonum-delim'>-</span>" + semx(elem, sublabel)
+            delim_wrap("-") + semx(elem, sublabel)
         end
       end
 
@@ -115,7 +115,7 @@ module IsoDoc
         c = Counter.new
         clause.xpath(ns(".//formula")).noblank.each do |t|
           @anchors[t["id"]] = anchor_struct(
-            "#{semx(clause, num)}<span class='fmt-autonum-delim'>-</span>#{semx(t, c.increment(t).print)}", t,
+            "#{semx(clause, num)}#{delim_wrap("-")}#{semx(t, c.increment(t).print)}", t,
             t["inequality"] ? @labels["inequality"] : @labels["formula"],
             "formula", { unnumb:t["unnumbered"] }
           )

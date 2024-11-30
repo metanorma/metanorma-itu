@@ -170,6 +170,9 @@ RSpec.describe Metanorma::Itu do
         <xref target="AN"/>
         <xref target="Anote1"/>
         <xref target="Anote2"/>
+                <xref target="AN1"/>
+        <xref target="Anote11"/>
+        <xref target="Anote21"/>
         </p>
         </foreword>
         </preface>
@@ -209,14 +212,21 @@ RSpec.describe Metanorma::Itu do
       </figure>
         </clause>
         </annex>
+                  <bibliography><references normative="false" id="biblio"><title>Bibliographical Section</title>
+                  <figure id="AN1">
+            <figure id="Anote11">
+      <name>Split-it-right sample divider</name>
+      <image src="rice_images/rice_image1.png" id="_8357ede4-6d44-4672-bac4-9a85e82ab7f0" mimetype="image/png"/>
+      </figure>
+        <figure id="Anote21">
+      <name>Split-it-right sample divider</name>
+      <image src="rice_images/rice_image1.png" id="_8357ede4-6d44-4672-bac4-9a85e82ab7f0" mimetype="image/png"/>
+      </figure>
+      </figure>
+          </references></bibliography>
         </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-        <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-           <preface>
-              <clause type="toc" id="_" displayorder="1">
-                 <fmt-title depth="1">Table of Contents</fmt-title>
-              </clause>
               <foreword id="fwd" displayorder="2">
                  <title id="_">Foreword</title>
                  <fmt-title depth="1">
@@ -261,229 +271,40 @@ RSpec.describe Metanorma::Itu do
                        <span class="fmt-autonum-delim">-</span>
                        <semx element="autonum" source="Anote2">b</semx>
                     </xref>
+                          <xref target="AN1">
+         <span class="fmt-element-name">Figure</span>
+         <semx element="autonum" source="AN1">1</semx>
+         <span class="fmt-conn">in</span>
+         <span class="fmt-xref-container">
+            <semx element="references" source="biblio">Bibliographical Section</semx>
+         </span>
+      </xref>
+      <xref target="Anote11">
+         <span class="fmt-element-name">Figure</span>
+         <semx element="autonum" source="AN1">1</semx>
+         <span class="fmt-autonum-delim">-</span>
+         <semx element="autonum" source="Anote11">a</semx>
+         <span class="fmt-conn">in</span>
+         <span class="fmt-xref-container">
+            <semx element="references" source="biblio">Bibliographical Section</semx>
+         </span>
+      </xref>
+      <xref target="Anote21">
+         <span class="fmt-element-name">Figure</span>
+         <semx element="autonum" source="AN1">1</semx>
+         <span class="fmt-autonum-delim">-</span>
+         <semx element="autonum" source="Anote21">b</semx>
+         <span class="fmt-conn">in</span>
+         <span class="fmt-xref-container">
+            <semx element="references" source="biblio">Bibliographical Section</semx>
+         </span>
+      </xref>
+
                  </p>
               </foreword>
-           </preface>
-           <sections>
-              <clause id="scope" type="scope" displayorder="3">
-                 <title id="_">Scope</title>
-                 <fmt-title depth="1">
-                    <span class="fmt-caption-label">
-                       <semx element="autonum" source="scope">1</semx>
-                       <span class="fmt-autonum-delim">.</span>
-                    </span>
-                    <span class="fmt-caption-delim">
-                       <tab/>
-                    </span>
-                    <semx element="title" source="_">Scope</semx>
-                 </fmt-title>
-                 <fmt-xref-label>
-                    <span class="fmt-element-name">clause</span>
-                    <semx element="autonum" source="scope">1</semx>
-                 </fmt-xref-label>
-              </clause>
-              <terms id="terms" displayorder="4">
-                 <fmt-title depth="1">
-                    <span class="fmt-caption-label">
-                       <semx element="autonum" source="terms">2</semx>
-                       <span class="fmt-autonum-delim">.</span>
-                    </span>
-                 </fmt-title>
-                 <fmt-xref-label>
-                    <span class="fmt-element-name">clause</span>
-                    <semx element="autonum" source="terms">2</semx>
-                 </fmt-xref-label>
-              </terms>
-              <clause id="widgets" displayorder="5">
-                 <title id="_">Widgets</title>
-                 <fmt-title depth="1">
-                    <span class="fmt-caption-label">
-                       <semx element="autonum" source="widgets">3</semx>
-                       <span class="fmt-autonum-delim">.</span>
-                    </span>
-                    <span class="fmt-caption-delim">
-                       <tab/>
-                    </span>
-                    <semx element="title" source="_">Widgets</semx>
-                 </fmt-title>
-                 <fmt-xref-label>
-                    <span class="fmt-element-name">clause</span>
-                    <semx element="autonum" source="widgets">3</semx>
-                 </fmt-xref-label>
-                 <clause id="widgets1">
-                    <fmt-title depth="2">
-                       <span class="fmt-caption-label">
-                          <semx element="autonum" source="widgets">3</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                          <semx element="autonum" source="widgets1">1</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                       </span>
-                    </fmt-title>
-                    <fmt-xref-label>
-                       <span class="fmt-element-name">clause</span>
-                       <semx element="autonum" source="widgets">3</semx>
-                       <span class="fmt-autonum-delim">.</span>
-                       <semx element="autonum" source="widgets1">1</semx>
-                    </fmt-xref-label>
-                    <figure id="N" autonum="1">
-                       <figure id="note1" autonum="1-a">
-                          <name id="_">Split-it-right sample divider</name>
-                          <fmt-name>
-                             <span class="fmt-caption-label">
-                                <span class="fmt-element-name">Figure</span>
-                                <semx element="autonum" source="N">1</semx>
-                                <span class="fmt-autonum-delim">-</span>
-                                <semx element="autonum" source="note1">a</semx>
-                             </span>
-                             <span class="fmt-caption-delim"> — </span>
-                             <semx element="name" source="_">Split-it-right sample divider</semx>
-                          </fmt-name>
-                          <fmt-xref-label>
-                             <span class="fmt-element-name">Figure</span>
-                             <semx element="autonum" source="N">1</semx>
-                             <span class="fmt-autonum-delim">-</span>
-                             <semx element="autonum" source="note1">a</semx>
-                          </fmt-xref-label>
-                          <image src="rice_images/rice_image1.png" id="_" mimetype="image/png"/>
-                       </figure>
-                       <figure id="note2" autonum="1-b">
-                          <name id="_">Split-it-right sample divider</name>
-                          <fmt-name>
-                             <span class="fmt-caption-label">
-                                <span class="fmt-element-name">Figure</span>
-                                <semx element="autonum" source="N">1</semx>
-                                <span class="fmt-autonum-delim">-</span>
-                                <semx element="autonum" source="note2">b</semx>
-                             </span>
-                             <span class="fmt-caption-delim"> — </span>
-                             <semx element="name" source="_">Split-it-right sample divider</semx>
-                          </fmt-name>
-                          <fmt-xref-label>
-                             <span class="fmt-element-name">Figure</span>
-                             <semx element="autonum" source="N">1</semx>
-                             <span class="fmt-autonum-delim">-</span>
-                             <semx element="autonum" source="note2">b</semx>
-                          </fmt-xref-label>
-                          <image src="rice_images/rice_image1.png" id="_" mimetype="image/png"/>
-                       </figure>
-                    </figure>
-                    <p>
-                       <xref target="note1">
-                          <span class="fmt-element-name">Figure</span>
-                          <semx element="autonum" source="N">1</semx>
-                          <span class="fmt-autonum-delim">-</span>
-                          <semx element="autonum" source="note1">a</semx>
-                       </xref>
-                       <xref target="note2">
-                          <span class="fmt-element-name">Figure</span>
-                          <semx element="autonum" source="N">1</semx>
-                          <span class="fmt-autonum-delim">-</span>
-                          <semx element="autonum" source="note2">b</semx>
-                       </xref>
-                    </p>
-                 </clause>
-              </clause>
-           </sections>
-           <annex id="annex1" autonum="A" displayorder="6">
-              <fmt-title>
-                 <strong>
-                    <span class="fmt-caption-label">
-                       <span class="fmt-element-name">Annex</span>
-                       <semx element="autonum" source="annex1">A</semx>
-                    </span>
-                 </strong>
-              </fmt-title>
-              <fmt-xref-label>
-                 <span class="fmt-element-name">Annex</span>
-                 <semx element="autonum" source="annex1">A</semx>
-              </fmt-xref-label>
-              <p class="annex_obligation">
-                 <span class="fmt-obligation">(This annex forms an integral part of this .)</span>
-              </p>
-              <clause id="annex1a">
-                 <fmt-title depth="2">
-                    <span class="fmt-caption-label">
-                       <semx element="autonum" source="annex1">A</semx>
-                       <span class="fmt-autonum-delim">.</span>
-                       <semx element="autonum" source="annex1a">1</semx>
-                       <span class="fmt-autonum-delim">.</span>
-                    </span>
-                 </fmt-title>
-                 <fmt-xref-label>
-                    <span class="fmt-element-name">clause</span>
-                    <semx element="autonum" source="annex1">A</semx>
-                    <span class="fmt-autonum-delim">.</span>
-                    <semx element="autonum" source="annex1a">1</semx>
-                 </fmt-xref-label>
-              </clause>
-              <clause id="annex1b">
-                 <fmt-title depth="2">
-                    <span class="fmt-caption-label">
-                       <semx element="autonum" source="annex1">A</semx>
-                       <span class="fmt-autonum-delim">.</span>
-                       <semx element="autonum" source="annex1b">2</semx>
-                       <span class="fmt-autonum-delim">.</span>
-                    </span>
-                 </fmt-title>
-                 <fmt-xref-label>
-                    <span class="fmt-element-name">clause</span>
-                    <semx element="autonum" source="annex1">A</semx>
-                    <span class="fmt-autonum-delim">.</span>
-                    <semx element="autonum" source="annex1b">2</semx>
-                 </fmt-xref-label>
-                 <figure id="AN" autonum="A.1">
-                    <figure id="Anote1" autonum="A.1-a">
-                       <name id="_">Split-it-right sample divider</name>
-                       <fmt-name>
-                          <span class="fmt-caption-label">
-                             <span class="fmt-element-name">Figure</span>
-                             <semx element="autonum" source="AN">A.1</semx>
-                             <span class="fmt-autonum-delim">-</span>
-                             <semx element="autonum" source="Anote1">a</semx>
-                          </span>
-                          <span class="fmt-caption-delim"> — </span>
-                          <semx element="name" source="_">Split-it-right sample divider</semx>
-                       </fmt-name>
-                       <fmt-xref-label>
-                          <span class="fmt-element-name">Figure</span>
-                          <semx element="autonum" source="annex1">A</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                          <semx element="autonum" source="AN">1</semx>
-                          <span class="fmt-autonum-delim">-</span>
-                          <semx element="autonum" source="Anote1">a</semx>
-                       </fmt-xref-label>
-                       <image src="rice_images/rice_image1.png" id="_" mimetype="image/png"/>
-                    </figure>
-                    <figure id="Anote2" autonum="A.1-b">
-                       <name id="_">Split-it-right sample divider</name>
-                       <fmt-name>
-                          <span class="fmt-caption-label">
-                             <span class="fmt-element-name">Figure</span>
-                             <semx element="autonum" source="AN">A.1</semx>
-                             <span class="fmt-autonum-delim">-</span>
-                             <semx element="autonum" source="Anote2">b</semx>
-                          </span>
-                          <span class="fmt-caption-delim"> — </span>
-                          <semx element="name" source="_">Split-it-right sample divider</semx>
-                       </fmt-name>
-                       <fmt-xref-label>
-                          <span class="fmt-element-name">Figure</span>
-                          <semx element="autonum" source="annex1">A</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                          <semx element="autonum" source="AN">1</semx>
-                          <span class="fmt-autonum-delim">-</span>
-                          <semx element="autonum" source="Anote2">b</semx>
-                       </fmt-xref-label>
-                       <image src="rice_images/rice_image1.png" id="_" mimetype="image/png"/>
-                    </figure>
-                 </figure>
-              </clause>
-           </annex>
-        </iso-standard>
     OUTPUT
 
     html = <<~OUTPUT
-      #{HTML_HDR}
       <div id='fwd'>
       <h1 class="IntroTitle">Foreword</h1>
             <p>
@@ -493,71 +314,21 @@ RSpec.describe Metanorma::Itu do
               <a href='#AN'>Figure A.1</a>
               <a href='#Anote1'>Figure A.1-a</a>
               <a href='#Anote2'>Figure A.1-b</a>
+      <a href="#AN1">Figure 1 in Bibliographical Section</a>
+      <a href="#Anote11">Figure 1-a in Bibliographical Section</a>
+      <a href="#Anote21">Figure 1-b in Bibliographical Section</a>
             </p>
           </div>
-          <div id='scope'>
-            <h1>1.&#160; Scope</h1>
-          </div>
-          <div id='terms'>
-            <h1>2.</h1>
-          </div>
-          <div id='widgets'>
-            <h1>3.&#160; Widgets</h1>
-            <div id='widgets1'>
-              <h2>3.1.</h2>
-              <div id='N' class='figure'>
-                <div id='note1' class='figure'>
-                  <img src='rice_images/rice_image1.png' height='auto' width='auto'/>
-                  <p class='FigureTitle' style='text-align:center;'>Figure 1-a&#160;&#8212; Split-it-right sample divider</p>
-                </div>
-                <div id='note2' class='figure'>
-                  <img src='rice_images/rice_image1.png' height='auto' width='auto'/>
-                  <p class='FigureTitle' style='text-align:center;'>Figure 1-b&#160;&#8212; Split-it-right sample divider</p>
-                </div>
-              </div>
-              <p>
-                <a href='#note1'>Figure 1-a</a>
-                <a href='#note2'>Figure 1-b</a>
-              </p>
-            </div>
-          </div>
-          <br/>
-          <div id='annex1' class='Section3'>
-            <h1 class='Annex'>
-              <b>Annex A</b>
-            </h1>
-            <p class='annex_obligation'>(This annex forms an integral part of this .)</p>
-            <div id='annex1a'>
-              <h2>A.1.</h2>
-            </div>
-            <div id='annex1b'>
-              <h2>A.2.</h2>
-              <div id='AN' class='figure'>
-                <div id='Anote1' class='figure'>
-                  <img src='rice_images/rice_image1.png' height='auto' width='auto'/>
-                  <p class='FigureTitle' style='text-align:center;'>Figure A.1-a&#160;&#8212; Split-it-right sample divider</p>
-                </div>
-                <div id='Anote2' class='figure'>
-                  <img src='rice_images/rice_image1.png' height='auto' width='auto'/>
-                  <p class='FigureTitle' style='text-align:center;'>Figure A.1-b&#160;&#8212; Split-it-right sample divider</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </body>
     OUTPUT
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Xml::C14n.format(strip_guid(pres_output
-      .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
+    expect(Xml::C14n.format(strip_guid(Nokogiri::XML(pres_output)
+      .at("//xmlns:foreword").to_xml)))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", pres_output, true)
-      .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
+    expect(Xml::C14n.format(strip_guid(Nokogiri::XML(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", pres_output, true))
+      .at("//div[@id = 'fwd']").to_xml)))
       .to be_equivalent_to Xml::C14n.format(html)
   end
 

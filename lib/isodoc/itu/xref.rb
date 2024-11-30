@@ -77,9 +77,12 @@ module IsoDoc
         end
       end
 
+      def fig_subfig_label(label, sublabel)
+        "#{label}#{delim_wrap("-")}#{sublabel}"
+      end
+
       def subfigure_anchor(elem, sublabel, label, klass, container: false)
-        #require "debug"; binding.b
-        figlabel = "#{semx(elem.parent, label)}#{delim_wrap("-")}#{semx(elem, sublabel)}"
+        figlabel = fig_subfig_label(semx(elem.parent, label), semx(elem, sublabel))
         @anchors[elem["id"]] = anchor_struct(
           figlabel, elem, @labels[klass] || klass.capitalize, klass,
           { unnumb: elem["unnumbered"], container: }

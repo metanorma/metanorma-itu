@@ -114,7 +114,7 @@ module IsoDoc
       end
 
       # KILL
-      def clause1(elem)
+      def clause1x(elem)
         clause1_super?(elem) and return super
         @suppressheadingnumbers || elem["unnumbered"] and return
         t = elem.at(ns("./title")) and t["depth"] = "1"
@@ -135,7 +135,8 @@ module IsoDoc
         lbl.blank? || elem["unnumbered"] and return
         elem.previous =
           "<p keep-with-next='true' class='supertitle'>" \
-          "<span element='fmt-element-name'>#{@i18n.get['section'].upcase}</span> #{autonum(elem['id'], lbl)}</p>"
+          "#{labelled_autonum(@i18n.get['section'].upcase, elem["id"], lbl)}</p>"
+          #"<span element='fmt-element-name'>#{@i18n.get['section'].upcase}</span> #{autonum(elem['id'], lbl)}</p>"
       end
 
       def clause1_super?(elem)

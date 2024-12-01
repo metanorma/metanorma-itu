@@ -1778,7 +1778,7 @@ RSpec.describe Metanorma::Itu do
                  <p>Text</p>
               </clause>
               <p keep-with-next="true" class="supertitle" displayorder="5">
-                 <span element="fmt-element-name">SECTION</span>
+                 <span class="fmt-element-name">SECTION</span>
                  <semx element="autonum" source="B">1</semx>
               </p>
               <clause id="B" displayorder="6">
@@ -1848,7 +1848,7 @@ RSpec.describe Metanorma::Itu do
                  )
               </p>
               <p keep-with-next="true" class="supertitle" displayorder="4">
-                 <span element="fmt-element-name">SECTION</span>
+                 <span class="fmt-element-name">SECTION</span>
                  <semx element="autonum" source="A">1</semx>
               </p>
               <clause id="A" displayorder="5">
@@ -1888,7 +1888,7 @@ RSpec.describe Metanorma::Itu do
                  </p>
               </clause>
               <p keep-with-next="true" class="supertitle" displayorder="6">
-                 <span element="fmt-element-name">SECTION</span>
+                 <span class="fmt-element-name">SECTION</span>
                  <semx element="autonum" source="B">
                     1
                     <em>bis</em>
@@ -1901,7 +1901,7 @@ RSpec.describe Metanorma::Itu do
                  </fmt-title>
               </clause>
               <p keep-with-next="true" class="supertitle" displayorder="8">
-                 <span element="fmt-element-name">SECTION</span>
+                 <span class="fmt-element-name">SECTION</span>
                  <semx element="autonum" source="C">
                     10
                     <em>ter</em>
@@ -1946,7 +1946,7 @@ RSpec.describe Metanorma::Itu do
                  </clause>
               </clause>
               <p keep-with-next="true" class="supertitle" displayorder="10">
-                 <span element="fmt-element-name">SECTION</span>
+                 <span class="fmt-element-name">SECTION</span>
                  <semx element="autonum" source="E">10bit</semx>
               </p>
               <clause id="E" number="10bit" displayorder="11">

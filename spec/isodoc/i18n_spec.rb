@@ -780,10 +780,7 @@ RSpec.describe Metanorma::Itu do
              <br/>
              <div id="P" class="Section3">
                 <h1 class="Annex">
-                   <b>
-         附件
-        A
-       </b>
+                   <b>附件A</b>
                    <br/>
                    <br/>
                    <b>Annex</b>

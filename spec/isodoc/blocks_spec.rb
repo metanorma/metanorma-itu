@@ -647,7 +647,6 @@ RSpec.describe Metanorma::Itu do
                    <fmt-name>
                       <span class="fmt-caption-label">
                          <span class="fmt-element-name">Table</span>
-                         <semx element="autonum" source=""/>
                          </span>
                          <span class="fmt-caption-delim"> — </span>
                          <semx element="name" source="_">Title title</semx>
@@ -710,7 +709,6 @@ RSpec.describe Metanorma::Itu do
                    <fmt-name>
                       <span class="fmt-caption-label">
                          <span class="fmt-element-name">Table</span>
-                         <semx element="autonum" source=""/>
                          </span>
                          <span class="fmt-caption-delim"> — </span>
                          <semx element="name" source="_">

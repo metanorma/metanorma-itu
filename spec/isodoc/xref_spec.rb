@@ -1063,7 +1063,7 @@ RSpec.describe Metanorma::Itu do
                  )
               </p>
               <p keep-with-next="true" class="supertitle" displayorder="5">
-                 <span element="fmt-element-name">SECTION</span>
+                 <span class="fmt-element-name">SECTION</span>
                  <semx element="autonum" source="D">1</semx>
               </p>
               <clause id="D" obligation="normative" type="scope" displayorder="6">
@@ -1074,7 +1074,7 @@ RSpec.describe Metanorma::Itu do
                  <p id="E">Text</p>
               </clause>
               <p keep-with-next="true" class="supertitle" displayorder="7">
-                 <span element="fmt-element-name">SECTION</span>
+                 <span class="fmt-element-name">SECTION</span>
                  <semx element="autonum" source="M">2</semx>
               </p>
               <clause id="M" inline-header="false" obligation="normative" displayorder="8">

@@ -128,7 +128,7 @@ RSpec.describe Metanorma::Itu do
                   <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION 1 (Andorra, 1204)</p>
            <p align="center" class="zzSTDTitle2" displayorder="2"><em>(Andorra, 1204</em>)<fn reference="1"><p>One fn</p></fn><fn reference="2"><p>Another fn</p></fn></p>
         <p keep-with-next="true" class="supertitle" displayorder="3">
-         <span element="fmt-element-name">SECTION</span>
+         <span class="fmt-element-name">SECTION</span>
          <semx element="autonum" source="A">1</semx>
       </p>
         <clause id='A' displayorder='4'>

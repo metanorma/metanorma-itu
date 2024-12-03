@@ -61,7 +61,8 @@ module IsoDoc
           }
       end
 
-      def annex_names1(clause, parentnum, num, level)
+      # KILL
+      def annex_names1x(clause, parentnum, num, level)
         lbl = clause_number_semx(parentnum, clause, num)
             #require 'debug'; binding.b
         @anchors[clause["id"]] =
@@ -74,6 +75,14 @@ module IsoDoc
             #require 'debug'; binding.b
           annex_names1(c, lbl, i.increment(c).print, level + 1)
         end
+      end
+
+      def annex_name_anchors1(clause, lbl, level)
+        xref = labelled_autonum(@labels['annex_subclause'], lbl)
+@doctype == "resolution" and xref = lbl
+        @anchors[clause["id"]] =
+          { label: lbl, elem: @labels["annex_subclause"],
+            xref: xref, level: level, type: "clause" }
       end
 
       def main_anchor_names(xml)

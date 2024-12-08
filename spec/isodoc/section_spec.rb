@@ -2276,7 +2276,7 @@ RSpec.describe Metanorma::Itu do
                     <thead>
                        <tr>
                           <th rowspan="3">
-                             <image height="56" width="56" src="/Users/nickn/Documents/Arbeit/upwork/ribose/metanorma-itu/lib/isodoc/itu/html/logo-small.png"/>
+                             <image height="56" width="56" src="#{logoloc}/logo-small.png"/>
                           </th>
                           <td rowspan="3">
                              <p style="font-size:8pt;margin-top:6pt;margin-bottom:0pt;">INTERNATIONAL TELECOMMUNICATION UNION</p>

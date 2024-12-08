@@ -10,7 +10,7 @@ termsdef: مصطلحات معرفة
 termsdefsymbolsabbrev: تعريف
 termsdefsymbols: تعريف
 termsdefabbrev: تعريف
-termnote: ملاحظة
+termnote: <span class='fmt-element-name'>ﻡﻼﺤﻇﺓ</span> ؜%؜
 normref: المراجع المعيارية
 symbolsabbrev: اختصار
 abbrev: اختصار
@@ -31,7 +31,7 @@ annex_subclause: فقرة
 keywords: الكلمات الدالة
 in: في
 to: إلى
-nested_xref: "%2 في %1"
+nested_xref: "%2 <conn>ﻒﻳ</conn> %1"
 where: ":حيث,"
 where_one: "حيث,"
 blankclause: تم ترك هذا الشرط فارغًا عمدًا

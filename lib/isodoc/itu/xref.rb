@@ -48,11 +48,16 @@ module IsoDoc
       end
 
       def subfigure_label(subfignum)
-        subfignum.zero? and return ""
-        "-#{(subfignum + 96).chr}"
+        subfignum.zero? and return
+        (subfignum + 96).chr
       end
 
-      def sequential_figure_body(subfig, counter, elem, klass, container: false)
+      def subfigure_delim
+        ")"
+      end
+
+      # KILL
+      def sequential_figure_bodyx(subfig, counter, elem, klass, container: false)
         label = counter.print
         label &&= label + subfigure_label(subfig)
         @anchors[elem["id"]] = anchor_struct(
@@ -61,8 +66,39 @@ module IsoDoc
         )
       end
 
-      def hierarchical_figure_body(num, subfignum, counter, block, klass)
-        label = "#{num}#{hiersep}#{counter.print}" + subfigure_label(subfignum)
+      def figure_anchor(elem, sublabel, label, klass, container: false)
+        if sublabel
+          subfigure_anchor(elem, sublabel, label, klass, container: false)
+        else
+          @anchors[elem["id"]] = anchor_struct(
+            label, elem, @labels[klass] || klass.capitalize, klass,
+            { unnumb: elem["unnumbered"], container: }
+          )
+        end
+      end
+
+      def fig_subfig_label(label, sublabel)
+        "#{label}#{delim_wrap("-")}#{sublabel}"
+      end
+
+      def subfigure_anchor(elem, sublabel, label, klass, container: false)
+        figlabel = fig_subfig_label(semx(elem.parent, label), semx(elem, sublabel))
+        @anchors[elem["id"]] = anchor_struct(
+          figlabel, elem, @labels[klass] || klass.capitalize, klass,
+          { unnumb: elem["unnumbered"] }
+        )
+        if elem["unnumbered"] != "true"
+          #@anchors[elem["id"]][:label] = sublabel
+          @anchors[elem["id"]][:xref] = @anchors[elem.parent["id"]][:xref] +
+            delim_wrap("-") + semx(elem, sublabel)
+          x = @anchors[elem.parent["id"]][:container] and
+          @anchors[elem["id"]][:container] = x
+        end
+      end
+
+      # KILL
+      def hierarchical_figure_bodyx(num, subfignum, counter, block, klass)
+        label = "#{num}#{hier_separator}#{counter.print}" + subfigure_label(subfignum)
         @anchors[block["id"]] = anchor_struct(
           label, nil, @labels[klass] || klass.capitalize,
           klass, block["unnumbered"]
@@ -84,9 +120,9 @@ module IsoDoc
         c = Counter.new
         clause.xpath(ns(".//formula")).noblank.each do |t|
           @anchors[t["id"]] = anchor_struct(
-            "#{num}-#{c.increment(t).print}", nil,
+            "#{semx(clause, num)}#{delim_wrap("-")}#{semx(t, c.increment(t).print)}", t,
             t["inequality"] ? @labels["inequality"] : @labels["formula"],
-            "formula", t["unnumbered"]
+            "formula", { unnumb:t["unnumbered"] }
           )
         end
       end
@@ -96,11 +132,11 @@ module IsoDoc
           c = Counter.new
           notes = t.xpath(ns("./termnote"))
           notes.noblank.each do |n|
-            idx = notes.size == 1 ? "" : " #{c.increment(n).print}"
+            idx = notes.size == 1 ? "" : c.increment(n).print
+            idx.blank? or notenum = " #{semx(n, idx)}"
             @anchors[n["id"]] =
-              { label: termnote_label(idx).strip, type: "termnote", value: idx,
-                xref: l10n("#{anchor(t['id'], :xref)},
-                           #{@labels['note_xref']} #{c.print}") }
+              { label: termnote_label(n, idx).strip, type: "termnote", value: idx,
+                xref: l10n("#{semx(t, anchor(t['id'], :xref))}<span class='fmt-comma'>,</span> <span class='fmt-element-name'>#{@labels['note_xref']}</span>#{notenum}") }
           end
         end
       end

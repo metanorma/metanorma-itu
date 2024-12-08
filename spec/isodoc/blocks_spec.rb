@@ -7,7 +7,7 @@ RSpec.describe Metanorma::Itu do
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
       <preface>
           <clause type="toc" id="_" displayorder="1">
-      <title depth="1">Table of Contents</title>
+      <fmt-title depth="1">Table of Contents</fmt-title>
       </clause>
       <foreword  displayorder="2">
       <pre>ABC</pre>
@@ -44,26 +44,40 @@ RSpec.describe Metanorma::Itu do
       </itu-standard>
     INPUT
     presxml = <<~OUTPUT
-      <itu-standard xmlns="https://www.calconnect.org/standards/itu" type="presentation">
-         <preface>
-           <clause type="toc" id="_" displayorder="1">
-             <title depth="1">Table of Contents</title>
-           </clause>
-           <foreword displayorder="2"><title>Foreword</title>
-             <dl id="A">
-               <name>Deflist</name>
-               <colgroup>
-                 <col width="20%"/>
-                 <col width="80%"/>
-               </colgroup>
-               <dt>A</dt>
-               <dd>B</dd>
-               <dt>C</dt>
-               <dd>D</dd>
-               <note><name>NOTE</name>hien?</note>
-             </dl>
-           </foreword>
-         </preface>
+       <itu-standard xmlns="https://www.calconnect.org/standards/itu" type="presentation">
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1">Table of Contents</fmt-title>
+             </clause>
+             <foreword displayorder="2">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1">
+                      <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <dl id="A" autonum="">
+                   <name id="_">Deflist</name>
+                   <fmt-name>
+                         <semx element="name" source="_">Deflist</semx>
+                   </fmt-name>
+                   <colgroup>
+                      <col width="20%"/>
+                      <col width="80%"/>
+                   </colgroup>
+                   <dt>A</dt>
+                   <dd>B</dd>
+                   <dt>C</dt>
+                   <dd>D</dd>
+                   <note>
+                      <fmt-name>
+                         <span class="fmt-caption-label">
+                            <span class="fmt-element-name">NOTE</span>
+                         </span>
+                      </fmt-name>
+                      hien?
+                   </note>
+                </dl>
+             </foreword>
+          </preface>
        </itu-standard>
     OUTPUT
     html = <<~OUTPUT
@@ -130,7 +144,7 @@ RSpec.describe Metanorma::Itu do
                      <td valign="top" style="page-break-after:auto;">D</td>
                    </tr>
                  </tbody>
-                 <div class="Note"><p><span class="note_label">NOTE</span></p>hien?</div>
+                 <div class="Note"><p class="Note"><span class="note_label">NOTE</span></p>hien?</div>
                </table>
              </div>
            </div>
@@ -142,19 +156,20 @@ RSpec.describe Metanorma::Itu do
          <div class="WordSection3"/>
        </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
-      .convert("test", input, true))))
+      .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output)))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
+      .gsub(%r{</body>.*}m, "</body>"))))
       .to be_equivalent_to Xml::C14n.format(html)
-    expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", presxml, true)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
+      .gsub(%r{</body>.*}m, "</body>"))))
       .to be_equivalent_to Xml::C14n.format(doc)
   end
 
@@ -182,42 +197,48 @@ RSpec.describe Metanorma::Itu do
       </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-         <preface>
-          <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-           <foreword displayorder="2"><title>Foreword</title>
-             <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
-               <stem type="AsciiMath">r = 1 %</stem>
-               <p keep-with-next="true">where</p>
-               <dl id="_" class="formula_dl">
-                 <dt>
-                   <stem type="AsciiMath">r</stem>
-                 </dt>
-                 <dd>
-                   <p id="_">is the repeatability limit.</p>
-                 </dd>
-               </dl>
-             </formula>
-             <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
-               <stem type="AsciiMath">r = 1 %</stem>
-               <p keep-with-next="true">where:</p>
-               <dl id="_" class="formula_dl">
-                 <dt>
-                   <stem type="AsciiMath">r</stem>
-                 </dt>
-                 <dd>
-                   <p id="_">is the repeatability limit.</p>
-                 </dd>
-                 <dt>
-                   <stem type="AsciiMath">s</stem>
-                 </dt>
-                 <dd>
-                   <p id="_">is the other repeatability limit.</p>
-                 </dd>
-               </dl>
-             </formula>
-           </foreword>
-         </preface>
+       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1">Table of Contents</fmt-title>
+             </clause>
+             <foreword displayorder="2">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1">
+                      <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
+                   <stem type="AsciiMath">r = 1 %</stem>
+                   <p keep-with-next="true">where</p>
+                   <dl id="_" class="formula_dl">
+                      <dt>
+                         <stem type="AsciiMath">r</stem>
+                      </dt>
+                      <dd>
+                         <p id="_">is the repeatability limit.</p>
+                      </dd>
+                   </dl>
+                </formula>
+                <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
+                   <stem type="AsciiMath">r = 1 %</stem>
+                   <p keep-with-next="true">where:</p>
+                   <dl id="_" class="formula_dl">
+                      <dt>
+                         <stem type="AsciiMath">r</stem>
+                      </dt>
+                      <dd>
+                         <p id="_">is the repeatability limit.</p>
+                      </dd>
+                      <dt>
+                         <stem type="AsciiMath">s</stem>
+                      </dt>
+                      <dd>
+                         <p id="_">is the other repeatability limit.</p>
+                      </dd>
+                   </dl>
+                </formula>
+             </foreword>
+          </preface>
        </iso-standard>
     OUTPUT
     word = <<~OUTPUT
@@ -302,22 +323,24 @@ RSpec.describe Metanorma::Itu do
           <div class="WordSection3"/>
        </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
-      .convert("test", input, true)))).to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", presxml, true)
+      .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output)))
+      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(/^.*<body/m, "<body")
-      .sub(/<\/body>.*$/m, "</body>")))
+      .sub(/<\/body>.*$/m, "</body>"))))
       .to be_equivalent_to Xml::C14n.format(word)
   end
 
   it "processes tables (Word)" do
     input = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml">
-           <preface><foreword  displayorder="1"><title>Foreword</title>
+           <preface><foreword  displayorder="1"><fmt-title>Foreword</fmtfmt--title>
            <table id="tableD-1" alt="tool tip" summary="long desc">
-         <name>Table 1&#xA0;&#x2014; Repeatability and reproducibility of <em>husked</em> rice yield</name>
+         <fmt-name>Table 1&#xA0;&#x2014; Repeatability and reproducibility of <em>husked</em> rice yield</fmt-name>
          <thead>
            <tr>
              <td rowspan="2" align="left">Description</td>
@@ -363,7 +386,7 @@ RSpec.describe Metanorma::Itu do
         <dt>Drago</dt>
       <dd>A type of rice</dd>
       </dl>
-       <note><name>NOTE – </name><p>This is a table about rice</p></note>
+       <note><fmt-name>NOTE – </fmt-name><p>This is a table about rice</p></note>
        </table>
            </foreword></preface>
            </iso-standard>
@@ -414,7 +437,7 @@ RSpec.describe Metanorma::Itu do
             <p style="text-indent: -2.0cm; margin-left: 2.0cm; tab-stops: 2.0cm;">Drago<span style="mso-tab-count:1">  </span>A type of rice</p>
             </div>
             <div class="Note">
-              <p><span class="note_label">NOTE – </span>This is a table about rice</p>
+              <p class="Note"><span class="note_label">NOTE – </span>This is a table about rice</p>
             </div>
           </table>
         </div>
@@ -454,33 +477,37 @@ RSpec.describe Metanorma::Itu do
       </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-         <preface>
-           <clause type="toc" id="_" displayorder="1">
-             <title depth="1">Table of Contents</title>
-           </clause>
-           <foreword displayorder="2"><title>Foreword</title>
-             <ol id="_" class="steps" type="arabic">
-               <li id="_" label="1">
-                 <p id="_">all information necessary for the complete identification of the sample;</p>
-               </li>
-               <li id="_" label="2">
-                 <ol id="A" type="alphabet">
-                   <li id="_" label="a">
-                     <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
+       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1">Table of Contents</fmt-title>
+             </clause>
+             <foreword displayorder="2">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1">
+                      <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <ol id="_" class="steps" type="arabic">
+                   <li id="_" label="1">
+                      <p id="_">all information necessary for the complete identification of the sample;</p>
                    </li>
-                   <li id="_" label="b">
-                     <ol id="B" type="roman">
-                       <li id="_" label="i">
-                         <p id="_">the sampling method used;</p>
-                       </li>
-                     </ol>
+                   <li id="_" label="2">
+                      <ol id="A" type="alphabet">
+                         <li id="_" label="a">
+                            <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
+                         </li>
+                         <li id="_" label="b">
+                            <ol id="B" type="roman">
+                               <li id="_" label="i">
+                                  <p id="_">the sampling method used;</p>
+                               </li>
+                            </ol>
+                         </li>
+                      </ol>
                    </li>
-                 </ol>
-               </li>
-             </ol>
-           </foreword>
-         </preface>
+                </ol>
+             </foreword>
+          </preface>
        </iso-standard>
     OUTPUT
     html = <<~OUTPUT
@@ -571,20 +598,21 @@ RSpec.describe Metanorma::Itu do
          <div class="WordSection3"/>
        </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
+      .gsub(%r{</body>.*}m, "</body>"))))
       .to be_equivalent_to Xml::C14n.format(html)
-    expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", presxml, true)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
+      .gsub(%r{</body>.*}m, "</body>"))))
       .to be_equivalent_to Xml::C14n.format(doc)
   end
 
@@ -605,30 +633,41 @@ RSpec.describe Metanorma::Itu do
     INPUT
     presxml = <<~OUTPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-         <preface>
-           <clause type="toc" id="_" displayorder="1">
-             <title depth="1">Table of Contents</title>
-           </clause>
-           <foreword displayorder="2"><title>Foreword</title>
-             <table>
-               <name>Table — Title title</name>
-               <thead>
-                 <tr>
-                   <th>Title title1</th>
-                   <th>Title Title2</th>
-                   <td>title title3</td>
-                 </tr>
-               </thead>
-               <tbody>
-                 <tr>
-                   <th>title title4</th>
-                   <th>title title5</th>
-                   <td>title title6</td>
-                 </tr>
-               </tbody>
-             </table>
-           </foreword>
-         </preface>
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1">Table of Contents</fmt-title>
+             </clause>
+             <foreword displayorder="2">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1">
+                      <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <table>
+                   <name id="_">title title</name>
+                   <fmt-name>
+                      <span class="fmt-caption-label">
+                         <span class="fmt-element-name">Table</span>
+                         </span>
+                         <span class="fmt-caption-delim"> — </span>
+                         <semx element="name" source="_">Title title</semx>
+                   </fmt-name>
+                   <thead>
+                      <tr>
+                         <th>Title title1</th>
+                         <th>Title Title2</th>
+                         <td>title title3</td>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                         <th>title title4</th>
+                         <th>title title5</th>
+                         <td>title title6</td>
+                      </tr>
+                   </tbody>
+                </table>
+             </foreword>
+          </preface>
        </iso-standard>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
@@ -652,31 +691,57 @@ RSpec.describe Metanorma::Itu do
       </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-         <preface>
-           <clause type="toc" id="_" displayorder="1">
-             <title depth="1">Table of Contents</title>
-           </clause>
-           <foreword displayorder="2"><title>Foreword</title>
-             <table>
-               <name>Table — <span style="text-transform:none">title</span> title</name>
-               <thead>
-                 <tr>
-                   <th><span style="text-transform:none">title</span> title1</th>
-                   <th><em><span style="text-transform:none">ti</span>tle</em> title2</th>
-                   <td>title title3</td>
-                 </tr>
-               </thead>
-               <tbody>
-                 <tr>
-                   <th>title title4</th>
-                   <th>title title5</th>
-                   <td>title title6</td>
-                 </tr>
-               </tbody>
-             </table>
-           </foreword>
-         </preface>
+       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1">Table of Contents</fmt-title>
+             </clause>
+             <foreword displayorder="2">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1">
+                      <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <table>
+                   <name id="_">
+                      <span style="text-transform:none">title</span>
+                      title
+                   </name>
+                   <fmt-name>
+                      <span class="fmt-caption-label">
+                         <span class="fmt-element-name">Table</span>
+                         </span>
+                         <span class="fmt-caption-delim"> — </span>
+                         <semx element="name" source="_">
+                            <span style="text-transform:none">title</span>
+                            title
+                         </semx>
+                   </fmt-name>
+                   <thead>
+                      <tr>
+                         <th>
+                            <span style="text-transform:none">title</span>
+                            title1
+                         </th>
+                         <th>
+                            <em>
+                               <span style="text-transform:none">ti</span>
+                               tle
+                            </em>
+                            title2
+                         </th>
+                         <td>title title3</td>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                         <th>title title4</th>
+                         <th>title title5</th>
+                         <td>title title6</td>
+                      </tr>
+                   </tbody>
+                </table>
+             </foreword>
+          </preface>
        </iso-standard>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
@@ -714,11 +779,11 @@ RSpec.describe Metanorma::Itu do
     html = File.read("test.doc")
       .sub(/^.*<div>\s*<p class="h1Preface">/m, '<div><p class="h1Preface">')
       .sub(%r{</div>.*$}m, "</div>")
-    expect(Xml::C14n.format(html)).to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
+    expect(Xml::C14n.format(strip_guid(html))).to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
           <div>
         <p class='h1Preface'/>
         <div class="ol_wrap">
-        <p style='mso-list:l4 level1 lfo1;' class='MsoListParagraphCxSpFirst'> all information necessary for the complete identification of the sample; </p>
+        <p style='mso-list:l4 level1 lfo1;' class='MsoListParagraphCxSpFirst'> <a name="_" id="_"/> all information necessary for the complete identification of the sample; </p>
         <div class="ol_wrap">
         <p style='mso-list:l4 level1 lfo2;' class='MsoListParagraphCxSpFirst'> a reference to this document (i.e. ISO 17301-1); </p>
         <div class="ol_wrap">
@@ -741,16 +806,27 @@ RSpec.describe Metanorma::Itu do
     INPUT
     presxml = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-          <preface><clause type="toc" id="_" displayorder="1">
-            <title depth="1">Table of Contents</title>
-        </clause>
-        <foreword id="A" displayorder="2"><title>Foreword</title>
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1">Table of Contents</fmt-title>
+             </clause>
+             <foreword id="A" displayorder="2">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1">
+                      <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
                 <note unnumbered="true">
-           <name>NOTE – </name>
-           <p id="_">These results are based on a study carried out on three different types of kernel.</p>
-        </note>
-          </foreword></preface>
-          </iso-standard>
+                   <fmt-name>
+                      <span class="fmt-caption-label">
+                         <span class="fmt-element-name">NOTE</span>
+                      </span>
+                      <span class="fmt-label-delim"> – </span>
+                   </fmt-name>
+                   <p id="_">These results are based on a study carried out on three different types of kernel.</p>
+                </note>
+             </foreword>
+          </preface>
+       </iso-standard>
     INPUT
     html = <<~OUTPUT
       #{HTML_HDR}
@@ -789,7 +865,7 @@ RSpec.describe Metanorma::Itu do
              <div id="A">
                <h1 class="IntroTitle">Foreword</h1>
                <div class='Note'>
-                 <p>
+                 <p class="Note">
                    <span class="note_label">NOTE – </span>
                    These results are based on a study carried out on three different
                    types of kernel.
@@ -805,20 +881,21 @@ RSpec.describe Metanorma::Itu do
            </div>
          </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
+      .gsub(%r{</body>.*}m, "</body>"))))
       .to be_equivalent_to Xml::C14n.format(html)
-    expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", presxml, true)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
+      .gsub(%r{</body>.*}m, "</body>"))))
       .to be_equivalent_to Xml::C14n.format(doc)
   end
 
@@ -838,18 +915,58 @@ RSpec.describe Metanorma::Itu do
           </iso-standard>
     INPUT
     presxml = <<~INPUT
-       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <title depth="1">Table of Contents</title>
+                <fmt-title depth="1">Table of Contents</fmt-title>
              </clause>
-             <foreword id="A" displayorder="2"><title>Foreword</title>
-                <note id="note1">
-                   <name>NOTE  1 – </name>
+             <foreword id="A" displayorder="2">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1">
+                      <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <note id="note1" autonum="1">
+                   <fmt-name>
+                      <span class="fmt-caption-label">
+                         <span class="fmt-element-name">NOTE</span>
+                         <semx element="autonum" source="note1">1</semx>
+                      </span>
+                      <span class="fmt-label-delim"> – </span>
+                   </fmt-name>
+                   <fmt-xref-label>
+                      <span class="fmt-element-name">Note</span>
+                      <semx element="autonum" source="note1">1</semx>
+                   </fmt-xref-label>
+                               <fmt-xref-label container="A">
+               <span class="fmt-element-name">Note</span>
+               <semx element="autonum" source="note1">1</semx>
+               <span class="fmt-conn">in</span>
+               <span class="fmt-xref-container">
+                  <semx element="foreword" source="A">Foreword</semx>
+               </span>
+            </fmt-xref-label>
                    <p id="_">These results are based on a study carried out on three different types of kernel.</p>
                 </note>
-                <note id="note2">
-                   <name>NOTE  2 – </name>
+                <note id="note2" autonum="2">
+                   <fmt-name>
+                      <span class="fmt-caption-label">
+                         <span class="fmt-element-name">NOTE</span>
+                         <semx element="autonum" source="note2">2</semx>
+                      </span>
+                      <span class="fmt-label-delim"> – </span>
+                   </fmt-name>
+                   <fmt-xref-label>
+                      <span class="fmt-element-name">Note</span>
+                      <semx element="autonum" source="note2">2</semx>
+                   </fmt-xref-label>
+                               <fmt-xref-label container="A">
+               <span class="fmt-element-name">Note</span>
+               <semx element="autonum" source="note2">2</semx>
+               <span class="fmt-conn">in</span>
+               <span class="fmt-xref-container">
+                  <semx element="foreword" source="A">Foreword</semx>
+               </span>
+            </fmt-xref-label>
                    <p id="_">These results are based on a study carried out on three different types of kernel.</p>
                    <p id="_">These results are based on a study carried out on three different types of kernel.</p>
                 </note>
@@ -906,14 +1023,14 @@ RSpec.describe Metanorma::Itu do
                  <div id="A">
                    <h1 class="IntroTitle">Foreword</h1>
                    <div id='note1' class='Note'>
-                     <p>
+                     <p class="Note">
                        <span class='note_label'>NOTE 1 – </span>
                        These results are based on a study carried out on three different
                        types of kernel.
                      </p>
                    </div>
                    <div id='note2' class='Note'>
-                     <p>
+                     <p class="Note">
                        <span class='note_label'>NOTE 2 – </span>
                        These results are based on a study carried out on three different
                        types of kernel.
@@ -933,20 +1050,21 @@ RSpec.describe Metanorma::Itu do
                </div>
              </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
+      .gsub(%r{</body>.*}m, "</body>"))))
       .to be_equivalent_to Xml::C14n.format(html)
-    expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", presxml, true)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
+      .gsub(%r{</body>.*}m, "</body>"))))
       .to be_equivalent_to Xml::C14n.format(doc)
   end
 end

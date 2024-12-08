@@ -127,7 +127,10 @@ RSpec.describe Metanorma::Itu do
         <sections>
                   <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION 1 (Andorra, 1204)</p>
            <p align="center" class="zzSTDTitle2" displayorder="2"><em>(Andorra, 1204</em>)<fn reference="1"><p>One fn</p></fn><fn reference="2"><p>Another fn</p></fn></p>
-           <p keep-with-next="true" class="supertitle" displayorder="3">SECTION 1</p>
+        <p keep-with-next="true" class="supertitle" displayorder="3">
+         <span class="fmt-element-name">SECTION</span>
+         <semx element="autonum" source="A">1</semx>
+      </p>
         <clause id='A' displayorder='4'>
           <p>Hello.<fn reference='3'><p>Normal footnote</p></fn></p>
         </clause>
@@ -210,20 +213,21 @@ RSpec.describe Metanorma::Itu do
          </div>
        </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
     expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")
       .gsub(/fn:[0-9a-f-][0-9a-f-]+/, "fn:_")
       .gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>")))
       .to be_equivalent_to Xml::C14n.format(html)
     expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", presxml, true)
+      .convert("test", pres_output, true)
       .sub(%r{^.*<body }m, "<body xmlns:epub='epub' ")
       .sub(%r{</body>.*$}m, "</body>")
       .gsub(%r{_Ref\d+}, "_Ref")
@@ -303,13 +307,14 @@ RSpec.describe Metanorma::Itu do
         </div>
       </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+        pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
     expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
       .to be_equivalent_to Xml::C14n.format(html)
@@ -320,7 +325,7 @@ RSpec.describe Metanorma::Itu do
         <itu-standard xmlns="https://www.calconnect.org/standards/itu">
         <preface>
             <clause type="toc" id="_" displayorder="1">
-        <title depth="1">Table of Contents</title>
+        <fmt-title depth="1">Table of Contents</fmt-title>
       </clause>
         <foreword displayorder="2">
         <keyword>ABC</keyword>
@@ -465,52 +470,109 @@ RSpec.describe Metanorma::Itu do
     presxml = <<~PRESXML
       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <bibdata>
-            <title language="en" format="text/plain" type="main">An ITU Standard</title>
-            <ext>
-              <doctype language="">recommendation</doctype>
-              <doctype language="en">Recommendation</doctype>
-            </ext>
+             <title language="en" format="text/plain" type="main">An ITU Standard</title>
+             <ext>
+                <doctype language="">recommendation</doctype>
+                <doctype language="en">Recommendation</doctype>
+             </ext>
           </bibdata>
           <preface>
-            <clause type="toc" id="_" displayorder="1">
-              <title depth="1">Table of Contents</title>
-            </clause>
-            <foreword displayorder="2"><title>Foreword</title>
-              <p>A.<fn reference="1"><p id="_">Formerly denoted as 15 % (m/m).</p></fn></p>
-              <p>B.<fn reference="2"><p id="_">Formerly denoted as 15 % (m/m).</p></fn></p>
-              <p>C.<fn reference="3"><p id="_">Hello! denoted as 15 % (m/m).</p></fn></p>
-              <table id="tableD-1" alt="tool tip" summary="long desc">
-                <name>Table 1 — Table 1 — Repeatability and reproducibility of <em>husked</em> rice yield</name>
-                <thead>
-                  <tr>
-                    <td rowspan="2" align="left">Description</td>
-                    <td colspan="4" align="center">Rice sample</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td align="left">Arborio</td>
-                    <td align="center">Drago<fn reference="a)"><p id="_">Parboiled rice.</p></fn></td>
-                    <td align="center">Balilla<fn reference="a)"><p id="_">Parboiled rice.</p></fn></td>
-                    <td align="center">Thaibonnet</td>
-                  </tr>
-                </tbody>
-              </table>
-            </foreword>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1">Table of Contents</fmt-title>
+             </clause>
+             <foreword displayorder="2">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1">
+                      <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <p>
+                   A.
+                   <fn reference="1">
+                      <p id="_">Formerly denoted as 15 % (m/m).</p>
+                   </fn>
+                </p>
+                <p>
+                   B.
+                   <fn reference="2">
+                      <p id="_">Formerly denoted as 15 % (m/m).</p>
+                   </fn>
+                </p>
+                <p>
+                   C.
+                   <fn reference="3">
+                      <p id="_">Hello! denoted as 15 % (m/m).</p>
+                   </fn>
+                </p>
+                <table id="tableD-1" alt="tool tip" summary="long desc" autonum="1">
+                   <name id="_">
+                      Table 1 — Repeatability and reproducibility of
+                      <em>husked</em>
+                      rice yield
+                   </name>
+                   <fmt-name>
+                      <span class="fmt-caption-label">
+                         <span class="fmt-element-name">Table</span>
+                         <semx element="autonum" source="tableD-1">1</semx>
+                         </span>
+                         <span class="fmt-caption-delim"> — </span>
+                         <semx element="name" source="_">
+                            Table 1 — Repeatability and reproducibility of
+                            <em>husked</em>
+                            rice yield
+                         </semx>
+                   </fmt-name>
+                   <fmt-xref-label>
+                      <span class="fmt-element-name">Table</span>
+                      <semx element="autonum" source="tableD-1">1</semx>
+                   </fmt-xref-label>
+                   <thead>
+                      <tr>
+                         <td rowspan="2" align="left">Description</td>
+                         <td colspan="4" align="center">Rice sample</td>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                         <td align="left">Arborio</td>
+                         <td align="center">
+                            Drago
+                            <fn reference="a)">
+                               <p id="_">Parboiled rice.</p>
+                            </fn>
+                         </td>
+                         <td align="center">
+                            Balilla
+                            <fn reference="a)">
+                               <p id="_">Parboiled rice.</p>
+                            </fn>
+                         </td>
+                         <td align="center">Thaibonnet</td>
+                      </tr>
+                   </tbody>
+                </table>
+             </foreword>
           </preface>
           <sections>
-            <p class="zzSTDTitle2" displayorder="3">An ITU Standard<fn reference="4"><p>One fn</p></fn><fn reference="5"><p>Another fn</p></fn></p>
-            <clause displayorder="4"/>
+             <p class="zzSTDTitle2" displayorder="3">
+                An ITU Standard
+                <fn reference="4">
+                   <p>One fn</p>
+                </fn>
+                <fn reference="5">
+                   <p>Another fn</p>
+                </fn>
+             </p>
+             <clause displayorder="4"/>
           </sections>
-        </itu-standard>
+       </itu-standard>
     PRESXML
-    p = IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Xml::C14n.format(strip_guid(p
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    IsoDoc::Itu::HtmlConvert.new({}).convert("test", p, false)
+    IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
     expect(File.exist?("test.html")).to be true
     html = File.read("test.html", encoding: "UTF-8")
     expect(Xml::C14n.format(strip_guid(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ")
@@ -639,7 +701,7 @@ RSpec.describe Metanorma::Itu do
       OUTPUT
 
     FileUtils.rm_f "test.doc"
-    IsoDoc::Itu::WordConvert.new({}).convert("test", p, false)
+    IsoDoc::Itu::WordConvert.new({}).convert("test", pres_output, false)
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
     expect(Xml::C14n.format(html
@@ -713,7 +775,7 @@ RSpec.describe Metanorma::Itu do
     input = <<~INPUT
           <itu-standard xmlns="http://riboseinc.com/isoxml">
           <preface><foreword>
-          <p>
+          <p id="A">
           <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">A</eref>
           <eref type="inline" bibitemid="ISO712" citeas="ISO 712">A</eref>
           <eref type="footnote" bibitemid="ISO712" citeas="ISO 712"></eref>
@@ -740,11 +802,7 @@ RSpec.describe Metanorma::Itu do
           </itu-standard>
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-         <preface>
-             <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-           <foreword displayorder="2"><title>Foreword</title>
-             <p>
+             <p id="A">>
                     <sup>
          <xref type="footnote" target="ISO712">A</xref>
        </sup>
@@ -757,29 +815,13 @@ RSpec.describe Metanorma::Itu do
          <xref type="footnote" target="ISO712">[ISO 712], Section 8</xref>
        </sup>
        <xref type="inline" target="ISO712">[ISO 712], Section 8</xref>
-       <xref type="inline" target="ISO712">[ISO 712], Sections 8 and 10</xref>
+       <xref type="inline" target="ISO712">[ISO 712], Sections 8 <span class="fmt-conn">and</span> 10</xref>
              </p>
-           </foreword>
-         </preface>
-         <sections>
-           <references id="_" obligation="informative" normative="true" displayorder="3">
-             <title depth="1">1.<tab/>References</title>
-             <bibitem id="ISO712" type="standard">
-               <formattedref>ISO 712 (2019), <em>Cereals and cereal products</em>.</formattedref>
-               <docidentifier>ISO&#xa0;712</docidentifier>
-               <docidentifier scope="biblio-tag">ISO 712</docidentifier>
-               <date type="published"><on>2019-01-01</on></date>
-               <biblio-tag>[ISO 712]</biblio-tag>
-             </bibitem>
-           </references>
-           </sections>
-         <bibliography/>
-       </itu-standard>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    expect(Xml::C14n.format(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
-      .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .convert("test", input, true))
+      .at("//xmlns:p[@id = 'A']").to_xml)))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -805,36 +847,62 @@ RSpec.describe Metanorma::Itu do
           </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-          <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-        <preface>
-          <clause type="toc" id="_" displayorder="1">
-            <title depth="1">Table of Contents</title>
-          </clause>
-          <foreword displayorder="2"><title>Foreword</title>
-            <p>
-              <sup>
-                <xref type="footnote" target="ISO712">A</xref>
-              </sup>
-              <xref type="inline" target="ISO712">A</xref>
-              <xref target="_">Requirement <tt>/req/core/http</tt></xref>
-              <link target="http://www.example.com">Test</link>
-              <link target="http://www.example.com"/>
-            </p>
-          </foreword>
-        </preface>
-        <sections>
-          <references id="_" obligation="informative" normative="true" displayorder="3">
-            <title depth="1">1.<tab/>References</title>
-            <bibitem id="ISO712" type="standard">
-              <formattedref format="text/plain">ISO 712, <em>Cereals and cereal products</em>.</formattedref>
-              <docidentifier>ISO 712</docidentifier>
-              <docidentifier scope="biblio-tag">ISO 712</docidentifier>
-              <biblio-tag>[ISO 712]</biblio-tag>
-            </bibitem>
-          </references>
+      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1">Table of Contents</fmt-title>
+             </clause>
+             <foreword displayorder="2">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1">
+                      <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <p>
+                   <sup>
+                      <xref type="footnote" target="ISO712">A</xref>
+                   </sup>
+                   <xref type="inline" target="ISO712">A</xref>
+                   <xref target="_">
+                      Requirement
+                      <tt>/req/core/http</tt>
+                   </xref>
+                   <link target="http://www.example.com">Test</link>
+                   <link target="http://www.example.com"/>
+                </p>
+             </foreword>
+          </preface>
+          <sections>
+             <references id="_" obligation="informative" normative="true" displayorder="3">
+                <title id="_">References</title>
+                <fmt-title depth="1">
+                   <span class="fmt-caption-label">
+                      <semx element="autonum" source="_">1</semx>
+                      <span class="fmt-autonum-delim">.</span>
+                      </span>
+                      <span class="fmt-caption-delim">
+                         <tab/>
+                      </span>
+                      <semx element="title" source="_">References</semx>
+                </fmt-title>
+                <fmt-xref-label>
+                   <span class="fmt-element-name">clause</span>
+                   <semx element="autonum" source="_">1</semx>
+                </fmt-xref-label>
+                <bibitem id="ISO712" type="standard">
+                   <formattedref format="text/plain">
+                      ISO 712,
+                      <em>Cereals and cereal products</em>
+                      .
+                   </formattedref>
+                   <docidentifier>ISO 712</docidentifier>
+                   <docidentifier scope="biblio-tag">ISO 712</docidentifier>
+                   <biblio-tag>[ISO 712]</biblio-tag>
+                </bibitem>
+             </references>
           </sections>
-        <bibliography/>
-      </iso-standard>
+          <bibliography>
+           </bibliography>
+       </iso-standard>
     OUTPUT
     output = <<~OUTPUT
           <body lang="EN-US" link="blue" vlink="#954F72">
@@ -862,7 +930,7 @@ RSpec.describe Metanorma::Itu do
                 <a href="#ISO712">A</a>
               </sup>
               <a href="#ISO712">A</a>
-              <a href="#_">Requirement <tt>/req/core/http</tt></a>
+              <a href="#_http_1_1">Requirement <tt>/req/core/http</tt></a>
               <a href="http://www.example.com" class="url">Test</a>
               <a href="http://www.example.com" class="url">http://www.example.com</a>
             </p>
@@ -887,15 +955,16 @@ RSpec.describe Metanorma::Itu do
         </div>
       </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", presxml, true)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
+      .gsub(%r{</body>.*}m, "</body>"))))
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
@@ -903,7 +972,7 @@ RSpec.describe Metanorma::Itu do
     FileUtils.rm_f "test.html"
     input = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml">
-      #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>)))}
+      #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>))).gsub("<title", "<fmt-title").gsub("</title", "</fmt-title")}{
       </iso-standard>
     INPUT
     IsoDoc::Itu::HtmlConvert.new({}).convert("test", input, false)
@@ -1087,7 +1156,9 @@ RSpec.describe Metanorma::Itu do
                  <title language='en'>test</title>
                </bibdata>
                <preface>
-                 <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+                 <clause type="toc" id="_" displayorder="1">
+                 <fmt-title depth="1">Table of Contents</fmt-title>
+                  </clause>
                  <p displayorder='2'>30'000
                    <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mfenced open="(" close=")"><mrow><mi>X</mi><mo>≥</mo><msub><mrow><mi>X</mi></mrow><mrow><mo>max</mo></mrow></msub></mrow></mfenced><mo>=</mo><munderover><mrow><mo>∑</mo></mrow><mrow><mrow><mi>j</mi><mo>=</mo><msub><mrow><mi>X</mi></mrow><mrow><mo>max</mo></mrow></msub></mrow></mrow><mrow><mn>1'000</mn></mrow></munderover><mfenced open="(" close=")"><mtable><mtr><mtd><mn>1'000</mn></mtd></mtr><mtr><mtd><mi>j</mi></mtd></mtr></mtable></mfenced><msup><mrow><mi>p</mi></mrow><mrow><mi>j</mi></mrow></msup><msup><mrow><mfenced open="(" close=")"><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfenced></mrow><mrow><mrow><mn>1.003</mn><mo>−</mo><mi>j</mi></mrow></mrow></msup></math><asciimath>P (X ge X_(max)) = sum_(j = X_(max))^(1000) ([[1000], [j]]) p^(j) (1 - p)^(1.003 - j)</asciimath></stem></p>
          </preface>

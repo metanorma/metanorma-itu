@@ -85,6 +85,7 @@ module IsoDoc
         abstract or return
         @doctype == "contribution" or return
         abstract.at(ns("./title"))&.remove
+        abstract.at(ns("./fmt-title"))&.remove
         abstract.children = <<~TABLE
           <table class="abstract" unnumbered="true" width="100%">
           <colgroup><col width="11.8%"/><col width="78.2%"/></colgroup>
@@ -98,7 +99,7 @@ module IsoDoc
       def keywords(_docxml)
         kw = @meta.get[:keywords]
         kw.nil? || kw.empty? || @doctype == "contribution" and return
-        "<clause type='keyword'><title>#{@i18n.keywords}</title>" \
+        "<clause type='keyword'><fmt-title>#{@i18n.keywords}</fmt-title>" \
           "<p>#{@i18n.l10n(kw.join(', '))}.</p>"
       end
 

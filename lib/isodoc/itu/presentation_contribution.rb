@@ -74,6 +74,7 @@ module IsoDoc
         x = clause.at(ns("./clause[@type = '#{type}']")) or return
         ret = x.dup
         ret.at(ns("./title"))&.remove
+        ret.at(ns("./fmt-title"))&.remove
         ret.children.to_xml
       end
 

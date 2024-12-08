@@ -25,7 +25,7 @@ module IsoDoc
                 i += 1
                 bibitem_entry(tbody, b, i, biblio)
               else
-                unless %w(title clause references).include? b.name
+                unless %w(title clause references fmt-title fmt-xref-label).include? b.name
                   tbody.tx { |tx| parse(b, tx) }
                 end
               end

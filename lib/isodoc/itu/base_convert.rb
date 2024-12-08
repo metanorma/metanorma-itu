@@ -12,10 +12,10 @@ module IsoDoc
                      "[not(local-name() = 'abstract')]".freeze
 
       def introduction(clause, out)
-        title = clause.at(ns("./title"))
+        title = clause.at(ns("./fmt-title"))
         out.div **attr_code(clause_attrs(clause)) do |s|
           clause_name(clause, title, s, class: "IntroTitle")
-          clause.elements.reject { |c1| c1.name == "title" }.each do |c1|
+          clause.elements.reject { |c1| c1.name == "fmt-title" }.each do |c1|
             parse(c1, s)
           end
         end
@@ -65,9 +65,9 @@ module IsoDoc
         @meta.get[:doctype_original] == "recommendation-annex" or
           page_break(out)
         out.div **attr_code(id: node["id"], class: "Section3") do |s|
-          annex_name(node, nil, s) unless node.at(ns("./title"))
+          annex_name(node, nil, s) unless node.at(ns("./fmt-title"))
           node.elements.each do |c1|
-            if c1.name == "title" then annex_name(node, c1, s)
+            if c1.name == "fmt-title" then annex_name(node, c1, s)
             else
               parse(c1, s)
             end
@@ -82,7 +82,8 @@ module IsoDoc
         super
       end
 
-      def note_p_parse(node, div)
+      # TODO kill
+      def note_p_parsex(node, div)
         name = node.at(ns("./name"))&.remove
         div.p do |p|
           name and p.span class: "note_label" do |s|
@@ -93,7 +94,8 @@ module IsoDoc
         node.element_children[1..-1].each { |n| parse(n, div) }
       end
 
-      def note_parse1(node, div)
+      # TODO kill
+      def note_parse1x(node, div)
         name = node.at(ns("./name"))&.remove
         div.p do |p|
           name and p.span class: "note_label" do |s|
@@ -119,7 +121,7 @@ module IsoDoc
       def clause(clause, out)
         out.div **attr_code(clause_attrs(clause)) do |s|
           clause.elements.each do |c1|
-            if c1.name == "title" then clause_name(clause, c1, s, nil)
+            if c1.name == "fmt-title" then clause_name(clause, c1, s, nil)
             else
               parse(c1, s)
             end
@@ -136,7 +138,7 @@ module IsoDoc
       def dl1(dlist)
         ret = dl2tbody(dlist)
         n = dlist.at(ns("./colgroup")) and ret = "#{n.remove.to_xml}#{ret}"
-        n = dlist.at(ns("./name")) and ret = "#{n.remove.to_xml}#{ret}"
+        n = dlist.at(ns("./fmt-name")) and ret = "#{n.remove.to_xml}#{ret}"
         dlist.name = "table"
         dlist["class"] = "dl"
         dlist.children.first.previous = ret

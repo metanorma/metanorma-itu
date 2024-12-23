@@ -60,7 +60,7 @@ module IsoDoc
         out
       end
 
-      def bibliography_bibitem_number1(bib, idx)
+      def bibliography_bibitem_number1(bib, idx, normative)
         mn = bib.at(ns(".//docidentifier[@type = 'metanorma']")) and
           /^\[?\d+\]?$/.match?(mn.text) and
           mn["type"] = "metanorma-ordinal"

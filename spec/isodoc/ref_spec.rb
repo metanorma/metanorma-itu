@@ -135,14 +135,14 @@ RSpec.describe IsoDoc::Itu do
                    <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <p id="_">
-                   <xref target="ISO712">[110]</xref>
-                   <xref target="ISBN">[1]</xref>
-                   <xref target="ISSN">[2]</xref>
+                   <xref target="ISO712">[ISO 712]</xref>
+                   <xref target="ISBN">[3]</xref>
+                   <xref target="ISSN">[4]</xref>
                    <xref target="ISO16634">[ISO 16634:-- (all parts)]</xref>
                    <xref target="ref1">[ICC 167]</xref>
-                   <xref target="ref10">[3]</xref>
+                   <xref target="ref10">[5]</xref>
                    <xref target="ref12">[Citn]</xref>
-                   <xref target="zip_ffs">[5]</xref>
+                   <xref target="zip_ffs">[2]</xref>
                 </p>
              </foreword>
           </preface>
@@ -171,9 +171,9 @@ RSpec.describe IsoDoc::Itu do
                       .
                    </formattedref>
                    <docidentifier type="ISO">ISO 712</docidentifier>
-                   <docidentifier type="metanorma">[110]</docidentifier>
+                   <docidentifier type="metanorma-ordinal">[1]</docidentifier>
                    <docidentifier scope="biblio-tag">ISO 712</docidentifier>
-                   <biblio-tag>[110]</biblio-tag>
+                   <biblio-tag>[1]</biblio-tag>
                 </bibitem>
                 <bibitem id="ISO16634" type="standard">
                    <formattedref>
@@ -227,8 +227,8 @@ RSpec.describe IsoDoc::Itu do
                 </note>
                 <bibitem id="zip_ffs">
                    <formattedref format="application/x-isodoc+xml">Title 5.</formattedref>
-                   <docidentifier type="metanorma">[5]</docidentifier>
-                   <biblio-tag>[5]</biblio-tag>
+                   <docidentifier type="metanorma-ordinal">[2]</docidentifier>
+                   <biblio-tag>[2]</biblio-tag>
                 </bibitem>
              </references>
           </sections>
@@ -244,8 +244,8 @@ RSpec.describe IsoDoc::Itu do
                       . n.p.: n.d. ISBN: ISBN.
                    </formattedref>
                    <docidentifier type="ISBN">ISBN</docidentifier>
-                   <docidentifier type="metanorma-ordinal">[1]</docidentifier>
-                   <biblio-tag>[1]</biblio-tag>
+                   <docidentifier type="metanorma-ordinal">[3]</docidentifier>
+                   <biblio-tag>[3]</biblio-tag>
                 </bibitem>
                 <bibitem id="ISSN" type="journal">
                    <formattedref>
@@ -253,8 +253,8 @@ RSpec.describe IsoDoc::Itu do
                       . n.d. ISSN: ISSN 1.
                    </formattedref>
                    <docidentifier type="ISSN">ISSN 1</docidentifier>
-                   <docidentifier type="metanorma-ordinal">[2]</docidentifier>
-                   <biblio-tag>[2]</biblio-tag>
+                   <docidentifier type="metanorma-ordinal">[4]</docidentifier>
+                   <biblio-tag>[4]</biblio-tag>
                 </bibitem>
                 <note>
                    <fmt-name>
@@ -293,8 +293,8 @@ RSpec.describe IsoDoc::Itu do
                       <link target="http://www.icc.or.at"/>
                       ).
                    </formattedref>
-                   <docidentifier type="metanorma-ordinal">[3]</docidentifier>
-                   <biblio-tag>[3]</biblio-tag>
+                   <docidentifier type="metanorma-ordinal">[5]</docidentifier>
+                   <biblio-tag>[5]</biblio-tag>
                 </bibitem>
                 <bibitem id="ref11">
                    <formattedref>
@@ -331,20 +331,20 @@ RSpec.describe IsoDoc::Itu do
       .to be_equivalent_to Xml::C14n.format(presxml)
     IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
     output = <<~OUTPUT
-       <main class="main-section">
+      <main class="main-section">
           <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
           <br/>
           <div>
              <h1 class="IntroTitle" id="_">Foreword</h1>
              <p id="_">
-                <a href="#ISO712">[110]</a>
-                <a href="#ISBN">[1]</a>
-                <a href="#ISSN">[2]</a>
+                <a href="#ISO712">[ISO 712]</a>
+                <a href="#ISBN">[3]</a>
+                <a href="#ISSN">[4]</a>
                 <a href="#ISO16634">[ISO 16634:-- (all parts)]</a>
                 <a href="#ref1">[ICC 167]</a>
-                <a href="#ref10">[3]</a>
+                <a href="#ref10">[5]</a>
                 <a href="#ref12">[Citn]</a>
-                <a href="#zip_ffs">[5]</a>
+                <a href="#zip_ffs">[2]</a>
              </p>
           </div>
           <div>
@@ -354,7 +354,7 @@ RSpec.describe IsoDoc::Itu do
                    <tr>
                       <td colspan="2">
                          <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
-                         <td style="vertical-align:top">[110]</td>
+                         <td style="vertical-align:top">[1]</td>
                          <td>
                             ISO 712,
                             <i>Cereals and cereal products</i>
@@ -401,7 +401,7 @@ RSpec.describe IsoDoc::Itu do
                       </td>
                    </tr>
                    <tr id="zip_ffs" class="NormRef">
-                      <td style="vertical-align:top">[5]</td>
+                      <td style="vertical-align:top">[2]</td>
                       <td>Title 5.</td>
                    </tr>
                 </tbody>
@@ -413,14 +413,14 @@ RSpec.describe IsoDoc::Itu do
              <table class="biblio" border="0">
                 <tbody>
                    <tr id="ISBN" class="Biblio">
-                      <td style="vertical-align:top">[1]</td>
+                      <td style="vertical-align:top">[3]</td>
                       <td>
                          <i>Chemicals for analytical laboratory use</i>
                          . n.p.: n.d. ISBN: ISBN.
                       </td>
                    </tr>
                    <tr id="ISSN" class="Biblio">
-                      <td style="vertical-align:top">[2]</td>
+                      <td style="vertical-align:top">[4]</td>
                       <td>
                          <i>Instruments for analytical laboratory use</i>
                          . n.d. ISSN: ISSN 1.
@@ -451,7 +451,7 @@ RSpec.describe IsoDoc::Itu do
                       </td>
                    </tr>
                    <tr id="ref10" class="Biblio">
-                      <td style="vertical-align:top">[3]</td>
+                      <td style="vertical-align:top">[5]</td>
                       <td>
                          <span style="font-variant:small-caps;">Standard No I.C.C 167</span>
                          .

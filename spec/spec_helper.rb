@@ -160,7 +160,7 @@ def itudoc(lang)
 
      <terms id="I" obligation="normative">
        <term id="J">
-       <preferred>Term2</preferred>
+       <preferred><expression><name>Term2</name></expression></preferred>
      </term>
      </terms>
      <definitions id="L">

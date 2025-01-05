@@ -6,7 +6,7 @@ module IsoDoc
           p.b do |b|
             node&.at(ns("./fmt-name"))&.children&.each { |n| parse(n, b) }
             insert_tab(b, 1)
-            node&.at(ns("./preferred"))&.children&.each { |n| parse(n, b) }
+            node&.at(ns("./fmt-preferred"))&.children&.each { |n| parse(n, b) }
           end
           source and p << "#{source.value} "
         end
@@ -14,12 +14,12 @@ module IsoDoc
       end
 
       def termdef_parse(node, out)
-        defn = node.at(ns("./definition"))
-        source = node.at(ns("./termsource/origin/@citeas"))
+        defn = node.at(ns("./fmt-definition"))
+        source = node.at(ns("./fmt-termsource//origin/@citeas"))
         out.div **attr_code(id: node["id"]) do |div|
           termdef_parse1(node, div, defn, source)
           node.children.each do |n|
-            next if %w(preferred definition termsource fmt-title
+            next if %w(fmt-preferred fmt-definition fmt-termsource fmt-title
                        fmt-name).include? n.name
 
             parse(n, out)

@@ -869,7 +869,17 @@ RSpec.describe Metanorma::Itu do
                        <span class="fmt-autonum-delim">.</span>
                        <semx element="autonum" source="J">1</semx>
                     </fmt-xref-label>
-                    <preferred>Term2:</preferred>
+            <preferred id="_">
+               <expression>
+                  <name>Term2</name>
+               </expression>
+            </preferred>
+            <fmt-preferred>
+               <semx element="preferred" source="_">
+                  <strong>Term2</strong>
+                  :
+               </semx>
+            </fmt-preferred>
                  </term>
               </terms>
               <definitions id="L" displayorder="12">
@@ -1103,7 +1113,7 @@ RSpec.describe Metanorma::Itu do
                         </div>
                         <div id="I">
                         <h1>3.</h1>
-                        <div id="J"><p class="TermNum" id="J"><b>3.1.&#160; Term2:</b></p>
+                        <div id="J"><p class="TermNum" id="J"><b>3.1.&#160; <b>Term2</b>:</b></p>
                  </div>
                       </div>
                         <div id="L" class="Symbols">
@@ -1217,7 +1227,7 @@ RSpec.describe Metanorma::Itu do
             </table>
            </div>
            <div id="I"><h1>3.</h1>
-        <div id="J"><p class="TermNum" id="J"><b>3.1.<span style="mso-tab-count:1">&#160; </span>Term2:</b> </p>
+        <div id="J"><p class="TermNum" id="J"><b>3.1.<span style="mso-tab-count:1">&#160; </span><b>Term2</b>:</b> </p>
       </div>
       </div>
            <div id="L" class="Symbols">

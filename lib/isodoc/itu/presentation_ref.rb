@@ -53,6 +53,7 @@ module IsoDoc
         id = multi_bibitem_ref_code(bib)
         id1 = render_multi_identifiers(id, bib)
         out = id1
+        out.empty? and return out
         date = bib.at(ns("./date[@type = 'published']/on | " \
           "./date[@type = 'published']/from")) and
           out << " (#{date.text.sub(/-.*$/, '')})"
@@ -79,9 +80,9 @@ module IsoDoc
 
       def norm_ref_entry_code(_ordinal, idents, _ids, _standard, datefn, _bib)
         ret = (idents[:metanorma] || idents[:ordinal] || idents[:sdo]).to_s
+        ret.empty? and return ret
         /^\[.+\]$/.match?(ret) or ret = "[#{ret}]"
         ret += datefn
-        ret.empty? and return ret
         ret.gsub("-", "&#x2011;").gsub(/ /, "&#xa0;")
       end
 
@@ -94,7 +95,7 @@ module IsoDoc
       end
 
       def bracket_if_num(num)
-        return nil if num.nil?
+        return nil if num.nil? || num.text.strip.empty?
 
         num = num.text.sub(/^\[/, "").sub(/\]$/, "")
         "[#{num}]"

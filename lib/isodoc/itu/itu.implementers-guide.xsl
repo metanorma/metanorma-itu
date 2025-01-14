@@ -6,180 +6,49 @@
 
 	<xsl:variable name="debug">false</xsl:variable>
 
-	<xsl:variable name="docidentifier_ITU" select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU']"/>
-	<xsl:variable name="docidentifier_ITU_left_part_" select="normalize-space(substring-before($docidentifier_ITU, ' '))"/>
-	<xsl:variable name="docidentifier_ITU_left_part">
-		<xsl:value-of select="$docidentifier_ITU_left_part_"/>
-		<xsl:if test="$docidentifier_ITU_left_part_ = ''"><xsl:text>ITU-T</xsl:text></xsl:if>
-	</xsl:variable>
-
-	<!-- Rec. ITU-T G.650.1 (03/2018) -->
-	<xsl:variable name="footerprefix" select="'Rec. '"/>
-	<xsl:variable name="docname">
-		<xsl:value-of select="substring-before($docidentifier_ITU, ' ')"/>
-		<xsl:text> </xsl:text>
-		<xsl:value-of select="substring-after($docidentifier_ITU, ' ')"/>
-		<xsl:text> </xsl:text>
-	</xsl:variable>
-	<xsl:variable name="date_published" select="/itu:itu-standard/itu:bibdata/itu:date[@type = 'published']/itu:on"/>
-	<xsl:variable name="docdate">
-		<xsl:call-template name="formatDate">
-			<xsl:with-param name="date" select="$date_published"/>
-		</xsl:call-template>
-	</xsl:variable>
-	<xsl:variable name="doctype" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
-	<xsl:variable name="bureau" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:bureau"/>
-
-	<xsl:variable name="docnumber" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:docnumber)"/>
-	<xsl:variable name="xSTR-ACRONYM">
-		<xsl:variable name="x" select="/itu:itu-standard/itu:bibdata/itu:series[@type = 'main']/itu:title[@type = 'abbrev']"/>
-		<xsl:variable name="acronym" select="$docnumber"/>
-		<xsl:value-of select="concat($x,'STR-', $acronym)"/>
-	</xsl:variable>
-
 	<!-- Example:
 		<item level="1" id="Foreword" display="true">Foreword</item>
 		<item id="term-script" display="false">3.2</item>
 	-->
 	<xsl:variable name="contents_">
-		<contents>
-			<!-- <xsl:apply-templates select="/itu:itu-standard/itu:preface/node()" mode="contents"/> -->
-			<!-- <xsl:apply-templates select="/itu:itu-standard/itu:sections/itu:clause[@type='scope']" mode="contents" /> -->
+		<xsl:variable name="bundle" select="count(//itu:itu-standard) &gt; 1"/>
 
-			<!-- Normative references -->
-			<!-- <xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[@normative='true']" mode="contents" />
-			
-			<xsl:apply-templates select="/itu:itu-standard/itu:sections/*[not(@type='scope')]" mode="contents" />
-				
-			<xsl:apply-templates select="/itu:itu-standard/itu:annex" mode="contents"/> -->
+		<xsl:if test="normalize-space($bundle) = 'true'">
+			<collection firstpage_id="firstpage_id_0"/>
+		</xsl:if>
 
-			<!-- Bibliography -->
-			<!-- <xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[not(@normative='true')]" mode="contents"/> -->
+		<xsl:for-each select="//itu:itu-standard">
+			<xsl:variable name="num"><xsl:number level="any" count="itu:itu-standard"/></xsl:variable>
+			<xsl:variable name="docidentifier"><xsl:value-of select="itu:bibdata/itu:docidentifier[@type = 'ITU']"/></xsl:variable>
+			<xsl:variable name="docnumber_">
+				<xsl:value-of select="$docidentifier"/>
+				<xsl:if test="normalize-space($docidentifier) = ''">
+					<xsl:value-of select="itu:bibdata/itu:docidentifier[1]"/>
+				</xsl:if>
+			</xsl:variable>
+			<xsl:variable name="docnumber" select="normalize-space($docnumber_)"/>
+			<xsl:variable name="current_document">
+				<xsl:copy-of select="."/>
+			</xsl:variable>
 
-			<xsl:call-template name="processMainSectionsDefault_Contents"/>
+			<xsl:for-each select="xalan:nodeset($current_document)">
+				<doc num="{$num}" firstpage_id="firstpage_id_{$num}" title-part="{$docnumber}" bundle="{$bundle}"> <!-- 'bundle' means several different documents (not language versions) in one xml -->
+					<contents>
+						<xsl:call-template name="processMainSectionsDefault_Contents"/>
 
-			<xsl:apply-templates select="//itu:table" mode="contents"/>
+						<xsl:apply-templates select="//itu:table" mode="contents"/>
 
-			<xsl:call-template name="processTablesFigures_Contents">
-				<xsl:with-param name="always" select="$doctype = 'technical-report' or $doctype = 'technical-paper'"/>
-			</xsl:call-template>
-		</contents>
+						<xsl:variable name="doctype" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
+
+						<xsl:call-template name="processTablesFigures_Contents">
+							<xsl:with-param name="always" select="$doctype = 'technical-report' or $doctype = 'technical-paper'"/>
+						</xsl:call-template>
+					</contents>
+				</doc>
+			</xsl:for-each>
+		</xsl:for-each>
 	</xsl:variable>
 	<xsl:variable name="contents" select="xalan:nodeset($contents_)"/>
-
-	<xsl:variable name="doctypeTitle">
-		<xsl:choose>
-			<xsl:when test="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]">
-				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="capitalizeWords">
-					<xsl:with-param name="str" select="$doctype"/>
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-
-	<xsl:variable name="footer-text">
-		<xsl:variable name="additionalIdentifiers_">
-			<xsl:if test="$TDnumber != ''">/<xsl:value-of select="$TDnumber"/></xsl:if>
-			<xsl:if test="$provisionalIdentifier != ''">/<xsl:value-of select="$provisionalIdentifier"/></xsl:if>
-		</xsl:variable>
-		<xsl:variable name="additionalIdentifiers" select="normalize-space($additionalIdentifiers_)"/>
-		<xsl:choose>
-			<xsl:when test="$doctype = 'technical-report' or $doctype = 'technical-paper'">
-				<xsl:variable name="date_">
-					<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:version/itu:revision-date"/>
-					<xsl:if test="not(/itu:itu-standard/itu:bibdata/itu:version/itu:revision-date)"/>
-					<xsl:value-of select="$date_published"/>
-				</xsl:variable>
-				<xsl:variable name="date" select="concat('(',substring($date_,1,7), ')')"/>
-				<xsl:value-of select="concat($xSTR-ACRONYM, $additionalIdentifiers, ' ', $date)"/>
-			</xsl:when>
-			<xsl:when test="$doctype = 'implementers-guide'">
-				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]"/>
-				<xsl:value-of select="$additionalIdentifiers"/>
-				<xsl:text> for </xsl:text>
-				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type='ITU-Recommendation']"/>
-				<xsl:text> </xsl:text>
-				<xsl:variable name="date" select="concat('(',substring($date_published,1,7), ')')"/>
-				<xsl:value-of select="$date"/>
-			</xsl:when>
-			<xsl:when test="$doctype = 'resolution'">
-				<!-- WTSA-16 – Resolution 1  -->
-				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:meeting/@acronym"/>
-				<xsl:text> – </xsl:text>
-				<xsl:value-of select="$doctypeTitle"/>
-				<xsl:value-of select="$additionalIdentifiers"/>
-				<xsl:text> </xsl:text>
-				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:docnumber"/>
-			</xsl:when>
-			<xsl:when test="$doctype = 'recommendation-supplement'">
-				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-Supplement-Short']"/>
-				<xsl:value-of select="$additionalIdentifiers"/>
-				<xsl:text> </xsl:text>
-				<xsl:value-of select="$docdate"/>
-			</xsl:when>
-			<xsl:when test="$doctype = 'service-publication'">
-				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-lang']"/>
-				<xsl:value-of select="$additionalIdentifiers"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="concat($footerprefix, $docname, $additionalIdentifiers, ' ', $docdate)"/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-
-	<xsl:variable name="isAmendment" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:amendment[@language = $lang])"/>
-	<xsl:variable name="isCorrigendum" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:corrigendum[@language = $lang])"/>
-
-	<xsl:variable name="TDnumber" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-TemporaryDocument'])"/>
-	<xsl:variable name="provisionalIdentifier" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-provisional'])"/>
-
-	<xsl:variable name="en_dash_separator"> – </xsl:variable>
-
-	<xsl:variable name="layoutVersion_">
-		<xsl:choose>
-			<xsl:when test="$document_scheme = '' or $document_scheme = 'current'">2023</xsl:when>
-			<xsl:otherwise>default</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-	<xsl:variable name="layoutVersion" select="normalize-space($layoutVersion_)"/>
-
-	<xsl:variable name="color_cover_title_value" select="normalize-space(/itu:itu-standard/itu:metanorma-extension/itu:presentation-metadata/itu:color-cover-title)"/>
-	<xsl:variable name="color_cover_title_">
-		<xsl:value-of select="$color_cover_title_value"/>
-		<xsl:if test="$color_cover_title_value = ''">black</xsl:if>
-	</xsl:variable>
-	<xsl:variable name="color_cover_title" select="normalize-space($color_cover_title_)"/>
-
-	<xsl:variable name="cover_header_hide_value" select="normalize-space(/itu:itu-standard/itu:metanorma-extension/itu:presentation-metadata/itu:cover-header-hide)"/>
-	<xsl:variable name="cover_header_hide_">
-		<xsl:value-of select="$cover_header_hide_value"/>
-		<xsl:if test="$cover_header_hide_value = ''">false</xsl:if>
-	</xsl:variable>
-	<xsl:variable name="cover_header_hide" select="normalize-space($cover_header_hide_)"/>
-
-	<xsl:variable name="color_cover_itu_logo_value" select="normalize-space(/itu:itu-standard/itu:metanorma-extension/itu:presentation-metadata/itu:color-cover-itu-logo)"/>
-	<xsl:variable name="color_cover_itu_logo_">
-		<xsl:value-of select="$color_cover_itu_logo_value"/>
-		<xsl:if test="$color_cover_itu_logo_value = ''">#1DA0DB</xsl:if>
-	</xsl:variable>
-	<xsl:variable name="color_cover_itu_logo" select="normalize-space($color_cover_itu_logo_)"/>
-
-	<xsl:variable name="i18n_international_telecommunication_union"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">international_telecommunication_union</xsl:with-param></xsl:call-template></xsl:variable>
-	<xsl:variable name="i18n_edition"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">edition</xsl:with-param></xsl:call-template></xsl:variable>
-	<xsl:variable name="i18n_edition_Capitalized"><xsl:call-template name="capitalize"><xsl:with-param name="str" select="$i18n_edition"/></xsl:call-template></xsl:variable>
-	<xsl:variable name="i18n_annex"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">annex</xsl:with-param></xsl:call-template></xsl:variable>
-	<xsl:variable name="i18n_annex_to_itu_ob"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">annex_to_itu_ob</xsl:with-param></xsl:call-template></xsl:variable>
-	<xsl:variable name="i18n_number_abbrev"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">number_abbrev</xsl:with-param></xsl:call-template></xsl:variable>
-	<xsl:variable name="i18n_tsb"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">tsb</xsl:with-param></xsl:call-template></xsl:variable>
-	<xsl:variable name="i18n_tsb_full"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">tsb_full</xsl:with-param><xsl:with-param name="formatted">true</xsl:with-param></xsl:call-template></xsl:variable>
-	<xsl:variable name="i18n_placedate"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">placedate</xsl:with-param></xsl:call-template></xsl:variable>
-	<xsl:variable name="i18n_series"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">series</xsl:with-param></xsl:call-template></xsl:variable>
-	<xsl:variable name="i18n_series_Capitalized"><xsl:call-template name="capitalize"><xsl:with-param name="str" select="$i18n_series"/></xsl:call-template></xsl:variable>
-	<xsl:variable name="i18n_keywords"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">keywords</xsl:with-param></xsl:call-template></xsl:variable>
-	<xsl:variable name="i18n_page"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">Page.sg</xsl:with-param></xsl:call-template></xsl:variable>
 
 	<xsl:template match="/">
 		<xsl:call-template name="namespaceCheck"/>
@@ -189,13 +58,7 @@
 					<!-- <xsl:if test="$lang != 'ar'">
 						<xsl:attribute name="xml:lang"><xsl:value-of select="$lang"/></xsl:attribute>
 					</xsl:if> -->
-					<xsl:if test="$doctype = 'resolution'">
-						<xsl:attribute name="font-size">11pt</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$doctype = 'service-publication'">
-						<xsl:attribute name="font-size">11pt</xsl:attribute>
-						<xsl:attribute name="font-family">Arial, STIX Two Math</xsl:attribute>
-					</xsl:if>
+
 					<xsl:call-template name="setWritingMode"/>
 					<xsl:if test="$lang = 'ar'">
 						<xsl:attribute name="font-family">Traditional Arabic, Times New Roman, STIX Two Math</xsl:attribute>
@@ -351,1254 +214,1495 @@
 				<xsl:with-param name="contents" select="$contents"/>
 			</xsl:call-template>
 
-			<xsl:variable name="annexid" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:annexid)"/>
-
-			<!-- ============================================= -->
-			<!-- Cover page -->
-			<!-- ============================================= -->
-
-			<xsl:choose>
-				<xsl:when test="$layoutVersion = '2023'">
-					<!-- cover page, version 2023 -->
-					<fo:page-sequence master-reference="cover-page_2023" writing-mode="lr-tb" font-family="Arial" font-size="12pt">
-						<fo:static-content flow-name="header" role="artifact" id="__internal_layout__coverpage_header_{generate-id()}">
-							<!-- background cover image -->
-							<xsl:call-template name="insertBackgroundPageImage"/>
-							<xsl:choose>
-								<xsl:when test="$cover_header_hide = 'false'">
-									<fo:block-container margin-left="13mm">
-										<xsl:call-template name="setWritingMode"/>
-										<fo:block-container margin-left="0mm">
-
-											<fo:table width="185.5mm" table-layout="fixed" margin-top="11.5mm">
-												<fo:table-column column-width="proportional-column-width(1)"/>
-												<fo:table-column column-width="proportional-column-width(1)"/>
-												<fo:table-body>
-													<fo:table-row height="7mm" font-weight="bold">
-														<fo:table-cell text-align="start">
-															<fo:block font-size="16pt">
-																<xsl:if test="$lang != 'ar'">
-																	<fo:inline color="rgb(0,156,214)">ITU</fo:inline>
-																</xsl:if>
-																<xsl:choose>
-																	<xsl:when test="$lang = 'es'">Publicaciones</xsl:when>
-																	<xsl:when test="$lang = 'ru'">Публикации</xsl:when>
-																	<xsl:when test="$lang = 'zh'">出版物</xsl:when>
-																	<xsl:when test="$lang = 'ar'">منشورات<fo:inline color="rgb(0,156,214)">ITU</fo:inline></xsl:when>
-																	<xsl:otherwise>Publications</xsl:otherwise> <!-- default, en or fr -->
-																</xsl:choose>
-															</fo:block>
-														</fo:table-cell>
-														<fo:table-cell text-align="end" display-align="center">
-															<fo:block>
-																<xsl:value-of select="$i18n_international_telecommunication_union"/>
-															</fo:block>
-														</fo:table-cell>
-													</fo:table-row>
-													<fo:table-row>
-														<!-- collection/series (optional) -->
-														<fo:table-cell text-align="start">
-															<fo:block>
-																<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'collection']"/>
-															</fo:block>
-														</fo:table-cell>
-														<!-- Sector or Bureau name -->
-														<fo:table-cell text-align="end">
-															<fo:block>
-																<xsl:variable name="sector" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:sector)"/>
-																<xsl:value-of select="$sector"/>
-																<xsl:if test="$sector = ''">
-																	<xsl:variable name="bureau_key">
-																		<xsl:choose>
-																			<xsl:when test="$bureau = 'T'">tsb</xsl:when>
-																			<xsl:when test="$bureau = 'R'">br</xsl:when>
-																			<xsl:when test="$bureau = 'D'">bdt</xsl:when>
-																		</xsl:choose>
-																	</xsl:variable>
-																	<xsl:call-template name="getLocalizedString">
-																		<xsl:with-param name="key"><xsl:value-of select="$bureau_key"/>_short</xsl:with-param>
-																	</xsl:call-template>
-																</xsl:if>
-															</fo:block>
-														</fo:table-cell>
-													</fo:table-row>
-												</fo:table-body>
-											</fo:table>
-										</fo:block-container>
-									</fo:block-container>
-									<xsl:if test="$doctype != 'service-publication'">
-										<fo:block margin-top="3.4mm">
-											<xsl:call-template name="setWritingMode"/>
-											<fo:instream-foreign-object fox:alt-text="Color bar">
-												<xsl:call-template name="insertImageCoverColorBand"/>
-											</fo:instream-foreign-object>
-										</fo:block>
-									</xsl:if>
-								</xsl:when>
-								<xsl:otherwise><fo:block> </fo:block></xsl:otherwise>
-							</xsl:choose>
-						</fo:static-content>
-						<fo:static-content flow-name="footer" role="artifact">
-							<fo:block text-align="right" margin-left="13mm" margin-right="13.3mm">
-								<xsl:if test="$lang = 'ar'">
-									<xsl:attribute name="text-align">left</xsl:attribute>
-								</xsl:if>
-								<fo:instream-foreign-object content-width="20.5mm" fox:alt-text="Image Logo">
-									<xsl:copy-of select="$Image-ITU-Globe-Logo-Blue"/>
-								</fo:instream-foreign-object>
-							</fo:block>
-						</fo:static-content>
-						<fo:flow flow-name="xsl-region-body">
-							<fo:block-container font-size="22pt" font-weight="bold" color="{$color_cover_title}">
-								<xsl:call-template name="setWritingMode"/>
-
-								<xsl:choose>
-
-									<xsl:when test="$doctype = 'service-publication'"> <!-- Flagship -->
-										<fo:block margin-top="11.5mm" font-size="34pt">
-											<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'main' and @language = $lang]"/>
-										</fo:block>
-										<fo:block margin-top="2mm" font-size="26pt">
-											<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'subtitle' and @language = $lang]"/>
-										</fo:block>
-										<!-- https://github.com/metanorma/metanorma-itu/issues/474#issuecomment-1966298384 -->
-										<xsl:variable name="title_slogan" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:title[@type = 'slogan'])"/>
-										<xsl:if test="$title_slogan != ''">
-											<fo:block margin-top="2mm" font-family="Adelle Devanagari" font-size="26pt">
-												<xsl:choose>
-													<xsl:when test="$lang = 'ar'"><xsl:attribute name="font-family">Traditional Arabic</xsl:attribute></xsl:when>
-													<xsl:when test="$lang = 'zh'"><xsl:attribute name="font-family">STKaiti</xsl:attribute></xsl:when>
-													<!-- <xsl:otherwise><xsl:attribute name="font-style">italic</xsl:attribute></xsl:otherwise> -->
-												</xsl:choose>
-												<xsl:value-of select="$title_slogan"/>
-											</fo:block>
-										</xsl:if>
-										<xsl:variable name="year_published" select="substring($date_published,1,4)"/>
-										<xsl:if test="$year_published != ''">
-											<!-- Examples:
-												2020 edition
-												Édition 2020
-												Edición 2020
-												طبعة 2020
-												2020 年版
-												Издание 2020 года  -->
-											<fo:block margin-top="3mm" font-size="22pt">
-												<xsl:choose>
-													<xsl:when test="$lang = 'en' or $lang = 'ar' or $lang = 'zh'">
-														<xsl:value-of select="concat($year_published, ' ', $i18n_edition)"/>
-													</xsl:when>
-													<xsl:otherwise>
-														<xsl:value-of select="concat($i18n_edition_Capitalized, ' ', $year_published)"/>
-														<xsl:if test="$lang = 'ru'"> года</xsl:if>
-													</xsl:otherwise>
-												</xsl:choose>
-											</fo:block>
-										</xsl:if>
-									</xsl:when> <!-- $doctype = 'service-publication' -->
-
-									<xsl:otherwise>
-										<fo:block margin-top="11.5mm">
-											<xsl:choose>
-												<xsl:when test="$doctype = 'technical-report' or $doctype = 'technical-paper'">
-													<!-- Example: ITU-T Technical Paper -->
-													<xsl:value-of select="$docidentifier_ITU_left_part"/>
-													<xsl:text> </xsl:text>
-													<xsl:value-of select="$doctypeTitle"/>
-												</xsl:when>
-												<xsl:when test="$doctype = 'implementers-guide'">
-													<xsl:value-of select="$docidentifier_ITU_left_part"/>
-													<xsl:text> </xsl:text>
-													<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type='ITU-Recommendation']"/>
-													<xsl:text> </xsl:text>
-													<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]"/>
-												</xsl:when>
-												<xsl:when test="$doctype = 'resolution'">
-													<xsl:value-of select="$doctypeTitle"/>
-													<xsl:text> </xsl:text>
-													<xsl:value-of select="$docidentifier_ITU_left_part"/>
-												</xsl:when>
-												<xsl:otherwise>
-													<xsl:value-of select="$doctypeTitle"/>
-													<xsl:text> </xsl:text>
-													<xsl:value-of select="$docidentifier_ITU"/>
-												</xsl:otherwise>
-											</xsl:choose>
-										</fo:block>
-
-										<fo:block-container font-size="14pt" margin-top="1mm" margin-right="2mm">
-											<xsl:if test="$bureau = 'T'">
-												<xsl:attribute name="text-align">end</xsl:attribute>
-											</xsl:if>
-											<fo:block-container margin-right="0mm">
-
-												<xsl:variable name="additional_block">
-													<!-- Examples:
-														Amendment 1
-														Supplement 37 -->
-													<xsl:if test="$TDnumber != ''">
-														<fo:block-container>
-															<xsl:call-template name="setWritingMode"/>
-															<fo:block>TD number: <xsl:value-of select="$TDnumber"/></fo:block>
-														</fo:block-container>
-													</xsl:if>
-													<xsl:if test="$provisionalIdentifier != ''">
-														<fo:block-container>
-															<xsl:call-template name="setWritingMode"/>
-															<fo:block>Provisional identifier: <xsl:value-of select="$provisionalIdentifier"/>
-															</fo:block>
-														</fo:block-container>
-													</xsl:if>
-													<xsl:if test="$annexid != ''">
-														<fo:block-container>
-															<xsl:call-template name="setWritingMode"/>
-															<fo:block>
-																<xsl:value-of select="$i18n_annex"/>
-																<xsl:text> </xsl:text>
-																<xsl:value-of select="$annexid"/>
-															</fo:block>
-														</fo:block-container>
-													</xsl:if>
-													<xsl:if test="$isAmendment != ''">
-														<fo:block-container>
-															<xsl:call-template name="setWritingMode"/>
-															<fo:block><xsl:value-of select="$isAmendment"/></fo:block>
-														</fo:block-container>
-													</xsl:if>
-													<xsl:if test="$isCorrigendum != ''">
-														<fo:block-container>
-															<xsl:call-template name="setWritingMode"/>
-															<fo:block><xsl:value-of select="$isCorrigendum"/></fo:block>
-														</fo:block-container>
-													</xsl:if>
-
-													<!-- Date, example: (11/2018) -->
-													<xsl:choose>
-														<xsl:when test="($doctype = 'technical-report' or $doctype = 'technical-paper') and /itu:itu-standard/itu:bibdata/itu:version/itu:revision-date">
-															<xsl:call-template name="formatMeetingDate">
-																<xsl:with-param name="date" select="/itu:itu-standard/itu:bibdata/itu:version/itu:revision-date"/>
-																<xsl:with-param name="inParenthesis">true</xsl:with-param>
-															</xsl:call-template>
-														</xsl:when>
-														<xsl:otherwise>
-															<xsl:call-template name="formatDate">
-																<xsl:with-param name="date" select="$date_published"/>
-															</xsl:call-template>
-														</xsl:otherwise>
-													</xsl:choose>
-												</xsl:variable>
-												<fo:block>
-													<xsl:copy-of select="$additional_block"/>
-													<xsl:if test="normalize-space($additional_block) = ''"> </xsl:if>
-												</fo:block>
-											</fo:block-container>
-										</fo:block-container> <!-- end of additional block -->
-
-										<xsl:if test="$doctype = 'resolution'">
-											<fo:block margin-bottom="6pt">
-												<xsl:call-template name="insertMeetingInfo"/>
-											</fo:block>
-										</xsl:if>
-
-										<!-- Series: -->
-										<xsl:variable name="series">
-											<xsl:call-template name="insertSeriesTitleMain"/>
-											<xsl:choose>
-												<xsl:when test="$doctype = 'recommendation-supplement'"/>
-												<xsl:otherwise>
-													<xsl:if test="/itu:itu-standard/itu:bibdata/itu:series">
-														<fo:block font-weight="normal" margin-top="4mm">
-															<xsl:call-template name="insertSeriesTitleAdditional"/>
-														</fo:block>
-													</xsl:if>
-												</xsl:otherwise>
-											</xsl:choose>
-										</xsl:variable>
-
-										<xsl:if test="normalize-space($series) != ''">
-											<fo:block-container margin-right="5mm">
-												<fo:block-container margin-right="0mm">
-													<fo:block font-size="18pt" margin-top="5mm">
-														<xsl:copy-of select="$series"/>
-													</fo:block>
-													<fo:block>
-														<fo:leader leader-pattern="rule" rule-thickness="1pt" leader-length="100%"/>
-													</fo:block>
-												</fo:block-container>
-											</fo:block-container>
-										</xsl:if>
-
-										<fo:block role="H1">
-											<!-- margin-top="24mm" -->
-											<xsl:if test="($doctype = 'technical-report' or $doctype = 'technical-paper') and $docnumber != ''">
-												<xsl:attribute name="margin-top">3mm</xsl:attribute>
-												<xsl:value-of select="$docnumber"/>
-											</xsl:if>
-										</fo:block>
-
-										<fo:block margin-top="3pt">
-											<xsl:if test="$doctype = 'implementers-guide'">
-												<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]"/>
-												<xsl:text> for </xsl:text>
-											</xsl:if>
-											<xsl:if test="$doctype = 'resolution'">
-												<!-- Resolution 1 -->
-												<xsl:value-of select="$doctypeTitle"/>
-												<xsl:text> </xsl:text>
-												<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:docnumber"/>
-												<xsl:value-of select="$en_dash_separator"/>
-											</xsl:if>
-											<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'main' and @language = $lang]"/>
-										</fo:block>
-
-										<!-- Example: Annex F1 - ... -->
-										<xsl:for-each select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'annex' and @language = $lang]">
-											<fo:block font-size="18pt" margin-top="3mm" role="H1">
-												<xsl:value-of select="$i18n_annex"/>
-												<xsl:text> </xsl:text>
-												<xsl:value-of select="$annexid"/>
-												<xsl:value-of select="$en_dash_separator"/>
-												<xsl:value-of select="."/>
-											</fo:block>
-										</xsl:for-each>
-
-										<!-- Example: Amendment 1 - ... -->
-										<xsl:if test="$isAmendment != ''">
-											<fo:block margin-top="3mm" role="H1">
-												<xsl:value-of select="$isAmendment"/>
-												<xsl:variable name="title_amendment" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:title[@type = 'amendment'])"/>
-												<xsl:if test="$title_amendment != ''">
-													<xsl:value-of select="$en_dash_separator"/>
-													<xsl:value-of select="$title_amendment"/>
-												</xsl:if>
-											</fo:block>
-										</xsl:if>
-										<!-- Example: Corrigendum 1 - ... -->
-										<xsl:if test="$isCorrigendum != ''">
-											<fo:block margin-top="3mm" role="H1">
-												<xsl:value-of select="$isCorrigendum"/>
-												<xsl:variable name="title_corrigendum" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:title[@type = 'corrigendum'])"/>
-												<xsl:if test="$title_corrigendum != ''">
-													<xsl:value-of select="$en_dash_separator"/>
-													<xsl:value-of select="$title_corrigendum"/>
-												</xsl:if>
-											</fo:block>
-										</xsl:if>
-
-										<xsl:if test="/itu:itu-standard/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']">
-											<fo:block-container margin-left="1mm" margin-right="1mm" border="0.7mm solid black" margin-top="5mm">
-												<fo:block-container margin-left="1mm" margin-right="1mm">
-													<fo:block padding-top="3mm">
-														<xsl:apply-templates select="/itu:itu-standard/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']" mode="caution"/>
-													</fo:block>
-												</fo:block-container>
-											</fo:block-container>
-										</xsl:if>
-
-										<xsl:if test="$doctype = 'recommendation-supplement'">
-											<fo:block font-size="16pt" margin-top="3mm">
-												<xsl:if test="/itu:itu-standard/itu:bibdata/itu:status/itu:stage = 'draft'">Draft </xsl:if>
-												<xsl:text>ITU-</xsl:text>
-												<xsl:value-of select="$bureau"/>
-												<xsl:text> </xsl:text>
-												<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-Supplement']"/>
-											</fo:block>
-										</xsl:if>
-									</xsl:otherwise>
-
-								</xsl:choose>
-
-							</fo:block-container>
-						</fo:flow>
-					</fo:page-sequence>
-					<!-- Second cover page -->
-					<xsl:variable name="secondCoverPageData_">
-						<xsl:call-template name="insertBackgroundPageImage">
-							<xsl:with-param name="number">2</xsl:with-param>
-						</xsl:call-template>
-					</xsl:variable>
-					<xsl:variable name="secondCoverPageData" select="xalan:nodeset($secondCoverPageData_)"/>
-					<xsl:if test="$secondCoverPageData//*[self::fo:instream-foreign-object or self::fo:external-graphic]">
-						<fo:page-sequence master-reference="cover-page_2023">
-							<fo:static-content flow-name="header" role="artifact" id="__internal_layout__coverpage2_header_{generate-id()}">
-								<xsl:copy-of select="$secondCoverPageData"/>
-							</fo:static-content>
-							<fo:flow flow-name="xsl-region-body">
-								<fo:block> </fo:block>
-							</fo:flow>
-						</fo:page-sequence>
-					</xsl:if> <!-- End: Second cover page -->
-				</xsl:when> <!-- $layoutVersion = '2023' -->
-
-				<xsl:otherwise>
-
-					<xsl:choose>
-						<xsl:when test="$doctype = 'technical-report' or               $doctype = 'technical-paper' or              $doctype = 'implementers-guide'">
-							<fo:page-sequence master-reference="TR-first-page">
-								<fo:flow flow-name="xsl-region-body">
-										<fo:block>
-											<fo:table width="175mm" table-layout="fixed" border-top="1.5pt solid black" id="__internal_layout__meeting_{generate-id()}">
-												<fo:table-column column-width="29mm"/>
-												<fo:table-column column-width="45mm"/>
-												<fo:table-column column-width="28mm"/>
-												<fo:table-column column-width="72mm"/>
-												<fo:table-body>
-													<fo:table-row>
-														<fo:table-cell padding-left="1mm" padding-top="3mm">
-																<fo:block font-weight="bold">Question(s):</fo:block>
-														</fo:table-cell>
-														<fo:table-cell padding-top="3mm">
-																<fo:block><xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:group/itu:name"/></fo:block>
-														</fo:table-cell>
-														<fo:table-cell padding-top="3mm">
-																<fo:block font-weight="bold">Meeting, date:</fo:block>
-														</fo:table-cell>
-														<fo:table-cell padding-top="3mm" text-align="right" padding-right="1mm">
-															<fo:block>
-																<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:meeting"/>
-																<xsl:text>, </xsl:text>
-																<xsl:call-template name="formatMeetingDate">
-																	<xsl:with-param name="date" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:meeting-date/itu:from"/>
-																</xsl:call-template>
-																<xsl:text>/</xsl:text>
-																<xsl:call-template name="formatMeetingDate">
-																	<xsl:with-param name="date" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:meeting-date/itu:to"/>
-																</xsl:call-template>
-															</fo:block>
-														</fo:table-cell>
-													</fo:table-row>
-												</fo:table-body>
-											</fo:table>
-
-											<fo:table width="175mm" table-layout="fixed" id="__internal_layout__groups_{generate-id()}">
-												<fo:table-column column-width="29mm"/>
-												<fo:table-column column-width="10mm"/>
-												<fo:table-column column-width="35mm"/>
-												<fo:table-column column-width="9mm"/>
-												<fo:table-column column-width="83mm"/>
-												<fo:table-column column-width="6mm"/>
-												<fo:table-body>
-													<fo:table-row>
-														<fo:table-cell padding-left="1mm" padding-top="2mm">
-															<fo:block font-weight="bold">Study Group:</fo:block>
-														</fo:table-cell>
-														<fo:table-cell padding-top="2mm">
-															<xsl:variable name="subgroup" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:subgroup/itu:name"/>
-															<fo:block><xsl:value-of select="java:replaceAll(java:java.lang.String.new($subgroup),'(.)','$1​')"/></fo:block>
-														</fo:table-cell>
-														<fo:table-cell padding-top="2mm">
-															<fo:block font-weight="bold">Working Party:</fo:block>
-														</fo:table-cell>
-														<fo:table-cell padding-top="2mm">
-															<xsl:variable name="workgroup" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:workgroup/itu:name"/>
-															<fo:block><xsl:value-of select="java:replaceAll(java:java.lang.String.new($workgroup),'(.)','$1​')"/></fo:block>
-														</fo:table-cell>
-														<fo:table-cell padding-top="2mm">
-															<fo:block font-weight="bold">Intended type of document <fo:inline font-weight="normal">(R-C-TD)</fo:inline>:</fo:block>
-														</fo:table-cell>
-														<fo:table-cell padding-top="2mm">
-															<fo:block font-weight="normal"><xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:intended-type"/></fo:block>
-														</fo:table-cell>
-													</fo:table-row>
-													<fo:table-row>
-														<fo:table-cell padding-left="1mm" padding-top="2mm">
-															<fo:block font-weight="bold">Source:</fo:block>
-														</fo:table-cell>
-														<fo:table-cell number-columns-spanned="4" padding-top="2mm">
-															<fo:block><xsl:value-of select="java:toUpperCase(java:java.lang.String.new(/itu:itu-standard/itu:bibdata/itu:ext/itu:source))"/></fo:block>
-														</fo:table-cell>
-													</fo:table-row>
-													<fo:table-row>
-														<fo:table-cell padding-left="1mm" padding-top="2mm">
-															<fo:block font-weight="bold">Title:</fo:block>
-														</fo:table-cell>
-														<fo:table-cell number-columns-spanned="4" padding-top="2mm">
-															<fo:block role="H1"><xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@language='en' and @type='main']"/></fo:block>
-														</fo:table-cell>
-													</fo:table-row>
-												</fo:table-body>
-											</fo:table>
-
-											<xsl:if test="/itu:itu-standard/itu:bibdata/itu:contributor/itu:person">
-												<fo:table width="175mm" table-layout="fixed" line-height="110%" id="__internal_layout__person_{generate-id()}">
-													<fo:table-column column-width="29mm"/>
-													<fo:table-column column-width="75mm"/>
-													<fo:table-column column-width="71mm"/>
-													<fo:table-body>
-														<xsl:for-each select="/itu:itu-standard/itu:bibdata/itu:contributor/itu:person">
-															<fo:table-row border-top="1.5pt solid black">
-																<xsl:if test="position() = last()">
-																	<xsl:attribute name="border-bottom">1.5pt solid black</xsl:attribute>
-																</xsl:if>
-																<fo:table-cell padding-left="1mm" padding-top="2.5mm">
-																	<fo:block font-weight="bold">Contact:</fo:block>
-																</fo:table-cell>
-																<fo:table-cell padding-top="3mm">
-																	<fo:block><xsl:value-of select="itu:name/itu:completename"/></fo:block>
-																	<fo:block><xsl:value-of select="itu:affiliation/itu:organization/itu:name"/></fo:block>
-																	<fo:block><xsl:value-of select="itu:affiliation/itu:organization/itu:address/itu:formattedAddress"/></fo:block>
-																</fo:table-cell>
-																<fo:table-cell padding-top="3mm">
-																	<fo:block>Tel: <xsl:value-of select="itu:phone[not(@type)]"/></fo:block>
-																	<fo:block>Fax: <xsl:value-of select="itu:phone[@type = 'fax']"/></fo:block>
-																	<fo:block>E-mail: <xsl:value-of select="itu:email"/></fo:block>
-																</fo:table-cell>
-															</fo:table-row>
-														</xsl:for-each>
-													</fo:table-body>
-												</fo:table>
-											</xsl:if>
-											<fo:block space-before="0.5mm" font-size="9pt" margin-left="1mm">Please do not change the structure of this table, just insert the necessary information.</fo:block>
-											<fo:block space-before="6pt">&lt;INSERT TEXT&gt;</fo:block>
-										</fo:block>
-								</fo:flow>
-							</fo:page-sequence>
-						</xsl:when>
-						<!-- ============================================= -->
-						<!-- Cover page for service-publication -->
-						<!-- ============================================= -->
-						<xsl:when test="$doctype = 'service-publication'">
-							<fo:page-sequence master-reference="SP-first-page" force-page-count="no-force">
-								<fo:flow flow-name="xsl-region-body">
-									<fo:block font-size="10pt" font-style="italic" text-align="center">
-										<xsl:if test="$lang = 'ar'"> <!-- to prevent rendering `###` due the missing Arabic glyphs in the italic font (Times New Roman) -->
-											<xsl:attribute name="font-style">normal</xsl:attribute>
-										</xsl:if>
-										<fo:block>
-											<xsl:value-of select="$i18n_annex_to_itu_ob"/>
-										</fo:block>
-										<fo:block>
-											<xsl:value-of select="$i18n_number_abbrev"/>
-											<xsl:value-of select="/*/itu:bibdata/itu:docnumber"/>
-											<xsl:text> – </xsl:text>
-											<xsl:value-of select="translate(normalize-space(/*/itu:bibdata/itu:date[@type='published' and @format]),' ','')"/>
-										</fo:block>
-									</fo:block>
-
-									<fo:block font-size="14pt" margin-top="7mm">
-										<fo:block font-weight="bold">
-											<fo:inline baseline-shift="-140%" padding-right="6mm">
-												<xsl:if test="$lang = 'ar'">
-													<xsl:attribute name="padding-right">0mm</xsl:attribute>
-													<xsl:attribute name="padding-left">6mm</xsl:attribute>
-												</xsl:if>
-												<fo:instream-foreign-object content-height="18.5mm" content-width="16.1mm" fox:alt-text="Image Logo">
-													<xsl:copy-of select="$Image-ITU-Globe-Logo"/>
-												</fo:instream-foreign-object>
-											</fo:inline>
-											<xsl:value-of select="java:toUpperCase(java:java.lang.String.new($i18n_international_telecommunication_union))"/>
-										</fo:block>
-									</fo:block>
-									<fo:block-container margin-left="10mm">
-										<fo:block-container margin-left="0mm">
-
-											<fo:block font-size="20pt" font-weight="bold" space-before="30mm">
-												<xsl:value-of select="$i18n_tsb"/>
-											</fo:block>
-											<fo:block font-size="14pt" font-weight="bold">
-												<xsl:value-of select="java:toUpperCase(java:java.lang.String.new($i18n_tsb_full))"/>
-											</fo:block>
-											<fo:block-container height="20mm" display-align="center" width="90%">
-												<fo:block font-weight="bold">
-													<!-- complements -->
-													<!-- To do: Example: COMPLEMENT  TO  ITU-T  RECOMMENDATIONS  F.69  (06/1994) AND  F.68  (11/1988) -->
-													<fo:inline>COMPLEMENT TO ITU-T RECOMMENDATIONS  </fo:inline>
-													<xsl:for-each select="/*/itu:bibdata/itu:relation[@type = 'complements']">
-														<xsl:value-of select="translate(itu:bibitem/itu:docidentifier, ' ', ' ')"/>
-														<xsl:choose>
-															<xsl:when test="count(following-sibling::itu:relation[@type = 'complements']) = 1"> AND </xsl:when>
-															<xsl:when test="following-sibling::itu:relation[@type = 'complements']">, </xsl:when>
-														</xsl:choose>
-													</xsl:for-each>
-												</fo:block>
-											</fo:block-container>
-											<fo:block-container>
-												<fo:block font-size="1pt"><fo:leader leader-pattern="rule" leader-length="90%" rule-style="solid" rule-thickness="1pt"/></fo:block>
-												<fo:block-container height="75mm" display-align="center">
-													<xsl:variable name="title_main" select="/*/itu:bibdata/itu:title[@type='main' and @language = $lang]"/>
-													<xsl:variable name="series_main" select="normalize-space(/*/itu:bibdata/itu:series[@type='main']/itu:title)"/>
-													<xsl:variable name="series_secondary" select="normalize-space(/*/itu:bibdata/itu:series[@type='secondary']/itu:title)"/>
-													<xsl:variable name="series_tertiary" select="normalize-space(/*/itu:bibdata/itu:series[@type='tertiary']/itu:title)"/>
-													<fo:block font-weight="bold" role="H1">
-														<xsl:choose>
-															<xsl:when test="$series_main != '' and $series_secondary != '' and $series_tertiary = ''">
-																<fo:block font-size="16pt">
-																	<xsl:value-of select="$series_main"/>
-																</fo:block>
-																<fo:block font-size="14pt">
-																	<xsl:if test="not(starts-with($series_secondary, '('))">
-																		<xsl:text>(</xsl:text>
-																	</xsl:if>
-																	<xsl:value-of select="$series_secondary"/>
-																	<xsl:if test="not(starts-with($series_secondary, '('))">
-																		<xsl:text>)</xsl:text>
-																	</xsl:if>
-																</fo:block>
-															</xsl:when>
-															<xsl:when test="$series_main != '' and $series_secondary != '' and $series_tertiary != ''">
-																<fo:block font-size="16pt">
-																	<xsl:value-of select="$series_main"/>
-																</fo:block>
-																<fo:block font-size="14pt">
-																	<xsl:if test="not(starts-with($series_secondary, '('))">
-																		<xsl:text>(</xsl:text>
-																	</xsl:if>
-																	<xsl:value-of select="$series_secondary"/>
-																	<xsl:if test="not(starts-with($series_secondary, '('))">
-																		<xsl:text>)</xsl:text>
-																	</xsl:if>
-																</fo:block>
-																<fo:block font-size="12pt" space-before="12pt" space-after="12pt">
-																	<xsl:value-of select="$series_tertiary"/>
-																</fo:block>
-																<fo:block font-size="16pt">
-																	<xsl:value-of select="$title_main"/>
-																</fo:block>
-															</xsl:when>
-															<xsl:when test="$series_main != '' and $series_secondary = '' and $series_tertiary = ''">
-																<fo:block font-size="16pt">
-																	<xsl:value-of select="$title_main"/>
-																</fo:block>
-																<fo:block font-size="14pt">
-																	<xsl:if test="not(starts-with($series_main, '('))">
-																		<xsl:text>(</xsl:text>
-																	</xsl:if>
-																	<xsl:value-of select="$series_main"/>
-																	<xsl:if test="not(starts-with($series_main, '('))">
-																		<xsl:text>)</xsl:text>
-																	</xsl:if>
-																</fo:block>
-															</xsl:when>
-															<xsl:otherwise>
-																<fo:block font-size="16pt">
-																	<xsl:value-of select="$title_main"/>
-																</fo:block>
-															</xsl:otherwise>
-														</xsl:choose>
-													</fo:block>
-
-													<fo:block font-size="14pt">
-													</fo:block>
-													<fo:block font-size="14pt">
-														<fo:block> </fo:block>
-														<xsl:variable name="position-sp" select="/*/itu:bibdata/itu:title[@type='position-sp' and @language = $lang]"/>
-														<xsl:value-of select="java:toUpperCase(java:java.lang.String.new($position-sp))"/>
-													</fo:block>
-												</fo:block-container>
-												<fo:block font-size="1pt"><fo:leader leader-pattern="rule" leader-length="90%" rule-style="solid" rule-thickness="1pt"/></fo:block>
-											</fo:block-container>
-
-										</fo:block-container>
-									</fo:block-container>
-
-									<fo:block space-before="25mm" font-weight="bold">
-										<xsl:variable name="year" select="substring(/*/itu:bibdata/itu:date[@type = 'published']/itu:on,1,4)"/>
-										<xsl:if test="normalize-space($year) != ''">
-											<xsl:value-of select="java:replaceAll(java:java.lang.String.new($i18n_placedate),'%',$year)"/>
-										</xsl:if>
-									</fo:block>
-								</fo:flow>
-							</fo:page-sequence>
-						</xsl:when>
-						<!-- ============================================= -->
-						<!-- END Cover page for service-publication -->
-						<!-- ============================================= -->
-					</xsl:choose>
-
-					<xsl:if test="$doctype != 'service-publication'">
-						<!-- cover page -->
-						<fo:page-sequence master-reference="cover-page" writing-mode="lr-tb">
-							<xsl:if test="$doctype = 'resolution'">
-								<xsl:attribute name="force-page-count">no-force</xsl:attribute>
-							</xsl:if>
-							<fo:flow flow-name="xsl-region-body">
-
-								<fo:block-container absolute-position="fixed" top="255mm">
-									<fo:block text-align="right" margin-right="19mm">
-										<xsl:choose>
-											<xsl:when test="$doctype = 'resolution'">
-												<fo:external-graphic src="{concat('data:image/png;base64,', normalize-space($Image-Logo_resolution))}" content-height="21mm" content-width="scale-to-fit" scaling="uniform" fox:alt-text="Image Logo"/>
-											</xsl:when>
-											<xsl:otherwise>
-												<!-- <fo:external-graphic src="{concat('data:image/png;base64,', normalize-space($Image-Logo))}" content-height="17.7mm" content-width="scale-to-fit" scaling="uniform" fox:alt-text="Image Logo"/> -->
-												<fo:instream-foreign-object content-width="24.1mm" fox:alt-text="Image Logo ITU">
-													<xsl:copy-of select="$Image-ITU-Globe-Logo-Blue"/>
-												</fo:instream-foreign-object>
-											</xsl:otherwise>
-										</xsl:choose>
-									</fo:block>
-								</fo:block-container>
-
-								<fo:block-container absolute-position="fixed" left="-7mm" top="0" font-size="0">
-									<fo:block text-align="left">
-										<fo:external-graphic src="{concat('data:image/png;base64,', normalize-space($Image-Fond-Rec))}" width="43.6mm" content-height="299.2mm" content-width="scale-to-fit" scaling="uniform" fox:alt-text="Image Cover Page"/>
-									</fo:block>
-								</fo:block-container>
-								<fo:block-container font-family="Arial">
-									<fo:table width="100%" table-layout="fixed" id="__internal_layout__coverpage_{generate-id()}"> <!-- 175.4mm-->
-										<fo:table-column column-width="25.2mm"/>
-										<fo:table-column column-width="44.4mm"/>
-										<fo:table-column column-width="35.8mm"/>
-										<fo:table-column column-width="67mm"/>
-										<fo:table-body>
-											<fo:table-row height="37.5mm"> <!-- 42.5mm -->
-												<fo:table-cell>
-													<fo:block> </fo:block>
-												</fo:table-cell>
-												<fo:table-cell number-columns-spanned="3">
-													<fo:block-container>
-														<xsl:call-template name="setWritingMode"/>
-														<fo:block font-family="Arial" font-size="13pt" font-weight="bold" color="gray"> <!--  margin-top="16pt" letter-spacing="4pt", Helvetica for letter-spacing working -->
-															<fo:block><xsl:value-of select="$linebreak"/></fo:block>
-															<xsl:call-template name="addLetterSpacing">
-																<xsl:with-param name="text" select="/itu:itu-standard/itu:bibdata/itu:contributor[itu:role/@type='author']/itu:organization/itu:name"/>
-															</xsl:call-template>
-														</fo:block>
-													</fo:block-container>
-												</fo:table-cell>
-											</fo:table-row>
-											<fo:table-row>
-												<fo:table-cell>
-													<fo:block> </fo:block>
-												</fo:table-cell>
-												<fo:table-cell padding-top="2mm" padding-bottom="-1mm">
-													<fo:block-container>
-														<xsl:call-template name="setWritingMode"/>
-														<fo:block font-family="Arial" font-size="36pt" font-weight="bold" margin-top="6pt" letter-spacing="2pt"> <!-- Helvetica for letter-spacing working -->
-															<fo:block>
-																<xsl:value-of select="$docidentifier_ITU_left_part"/>
-															</fo:block>
-														</fo:block>
-													</fo:block-container>
-												</fo:table-cell>
-												<fo:table-cell padding-top="1mm" number-columns-spanned="2" padding-bottom="-1mm">
-													<fo:block-container>
-														<xsl:call-template name="setWritingMode"/>
-														<fo:block font-size="30pt" font-weight="bold" text-align="right" margin-top="12pt" padding="0mm">
-															<xsl:choose>
-																<xsl:when test="$doctype = 'technical-report' or $doctype = 'technical-paper'">
-																	<xsl:value-of select="$doctypeTitle"/>
-																</xsl:when>
-																<xsl:when test="$doctype = 'implementers-guide'">
-																	<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type='ITU-Recommendation']"/>
-																	<xsl:text> </xsl:text>
-																	<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]"/>
-																</xsl:when>
-																<xsl:when test="$doctype = 'resolution'"/>
-																<xsl:when test="$doctype = 'recommendation-supplement'">
-																	<!-- Series L -->
-																	<xsl:value-of select="$i18n_series_Capitalized"/>
-																	<xsl:text> </xsl:text>
-																	<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:series[@type='main']/itu:title[@type='abbrev']"/>
-																	<!-- Ex. Supplement 37 -->
-																	<fo:block font-size="18pt">
-																		<xsl:call-template name="getLocalizedString">
-																			<xsl:with-param name="key">doctype_dict.recommendation-supplement</xsl:with-param>
-																		</xsl:call-template>
-																		<xsl:text> </xsl:text>
-																		<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docnumber"/>
-																	</fo:block>
-																</xsl:when>
-																<xsl:otherwise>
-																	<xsl:value-of select="substring-after($docidentifier_ITU, ' ')"/>
-																</xsl:otherwise>
-															</xsl:choose>
-														</fo:block>
-													</fo:block-container>
-												</fo:table-cell>
-											</fo:table-row>
-											<xsl:variable name="additionalNumbers">
-												<xsl:if test="$TDnumber != ''">
-													<fo:block-container space-after="2pt">
-														<xsl:call-template name="setWritingMode"/>
-														<fo:block font-size="14pt">TD number: <xsl:value-of select="$TDnumber"/></fo:block>
-													</fo:block-container>
-												</xsl:if>
-												<xsl:if test="$provisionalIdentifier != ''">
-													<fo:block-container space-after="2pt">
-														<xsl:call-template name="setWritingMode"/>
-														<fo:block font-size="14pt">Provisional identifier: <xsl:value-of select="$provisionalIdentifier"/></fo:block>
-													</fo:block-container>
-												</xsl:if>
-												<xsl:if test="$annexid != ''">
-													<fo:block-container>
-														<xsl:call-template name="setWritingMode"/>
-														<fo:block font-size="18pt" font-weight="bold">
-															<xsl:value-of select="concat($i18n_annex, ' ', $annexid)"/>
-														</fo:block>
-													</fo:block-container>
-												</xsl:if>
-												<xsl:if test="$isAmendment != ''">
-													<fo:block-container>
-														<xsl:call-template name="setWritingMode"/>
-														<fo:block font-size="18pt" font-weight="bold">
-															<xsl:value-of select="$isAmendment"/>
-														</fo:block>
-													</fo:block-container>
-												</xsl:if>
-												<xsl:if test="$isCorrigendum != ''">
-													<fo:block-container>
-														<xsl:call-template name="setWritingMode"/>
-														<fo:block font-size="18pt" font-weight="bold">
-															<xsl:value-of select="$isCorrigendum"/>
-														</fo:block>
-													</fo:block-container>
-												</xsl:if>
-											</xsl:variable>
-											<fo:table-row height="17.2mm">
-												<fo:table-cell>
-													<fo:block> </fo:block>
-												</fo:table-cell>
-												<fo:table-cell font-size="10pt" number-columns-spanned="2" padding-top="1mm">
-													<fo:block-container>
-														<xsl:call-template name="setWritingMode"/>
-														<fo:block>
-															<xsl:text>TELECOMMUNICATION</xsl:text>
-														</fo:block>
-														<fo:block>
-															<xsl:text>STANDARDIZATION SECTOR</xsl:text>
-														</fo:block>
-														<fo:block>
-															<xsl:text>OF ITU</xsl:text>
-														</fo:block>
-													</fo:block-container>
-												</fo:table-cell>
-												<fo:table-cell text-align="right">
-													<xsl:copy-of select="$additionalNumbers"/>
-													<fo:block font-size="14pt">
-														<xsl:choose>
-															<xsl:when test="($doctype = 'technical-report' or $doctype = 'technical-paper') and /itu:itu-standard/itu:bibdata/itu:version/itu:revision-date">
-																<xsl:call-template name="formatMeetingDate">
-																	<xsl:with-param name="date" select="/itu:itu-standard/itu:bibdata/itu:version/itu:revision-date"/>
-																	<xsl:with-param name="inParenthesis">true</xsl:with-param>
-																</xsl:call-template>
-															</xsl:when>
-															<xsl:otherwise>
-																<xsl:call-template name="formatDate">
-																	<xsl:with-param name="date" select="$date_published"/>
-																</xsl:call-template>
-															</xsl:otherwise>
-														</xsl:choose>
-													</fo:block>
-												</fo:table-cell>
-											</fo:table-row>
-											<xsl:variable name="countAdditionalNumbers" select="count(xalan:nodeset($additionalNumbers)/*)"/>
-											<fo:table-row height="64mm"> <!-- 59mm -->
-												<xsl:if test="$countAdditionalNumbers != 0">
-													<xsl:attribute name="height"><xsl:value-of select="64 - $countAdditionalNumbers * 5"/>mm</xsl:attribute>
-												</xsl:if>
-												<fo:table-cell>
-													<fo:block> </fo:block>
-												</fo:table-cell>
-												<fo:table-cell font-size="16pt" number-columns-spanned="3" border-bottom="0.5mm solid black" display-align="after">
-													<fo:block-container>
-														<xsl:call-template name="setWritingMode"/>
-														<fo:block padding-bottom="7mm">
-															<xsl:if test="$doctype = 'resolution'">
-																<xsl:call-template name="insertMeetingInfo"/>
-															</xsl:if>
-															<xsl:if test="$doctype = 'focus-group'">
-																<xsl:attribute name="padding-bottom">0mm</xsl:attribute>
-																<xsl:attribute name="border-bottom">1pt solid black</xsl:attribute>
-															</xsl:if>
-															<fo:block text-transform="uppercase">
-																<xsl:call-template name="insertSeriesTitleMain"/>
-															</fo:block>
-															<xsl:choose>
-																<xsl:when test="$doctype = 'recommendation-supplement'"/>
-																<xsl:otherwise>
-																	<xsl:if test="/itu:itu-standard/itu:bibdata/itu:series">
-																		<fo:block margin-top="6pt">
-																			<xsl:call-template name="insertSeriesTitleAdditional"/>
-																		</fo:block>
-																	</xsl:if>
-																</xsl:otherwise>
-															</xsl:choose>
-														</fo:block>
-													</fo:block-container>
-												</fo:table-cell>
-											</fo:table-row>
-											<fo:table-row height="40mm">
-												<fo:table-cell>
-													<fo:block> </fo:block>
-												</fo:table-cell>
-												<fo:table-cell font-size="18pt" number-columns-spanned="3">
-													<fo:block-container>
-														<xsl:call-template name="setWritingMode"/>
-														<fo:block padding-right="2mm" margin-top="6pt" role="H1">
-															<xsl:if test="not(/itu:itu-standard/itu:bibdata/itu:title[@type = 'annex' and @language = 'en']) and $isAmendment = '' and $isCorrigendum = ''">
-																<xsl:attribute name="font-weight">bold</xsl:attribute>
-															</xsl:if>
-															<xsl:if test="($doctype = 'technical-report' or $doctype = 'technical-paper') and /itu:itu-standard/itu:bibdata/itu:docnumber">
-																<fo:block font-weight="bold">
-																	<xsl:value-of select="$docnumber"/>
-																</fo:block>
-															</xsl:if>
-															<xsl:if test="$doctype = 'implementers-guide'">
-																<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]"/>
-																<xsl:text> for </xsl:text>
-															</xsl:if>
-															<xsl:if test="$doctype = 'resolution'">
-																<!-- Resolution 1 -->
-																<xsl:value-of select="$doctypeTitle"/><xsl:text> </xsl:text><xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:docnumber"/>
-																<xsl:text> – </xsl:text>
-															</xsl:if>
-															<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'main' and @language = 'en']"/>
-														</fo:block>
-														<xsl:for-each select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'annex' and @language = 'en']">
-															<fo:block font-weight="bold" role="H1">
-																<xsl:value-of select="."/>
-															</fo:block>
-														</xsl:for-each>
-														<xsl:if test="$isAmendment != ''">
-															<fo:block padding-right="2mm" margin-top="6pt" font-weight="bold" role="H1">
-																<xsl:value-of select="$isAmendment"/>
-																<xsl:if test="/itu:itu-standard/itu:bibdata/itu:title[@type = 'amendment']">
-																	<xsl:text>: </xsl:text>
-																	<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'amendment']"/>
-																</xsl:if>
-															</fo:block>
-														</xsl:if>
-														<xsl:if test="$isCorrigendum != ''">
-															<fo:block padding-right="2mm" margin-top="6pt" font-weight="bold" role="H1">
-																<xsl:value-of select="$isCorrigendum"/>
-																<xsl:if test="/itu:itu-standard/itu:bibdata/itu:title[@type = 'corrigendum']">
-																	<xsl:text>: </xsl:text>
-																	<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'corrigendum']"/>
-																</xsl:if>
-															</fo:block>
-														</xsl:if>
-													</fo:block-container>
-												</fo:table-cell>
-											</fo:table-row>
-											<fo:table-row height="40mm">
-												<fo:table-cell>
-													<fo:block> </fo:block>
-												</fo:table-cell>
-												<fo:table-cell number-columns-spanned="3">
-													<fo:block-container>
-														<xsl:call-template name="setWritingMode"/>
-														<xsl:choose>
-															<xsl:when test="/itu:itu-standard/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']">
-																<xsl:attribute name="border">0.7mm solid black</xsl:attribute>
-																<fo:block font-family="Times New Roman" padding-top="3mm" margin-left="1mm" margin-right="1mm">
-																	<xsl:apply-templates select="/itu:itu-standard/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']" mode="caution"/>
-																</fo:block>
-															</xsl:when>
-															<xsl:otherwise>
-																<fo:block> </fo:block>
-															</xsl:otherwise>
-														</xsl:choose>
-													</fo:block-container>
-												</fo:table-cell>
-											</fo:table-row>
-											<fo:table-row height="25mm">
-												<fo:table-cell>
-													<fo:block> </fo:block>
-												</fo:table-cell>
-												<fo:table-cell number-columns-spanned="3">
-													<fo:block-container>
-														<xsl:call-template name="setWritingMode"/>
-														<fo:block font-size="16pt" margin-top="3pt">
-															<xsl:if test="/itu:itu-standard/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']">
-																<xsl:attribute name="margin-top">6pt</xsl:attribute>
-																<xsl:if test="$doctype = 'recommendation-supplement'">
-																	<xsl:attribute name="margin-top">12pt</xsl:attribute>
-																</xsl:if>
-															</xsl:if>
-
-															<xsl:choose>
-																<xsl:when test="$doctype = 'technical-report' or $doctype = 'technical-paper'">
-																	<xsl:if test="/itu:itu-standard/itu:bibdata/itu:status/itu:stage">
-																		<xsl:call-template name="capitalizeWords">
-																			<xsl:with-param name="str" select="/itu:itu-standard/itu:bibdata/itu:status/itu:stage"/>
-																		</xsl:call-template>
-																		<xsl:text> </xsl:text>
-																	</xsl:if>
-																	<xsl:variable name="identifier" select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type='ITU']"/>
-																	<xsl:if test="$identifier != ''">
-																		<xsl:value-of select="$doctypeTitle"/>
-																		<xsl:text>  </xsl:text>
-																		<xsl:value-of select="$identifier"/>
-																	</xsl:if>
-																</xsl:when>
-																<xsl:when test="$doctype = 'implementers-guide'"/>
-																<xsl:when test="$doctype = 'resolution'"/>
-																<xsl:when test="$doctype = 'recommendation-supplement'">
-																	<xsl:if test="/itu:itu-standard/itu:bibdata/itu:status/itu:stage = 'draft'">Draft </xsl:if>
-																	<xsl:text>ITU-</xsl:text><xsl:value-of select="$bureau"/><xsl:text> </xsl:text>
-
-																	<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-Supplement']"/>
-																</xsl:when>
-																<xsl:otherwise>
-																	<xsl:variable name="identifier">
-																		<xsl:text>  </xsl:text>
-																		<xsl:if test="/itu:itu-standard/itu:bibdata/itu:contributor/itu:organization/itu:abbreviation">
-																			<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:contributor/itu:organization/itu:abbreviation"/>
-																			<xsl:text>-</xsl:text>
-																		</xsl:if>
-																		<xsl:if test="$doctype != 'recommendation'">
-																			<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:bureau"/>
-																			<xsl:text>  </xsl:text>
-																		</xsl:if>
-																		<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:docnumber"/>
-																	</xsl:variable>
-																	<xsl:if test="normalize-space(translate($identifier, ' ', '')) != ''">
-																		<xsl:value-of select="$doctypeTitle"/>
-																		<xsl:value-of select="$identifier"/>
-																	</xsl:if>
-																</xsl:otherwise>
-															</xsl:choose>
-
-															<xsl:if test="$annexid != ''">
-																<xsl:value-of select="concat(' — ', $i18n_annex, ' ', $annexid)"/>
-															</xsl:if>
-														</fo:block>
-													</fo:block-container>
-												</fo:table-cell>
-											</fo:table-row>
-										</fo:table-body>
-									</fo:table>
-								</fo:block-container>
-							</fo:flow>
-						</fo:page-sequence>
-					</xsl:if>
-				</xsl:otherwise>
-			</xsl:choose>
-			<!-- ============================================= -->
-			<!-- END Cover page -->
-			<!-- ============================================= -->
-
 			<xsl:variable name="updated_xml">
 				<xsl:call-template name="updateXML"/>
 				<!-- <xsl:copy-of select="."/> -->
 			</xsl:variable>
 
-			<xsl:for-each select="xalan:nodeset($updated_xml)/*">
+			<xsl:if test="$debug = 'true'">
+				<redirect:write file="updated_xml.xml"> <!-- {java:getTime(java:java.util.Date.new())} -->
+					<xsl:copy-of select="$updated_xml"/>
+				</redirect:write>
+			</xsl:if>
 
-				<xsl:variable name="updated_xml_with_pages">
-					<xsl:call-template name="processPrefaceAndMainSectionsDefault_items"/>
+			<xsl:for-each select="xalan:nodeset($updated_xml)//itu:itu-standard">
+				<xsl:variable name="num"><xsl:number level="any" count="itu:itu-standard"/></xsl:variable>
+
+				<xsl:variable name="current_document">
+					<xsl:copy-of select="."/>
 				</xsl:variable>
 
-				<xsl:for-each select="xalan:nodeset($updated_xml_with_pages)"> <!-- set context to preface/sections -->
+				<xsl:for-each select="xalan:nodeset($current_document)">
 
-					<xsl:for-each select=".//*[local-name() = 'page_sequence'][parent::*[local-name() = 'preface']][normalize-space() != '' or .//*[local-name() = 'image'] or .//*[local-name() = 'svg']]">
+					<xsl:variable name="annexid" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:annexid)"/>
 
-						<fo:page-sequence master-reference="document-preface" format="i" force-page-count="no-force">
+					<xsl:variable name="bureau" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:bureau"/>
 
-							<xsl:attribute name="master-reference">
-								<xsl:text>document-preface</xsl:text>
-								<xsl:call-template name="getPageSequenceOrientation"/>
-							</xsl:attribute>
+					<xsl:variable name="docidentifier_ITU" select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU']"/>
+					<xsl:variable name="docidentifier_ITU_left_part_" select="normalize-space(substring-before($docidentifier_ITU, ' '))"/>
+					<xsl:variable name="docidentifier_ITU_left_part">
+						<xsl:value-of select="$docidentifier_ITU_left_part_"/>
+						<xsl:if test="$docidentifier_ITU_left_part_ = ''"><xsl:text>ITU-T</xsl:text></xsl:if>
+					</xsl:variable>
 
-							<xsl:if test="$doctype = 'service-publication'">
+					<xsl:variable name="docname">
+						<xsl:value-of select="substring-before($docidentifier_ITU, ' ')"/>
+						<xsl:text> </xsl:text>
+						<xsl:value-of select="substring-after($docidentifier_ITU, ' ')"/>
+						<xsl:text> </xsl:text>
+					</xsl:variable>
+
+					<xsl:variable name="date_published" select="/itu:itu-standard/itu:bibdata/itu:date[@type = 'published']/itu:on"/>
+					<xsl:variable name="docdate">
+						<xsl:call-template name="formatDate">
+							<xsl:with-param name="date" select="$date_published"/>
+						</xsl:call-template>
+					</xsl:variable>
+
+					<xsl:variable name="doctype" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
+
+					<xsl:variable name="docnumber" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:docnumber)"/>
+
+					<xsl:variable name="xSTR-ACRONYM">
+						<xsl:variable name="x" select="/itu:itu-standard/itu:bibdata/itu:series[@type = 'main']/itu:title[@type = 'abbrev']"/>
+						<xsl:variable name="acronym" select="$docnumber"/>
+						<xsl:value-of select="concat($x,'STR-', $acronym)"/>
+					</xsl:variable>
+
+					<xsl:variable name="doctypeTitle">
+						<xsl:choose>
+							<xsl:when test="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]">
+								<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:call-template name="capitalizeWords">
+									<xsl:with-param name="str" select="$doctype"/>
+								</xsl:call-template>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+
+					<xsl:variable name="isAmendment" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:amendment[@language = $lang])"/>
+					<xsl:variable name="isCorrigendum" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:corrigendum[@language = $lang])"/>
+
+					<xsl:variable name="TDnumber" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-TemporaryDocument'])"/>
+					<xsl:variable name="provisionalIdentifier" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-provisional'])"/>
+
+					<xsl:variable name="footer-text">
+						<xsl:variable name="additionalIdentifiers_">
+							<xsl:if test="$TDnumber != ''">/<xsl:value-of select="$TDnumber"/></xsl:if>
+							<xsl:if test="$provisionalIdentifier != ''">/<xsl:value-of select="$provisionalIdentifier"/></xsl:if>
+						</xsl:variable>
+						<xsl:variable name="additionalIdentifiers" select="normalize-space($additionalIdentifiers_)"/>
+						<xsl:choose>
+							<xsl:when test="$doctype = 'technical-report' or $doctype = 'technical-paper'">
+								<xsl:variable name="date_">
+									<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:version/itu:revision-date"/>
+									<xsl:if test="not(/itu:itu-standard/itu:bibdata/itu:version/itu:revision-date)"/>
+									<xsl:value-of select="$date_published"/>
+								</xsl:variable>
+								<xsl:variable name="date" select="concat('(',substring($date_,1,7), ')')"/>
+								<xsl:value-of select="concat($xSTR-ACRONYM, $additionalIdentifiers, ' ', $date)"/>
+							</xsl:when>
+							<xsl:when test="$doctype = 'implementers-guide'">
+								<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]"/>
+								<xsl:value-of select="$additionalIdentifiers"/>
+								<xsl:text> for </xsl:text>
+								<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type='ITU-Recommendation']"/>
+								<xsl:text> </xsl:text>
+								<xsl:variable name="date" select="concat('(',substring($date_published,1,7), ')')"/>
+								<xsl:value-of select="$date"/>
+							</xsl:when>
+							<xsl:when test="$doctype = 'resolution'">
+								<!-- WTSA-16 – Resolution 1  -->
+								<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:meeting/@acronym"/>
+								<xsl:text> – </xsl:text>
+								<xsl:value-of select="$doctypeTitle"/>
+								<xsl:value-of select="$additionalIdentifiers"/>
+								<xsl:text> </xsl:text>
+								<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:docnumber"/>
+							</xsl:when>
+							<xsl:when test="$doctype = 'recommendation-supplement'">
+								<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-Supplement-Short']"/>
+								<xsl:value-of select="$additionalIdentifiers"/>
+								<xsl:text> </xsl:text>
+								<xsl:value-of select="$docdate"/>
+							</xsl:when>
+							<xsl:when test="$doctype = 'service-publication'">
+								<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-lang']"/>
+								<xsl:value-of select="$additionalIdentifiers"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<!-- Rec. ITU-T G.650.1 (03/2018) -->
+								<xsl:variable name="footerprefix" select="'Rec. '"/>
+								<xsl:value-of select="concat($footerprefix, $docname, $additionalIdentifiers, ' ', $docdate)"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+
+					<xsl:variable name="en_dash_separator"> – </xsl:variable>
+
+					<xsl:variable name="document_scheme" select="normalize-space(/*[contains(local-name(), '-standard')]/*[local-name() = 'metanorma-extension']/*[local-name() = 'presentation-metadata'][*[local-name() = 'name'] = 'document-scheme']/*[local-name() = 'value'])"/>
+					<xsl:variable name="layoutVersion_">
+						<xsl:choose>
+							<xsl:when test="$document_scheme = '' or $document_scheme = 'current'">2023</xsl:when>
+							<xsl:otherwise>default</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+					<xsl:variable name="layoutVersion" select="normalize-space($layoutVersion_)"/>
+
+					<xsl:variable name="color_cover_title_value" select="normalize-space(/itu:itu-standard/itu:metanorma-extension/itu:presentation-metadata/itu:color-cover-title)"/>
+					<xsl:variable name="color_cover_title_">
+						<xsl:value-of select="$color_cover_title_value"/>
+						<xsl:if test="$color_cover_title_value = ''">black</xsl:if>
+					</xsl:variable>
+					<xsl:variable name="color_cover_title" select="normalize-space($color_cover_title_)"/>
+
+					<xsl:variable name="cover_header_hide_value" select="normalize-space(/itu:itu-standard/itu:metanorma-extension/itu:presentation-metadata/itu:cover-header-hide)"/>
+					<xsl:variable name="cover_header_hide_">
+						<xsl:value-of select="$cover_header_hide_value"/>
+						<xsl:if test="$cover_header_hide_value = ''">false</xsl:if>
+					</xsl:variable>
+					<xsl:variable name="cover_header_hide" select="normalize-space($cover_header_hide_)"/>
+
+					<xsl:variable name="color_cover_itu_logo_value" select="normalize-space(/itu:itu-standard/itu:metanorma-extension/itu:presentation-metadata/itu:color-cover-itu-logo)"/>
+					<xsl:variable name="color_cover_itu_logo_">
+						<xsl:value-of select="$color_cover_itu_logo_value"/>
+						<xsl:if test="$color_cover_itu_logo_value = ''">#1DA0DB</xsl:if>
+					</xsl:variable>
+					<xsl:variable name="color_cover_itu_logo" select="normalize-space($color_cover_itu_logo_)"/>
+
+					<xsl:variable name="i18n_international_telecommunication_union"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">international_telecommunication_union</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+					<xsl:variable name="i18n_edition"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">edition</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+					<xsl:variable name="i18n_edition_Capitalized"><xsl:call-template name="capitalize"><xsl:with-param name="str" select="$i18n_edition"/><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+					<xsl:variable name="i18n_annex"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">annex</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+					<xsl:variable name="i18n_annex_to_itu_ob"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">annex_to_itu_ob</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+					<xsl:variable name="i18n_number_abbrev"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">number_abbrev</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+					<xsl:variable name="i18n_tsb"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">tsb</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+					<xsl:variable name="i18n_tsb_full"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">tsb_full</xsl:with-param><xsl:with-param name="formatted">true</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+					<xsl:variable name="i18n_placedate"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">placedate</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+					<xsl:variable name="i18n_series"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">series</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+					<xsl:variable name="i18n_series_Capitalized"><xsl:call-template name="capitalize"><xsl:with-param name="str" select="$i18n_series"/><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+					<xsl:variable name="i18n_keywords"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">keywords</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+					<xsl:variable name="i18n_page"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">Page.sg</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+
+					<!-- ============================================= -->
+					<!-- Cover page -->
+					<!-- ============================================= -->
+
+					<xsl:choose>
+						<xsl:when test="$layoutVersion = '2023'">
+							<!-- cover page, version 2023 -->
+							<fo:page-sequence force-page-count="no-force" master-reference="cover-page_2023" writing-mode="lr-tb" font-family="Arial" font-size="12pt">
+								<fo:static-content flow-name="header" role="artifact" id="__internal_layout__coverpage_header_{generate-id()}">
+									<!-- background cover image -->
+									<xsl:call-template name="insertBackgroundPageImage"/>
+									<xsl:choose>
+										<xsl:when test="$cover_header_hide = 'false'">
+											<fo:block-container margin-left="13mm">
+												<xsl:call-template name="setWritingMode"/>
+												<fo:block-container margin-left="0mm">
+
+													<fo:table width="185.5mm" table-layout="fixed" margin-top="11.5mm">
+														<fo:table-column column-width="proportional-column-width(1)"/>
+														<fo:table-column column-width="proportional-column-width(1)"/>
+														<fo:table-body>
+															<fo:table-row height="7mm" font-weight="bold">
+																<fo:table-cell text-align="start">
+																	<fo:block font-size="16pt">
+																		<xsl:if test="$lang != 'ar'">
+																			<fo:inline color="rgb(0,156,214)">ITU</fo:inline>
+																		</xsl:if>
+																		<xsl:choose>
+																			<xsl:when test="$lang = 'es'">Publicaciones</xsl:when>
+																			<xsl:when test="$lang = 'ru'">Публикации</xsl:when>
+																			<xsl:when test="$lang = 'zh'">出版物</xsl:when>
+																			<xsl:when test="$lang = 'ar'">منشورات<fo:inline color="rgb(0,156,214)">ITU</fo:inline></xsl:when>
+																			<xsl:otherwise>Publications</xsl:otherwise> <!-- default, en or fr -->
+																		</xsl:choose>
+																	</fo:block>
+																</fo:table-cell>
+																<fo:table-cell text-align="end" display-align="center">
+																	<fo:block>
+																		<xsl:value-of select="$i18n_international_telecommunication_union"/>
+																	</fo:block>
+																</fo:table-cell>
+															</fo:table-row>
+															<fo:table-row>
+																<!-- collection/series (optional) -->
+																<fo:table-cell text-align="start">
+																	<fo:block>
+																		<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'collection']"/>
+																	</fo:block>
+																</fo:table-cell>
+																<!-- Sector or Bureau name -->
+																<fo:table-cell text-align="end">
+																	<fo:block>
+																		<xsl:variable name="sector" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:sector)"/>
+																		<xsl:value-of select="$sector"/>
+																		<xsl:if test="$sector = ''">
+																			<xsl:variable name="bureau_key">
+																				<xsl:choose>
+																					<xsl:when test="$bureau = 'T'">tsb</xsl:when>
+																					<xsl:when test="$bureau = 'R'">br</xsl:when>
+																					<xsl:when test="$bureau = 'D'">bdt</xsl:when>
+																				</xsl:choose>
+																			</xsl:variable>
+																			<xsl:call-template name="getLocalizedString">
+																				<xsl:with-param name="key"><xsl:value-of select="$bureau_key"/>_short</xsl:with-param>
+																			</xsl:call-template>
+																		</xsl:if>
+																	</fo:block>
+																</fo:table-cell>
+															</fo:table-row>
+														</fo:table-body>
+													</fo:table>
+												</fo:block-container>
+											</fo:block-container>
+											<xsl:if test="$doctype != 'service-publication'">
+												<fo:block margin-top="3.4mm">
+													<xsl:call-template name="setWritingMode"/>
+													<fo:instream-foreign-object fox:alt-text="Color bar">
+														<xsl:call-template name="insertImageCoverColorBand">
+															<xsl:with-param name="bureau" select="$bureau"/>
+															<xsl:with-param name="doctype" select="$doctype"/>
+														</xsl:call-template>
+													</fo:instream-foreign-object>
+												</fo:block>
+											</xsl:if>
+										</xsl:when>
+										<xsl:otherwise><fo:block> </fo:block></xsl:otherwise>
+									</xsl:choose>
+								</fo:static-content>
+								<fo:static-content flow-name="footer" role="artifact">
+									<fo:block text-align="right" margin-left="13mm" margin-right="13.3mm">
+										<xsl:if test="$lang = 'ar'">
+											<xsl:attribute name="text-align">left</xsl:attribute>
+										</xsl:if>
+										<fo:instream-foreign-object content-width="20.5mm" fox:alt-text="Image Logo">
+											<xsl:call-template name="Image-ITU-Globe-Logo-Blue">
+												<xsl:with-param name="color_cover_itu_logo" select="$color_cover_itu_logo"/>
+											</xsl:call-template>
+										</fo:instream-foreign-object>
+									</fo:block>
+								</fo:static-content>
+								<fo:flow flow-name="xsl-region-body">
+
+									<fo:block-container absolute-position="fixed" top="1mm">
+										<xsl:if test="$num = 1">
+											<xsl:attribute name="id">firstpage_id_0</xsl:attribute>
+										</xsl:if>
+										<fo:block id="firstpage_id_{$num}"> </fo:block>
+									</fo:block-container>
+
+									<fo:block-container font-size="22pt" font-weight="bold" color="{$color_cover_title}">
+
+										<xsl:call-template name="setWritingMode"/>
+
+										<xsl:choose>
+
+											<xsl:when test="$doctype = 'service-publication'"> <!-- Flagship -->
+												<fo:block margin-top="11.5mm" font-size="34pt">
+													<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'main' and @language = $lang]"/>
+												</fo:block>
+												<fo:block margin-top="2mm" font-size="26pt">
+													<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'subtitle' and @language = $lang]"/>
+												</fo:block>
+												<!-- https://github.com/metanorma/metanorma-itu/issues/474#issuecomment-1966298384 -->
+												<xsl:variable name="title_slogan" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:title[@type = 'slogan'])"/>
+												<xsl:if test="$title_slogan != ''">
+													<fo:block margin-top="2mm" font-family="Adelle Devanagari" font-size="26pt">
+														<xsl:choose>
+															<xsl:when test="$lang = 'ar'"><xsl:attribute name="font-family">Traditional Arabic</xsl:attribute></xsl:when>
+															<xsl:when test="$lang = 'zh'"><xsl:attribute name="font-family">STKaiti</xsl:attribute></xsl:when>
+															<!-- <xsl:otherwise><xsl:attribute name="font-style">italic</xsl:attribute></xsl:otherwise> -->
+														</xsl:choose>
+														<xsl:value-of select="$title_slogan"/>
+													</fo:block>
+												</xsl:if>
+												<xsl:variable name="year_published" select="substring($date_published,1,4)"/>
+												<xsl:if test="$year_published != ''">
+													<!-- Examples:
+														2020 edition
+														Édition 2020
+														Edición 2020
+														طبعة 2020
+														2020 年版
+														Издание 2020 года  -->
+													<fo:block margin-top="3mm" font-size="22pt">
+														<xsl:choose>
+															<xsl:when test="$lang = 'en' or $lang = 'ar' or $lang = 'zh'">
+																<xsl:value-of select="concat($year_published, ' ', $i18n_edition)"/>
+															</xsl:when>
+															<xsl:otherwise>
+																<xsl:value-of select="concat($i18n_edition_Capitalized, ' ', $year_published)"/>
+																<xsl:if test="$lang = 'ru'"> года</xsl:if>
+															</xsl:otherwise>
+														</xsl:choose>
+													</fo:block>
+												</xsl:if>
+											</xsl:when> <!-- $doctype = 'service-publication' -->
+
+											<xsl:otherwise>
+												<fo:block margin-top="11.5mm">
+													<xsl:choose>
+														<xsl:when test="$doctype = 'technical-report' or $doctype = 'technical-paper'">
+															<!-- Example: ITU-T Technical Paper -->
+															<xsl:value-of select="$docidentifier_ITU_left_part"/>
+															<xsl:text> </xsl:text>
+															<xsl:value-of select="$doctypeTitle"/>
+														</xsl:when>
+														<xsl:when test="$doctype = 'implementers-guide'">
+															<xsl:value-of select="$docidentifier_ITU_left_part"/>
+															<xsl:text> </xsl:text>
+															<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type='ITU-Recommendation']"/>
+															<xsl:text> </xsl:text>
+															<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]"/>
+														</xsl:when>
+														<xsl:when test="$doctype = 'resolution'">
+															<xsl:value-of select="$doctypeTitle"/>
+															<xsl:text> </xsl:text>
+															<xsl:value-of select="$docidentifier_ITU_left_part"/>
+														</xsl:when>
+														<xsl:otherwise>
+															<xsl:value-of select="$doctypeTitle"/>
+															<xsl:text> </xsl:text>
+															<xsl:value-of select="$docidentifier_ITU"/>
+														</xsl:otherwise>
+													</xsl:choose>
+												</fo:block>
+
+												<fo:block-container font-size="14pt" margin-top="1mm" margin-right="2mm">
+													<xsl:if test="$bureau = 'T'">
+														<xsl:attribute name="text-align">end</xsl:attribute>
+													</xsl:if>
+													<fo:block-container margin-right="0mm">
+
+														<xsl:variable name="additional_block">
+															<!-- Examples:
+																Amendment 1
+																Supplement 37 -->
+															<xsl:if test="$TDnumber != ''">
+																<fo:block-container>
+																	<xsl:call-template name="setWritingMode"/>
+																	<fo:block>TD number: <xsl:value-of select="$TDnumber"/></fo:block>
+																</fo:block-container>
+															</xsl:if>
+															<xsl:if test="$provisionalIdentifier != ''">
+																<fo:block-container>
+																	<xsl:call-template name="setWritingMode"/>
+																	<fo:block>Provisional identifier: <xsl:value-of select="$provisionalIdentifier"/>
+																	</fo:block>
+																</fo:block-container>
+															</xsl:if>
+															<xsl:if test="$annexid != ''">
+																<fo:block-container>
+																	<xsl:call-template name="setWritingMode"/>
+																	<fo:block>
+																		<xsl:value-of select="$i18n_annex"/>
+																		<xsl:text> </xsl:text>
+																		<xsl:value-of select="$annexid"/>
+																	</fo:block>
+																</fo:block-container>
+															</xsl:if>
+															<xsl:if test="$isAmendment != ''">
+																<fo:block-container>
+																	<xsl:call-template name="setWritingMode"/>
+																	<fo:block><xsl:value-of select="$isAmendment"/></fo:block>
+																</fo:block-container>
+															</xsl:if>
+															<xsl:if test="$isCorrigendum != ''">
+																<fo:block-container>
+																	<xsl:call-template name="setWritingMode"/>
+																	<fo:block><xsl:value-of select="$isCorrigendum"/></fo:block>
+																</fo:block-container>
+															</xsl:if>
+
+															<!-- Date, example: (11/2018) -->
+															<xsl:choose>
+																<xsl:when test="($doctype = 'technical-report' or $doctype = 'technical-paper') and /itu:itu-standard/itu:bibdata/itu:version/itu:revision-date">
+																	<xsl:call-template name="formatMeetingDate">
+																		<xsl:with-param name="date" select="/itu:itu-standard/itu:bibdata/itu:version/itu:revision-date"/>
+																		<xsl:with-param name="inParenthesis">true</xsl:with-param>
+																	</xsl:call-template>
+																</xsl:when>
+																<xsl:otherwise>
+																	<xsl:call-template name="formatDate">
+																		<xsl:with-param name="date" select="$date_published"/>
+																	</xsl:call-template>
+																</xsl:otherwise>
+															</xsl:choose>
+														</xsl:variable>
+														<fo:block>
+															<xsl:copy-of select="$additional_block"/>
+															<xsl:if test="normalize-space($additional_block) = ''"> </xsl:if>
+														</fo:block>
+													</fo:block-container>
+												</fo:block-container> <!-- end of additional block -->
+
+												<xsl:if test="$doctype = 'resolution'">
+													<fo:block margin-bottom="6pt">
+														<xsl:call-template name="insertMeetingInfo"/>
+													</fo:block>
+												</xsl:if>
+
+												<!-- Series: -->
+												<xsl:variable name="series">
+													<xsl:call-template name="insertSeriesTitleMain">
+														<xsl:with-param name="i18n_series" select="$i18n_series"/>
+													</xsl:call-template>
+													<xsl:choose>
+														<xsl:when test="$doctype = 'recommendation-supplement'"/>
+														<xsl:otherwise>
+															<xsl:if test="/itu:itu-standard/itu:bibdata/itu:series">
+																<fo:block font-weight="normal" margin-top="4mm">
+																	<xsl:call-template name="insertSeriesTitleAdditional"/>
+																</fo:block>
+															</xsl:if>
+														</xsl:otherwise>
+													</xsl:choose>
+												</xsl:variable>
+
+												<xsl:if test="normalize-space($series) != ''">
+													<fo:block-container margin-right="5mm">
+														<fo:block-container margin-right="0mm">
+															<fo:block font-size="18pt" margin-top="5mm">
+																<xsl:copy-of select="$series"/>
+															</fo:block>
+															<fo:block>
+																<fo:leader leader-pattern="rule" rule-thickness="1pt" leader-length="100%"/>
+															</fo:block>
+														</fo:block-container>
+													</fo:block-container>
+												</xsl:if>
+
+												<fo:block role="H1">
+													<!-- margin-top="24mm" -->
+													<xsl:if test="($doctype = 'technical-report' or $doctype = 'technical-paper') and $docnumber != ''">
+														<xsl:attribute name="margin-top">3mm</xsl:attribute>
+														<xsl:value-of select="$docnumber"/>
+													</xsl:if>
+												</fo:block>
+
+												<fo:block margin-top="3pt">
+													<xsl:if test="$doctype = 'implementers-guide'">
+														<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]"/>
+														<xsl:text> for </xsl:text>
+													</xsl:if>
+													<xsl:if test="$doctype = 'resolution'">
+														<!-- Resolution 1 -->
+														<xsl:value-of select="$doctypeTitle"/>
+														<xsl:text> </xsl:text>
+														<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:docnumber"/>
+														<xsl:value-of select="$en_dash_separator"/>
+													</xsl:if>
+													<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'main' and @language = $lang]"/>
+												</fo:block>
+
+												<!-- Example: Annex F1 - ... -->
+												<xsl:for-each select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'annex' and @language = $lang]">
+													<fo:block font-size="18pt" margin-top="3mm" role="H1">
+														<xsl:value-of select="$i18n_annex"/>
+														<xsl:text> </xsl:text>
+														<xsl:value-of select="$annexid"/>
+														<xsl:value-of select="$en_dash_separator"/>
+														<xsl:value-of select="."/>
+													</fo:block>
+												</xsl:for-each>
+
+												<!-- Example: Amendment 1 - ... -->
+												<xsl:if test="$isAmendment != ''">
+													<fo:block margin-top="3mm" role="H1">
+														<xsl:value-of select="$isAmendment"/>
+														<xsl:variable name="title_amendment" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:title[@type = 'amendment'])"/>
+														<xsl:if test="$title_amendment != ''">
+															<xsl:value-of select="$en_dash_separator"/>
+															<xsl:value-of select="$title_amendment"/>
+														</xsl:if>
+													</fo:block>
+												</xsl:if>
+												<!-- Example: Corrigendum 1 - ... -->
+												<xsl:if test="$isCorrigendum != ''">
+													<fo:block margin-top="3mm" role="H1">
+														<xsl:value-of select="$isCorrigendum"/>
+														<xsl:variable name="title_corrigendum" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:title[@type = 'corrigendum'])"/>
+														<xsl:if test="$title_corrigendum != ''">
+															<xsl:value-of select="$en_dash_separator"/>
+															<xsl:value-of select="$title_corrigendum"/>
+														</xsl:if>
+													</fo:block>
+												</xsl:if>
+
+												<xsl:if test="/itu:itu-standard/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']">
+													<fo:block-container margin-left="1mm" margin-right="1mm" border="0.7mm solid black" margin-top="5mm">
+														<fo:block-container margin-left="1mm" margin-right="1mm">
+															<fo:block padding-top="3mm">
+																<xsl:apply-templates select="/itu:itu-standard/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']" mode="caution"/>
+															</fo:block>
+														</fo:block-container>
+													</fo:block-container>
+												</xsl:if>
+
+												<xsl:if test="$doctype = 'recommendation-supplement'">
+													<fo:block font-size="16pt" margin-top="3mm">
+														<xsl:if test="/itu:itu-standard/itu:bibdata/itu:status/itu:stage = 'draft'">Draft </xsl:if>
+														<xsl:text>ITU-</xsl:text>
+														<xsl:value-of select="$bureau"/>
+														<xsl:text> </xsl:text>
+														<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-Supplement']"/>
+													</fo:block>
+												</xsl:if>
+											</xsl:otherwise>
+
+										</xsl:choose>
+
+									</fo:block-container>
+								</fo:flow>
+							</fo:page-sequence>
+							<!-- Second cover page -->
+							<xsl:variable name="secondCoverPageData_">
+								<xsl:call-template name="insertBackgroundPageImage">
+									<xsl:with-param name="number">2</xsl:with-param>
+								</xsl:call-template>
+							</xsl:variable>
+							<xsl:variable name="secondCoverPageData" select="xalan:nodeset($secondCoverPageData_)"/>
+							<fo:page-sequence force-page-count="no-force" master-reference="cover-page_2023">
+								<xsl:if test="$secondCoverPageData//*[self::fo:instream-foreign-object or self::fo:external-graphic]">
+									<fo:static-content flow-name="header" role="artifact" id="__internal_layout__coverpage2_header_{generate-id()}">
+										<xsl:copy-of select="$secondCoverPageData"/>
+									</fo:static-content>
+								</xsl:if>
+								<fo:flow flow-name="xsl-region-body">
+									<fo:block> </fo:block>
+								</fo:flow>
+							</fo:page-sequence>
+							 <!-- End: Second cover page -->
+						</xsl:when> <!-- $layoutVersion = '2023' -->
+
+						<xsl:otherwise>
+
+							<xsl:choose>
+								<xsl:when test="$doctype = 'technical-report' or                 $doctype = 'technical-paper' or                $doctype = 'implementers-guide'">
+									<fo:page-sequence master-reference="TR-first-page">
+										<fo:flow flow-name="xsl-region-body">
+											<fo:block-container absolute-position="fixed" top="1mm">
+												<xsl:if test="$num = 1">
+													<xsl:attribute name="id">firstpage_id_0</xsl:attribute>
+												</xsl:if>
+												<fo:block id="firstpage_id_{$num}"> </fo:block>
+											</fo:block-container>
+												<fo:block>
+													<fo:table width="175mm" table-layout="fixed" border-top="1.5pt solid black" id="__internal_layout__meeting_{generate-id()}">
+														<fo:table-column column-width="29mm"/>
+														<fo:table-column column-width="45mm"/>
+														<fo:table-column column-width="28mm"/>
+														<fo:table-column column-width="72mm"/>
+														<fo:table-body>
+															<fo:table-row>
+																<fo:table-cell padding-left="1mm" padding-top="3mm">
+																		<fo:block font-weight="bold">Question(s):</fo:block>
+																</fo:table-cell>
+																<fo:table-cell padding-top="3mm">
+																		<fo:block><xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:group/itu:name"/></fo:block>
+																</fo:table-cell>
+																<fo:table-cell padding-top="3mm">
+																		<fo:block font-weight="bold">Meeting, date:</fo:block>
+																</fo:table-cell>
+																<fo:table-cell padding-top="3mm" text-align="right" padding-right="1mm">
+																	<fo:block>
+																		<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:meeting"/>
+																		<xsl:text>, </xsl:text>
+																		<xsl:call-template name="formatMeetingDate">
+																			<xsl:with-param name="date" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:meeting-date/itu:from"/>
+																		</xsl:call-template>
+																		<xsl:text>/</xsl:text>
+																		<xsl:call-template name="formatMeetingDate">
+																			<xsl:with-param name="date" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:meeting-date/itu:to"/>
+																		</xsl:call-template>
+																	</fo:block>
+																</fo:table-cell>
+															</fo:table-row>
+														</fo:table-body>
+													</fo:table>
+
+													<fo:table width="175mm" table-layout="fixed" id="__internal_layout__groups_{generate-id()}">
+														<fo:table-column column-width="29mm"/>
+														<fo:table-column column-width="10mm"/>
+														<fo:table-column column-width="35mm"/>
+														<fo:table-column column-width="9mm"/>
+														<fo:table-column column-width="83mm"/>
+														<fo:table-column column-width="6mm"/>
+														<fo:table-body>
+															<fo:table-row>
+																<fo:table-cell padding-left="1mm" padding-top="2mm">
+																	<fo:block font-weight="bold">Study Group:</fo:block>
+																</fo:table-cell>
+																<fo:table-cell padding-top="2mm">
+																	<xsl:variable name="subgroup" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:subgroup/itu:name"/>
+																	<fo:block><xsl:value-of select="java:replaceAll(java:java.lang.String.new($subgroup),'(.)','$1​')"/></fo:block>
+																</fo:table-cell>
+																<fo:table-cell padding-top="2mm">
+																	<fo:block font-weight="bold">Working Party:</fo:block>
+																</fo:table-cell>
+																<fo:table-cell padding-top="2mm">
+																	<xsl:variable name="workgroup" select="/itu:itu-standard/itu:bibdata/itu:ext/itu:editorialgroup/itu:workgroup/itu:name"/>
+																	<fo:block><xsl:value-of select="java:replaceAll(java:java.lang.String.new($workgroup),'(.)','$1​')"/></fo:block>
+																</fo:table-cell>
+																<fo:table-cell padding-top="2mm">
+																	<fo:block font-weight="bold">Intended type of document <fo:inline font-weight="normal">(R-C-TD)</fo:inline>:</fo:block>
+																</fo:table-cell>
+																<fo:table-cell padding-top="2mm">
+																	<fo:block font-weight="normal"><xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:intended-type"/></fo:block>
+																</fo:table-cell>
+															</fo:table-row>
+															<fo:table-row>
+																<fo:table-cell padding-left="1mm" padding-top="2mm">
+																	<fo:block font-weight="bold">Source:</fo:block>
+																</fo:table-cell>
+																<fo:table-cell number-columns-spanned="4" padding-top="2mm">
+																	<fo:block><xsl:value-of select="java:toUpperCase(java:java.lang.String.new(/itu:itu-standard/itu:bibdata/itu:ext/itu:source))"/></fo:block>
+																</fo:table-cell>
+															</fo:table-row>
+															<fo:table-row>
+																<fo:table-cell padding-left="1mm" padding-top="2mm">
+																	<fo:block font-weight="bold">Title:</fo:block>
+																</fo:table-cell>
+																<fo:table-cell number-columns-spanned="4" padding-top="2mm">
+																	<fo:block role="H1"><xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@language='en' and @type='main']"/></fo:block>
+																</fo:table-cell>
+															</fo:table-row>
+														</fo:table-body>
+													</fo:table>
+
+													<xsl:if test="/itu:itu-standard/itu:bibdata/itu:contributor/itu:person">
+														<fo:table width="175mm" table-layout="fixed" line-height="110%" id="__internal_layout__person_{generate-id()}">
+															<fo:table-column column-width="29mm"/>
+															<fo:table-column column-width="75mm"/>
+															<fo:table-column column-width="71mm"/>
+															<fo:table-body>
+																<xsl:for-each select="/itu:itu-standard/itu:bibdata/itu:contributor/itu:person">
+																	<fo:table-row border-top="1.5pt solid black">
+																		<xsl:if test="position() = last()">
+																			<xsl:attribute name="border-bottom">1.5pt solid black</xsl:attribute>
+																		</xsl:if>
+																		<fo:table-cell padding-left="1mm" padding-top="2.5mm">
+																			<fo:block font-weight="bold">Contact:</fo:block>
+																		</fo:table-cell>
+																		<fo:table-cell padding-top="3mm">
+																			<fo:block><xsl:value-of select="itu:name/itu:completename"/></fo:block>
+																			<fo:block><xsl:value-of select="itu:affiliation/itu:organization/itu:name"/></fo:block>
+																			<fo:block><xsl:value-of select="itu:affiliation/itu:organization/itu:address/itu:formattedAddress"/></fo:block>
+																		</fo:table-cell>
+																		<fo:table-cell padding-top="3mm">
+																			<fo:block>Tel: <xsl:value-of select="itu:phone[not(@type)]"/></fo:block>
+																			<fo:block>Fax: <xsl:value-of select="itu:phone[@type = 'fax']"/></fo:block>
+																			<fo:block>E-mail: <xsl:value-of select="itu:email"/></fo:block>
+																		</fo:table-cell>
+																	</fo:table-row>
+																</xsl:for-each>
+															</fo:table-body>
+														</fo:table>
+													</xsl:if>
+													<fo:block space-before="0.5mm" font-size="9pt" margin-left="1mm">Please do not change the structure of this table, just insert the necessary information.</fo:block>
+													<fo:block space-before="6pt">&lt;INSERT TEXT&gt;</fo:block>
+												</fo:block>
+										</fo:flow>
+									</fo:page-sequence>
+								</xsl:when>
+								<!-- ============================================= -->
+								<!-- Cover page for service-publication -->
+								<!-- ============================================= -->
+								<xsl:when test="$doctype = 'service-publication'">
+									<fo:page-sequence master-reference="SP-first-page" force-page-count="no-force">
+										<fo:flow flow-name="xsl-region-body">
+											<fo:block-container absolute-position="fixed" top="1mm">
+												<xsl:if test="$num = 1">
+													<xsl:attribute name="id">firstpage_id_0</xsl:attribute>
+												</xsl:if>
+												<fo:block id="firstpage_id_{$num}"> </fo:block>
+											</fo:block-container>
+
+											<fo:block font-size="10pt" font-style="italic" text-align="center">
+												<xsl:if test="$lang = 'ar'"> <!-- to prevent rendering `###` due the missing Arabic glyphs in the italic font (Times New Roman) -->
+													<xsl:attribute name="font-style">normal</xsl:attribute>
+												</xsl:if>
+												<fo:block>
+													<xsl:value-of select="$i18n_annex_to_itu_ob"/>
+												</fo:block>
+												<fo:block>
+													<xsl:value-of select="$i18n_number_abbrev"/>
+													<xsl:value-of select="/*/itu:bibdata/itu:docnumber"/>
+													<xsl:text> – </xsl:text>
+													<xsl:value-of select="translate(normalize-space(/*/itu:bibdata/itu:date[@type='published' and @format]),' ','')"/>
+												</fo:block>
+											</fo:block>
+
+											<fo:block font-size="14pt" margin-top="7mm">
+												<fo:block font-weight="bold">
+													<fo:inline baseline-shift="-140%" padding-right="6mm">
+														<xsl:if test="$lang = 'ar'">
+															<xsl:attribute name="padding-right">0mm</xsl:attribute>
+															<xsl:attribute name="padding-left">6mm</xsl:attribute>
+														</xsl:if>
+														<fo:instream-foreign-object content-height="18.5mm" content-width="16.1mm" fox:alt-text="Image Logo">
+															<xsl:copy-of select="$Image-ITU-Globe-Logo"/>
+														</fo:instream-foreign-object>
+													</fo:inline>
+													<xsl:value-of select="java:toUpperCase(java:java.lang.String.new($i18n_international_telecommunication_union))"/>
+												</fo:block>
+											</fo:block>
+											<fo:block-container margin-left="10mm">
+												<fo:block-container margin-left="0mm">
+
+													<fo:block font-size="20pt" font-weight="bold" space-before="30mm">
+														<xsl:value-of select="$i18n_tsb"/>
+													</fo:block>
+													<fo:block font-size="14pt" font-weight="bold">
+														<xsl:value-of select="java:toUpperCase(java:java.lang.String.new($i18n_tsb_full))"/>
+													</fo:block>
+													<fo:block-container height="20mm" display-align="center" width="90%">
+														<fo:block font-weight="bold">
+															<!-- complements -->
+															<!-- To do: Example: COMPLEMENT  TO  ITU-T  RECOMMENDATIONS  F.69  (06/1994) AND  F.68  (11/1988) -->
+															<fo:inline>COMPLEMENT TO ITU-T RECOMMENDATIONS  </fo:inline>
+															<xsl:for-each select="/*/itu:bibdata/itu:relation[@type = 'complements']">
+																<xsl:value-of select="translate(itu:bibitem/itu:docidentifier, ' ', ' ')"/>
+																<xsl:choose>
+																	<xsl:when test="count(following-sibling::itu:relation[@type = 'complements']) = 1"> AND </xsl:when>
+																	<xsl:when test="following-sibling::itu:relation[@type = 'complements']">, </xsl:when>
+																</xsl:choose>
+															</xsl:for-each>
+														</fo:block>
+													</fo:block-container>
+													<fo:block-container>
+														<fo:block font-size="1pt"><fo:leader leader-pattern="rule" leader-length="90%" rule-style="solid" rule-thickness="1pt"/></fo:block>
+														<fo:block-container height="75mm" display-align="center">
+															<xsl:variable name="title_main" select="/*/itu:bibdata/itu:title[@type='main' and @language = $lang]"/>
+															<xsl:variable name="series_main" select="normalize-space(/*/itu:bibdata/itu:series[@type='main']/itu:title)"/>
+															<xsl:variable name="series_secondary" select="normalize-space(/*/itu:bibdata/itu:series[@type='secondary']/itu:title)"/>
+															<xsl:variable name="series_tertiary" select="normalize-space(/*/itu:bibdata/itu:series[@type='tertiary']/itu:title)"/>
+															<fo:block font-weight="bold" role="H1">
+																<xsl:choose>
+																	<xsl:when test="$series_main != '' and $series_secondary != '' and $series_tertiary = ''">
+																		<fo:block font-size="16pt">
+																			<xsl:value-of select="$series_main"/>
+																		</fo:block>
+																		<fo:block font-size="14pt">
+																			<xsl:if test="not(starts-with($series_secondary, '('))">
+																				<xsl:text>(</xsl:text>
+																			</xsl:if>
+																			<xsl:value-of select="$series_secondary"/>
+																			<xsl:if test="not(starts-with($series_secondary, '('))">
+																				<xsl:text>)</xsl:text>
+																			</xsl:if>
+																		</fo:block>
+																	</xsl:when>
+																	<xsl:when test="$series_main != '' and $series_secondary != '' and $series_tertiary != ''">
+																		<fo:block font-size="16pt">
+																			<xsl:value-of select="$series_main"/>
+																		</fo:block>
+																		<fo:block font-size="14pt">
+																			<xsl:if test="not(starts-with($series_secondary, '('))">
+																				<xsl:text>(</xsl:text>
+																			</xsl:if>
+																			<xsl:value-of select="$series_secondary"/>
+																			<xsl:if test="not(starts-with($series_secondary, '('))">
+																				<xsl:text>)</xsl:text>
+																			</xsl:if>
+																		</fo:block>
+																		<fo:block font-size="12pt" space-before="12pt" space-after="12pt">
+																			<xsl:value-of select="$series_tertiary"/>
+																		</fo:block>
+																		<fo:block font-size="16pt">
+																			<xsl:value-of select="$title_main"/>
+																		</fo:block>
+																	</xsl:when>
+																	<xsl:when test="$series_main != '' and $series_secondary = '' and $series_tertiary = ''">
+																		<fo:block font-size="16pt">
+																			<xsl:value-of select="$title_main"/>
+																		</fo:block>
+																		<fo:block font-size="14pt">
+																			<xsl:if test="not(starts-with($series_main, '('))">
+																				<xsl:text>(</xsl:text>
+																			</xsl:if>
+																			<xsl:value-of select="$series_main"/>
+																			<xsl:if test="not(starts-with($series_main, '('))">
+																				<xsl:text>)</xsl:text>
+																			</xsl:if>
+																		</fo:block>
+																	</xsl:when>
+																	<xsl:otherwise>
+																		<fo:block font-size="16pt">
+																			<xsl:value-of select="$title_main"/>
+																		</fo:block>
+																	</xsl:otherwise>
+																</xsl:choose>
+															</fo:block>
+
+															<fo:block font-size="14pt">
+															</fo:block>
+															<fo:block font-size="14pt">
+																<fo:block> </fo:block>
+																<xsl:variable name="position-sp" select="/*/itu:bibdata/itu:title[@type='position-sp' and @language = $lang]"/>
+																<xsl:value-of select="java:toUpperCase(java:java.lang.String.new($position-sp))"/>
+															</fo:block>
+														</fo:block-container>
+														<fo:block font-size="1pt"><fo:leader leader-pattern="rule" leader-length="90%" rule-style="solid" rule-thickness="1pt"/></fo:block>
+													</fo:block-container>
+
+												</fo:block-container>
+											</fo:block-container>
+
+											<fo:block space-before="25mm" font-weight="bold">
+												<xsl:variable name="year" select="substring(/*/itu:bibdata/itu:date[@type = 'published']/itu:on,1,4)"/>
+												<xsl:if test="normalize-space($year) != ''">
+													<xsl:value-of select="java:replaceAll(java:java.lang.String.new($i18n_placedate),'%',$year)"/>
+												</xsl:if>
+											</fo:block>
+										</fo:flow>
+									</fo:page-sequence>
+								</xsl:when>
+								<!-- ============================================= -->
+								<!-- END Cover page for service-publication -->
+								<!-- ============================================= -->
+							</xsl:choose>
+
+							<xsl:if test="$doctype != 'service-publication'">
+								<!-- cover page -->
+								<fo:page-sequence master-reference="cover-page" writing-mode="lr-tb">
+									<xsl:if test="$doctype = 'resolution'">
+										<xsl:attribute name="force-page-count">no-force</xsl:attribute>
+									</xsl:if>
+									<fo:flow flow-name="xsl-region-body">
+
+										<xsl:if test="$doctype != 'technical-report' and                $doctype != 'technical-paper' and                $doctype != 'implementers-guide' and                $doctype != 'service-publication'">
+											<fo:block-container absolute-position="fixed" top="1mm">
+												<xsl:if test="$num = 1">
+													<xsl:attribute name="id">firstpage_id_0</xsl:attribute>
+												</xsl:if>
+												<fo:block id="firstpage_id_{$num}"> </fo:block>
+											</fo:block-container>
+										</xsl:if>
+
+										<fo:block-container absolute-position="fixed" top="255mm">
+											<fo:block text-align="right" margin-right="19mm">
+												<xsl:choose>
+													<xsl:when test="$doctype = 'resolution'">
+														<fo:external-graphic src="{concat('data:image/png;base64,', normalize-space($Image-Logo_resolution))}" content-height="21mm" content-width="scale-to-fit" scaling="uniform" fox:alt-text="Image Logo"/>
+													</xsl:when>
+													<xsl:otherwise>
+														<!-- <fo:external-graphic src="{concat('data:image/png;base64,', normalize-space($Image-Logo))}" content-height="17.7mm" content-width="scale-to-fit" scaling="uniform" fox:alt-text="Image Logo"/> -->
+														<fo:instream-foreign-object content-width="24.1mm" fox:alt-text="Image Logo ITU">
+															<xsl:call-template name="Image-ITU-Globe-Logo-Blue">
+																<xsl:with-param name="color_cover_itu_logo" select="$color_cover_itu_logo"/>
+															</xsl:call-template>
+														</fo:instream-foreign-object>
+													</xsl:otherwise>
+												</xsl:choose>
+											</fo:block>
+										</fo:block-container>
+
+										<fo:block-container absolute-position="fixed" left="-7mm" top="0" font-size="0">
+											<fo:block text-align="left">
+												<fo:external-graphic src="{concat('data:image/png;base64,', normalize-space($Image-Fond-Rec))}" width="43.6mm" content-height="299.2mm" content-width="scale-to-fit" scaling="uniform" fox:alt-text="Image Cover Page"/>
+											</fo:block>
+										</fo:block-container>
+										<fo:block-container font-family="Arial">
+											<fo:table width="100%" table-layout="fixed" id="__internal_layout__coverpage_{generate-id()}"> <!-- 175.4mm-->
+												<fo:table-column column-width="25.2mm"/>
+												<fo:table-column column-width="44.4mm"/>
+												<fo:table-column column-width="35.8mm"/>
+												<fo:table-column column-width="67mm"/>
+												<fo:table-body>
+													<fo:table-row height="37.5mm"> <!-- 42.5mm -->
+														<fo:table-cell>
+															<fo:block> </fo:block>
+														</fo:table-cell>
+														<fo:table-cell number-columns-spanned="3">
+															<fo:block-container>
+																<xsl:call-template name="setWritingMode"/>
+																<fo:block font-family="Arial" font-size="13pt" font-weight="bold" color="gray"> <!--  margin-top="16pt" letter-spacing="4pt", Helvetica for letter-spacing working -->
+																	<fo:block><xsl:value-of select="$linebreak"/></fo:block>
+																	<xsl:call-template name="addLetterSpacing">
+																		<xsl:with-param name="text" select="/itu:itu-standard/itu:bibdata/itu:contributor[itu:role/@type='author']/itu:organization/itu:name"/>
+																	</xsl:call-template>
+																</fo:block>
+															</fo:block-container>
+														</fo:table-cell>
+													</fo:table-row>
+													<fo:table-row>
+														<fo:table-cell>
+															<fo:block> </fo:block>
+														</fo:table-cell>
+														<fo:table-cell padding-top="2mm" padding-bottom="-1mm">
+															<fo:block-container>
+																<xsl:call-template name="setWritingMode"/>
+																<fo:block font-family="Arial" font-size="36pt" font-weight="bold" margin-top="6pt" letter-spacing="2pt"> <!-- Helvetica for letter-spacing working -->
+																	<fo:block>
+																		<xsl:value-of select="$docidentifier_ITU_left_part"/>
+																	</fo:block>
+																</fo:block>
+															</fo:block-container>
+														</fo:table-cell>
+														<fo:table-cell padding-top="1mm" number-columns-spanned="2" padding-bottom="-1mm">
+															<fo:block-container>
+																<xsl:call-template name="setWritingMode"/>
+																<fo:block font-size="30pt" font-weight="bold" text-align="right" margin-top="12pt" padding="0mm">
+																	<xsl:choose>
+																		<xsl:when test="$doctype = 'technical-report' or $doctype = 'technical-paper'">
+																			<xsl:value-of select="$doctypeTitle"/>
+																		</xsl:when>
+																		<xsl:when test="$doctype = 'implementers-guide'">
+																			<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type='ITU-Recommendation']"/>
+																			<xsl:text> </xsl:text>
+																			<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]"/>
+																		</xsl:when>
+																		<xsl:when test="$doctype = 'resolution'"/>
+																		<xsl:when test="$doctype = 'recommendation-supplement'">
+																			<!-- Series L -->
+																			<xsl:value-of select="$i18n_series_Capitalized"/>
+																			<xsl:text> </xsl:text>
+																			<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:series[@type='main']/itu:title[@type='abbrev']"/>
+																			<!-- Ex. Supplement 37 -->
+																			<fo:block font-size="18pt">
+																				<xsl:call-template name="getLocalizedString">
+																					<xsl:with-param name="key">doctype_dict.recommendation-supplement</xsl:with-param>
+																				</xsl:call-template>
+																				<xsl:text> </xsl:text>
+																				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docnumber"/>
+																			</fo:block>
+																		</xsl:when>
+																		<xsl:otherwise>
+																			<xsl:value-of select="substring-after($docidentifier_ITU, ' ')"/>
+																		</xsl:otherwise>
+																	</xsl:choose>
+																</fo:block>
+															</fo:block-container>
+														</fo:table-cell>
+													</fo:table-row>
+													<xsl:variable name="additionalNumbers">
+														<xsl:if test="$TDnumber != ''">
+															<fo:block-container space-after="2pt">
+																<xsl:call-template name="setWritingMode"/>
+																<fo:block font-size="14pt">TD number: <xsl:value-of select="$TDnumber"/></fo:block>
+															</fo:block-container>
+														</xsl:if>
+														<xsl:if test="$provisionalIdentifier != ''">
+															<fo:block-container space-after="2pt">
+																<xsl:call-template name="setWritingMode"/>
+																<fo:block font-size="14pt">Provisional identifier: <xsl:value-of select="$provisionalIdentifier"/></fo:block>
+															</fo:block-container>
+														</xsl:if>
+														<xsl:if test="$annexid != ''">
+															<fo:block-container>
+																<xsl:call-template name="setWritingMode"/>
+																<fo:block font-size="18pt" font-weight="bold">
+																	<xsl:value-of select="concat($i18n_annex, ' ', $annexid)"/>
+																</fo:block>
+															</fo:block-container>
+														</xsl:if>
+														<xsl:if test="$isAmendment != ''">
+															<fo:block-container>
+																<xsl:call-template name="setWritingMode"/>
+																<fo:block font-size="18pt" font-weight="bold">
+																	<xsl:value-of select="$isAmendment"/>
+																</fo:block>
+															</fo:block-container>
+														</xsl:if>
+														<xsl:if test="$isCorrigendum != ''">
+															<fo:block-container>
+																<xsl:call-template name="setWritingMode"/>
+																<fo:block font-size="18pt" font-weight="bold">
+																	<xsl:value-of select="$isCorrigendum"/>
+																</fo:block>
+															</fo:block-container>
+														</xsl:if>
+													</xsl:variable>
+													<fo:table-row height="17.2mm">
+														<fo:table-cell>
+															<fo:block> </fo:block>
+														</fo:table-cell>
+														<fo:table-cell font-size="10pt" number-columns-spanned="2" padding-top="1mm">
+															<fo:block-container>
+																<xsl:call-template name="setWritingMode"/>
+																<fo:block>
+																	<xsl:text>TELECOMMUNICATION</xsl:text>
+																</fo:block>
+																<fo:block>
+																	<xsl:text>STANDARDIZATION SECTOR</xsl:text>
+																</fo:block>
+																<fo:block>
+																	<xsl:text>OF ITU</xsl:text>
+																</fo:block>
+															</fo:block-container>
+														</fo:table-cell>
+														<fo:table-cell text-align="right">
+															<xsl:copy-of select="$additionalNumbers"/>
+															<fo:block font-size="14pt">
+																<xsl:choose>
+																	<xsl:when test="($doctype = 'technical-report' or $doctype = 'technical-paper') and /itu:itu-standard/itu:bibdata/itu:version/itu:revision-date">
+																		<xsl:call-template name="formatMeetingDate">
+																			<xsl:with-param name="date" select="/itu:itu-standard/itu:bibdata/itu:version/itu:revision-date"/>
+																			<xsl:with-param name="inParenthesis">true</xsl:with-param>
+																		</xsl:call-template>
+																	</xsl:when>
+																	<xsl:otherwise>
+																		<xsl:call-template name="formatDate">
+																			<xsl:with-param name="date" select="$date_published"/>
+																		</xsl:call-template>
+																	</xsl:otherwise>
+																</xsl:choose>
+															</fo:block>
+														</fo:table-cell>
+													</fo:table-row>
+													<xsl:variable name="countAdditionalNumbers" select="count(xalan:nodeset($additionalNumbers)/*)"/>
+													<fo:table-row height="64mm"> <!-- 59mm -->
+														<xsl:if test="$countAdditionalNumbers != 0">
+															<xsl:attribute name="height"><xsl:value-of select="64 - $countAdditionalNumbers * 5"/>mm</xsl:attribute>
+														</xsl:if>
+														<fo:table-cell>
+															<fo:block> </fo:block>
+														</fo:table-cell>
+														<fo:table-cell font-size="16pt" number-columns-spanned="3" border-bottom="0.5mm solid black" display-align="after">
+															<fo:block-container>
+																<xsl:call-template name="setWritingMode"/>
+																<fo:block padding-bottom="7mm">
+																	<xsl:if test="$doctype = 'resolution'">
+																		<xsl:call-template name="insertMeetingInfo"/>
+																	</xsl:if>
+																	<xsl:if test="$doctype = 'focus-group'">
+																		<xsl:attribute name="padding-bottom">0mm</xsl:attribute>
+																		<xsl:attribute name="border-bottom">1pt solid black</xsl:attribute>
+																	</xsl:if>
+																	<fo:block text-transform="uppercase">
+																		<xsl:call-template name="insertSeriesTitleMain">
+																			<xsl:with-param name="i18n_series" select="$i18n_series"/>
+																		</xsl:call-template>
+																	</fo:block>
+																	<xsl:choose>
+																		<xsl:when test="$doctype = 'recommendation-supplement'"/>
+																		<xsl:otherwise>
+																			<xsl:if test="/itu:itu-standard/itu:bibdata/itu:series">
+																				<fo:block margin-top="6pt">
+																					<xsl:call-template name="insertSeriesTitleAdditional"/>
+																				</fo:block>
+																			</xsl:if>
+																		</xsl:otherwise>
+																	</xsl:choose>
+																</fo:block>
+															</fo:block-container>
+														</fo:table-cell>
+													</fo:table-row>
+													<fo:table-row height="40mm">
+														<fo:table-cell>
+															<fo:block> </fo:block>
+														</fo:table-cell>
+														<fo:table-cell font-size="18pt" number-columns-spanned="3">
+															<fo:block-container>
+																<xsl:call-template name="setWritingMode"/>
+																<fo:block padding-right="2mm" margin-top="6pt" role="H1">
+																	<xsl:if test="not(/itu:itu-standard/itu:bibdata/itu:title[@type = 'annex' and @language = 'en']) and $isAmendment = '' and $isCorrigendum = ''">
+																		<xsl:attribute name="font-weight">bold</xsl:attribute>
+																	</xsl:if>
+																	<xsl:if test="($doctype = 'technical-report' or $doctype = 'technical-paper') and /itu:itu-standard/itu:bibdata/itu:docnumber">
+																		<fo:block font-weight="bold">
+																			<xsl:value-of select="$docnumber"/>
+																		</fo:block>
+																	</xsl:if>
+																	<xsl:if test="$doctype = 'implementers-guide'">
+																		<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[@language = $lang]"/>
+																		<xsl:text> for </xsl:text>
+																	</xsl:if>
+																	<xsl:if test="$doctype = 'resolution'">
+																		<!-- Resolution 1 -->
+																		<xsl:value-of select="$doctypeTitle"/><xsl:text> </xsl:text><xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:docnumber"/>
+																		<xsl:text> – </xsl:text>
+																	</xsl:if>
+																	<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'main' and @language = 'en']"/>
+																</fo:block>
+																<xsl:for-each select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'annex' and @language = 'en']">
+																	<fo:block font-weight="bold" role="H1">
+																		<xsl:value-of select="."/>
+																	</fo:block>
+																</xsl:for-each>
+																<xsl:if test="$isAmendment != ''">
+																	<fo:block padding-right="2mm" margin-top="6pt" font-weight="bold" role="H1">
+																		<xsl:value-of select="$isAmendment"/>
+																		<xsl:if test="/itu:itu-standard/itu:bibdata/itu:title[@type = 'amendment']">
+																			<xsl:text>: </xsl:text>
+																			<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'amendment']"/>
+																		</xsl:if>
+																	</fo:block>
+																</xsl:if>
+																<xsl:if test="$isCorrigendum != ''">
+																	<fo:block padding-right="2mm" margin-top="6pt" font-weight="bold" role="H1">
+																		<xsl:value-of select="$isCorrigendum"/>
+																		<xsl:if test="/itu:itu-standard/itu:bibdata/itu:title[@type = 'corrigendum']">
+																			<xsl:text>: </xsl:text>
+																			<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'corrigendum']"/>
+																		</xsl:if>
+																	</fo:block>
+																</xsl:if>
+															</fo:block-container>
+														</fo:table-cell>
+													</fo:table-row>
+													<fo:table-row height="40mm">
+														<fo:table-cell>
+															<fo:block> </fo:block>
+														</fo:table-cell>
+														<fo:table-cell number-columns-spanned="3">
+															<fo:block-container>
+																<xsl:call-template name="setWritingMode"/>
+																<xsl:choose>
+																	<xsl:when test="/itu:itu-standard/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']">
+																		<xsl:attribute name="border">0.7mm solid black</xsl:attribute>
+																		<fo:block font-family="Times New Roman" padding-top="3mm" margin-left="1mm" margin-right="1mm">
+																			<xsl:apply-templates select="/itu:itu-standard/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']" mode="caution"/>
+																		</fo:block>
+																	</xsl:when>
+																	<xsl:otherwise>
+																		<fo:block> </fo:block>
+																	</xsl:otherwise>
+																</xsl:choose>
+															</fo:block-container>
+														</fo:table-cell>
+													</fo:table-row>
+													<fo:table-row height="25mm">
+														<fo:table-cell>
+															<fo:block> </fo:block>
+														</fo:table-cell>
+														<fo:table-cell number-columns-spanned="3">
+															<fo:block-container>
+																<xsl:call-template name="setWritingMode"/>
+																<fo:block font-size="16pt" margin-top="3pt">
+																	<xsl:if test="/itu:itu-standard/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']">
+																		<xsl:attribute name="margin-top">6pt</xsl:attribute>
+																		<xsl:if test="$doctype = 'recommendation-supplement'">
+																			<xsl:attribute name="margin-top">12pt</xsl:attribute>
+																		</xsl:if>
+																	</xsl:if>
+
+																	<xsl:choose>
+																		<xsl:when test="$doctype = 'technical-report' or $doctype = 'technical-paper'">
+																			<xsl:if test="/itu:itu-standard/itu:bibdata/itu:status/itu:stage">
+																				<xsl:call-template name="capitalizeWords">
+																					<xsl:with-param name="str" select="/itu:itu-standard/itu:bibdata/itu:status/itu:stage"/>
+																				</xsl:call-template>
+																				<xsl:text> </xsl:text>
+																			</xsl:if>
+																			<xsl:variable name="identifier" select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type='ITU']"/>
+																			<xsl:if test="$identifier != ''">
+																				<xsl:value-of select="$doctypeTitle"/>
+																				<xsl:text>  </xsl:text>
+																				<xsl:value-of select="$identifier"/>
+																			</xsl:if>
+																		</xsl:when>
+																		<xsl:when test="$doctype = 'implementers-guide'"/>
+																		<xsl:when test="$doctype = 'resolution'"/>
+																		<xsl:when test="$doctype = 'recommendation-supplement'">
+																			<xsl:if test="/itu:itu-standard/itu:bibdata/itu:status/itu:stage = 'draft'">Draft </xsl:if>
+																			<xsl:text>ITU-</xsl:text><xsl:value-of select="$bureau"/><xsl:text> </xsl:text>
+
+																			<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-Supplement']"/>
+																		</xsl:when>
+																		<xsl:otherwise>
+																			<xsl:variable name="identifier">
+																				<xsl:text>  </xsl:text>
+																				<xsl:if test="/itu:itu-standard/itu:bibdata/itu:contributor/itu:organization/itu:abbreviation">
+																					<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:contributor/itu:organization/itu:abbreviation"/>
+																					<xsl:text>-</xsl:text>
+																				</xsl:if>
+																				<xsl:if test="$doctype != 'recommendation'">
+																					<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:bureau"/>
+																					<xsl:text>  </xsl:text>
+																				</xsl:if>
+																				<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:ext/itu:structuredidentifier/itu:docnumber"/>
+																			</xsl:variable>
+																			<xsl:if test="normalize-space(translate($identifier, ' ', '')) != ''">
+																				<xsl:value-of select="$doctypeTitle"/>
+																				<xsl:value-of select="$identifier"/>
+																			</xsl:if>
+																		</xsl:otherwise>
+																	</xsl:choose>
+
+																	<xsl:if test="$annexid != ''">
+																		<xsl:value-of select="concat(' — ', $i18n_annex, ' ', $annexid)"/>
+																	</xsl:if>
+																</fo:block>
+															</fo:block-container>
+														</fo:table-cell>
+													</fo:table-row>
+												</fo:table-body>
+											</fo:table>
+										</fo:block-container>
+									</fo:flow>
+								</fo:page-sequence>
+							</xsl:if>
+						</xsl:otherwise>
+					</xsl:choose>
+					<!-- ============================================= -->
+					<!-- END Cover page -->
+					<!-- ============================================= -->
+
+					<!-- <xsl:for-each select="xalan:nodeset($updated_xml)/*"> -->
+
+					<!-- <xsl:for-each select="xalan:nodeset($updated_xml)//itu:itu-standard">
+					
+						<xsl:variable name="current_document">
+							<xsl:copy-of select="."/>
+						</xsl:variable>
+						
+						<xsl:for-each select="xalan:nodeset($current_document)"> -->
+
+					<xsl:variable name="updated_xml_with_pages">
+						<xsl:call-template name="processPrefaceAndMainSectionsDefault_items"/>
+					</xsl:variable>
+
+					<xsl:for-each select="xalan:nodeset($updated_xml_with_pages)"> <!-- set context to preface/sections -->
+
+						<xsl:for-each select=".//*[local-name() = 'page_sequence'][parent::*[local-name() = 'preface']][normalize-space() != '' or .//*[local-name() = 'image'] or .//*[local-name() = 'svg']]">
+
+							<fo:page-sequence master-reference="document-preface" format="i" force-page-count="no-force">
+
+								<xsl:if test="$doctype = 'resolution'">
+									<xsl:attribute name="font-size">11pt</xsl:attribute>
+								</xsl:if>
+								<xsl:if test="$doctype = 'service-publication'">
+									<xsl:attribute name="font-size">11pt</xsl:attribute>
+									<xsl:attribute name="font-family">Arial, STIX Two Math</xsl:attribute>
+								</xsl:if>
+
+								<xsl:attribute name="master-reference">
+									<xsl:text>document-preface</xsl:text>
+									<xsl:call-template name="getPageSequenceOrientation"/>
+								</xsl:attribute>
+
+								<xsl:if test="$doctype = 'service-publication'">
+									<xsl:attribute name="master-reference">
+										<xsl:text>document</xsl:text>
+										<xsl:call-template name="getPageSequenceOrientation"/>
+									</xsl:attribute>
+									<xsl:attribute name="format">1</xsl:attribute>
+								</xsl:if>
+
+								<xsl:if test="position() = 1">
+									<xsl:attribute name="initial-page-number">1</xsl:attribute>
+								</xsl:if>
+
+								<xsl:choose>
+									<xsl:when test="$doctype = 'service-publication'">
+										<xsl:call-template name="insertHeaderFooterSP">
+											<xsl:with-param name="footer-text" select="$footer-text"/>
+										</xsl:call-template>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:call-template name="insertHeaderFooter">
+											<xsl:with-param name="footer-text" select="$footer-text"/>
+										</xsl:call-template>
+									</xsl:otherwise>
+								</xsl:choose>
+
+								<fo:flow flow-name="xsl-region-body">
+
+									<xsl:if test="/itu:itu-standard/itu:preface/*[not(@type = 'toc')] or /itu:itu-standard/itu:bibdata/itu:keyword">
+
+										<xsl:if test="position() = 1">
+											<fo:block-container font-size="14pt" font-weight="bold">
+												<xsl:choose>
+													<xsl:when test="$doctype = 'implementers-guide'"/>
+													<xsl:when test="$doctype = 'recommendation-supplement'">
+														<fo:block>
+															<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-Supplement-Internal']"/>
+														</fo:block>
+													</xsl:when>
+													<xsl:when test="$doctype = 'service-publication'"/>
+													<xsl:otherwise>
+														<fo:block>
+															<xsl:value-of select="$doctypeTitle"/>
+															<xsl:text> </xsl:text>
+															<xsl:value-of select="$docname"/>
+														</fo:block>
+													</xsl:otherwise>
+												</xsl:choose>
+												<fo:block text-align="center" margin-top="15pt" margin-bottom="15pt" role="H1">
+													<xsl:if test="$doctype = 'service-publication'">
+														<xsl:attribute name="margin-top">0pt</xsl:attribute>
+														<xsl:attribute name="margin-bottom">0pt</xsl:attribute>
+													</xsl:if>
+													<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'main' and @language = $lang]"/>
+												</fo:block>
+											</fo:block-container>
+										</xsl:if>
+
+										<!-- Summary, History ... -->
+
+										<!-- <xsl:call-template name="processPrefaceSectionsDefault"/> -->
+										<xsl:apply-templates/>
+
+										<xsl:if test="position() = last()">
+											<!-- Keywords -->
+											<xsl:if test="/itu:itu-standard/itu:bibdata/itu:keyword">
+												<fo:block font-size="12pt">
+													<xsl:value-of select="$linebreak"/>
+													<xsl:value-of select="$linebreak"/>
+												</fo:block>
+												<fo:block font-weight="bold" margin-top="18pt" margin-bottom="18pt">
+													<xsl:value-of select="$i18n_keywords"/>
+												</fo:block>
+												<fo:block>
+													<xsl:call-template name="insertKeywords"/>
+												</fo:block>
+											</xsl:if>
+
+											<xsl:if test="$doctype != 'service-publication'">
+												<fo:block break-after="page"/>
+											</xsl:if>
+										</xsl:if>
+									</xsl:if>
+
+									<xsl:if test="position() = last()">
+										<!-- FOREWORD -->
+										<fo:block font-size="11pt" text-align="justify">
+											<xsl:apply-templates select="/itu:itu-standard/itu:boilerplate/itu:legal-statement"/>
+											<xsl:apply-templates select="/itu:itu-standard/itu:boilerplate/itu:license-statement"/>
+											<xsl:apply-templates select="/itu:itu-standard/itu:boilerplate/itu:copyright-statement"/>
+										</fo:block>
+
+										<xsl:if test="$debug = 'true'">
+											<redirect:write file="contents_.xml"> <!-- {java:getTime(java:java.util.Date.new())} -->
+												<xsl:copy-of select="$contents"/>
+											</redirect:write>
+										</xsl:if>
+
+										<xsl:apply-templates select="/*/*[local-name()='preface']//*[local-name() = 'clause'][@type = 'toc']">
+											<xsl:with-param name="process">true</xsl:with-param>
+										</xsl:apply-templates>
+									</xsl:if>
+
+								</fo:flow>
+							</fo:page-sequence>
+						</xsl:for-each> <!-- END: preface pages -->
+
+						<xsl:for-each select=".//*[local-name() = 'page_sequence'][not(parent::*[local-name() = 'preface'])][normalize-space() != '' or .//*[local-name() = 'image'] or .//*[local-name() = 'svg']]">
+
+							<!-- BODY -->
+							<fo:page-sequence master-reference="document" force-page-count="no-force">
+
+								<xsl:if test="$doctype = 'resolution'">
+									<xsl:attribute name="font-size">11pt</xsl:attribute>
+								</xsl:if>
+								<xsl:if test="$doctype = 'service-publication'">
+									<xsl:attribute name="font-size">11pt</xsl:attribute>
+									<xsl:attribute name="font-family">Arial, STIX Two Math</xsl:attribute>
+								</xsl:if>
+
 								<xsl:attribute name="master-reference">
 									<xsl:text>document</xsl:text>
 									<xsl:call-template name="getPageSequenceOrientation"/>
 								</xsl:attribute>
-								<xsl:attribute name="format">1</xsl:attribute>
-							</xsl:if>
 
-							<xsl:if test="position() = 1">
-								<xsl:attribute name="initial-page-number">1</xsl:attribute>
-							</xsl:if>
+								<xsl:if test="position() = 1">
+									<xsl:attribute name="initial-page-number">1</xsl:attribute>
+								</xsl:if>
 
-							<xsl:choose>
-								<xsl:when test="$doctype = 'service-publication'">
-									<xsl:call-template name="insertHeaderFooterSP"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:call-template name="insertHeaderFooter"/>
-								</xsl:otherwise>
-							</xsl:choose>
+								<xsl:if test="$doctype = 'service-publication'">
+									<xsl:attribute name="initial-page-number">auto</xsl:attribute>
+								</xsl:if>
+								<fo:static-content flow-name="xsl-footnote-separator">
+									<fo:block>
+										<fo:leader leader-pattern="rule" leader-length="30%"/>
+									</fo:block>
+								</fo:static-content>
+								<xsl:choose>
+									<xsl:when test="$doctype = 'service-publication'">
+										<xsl:call-template name="insertHeaderFooterSP">
+											<xsl:with-param name="footer-text" select="$footer-text"/>
+										</xsl:call-template>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:call-template name="insertHeaderFooter">
+											<xsl:with-param name="footer-text" select="$footer-text"/>
+										</xsl:call-template>
+									</xsl:otherwise>
+								</xsl:choose>
 
-							<fo:flow flow-name="xsl-region-body">
+								<fo:flow flow-name="xsl-region-body">
 
-								<xsl:if test="/itu:itu-standard/itu:preface/*[not(@type = 'toc')] or /itu:itu-standard/itu:bibdata/itu:keyword">
-
-									<xsl:if test="position() = 1">
-										<fo:block-container font-size="14pt" font-weight="bold">
+									<!-- <xsl:if test="$doctype != 'service-publication' and 1 = 2"> 
+										<fo:block-container font-size="14pt" >
 											<xsl:choose>
-												<xsl:when test="$doctype = 'implementers-guide'"/>
-												<xsl:when test="$doctype = 'recommendation-supplement'">
-													<fo:block>
+												<xsl:when test="$doctype = 'resolution'">
+													<fo:block text-align="center">
+														<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type='resolution' and @language = $lang]"/>
+													</fo:block>
+												</xsl:when>
+												<xsl:when  test="$doctype = 'implementers-guide'"></xsl:when>
+												<xsl:when  test="$doctype = 'recommendation-supplement'">
+													<fo:block font-weight="bold">
 														<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-Supplement-Internal']"/>
 													</fo:block>
 												</xsl:when>
-												<xsl:when test="$doctype = 'service-publication'"/>
 												<xsl:otherwise>
-													<fo:block>
+													<fo:block font-weight="bold">
 														<xsl:value-of select="$doctypeTitle"/>
-														<xsl:text> </xsl:text>
+														<xsl:text>&#xA0;</xsl:text>
 														<xsl:value-of select="$docname"/>
 													</fo:block>
 												</xsl:otherwise>
 											</xsl:choose>
-											<fo:block text-align="center" margin-top="15pt" margin-bottom="15pt" role="H1">
-												<xsl:if test="$doctype = 'service-publication'">
-													<xsl:attribute name="margin-top">0pt</xsl:attribute>
-													<xsl:attribute name="margin-bottom">0pt</xsl:attribute>
-												</xsl:if>
+											
+											<fo:block font-weight="bold" text-align="center" margin-top="15pt" margin-bottom="15pt" role="H1">
 												<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'main' and @language = $lang]"/>
-											</fo:block>
-										</fo:block-container>
-									</xsl:if>
-
-									<!-- Summary, History ... -->
-
-									<!-- <xsl:call-template name="processPrefaceSectionsDefault"/> -->
-									<xsl:apply-templates/>
-
-									<xsl:if test="position() = last()">
-										<!-- Keywords -->
-										<xsl:if test="/itu:itu-standard/itu:bibdata/itu:keyword">
-											<fo:block font-size="12pt">
-												<xsl:value-of select="$linebreak"/>
-												<xsl:value-of select="$linebreak"/>
-											</fo:block>
-											<fo:block font-weight="bold" margin-top="18pt" margin-bottom="18pt">
-												<xsl:value-of select="$i18n_keywords"/>
-											</fo:block>
-											<fo:block>
-												<xsl:call-template name="insertKeywords"/>
-											</fo:block>
-										</xsl:if>
-
-										<xsl:if test="$doctype != 'service-publication'">
-											<fo:block break-after="page"/>
-										</xsl:if>
-									</xsl:if>
-								</xsl:if>
-
-								<xsl:if test="position() = last()">
-									<!-- FOREWORD -->
-									<fo:block font-size="11pt" text-align="justify">
-										<xsl:apply-templates select="/itu:itu-standard/itu:boilerplate/itu:legal-statement"/>
-										<xsl:apply-templates select="/itu:itu-standard/itu:boilerplate/itu:license-statement"/>
-										<xsl:apply-templates select="/itu:itu-standard/itu:boilerplate/itu:copyright-statement"/>
-									</fo:block>
-
-									<xsl:if test="$debug = 'true'">
-										<redirect:write file="contents_.xml"> <!-- {java:getTime(java:java.util.Date.new())} -->
-											<xsl:copy-of select="$contents"/>
-										</redirect:write>
-									</xsl:if>
-
-									<xsl:apply-templates select="/*/*[local-name()='preface']//*[local-name() = 'clause'][@type = 'toc']">
-										<xsl:with-param name="process">true</xsl:with-param>
-									</xsl:apply-templates>
-								</xsl:if>
-
-							</fo:flow>
-						</fo:page-sequence>
-					</xsl:for-each> <!-- END: preface pages -->
-
-					<xsl:for-each select=".//*[local-name() = 'page_sequence'][not(parent::*[local-name() = 'preface'])][normalize-space() != '' or .//*[local-name() = 'image'] or .//*[local-name() = 'svg']]">
-
-						<!-- BODY -->
-						<fo:page-sequence master-reference="document" force-page-count="no-force">
-
-							<xsl:attribute name="master-reference">
-								<xsl:text>document</xsl:text>
-								<xsl:call-template name="getPageSequenceOrientation"/>
-							</xsl:attribute>
-
-							<xsl:if test="position() = 1">
-								<xsl:attribute name="initial-page-number">1</xsl:attribute>
-							</xsl:if>
-
-							<xsl:if test="$doctype = 'service-publication'">
-								<xsl:attribute name="initial-page-number">auto</xsl:attribute>
-							</xsl:if>
-							<fo:static-content flow-name="xsl-footnote-separator">
-								<fo:block>
-									<fo:leader leader-pattern="rule" leader-length="30%"/>
-								</fo:block>
-							</fo:static-content>
-							<xsl:choose>
-								<xsl:when test="$doctype = 'service-publication'">
-									<xsl:call-template name="insertHeaderFooterSP"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:call-template name="insertHeaderFooter"/>
-								</xsl:otherwise>
-							</xsl:choose>
-
-							<fo:flow flow-name="xsl-region-body">
-
-								<!-- <xsl:if test="$doctype != 'service-publication' and 1 = 2"> 
-									<fo:block-container font-size="14pt" >
-										<xsl:choose>
-											<xsl:when test="$doctype = 'resolution'">
-												<fo:block text-align="center">
-													<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type='resolution' and @language = $lang]"/>
-												</fo:block>
-											</xsl:when>
-											<xsl:when  test="$doctype = 'implementers-guide'"></xsl:when>
-											<xsl:when  test="$doctype = 'recommendation-supplement'">
-												<fo:block font-weight="bold">
-													<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:docidentifier[@type = 'ITU-Supplement-Internal']"/>
-												</fo:block>
-											</xsl:when>
-											<xsl:otherwise>
-												<fo:block font-weight="bold">
-													<xsl:value-of select="$doctypeTitle"/>
-													<xsl:text>&#xA0;</xsl:text>
-													<xsl:value-of select="$docname"/>
-												</fo:block>
-											</xsl:otherwise>
-										</xsl:choose>
-										
-										<fo:block font-weight="bold" text-align="center" margin-top="15pt" margin-bottom="15pt" role="H1">
-											<xsl:value-of select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'main' and @language = $lang]"/>
-											
-											<xsl:variable name="subtitle" select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'subtitle' and @language = $lang]"/>
-											<xsl:if test="$subtitle != ''">
-												<fo:block margin-top="18pt" font-weight="normal" font-style="italic">
-													<xsl:if test="$lang = 'ar'">
-														<xsl:attribute name="font-style">normal</xsl:attribute>
-													</xsl:if>
-													<xsl:value-of select="$subtitle"/>
-												</fo:block>								
-											</xsl:if>
-											
-											<xsl:variable name="resolution-placedate" select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'resolution-placedate' and @language = $lang]"/>
-											<xsl:if test="$doctype = 'resolution' and $resolution-placedate != ''">
-												<fo:block font-size="11pt" margin-top="6pt" font-weight="normal">
-													<fo:inline font-style="italic">
+												
+												<xsl:variable name="subtitle" select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'subtitle' and @language = $lang]"/>
+												<xsl:if test="$subtitle != ''">
+													<fo:block margin-top="18pt" font-weight="normal" font-style="italic">
 														<xsl:if test="$lang = 'ar'">
 															<xsl:attribute name="font-style">normal</xsl:attribute>
 														</xsl:if>
-														<xsl:text>(</xsl:text><xsl:value-of select="$resolution-placedate"/><xsl:text>)</xsl:text>
-													</fo:inline>
-													<xsl:apply-templates select="/itu:itu-standard/itu:bibdata/itu:note[@type = 'title-footnote']" mode="title_footnote"/>
-												</fo:block>
-											</xsl:if>
-										</fo:block>
-									</fo:block-container>
-								</xsl:if> -->
+														<xsl:value-of select="$subtitle"/>
+													</fo:block>								
+												</xsl:if>
+												
+												<xsl:variable name="resolution-placedate" select="/itu:itu-standard/itu:bibdata/itu:title[@type = 'resolution-placedate' and @language = $lang]"/>
+												<xsl:if test="$doctype = 'resolution' and $resolution-placedate != ''">
+													<fo:block font-size="11pt" margin-top="6pt" font-weight="normal">
+														<fo:inline font-style="italic">
+															<xsl:if test="$lang = 'ar'">
+																<xsl:attribute name="font-style">normal</xsl:attribute>
+															</xsl:if>
+															<xsl:text>(</xsl:text><xsl:value-of select="$resolution-placedate"/><xsl:text>)</xsl:text>
+														</fo:inline>
+														<xsl:apply-templates select="/itu:itu-standard/itu:bibdata/itu:note[@type = 'title-footnote']" mode="title_footnote"/>
+													</fo:block>
+												</xsl:if>
+											</fo:block>
+										</fo:block-container>
+									</xsl:if> -->
 
-								<!-- Clause(s) -->
-								<fo:block>
-									<!-- Scope -->
-									<!-- <xsl:apply-templates select="/itu:itu-standard/itu:sections/itu:clause[@type='scope']" /> -->
+									<!-- Clause(s) -->
+									<fo:block>
+										<!-- Scope -->
+										<!-- <xsl:apply-templates select="/itu:itu-standard/itu:sections/itu:clause[@type='scope']" /> -->
 
-									<!-- Normative references -->
-									<!-- <xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[@normative='true']" />
-										
-									<xsl:apply-templates select="/itu:itu-standard/itu:sections/*[not(@type='scope')]" />
-										
-									<xsl:apply-templates select="/itu:itu-standard/itu:annex"/> -->
+										<!-- Normative references -->
+										<!-- <xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[@normative='true']" />
+											
+										<xsl:apply-templates select="/itu:itu-standard/itu:sections/*[not(@type='scope')]" />
+											
+										<xsl:apply-templates select="/itu:itu-standard/itu:annex"/> -->
 
-									<!-- Bibliography -->
-									<!-- <xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[not(@normative='true')]"/> -->
+										<!-- Bibliography -->
+										<!-- <xsl:apply-templates select="/itu:itu-standard/itu:bibliography/itu:references[not(@normative='true')]"/> -->
 
-									<!-- <xsl:call-template name="processMainSectionsDefault"/> -->
-									<xsl:apply-templates/>
+										<!-- <xsl:call-template name="processMainSectionsDefault"/> -->
+										<xsl:apply-templates/>
 
-								</fo:block>
+									</fo:block>
 
-							</fo:flow>
-						</fo:page-sequence>
+								</fo:flow>
+							</fo:page-sequence>
+						</xsl:for-each>
 					</xsl:for-each>
 				</xsl:for-each>
 			</xsl:for-each>
@@ -1648,6 +1752,7 @@
 	</xsl:template>
 
 	<xsl:template name="insertSeriesTitleMain">
+		<xsl:param name="i18n_series"/>
 		<xsl:variable name="series_title_full" select="normalize-space(/itu:itu-standard/itu:bibdata/itu:series[@type = 'main']/itu:title[@type = 'full'])"/>
 		<xsl:variable name="series_title">
 			<xsl:value-of select="$series_title_full"/>
@@ -1699,6 +1804,7 @@
 		<xsl:param name="process">false</xsl:param>
 
 		<xsl:if test="$process = 'true'">
+			<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 			<xsl:if test="$doctype != 'resolution' and $doctype != 'service-publication'">
 				<fo:block break-after="page"/>
 				<fo:block-container>
@@ -1761,6 +1867,8 @@
 								</fo:block>
 							</xsl:for-each>
 
+							<xsl:variable name="i18n_page"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">Page.sg</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
+
 							<!-- List of Tables -->
 							<xsl:if test="$contents//tables/table">
 								<xsl:call-template name="insertListOf_Title">
@@ -1806,6 +1914,7 @@
 			<xsl:apply-templates/>
 		</fo:block>
 		<fo:block margin-top="6pt" text-align="end" font-weight="bold">
+			<xsl:variable name="i18n_page"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">Page.sg</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/itu:bibdata"/></xsl:call-template></xsl:variable>
 			<xsl:value-of select="$i18n_page"/>
 		</fo:block>
 	</xsl:template>
@@ -1813,6 +1922,7 @@
 	<xsl:template match="itu:clause[@type = 'keyword']" priority="4"/>
 
 	<xsl:template match="itu:sections//itu:p[@class = 'zzSTDTitle1']" priority="4">
+		<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 		<fo:block font-size="14pt">
 			<xsl:choose>
 				<xsl:when test="$doctype = 'resolution'">
@@ -1944,6 +2054,7 @@
 	</xsl:template>
 
 	<xsl:template match="itu:preface/*/itu:clause" priority="3">
+		<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 		<xsl:if test="$doctype != 'service-publication'">
 			<fo:block font-size="12pt">
 				<xsl:value-of select="$linebreak"/>
@@ -1961,6 +2072,7 @@
 		<xsl:variable name="level">
 			<xsl:call-template name="getLevel"/>
 		</xsl:variable>
+		<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 		<fo:block font-weight="bold" margin-top="18pt" margin-bottom="18pt" keep-with-next="always" role="H{$level}">
 			<xsl:if test="$doctype = 'service-publication'">
 				<xsl:attribute name="margin-top">24pt</xsl:attribute>
@@ -1982,6 +2094,7 @@
 	<!-- ============================= -->
 	<xsl:template match="itu:p | itu:sections/itu:p" name="paragraph">
 		<xsl:param name="split_keep-within-line"/>
+		<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 		<xsl:variable name="previous-element" select="local-name(preceding-sibling::*[1])"/>
 		<xsl:variable name="element-name">
 			<xsl:choose>
@@ -2067,6 +2180,7 @@
 	<!-- title      -->
 	<!-- ====== -->
 	<xsl:template match="itu:annex/itu:title">
+		<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 		<fo:block font-size="14pt" font-weight="bold" text-align="center" margin-bottom="18pt" role="H1">
 			<fo:block>
 				<xsl:apply-templates/>
@@ -2095,6 +2209,7 @@
 
 	<!-- Bibliography -->
 	<xsl:template match="itu:references[not(@normative='true')]/itu:title">
+		<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 		<fo:block font-size="14pt" font-weight="bold" text-align="center" margin-bottom="18pt" role="H1">
 			<xsl:if test="$doctype = 'implementers-guide'">
 				<xsl:attribute name="text-align">left</xsl:attribute>
@@ -2110,6 +2225,8 @@
 		<xsl:variable name="level">
 			<xsl:call-template name="getLevel"/>
 		</xsl:variable>
+
+		<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 
 		<xsl:variable name="font-size">
 			<xsl:choose>
@@ -2369,6 +2486,7 @@
 	</xsl:template>
 
 	<xsl:template match="itu:ul | itu:ol | itu:sections/itu:ul | itu:sections/itu:ol" mode="list" priority="2">
+		<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 		<xsl:if test="preceding-sibling::*[1][local-name() = 'title'] and $doctype != 'service-publication'">
 			<fo:block padding-top="-8pt" font-size="1pt"> </fo:block>
 		</xsl:if>
@@ -2405,6 +2523,7 @@
 	</xsl:template>
 
 	<xsl:template match="itu:li" priority="2">
+		<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 		<xsl:choose>
 			<xsl:when test="$doctype = 'service-publication'">
 				<fo:block id="{@id}">
@@ -2463,6 +2582,7 @@
 			<!-- <xsl:if test="local-name(ancestor::itu:li[1]/..) = 'ul'">
 				<xsl:attribute name="margin-bottom">0pt</xsl:attribute>
 			</xsl:if> -->
+			<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 			<xsl:if test="not(preceding-sibling::*) and parent::itu:li and $doctype = 'service-publication'">
 				<fo:inline padding-right="9mm">
 					<xsl:if test="$lang = 'ar'">
@@ -2512,6 +2632,7 @@
 	</xsl:template> -->
 
 	<xsl:template name="insertHeaderFooter">
+		<xsl:param name="footer-text"/>
 		<fo:static-content flow-name="footer-even" font-family="Times New Roman" font-size="11pt" role="artifact">
 			<fo:block-container height="19mm" display-align="after">
 				<fo:table table-layout="fixed" width="100%" display-align="after">
@@ -2551,6 +2672,7 @@
 	</xsl:template>
 
 	<xsl:template name="insertHeaderFooterSP">
+		<xsl:param name="footer-text"/>
 		<fo:static-content flow-name="footer-even" role="artifact">
 			<fo:block-container height="20mm">
 				<fo:table table-layout="fixed" width="100%" margin-top="3mm">
@@ -2664,7 +2786,8 @@
 		</svg>
 	</xsl:variable>
 
-	<xsl:variable name="Image-ITU-Globe-Logo-Blue">
+	<xsl:template name="Image-ITU-Globe-Logo-Blue">
+		<xsl:param name="color_cover_itu_logo"/>
 		<svg xmlns="http://www.w3.org/2000/svg" id="ITU-logo" data-name="Layer 1" width="272" height="300" viewBox="0 0 272 300">
 			<defs>
 				<style>.cls-1{fill:<xsl:value-of select="$color_cover_itu_logo"/>;}</style>
@@ -2675,9 +2798,11 @@
 			<path class="cls-1" d="M244.46942,124.04334a1.40422,1.40422,0,0,1,1.40663,1.40094v43.22185c0,28.627-15.0027,43.76154-43.38279,43.76154-27.4157,0-41.31559-14.93933-41.31559-44.4046V125.44428a1.39921,1.39921,0,0,1,1.401-1.40094h25.38284a1.40043,1.40043,0,0,1,1.40664,1.40094v42.441c0,9.33564,2.45758,20.46263,14.1585,20.46263,9.5251,0,14.1529-6.69457,14.1529-20.46263v-42.441a1.404,1.404,0,0,1,1.40664-1.40094h25.3832"/>
 			<path class="cls-1" d="M271.12012,299c-16.84562-8.30792-35.804-17.7871-53.2867-28.20789q4.4696-3.46207,8.635-7.28018A133.03915,133.03915,0,0,0,247.28128,89.2695a134.47457,134.47457,0,0,0-183.33695-38.91C53.0126,35.11588,42.035,18.58043,30.43146,1,34.083,8.41225,44.91131,31.26336,57.60572,54.60822A135.0389,135.0389,0,0,0,.87988,164.51161,132.39673,132.39673,0,0,0,14.19454,222.5522,134.51424,134.51424,0,0,0,209.97884,276.436c20.48556,8.47442,41.07449,15.55367,61.14128,22.564M122.93256,287.31035a124.4229,124.4229,0,0,1-79.12931-39.63342,33.60229,33.60229,0,0,1-5.5575-15.96706,175.63893,175.63893,0,0,0,46.236,31.6298,187.00148,187.00148,0,0,0,59.79738,17.44261c-6.9757,4.87453-14.19285,7.13093-21.34657,6.52807M35.2888,220.36472c-.12055,1.24016-.19519,2.4516-.24705,3.65157-1.11368-1.21145-2.21053-2.42291-3.25517-3.65157H27.79026c2.23365,2.74441,4.65654,5.44865,7.22871,8.107a45.77546,45.77546,0,0,0,1.52718,10.55285A122.68891,122.68891,0,0,1,31.91274,96.4923a67.04283,67.04283,0,0,0-1.91757,18.82631H32.998a60.01641,60.01641,0,0,1,4.93163-27.09979A124.9733,124.9733,0,0,1,54.3905,71.115q4.70245-2.64395,9.6516-4.9262c7.3377,12.87816,14.97957,25.13044,22.00714,34.18475a148.36379,148.36379,0,0,1-23.71234-.49375l1.28609.36171c-.40756-.03445-.8095-.07464-1.223-.11483,2.50313,5.2075,5.24211,10.26575,8.14719,15.192h51.174q-4.01332-3.28127-7.90049-6.80366A214.83757,214.83757,0,0,1,150.4569,84.37778a53.34945,53.34945,0,0,0,15.33,11.7241,55.86873,55.86873,0,0,0,23.69482,6.4649c.90166,4.13961,1.67681,8.39979,2.31986,12.75183h3.05436q-.94722-6.53667-2.29077-12.77481c7.64748-.32152,14.16411-2.77312,18.07423-7.25146a134.07139,134.07139,0,0,1,17.02329,20.02627h3.6459A136.97749,136.97749,0,0,0,212.41925,92.812a16.79184,16.79184,0,0,0,1.36633-12.93552,28.74433,28.74433,0,0,0-4.31767-8.95674,30.75992,30.75992,0,0,1,14.968,7.02761,122.772,122.772,0,0,1,27.39258,131.0722c-10.52418,21.89225-35.98762,33.78285-67.28436,34.65556,13.21689-3.34152,23.74668-7.92323,36.22872-15.82926-4.66776-2.14155-9.35268-4.48408-14.038-6.98737-1.44658.07464-2.91069.12057-4.4207.12057-26.07215,0-42.30907-11.483-47.59113-34.18476-8.18749-6.27545-16.18541-12.815-23.91909-19.48085V186.312c10.95486,9.9787,21.89219,19.14211,32.10623,27.5878-7.85984,5.23625-33.30611,12.96428-38.29,13.837q6.425,5.14149,13.00454,9.78347a193.15732,193.15732,0,0,1-31.4229-11.83893q-1.50755-.72342-2.99724-1.46982c-.14333-.06891-.2814-.13779-.41912-.20669q-2.79014-1.40381-5.506-2.87648a142.74922,142.74922,0,0,1-33.249-24.631v4.21425q4.43541,4.2975,9.41015,8.2907a161.36744,161.36744,0,0,0,33.77149,20.4741,193.87776,193.87776,0,0,0,37.5954,13.00445q10.4809,6.97591,21.226,12.9413c-.08025.14355-.16646.29281-.25267.4421-5.52876,9.37583-11.54042,16.78233-17.79283,22.05875-19.77944-1.72244-41.33837-7.50411-62.26618-17.5115-18.82626-9.00265-35.19529-20.5832-47.72885-33.30632a59.25825,59.25825,0,0,1,.32135-6.74049ZM143.4006,71.93026a29.50071,29.50071,0,0,0,5.09283,10.05906,219.33257,219.33257,0,0,0-36.93484,24.46443c-13.62445-12.64847-26.25017-27.427-38.72625-43.98547.06869-.023.13211-.05738.2008-.08038.01156-.00574.02873-.01147.0403-.01721v.00574A109.521,109.521,0,0,1,90.648,57.42727a126.6736,126.6736,0,0,1,54.11372,1.57318,16.75412,16.75412,0,0,0-1.36108,12.92981m2.917-.77512a13.70221,13.70221,0,0,1,1.3835-11.18439c.0403-.06316.09182-.12059.13212-.18371a143.44783,143.44783,0,0,1,28.32857,10.93177q-2.86792.82678-5.82768,1.83727a157.61385,157.61385,0,0,0-19.06175,8.03234,26.81162,26.81162,0,0,1-4.95476-9.43328m31.05564-3.198A147.18752,147.18752,0,0,0,150.02657,57.255c3.72019-3.37024,9.47919-5.08123,16.14476-5.0927a69.51757,69.51757,0,0,1,11.20191,15.7948m-6.7693-15.5594a54.77565,54.77565,0,0,1,19.40027,5.9941,52.42951,52.42951,0,0,1,12.06888,8.58352,78.61407,78.61407,0,0,0-20.57772,2.34825,79.14234,79.14234,0,0,0-10.89143-16.92587m.70612,23.01761c2.90508-.9933,5.73587-1.83728,8.50884-2.555q1.83451,3.953,3.47944,8.34234a152.17933,152.17933,0,0,1,5.50038,18.37848,53.66044,53.66044,0,0,1-21.61675-6.1606,50.91755,50.91755,0,0,1-13.90024-10.461,154.40473,154.40473,0,0,1,18.02833-7.54427m14.81872,4.731q-.973-2.60091-2.01533-5.05249a142.63376,142.63376,0,0,1,24.3326,18.12584c-3.45071,4.07645-9.43328,6.2295-16.52988,6.40748a157.66347,157.66347,0,0,0-5.78739-19.48083M184.412,71.781a69.52887,69.52887,0,0,1,20.74978-1.487A27.61015,27.61015,0,0,1,210.863,80.65155a14.07557,14.07557,0,0,1-.71769,10.01889A146.12178,146.12178,0,0,0,184.412,71.781m6.98165-16.07038a55.6803,55.6803,0,0,0-23.71794-6.45916,43.3225,43.3225,0,0,0-7.05069-5.71279,124.27675,124.27675,0,0,1,53.95848,25.47493,42.49122,42.49122,0,0,0-7.96322-1.69373,53.22364,53.22364,0,0,0-15.22663-11.60925m-28.1905-6.35583c-6.95293.54545-12.86086,2.89944-16.53549,7.01035a129.93743,129.93743,0,0,0-56.59934-1.90043,113.03233,113.03233,0,0,0-18.574,5.27067v.01148c-.178.0689-.36164.14354-.54527.21245-.13772-.1895-.287-.38469-.42508-.57414a124.53515,124.53515,0,0,1,65.22347-18.31533q5.55453,0,10.9892.47654c5.74709.67747,11.30494,3.353,16.46646,7.80841M148.72892,281.20141c3.85265.30431,7.66465.47655,11.41988.47655,2.78453,0,5.54629-.08612,8.26179-.25837,3.69741-.22965,7.25744-.63156,10.67906-1.17125a124.84385,124.84385,0,0,1-41.6082,7.68209,45.52058,45.52058,0,0,0,11.24747-6.729m3.44475-2.97408a92.61049,92.61049,0,0,0,16.20818-20.83009c.10338-.17224.20115-.34447.29857-.51671,9.70907,5.31086,19.54395,10.08778,29.42508,14.47425-.683.39616-1.3779.76936-2.06685,1.1483-12.26968,4.7482-27.3698,6.68882-43.865,5.72425m31.343-31.515c4.19678-.08612,8.33643-.36171,12.37831-.83826,20.75575-2.46308,37.45173-9.88683,48.60739-21.364a124.33918,124.33918,0,0,1-36.27463,40.34537,214.60728,214.60728,0,0,1-24.71107-18.14309"/>
 		</svg>
-	</xsl:variable>
+	</xsl:template>
 
 	<xsl:template name="insertImageCoverColorBand">
+		<xsl:param name="bureau"/>
+		<xsl:param name="doctype"/>
 		<xsl:variable name="color">
 			<xsl:choose>
 				<xsl:when test="$bureau = 'R'">
@@ -3429,6 +3554,7 @@
 	<xsl:template name="refine_table-container-style">
 		<xsl:param name="margin-side"/>
 
+			<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 			<xsl:if test="$doctype = 'service-publication' and $lang != 'ar'">
 				<xsl:attribute name="font-family">Calibri</xsl:attribute>
 			</xsl:if>
@@ -3447,6 +3573,7 @@
 
 		<xsl:call-template name="setBordersTableArray"/>
 
+			<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 			<xsl:if test="$doctype = 'service-publication'">
 				<xsl:attribute name="border">1pt solid rgb(211,211,211)</xsl:attribute>
 			</xsl:if>
@@ -3481,6 +3608,7 @@
 
 		<xsl:call-template name="setBordersTableArray"/>
 
+			<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 			<xsl:if test="$doctype = 'service-publication'">
 				<xsl:attribute name="border-bottom">1.1pt solid black</xsl:attribute>
 			</xsl:if>
@@ -3517,6 +3645,7 @@
 
 		<xsl:call-template name="setBordersTableArray"/>
 
+			<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 			<xsl:if test="ancestor::*[local-name()='preface']">
 				<xsl:if test="$doctype != 'service-publication'">
 					<xsl:attribute name="border">solid black 0pt</xsl:attribute>
@@ -3559,6 +3688,7 @@
 			<xsl:if test="ancestor::*[local-name()='preface']">
 				<xsl:attribute name="border">solid black 0pt</xsl:attribute>
 			</xsl:if>
+			<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 			<xsl:if test="$doctype = 'service-publication'">
 				<xsl:attribute name="border">1pt solid rgb(211,211,211)</xsl:attribute>
 				<xsl:attribute name="padding-top">1mm</xsl:attribute>
@@ -3576,6 +3706,7 @@
 
 	<xsl:template name="refine_table-footer-cell-style">
 
+			<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 			<xsl:if test="ancestor::*[local-name()='preface']">
 				<xsl:if test="$doctype != 'service-publication'">
 					<xsl:attribute name="border">solid black 0pt</xsl:attribute>
@@ -4102,6 +4233,7 @@
 
 	<xsl:template name="refine_fn-body-style">
 
+			<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 			<xsl:if test="$doctype = 'service-publication'">
 				<xsl:attribute name="font-size">10pt</xsl:attribute>
 			</xsl:if>
@@ -5052,6 +5184,7 @@
 
 		<xsl:variable name="table-preamble">
 
+				<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 				<xsl:if test="$doctype != 'service-publication'">
 					<fo:block space-before="18pt"> </fo:block>
 				</xsl:if>
@@ -5797,6 +5930,7 @@
 						</xsl:choose>
 					</xsl:for-each>
 
+						<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 						<xsl:if test="$doctype = 'service-publication'">
 							<xsl:attribute name="border">none</xsl:attribute>
 							<xsl:attribute name="font-family">Arial</xsl:attribute>
@@ -5827,6 +5961,7 @@
 
 								<!-- fn will be processed inside 'note' processing -->
 
+									<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 									<xsl:if test="$doctype = 'service-publication'">
 										<fo:block margin-top="7pt" margin-bottom="2pt" role="SKIP"><fo:inline>____________</fo:inline></fo:block>
 									</xsl:if>
@@ -6027,6 +6162,7 @@
 
 	<xsl:template name="setTableRowAttributes">
 
+			<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 			<xsl:if test="$doctype = 'service-publication'">
 				<xsl:attribute name="min-height">5mm</xsl:attribute>
 			</xsl:if>
@@ -13361,6 +13497,7 @@
 
 				<!-- start ITU bibitem processing -->
 				<!-- Example: [ITU-T A.23]	ITU-T A.23, Recommendation ITU-T A.23, Annex A (2014), Guide for ITU-T and ISO/IEC JTC 1 cooperation. -->
+				<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
 				<xsl:if test="$doctype = 'implementers-guide'">
 					<xsl:attribute name="margin-left">0mm</xsl:attribute>
 					<xsl:attribute name="text-indent">0mm</xsl:attribute>
@@ -14053,7 +14190,8 @@
 			<!-- add @id - first element with @id plus '_element_name' -->
 			<xsl:variable name="prefix_id_" select="(.//*[@id])[1]/@id"/>
 			<xsl:variable name="prefix_id"><xsl:value-of select="$prefix_id_"/><xsl:if test="normalize-space($prefix_id_) = ''"><xsl:value-of select="generate-id()"/></xsl:if></xsl:variable>
-			<xsl:attribute name="id"><xsl:value-of select="$prefix_id"/>_<xsl:value-of select="local-name()"/></xsl:attribute>
+			<xsl:variable name="document_suffix" select="ancestor::*[contains(local-name(), '-standard')]/@document_suffix"/>
+			<xsl:attribute name="id"><xsl:value-of select="concat($prefix_id, '_', local-name(), '_', $document_suffix)"/></xsl:attribute>
 		</xsl:if>
 	</xsl:template>
 
@@ -15285,7 +15423,7 @@
 	</xsl:template>
 
 	<xsl:template name="namespaceCheck">
-		<xsl:variable name="documentNS" select="namespace-uri(/*)"/>
+		<xsl:variable name="documentNS" select="$namespace_full"/> <!-- namespace-uri(/*) -->
 		<xsl:variable name="XSLNS">
 
 				<xsl:value-of select="document('')//*/namespace::itu"/>
@@ -15374,6 +15512,9 @@
 			<xsl:choose>
 				<xsl:when test="$formatted = 'true' and string-length($bibdata_updated) != ''">
 					<xsl:apply-templates select="xalan:nodeset($bibdata_updated)//*[local-name() = 'localized-string'][@key = $key and @language = $curr_lang]"/>
+				</xsl:when>
+				<xsl:when test="string-length($bibdata_updated) != ''">
+					<xsl:value-of select="xalan:nodeset($bibdata_updated)//*[local-name() = 'localized-string'][@key = $key and @language = $curr_lang]"/>
 				</xsl:when>
 				<xsl:when test="$formatted = 'true'">
 					<xsl:apply-templates select="xalan:nodeset($bibdata)//*[local-name() = 'localized-string'][@key = $key and @language = $curr_lang]"/>

@@ -394,7 +394,7 @@
 						<xsl:when test="$layoutVersion = '2023'">
 							<!-- cover page, version 2023 -->
 							<fo:page-sequence force-page-count="no-force" master-reference="cover-page_2023" writing-mode="lr-tb" font-family="Arial" font-size="12pt">
-								<fo:static-content flow-name="header" role="artifact" id="__internal_layout__coverpage_header_{generate-id()}">
+								<fo:static-content flow-name="header" role="artifact" id="__internal_layout__coverpage_header_{$num}_{generate-id()}">
 									<!-- background cover image -->
 									<xsl:call-template name="insertBackgroundPageImage"/>
 									<xsl:choose>
@@ -768,7 +768,7 @@
 							<xsl:variable name="secondCoverPageData" select="xalan:nodeset($secondCoverPageData_)"/>
 							<fo:page-sequence force-page-count="no-force" master-reference="cover-page_2023">
 								<xsl:if test="$secondCoverPageData//*[self::fo:instream-foreign-object or self::fo:external-graphic]">
-									<fo:static-content flow-name="header" role="artifact" id="__internal_layout__coverpage2_header_{generate-id()}">
+									<fo:static-content flow-name="header" role="artifact" id="__internal_layout__coverpage2_header_{$num}_{generate-id()}">
 										<xsl:copy-of select="$secondCoverPageData"/>
 									</fo:static-content>
 								</xsl:if>
@@ -1108,7 +1108,7 @@
 											</fo:block>
 										</fo:block-container>
 										<fo:block-container font-family="Arial">
-											<fo:table width="100%" table-layout="fixed" id="__internal_layout__coverpage_{generate-id()}"> <!-- 175.4mm-->
+											<fo:table width="100%" table-layout="fixed" id="__internal_layout__coverpage_{$num}_{generate-id()}"> <!-- 175.4mm-->
 												<fo:table-column column-width="25.2mm"/>
 												<fo:table-column column-width="44.4mm"/>
 												<fo:table-column column-width="35.8mm"/>
@@ -1576,6 +1576,7 @@
 
 										<xsl:apply-templates select="/*/*[local-name()='preface']//*[local-name() = 'clause'][@type = 'toc']">
 											<xsl:with-param name="process">true</xsl:with-param>
+											<xsl:with-param name="num" select="$num"/>
 										</xsl:apply-templates>
 									</xsl:if>
 
@@ -1802,6 +1803,7 @@
 
 	<xsl:template match="itu:preface//itu:clause[@type = 'toc']" priority="4">
 		<xsl:param name="process">false</xsl:param>
+		<xsl:param name="num"/>
 
 		<xsl:if test="$process = 'true'">
 			<xsl:variable name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
@@ -1814,7 +1816,7 @@
 
 						<xsl:if test="count(*) = 1 and *[local-name() = 'title']"> <!-- if there isn't user ToC -->
 
-							<xsl:for-each select="$contents//item[@display = 'true']">
+							<xsl:for-each select="$contents/doc[@num = $num]//item[@display = 'true']">
 								<fo:block role="TOCI">
 									<xsl:if test="@level = 1">
 										<xsl:attribute name="margin-top">6pt</xsl:attribute>

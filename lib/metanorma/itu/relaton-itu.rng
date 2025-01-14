@@ -18,6 +18,7 @@
         <value>service-publication</value>
         <value>handbook</value>
         <value>question</value>
+        <value>contribution</value>
       </choice>
     </define>
     <define name="editorialgroup">

@@ -538,6 +538,18 @@ RSpec.describe IsoDoc::Itu do
           </organization>
         </contributor>
       </bibitem>
+      <bibitem id="ITU712b" type="standard">
+        <title format="text/plain">Cereals or cereal products</title>
+        <title type="main" format="text/plain">Cereals and cereal products</title>
+        <docidentifier type="DOI">DOI 712</docidentifier>
+        <date type="published"><on>2016</on></date>
+        <contributor>
+          <role type="publisher"/>
+          <organization>
+            <name>International Organization for Standardization</name>
+          </organization>
+        </contributor>
+      </bibitem>
       <bibitem id="ITU713" type="standard">
         <title format="text/plain">Cereals or cereal products</title>
         <title type="main" format="text/plain">Cereals and cereal products</title>
@@ -627,6 +639,17 @@ RSpec.describe IsoDoc::Itu do
                    </date>
                    <biblio-tag>[ITU 712]</biblio-tag>
                 </bibitem>
+        <bibitem id="ITU712b" type="standard">
+           <formattedref>
+              <em>Cereals and cereal products</em>
+              .
+           </formattedref>
+           <docidentifier type="DOI">DOI 712</docidentifier>
+           <date type="published">
+              <on>2016</on>
+           </date>
+           <biblio-tag/>
+        </bibitem>
                 <bibitem id="ITU713" type="standard">
                    <formattedref>
                       ITU-T G-series Recommendations – Supplement 41,
@@ -689,6 +712,13 @@ RSpec.describe IsoDoc::Itu do
                 .
               </td>
             </tr>
+                      <tr id="ITU712b" class="NormRef">
+                         <td style="vertical-align:top"/>
+                         <td>
+                            <i>Cereals and cereal products</i>
+                            .
+                         </td>
+                      </tr>
             <tr id='ITU713' class='NormRef'>
               <td style='vertical-align:top'>[ITU&#8209;T&#160;G&#160;Suppl.&#160;41]</td>
               <td>

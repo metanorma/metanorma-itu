@@ -2612,6 +2612,140 @@
 		</fo:inline>
 	</xsl:template>
 
+	<!-- https://github.com/metanorma/metanorma-itu/issues/607 -->
+	<xsl:template match="*[local-name() = 'references']/*[local-name() = 'bibitem'][1]" priority="5">
+		<xsl:param name="doctype" select="ancestor::itu:itu-standard/itu:bibdata/itu:ext/itu:doctype[not(@language) or @language = '']"/>
+
+		<xsl:variable name="docidentifier_metanorma_ordinal" select="normalize-space(itu:docidentifier[@type = 'metanorma-ordinal'])"/>
+
+		<xsl:variable name="bibitem_label">
+			<xsl:apply-templates select="*[local-name() = 'biblio-tag']">
+				<xsl:with-param name="biblio_tag_part">first</xsl:with-param>
+			</xsl:apply-templates>
+		</xsl:variable>
+
+		<xsl:choose>
+			<xsl:when test="$bibitem_label != '' and $bibitem_label != $docidentifier_metanorma_ordinal">
+
+				<xsl:variable name="bibitems_table_simple">
+					<tbody>
+						<xsl:call-template name="bibitem_itu"/>
+						<xsl:for-each select="following-sibling::*[local-name() = 'bibitem']">
+							<xsl:call-template name="bibitem_itu"/>
+						</xsl:for-each>
+					</tbody>
+				</xsl:variable>
+				<!-- bibitems_table_simple='<xsl:copy-of select="$bibitems_table_simple"/>' -->
+
+				<xsl:variable name="root-style">
+					<root-style xsl:use-attribute-sets="root-style"/>
+				</xsl:variable>
+				<!-- <xsl:variable name="font_family" select="normalize-space(substring-before(xalan:nodeset($root-style)/root-style/@font-family, ' '))"/> -->
+				<xsl:variable name="font_size" select="normalize-space(translate(xalan:nodeset($root-style)/root-style/@font-size, 'pt', ''))"/>
+
+				<!-- maximum row length is 65 characters (experimentally calculated by char 'E', 12pt Times New Roman) -->
+				<xsl:variable name="col1_widths">
+					<xsl:for-each select="itu:biblio-tag | following-sibling::*[local-name() = 'bibitem']/itu:biblio-tag">
+						<colwidth v="{.}"><xsl:value-of select="format-number(java:org.metanorma.fop.Util.getStringWidthByFontSize(., $font_main, $font_size), '#')"/></colwidth>
+					</xsl:for-each>
+				</xsl:variable>
+				<!-- col1_widths='<xsl:copy-of select="$col1_widths"/>'
+				font_size='<xsl:value-of select="$font_size"/>' -->
+
+				<xsl:variable name="col1_width_">
+					<xsl:for-each select="xalan:nodeset($col1_widths)/colwidth">
+						<xsl:sort select="." data-type="number"/>
+						<xsl:if test="position() = last()">
+							<xsl:value-of select=". * $font_size * 0.0264583333"/> <!-- em to mm: (em * em size) * 0.0264583333 -->
+						</xsl:if>
+					</xsl:for-each>
+					<!-- <xsl:for-each select="itu:biblio-tag | following-sibling::*[local-name() = 'bibitem']/itu:biblio-tag">
+						<xsl:sort select="string-length(.)" data-type="number" />
+						<xsl:if test="position() = last()">
+							<xsl:value-of select="string-length(.)" />
+						</xsl:if>
+					</xsl:for-each> -->
+				</xsl:variable>
+				<xsl:variable name="col1_width" select="format-number(number(normalize-space($col1_width_)), '#') + 10"/>
+
+				<!-- col1_width='<xsl:value-of select="$col1_width"/>'
+				width_effective='<xsl:value-of select="$width_effective"/>' -->
+
+				<xsl:variable name="colwidths">
+					<xsl:choose>
+						<!-- <xsl:when test="$col1_width &lt; 50">
+							<column><xsl:value-of select="$col1_width"/></column>
+							<column><xsl:value-of select="65 - $col1_width"/></column>
+						</xsl:when> -->
+						<xsl:when test="$col1_width &lt; $width_effective div 2">
+							<column><xsl:value-of select="$col1_width"/></column>
+							<column><xsl:value-of select="$width_effective - $col1_width"/></column>
+						</xsl:when>
+
+						<xsl:otherwise>
+							<column>1</column>
+							<column>1</column>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+
+				<fo:table width="100%" table-layout="fixed">
+					<xsl:for-each select="xalan:nodeset($colwidths)/column">
+						<fo:table-column column-width="proportional-column-width({.})"/>
+					</xsl:for-each>
+					<fo:table-body>
+						<xsl:for-each select="xalan:nodeset($bibitems_table_simple)//tr">
+							<fo:table-row>
+								<fo:table-cell><fo:block id="{@id}" xsl:use-attribute-sets="bibitem-non-normative-style"><xsl:copy-of select="td[1]/node()"/></fo:block></fo:table-cell>
+								<fo:table-cell><fo:block xsl:use-attribute-sets="bibitem-non-normative-style"><xsl:copy-of select="td[2]/node()"/></fo:block></fo:table-cell>
+							</fo:table-row>
+						</xsl:for-each>
+
+					</fo:table-body>
+				</fo:table>
+
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:for-each select=". | following-sibling::*[local-name() = 'bibitem']">
+					<xsl:choose>
+						<xsl:when test="ancestor::*[local-name() = 'references'][1][not(@normative='true')]">
+							<xsl:call-template name="bibitem_non_normative">
+								<xsl:with-param name="skip">false</xsl:with-param>
+							</xsl:call-template>
+						</xsl:when>
+						<xsl:otherwise> <!-- normative reference -->
+							<xsl:call-template name="bibitem">
+								<xsl:with-param name="skip">false</xsl:with-param>
+							</xsl:call-template>
+						</xsl:otherwise>
+					</xsl:choose>
+
+				</xsl:for-each>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template name="bibitem_itu">
+		<xsl:variable name="bibitem_label">
+			<xsl:apply-templates select="*[local-name() = 'biblio-tag']">
+				<xsl:with-param name="biblio_tag_part">first</xsl:with-param>
+			</xsl:apply-templates>
+		</xsl:variable>
+
+		<xsl:variable name="bibitem_body">
+			<xsl:apply-templates select="*[local-name() = 'biblio-tag']">
+				<xsl:with-param name="biblio_tag_part">last</xsl:with-param>
+			</xsl:apply-templates>
+			<xsl:apply-templates select="itu:formattedref"/>
+		</xsl:variable>
+
+		<tr id="{@id}">
+			<td><xsl:copy-of select="$bibitem_label"/></td>
+			<td><xsl:copy-of select="$bibitem_body"/></td>
+		</tr>
+
+	</xsl:template>
+
 <!-- 	
 	<xsl:template match="itu:annex/itu:clause">
 		<xsl:apply-templates />
@@ -13453,11 +13587,16 @@
 
 	<!-- Normative references -->
 	<xsl:template match="*[local-name() = 'references'][@normative='true']/*[local-name() = 'bibitem']" name="bibitem" priority="2">
+		<xsl:param name="skip" select="normalize-space(preceding-sibling::*[1][local-name() = 'bibitem'] and 1 = 1)"/> <!-- current bibiitem is non-first -->
 
-				<fo:block id="{@id}" xsl:use-attribute-sets="bibitem-normative-style">
-
-					<xsl:call-template name="processBibitem"/>
-				</fo:block>
+				<xsl:choose>
+					<xsl:when test="$skip = 'true'"><!-- skip bibitem --></xsl:when>
+					<xsl:otherwise>
+						<fo:block id="{@id}" xsl:use-attribute-sets="bibitem-normative-style">
+							<xsl:call-template name="processBibitem"/>
+						</fo:block>
+					</xsl:otherwise>
+				</xsl:choose>
 
 	</xsl:template> <!-- bibitem -->
 
@@ -13465,9 +13604,14 @@
 	<xsl:template match="*[local-name() = 'references'][not(@normative='true')]/*[local-name() = 'bibitem']" name="bibitem_non_normative" priority="2">
 		<xsl:param name="skip" select="normalize-space(preceding-sibling::*[1][local-name() = 'bibitem'] and 1 = 1)"/> <!-- current bibiitem is non-first -->
 
-				<fo:block id="{@id}" xsl:use-attribute-sets="bibitem-non-normative-style">
-					<xsl:call-template name="processBibitem"/>
-				</fo:block>
+				<xsl:choose>
+					<xsl:when test="$skip = 'true'"><!-- skip bibitem --></xsl:when>
+					<xsl:otherwise>
+						<fo:block id="{@id}" xsl:use-attribute-sets="bibitem-non-normative-style">
+							<xsl:call-template name="processBibitem"/>
+						</fo:block>
+					</xsl:otherwise>
+				</xsl:choose>
 
 	</xsl:template> <!-- references[not(@normative='true')]/bibitem -->
 

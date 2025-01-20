@@ -42,7 +42,7 @@ RSpec.describe Metanorma::Itu::Processor do
           <terms id="H" obligation="normative" displayorder="1"><fmt-title>Terms</fmt-title>
             <term id="J">
               <fmt-name>1.1.</fmt-name>
-              <preferred>Term2</preferred>
+              <fmt-preferred>Term2</fmt-preferred>
             </term>
           </terms>
           <preface/>

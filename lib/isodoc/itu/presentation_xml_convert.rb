@@ -40,14 +40,22 @@ module IsoDoc
       def designation1(desgn)
         super
         desgn.name == "preferred" or return
-        desgn.children = l10n "#{to_xml desgn.children}:"
+        out = desgn.parent
+          .at(ns("./fmt-preferred//semx[@element = 'preferred'][last()]"))
+       out or return
+        out.text.strip.empty? and return
+        out.children = l10n "#{to_xml out.children}:"
       end
 
-      def termsource1(elem)
-        while elem&.next_element&.name == "termsource"
-          elem << "; #{to_xml(elem.next_element.remove.children)}"
+      def designation(docxml)
+        super
+        docxml.xpath(ns("//fmt-preferred")).each do |x|
+          x.xpath(ns("./p")).each { |p| p.replace(p.children) }
         end
-        elem.children = l10n(to_xml(elem.children).strip)
+      end
+
+      def termsource_label(elem, sources)
+        elem.replace(sources)
       end
 
       def eref1(elem)

@@ -49,7 +49,7 @@ RSpec.describe Metanorma::Itu do
             <p id='_'>None.</p>
           </references>
         </bibliography>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -88,7 +88,7 @@ RSpec.describe Metanorma::Itu do
             <title>Section 1</title>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -111,7 +111,7 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~OUTPUT
         #{BLANK_HDR.sub('recommendation', 'resolution')}
-        #{boilerplate(Nokogiri::XML("#{BLANK_HDR.sub('recommendation', 'resolution')}</itu-standard>"))}
+        #{boilerplate(Nokogiri::XML("#{BLANK_HDR.sub('recommendation', 'resolution')}</metanorma>"))}
         <preface>
           <foreword id="_" obligation="informative">
             <title>Foreword</title>
@@ -123,7 +123,7 @@ RSpec.describe Metanorma::Itu do
             <clause id='_' inline-header='true' obligation='normative'> </clause>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -157,7 +157,7 @@ RSpec.describe Metanorma::Itu do
             <clause id='_' inline-header='false' obligation='normative'> </clause>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -189,7 +189,7 @@ RSpec.describe Metanorma::Itu do
             <p id="_">text</p>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -422,7 +422,7 @@ RSpec.describe Metanorma::Itu do
             <title>Second Bibliography</title>
           </references>
         </bibliography>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -519,7 +519,7 @@ RSpec.describe Metanorma::Itu do
             </definitions>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)

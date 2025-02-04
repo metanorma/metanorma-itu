@@ -24,7 +24,7 @@ RSpec.describe Metanorma::Itu do
             <p id="_">None.</p>
           </references>
         </bibliography>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -53,7 +53,7 @@ RSpec.describe Metanorma::Itu do
             </bibitem>
           </references>
         </bibliography>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -89,7 +89,7 @@ RSpec.describe Metanorma::Itu do
             </terms>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -117,7 +117,7 @@ RSpec.describe Metanorma::Itu do
             </terms>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -159,7 +159,7 @@ RSpec.describe Metanorma::Itu do
             </terms>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -194,7 +194,7 @@ RSpec.describe Metanorma::Itu do
             </terms>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -232,7 +232,7 @@ RSpec.describe Metanorma::Itu do
             </terms>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -259,7 +259,7 @@ RSpec.describe Metanorma::Itu do
             </dl>
           </definitions>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -286,7 +286,7 @@ RSpec.describe Metanorma::Itu do
             </dl>
           </definitions>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -315,7 +315,7 @@ RSpec.describe Metanorma::Itu do
             <p id='_'>None.</p>
           </references>
         </bibliography>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)

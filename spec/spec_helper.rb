@@ -124,7 +124,7 @@ def itudoc(lang)
              "Latn"
            end
   <<~"INPUT"
-             <itu-standard xmlns="http://riboseinc.com/isoxml">
+             <metanorma xmlns="http://riboseinc.com/isoxml">
              <bibdata type="standard">
              <title language="en" format="text/plain" type="main">An ITU Standard</title>
              <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
@@ -193,13 +193,13 @@ def itudoc(lang)
      </references>
      </clause>
      </bibliography>
-     </itu-standard>
+     </metanorma>
   INPUT
 end
 
 BLANK_HDR = <<~"HDR".freeze
   <?xml version="1.0" encoding="UTF-8"?>
-  <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::Itu::VERSION}">
+  <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}">
   <bibdata type="standard">
    <title language="en" format="text/plain" type="main">Document title</title>
 
@@ -269,7 +269,7 @@ HDR
 def blank_hdr_gen
   <<~"HDR"
     #{BLANK_HDR}
-    #{boilerplate(Nokogiri::XML("#{BLANK_HDR}</itu-standard>"))}
+    #{boilerplate(Nokogiri::XML("#{BLANK_HDR}</metanorma>"))}
   HDR
 end
 

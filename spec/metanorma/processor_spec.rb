@@ -28,7 +28,7 @@ RSpec.describe Metanorma::Itu::Processor do
     output = <<~OUTPUT
         #{blank_hdr_gen}
         <sections/>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(strip_guid(Xml::C14n.format(processor.input_to_isodoc(input, nil))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -37,7 +37,7 @@ RSpec.describe Metanorma::Itu::Processor do
   it "generates HTML from IsoDoc XML" do
     FileUtils.rm_f "test.xml"
     processor.output(<<~INPUT, "test.xml", "test.html", :html)
-      <itu-standard xmlns="http://riboseinc.com/isoxml">
+      <metanorma xmlns="http://riboseinc.com/isoxml">
         <sections>
           <terms id="H" obligation="normative" displayorder="1"><fmt-title>Terms</fmt-title>
             <term id="J">
@@ -47,7 +47,7 @@ RSpec.describe Metanorma::Itu::Processor do
           </terms>
           <preface/>
         </sections>
-      </itu-standard>
+      </metanorma>
     INPUT
     expect(Xml::C14n.format(strip_guid(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<main}m, "<main")

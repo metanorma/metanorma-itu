@@ -25,7 +25,7 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
       #{@blank_hdr}
       <sections/>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -43,7 +43,7 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections/>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(output)
@@ -78,7 +78,7 @@ RSpec.describe Metanorma::Itu do
       :legacy-do-not-insert-missing-sections:
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::Itu::VERSION}">
+      <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}">
         <bibdata type="standard">
           <title language="en" format="text/plain" type="main">Main Title</title>
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
@@ -153,7 +153,7 @@ RSpec.describe Metanorma::Itu do
            </presentation-metadata>
          </metanorma-extension>
         <sections/>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     xml.xpath("//xmlns:boilerplate")
       .each(&:remove)
@@ -252,7 +252,7 @@ RSpec.describe Metanorma::Itu do
         :timing: 2025-Q4
       INPUT
       output = <<~"OUTPUT"
-        <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::Itu::VERSION}">
+        <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}">
                     <bibdata type='standard'>
                                  <title language="en" format="text/plain" type="main">Main Title</title>
              <title language="en" format="text/plain" type="annex">I3</title>
@@ -686,7 +686,7 @@ RSpec.describe Metanorma::Itu do
              </presentation-metadata>
           </metanorma-extension>
           <sections> </sections>
-       </itu-standard>
+       </metanorma>
       OUTPUT
       xml.xpath("//xmlns:boilerplate | //xmlns:fetched")
         .each(&:remove)
@@ -863,7 +863,7 @@ RSpec.describe Metanorma::Itu do
       :email_2: y@example.com
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -989,7 +989,7 @@ RSpec.describe Metanorma::Itu do
           </ext>
         </bibdata>
         <sections> </sections>
-        </itu-standard>
+        </metanorma>
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
@@ -1058,7 +1058,7 @@ RSpec.describe Metanorma::Itu do
       :email_2: y@example.com
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -1183,7 +1183,7 @@ RSpec.describe Metanorma::Itu do
           </ext>
         </bibdata>
         <sections> </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
@@ -1229,7 +1229,7 @@ RSpec.describe Metanorma::Itu do
       :draft: 5
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -1315,7 +1315,7 @@ RSpec.describe Metanorma::Itu do
           </ext>
         </bibdata>
         <sections> </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
@@ -1375,7 +1375,7 @@ RSpec.describe Metanorma::Itu do
     INPUT
 
     output = <<~OUTPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -1500,7 +1500,7 @@ RSpec.describe Metanorma::Itu do
           </ext>
         </bibdata>
         <sections> </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
@@ -1526,7 +1526,7 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~"OUTPUT"
       <?xml version="1.0" encoding="UTF-8"?>
-      <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::Itu::VERSION}">
+      <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}">
       <bibdata type="standard">
         <title language="en" format="text/plain" type="main">Main Title</title>
         <docidentifier primary="true" type="ITU">ITU-T 1000</docidentifier>
@@ -1574,7 +1574,7 @@ RSpec.describe Metanorma::Itu do
         </ext>
       </bibdata>
       <sections/>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
@@ -1674,7 +1674,7 @@ RSpec.describe Metanorma::Itu do
              </stem>
            </formula>
          </sections>
-       </itu-standard>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
@@ -1706,7 +1706,7 @@ RSpec.describe Metanorma::Itu do
             </ol>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
@@ -1744,7 +1744,7 @@ RSpec.describe Metanorma::Itu do
             <p id="_">"Quotation" A's</p>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
@@ -1816,7 +1816,7 @@ RSpec.describe Metanorma::Itu do
             <p id='_'>&lt;&amp;&gt;</p>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
@@ -1859,7 +1859,7 @@ RSpec.describe Metanorma::Itu do
             </tbody>
           </table>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))

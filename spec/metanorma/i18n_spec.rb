@@ -58,7 +58,7 @@ RSpec.describe Metanorma::Itu do
 
     INPUT
     output = <<~"OUTPUT"
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -183,7 +183,7 @@ RSpec.describe Metanorma::Itu do
           </ext>
         </bibdata>
         <sections> </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
@@ -355,7 +355,7 @@ RSpec.describe Metanorma::Itu do
           <title>Second Bibliography</title>
         </references>
       </bibliography>
-            </itu-standard>
+            </metanorma>
     OUTPUT
   expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
@@ -414,7 +414,7 @@ RSpec.describe Metanorma::Itu do
 
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
       <bibdata type='standard'>
           <title language='zh' format='text/plain' type='main'>Document title</title>
           <title language='en' format='text/plain' type='main'>Main Title</title>
@@ -541,7 +541,7 @@ RSpec.describe Metanorma::Itu do
           </ext>
         </bibdata>
         <sections> </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
@@ -690,7 +690,7 @@ RSpec.describe Metanorma::Itu do
             <title>Second Bibliography</title>
           </references>
         </bibliography>
-       </itu-standard>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
@@ -748,7 +748,7 @@ RSpec.describe Metanorma::Itu do
 
     INPUT
     output = <<~OUTPUT
-           <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+           <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
       <bibdata type='standard'>
         <title language='en' format='text/plain' type='main'>Main Title</title>
         <title language='ar' format='text/plain' type='main'>Titre Principal</title>
@@ -880,7 +880,7 @@ RSpec.describe Metanorma::Itu do
         </ext>
       </bibdata>
       <sections> </sections>
-           </itu-standard>
+           </metanorma>
     OUTPUT
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
@@ -1045,7 +1045,7 @@ RSpec.describe Metanorma::Itu do
           <title>Second Bibliography</title>
         </references>
       </bibliography>
-            </itu-standard>
+            </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
@@ -1103,7 +1103,7 @@ RSpec.describe Metanorma::Itu do
 
     INPUT
     output = <<~OUTPUT
-           <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+           <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
             <bibdata type='standard'>
         <title language='en' format='text/plain' type='main'>Main Title</title>
         <title language='es' format='text/plain' type='main'>Titre Principal</title>
@@ -1228,7 +1228,7 @@ RSpec.describe Metanorma::Itu do
         </ext>
       </bibdata>
       <sections> </sections>
-            </itu-standard>
+            </metanorma>
     OUTPUT
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
@@ -1374,7 +1374,7 @@ RSpec.describe Metanorma::Itu do
           <title>Second Bibliography</title>
         </references>
       </bibliography>
-             </itu-standard>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
@@ -1432,7 +1432,7 @@ RSpec.describe Metanorma::Itu do
 
     INPUT
     output = <<~OUTPUT
-          <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+          <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
       <bibdata type='standard'>
         <title language='en' format='text/plain' type='main'>Main Title</title>
         <title language='de' format='text/plain' type='main'>Titre Principal</title>
@@ -1557,7 +1557,7 @@ RSpec.describe Metanorma::Itu do
         </ext>
       </bibdata>
       <sections> </sections>
-           </itu-standard>
+           </metanorma>
     OUTPUT
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
@@ -1702,7 +1702,7 @@ RSpec.describe Metanorma::Itu do
           <title>Second Bibliography</title>
         </references>
       </bibliography>
-             </itu-standard>
+             </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
@@ -1760,7 +1760,7 @@ RSpec.describe Metanorma::Itu do
 
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
       <bibdata type='standard'>
            <title language='en' format='text/plain' type='main'>Main Title</title>
            <title language='ru' format='text/plain' type='main'>Titre Principal</title>
@@ -1891,7 +1891,7 @@ RSpec.describe Metanorma::Itu do
            </ext>
          </bibdata>
          <sections> </sections>
-       </itu-standard>
+       </metanorma>
     OUTPUT
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
@@ -2052,7 +2052,7 @@ RSpec.describe Metanorma::Itu do
             <title>Second Bibliography</title>
           </references>
         </bibliography>
-      </itu-standard>
+      </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))

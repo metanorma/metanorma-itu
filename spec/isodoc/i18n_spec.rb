@@ -4,7 +4,7 @@ require "fileutils"
 RSpec.describe Metanorma::Itu do
   it "processes section names in French" do
     presxml = <<~OUTPUT
-      <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+      <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
           <bibdata type="standard">
              <title language="en" format="text/plain" type="main">An ITU Standard</title>
              <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
@@ -309,7 +309,7 @@ RSpec.describe Metanorma::Itu do
                 </references>
              </clause>
           </bibliography>
-       </itu-standard>
+       </metanorma>
     OUTPUT
 
     html = <<~OUTPUT
@@ -420,7 +420,7 @@ RSpec.describe Metanorma::Itu do
 
   it "processes section names in Chinese" do
     presxml = <<~OUTPUT
-       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+       <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
           <bibdata type="standard">
              <title language="en" format="text/plain" type="main">An ITU Standard</title>
              <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
@@ -725,7 +725,7 @@ RSpec.describe Metanorma::Itu do
                 </references>
              </clause>
           </bibliography>
-       </itu-standard>
+       </metanorma>
     OUTPUT
 
     html = <<~OUTPUT
@@ -848,7 +848,7 @@ RSpec.describe Metanorma::Itu do
   it "processes editor clauses, two editors in French" do
     FileUtils.rm_f "test.html"
     input = <<~INPUT
-      <itu-standard xmlns="http://riboseinc.com/isoxml">
+      <metanorma xmlns="http://riboseinc.com/isoxml">
       <bibdata type="standard">
       <title language="en" format="text/plain" type="main">An ITU Standard</title>
       <title language="en" format="text/plain" type="subtitle">Subtitle</title>
@@ -873,7 +873,7 @@ RSpec.describe Metanorma::Itu do
       <sections>
         <clause id="A"><p/></clause>
       </sections>
-      </itu-standard>
+      </metanorma>
     INPUT
     presxml = <<~OUTPUT
       <preface>

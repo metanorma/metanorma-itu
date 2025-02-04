@@ -31,7 +31,7 @@ RSpec.describe Metanorma::Itu do
 
   it "processes annexes and appendixes" do
     input = <<~INPUT
-             <itu-standard xmlns="http://riboseinc.com/isoxml">
+             <metanorma xmlns="http://riboseinc.com/isoxml">
              <bibdata type="standard">
              <title language="en" format="text/plain" type="main">An ITU Standard</title>
              <docidentifier type="ITU">12345</docidentifier>
@@ -69,7 +69,7 @@ RSpec.describe Metanorma::Itu do
       <annex id="B10" obligation="informative"><title>Annex</title></annex>
     INPUT
     presxml = <<~OUTPUT
-       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+       <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
            <bibdata type="standard">
               <title language="en" format="text/plain" type="main">An ITU Standard</title>
               <docidentifier type="ITU">12345</docidentifier>
@@ -638,7 +638,7 @@ RSpec.describe Metanorma::Itu do
                  <span class="fmt-obligation">(This appendix does not form an integral part of this Recommendation.)</span>
               </p>
            </annex>
-        </itu-standard>
+        </metanorma>
     OUTPUT
     html = <<~OUTPUT
               #{HTML_HDR}
@@ -765,7 +765,7 @@ RSpec.describe Metanorma::Itu do
 
   it "processes section names" do
     presxml = <<~OUTPUT
-       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+       <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
            <bibdata type="standard">
               <title language="en" format="text/plain" type="main">An ITU Standard</title>
               <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
@@ -1071,7 +1071,7 @@ RSpec.describe Metanorma::Itu do
                  </references>
               </clause>
            </bibliography>
-        </itu-standard>
+        </metanorma>
     OUTPUT
 
     html = <<~OUTPUT
@@ -1309,7 +1309,7 @@ RSpec.describe Metanorma::Itu do
   it "post-processes section names (Word)" do
     FileUtils.rm_f "test.doc"
     IsoDoc::Itu::WordConvert.new({}).convert("test", <<~INPUT, false)
-      <itu-standard xmlns="http://riboseinc.com/isoxml">
+      <metanorma xmlns="http://riboseinc.com/isoxml">
                      <bibdata type="standard">
                      <title language="en" format="text/plain" type="main">An ITU Standard</title>
                      <docidentifier type="ITU">12345</docidentifier>
@@ -1353,7 +1353,7 @@ RSpec.describe Metanorma::Itu do
                </clause>
                </clause>
              </annex>
-             </itu-standard>
+             </metanorma>
     INPUT
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
@@ -1404,7 +1404,7 @@ RSpec.describe Metanorma::Itu do
     FileUtils.rm_f "test.html"
     FileUtils.rm_f "test.doc"
     input = <<~INPUT
-             <itu-standard xmlns="http://riboseinc.com/isoxml">
+             <metanorma xmlns="http://riboseinc.com/isoxml">
              <bibdata type="standard">
              <title language="en" format="text/plain" type="main">An ITU Standard</title>
              <title language="en" format="text/plain" type="subtitle">Subtitle</title>
@@ -1428,11 +1428,11 @@ RSpec.describe Metanorma::Itu do
               <formula id="V"><stem type="AsciiMath">r = 1 %</stem></formula>
               </clause>
       </annex>
-      </itu-standard>
+      </metanorma>
     INPUT
 
     presxml = <<~OUTPUT
-            <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+            <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
            <bibdata type="standard">
               <title language="en" format="text/plain" type="main">An ITU Standard</title>
               <title language="en" format="text/plain" type="subtitle">Subtitle</title>
@@ -1563,7 +1563,7 @@ RSpec.describe Metanorma::Itu do
                  </formula>
               </clause>
            </annex>
-        </itu-standard>
+        </metanorma>
     OUTPUT
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
@@ -1741,7 +1741,7 @@ RSpec.describe Metanorma::Itu do
 
   it "processes unnumbered clauses" do
     input = <<~INPUT
-             <itu-standard xmlns="http://riboseinc.com/isoxml">
+             <metanorma xmlns="http://riboseinc.com/isoxml">
              <bibdata type="standard">
              <title language="en" format="text/plain" type="main">An ITU Standard</title>
              <title language="en" format="text/plain" type="subtitle">Subtitle</title>
@@ -1758,10 +1758,10 @@ RSpec.describe Metanorma::Itu do
       <clause unnumbered="true" id="A"><p>Text</p></clause>
       <clause id="B"><title>First Clause</title></clause>
       </sections>
-      </itu-standard>
+      </metanorma>
     INPUT
     presxml = <<~OUTPUT
-        <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+        <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
            <bibdata type="standard">
               <title language="en" format="text/plain" type="main">An ITU Standard</title>
               <title language="en" format="text/plain" type="resolution">RESOLUTION  (, )</title>
@@ -1798,7 +1798,7 @@ RSpec.describe Metanorma::Itu do
                  </fmt-title>
               </clause>
            </sections>
-        </itu-standard>
+        </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
@@ -1808,7 +1808,7 @@ RSpec.describe Metanorma::Itu do
 
   it "processes bis, ter etc clauses" do
     input = <<~INPUT
-                     <itu-standard xmlns="http://riboseinc.com/isoxml">
+                     <metanorma xmlns="http://riboseinc.com/isoxml">
                      <bibdata type="standard">
                      <title language="en" format="text/plain" type="main">An ITU Standard</title>
                      <title language="en" format="text/plain" type="subtitle">Subtitle</title>
@@ -1831,10 +1831,10 @@ RSpec.describe Metanorma::Itu do
       </clause>
               <clause id="E" number="10bit"><title>Non-Clause</title></clause>
               </sections>
-              </itu-standard>
+              </metanorma>
     INPUT
     presxml = <<~OUTPUT
-        <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+        <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
            <bibdata type="standard">
               <title language="en" format="text/plain" type="main">An ITU Standard</title>
               <title language="en" format="text/plain" type="resolution">RESOLUTION  (, )</title>
@@ -1966,7 +1966,7 @@ RSpec.describe Metanorma::Itu do
                  </fmt-title>
               </clause>
            </sections>
-        </itu-standard>
+        </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
@@ -1976,7 +1976,7 @@ RSpec.describe Metanorma::Itu do
 
   it "processes editor clauses, one editor" do
     input = <<~INPUT
-      <itu-standard xmlns="http://riboseinc.com/isoxml">
+      <metanorma xmlns="http://riboseinc.com/isoxml">
       <bibdata type="standard">
       <title language="en" format="text/plain" type="main">An ITU Standard</title>
       <title language="en" format="text/plain" type="subtitle">Subtitle</title>
@@ -2003,7 +2003,7 @@ RSpec.describe Metanorma::Itu do
       <sections>
         <clause id="A"/>
       </sections>
-      </itu-standard>
+      </metanorma>
     INPUT
     presxml = <<~OUTPUT
       <preface>
@@ -2039,7 +2039,7 @@ RSpec.describe Metanorma::Itu do
 
   it "processes editor clauses, two editors" do
     input = <<~INPUT
-      <itu-standard xmlns="http://riboseinc.com/isoxml">
+      <metanorma xmlns="http://riboseinc.com/isoxml">
       <bibdata type="standard">
       <title language="en" format="text/plain" type="main">An ITU Standard</title>
       <title language="en" format="text/plain" type="subtitle">Subtitle</title>
@@ -2064,7 +2064,7 @@ RSpec.describe Metanorma::Itu do
       <sections>
         <clause id="A"><p/></clause>
       </sections>
-      </itu-standard>
+      </metanorma>
     INPUT
     presxml = <<~OUTPUT
       <preface>
@@ -2106,7 +2106,7 @@ RSpec.describe Metanorma::Itu do
                 "html"),
     )
     input = <<~INPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic'>
+      <metanorma xmlns='https://www.metanorma.org/ns/itu' type='semantic'>
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -2271,10 +2271,10 @@ RSpec.describe Metanorma::Itu do
         <p id="_a42297b2-5f04-5da9-64c2-7e92670d5cad">TEXT 9</p>
         </clause>
         </annex>
-        </itu-standard>
+        </metanorma>
     INPUT
     presxml = <<~OUTPUT
-        <itu-standard>
+        <metanorma>
            <preface>
               <clause unnumbered="true" type="contribution-metadata" displayorder="1">
                  <table class="contribution-metadata" unnumbered="true" width="100%">
@@ -2564,13 +2564,13 @@ RSpec.describe Metanorma::Itu do
                  </tbody>
               </table>
            </annex>
-        </itu-standard>
+        </metanorma>
     OUTPUT
 
     xml = Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
     xml = xml.xpath("//xmlns:preface | //xmlns:sections | //xmlns:annex").to_xml
-    expect(Xml::C14n.format(strip_guid("<itu-standard>#{xml}</itu-standard>")))
+    expect(Xml::C14n.format(strip_guid("<metanorma>#{xml}</itu-standard>")))
       .to be_equivalent_to Xml::C14n.format(presxml)
 
     presxml = <<~OUTPUT

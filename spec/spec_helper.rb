@@ -74,6 +74,7 @@ def strip_guid(xml)
     .gsub(%r{ target="_[^"]+"}, ' target="_"')
     .gsub(%r{ source="_[^"]+"}, ' source="_"')
     .gsub(%r{ name="_[^"]+"}, ' name="_"')
+    .gsub(%r{ href="#_[^"]+"}, ' href="#_"')
     .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")
     .gsub(%r{ schema-version="[^"]+"}, "")
 end
@@ -104,7 +105,7 @@ def boilerplate_read(file, xmldoc)
   ret.to_xml(encoding: "UTF-8", indent: 2,
              save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
     .gsub(/<(\/)?sections>/, "<\\1boilerplate>")
-    .gsub(/ id="_[^"]+"/, " id='_'")
+    #.gsub(/ id="_[^"]+"/, " id='_'")
 end
 
 def boilerplate(xmldoc)
@@ -199,7 +200,7 @@ end
 
 BLANK_HDR = <<~"HDR".freeze
   <?xml version="1.0" encoding="UTF-8"?>
-  <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}">
+  <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}" flavor="itu">
   <bibdata type="standard">
    <title language="en" format="text/plain" type="main">Document title</title>
 

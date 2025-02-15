@@ -17,17 +17,18 @@ module IsoDoc
       end
 
       def eref(docxml)
-        docxml.xpath(ns("//eref")).each { |f| eref1(f) }
+        docxml.xpath(ns("//fmt-eref")).each { |f| eref1(f) }
       end
 
       def origin(docxml)
-        docxml.xpath(ns("//origin[not(termref)]")).each do |f|
+        docxml.xpath(ns("//fmt-origin[not(termref)]")).each do |f|
           f["citeas"] = bracket_opt(f["citeas"])
           eref1(f)
         end
       end
 
-      def quotesource(docxml)
+      # KILL
+      def quotesourcex(docxml)
         docxml.xpath(ns("//quote//source")).each { |f| eref1(f) }
       end
 

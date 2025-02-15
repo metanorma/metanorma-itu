@@ -15,7 +15,7 @@ module IsoDoc
 
       def termdef_parse(node, out)
         defn = node.at(ns("./fmt-definition"))
-        source = node.at(ns("./fmt-termsource//origin/@citeas"))
+        source = node.at(ns("./fmt-termsource//fmt-origin/@citeas"))
         out.div **attr_code(id: node["id"]) do |div|
           termdef_parse1(node, div, defn, source)
           node.children.each do |n|

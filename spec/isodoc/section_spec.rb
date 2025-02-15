@@ -69,7 +69,7 @@ RSpec.describe Metanorma::Itu do
       <annex id="B10" obligation="informative"><title>Annex</title></annex>
     INPUT
     presxml = <<~OUTPUT
-       <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
+        <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
            <bibdata type="standard">
               <title language="en" format="text/plain" type="main">An ITU Standard</title>
               <docidentifier type="ITU">12345</docidentifier>
@@ -83,19 +83,25 @@ RSpec.describe Metanorma::Itu do
               <clause type="toc" id="_" displayorder="1">
                  <fmt-title depth="1">Table of Contents</fmt-title>
               </clause>
-              <abstract displayorder="2">
+              <abstract displayorder="2" id="_">
                  <title id="_">Abstract</title>
                  <fmt-title depth="1">
                     <semx element="title" source="_">Abstract</semx>
                  </fmt-title>
-                 <xref target="A1">
-                    <span class="fmt-element-name">Annex</span>
-                    <semx element="autonum" source="A1">A</semx>
-                 </xref>
-                 <xref target="B1">
-                    <span class="fmt-element-name">Appendix</span>
-                    <semx element="autonum" source="B1">I</semx>
-                 </xref>
+                 <xref target="A1" id="_"/>
+                 <semx element="xref" source="_">
+                    <fmt-xref target="A1">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A1">A</semx>
+                    </fmt-xref>
+                 </semx>
+                 <xref target="B1" id="_"/>
+                 <semx element="xref" source="_">
+                    <fmt-xref target="B1">
+                       <span class="fmt-element-name">Appendix</span>
+                       <semx element="autonum" source="B1">I</semx>
+                    </fmt-xref>
+                 </semx>
               </abstract>
            </preface>
            <annex id="A1" obligation="normative" autonum="A" displayorder="3">
@@ -643,7 +649,7 @@ RSpec.describe Metanorma::Itu do
     html = <<~OUTPUT
               #{HTML_HDR}
               <br/>
-              <div>
+              <div id="_">
                      <h1 class="AbstractTitle">Abstract</h1>
                      <a href='#A1'>Annex A</a>
       <a href='#B1'>Appendix I</a>
@@ -784,18 +790,18 @@ RSpec.describe Metanorma::Itu do
               <clause type="toc" id="_" displayorder="1">
                  <fmt-title depth="1">Table of Contents</fmt-title>
               </clause>
-              <abstract displayorder="2">
+              <abstract displayorder="2" id="_">
                  <title id="_">Abstract</title>
                  <fmt-title depth="1">
                     <semx element="title" source="_">Abstract</semx>
                  </fmt-title>
                  <p>This is an abstract</p>
               </abstract>
-              <clause type="keyword" displayorder="3">
+              <clause type="keyword" displayorder="3" id="_">
                  <fmt-title depth="1">Keywords</fmt-title>
                  <p>A, B.</p>
               </clause>
-              <foreword obligation="informative" displayorder="4">
+              <foreword obligation="informative" displayorder="4" id="_">
                  <title id="_">Foreword</title>
                  <fmt-title depth="1">
                     <semx element="title" source="_">Foreword</semx>
@@ -1077,15 +1083,15 @@ RSpec.describe Metanorma::Itu do
     html = <<~OUTPUT
        #{HTML_HDR}
                  <br/>
-                 <div>
+                 <div id="_">
            <h1 class="AbstractTitle">Abstract</h1>
            <p>This is an abstract</p>
          </div>
-            <div class="Keyword">
+            <div class="Keyword" id="_">
         <h1 class="IntroTitle">Keywords</h1>
         <p>A, B.</p>
       </div>
-                      <div>
+                      <div id="_">
                           <h1 class="IntroTitle">Foreword</h1>
                           <p id="A">This is a preamble</p>
                         </div>
@@ -1187,15 +1193,15 @@ RSpec.describe Metanorma::Itu do
             <b>Page</b>
           </p>
         </div>
-         <div class='Abstract'>
+         <div class='Abstract' id="_">
              <h1 class="AbstractTitle">Summary</h1>
              <p>This is an abstract</p>
            </div>
-           <div class='Keyword'>
+           <div class='Keyword' id="_">
              <h1 class="IntroTitle">Keywords</h1>
              <p>A, B.</p>
            </div>
-           <div>
+           <div id="_">
              <h1 class="IntroTitle">Foreword</h1>
              <p id="A">This is a preamble</p>
            </div>
@@ -1432,7 +1438,7 @@ RSpec.describe Metanorma::Itu do
     INPUT
 
     presxml = <<~OUTPUT
-            <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
+      <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
            <bibdata type="standard">
               <title language="en" format="text/plain" type="main">An ITU Standard</title>
               <title language="en" format="text/plain" type="subtitle">Subtitle</title>
@@ -1449,7 +1455,7 @@ RSpec.describe Metanorma::Itu do
               </ext>
            </bibdata>
            <preface>
-              <clause type="keyword" displayorder="1">
+              <clause type="keyword" displayorder="1" id="_">
                  <fmt-title depth="1">Keywords</fmt-title>
                  <p>A, B.</p>
               </clause>
@@ -1559,7 +1565,10 @@ RSpec.describe Metanorma::Itu do
                        <semx element="autonum" source="V">1</semx>
                        <span class="fmt-autonum-delim">)</span>
                     </fmt-xref-label>
-                    <stem type="AsciiMath">r = 1 %</stem>
+            <stem type="AsciiMath" id="_">r = 1 %</stem>
+            <fmt-stem type="AsciiMath">
+               <semx element="stem" source="_">r = 1 %</semx>
+            </fmt-stem>
                  </formula>
               </clause>
            </annex>
@@ -1578,8 +1587,11 @@ RSpec.describe Metanorma::Itu do
       .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
             <main class='main-section'>
                  <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
-                   <div class="Keyword">
-                  <h1 class="IntroTitle" id="_">Keywords</h1>
+                    <div id="_" class="Keyword">
+              <h1 class="IntroTitle" id="_">
+                <a class="anchor" href="#_"/>
+                <a class="header" href="#_">Keywords</a>
+              </h1>
                     <p>A, B.</p>
                 </div>
                  <br/>
@@ -1683,7 +1695,7 @@ RSpec.describe Metanorma::Itu do
             <td align="left">Approval</td>
             <td align="left">Study Group</td>
             <td align="left">Unique ID<fn reference="a)">
-        <p id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9">To access the Recommendation, type the URL <link target="http://handle.itu.int/"/> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <link target="http://handle.itu.int/11.1002/1000/11830-en"/></p>
+        <p id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9">To access the Recommendation, type the URL <fmt-link target="http://handle.itu.int/"/> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <fmt-link target="http://handle.itu.int/11.1002/1000/11830-en"/></p>
       </fn>.</td>
           </tr>
       <tr>
@@ -1692,7 +1704,7 @@ RSpec.describe Metanorma::Itu do
             <td align="left">1993-03-12</td>
             <td align="left">XV</td>
             <td align="left">
-              <link target="http://handle.itu.int/11.1002/1000/879">11.1002/1000/879</link>
+              <fmt-link target="http://handle.itu.int/11.1002/1000/879">11.1002/1000/879</link>
             </td>
           </tr>
           </tbody>
@@ -1863,38 +1875,50 @@ RSpec.describe Metanorma::Itu do
               </p>
               <clause id="A" displayorder="5">
                  <p>
-                    <xref target="B">
-                       <span class="fmt-element-name">Section</span>
-                       <semx element="autonum" source="B">
-                          1
-                          <em>bis</em>
-                       </semx>
-                    </xref>
+                    <xref target="B" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="B">
+                          <span class="fmt-element-name">Section</span>
+                          <semx element="autonum" source="B">
+                             1
+                             <em>bis</em>
+                          </semx>
+                       </fmt-xref>
+                    </semx>
                     ,
-                    <xref target="C">
-                       <span class="fmt-element-name">Section</span>
-                       <semx element="autonum" source="C">
-                          10
-                          <em>ter</em>
-                       </semx>
-                    </xref>
+                    <xref target="C" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="C">
+                          <span class="fmt-element-name">Section</span>
+                          <semx element="autonum" source="C">
+                             10
+                             <em>ter</em>
+                          </semx>
+                       </fmt-xref>
+                    </semx>
                     ,
-                    <xref target="D">
-                       <semx element="autonum" source="C">
-                          10
-                          <em>ter</em>
-                       </semx>
-                       <span class="fmt-autonum-delim">.</span>
-                       <semx element="autonum" source="D">
-                          10
-                          <em>quater</em>
-                       </semx>
-                    </xref>
+                    <xref target="D" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="D">
+                          <semx element="autonum" source="C">
+                             10
+                             <em>ter</em>
+                          </semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="D">
+                             10
+                             <em>quater</em>
+                          </semx>
+                       </fmt-xref>
+                    </semx>
                     ,
-                    <xref target="E">
-                       <span class="fmt-element-name">Section</span>
-                       <semx element="autonum" source="E">10bit</semx>
-                    </xref>
+                    <xref target="E" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="E">
+                          <span class="fmt-element-name">Section</span>
+                          <semx element="autonum" source="E">10bit</semx>
+                       </fmt-xref>
+                    </semx>
                  </p>
               </clause>
               <p keep-with-next="true" class="supertitle" displayorder="6">
@@ -1907,7 +1931,7 @@ RSpec.describe Metanorma::Itu do
               <clause id="B" number="1bis" displayorder="7">
                  <title id="_">First Clause</title>
                  <fmt-title depth="1">
-                       <semx element="title" source="_">First Clause</semx>
+                    <semx element="title" source="_">First Clause</semx>
                  </fmt-title>
               </clause>
               <p keep-with-next="true" class="supertitle" displayorder="8">
@@ -1920,7 +1944,7 @@ RSpec.describe Metanorma::Itu do
               <clause id="C" number="10ter" displayorder="9">
                  <title id="_">Second Clause</title>
                  <fmt-title depth="1">
-                       <semx element="title" source="_">Second Clause</semx>
+                    <semx element="title" source="_">Second Clause</semx>
                  </fmt-title>
                  <clause id="D" number="10quater">
                     <title id="_">Second Clause Subclause</title>
@@ -1936,11 +1960,11 @@ RSpec.describe Metanorma::Itu do
                              <em>quater</em>
                           </semx>
                           <span class="fmt-autonum-delim">.</span>
-                          </span>
-                          <span class="fmt-caption-delim">
-                             <tab/>
-                          </span>
-                          <semx element="title" source="_">Second Clause Subclause</semx>
+                       </span>
+                       <span class="fmt-caption-delim">
+                          <tab/>
+                       </span>
+                       <semx element="title" source="_">Second Clause Subclause</semx>
                     </fmt-title>
                     <fmt-xref-label>
                        <semx element="autonum" source="C">
@@ -1962,7 +1986,7 @@ RSpec.describe Metanorma::Itu do
               <clause id="E" number="10bit" displayorder="11">
                  <title id="_">Non-Clause</title>
                  <fmt-title depth="1">
-                       <semx element="title" source="_">Non-Clause</semx>
+                    <semx element="title" source="_">Non-Clause</semx>
                  </fmt-title>
               </clause>
            </sections>
@@ -2022,7 +2046,10 @@ RSpec.describe Metanorma::Itu do
                  </td>
                  <td>
                    E-mail:
-                   <link target='mailto:jack@example.com'>jack@example.com</link>
+                                     <link target="mailto:jack@example.com" id="_">jack@example.com</link>
+                  <semx element="link" source="_">
+                     <fmt-link target="mailto:jack@example.com">jack@example.com</fmt-link>
+                  </semx>
                  </td>
                </tr>
              </tbody>
@@ -2080,7 +2107,10 @@ RSpec.describe Metanorma::Itu do
                  </td>
                  <td>
                    E-mail:
-                   <link target='mailto:jack@example.com'>jack@example.com</link>
+                   <link target="mailto:jack@example.com" id="_">jack@example.com</link>
+                  <semx element="link" source="_">
+                     <fmt-link target="mailto:jack@example.com">jack@example.com</fmt-link>
+                  </semx>
                  </td>
                </tr>
                <tr>
@@ -2276,7 +2306,7 @@ RSpec.describe Metanorma::Itu do
     presxml = <<~OUTPUT
         <metanorma>
            <preface>
-              <clause unnumbered="true" type="contribution-metadata" displayorder="1">
+              <clause unnumbered="true" type="contribution-metadata" displayorder="1" id="_">
                  <table class="contribution-metadata" unnumbered="true" width="100%">
                     <colgroup>
                        <col width="11.8%"/>
@@ -2575,7 +2605,7 @@ RSpec.describe Metanorma::Itu do
 
     presxml = <<~OUTPUT
       <preface>
-         <clause unnumbered="true" type="contribution-metadata" displayorder="1">
+         <clause unnumbered="true" type="contribution-metadata" displayorder="1" id="_">
            <table class="contribution-metadata" unnumbered="true" width="100%">
              <colgroup>
                <col width="11.8%"/>

@@ -78,7 +78,7 @@ RSpec.describe Metanorma::Itu do
       :legacy-do-not-insert-missing-sections:
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}">
+      <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}" flavor="itu">
         <bibdata type="standard">
           <title language="en" format="text/plain" type="main">Main Title</title>
           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
@@ -252,7 +252,7 @@ RSpec.describe Metanorma::Itu do
         :timing: 2025-Q4
       INPUT
       output = <<~"OUTPUT"
-        <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}">
+        <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}" flavor="itu">
                     <bibdata type='standard'>
                                  <title language="en" format="text/plain" type="main">Main Title</title>
              <title language="en" format="text/plain" type="annex">I3</title>
@@ -863,7 +863,7 @@ RSpec.describe Metanorma::Itu do
       :email_2: y@example.com
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -1058,7 +1058,7 @@ RSpec.describe Metanorma::Itu do
       :email_2: y@example.com
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -1229,7 +1229,7 @@ RSpec.describe Metanorma::Itu do
       :draft: 5
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -1375,7 +1375,7 @@ RSpec.describe Metanorma::Itu do
     INPUT
 
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}'>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -1526,7 +1526,7 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~"OUTPUT"
       <?xml version="1.0" encoding="UTF-8"?>
-      <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}">
+      <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}" flavor="itu">
       <bibdata type="standard">
         <title language="en" format="text/plain" type="main">Main Title</title>
         <docidentifier primary="true" type="ITU">ITU-T 1000</docidentifier>

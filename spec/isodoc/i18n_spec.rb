@@ -23,18 +23,18 @@ RSpec.describe Metanorma::Itu do
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table des matières</fmt-title>
              </clause>
-             <abstract displayorder="2">
+             <abstract displayorder="2" id="_">
                 <title id="_">Abstract</title>
                 <fmt-title depth="1">
                    <semx element="title" source="_">Abstract</semx>
                 </fmt-title>
                 <p>This is an abstract</p>
              </abstract>
-             <clause type="keyword" displayorder="3">
+             <clause type="keyword" displayorder="3" id="_">
                 <fmt-title depth="1">Mots clés</fmt-title>
                 <p>A, B.</p>
              </clause>
-             <foreword obligation="informative" displayorder="4">
+             <foreword obligation="informative" displayorder="4" id="_">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
                    <semx element="title" source="_">Foreword</semx>
@@ -315,15 +315,15 @@ RSpec.describe Metanorma::Itu do
     html = <<~OUTPUT
       #{HTML_HDR.sub('Table of Contents', 'Table des matières')}
               <br/>
-              <div>
+              <div id="_">
         <h1 class="AbstractTitle">Abstract</h1>
         <p>This is an abstract</p>
       </div>
-          <div class="Keyword">
+          <div class="Keyword" id="_">
       <h1 class="IntroTitle">Mots clés</h1>
       <p>A, B.</p>
       </div>
-                   <div>
+                   <div id="_">
                        <h1 class="IntroTitle">Foreword</h1>
                        <p id="A">This is a preamble</p>
                      </div>
@@ -439,18 +439,18 @@ RSpec.describe Metanorma::Itu do
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">目　录</fmt-title>
              </clause>
-             <abstract displayorder="2">
+             <abstract displayorder="2" id="_">
                 <title id="_">Abstract</title>
                 <fmt-title depth="1">
                    <semx element="title" source="_">Abstract</semx>
                 </fmt-title>
                 <p>This is an abstract</p>
              </abstract>
-             <clause type="keyword" displayorder="3">
+             <clause type="keyword" displayorder="3" id="_">
                 <fmt-title depth="1">关　键　词</fmt-title>
                 <p>A, B.</p>
              </clause>
-             <foreword obligation="informative" displayorder="4">
+             <foreword obligation="informative" displayorder="4" id="_">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
                    <semx element="title" source="_">Foreword</semx>
@@ -731,15 +731,15 @@ RSpec.describe Metanorma::Itu do
     html = <<~OUTPUT
        #{HTML_HDR.sub('Table of Contents', '目　录')}
             <br/>
-             <div>
+             <div id="_">
                 <h1 class="AbstractTitle">Abstract</h1>
                 <p>This is an abstract</p>
              </div>
-             <div class="Keyword">
+             <div class="Keyword" id="_">
                 <h1 class="IntroTitle">关　键　词</h1>
                 <p>A, B.</p>
              </div>
-             <div>
+             <div id="_">
                 <h1 class="IntroTitle">Foreword</h1>
                 <p id="A">This is a preamble</p>
              </div>
@@ -889,7 +889,10 @@ RSpec.describe Metanorma::Itu do
                  </td>
                  <td>
                    E-mail&#xa0;:
-                   <link target='mailto:jack@example.com'>jack@example.com</link>
+                  <link target="mailto:jack@example.com" id="_">jack@example.com</link>
+                  <semx element="link" source="_">
+                     <fmt-link target="mailto:jack@example.com">jack@example.com</fmt-link>
+                  </semx>
                  </td>
                </tr>
                <tr>

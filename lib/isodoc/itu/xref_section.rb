@@ -31,7 +31,7 @@ module IsoDoc
       end
 
       def clause_order_preface(_docxml)
-        [{ path: "//boilerplate/*", multi: true },
+        [{ path: "//boilerplate/*/clause", multi: true },
          { path: "//preface/*", multi: true }]
       end
 

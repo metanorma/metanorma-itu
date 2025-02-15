@@ -49,7 +49,7 @@ RSpec.describe Metanorma::Itu do
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table of Contents</fmt-title>
              </clause>
-             <foreword displayorder="2">
+             <foreword displayorder="2" id="_">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
                       <semx element="title" source="_">Foreword</semx>
@@ -82,7 +82,7 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     html = <<~OUTPUT
        #{HTML_HDR}
-              <div>
+              <div id="_">
               <h1 class="IntroTitle">Foreword</h1>
             <p class="TableTitle" style="text-align:center;">Deflist</p>
             <table id="A" class="dl" style="table-layout:fixed;">
@@ -125,7 +125,7 @@ RSpec.describe Metanorma::Itu do
                <b>Page</b>
              </p>
            </div>
-           <div>
+           <div id="_">
              <h1 class="IntroTitle">Foreword</h1>
              <p class="TableTitle" style="text-align:center;">Deflist</p>
              <div align="center" class="table_container">
@@ -202,17 +202,23 @@ RSpec.describe Metanorma::Itu do
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table of Contents</fmt-title>
              </clause>
-             <foreword displayorder="2">
+             <foreword id="_" displayorder="2">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
-                      <semx element="title" source="_">Foreword</semx>
+                   <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
-                   <stem type="AsciiMath">r = 1 %</stem>
+                   <stem type="AsciiMath" id="_">r = 1 %</stem>
+                   <fmt-stem type="AsciiMath">
+                      <semx element="stem" source="_">r = 1 %</semx>
+                   </fmt-stem>
                    <p keep-with-next="true">where</p>
                    <dl id="_" class="formula_dl">
                       <dt>
-                         <stem type="AsciiMath">r</stem>
+                         <stem type="AsciiMath" id="_">r</stem>
+                         <fmt-stem type="AsciiMath">
+                            <semx element="stem" source="_">r</semx>
+                         </fmt-stem>
                       </dt>
                       <dd>
                          <p id="_">is the repeatability limit.</p>
@@ -220,17 +226,26 @@ RSpec.describe Metanorma::Itu do
                    </dl>
                 </formula>
                 <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
-                   <stem type="AsciiMath">r = 1 %</stem>
+                   <stem type="AsciiMath" id="_">r = 1 %</stem>
+                   <fmt-stem type="AsciiMath">
+                      <semx element="stem" source="_">r = 1 %</semx>
+                   </fmt-stem>
                    <p keep-with-next="true">where:</p>
                    <dl id="_" class="formula_dl">
                       <dt>
-                         <stem type="AsciiMath">r</stem>
+                         <stem type="AsciiMath" id="_">r</stem>
+                         <fmt-stem type="AsciiMath">
+                            <semx element="stem" source="_">r</semx>
+                         </fmt-stem>
                       </dt>
                       <dd>
                          <p id="_">is the repeatability limit.</p>
                       </dd>
                       <dt>
-                         <stem type="AsciiMath">s</stem>
+                         <stem type="AsciiMath" id="_">s</stem>
+                         <fmt-stem type="AsciiMath">
+                            <semx element="stem" source="_">s</semx>
+                         </fmt-stem>
                       </dt>
                       <dd>
                          <p id="_">is the other repeatability limit.</p>
@@ -260,7 +275,7 @@ RSpec.describe Metanorma::Itu do
                    <b>Page</b>
                 </p>
              </div>
-             <div>
+             <div id="_">
                 <h1 class="IntroTitle">Foreword</h1>
                 <div id="_" style="page-break-after: avoid;page-break-inside: avoid;">
                    <div class="formula">
@@ -375,7 +390,7 @@ RSpec.describe Metanorma::Itu do
            </tbody>
            <tfoot>
            <tr>
-             <td align="left">Reproducibility limit, <stem type="AsciiMath">R</stem> (= 2,83 <stem type="AsciiMath">s_R</stem>)</td>
+             <td align="left">Reproducibility limit, <fmt-stem type="AsciiMath">R</fmt-stem> (= 2,83 <fmt-stem type="AsciiMath">s_R</fmt-stem>)</td>
              <td align="center">2,89</td>
              <td align="center">0,57</td>
              <td align="center">2,26</td>
@@ -482,7 +497,7 @@ RSpec.describe Metanorma::Itu do
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table of Contents</fmt-title>
              </clause>
-             <foreword displayorder="2">
+             <foreword displayorder="2" id="_">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
                       <semx element="title" source="_">Foreword</semx>
@@ -512,7 +527,7 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     html = <<~OUTPUT
       #{HTML_HDR}
-            <div>
+            <div id="_">
               <h1 class="IntroTitle">Foreword</h1>
                <div class="ol_wrap">
                            <ol type="1" id="_">
@@ -562,7 +577,7 @@ RSpec.describe Metanorma::Itu do
                <b>Page</b>
              </p>
            </div>
-           <div>
+           <div id="_">
              <h1 class="IntroTitle">Foreword</h1>
              <div class="ol_wrap">
                <ol class="steps" id="_">
@@ -637,7 +652,7 @@ RSpec.describe Metanorma::Itu do
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table of Contents</fmt-title>
              </clause>
-             <foreword displayorder="2">
+             <foreword displayorder="2" id="_">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
                       <semx element="title" source="_">Foreword</semx>
@@ -696,7 +711,7 @@ RSpec.describe Metanorma::Itu do
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table of Contents</fmt-title>
              </clause>
-             <foreword displayorder="2">
+             <foreword displayorder="2" id="_">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
                       <semx element="title" source="_">Foreword</semx>
@@ -756,7 +771,7 @@ RSpec.describe Metanorma::Itu do
     FileUtils.rm_f "test.html"
     IsoDoc::Itu::WordConvert.new({}).convert("test", <<~INPUT, false)
           <iso-standard xmlns="http://riboseinc.com/isoxml">
-          <preface><foreword  displayorder="1">
+          <preface><foreword id="A"  displayorder="1">
           <ol id="_ae34a226-aab4-496d-987b-1aa7b6314026" class="steps">
         <li>
           <p id="_0091a277-fb0e-424a-aea8-f0001303fe78">all information necessary for the complete identification of the sample;</p>
@@ -776,11 +791,12 @@ RSpec.describe Metanorma::Itu do
       </iso-standard>
     INPUT
     expect(File.exist?("test.doc")).to be true
-    html = File.read("test.doc")
-      .sub(/^.*<div>\s*<p class="h1Preface">/m, '<div><p class="h1Preface">')
-      .sub(%r{</div>.*$}m, "</div>")
-    expect(Xml::C14n.format(strip_guid(html))).to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
-          <div>
+    html = Nokogiri::XML(File.read("test.doc")
+      .sub(/^.*<html/m, "<html").sub(/<\/html>.*$/m, "</html>"))
+      .at("//*[@id = 'A']").parent.to_xml
+    expect(Xml::C14n.format(strip_guid(html)))
+      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
+          <div><a name="A" id="A"/>
         <p class='h1Preface'/>
         <div class="ol_wrap">
         <p style='mso-list:l4 level1 lfo1;' class='MsoListParagraphCxSpFirst'> <a name="_" id="_"/> all information necessary for the complete identification of the sample; </p>

@@ -47,7 +47,7 @@ module IsoDoc
         out.div **attr_code(class: "formula") do |div|
           div.p **attr_code(class: "formula") do |_p|
             insert_tab(div, 1)
-            parse(node.at(ns("./stem")), div)
+            parse(node.at(ns("./fmt-stem")), div)
             if lbl = node&.at(ns("./fmt-name"))&.text
               insert_tab(div, 1)
               div << lbl

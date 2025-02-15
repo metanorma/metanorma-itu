@@ -327,14 +327,14 @@ RSpec.describe Metanorma::Itu do
             <clause type="toc" id="_" displayorder="1">
         <fmt-title depth="1">Table of Contents</fmt-title>
       </clause>
-        <foreword displayorder="2">
+        <foreword displayorder="2" id="_">
         <keyword>ABC</keyword>
         </foreword></preface>
         </itu-standard>
     INPUT
     output = <<~OUTPUT
       #{HTML_HDR}
-           <div>
+           <div id="_">
              <h1 class="IntroTitle"/>
              <span class="keyword">ABC</span>
            </div>
@@ -375,7 +375,7 @@ RSpec.describe Metanorma::Itu do
                    <br clear="all" class="section"/>
                  </p>
                  <div class="WordSection2">
-                   <div>
+                   <div id="_">
                      <h1 class="IntroTitle"/>
                      <p>A.<span style='mso-bookmark:_Ref'>
         <a href='#ftn2' class='FootnoteRef' epub:type='footnote'>
@@ -402,16 +402,16 @@ RSpec.describe Metanorma::Itu do
                  </p>
                  <div class="WordSection3">
                    <aside id="ftn2">
-               <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
+               <p id="_">Formerly denoted as 15 % (m/m).</p>
              </aside>
                    <aside id="ftn1">
-               <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
+               <p id="_">Hello! denoted as 15 % (m/m).</p>
              </aside>
                  </div>
                </body>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .convert("test", input, true))
       .sub(%r{^.*<body }m, "<body xmlns:epub='epub' ")
       .sub(%r{</body>.*$}m, "</body>")
       .gsub(%r{_Ref\d+}, "_Ref")))
@@ -480,7 +480,7 @@ RSpec.describe Metanorma::Itu do
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table of Contents</fmt-title>
              </clause>
-             <foreword displayorder="2">
+             <foreword displayorder="2" id="_">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
                       <semx element="title" source="_">Foreword</semx>
@@ -583,8 +583,11 @@ RSpec.describe Metanorma::Itu do
             <main xmlns:epub="epub" class="main-section">
            <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
            <br/>
-           <div>
-              <h1 class="IntroTitle" id="_">Foreword</h1>
+              <div id="_">
+              <h1 class="IntroTitle" id="_">
+                <a class="anchor" href="#_"/>
+                <a class="header" href="#_">Foreword</a>
+              </h1>
               <p>
                  A.
                  <a class="FootnoteRef" href="#fn:1" id="fnref:1">
@@ -802,21 +805,64 @@ RSpec.describe Metanorma::Itu do
           </itu-standard>
     INPUT
     output = <<~OUTPUT
-             <p id="A">>
-                    <sup>
-         <xref type="footnote" target="ISO712">A</xref>
-       </sup>
-       <xref type="inline" target="ISO712">A</xref>
-       <sup>
-         <xref type="footnote" target="ISO712">[ISO 712]</xref>
-       </sup>
-       <xref type="inline" target="ISO712">[ISO 712]</xref>
-       <sup>
-         <xref type="footnote" target="ISO712">[ISO 712], Section 8</xref>
-       </sup>
-       <xref type="inline" target="ISO712">[ISO 712], Section 8</xref>
-       <xref type="inline" target="ISO712">[ISO 712], Sections 8 <span class="fmt-conn">and</span> 10</xref>
-             </p>
+       <p id="A">
+          <eref type="footnote" bibitemid="ISO712" citeas="ISO 712" id="_">A</eref>
+          <semx element="eref" source="_">
+             <sup>
+                <fmt-xref type="footnote" target="ISO712">A</fmt-xref>
+             </sup>
+          </semx>
+          <eref type="inline" bibitemid="ISO712" citeas="ISO 712" id="_">A</eref>
+          <semx element="eref" source="_">
+             <fmt-xref type="inline" target="ISO712">A</fmt-xref>
+          </semx>
+          <eref type="footnote" bibitemid="ISO712" citeas="ISO 712" id="_"/>
+          <semx element="eref" source="_">
+             <sup>
+                <fmt-xref type="footnote" target="ISO712">[ISO 712]</fmt-xref>
+             </sup>
+          </semx>
+          <eref type="inline" bibitemid="ISO712" citeas="ISO 712" id="_"/>
+          <semx element="eref" source="_">
+             <fmt-xref type="inline" target="ISO712">[ISO 712]</fmt-xref>
+          </semx>
+          <eref type="footnote" bibitemid="ISO712" citeas="ISO 712" id="_">
+             <locality type="section">
+                <referenceFrom>8</referenceFrom>
+             </locality>
+          </eref>
+          <semx element="eref" source="_">
+             <sup>
+                <fmt-xref type="footnote" target="ISO712">[ISO 712], Section 8</fmt-xref>
+             </sup>
+          </semx>
+          <eref type="inline" bibitemid="ISO712" citeas="ISO 712" id="_">
+             <locality type="section">
+                <referenceFrom>8</referenceFrom>
+             </locality>
+          </eref>
+          <semx element="eref" source="_">
+             <fmt-xref type="inline" target="ISO712">[ISO 712], Section 8</fmt-xref>
+          </semx>
+          <eref type="inline" bibitemid="ISO712" citeas="ISO 712" id="_">
+             <localityStack connective="and">
+                <locality type="section">
+                   <referenceFrom>8</referenceFrom>
+                </locality>
+             </localityStack>
+             <localityStack connective="and">
+                <locality type="section">
+                   <referenceFrom>10</referenceFrom>
+                </locality>
+             </localityStack>
+          </eref>
+          <semx element="eref" source="_">
+             <fmt-xref type="inline" target="ISO712">
+                [ISO 712], Sections 8
+                <span class="fmt-conn">and</span>
+                10
+             </fmt-xref>
+          </semx
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
@@ -832,7 +878,7 @@ RSpec.describe Metanorma::Itu do
           <p>
           <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">A</stem>
           <eref type="inline" bibitemid="ISO712" citeas="ISO 712">A</stem>
-          <xref target="_http_1_1">Requirement <tt>/req/core/http</tt></xref>
+          <xref target="http_1_1">Requirement <tt>/req/core/http</tt></xref>
           <link target="http://www.example.com">Test</link>
           <link target="http://www.example.com"/>
           </p>
@@ -847,27 +893,45 @@ RSpec.describe Metanorma::Itu do
           </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <preface>
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table of Contents</fmt-title>
              </clause>
-             <foreword displayorder="2">
+             <foreword displayorder="2" id="_">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
-                      <semx element="title" source="_">Foreword</semx>
+                   <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <p>
-                   <sup>
-                      <xref type="footnote" target="ISO712">A</xref>
-                   </sup>
-                   <xref type="inline" target="ISO712">A</xref>
-                   <xref target="_">
+                   <eref type="footnote" bibitemid="ISO712" citeas="ISO 712" id="_">A</eref>
+                   <semx element="eref" source="_">
+                      <sup>
+                         <fmt-xref type="footnote" target="ISO712">A</fmt-xref>
+                      </sup>
+                   </semx>
+                   <eref type="inline" bibitemid="ISO712" citeas="ISO 712" id="_">A</eref>
+                   <semx element="eref" source="_">
+                      <fmt-xref type="inline" target="ISO712">A</fmt-xref>
+                   </semx>
+                   <xref target="http_1_1" id="_">
                       Requirement
                       <tt>/req/core/http</tt>
                    </xref>
-                   <link target="http://www.example.com">Test</link>
-                   <link target="http://www.example.com"/>
+                   <semx element="xref" source="_">
+                      <fmt-xref target="http_1_1">
+                         Requirement
+                         <tt>/req/core/http</tt>
+                      </fmt-xref>
+                   </semx>
+                   <link target="http://www.example.com" id="_">Test</link>
+                   <semx element="link" source="_">
+                      <fmt-link target="http://www.example.com">Test</fmt-link>
+                   </semx>
+                   <link target="http://www.example.com" id="_"/>
+                   <semx element="link" source="_">
+                      <fmt-link target="http://www.example.com"/>
+                   </semx>
                 </p>
              </foreword>
           </preface>
@@ -878,11 +942,11 @@ RSpec.describe Metanorma::Itu do
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="_">1</semx>
                       <span class="fmt-autonum-delim">.</span>
-                      </span>
-                      <span class="fmt-caption-delim">
-                         <tab/>
-                      </span>
-                      <semx element="title" source="_">References</semx>
+                   </span>
+                   <span class="fmt-caption-delim">
+                      <tab/>
+                   </span>
+                   <semx element="title" source="_">References</semx>
                 </fmt-title>
                 <fmt-xref-label>
                    <span class="fmt-element-name">clause</span>
@@ -923,14 +987,14 @@ RSpec.describe Metanorma::Itu do
               <b>Page</b>
             </p>
           </div>
-          <div>
+          <div id="_">
             <h1 class="IntroTitle">Foreword</h1>
             <p>
               <sup>
                 <a href="#ISO712">A</a>
               </sup>
               <a href="#ISO712">A</a>
-              <a href="#_http_1_1">Requirement <tt>/req/core/http</tt></a>
+              <a href="#http_1_1">Requirement <tt>/req/core/http</tt></a>
               <a href="http://www.example.com" class="url">Test</a>
               <a href="http://www.example.com" class="url">http://www.example.com</a>
             </p>
@@ -972,10 +1036,13 @@ RSpec.describe Metanorma::Itu do
     FileUtils.rm_f "test.html"
     input = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml">
-      #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>))).gsub("<title", "<fmt-title").gsub("</title", "</fmt-title")}{
+      #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>)))}
       </iso-standard>
     INPUT
-    IsoDoc::Itu::HtmlConvert.new({}).convert("test", input, false)
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)
+    IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
     expect(Xml::C14n.format(strip_guid(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<div class="prefatory-section">}m, '<div class="prefatory-section">')
       .gsub(%r{<nav>.*}m, "</div>"))))
@@ -1006,8 +1073,8 @@ RSpec.describe Metanorma::Itu do
       OUTPUT
 
     FileUtils.rm_f "test.doc"
-    IsoDoc::Itu::WordConvert.new({}).convert("test", input, false)
-    expect(Xml::C14n.format(File.read("test.doc", encoding: "utf-8")
+    IsoDoc::Itu::WordConvert.new({}).convert("test", pres_output, false)
+    expect(Xml::C14n.format(strip_guid(File.read("test.doc", encoding: "utf-8"))
       .gsub(%r{^.*<div class="boilerplate-legal">}m, '<div><div class="boilerplate-legal">')
       .gsub(%r{<b>Table of Contents</b></p>.*}m, "<b>Table of Contents</b></p></div>")))
       .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
@@ -1151,17 +1218,192 @@ RSpec.describe Metanorma::Itu do
       </iso-standard>
     INPUT
     output = <<~OUTPUT
-      <iso-standard xmlns='http://riboseinc.com/isoxml' type='presentation'>
-               <bibdata>
-                 <title language='en'>test</title>
-               </bibdata>
-               <preface>
-                 <clause type="toc" id="_" displayorder="1">
-                 <fmt-title depth="1">Table of Contents</fmt-title>
-                  </clause>
-                 <p displayorder='2'>30'000
-                   <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mfenced open="(" close=")"><mrow><mi>X</mi><mo>≥</mo><msub><mrow><mi>X</mi></mrow><mrow><mo>max</mo></mrow></msub></mrow></mfenced><mo>=</mo><munderover><mrow><mo>∑</mo></mrow><mrow><mrow><mi>j</mi><mo>=</mo><msub><mrow><mi>X</mi></mrow><mrow><mo>max</mo></mrow></msub></mrow></mrow><mrow><mn>1'000</mn></mrow></munderover><mfenced open="(" close=")"><mtable><mtr><mtd><mn>1'000</mn></mtd></mtr><mtr><mtd><mi>j</mi></mtd></mtr></mtable></mfenced><msup><mrow><mi>p</mi></mrow><mrow><mi>j</mi></mrow></msup><msup><mrow><mfenced open="(" close=")"><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfenced></mrow><mrow><mrow><mn>1.003</mn><mo>−</mo><mi>j</mi></mrow></mrow></msup></math><asciimath>P (X ge X_(max)) = sum_(j = X_(max))^(1000) ([[1000], [j]]) p^(j) (1 - p)^(1.003 - j)</asciimath></stem></p>
-         </preface>
+       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <bibdata>
+             <title language="en">test</title>
+          </bibdata>
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1">Table of Contents</fmt-title>
+             </clause>
+             <p displayorder="2" id="_">
+                <stem type="MathML" id="_">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mn>30000</mn>
+                   </math>
+                </stem>
+                <fmt-stem type="MathML">
+                   <semx element="stem" source="_">30'000</semx>
+                </fmt-stem>
+                <stem type="MathML" id="_">
+                   <math xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mi>P</mi>
+                      <mfenced open="(" close=")">
+                         <mrow>
+                            <mi>X</mi>
+                            <mo>≥</mo>
+                            <msub>
+                               <mrow>
+                                  <mi>X</mi>
+                               </mrow>
+                               <mrow>
+                                  <mo>max</mo>
+                               </mrow>
+                            </msub>
+                         </mrow>
+                      </mfenced>
+                      <mo>=</mo>
+                      <munderover>
+                         <mrow>
+                            <mo>∑</mo>
+                         </mrow>
+                         <mrow>
+                            <mrow>
+                               <mi>j</mi>
+                               <mo>=</mo>
+                               <msub>
+                                  <mrow>
+                                     <mi>X</mi>
+                                  </mrow>
+                                  <mrow>
+                                     <mo>max</mo>
+                                  </mrow>
+                               </msub>
+                            </mrow>
+                         </mrow>
+                         <mrow>
+                            <mn>1000</mn>
+                         </mrow>
+                      </munderover>
+                      <mfenced open="(" close=")">
+                         <mtable>
+                            <mtr>
+                               <mtd>
+                                  <mn>1000</mn>
+                               </mtd>
+                            </mtr>
+                            <mtr>
+                               <mtd>
+                                  <mi>j</mi>
+                               </mtd>
+                            </mtr>
+                         </mtable>
+                      </mfenced>
+                      <msup>
+                         <mrow>
+                            <mi>p</mi>
+                         </mrow>
+                         <mrow>
+                            <mi>j</mi>
+                         </mrow>
+                      </msup>
+                      <msup>
+                         <mrow>
+                            <mfenced open="(" close=")">
+                               <mrow>
+                                  <mn>1</mn>
+                                  <mo>−</mo>
+                                  <mi>p</mi>
+                               </mrow>
+                            </mfenced>
+                         </mrow>
+                         <mrow>
+                            <mrow>
+                               <mn>1.003</mn>
+                               <mo>−</mo>
+                               <mi>j</mi>
+                            </mrow>
+                         </mrow>
+                      </msup>
+                   </math>
+                </stem>
+                <fmt-stem type="MathML">
+                   <semx element="stem" source="_">
+                      <math xmlns="http://www.w3.org/1998/Math/MathML">
+                         <mi>P</mi>
+                         <mfenced open="(" close=")">
+                            <mrow>
+                               <mi>X</mi>
+                               <mo>≥</mo>
+                               <msub>
+                                  <mrow>
+                                     <mi>X</mi>
+                                  </mrow>
+                                  <mrow>
+                                     <mo>max</mo>
+                                  </mrow>
+                               </msub>
+                            </mrow>
+                         </mfenced>
+                         <mo>=</mo>
+                         <munderover>
+                            <mrow>
+                               <mo>∑</mo>
+                            </mrow>
+                            <mrow>
+                               <mrow>
+                                  <mi>j</mi>
+                                  <mo>=</mo>
+                                  <msub>
+                                     <mrow>
+                                        <mi>X</mi>
+                                     </mrow>
+                                     <mrow>
+                                        <mo>max</mo>
+                                     </mrow>
+                                  </msub>
+                               </mrow>
+                            </mrow>
+                            <mrow>
+                               <mn>1'000</mn>
+                            </mrow>
+                         </munderover>
+                         <mfenced open="(" close=")">
+                            <mtable>
+                               <mtr>
+                                  <mtd>
+                                     <mn>1'000</mn>
+                                  </mtd>
+                               </mtr>
+                               <mtr>
+                                  <mtd>
+                                     <mi>j</mi>
+                                  </mtd>
+                               </mtr>
+                            </mtable>
+                         </mfenced>
+                         <msup>
+                            <mrow>
+                               <mi>p</mi>
+                            </mrow>
+                            <mrow>
+                               <mi>j</mi>
+                            </mrow>
+                         </msup>
+                         <msup>
+                            <mrow>
+                               <mfenced open="(" close=")">
+                                  <mrow>
+                                     <mn>1</mn>
+                                     <mo>−</mo>
+                                     <mi>p</mi>
+                                  </mrow>
+                               </mfenced>
+                            </mrow>
+                            <mrow>
+                               <mrow>
+                                  <mn>1.003</mn>
+                                  <mo>−</mo>
+                                  <mi>j</mi>
+                               </mrow>
+                            </mrow>
+                         </msup>
+                      </math>
+                      <asciimath>P (X ge X_(max)) = sum_(j = X_(max))^(1000) ([[1000], [j]]) p^(j) (1 - p)^(1.003 - j)</asciimath>
+                   </semx>
+                </fmt-stem>
+             </p>
+          </preface>
        </iso-standard>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert

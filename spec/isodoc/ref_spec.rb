@@ -129,20 +129,44 @@ RSpec.describe IsoDoc::Itu do
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table of Contents</fmt-title>
              </clause>
-             <foreword displayorder="2">
+             <foreword displayorder="2" id="_">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
                    <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <p id="_">
-                   <xref target="ISO712">[ISO 712]</xref>
-                   <xref target="ISBN">[3]</xref>
-                   <xref target="ISSN">[4]</xref>
-                   <xref target="ISO16634">[ISO 16634:-- (all parts)]</xref>
-                   <xref target="ref1">[ICC 167]</xref>
-                   <xref target="ref10">[5]</xref>
-                   <xref target="ref12">[Citn]</xref>
-                   <xref target="zip_ffs">[2]</xref>
+                   <eref bibitemid="ISO712" id="_"/>
+                   <semx element="eref" source="_">
+                      <fmt-xref target="ISO712">[ISO 712]</fmt-xref>
+                   </semx>
+                   <eref bibitemid="ISBN" id="_"/>
+                   <semx element="eref" source="_">
+                      <fmt-xref target="ISBN">[3]</fmt-xref>
+                   </semx>
+                   <eref bibitemid="ISSN" id="_"/>
+                   <semx element="eref" source="_">
+                      <fmt-xref target="ISSN">[4]</fmt-xref>
+                   </semx>
+                   <eref bibitemid="ISO16634" id="_"/>
+                   <semx element="eref" source="_">
+                      <fmt-xref target="ISO16634">[ISO 16634:-- (all parts)]</fmt-xref>
+                   </semx>
+                   <eref bibitemid="ref1" id="_"/>
+                   <semx element="eref" source="_">
+                      <fmt-xref target="ref1">[ICC 167]</fmt-xref>
+                   </semx>
+                   <eref bibitemid="ref10" id="_"/>
+                   <semx element="eref" source="_">
+                      <fmt-xref target="ref10">[5]</fmt-xref>
+                   </semx>
+                   <eref bibitemid="ref12" id="_"/>
+                   <semx element="eref" source="_">
+                      <fmt-xref target="ref12">[Citn]</fmt-xref>
+                   </semx>
+                   <eref bibitemid="zip_ffs" id="_"/>
+                   <semx element="eref" source="_">
+                      <fmt-xref target="zip_ffs">[2]</fmt-xref>
+                   </semx>
                 </p>
              </foreword>
           </preface>
@@ -209,7 +233,10 @@ RSpec.describe IsoDoc::Itu do
                       .
                       <em>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</em>
                       (see
-                      <link target="http://www.icc.or.at"/>
+                      <link target="http://www.icc.or.at" id="_"/>
+                      <semx element="link" source="_">
+                         <fmt-link target="http://www.icc.or.at"/>
+                      </semx>
                       ).
                    </formattedref>
                    <docidentifier type="ICC">ICC 167</docidentifier>
@@ -290,7 +317,10 @@ RSpec.describe IsoDoc::Itu do
                       .
                       <em>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</em>
                       (see
-                      <link target="http://www.icc.or.at"/>
+                      <link target="http://www.icc.or.at" id="_"/>
+                      <semx element="link" source="_">
+                         <fmt-link target="http://www.icc.or.at"/>
+                      </semx>
                       ).
                    </formattedref>
                    <docidentifier type="metanorma-ordinal">[5]</docidentifier>
@@ -334,8 +364,11 @@ RSpec.describe IsoDoc::Itu do
       <main class="main-section">
           <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
           <br/>
-          <div>
-             <h1 class="IntroTitle" id="_">Foreword</h1>
+             <div id="_">
+      <h1 class="IntroTitle" id="_">
+         <a class="anchor" href="#_"/>
+         <a class="header" href="#_">Foreword</a>
+      </h1>
              <p id="_">
                 <a href="#ISO712">[ISO 712]</a>
                 <a href="#ISBN">[3]</a>
@@ -567,7 +600,7 @@ RSpec.describe IsoDoc::Itu do
       </itu-standard>
     INPUT
     presxml = <<~OUTPUT
-       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+      <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <bibdata>
              <language current="true">en</language>
           </bibdata>
@@ -575,13 +608,16 @@ RSpec.describe IsoDoc::Itu do
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table of Contents</fmt-title>
              </clause>
-             <foreword displayorder="2">
+             <foreword displayorder="2" id="_">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
-                      <semx element="title" source="_">Foreword</semx>
+                   <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <p id="_">
-                   <xref target="ISO712">[ISO 712]</xref>
+                   <eref bibitemid="ISO712" id="_"/>
+                   <semx element="eref" source="_">
+                      <fmt-xref target="ISO712">[ISO 712]</fmt-xref>
+                   </semx>
                 </p>
              </foreword>
           </preface>
@@ -592,11 +628,11 @@ RSpec.describe IsoDoc::Itu do
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="_">1</semx>
                       <span class="fmt-autonum-delim">.</span>
-                      </span>
-                      <span class="fmt-caption-delim">
-                         <tab/>
-                      </span>
-                      <semx element="title" source="_">References</semx>
+                   </span>
+                   <span class="fmt-caption-delim">
+                      <tab/>
+                   </span>
+                   <semx element="title" source="_">References</semx>
                 </fmt-title>
                 <fmt-xref-label>
                    <span class="fmt-element-name">clause</span>
@@ -639,17 +675,17 @@ RSpec.describe IsoDoc::Itu do
                    </date>
                    <biblio-tag>[ITU 712]</biblio-tag>
                 </bibitem>
-        <bibitem id="ITU712b" type="standard">
-           <formattedref>
-              <em>Cereals and cereal products</em>
-              .
-           </formattedref>
-           <docidentifier type="DOI">DOI 712</docidentifier>
-           <date type="published">
-              <on>2016</on>
-           </date>
-           <biblio-tag/>
-        </bibitem>
+                <bibitem id="ITU712b" type="standard">
+                   <formattedref>
+                      <em>Cereals and cereal products</em>
+                      .
+                   </formattedref>
+                   <docidentifier type="DOI">DOI 712</docidentifier>
+                   <date type="published">
+                      <on>2016</on>
+                   </date>
+                   <biblio-tag/>
+                </bibitem>
                 <bibitem id="ITU713" type="standard">
                    <formattedref>
                       ITU-T G-series Recommendations – Supplement 41,
@@ -669,7 +705,7 @@ RSpec.describe IsoDoc::Itu do
 
     html = <<~OUTPUT
               #{HTML_HDR}
-      <div>
+      <div id="_">
                  <h1 class="IntroTitle">Foreword</h1>
                  <p id="_">
            <a href="#ISO712">[ISO&#xa0;712]</a>
@@ -775,8 +811,11 @@ RSpec.describe IsoDoc::Itu do
       </references></bibliography></iso-standard>
     INPUT
     presxml = <<~PRESXML
-        <p id='A'>
-          <xref target="ISO712">[ISO 712 | IEC 217]</xref>
+        <p id="A">
+           <eref bibitemid="ISO712" id="_"/>
+           <semx element="eref" source="_">
+              <fmt-xref target="ISO712">[ISO 712 | IEC 217]</fmt-xref>
+           </semx>
         </p>
     PRESXML
     expect(Xml::C14n.format(strip_guid(Nokogiri::XML(

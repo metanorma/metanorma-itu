@@ -31,7 +31,7 @@ RSpec.describe Metanorma::Itu::Processor do
       </metanorma>
     OUTPUT
     expect(strip_guid(Xml::C14n.format(processor.input_to_isodoc(input, nil))))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
   end
 
   it "generates HTML from IsoDoc XML" do

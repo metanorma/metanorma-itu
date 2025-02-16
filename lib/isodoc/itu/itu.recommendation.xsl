@@ -4892,15 +4892,8 @@
 	</xsl:template> <!-- END: insertPrefaceSectionsPageSequences -->
 
 	<xsl:template name="insertMainSectionsPageSequences">
-		<xsl:element name="sections" namespace="{$namespace_full}"> <!-- save context element -->
-			<xsl:element name="page_sequence" namespace="{$namespace_full}">
-				<xsl:for-each select="/*/*[local-name()='sections']/* | /*/*[local-name()='bibliography']/*[local-name()='references'][@normative='true']">
-					<xsl:sort select="@displayorder" data-type="number"/>
-					<xsl:apply-templates select="." mode="update_xml_step_move_pagebreak"/>
 
-				</xsl:for-each>
-			</xsl:element>
-		</xsl:element>
+		<xsl:call-template name="insertSectionsInPageSequence"/>
 
 		<xsl:element name="page_sequence" namespace="{$namespace_full}">
 			<xsl:for-each select="/*/*[local-name()='annex']">
@@ -4918,6 +4911,18 @@
 			</xsl:element>
 		</xsl:element>
 	</xsl:template> <!-- END: insertMainSectionsPageSequences -->
+
+	<xsl:template name="insertSectionsInPageSequence">
+		<xsl:element name="sections" namespace="{$namespace_full}"> <!-- save context element -->
+			<xsl:element name="page_sequence" namespace="{$namespace_full}">
+				<xsl:for-each select="/*/*[local-name()='sections']/* | /*/*[local-name()='bibliography']/*[local-name()='references'][@normative='true']">
+					<xsl:sort select="@displayorder" data-type="number"/>
+					<xsl:apply-templates select="." mode="update_xml_step_move_pagebreak"/>
+
+				</xsl:for-each>
+			</xsl:element>
+		</xsl:element>
+	</xsl:template>
 
 	<xsl:template name="insertMainSectionsInSeparatePageSequences">
 		<xsl:element name="sections" namespace="{$namespace_full}"> <!-- save context element -->

@@ -28,7 +28,7 @@ RSpec.describe Metanorma::Itu do
       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
   end
 
   it "converts a blank document" do
@@ -46,7 +46,7 @@ RSpec.describe Metanorma::Itu do
       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
     expect(File.exist?("test.html")).to be true
 
     input = <<~INPUT

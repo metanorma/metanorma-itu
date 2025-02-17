@@ -79,6 +79,28 @@ RSpec.describe Metanorma::Itu do
     INPUT
     expect(File.read("test.err.html"))
       .not_to include("does not match ITU document identifier conventions")
+
+    Asciidoctor.convert(<<~INPUT, backend: :itu, header_footer: true)
+= Document title
+Author
+:bureau: T
+:question: Q1/17: Security standardization strategy and coordination
+:group-type: study-group
+:group: Study Group 17
+:group-acronym: SG 17
+:group-year-start: 2025
+:group-year-end: 2028
+:meeting: TODO-FULL-NAME-OF-MEETING
+:meeting-date: 2025-02-01/2025-02-02
+:meeting-place: TODO-PLACE
+:language: en
+:source: Broadcom Europe Ltd.
+:docnumber: 3000
+
+text
+    INPUT
+    expect(File.read("test.err.html"))
+      .not_to include("does not match ITU document identifier conventions")
   end
 
   it "Warns if Recommendation Status determined and Process AAP" do

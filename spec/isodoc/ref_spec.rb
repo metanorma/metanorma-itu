@@ -129,7 +129,7 @@ RSpec.describe IsoDoc::Itu do
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table of Contents</fmt-title>
              </clause>
-             <foreword displayorder="2" id="_">
+             <foreword id="_" displayorder="2">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
                    <semx element="title" source="_">Foreword</semx>
@@ -194,9 +194,17 @@ RSpec.describe IsoDoc::Itu do
                       <em>Cereals and cereal products</em>
                       .
                    </formattedref>
+                   <title format="text/plain">Cereals or cereal products</title>
+                   <title type="main" format="text/plain">Cereals and cereal products</title>
                    <docidentifier type="ISO">ISO 712</docidentifier>
                    <docidentifier type="metanorma-ordinal">[1]</docidentifier>
                    <docidentifier scope="biblio-tag">ISO 712</docidentifier>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                      </organization>
+                   </contributor>
                    <biblio-tag>[1]</biblio-tag>
                 </bibitem>
                 <bibitem id="ISO16634" type="standard">
@@ -205,11 +213,22 @@ RSpec.describe IsoDoc::Itu do
                       <em>Cereals, pulses, milled cereal products, oilseeds and animal feeding stuffs</em>
                       .
                    </formattedref>
+                   <title language="x" format="text/plain">Cereals, pulses, milled cereal products, xxxx, oilseeds and animal feeding stuffs</title>
+                   <title language="en" format="text/plain">Cereals, pulses, milled cereal products, oilseeds and animal feeding stuffs</title>
                    <docidentifier type="ISO">ISO 16634:-- (all parts)</docidentifier>
                    <docidentifier scope="biblio-tag">ISO 16634:-- (all parts)</docidentifier>
                    <date type="published">
                       <on>--</on>
                    </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <abbreviation>ISO</abbreviation>
+                      </organization>
+                   </contributor>
+                   <extent type="part">
+                      <referenceFrom>all</referenceFrom>
+                   </extent>
                    <biblio-tag>[ISO 16634:‑‑ (all parts)]</biblio-tag>
                 </bibitem>
                 <bibitem id="ISO20483" type="standard">
@@ -218,12 +237,19 @@ RSpec.describe IsoDoc::Itu do
                       <em>Cereals and pulses</em>
                       .
                    </formattedref>
+                   <title format="text/plain">Cereals and pulses</title>
                    <docidentifier type="ISO">ISO 20483:2013-2014</docidentifier>
                    <docidentifier scope="biblio-tag">ISO 20483:2013-2014</docidentifier>
                    <date type="published">
                       <from>2013</from>
                       <to>2014</to>
                    </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                      </organization>
+                   </contributor>
                    <biblio-tag>[ISO 20483:2013‑2014]</biblio-tag>
                 </bibitem>
                 <bibitem id="ref1">
@@ -270,8 +296,15 @@ RSpec.describe IsoDoc::Itu do
                       <em>Chemicals for analytical laboratory use</em>
                       . n.p.: n.d. ISBN: ISBN.
                    </formattedref>
+                   <title format="text/plain">Chemicals for analytical laboratory use</title>
                    <docidentifier type="ISBN">ISBN</docidentifier>
                    <docidentifier type="metanorma-ordinal">[3]</docidentifier>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <abbreviation>ISBN</abbreviation>
+                      </organization>
+                   </contributor>
                    <biblio-tag>[3]</biblio-tag>
                 </bibitem>
                 <bibitem id="ISSN" type="journal">
@@ -279,8 +312,15 @@ RSpec.describe IsoDoc::Itu do
                       <em>Instruments for analytical laboratory use</em>
                       . n.d. ISSN: ISSN 1.
                    </formattedref>
+                   <title format="text/plain">Instruments for analytical laboratory use</title>
                    <docidentifier type="ISSN">ISSN 1</docidentifier>
                    <docidentifier type="metanorma-ordinal">[4]</docidentifier>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <abbreviation>ISSN</abbreviation>
+                      </organization>
+                   </contributor>
                    <biblio-tag>[4]</biblio-tag>
                 </bibitem>
                 <note>
@@ -307,8 +347,15 @@ RSpec.describe IsoDoc::Itu do
                       <em>Water for analytical laboratory use</em>
                       .
                    </formattedref>
+                   <title format="text/plain">Water for analytical laboratory use</title>
                    <docidentifier type="ISO">ISO 3696</docidentifier>
                    <docidentifier scope="biblio-tag">ISO 3696</docidentifier>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <abbreviation>ISO</abbreviation>
+                      </organization>
+                   </contributor>
                    <biblio-tag>[ISO 3696]</biblio-tag>
                 </bibitem>
                 <bibitem id="ref10">
@@ -332,6 +379,7 @@ RSpec.describe IsoDoc::Itu do
                       <em>Internet Calendaring and Scheduling Core Object Specification (iCalendar)</em>
                       .
                    </formattedref>
+                   <title>Internet Calendaring and Scheduling Core Object Specification (iCalendar)</title>
                    <docidentifier type="IETF">IETF RFC 10</docidentifier>
                    <docidentifier scope="biblio-tag">IETF RFC 10</docidentifier>
                    <biblio-tag>[IETF RFC 10]</biblio-tag>
@@ -600,7 +648,7 @@ RSpec.describe IsoDoc::Itu do
       </itu-standard>
     INPUT
     presxml = <<~OUTPUT
-      <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <bibdata>
              <language current="true">en</language>
           </bibdata>
@@ -608,7 +656,7 @@ RSpec.describe IsoDoc::Itu do
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table of Contents</fmt-title>
              </clause>
-             <foreword displayorder="2" id="_">
+             <foreword id="_" displayorder="2">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
                    <semx element="title" source="_">Foreword</semx>
@@ -645,11 +693,19 @@ RSpec.describe IsoDoc::Itu do
                       <em>Cereals and cereal products</em>
                       .
                    </formattedref>
+                   <title format="text/plain">Cereals or cereal products</title>
+                   <title type="main" format="text/plain">Cereals and cereal products</title>
                    <docidentifier type="ISO">ISO 712</docidentifier>
                    <docidentifier scope="biblio-tag">ISO 712</docidentifier>
                    <date type="published">
                       <on>2001-01</on>
                    </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                      </organization>
+                   </contributor>
                    <biblio-tag>[ISO 712]</biblio-tag>
                 </bibitem>
                 <bibitem id="ITU712" type="standard">
@@ -658,8 +714,16 @@ RSpec.describe IsoDoc::Itu do
                       <em>Cereals and cereal products</em>
                       .
                    </formattedref>
+                   <title format="text/plain">Cereals or cereal products</title>
+                   <title type="main" format="text/plain">Cereals and cereal products</title>
                    <docidentifier type="ITU">ITU 712</docidentifier>
                    <docidentifier type="DOI">DOI 712</docidentifier>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                      </organization>
+                   </contributor>
                    <biblio-tag>[ITU 712]</biblio-tag>
                 </bibitem>
                 <bibitem id="ITU712a" type="standard">
@@ -668,11 +732,19 @@ RSpec.describe IsoDoc::Itu do
                       <em>Cereals and cereal products</em>
                       .
                    </formattedref>
+                   <title format="text/plain">Cereals or cereal products</title>
+                   <title type="main" format="text/plain">Cereals and cereal products</title>
                    <docidentifier type="ISO">ISO 712</docidentifier>
                    <docidentifier type="ITU">ITU 712</docidentifier>
                    <date type="published">
                       <on>2016</on>
                    </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                      </organization>
+                   </contributor>
                    <biblio-tag>[ITU 712]</biblio-tag>
                 </bibitem>
                 <bibitem id="ITU712b" type="standard">
@@ -680,10 +752,18 @@ RSpec.describe IsoDoc::Itu do
                       <em>Cereals and cereal products</em>
                       .
                    </formattedref>
+                   <title format="text/plain">Cereals or cereal products</title>
+                   <title type="main" format="text/plain">Cereals and cereal products</title>
                    <docidentifier type="DOI">DOI 712</docidentifier>
                    <date type="published">
                       <on>2016</on>
                    </date>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                      </organization>
+                   </contributor>
                    <biblio-tag/>
                 </bibitem>
                 <bibitem id="ITU713" type="standard">
@@ -692,8 +772,16 @@ RSpec.describe IsoDoc::Itu do
                       <em>Cereals and cereal products</em>
                       .
                    </formattedref>
+                   <title format="text/plain">Cereals or cereal products</title>
+                   <title type="main" format="text/plain">Cereals and cereal products</title>
                    <docidentifier type="ITU">ITU-T G Suppl. 41</docidentifier>
                    <docidentifier type="DOI">DOI 712</docidentifier>
+                   <contributor>
+                      <role type="publisher"/>
+                      <organization>
+                         <name>International Organization for Standardization</name>
+                      </organization>
+                   </contributor>
                    <biblio-tag>[ITU‑T G Suppl. 41]</biblio-tag>
                 </bibitem>
              </references>

@@ -15,12 +15,16 @@ module IsoDoc
       end
 
       def bibrender_relaton(xml, renderings)
-        f = renderings[xml["id"]][:formattedref]
+        f = renderings[xml["id"]][:formattedref] or return
         ids = reference_format_start(xml)
         f &&= "<formattedref>#{ids}#{f}</formattedref>"
-        # retain date in order to generate reference tag
-        keep = "./docidentifier | ./uri | ./note | ./date | ./biblio-tag"
-        xml.children = "#{f}#{xml.xpath(ns(keep)).to_xml}"
+        if x = xml.at(ns("./formattedref"))
+          x.replace(f)
+        elsif xml.children.empty?
+          xml << f
+        else
+          xml.children.first.previous = f
+        end
       end
 
       def multi_bibitem_ref_code(bib)

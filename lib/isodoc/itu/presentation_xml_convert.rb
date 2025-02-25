@@ -6,6 +6,7 @@ require_relative "presentation_bibdata"
 require_relative "presentation_preface"
 require_relative "presentation_ref"
 require_relative "presentation_contribution"
+require_relative "presentation_section"
 require_relative "../../nokogiri/xml"
 
 module IsoDoc
@@ -25,11 +26,6 @@ module IsoDoc
           f["citeas"] = bracket_opt(f["citeas"])
           eref1(f)
         end
-      end
-
-      # KILL
-      def quotesourcex(docxml)
-        docxml.xpath(ns("//quote//source")).each { |f| eref1(f) }
       end
 
       def bracket_opt(text)
@@ -97,8 +93,29 @@ module IsoDoc
         end
       end
 
-      def table_fn1(_table, fnote, _idx)
+      # KILL
+      def table_fn1x(_table, fnote, _idx)
         fnote["reference"] += ")"
+      end
+
+       def fn_ref_label(fnote)
+        if fnote.ancestors("table, figure").empty? ||
+            !fnote.ancestors("fmt-name").empty?
+          super
+        else
+          "<sup>#{fn_label(fnote)}" \
+            "<span class='fmt-label-delim'>)</span></sup>"
+        end
+      end
+
+       def fn_body_label(fnote)
+        if fnote.ancestors("table, figure").empty? ||
+            !fnote.ancestors("fmt-name").empty?
+          super
+        else
+          "<sup>#{fn_label(fnote)}" \
+            "<span class='fmt-label-delim'>)</span></sup>"
+        end
       end
 
       def get_eref_linkend(node)
@@ -122,69 +139,6 @@ module IsoDoc
         { group: "'" }
       end
 
-      # KILL
-      def clause1x(elem)
-        clause1_super?(elem) and return super
-        @suppressheadingnumbers || elem["unnumbered"] and return
-        t = elem.at(ns("./title")) and t["depth"] = "1"
-        lbl = @xrefs.anchor(elem["id"], :label, false)
-        lbl.blank? and return
-        elem.previous =
-          "<p keep-with-next='true' class='supertitle'>" \
-          "#{@i18n.get['section'].upcase} #{lbl}</p>"
-      end
-
-            def clause1(elem)
-        clause1_super?(elem) and return super
-        lbl = @xrefs.anchor(elem["id"], :label, false)
-        oldsuppressheadingnumbers = @suppressheadingnumbers
-        @suppressheadingnumbers = true
-        super
-        @suppressheadingnumbers = oldsuppressheadingnumbers
-        lbl.blank? || elem["unnumbered"] and return
-        elem.previous =
-          "<p keep-with-next='true' class='supertitle'>" \
-          "#{labelled_autonum(@i18n.get['section'].upcase, elem["id"], lbl)}</p>"
-          #"<span element='fmt-element-name'>#{@i18n.get['section'].upcase}</span> #{autonum(elem['id'], lbl)}</p>"
-      end
-
-      def clause1_super?(elem)
-        @doctype != "resolution" ||
-          !%w(sections bibliography).include?(elem.parent.name)
-      end
-
-      def annex1(elem)
-        if @doctype == "resolution"
-          annex1_resolution(elem)
-        else
-          super
-          annex1_non_resolution(elem)
-        end
-      end
-
-      def annex1_resolution(elem)
-        elem.elements.first.previous = annex1_supertitle(elem)
-         # TODO: do not alter title, alter semx/@element = title
-        t = elem.at(ns("./title")) and
-          t.children = "<strong>#{to_xml(t.children)}</strong>"
-        prefix_name(elem, {}, nil, "title")
-      end
-
-      def annex1_non_resolution(elem)
-        info = elem["obligation"] == "informative"
-        ins = elem.at(ns("./fmt-xref-label")) || elem.at(ns("./fmt-title"))
-        p = (info ? @i18n.inform_annex : @i18n.norm_annex)
-          .sub("%", @i18n.doctype_dict[@meta.get[:doctype_original]] || "")
-        ins.next = %(<p class="annex_obligation"><span class='fmt-obligation'>#{p}</span></p>)
-      end
-
-      def annex1_supertitle(elem)
-        lbl = @xrefs.anchor(elem["id"], :label)
-        res = elem.at(ns("//bibdata/title[@type = 'resolution']"))
-        subhead = @i18n.l10n("(#{@i18n.get['to']} #{to_xml(res.children)})")
-        "<p class='supertitle'>#{autonum(elem['id'], lbl)}<br/>#{subhead}</p>"
-      end
-
       def ol_depth(node)
         node["class"] == "steps" ||
           node.at(".//ancestor::xmlns:ol[@class = 'steps']") or return super
@@ -195,67 +149,6 @@ module IsoDoc
         type = :alphabet_upper if [4, 9].include? depth
         type = :roman_upper if [5, 10].include? depth
         type
-      end
-
-      def middle_title(isoxml)
-        s = isoxml.at(ns("//sections")) or return
-        titfn = isoxml.at(ns("//note[@type = 'title-footnote']"))
-        case @doctype
-        when "resolution"
-          middle_title_resolution(isoxml, s.children.first)
-        when "contribution"
-        else
-          middle_title_recommendation(isoxml, s.children.first)
-        end
-        titfn and renumber_footnotes(isoxml)
-      end
-
-      def renumber_footnotes(isoxml)
-        (isoxml.xpath(ns("//fn")) -
-         isoxml.xpath(ns("//table//fn | //figure//fn")))
-          .each_with_index do |fn, i|
-            fn["reference"] = (i + 1).to_s
-          end
-      end
-
-      def middle_title_resolution(isoxml, out)
-        res = isoxml.at(ns("//bibdata/title[@type = 'resolution']"))
-        out.previous =
-          "<p class='zzSTDTitle1' align='center'>#{res.children.to_xml}</p>"
-        t = @meta.get[:doctitle] and
-          out.previous = "<p class='zzSTDTitle2'>#{t}</p>"
-        middle_title_resolution_subtitle(isoxml, out)
-      end
-
-      def middle_title_resolution_subtitle(isoxml, out)
-        ret = "<p align='center' class='zzSTDTitle2'><em>("
-        d = isoxml.at(ns("//bibdata/title[@type = 'resolution-placedate']"))
-        ret += "#{d.children.to_xml.strip}</em>)"
-        ret += "#{title_footnotes(isoxml)}</p>"
-        out.previous = ret
-      end
-
-      def middle_title_recommendation(isoxml, out)
-        ret = ""
-        type = @meta.get[:doctype]
-        @meta.get[:unpublished] && @meta.get[:draft_new_doctype] and
-          type = @meta.get[:draft_new_doctype]
-        id = @meta.get[:docnumber] and
-          ret += "<<p class='zzSTDTitle1'>#{type} #{id}</p>"
-        t = @meta.get[:doctitle] and
-          ret += "<p class='zzSTDTitle2'>#{t}"
-        ret += "#{title_footnotes(isoxml)}</p>"
-        s = @meta.get[:docsubtitle] and ret += "<p class='zzSTDTitle3'>#{s}</p>"
-        out.previous = ret
-      end
-
-      def title_footnotes(isoxml)
-        ret = ""
-        isoxml.xpath(ns("//note[@type = 'title-footnote']"))
-          .each_with_index do |f, i|
-            ret += "<fn reference='H#{i}'>#{f.remove.children.to_xml}</fn>"
-          end
-        ret
       end
 
       def dl(xml)

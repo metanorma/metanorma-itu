@@ -124,18 +124,94 @@ RSpec.describe Metanorma::Itu do
       <meeting-date><from>1204-04-01</from><to>1207-01-01</to></meeting-date>
                  </ext>
         </bibdata>
-        <sections>
-                  <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION 1 (Andorra, 1204)</p>
-           <p align="center" class="zzSTDTitle2" displayorder="2"><em>(Andorra, 1204</em>)<fn reference="1"><p>One fn</p></fn><fn reference="2"><p>Another fn</p></fn></p>
-        <p keep-with-next="true" class="supertitle" displayorder="3">
-         <span class="fmt-element-name">SECTION</span>
-         <semx element="autonum" source="A">1</semx>
-      </p>
-        <clause id='A' displayorder='4'>
-          <p>Hello.<fn reference='3'><p>Normal footnote</p></fn></p>
-        </clause>
-      </sections>
-      </itu-standard>
+          <sections>
+             <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION 1 (Andorra, 1204)</p>
+             <p align="center" class="zzSTDTitle2" displayorder="2">
+                <em>(Andorra, 1204</em>
+                )
+                <fn reference="1" original-reference="H0" id="_" target="_">
+                   <p>One fn</p>
+                   <fmt-fn-label>
+                      <sup>
+                         <semx element="autonum" source="_">1</semx>
+                      </sup>
+                   </fmt-fn-label>
+                </fn>
+                <fn reference="2" original-reference="H1" id="_" target="_">
+                   <p>Another fn</p>
+                   <fmt-fn-label>
+                      <sup>
+                         <semx element="autonum" source="_">2</semx>
+                      </sup>
+                   </fmt-fn-label>
+                </fn>
+             </p>
+             <p keep-with-next="true" class="supertitle" displayorder="3">
+                <span class="fmt-element-name">SECTION</span>
+                <semx element="autonum" source="A">1</semx>
+             </p>
+             <clause id="A" displayorder="4">
+                <p>
+                   Hello.
+                   <fn reference="3" original-reference="3" id="_" target="_">
+                      <p>Normal footnote</p>
+                      <fmt-fn-label>
+                         <sup>
+                            <semx element="autonum" source="_">3</semx>
+                         </sup>
+                      </fmt-fn-label>
+                   </fn>
+                </p>
+             </clause>
+          </sections>
+          <fmt-footnote-container>
+             <fmt-fn-body id="_" target="_" reference="1">
+                <semx element="fn" source="_">
+                   <p>
+                      <fmt-fn-label>
+                         <sup>
+                            <semx element="autonum" source="_">1</semx>
+                         </sup>
+                         <span class="fmt-caption-delim">
+                            <tab/>
+                         </span>
+                      </fmt-fn-label>
+                      One fn
+                   </p>
+                </semx>
+             </fmt-fn-body>
+             <fmt-fn-body id="_" target="_" reference="2">
+                <semx element="fn" source="_">
+                   <p>
+                      <fmt-fn-label>
+                         <sup>
+                            <semx element="autonum" source="_">2</semx>
+                         </sup>
+                         <span class="fmt-caption-delim">
+                            <tab/>
+                         </span>
+                      </fmt-fn-label>
+                      Another fn
+                   </p>
+                </semx>
+             </fmt-fn-body>
+             <fmt-fn-body id="_" target="_" reference="3">
+                <semx element="fn" source="_">
+                   <p>
+                      <fmt-fn-label>
+                         <sup>
+                            <semx element="autonum" source="_">3</semx>
+                         </sup>
+                         <span class="fmt-caption-delim">
+                            <tab/>
+                         </span>
+                      </fmt-fn-label>
+                      Normal footnote
+                   </p>
+                </semx>
+             </fmt-fn-body>
+          </fmt-footnote-container>
+       </itu-standard>
     OUTPUT
     html = <<~OUTPUT
            <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
@@ -348,76 +424,6 @@ RSpec.describe Metanorma::Itu do
       .to be_equivalent_to Xml::C14n.format(output)
   end
 
-  it "processes IsoXML footnotes (Word)" do
-    input = <<~INPUT
-          <itu-standard xmlns="http://riboseinc.com/isoxml">
-          <preface>
-          <foreword displayorder="1">
-          <p>A.<fn reference="2">
-        <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
-      </fn></p>
-          <p>B.<fn reference="2">
-        <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
-      </fn></p>
-          <p>C.<fn reference="1">
-        <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
-      </fn></p>
-          </foreword>
-          </preface>
-          </itu-standard>
-    INPUT
-    output = <<~OUTPUT
-          <body xmlns:epub="epub" lang="EN-US" link="blue" vlink="#954F72">
-                 <div class="WordSection1">
-                   <p>&#160;</p>
-                 </div>
-                 <p class="section-break">
-                   <br clear="all" class="section"/>
-                 </p>
-                 <div class="WordSection2">
-                   <div id="_">
-                     <h1 class="IntroTitle"/>
-                     <p>A.<span style='mso-bookmark:_Ref'>
-        <a href='#ftn2' class='FootnoteRef' epub:type='footnote'>
-          <sup>2</sup>
-        </a>
-      </span></p>
-                     <p>B.<span style='mso-element:field-begin'/>
-       NOTEREF _Ref \\f \\h
-      <span style='mso-element:field-separator'/>
-      <span class='MsoFootnoteReference'>2</span>
-      <span style='mso-element:field-end'/>
-      </p>
-                     <p>C.<span style='mso-bookmark:_Ref'>
-        <a href='#ftn1' class='FootnoteRef' epub:type='footnote'>
-          <sup>1</sup>
-        </a>
-      </span>
-      </p>
-                   </div>
-                   <p>&#160;</p>
-                 </div>
-                 <p class="section-break">
-                   <br clear="all" class="section"/>
-                 </p>
-                 <div class="WordSection3">
-                   <aside id="ftn2">
-               <p id="_">Formerly denoted as 15 % (m/m).</p>
-             </aside>
-                   <aside id="ftn1">
-               <p id="_">Hello! denoted as 15 % (m/m).</p>
-             </aside>
-                 </div>
-               </body>
-    OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", input, true))
-      .sub(%r{^.*<body }m, "<body xmlns:epub='epub' ")
-      .sub(%r{</body>.*$}m, "</body>")
-      .gsub(%r{_Ref\d+}, "_Ref")))
-      .to be_equivalent_to Xml::C14n.format(output)
-  end
-
   it "cleans up footnotes" do
     FileUtils.rm_f "test.html"
     input = <<~INPUT
@@ -468,7 +474,7 @@ RSpec.describe Metanorma::Itu do
           </itu-standard>
     INPUT
     presxml = <<~PRESXML
-      <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <bibdata>
              <title language="en" format="text/plain" type="main">An ITU Standard</title>
              <ext>
@@ -483,24 +489,39 @@ RSpec.describe Metanorma::Itu do
              <foreword displayorder="2" id="_">
                 <title id="_">Foreword</title>
                 <fmt-title depth="1">
-                      <semx element="title" source="_">Foreword</semx>
+                   <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <p>
                    A.
-                   <fn reference="1">
-                      <p id="_">Formerly denoted as 15 % (m/m).</p>
+                   <fn reference="1" original-reference="2" id="_" target="_">
+                      <p original-id="_">Formerly denoted as 15 % (m/m).</p>
+                      <fmt-fn-label>
+                         <sup>
+                            <semx element="autonum" source="_">1</semx>
+                         </sup>
+                      </fmt-fn-label>
                    </fn>
                 </p>
                 <p>
                    B.
-                   <fn reference="2">
+                   <fn reference="1" original-reference="2" id="_" target="_">
                       <p id="_">Formerly denoted as 15 % (m/m).</p>
+                      <fmt-fn-label>
+                         <sup>
+                            <semx element="autonum" source="_">1</semx>
+                         </sup>
+                      </fmt-fn-label>
                    </fn>
                 </p>
                 <p>
                    C.
-                   <fn reference="3">
-                      <p id="_">Hello! denoted as 15 % (m/m).</p>
+                   <fn reference="2" original-reference="1" id="_" target="_">
+                      <p original-id="_">Hello! denoted as 15 % (m/m).</p>
+                      <fmt-fn-label>
+                         <sup>
+                            <semx element="autonum" source="_">2</semx>
+                         </sup>
+                      </fmt-fn-label>
                    </fn>
                 </p>
                 <table id="tableD-1" alt="tool tip" summary="long desc" autonum="1">
@@ -513,13 +534,13 @@ RSpec.describe Metanorma::Itu do
                       <span class="fmt-caption-label">
                          <span class="fmt-element-name">Table</span>
                          <semx element="autonum" source="tableD-1">1</semx>
-                         </span>
-                         <span class="fmt-caption-delim"> — </span>
-                         <semx element="name" source="_">
-                            Table 1 — Repeatability and reproducibility of
-                            <em>husked</em>
-                            rice yield
-                         </semx>
+                      </span>
+                      <span class="fmt-caption-delim"> — </span>
+                      <semx element="name" source="_">
+                         Table 1 — Repeatability and reproducibility of
+                         <em>husked</em>
+                         rice yield
+                      </semx>
                    </fmt-name>
                    <fmt-xref-label>
                       <span class="fmt-element-name">Table</span>
@@ -536,34 +557,136 @@ RSpec.describe Metanorma::Itu do
                          <td align="left">Arborio</td>
                          <td align="center">
                             Drago
-                            <fn reference="a)">
-                               <p id="_">Parboiled rice.</p>
+                            <fn reference="a" id="_" target="_">
+                               <p original-id="_">Parboiled rice.</p>
+                               <fmt-fn-label>
+                                  <sup>
+                                     <semx element="autonum" source="_">a</semx>
+                                     <span class="fmt-label-delim">)</span>
+                                  </sup>
+                               </fmt-fn-label>
                             </fn>
                          </td>
                          <td align="center">
                             Balilla
-                            <fn reference="a)">
+                            <fn reference="a" id="_" target="_">
                                <p id="_">Parboiled rice.</p>
+                               <fmt-fn-label>
+                                  <sup>
+                                     <semx element="autonum" source="_">a</semx>
+                                     <span class="fmt-label-delim">)</span>
+                                  </sup>
+                               </fmt-fn-label>
                             </fn>
                          </td>
                          <td align="center">Thaibonnet</td>
                       </tr>
                    </tbody>
+                   <fmt-footnote-container>
+                      <fmt-fn-body id="_" target="_" reference="a">
+                         <semx element="fn" source="_">
+                            <p id="_">
+                               <fmt-fn-label>
+                                  <sup>
+                                     <semx element="autonum" source="_">a</semx>
+                                     <span class="fmt-label-delim">)</span>
+                                  </sup>
+                                  <span class="fmt-caption-delim">
+                                     <tab/>
+                                  </span>
+                               </fmt-fn-label>
+                               Parboiled rice.
+                            </p>
+                         </semx>
+                      </fmt-fn-body>
+                   </fmt-footnote-container>
                 </table>
              </foreword>
           </preface>
           <sections>
              <p class="zzSTDTitle2" displayorder="3">
                 An ITU Standard
-                <fn reference="4">
+                <fn reference="3" original-reference="H0" id="_" target="_">
                    <p>One fn</p>
+                   <fmt-fn-label>
+                      <sup>
+                         <semx element="autonum" source="_">3</semx>
+                      </sup>
+                   </fmt-fn-label>
                 </fn>
-                <fn reference="5">
+                <fn reference="4" original-reference="H1" id="_" target="_">
                    <p>Another fn</p>
+                   <fmt-fn-label>
+                      <sup>
+                         <semx element="autonum" source="_">4</semx>
+                      </sup>
+                   </fmt-fn-label>
                 </fn>
              </p>
              <clause displayorder="4"/>
           </sections>
+          <fmt-footnote-container>
+             <fmt-fn-body id="_" target="_" reference="1">
+                <semx element="fn" source="_">
+                   <p id="_">
+                      <fmt-fn-label>
+                         <sup>
+                            <semx element="autonum" source="_">1</semx>
+                         </sup>
+                         <span class="fmt-caption-delim">
+                            <tab/>
+                         </span>
+                      </fmt-fn-label>
+                      Formerly denoted as 15 % (m/m).
+                   </p>
+                </semx>
+             </fmt-fn-body>
+             <fmt-fn-body id="_" target="_" reference="2">
+                <semx element="fn" source="_">
+                   <p id="_">
+                      <fmt-fn-label>
+                         <sup>
+                            <semx element="autonum" source="_">2</semx>
+                         </sup>
+                         <span class="fmt-caption-delim">
+                            <tab/>
+                         </span>
+                      </fmt-fn-label>
+                      Hello! denoted as 15 % (m/m).
+                   </p>
+                </semx>
+             </fmt-fn-body>
+             <fmt-fn-body id="_" target="_" reference="3">
+                <semx element="fn" source="_">
+                   <p>
+                      <fmt-fn-label>
+                         <sup>
+                            <semx element="autonum" source="_">3</semx>
+                         </sup>
+                         <span class="fmt-caption-delim">
+                            <tab/>
+                         </span>
+                      </fmt-fn-label>
+                      One fn
+                   </p>
+                </semx>
+             </fmt-fn-body>
+             <fmt-fn-body id="_" target="_" reference="4">
+                <semx element="fn" source="_">
+                   <p>
+                      <fmt-fn-label>
+                         <sup>
+                            <semx element="autonum" source="_">4</semx>
+                         </sup>
+                         <span class="fmt-caption-delim">
+                            <tab/>
+                         </span>
+                      </fmt-fn-label>
+                      Another fn
+                   </p>
+                </semx>
+             </fmt-fn-body>
+          </fmt-footnote-container>
        </itu-standard>
     PRESXML
     pres_output = IsoDoc::Itu::PresentationXMLConvert
@@ -575,188 +698,180 @@ RSpec.describe Metanorma::Itu do
     IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
     expect(File.exist?("test.html")).to be true
     html = File.read("test.html", encoding: "UTF-8")
+    output = <<~OUTPUT
+       <main xmlns:epub="epub" class="main-section">
+          <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+          <br/>
+          <div id="_">
+             <h1 class="IntroTitle" id="_">
+                <a class="anchor" href="#_"/>
+                <a class="header" href="#_">Foreword</a>
+             </h1>
+             <p>
+                A.
+                <a class="FootnoteRef" href="#fn:1" id="fnref:1">
+                   <sup>1</sup>
+                </a>
+             </p>
+             <p>
+                B.
+                <a class="FootnoteRef" href="#fn:1">
+                   <sup>1</sup>
+                </a>
+             </p>
+             <p>
+                C.
+                <a class="FootnoteRef" href="#fn:2" id="fnref:3">
+                   <sup>2</sup>
+                </a>
+             </p>
+             <p class="TableTitle" style="text-align:center;">
+                Table 1 — Table 1 — Repeatability and reproducibility of
+                <i>husked</i>
+                rice yield
+             </p>
+             <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;" title="tool tip">
+                <caption>
+                   <span style="display:none">long desc</span>
+                </caption>
+                <thead>
+                   <tr>
+                      <td rowspan="2" style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="col">Description</td>
+                      <td colspan="4" style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="colgroup">Rice sample</td>
+                   </tr>
+                </thead>
+                <tbody>
+                   <tr>
+                      <td style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Arborio</td>
+                      <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">
+                         Drago
+                         <a href="#tableD-1a" class="TableFootnoteRef">a)</a>
+                      </td>
+                      <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">
+                         Balilla
+                         <a href="#tableD-1a" class="TableFootnoteRef">a)</a>
+                      </td>
+                      <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Thaibonnet</td>
+                   </tr>
+                </tbody>
+                <tfoot>
+                   <tr>
+                      <td colspan="5" style="border-top:0pt;border-bottom:solid windowtext 1.5pt;">
+                         <div id="fn:tableD-1a" class="TableFootnote">
+                            <p id="_" class="TableFootnote">
+                               <span class="TableFootnoteRef">
+                                  a)
+                               </span>
+                                 Parboiled rice.
+                            </p>
+                         </div>
+                      </td>
+                   </tr>
+                </tfoot>
+             </table>
+          </div>
+          <p class="zzSTDTitle2">
+             An ITU Standard
+             <a class="FootnoteRef" href="#fn:3" id="fnref:4">
+                <sup>3</sup>
+             </a>
+             <a class="FootnoteRef" href="#fn:4" id="fnref:5">
+                <sup>4</sup>
+             </a>
+          </p>
+          <div/>
+          <aside id="fn:1" class="footnote">
+             <p id="_">
+                <a class="FootnoteRef" href="#fn:1">
+                   <sup>1</sup>
+                </a>
+                Formerly denoted as 15 % (m/m).
+             </p>
+             <a href="#fnref:1">↩</a>
+          </aside>
+          <aside id="fn:2" class="footnote">
+             <p id="_">
+                <a class="FootnoteRef" href="#fn:2">
+                   <sup>2</sup>
+                </a>
+                Hello! denoted as 15 % (m/m).
+             </p>
+             <a href="#fnref:3">↩</a>
+          </aside>
+          <aside id="fn:3" class="footnote">
+             <p>
+                <a class="FootnoteRef" href="#fn:3">
+                   <sup>3</sup>
+                </a>
+                One fn
+             </p>
+             <a href="#fnref:4">↩</a>
+          </aside>
+          <aside id="fn:4" class="footnote">
+             <p>
+                <a class="FootnoteRef" href="#fn:4">
+                   <sup>4</sup>
+                </a>
+                Another fn
+             </p>
+             <a href="#fnref:5">↩</a>
+          </aside>
+       </main>
+      OUTPUT
     expect(Xml::C14n.format(strip_guid(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ")
       .sub(%r{</main>.*$}m, "</main>")
       .gsub(%r{<script>.+?</script>}i, "")
       .gsub(/fn:[0-9a-f][0-9a-f-]+/, "fn:_"))))
-      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
-            <main xmlns:epub="epub" class="main-section">
-           <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-           <br/>
-              <div id="_">
-              <h1 class="IntroTitle" id="_">
-                <a class="anchor" href="#_"/>
-                <a class="header" href="#_">Foreword</a>
-              </h1>
-              <p>
-                 A.
-                 <a class="FootnoteRef" href="#fn:1" id="fnref:1">
-                    <sup>1</sup>
-                 </a>
-              </p>
-              <p>
-                 B.
-                 <a class="FootnoteRef" href="#fn:1">
-                    <sup>1</sup>
-                 </a>
-              </p>
-              <p>
-                 C.
-                 <a class="FootnoteRef" href="#fn:3" id="fnref:3">
-                    <sup>2</sup>
-                 </a>
-              </p>
-              <p class="TableTitle" style="text-align:center;">
-                 Table 1 — Table 1 — Repeatability and reproducibility of
-                 <i>husked</i>
-                 rice yield
-              </p>
-              <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;" title="tool tip">
-                 <caption>
-                    <span style="display:none">long desc</span>
-                 </caption>
-                 <thead>
-                    <tr>
-                       <td rowspan="2" style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="col">Description</td>
-                       <td colspan="4" style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="colgroup">Rice sample</td>
-                    </tr>
-                 </thead>
-                 <tbody>
-                    <tr>
-                       <td style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Arborio</td>
-                       <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">
-                          Drago
-                          <a href="#tableD-1a)" class="TableFootnoteRef">a)</a>
-                       </td>
-                       <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">
-                          Balilla
-                          <a href="#tableD-1a)" class="TableFootnoteRef">a)</a>
-                       </td>
-                       <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Thaibonnet</td>
-                    </tr>
-                 </tbody>
-                 <tfoot>
-                    <tr>
-                       <td colspan="5" style="border-top:0pt;border-bottom:solid windowtext 1.5pt;">
-                          <div class="TableFootnote">
-                             <div id="fn:tableD-1a)">
-                                <p id="_" class="TableFootnote">
-                                   <span>
-                                      <span id="tableD-1a)" class="TableFootnoteRef">a)</span>
-                                       
-                                   </span>
-                                   Parboiled rice.
-                                </p>
-                             </div>
-                          </div>
-                       </td>
-                    </tr>
-                 </tfoot>
-              </table>
-           </div>
-           <p class="zzSTDTitle2">
-              An ITU Standard
-              <a class="FootnoteRef" href="#fn:4" id="fnref:4">
-                 <sup>3</sup>
-              </a>
-              <a class="FootnoteRef" href="#fn:5" id="fnref:5">
-                 <sup>4</sup>
-              </a>
-           </p>
-           <div/>
-           <aside id="fn:1" class="footnote">
-              <p id="_">
-                 <a class="FootnoteRef" href="#fn:1">
-                    <sup>1</sup>
-                 </a>
-                 Formerly denoted as 15 % (m/m).
-              </p>
-              <a href="#fnref:1">↩</a>
-           </aside>
-           <aside id="fn:3" class="footnote">
-              <p id="_">
-                 <a class="FootnoteRef" href="#fn:3">
-                    <sup>2</sup>
-                 </a>
-                 Hello! denoted as 15 % (m/m).
-              </p>
-              <a href="#fnref:3">↩</a>
-           </aside>
-           <aside id="fn:4" class="footnote">
-              <p>
-                 <a class="FootnoteRef" href="#fn:4">
-                    <sup>3</sup>
-                 </a>
-                 One fn
-              </p>
-              <a href="#fnref:4">↩</a>
-           </aside>
-           <aside id="fn:5" class="footnote">
-              <p>
-                 <a class="FootnoteRef" href="#fn:5">
-                    <sup>4</sup>
-                 </a>
-                 Another fn
-              </p>
-              <a href="#fnref:5">↩</a>
-           </aside>
-        </main>
-      OUTPUT
+      .to be_equivalent_to Xml::C14n.format(output)
 
     FileUtils.rm_f "test.doc"
     IsoDoc::Itu::WordConvert.new({}).convert("test", pres_output, false)
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(Xml::C14n.format(html
+    output = <<~OUTPUT
+       <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;" title="tool tip" summary="long desc">
+          <a name="tableD-1" id="tableD-1"/>
+          <thead>
+             <tr>
+                <td rowspan="2" valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Description</td>
+                <td colspan="4" valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Rice sample</td>
+             </tr>
+          </thead>
+          <tbody>
+             <tr>
+                <td valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Arborio</td>
+                <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">
+                   Drago
+                   <a href="#tableD-1a" class="TableFootnoteRef">a)</a>
+                </td>
+                <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">
+                   Balilla
+                   <a href="#tableD-1a" class="TableFootnoteRef">a)</a>
+                </td>
+                <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Thaibonnet</td>
+             </tr>
+          </tbody>
+          <tfoot>
+             <tr>
+                <td colspan="5" style="border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;">
+                   <div class="TableFootnote">
+                      <a name="ftntableD-1a" id="ftntableD-1a"/>
+                      <p class="TableFootnote">
+                         <a name="_0fe65e9a-5531-408e-8295-eeff35f41a55" id="_0fe65e9a-5531-408e-8295-eeff35f41a55"/>
+                         <span class="TableFootnoteRef">a)</span>
+                         <span style="mso-tab-count:1">  </span>
+                         Parboiled rice.
+                      </p>
+                   </div>
+                </td>
+             </tr>
+          </tfoot>
+       </table>
+      OUTPUT
+      expect(Xml::C14n.format(html
       .sub(%r{^.*<div align="center" class="table_container">}m, "")
       .sub(%r{</table>.*$}m, "</table>")))
-      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
-          <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;" title="tool tip" summary="long desc">
-           <a name="tableD-1" id="tableD-1"/>
-           <thead>
-              <tr>
-                 <td rowspan="2" valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Description</td>
-                 <td colspan="4" valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Rice sample</td>
-              </tr>
-           </thead>
-           <tbody>
-              <tr>
-                 <td valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Arborio</td>
-                 <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">
-                    Drago
-                    <a href="#tableD-1a)" class="TableFootnoteRef">a)</a>
-                 </td>
-                 <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">
-                    Balilla
-                    <a href="#tableD-1a)" class="TableFootnoteRef">a)</a>
-                 </td>
-                 <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Thaibonnet</td>
-              </tr>
-           </tbody>
-           <tfoot>
-              <tr>
-                 <td colspan="5" style="border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;">
-                    <div class="TableFootnote">
-                       <div>
-                          <a name="ftntableD-1a)" id="ftntableD-1a)"/>
-                          <p class="TableFootnote">
-                             <a name="_0fe65e9a-5531-408e-8295-eeff35f41a55" id="_0fe65e9a-5531-408e-8295-eeff35f41a55"/>
-                             <span>
-                                <span class="TableFootnoteRef">
-                                   <a name="tableD-1a)" id="tableD-1a)"/>
-                                   a)
-                                </span>
-                                <span style="mso-tab-count:1">  </span>
-                             </span>
-                             Parboiled rice.
-                          </p>
-                       </div>
-                    </div>
-                 </td>
-              </tr>
-           </tfoot>
-        </table>
-      OUTPUT
+      .to be_equivalent_to Xml::C14n.format(output)
   end
 
   it "injects JS into blank html" do

@@ -100,7 +100,7 @@ module IsoDoc
 
        def fn_ref_label(fnote)
         if fnote.ancestors("table, figure").empty? ||
-            !fnote.ancestors("fmt-name").empty?
+            !fnote.ancestors("name, fmt-name").empty?
           super
         else
           "<sup>#{fn_label(fnote)}" \
@@ -110,7 +110,7 @@ module IsoDoc
 
        def fn_body_label(fnote)
         if fnote.ancestors("table, figure").empty? ||
-            !fnote.ancestors("fmt-name").empty?
+            !fnote.ancestors("name, fmt-name").empty?
           super
         else
           "<sup>#{fn_label(fnote)}" \

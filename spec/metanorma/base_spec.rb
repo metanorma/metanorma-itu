@@ -1864,4 +1864,82 @@ RSpec.describe Metanorma::Itu do
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
   end
+
+  it "moves title footnotes to bibdata" do
+    input = <<~INPUT
+      = Document title footnote:[ABC] footnote:[DEF]
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+
+    INPUT
+    output = <<~OUTPUT
+      <bibdata type="standard">
+          <title language="en" format="text/plain" type="main">Document title</title>
+          <contributor>
+             <role type="author"/>
+             <organization>
+                <name>International Telecommunication Union</name>
+                <abbreviation>ITU</abbreviation>
+             </organization>
+          </contributor>
+          <contributor>
+             <role type="publisher"/>
+             <organization>
+                <name>International Telecommunication Union</name>
+                <abbreviation>ITU</abbreviation>
+             </organization>
+          </contributor>
+          <note type="title-footnote">
+             <p>ABC</p>
+          </note>
+          <note type="title-footnote">
+             <p>DEF</p>
+          </note>
+          <language>en</language>
+          <script>Latn</script>
+          <status>
+             <stage>published</stage>
+          </status>
+          <copyright>
+             <from>#{Time.now.year}</from>
+             <owner>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
+             </owner>
+          </copyright>
+          <ext>
+             <doctype>recommendation</doctype>
+             <flavor>itu</flavor>
+             <editorialgroup>
+                <bureau>T</bureau>
+             </editorialgroup>
+             <ip-notice-received>false</ip-notice-received>
+          </ext>
+       </bibdata>
+    OUTPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.at("//xmlns:bibdata")
+    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      .to be_equivalent_to Xml::C14n.format(output)
+
+    input = <<~INPUT
+      = XXXX
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
+      :title-en: Document title footnote:[ABC] footnote:[DEF]
+
+    INPUT
+    xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
+    xml = xml.at("//xmlns:bibdata")
+    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
+      .to be_equivalent_to Xml::C14n.format(output)
+  end
 end

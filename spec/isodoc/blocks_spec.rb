@@ -462,7 +462,7 @@ RSpec.describe Metanorma::Itu do
         </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <preface>
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table of Contents</fmt-title>
@@ -482,7 +482,6 @@ RSpec.describe Metanorma::Itu do
                          <fmt-fn-label>
                             <sup>
                                <semx element="autonum" source="_">1</semx>
-                               <span class="fmt-label-delim">)</span>
                             </sup>
                          </fmt-fn-label>
                       </fn>
@@ -502,7 +501,6 @@ RSpec.describe Metanorma::Itu do
                             <fmt-fn-label>
                                <sup>
                                   <semx element="autonum" source="_">1</semx>
-                                  <span class="fmt-label-delim">)</span>
                                </sup>
                             </fmt-fn-label>
                          </fn>
@@ -763,7 +761,6 @@ RSpec.describe Metanorma::Itu do
                       <fmt-fn-label>
                          <sup>
                             <semx element="autonum" source="_">1</semx>
-                            <span class="fmt-label-delim">)</span>
                          </sup>
                          <span class="fmt-caption-delim">
                             <tab/>
@@ -800,7 +797,7 @@ RSpec.describe Metanorma::Itu do
                       <i>husked</i>
                       rice yield
                       <a class="FootnoteRef" href="#fn:1">
-                         <sup>1)</sup>
+                         <sup>1</sup>
                       </a>
                    </p>
                    <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;width:70%;page-break-after: avoid;page-break-inside: avoid;table-layout:fixed;" title="tool tip">
@@ -984,7 +981,7 @@ RSpec.describe Metanorma::Itu do
                    rice yield
                    <span style="mso-bookmark:_Ref">
                       <a class="FootnoteRef" href="#ftn1" epub:type="footnote">
-                         <sup>1)</sup>
+                         <sup>1</sup>
                       </a>
                    </span>
                 </p>

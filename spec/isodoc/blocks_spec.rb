@@ -979,10 +979,8 @@ RSpec.describe Metanorma::Itu do
                    Table 1 — Repeatability and reproducibility of
                    <i>husked</i>
                    rice yield
-                   <span style="mso-bookmark:_Ref">
-                      <a class="FootnoteRef" href="#ftn1" epub:type="footnote">
-                         <sup>1</sup>
-                      </a>
+                   <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
+               <a class="FootnoteRef" epub:type="footnote" href="#ftn1">1</a>
                    </span>
                 </p>
                 <div align="center" class="table_container">

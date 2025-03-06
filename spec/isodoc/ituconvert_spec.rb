@@ -257,36 +257,50 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
 
     word = <<~OUTPUT
-      <body xmlns:epub='epub' lang='EN-US' link='blue' vlink='#954F72'>
-           <div class='WordSection1'>
-             <p>&#160;</p>
-           </div>
-           <p class="section-break">
-             <br clear='all' class='section'/>
-           </p>
-           <div class='WordSection2'>
-             <p>&#160;</p>
-           </div>
-           <p class="section-break">
-             <br clear='all' class='section'/>
-           </p>
-         <div class="WordSection3">
-           <p class="zzSTDTitle1" style="text-align:center;" align="center">RESOLUTION 1 (Andorra, 1204)</p>
-           <p class="zzSTDTitle2" style="text-align:center;" align="center"><i>(Andorra, 1204</i>)<span style="mso-bookmark:_Ref"><a class="FootnoteRef" href="#ftn1" epub:type="footnote"><sup>1</sup></a></span><span style="mso-bookmark:_Ref"><a class="FootnoteRef" href="#ftn2" epub:type="footnote"><sup>2</sup></a></span></p>
-           <p class="supertitle" style="page-break-after: avoid;">SECTION 1</p>
-           <div id="A">
-             <p>Hello.<span style="mso-bookmark:_Ref"><a class="FootnoteRef" href="#ftn3" epub:type="footnote"><sup>3</sup></a></span></p>
-           </div>
-           <aside id="ftn1">
-             <p>One fn</p>
-           </aside>
-           <aside id="ftn2">
-             <p>Another fn</p>
-           </aside>
-           <aside id="ftn3">
-             <p>Normal footnote</p>
-           </aside>
-         </div>
+       <body xmlns:epub="epub" lang="EN-US" link="blue" vlink="#954F72">
+          <div class="WordSection1">
+             <p> </p>
+          </div>
+          <p class="section-break">
+             <br clear="all" class="section"/>
+          </p>
+          <div class="WordSection2">
+             <p> </p>
+          </div>
+          <p class="section-break">
+             <br clear="all" class="section"/>
+          </p>
+          <div class="WordSection3">
+             <p class="zzSTDTitle1" style="text-align:center;" align="center">RESOLUTION 1 (Andorra, 1204)</p>
+             <p class="zzSTDTitle2" style="text-align:center;" align="center">
+                <i>(Andorra, 1204</i>
+                )
+                <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
+                   <a class="FootnoteRef" epub:type="footnote" href="#ftn1">1</a>
+                </span>
+                <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
+                   <a class="FootnoteRef" epub:type="footnote" href="#ftn2">2</a>
+                </span>
+             </p>
+             <p class="supertitle" style="page-break-after: avoid;">SECTION 1</p>
+             <div id="A">
+                <p>
+                   Hello.
+                   <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
+                      <a class="FootnoteRef" epub:type="footnote" href="#ftn3">3</a>
+                   </span>
+                </p>
+             </div>
+             <aside id="ftn1">
+                <p>One fn</p>
+             </aside>
+             <aside id="ftn2">
+                <p>Another fn</p>
+             </aside>
+             <aside id="ftn3">
+                <p>Normal footnote</p>
+             </aside>
+          </div>
        </body>
     OUTPUT
     pres_output = IsoDoc::Itu::PresentationXMLConvert

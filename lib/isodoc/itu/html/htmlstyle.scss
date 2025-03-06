@@ -29,8 +29,8 @@ $docstage-colors-list: (
 );
 
 
-@import 'base_style/all';
-@import 'coverpage';
+@use 'base_style/all' as *;
+@use 'coverpage' as *;
 
 
 dl.glossary dt {

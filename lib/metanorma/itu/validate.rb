@@ -97,7 +97,6 @@ module Metanorma
 
       def itu_identifier_validate(xmldoc)
         xmldoc.xpath("//bibdata/docidentifier[@type = 'ITU']").each do |x|
-          warn x.text
           /^SG \d+/.match?(x.text) ||
           /^ITU-[RTD] [AD-VX-Z]\.\d+(\.\d+)?$/.match?(x.text) or
             @log.add("Style", nil, "#{x.text} does not match ITU document " \

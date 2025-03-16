@@ -56,16 +56,6 @@ module IsoDoc
         ")"
       end
 
-      # KILL
-      def sequential_figure_bodyx(subfig, counter, elem, klass, container: false)
-        label = counter.print
-        label &&= label + subfigure_label(subfig)
-        @anchors[elem["id"]] = anchor_struct(
-          label, container ? elem : nil, @labels[klass] || klass.capitalize,
-          klass, elem["unnumbered"]
-        )
-      end
-
       def figure_anchor(elem, sublabel, label, klass, container: false)
         if sublabel
           subfigure_anchor(elem, sublabel, label, klass, container: false)
@@ -94,15 +84,6 @@ module IsoDoc
           x = @anchors[elem.parent["id"]][:container] and
           @anchors[elem["id"]][:container] = x
         end
-      end
-
-      # KILL
-      def hierarchical_figure_bodyx(num, subfignum, counter, block, klass)
-        label = "#{num}#{hier_separator}#{counter.print}" + subfigure_label(subfignum)
-        @anchors[block["id"]] = anchor_struct(
-          label, nil, @labels[klass] || klass.capitalize,
-          klass, block["unnumbered"]
-        )
       end
 
       def sequential_formula_names(clause, container: false)

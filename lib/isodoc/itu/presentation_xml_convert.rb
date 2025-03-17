@@ -39,7 +39,7 @@ module IsoDoc
         desgn.name == "preferred" or return
         out = desgn.parent
           .at(ns("./fmt-preferred//semx[@element = 'preferred'][last()]"))
-       out or return
+        out or return
         out.text.strip.empty? and return
         out.children = l10n "#{to_xml out.children}:"
       end
@@ -93,12 +93,7 @@ module IsoDoc
         end
       end
 
-      # KILL
-      def table_fn1x(_table, fnote, _idx)
-        fnote["reference"] += ")"
-      end
-
-       def fn_ref_label(fnote)
+      def fn_ref_label(fnote)
         if fnote.ancestors("table, figure").empty? ||
             !fnote.ancestors("name, fmt-name").empty?
           super
@@ -108,7 +103,7 @@ module IsoDoc
         end
       end
 
-       def fn_body_label(fnote)
+      def fn_body_label(fnote)
         if fnote.ancestors("table, figure").empty? ||
             !fnote.ancestors("name, fmt-name").empty?
           super

@@ -6338,6 +6338,8 @@
 				<xsl:attribute name="min-height">5mm</xsl:attribute>
 			</xsl:if>
 
+		<xsl:call-template name="setColors"/>
+
 	</xsl:template> <!-- setTableRowAttributes -->
 	<!-- ===================== -->
 	<!-- END Table's row processing -->
@@ -6389,6 +6391,7 @@
 			</xsl:attribute>
 		</xsl:if>
 		<xsl:call-template name="display-align"/>
+		<xsl:call-template name="setColors"/>
 	</xsl:template>
 
 	<xsl:template name="display-align">
@@ -6404,6 +6407,29 @@
 		</xsl:if>
 	</xsl:template>
 
+	<xsl:template name="setColors">
+		<xsl:variable name="styles__">
+			<xsl:call-template name="split">
+				<xsl:with-param name="pText" select="concat(@style,';')"/>
+				<xsl:with-param name="sep" select="';'"/>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="quot">"</xsl:variable>
+		<xsl:variable name="styles_">
+			<xsl:for-each select="xalan:nodeset($styles__)/item">
+				<xsl:variable name="key" select="normalize-space(substring-before(., ':'))"/>
+				<xsl:variable name="value" select="normalize-space(substring-after(translate(.,$quot,''), ':'))"/>
+				<xsl:if test="$key = 'color' or $key = 'background-color'">
+					<style name="{$key}"><xsl:value-of select="$value"/></style>
+				</xsl:if>
+			</xsl:for-each>
+		</xsl:variable>
+		<xsl:variable name="styles" select="xalan:nodeset($styles_)"/>
+		<xsl:for-each select="$styles/style">
+			<xsl:attribute name="{@name}"><xsl:value-of select="."/></xsl:attribute>
+		</xsl:for-each>
+	</xsl:template>
+
 	<!-- cell in table body, footer -->
 	<xsl:template match="*[local-name()='td']" name="td">
 		<fo:table-cell xsl:use-attribute-sets="table-cell-style"> <!-- text-align="{@align}" -->
@@ -6415,11 +6441,11 @@
 
 			<xsl:call-template name="refine_table-cell-style"/>
 
+			<xsl:call-template name="setTableCellAttributes"/>
+
 			<xsl:if test=".//*[local-name() = 'table']"> <!-- if there is nested table -->
 				<xsl:attribute name="padding-right">1mm</xsl:attribute>
 			</xsl:if>
-
-			<xsl:call-template name="setTableCellAttributes"/>
 
 			<xsl:if test="$isGenerateTableIF = 'true'">
 				<xsl:attribute name="border">1pt solid black</xsl:attribute> <!-- border is mandatory, to determine page width -->
@@ -11075,6 +11101,8 @@
 	<xsl:template match="*[local-name() = 'origin']" mode="contents"/>
 	<xsl:template match="*[local-name() = 'erefstack ']" mode="contents"/>
 
+	<xsl:template match="*[local-name() = 'requirement'] |             *[local-name() = 'recommendation'] |              *[local-name() = 'permission']" mode="contents" priority="3"/>
+
 	<xsl:template match="*[local-name() = 'stem']" mode="bookmarks"/>
 	<xsl:template match="*[local-name() = 'fmt-stem']" mode="bookmarks">
 		<xsl:apply-templates mode="bookmarks"/>
@@ -11095,6 +11123,8 @@
 	<xsl:template match="*[local-name() = 'link']" mode="bookmarks"/>
 	<xsl:template match="*[local-name() = 'origin']" mode="bookmarks"/>
 	<xsl:template match="*[local-name() = 'erefstack ']" mode="bookmarks"/>
+
+	<xsl:template match="*[local-name() = 'requirement'] |             *[local-name() = 'recommendation'] |              *[local-name() = 'permission']" mode="bookmarks" priority="3"/>
 
 	<!-- Bookmarks -->
 	<xsl:template name="addBookmarks">
@@ -13203,15 +13233,20 @@
 		<xsl:variable name="list_level">
 			<xsl:choose>
 				<xsl:when test="$list_level_ &lt;= 3"><xsl:value-of select="$list_level_"/></xsl:when>
-				<xsl:otherwise><xsl:value-of select="$list_level_ mod 3"/></xsl:otherwise>
+				<xsl:when test="$ul_labels/label[@level = 3]"><xsl:value-of select="$list_level_ mod 3"/></xsl:when>
+				<xsl:when test="$list_level_ mod 2 = 0">2</xsl:when>
+				<xsl:otherwise><xsl:value-of select="$list_level_ mod 2"/></xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:choose>
 			<xsl:when test="$ul_labels/label[not(@level)]"> <!-- one label for all levels -->
 				<xsl:apply-templates select="$ul_labels/label[not(@level)]" mode="ul_labels"/>
 			</xsl:when>
-			<xsl:when test="$list_level mod 3 = 0">
+			<xsl:when test="$list_level mod 3 = 0 and $ul_labels/label[@level = 3]">
 				<xsl:apply-templates select="$ul_labels/label[@level = 3]" mode="ul_labels"/>
+			</xsl:when>
+			<xsl:when test="$list_level mod 3 = 0">
+				<xsl:apply-templates select="$ul_labels/label[@level = 1]" mode="ul_labels"/>
 			</xsl:when>
 			<xsl:when test="$list_level mod 2 = 0">
 				<xsl:apply-templates select="$ul_labels/label[@level = 2]" mode="ul_labels"/>

@@ -214,46 +214,47 @@ RSpec.describe Metanorma::Itu do
        </itu-standard>
     OUTPUT
     html = <<~OUTPUT
-           <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
-         <div class="title-section">
-           <p> </p>
-         </div>
-         <br/>
-         <div class="prefatory-section">
-           <p> </p>
-         </div>
-         <br/>
-         <div class="main-section">
-              <p class='zzSTDTitle1'  style='text-align:center;'>RESOLUTION 1 (Andorra, 1204)</p>
-          <p class='zzSTDTitle2'  style='text-align:center;'>
-            <i>(Andorra, 1204</i>)
-            <a class='FootnoteRef' href='#fn:1'>
-              <sup>1</sup>
-            </a>
-            <a class='FootnoteRef' href='#fn:2'>
-              <sup>2</sup>
-            </a>
-          </p>
-            <p style='page-break-after: avoid;' class='supertitle'>SECTION 1</p>
-          <div id='A'>
-            <p>
-              Hello.
-              <a class='FootnoteRef' href='#fn:3'>
-                <sup>3</sup>
-              </a>
-            </p>
+       <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
+          <div class="title-section">
+             <p> </p>
           </div>
-          <aside id='fn:1' class='footnote'>
-            <p>One fn</p>
-          </aside>
-          <aside id='fn:2' class='footnote'>
-            <p>Another fn</p>
-          </aside>
-          <aside id='fn:3' class='footnote'>
-            <p>Normal footnote</p>
-          </aside>
-        </div>
-      </body>
+          <br/>
+          <div class="prefatory-section">
+             <p> </p>
+          </div>
+          <br/>
+          <div class="main-section">
+             <p class="zzSTDTitle1" style="text-align:center;">RESOLUTION 1 (Andorra, 1204)</p>
+             <p class="zzSTDTitle2" style="text-align:center;">
+                <i>(Andorra, 1204</i>
+                )
+                <a class="FootnoteRef" href="#fn:_">
+                   <sup>1</sup>
+                </a>
+                <a class="FootnoteRef" href="#fn:_">
+                   <sup>2</sup>
+                </a>
+             </p>
+             <p class="supertitle" style="page-break-after: avoid;">SECTION 1</p>
+             <div id="A">
+                <p>
+                   Hello.
+                   <a class="FootnoteRef" href="#fn:_">
+                      <sup>3</sup>
+                   </a>
+                </p>
+             </div>
+             <aside id="fn:_" class="footnote">
+                <p>One fn</p>
+             </aside>
+             <aside id="fn:_" class="footnote">
+                <p>Another fn</p>
+             </aside>
+             <aside id="fn:_" class="footnote">
+                <p>Normal footnote</p>
+             </aside>
+          </div>
+       </body>
     OUTPUT
 
     word = <<~OUTPUT
@@ -276,10 +277,10 @@ RSpec.describe Metanorma::Itu do
                 <i>(Andorra, 1204</i>
                 )
                 <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
-                   <a class="FootnoteRef" epub:type="footnote" href="#ftn1">1</a>
+                   <a class="FootnoteRef" epub:type="footnote" href="#ftn_">1</a>
                 </span>
                 <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
-                   <a class="FootnoteRef" epub:type="footnote" href="#ftn2">2</a>
+                   <a class="FootnoteRef" epub:type="footnote" href="#ftn_">2</a>
                 </span>
              </p>
              <p class="supertitle" style="page-break-after: avoid;">SECTION 1</p>
@@ -287,17 +288,17 @@ RSpec.describe Metanorma::Itu do
                 <p>
                    Hello.
                    <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
-                      <a class="FootnoteRef" epub:type="footnote" href="#ftn3">3</a>
+                      <a class="FootnoteRef" epub:type="footnote" href="#ftn_">3</a>
                    </span>
                 </p>
              </div>
-             <aside id="ftn1">
+             <aside id="ftn_">
                 <p>One fn</p>
              </aside>
-             <aside id="ftn2">
+             <aside id="ftn_">
                 <p>Another fn</p>
              </aside>
-             <aside id="ftn3">
+             <aside id="ftn_">
                 <p>Normal footnote</p>
              </aside>
           </div>
@@ -313,7 +314,7 @@ RSpec.describe Metanorma::Itu do
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")
-      .gsub(/fn:[0-9a-f-][0-9a-f-]+/, "fn:_")
+      .gsub(/fn:_?[0-9a-f-][0-9a-f-]+/, "fn:_")
       .gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>")))
       .to be_equivalent_to Xml::C14n.format(html)
     expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
@@ -322,7 +323,7 @@ RSpec.describe Metanorma::Itu do
       .sub(%r{</body>.*$}m, "</body>")
       .gsub(%r{_Ref\d+}, "_Ref")
       .gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>")
-      .gsub(%r{ftn[0-9a-f-][0-9a-f-]+}, "ftn_")))
+      .gsub(%r{ftn_?[0-9a-f-][0-9a-f-]+}, "ftn_")))
       .to be_equivalent_to Xml::C14n.format(word)
   end
 
@@ -713,7 +714,7 @@ RSpec.describe Metanorma::Itu do
     expect(File.exist?("test.html")).to be true
     html = File.read("test.html", encoding: "UTF-8")
     output = <<~OUTPUT
-       <main xmlns:epub="epub" class="main-section">
+      <main xmlns:epub="epub" class="main-section">
           <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
           <br/>
           <div id="_">
@@ -723,19 +724,19 @@ RSpec.describe Metanorma::Itu do
              </h1>
              <p>
                 A.
-                <a class="FootnoteRef" href="#fn:1" id="fnref:1">
+                <a class="FootnoteRef" href="#fn:_" id="fnref:1">
                    <sup>1</sup>
                 </a>
              </p>
              <p>
                 B.
-                <a class="FootnoteRef" href="#fn:1">
+                <a class="FootnoteRef" href="#fn:_">
                    <sup>1</sup>
                 </a>
              </p>
              <p>
                 C.
-                <a class="FootnoteRef" href="#fn:2" id="fnref:3">
+                <a class="FootnoteRef" href="#fn:_" id="fnref:3">
                    <sup>2</sup>
                 </a>
              </p>
@@ -773,9 +774,7 @@ RSpec.describe Metanorma::Itu do
                       <td colspan="5" style="border-top:0pt;border-bottom:solid windowtext 1.5pt;">
                          <div id="fn:tableD-1a" class="TableFootnote">
                             <p id="_" class="TableFootnote">
-                               <span class="TableFootnoteRef">
-                                  a)
-                               </span>
+                               <span class="TableFootnoteRef">a)</span>
                                  Parboiled rice.
                             </p>
                          </div>
@@ -786,44 +785,44 @@ RSpec.describe Metanorma::Itu do
           </div>
           <p class="zzSTDTitle2">
              An ITU Standard
-             <a class="FootnoteRef" href="#fn:3" id="fnref:4">
+             <a class="FootnoteRef" href="#fn:_" id="fnref:4">
                 <sup>3</sup>
              </a>
-             <a class="FootnoteRef" href="#fn:4" id="fnref:5">
+             <a class="FootnoteRef" href="#fn:_" id="fnref:5">
                 <sup>4</sup>
              </a>
           </p>
           <div/>
-          <aside id="fn:1" class="footnote">
+          <aside id="fn:_" class="footnote">
              <p id="_">
-                <a class="FootnoteRef" href="#fn:1">
+                <a class="FootnoteRef" href="#fn:_">
                    <sup>1</sup>
                 </a>
                 Formerly denoted as 15 % (m/m).
              </p>
              <a href="#fnref:1">↩</a>
           </aside>
-          <aside id="fn:2" class="footnote">
+          <aside id="fn:_" class="footnote">
              <p id="_">
-                <a class="FootnoteRef" href="#fn:2">
+                <a class="FootnoteRef" href="#fn:_">
                    <sup>2</sup>
                 </a>
                 Hello! denoted as 15 % (m/m).
              </p>
              <a href="#fnref:3">↩</a>
           </aside>
-          <aside id="fn:3" class="footnote">
+          <aside id="fn:_" class="footnote">
              <p>
-                <a class="FootnoteRef" href="#fn:3">
+                <a class="FootnoteRef" href="#fn:_">
                    <sup>3</sup>
                 </a>
                 One fn
              </p>
              <a href="#fnref:4">↩</a>
           </aside>
-          <aside id="fn:4" class="footnote">
+          <aside id="fn:_" class="footnote">
              <p>
-                <a class="FootnoteRef" href="#fn:4">
+                <a class="FootnoteRef" href="#fn:_">
                    <sup>4</sup>
                 </a>
                 Another fn

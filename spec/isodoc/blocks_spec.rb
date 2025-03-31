@@ -796,7 +796,7 @@ RSpec.describe Metanorma::Itu do
                       Table 1 — Repeatability and reproducibility of
                       <i>husked</i>
                       rice yield
-                      <a class="FootnoteRef" href="#fn:1">
+                      <a class="FootnoteRef" href="#fn:_">
                          <sup>1</sup>
                       </a>
                    </p>
@@ -946,7 +946,7 @@ RSpec.describe Metanorma::Itu do
                       </tbody>
                    </table>
                 </div>
-                <aside id="fn:1" class="footnote">
+                <aside id="fn:_" class="footnote">
                    <p>X</p>
                 </aside>
              </div>
@@ -980,7 +980,7 @@ RSpec.describe Metanorma::Itu do
                    <i>husked</i>
                    rice yield
                    <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
-               <a class="FootnoteRef" epub:type="footnote" href="#ftn1">1</a>
+               <a class="FootnoteRef" epub:type="footnote" href="#fn:_">1</a>
                    </span>
                 </p>
                 <div align="center" class="table_container">
@@ -1145,7 +1145,7 @@ RSpec.describe Metanorma::Itu do
                    </table>
                 </div>
              </div>
-             <aside id="ftn1">
+             <aside id="fn:_">
                 <p>X</p>
              </aside>
           </div>

@@ -1,7 +1,7 @@
 module IsoDoc
   module Itu
     class PresentationXMLConvert < IsoDoc::PresentationXMLConvert
-            def clause1(elem)
+      def clause1(elem)
         clause1_super?(elem) and return super
         lbl = @xrefs.anchor(elem["id"], :label, false)
         oldsuppressheadingnumbers = @suppressheadingnumbers
@@ -11,8 +11,9 @@ module IsoDoc
         lbl.blank? || elem["unnumbered"] and return
         elem.previous =
           "<p keep-with-next='true' class='supertitle'>" \
-          "#{labelled_autonum(@i18n.get['section'].upcase, elem["id"], lbl)}</p>"
-          #"<span element='fmt-element-name'>#{@i18n.get['section'].upcase}</span> #{autonum(elem['id'], lbl)}</p>"
+          "#{labelled_autonum(@i18n.get['section'].upcase, elem['id'],
+                              lbl)}</p>"
+        # "<span element='fmt-element-name'>#{@i18n.get['section'].upcase}</span> #{autonum(elem['id'], lbl)}</p>"
       end
 
       def clause1_super?(elem)
@@ -31,7 +32,7 @@ module IsoDoc
 
       def annex1_resolution(elem)
         elem.elements.first.previous = annex1_supertitle(elem)
-         # TODO: do not alter title, alter semx/@element = title
+        # TODO: do not alter title, alter semx/@element = title
         t = elem.at(ns("./title")) and
           t.children = "<strong>#{to_xml(t.children)}</strong>"
         prefix_name(elem, {}, nil, "title")
@@ -49,12 +50,13 @@ module IsoDoc
         lbl = @xrefs.anchor(elem["id"], :label)
         res = elem.at(ns("//bibdata/title[@type = 'resolution']"))
         subhead = @i18n.l10n("(#{@i18n.get['to']} #{to_xml(res.children)})")
-        "<p class='supertitle'>#{autonum(elem['id'], lbl)}<br/>#{subhead}</p>"
+        "<p class='supertitle'>#{autonum(elem['id'],
+                                         lbl)}<br/>#{subhead}</p>"
       end
 
       def middle_title(isoxml)
         s = isoxml.at(ns("//sections")) or return
-        titfn = isoxml.at(ns("//note[@type = 'title-footnote']"))
+        isoxml.at(ns("//note[@type = 'title-footnote']"))
         case @doctype
         when "resolution"
           middle_title_resolution(isoxml, s.children.first)
@@ -62,16 +64,7 @@ module IsoDoc
         else
           middle_title_recommendation(isoxml, s.children.first)
         end
-        #titfn and renumber_footnotes(isoxml)
-      end
-
-      # KILL
-      def renumber_footnotesx(isoxml)
-        (isoxml.xpath(ns("//fn")) -
-         isoxml.xpath(ns("//table//fn | //figure//fn")))
-          .each_with_index do |fn, i|
-            fn["reference"] = (i + 1).to_s
-          end
+        # titfn and renumber_footnotes(isoxml)
       end
 
       def middle_title_resolution(isoxml, out)

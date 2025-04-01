@@ -134,7 +134,8 @@ module IsoDoc
         { group: "'" }
       end
 
-      def ol_depth(node)
+      # KILL
+      def ol_depthx(node)
         node["class"] == "steps" ||
           node.at(".//ancestor::xmlns:ol[@class = 'steps']") or return super
         depth = node.ancestors("ul, ol").size + 1
@@ -144,6 +145,10 @@ module IsoDoc
         type = :alphabet_upper if [4, 9].include? depth
         type = :roman_upper if [5, 10].include? depth
         type
+      end
+
+      def ul_label_list(_elem)
+        %w(&#x2013; &#x2022; &#x6f;)
       end
 
       def dl(xml)

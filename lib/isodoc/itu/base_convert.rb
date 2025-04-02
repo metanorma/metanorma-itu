@@ -42,7 +42,8 @@ module IsoDoc
         super
       end
 
-      def ol_depth(node)
+      # KILL
+      def ol_depthx(node)
         node["class"] == "steps" ||
           node.at(".//ancestor::xmlns:ol[@class = 'steps']") or return super
         depth = node.ancestors("ul, ol").size + 1

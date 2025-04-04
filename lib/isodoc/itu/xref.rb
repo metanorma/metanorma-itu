@@ -2,7 +2,25 @@ require "isodoc"
 require "fileutils"
 require_relative "xref_section"
 
+
 module IsoDoc
+  module XrefGen
+    module OlTypeProvider
+      def ol_type(list, depth)
+        steps = list["class"] == "steps" ||
+          list.at(".//ancestor::xmlns:ol[@class = 'steps']") 
+        !steps && list["type"] and  return list["type"].to_sym if list["type"]
+        type = steps ? :arabic : :alphabet
+        type = (steps ? :alphabet : :arabic) if [2, 7].include? depth
+        type = :roman if [3, 8].include? depth
+        type = :alphabet_upper if [4, 9].include? depth
+        type = :roman_upper if [5, 10].include? depth
+        type
+      end
+    end
+  end
+
+
   module Itu
     class Counter < IsoDoc::XrefGen::Counter
       def print
@@ -82,7 +100,7 @@ module IsoDoc
           @anchors[elem["id"]][:xref] = @anchors[elem.parent["id"]][:xref] +
             delim_wrap("-") + semx(elem, sublabel)
           x = @anchors[elem.parent["id"]][:container] and
-          @anchors[elem["id"]][:container] = x
+            @anchors[elem["id"]][:container] = x
         end
       end
 

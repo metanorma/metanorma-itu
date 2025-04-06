@@ -62,10 +62,8 @@ module Metanorma
                                        nil, false, "#{@filename}.pdf")
       end
 
-      def validate(doc)
-        content_validate(doc)
-        schema_validate(formattedstr_strip(doc.dup),
-                        File.join(File.dirname(__FILE__), "itu.rng"))
+      def schema_file
+        "itu.rng"
       end
 
       def style(_node, _text)

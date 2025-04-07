@@ -2,7 +2,7 @@
 <grammar ns='https://www.metanorma.org/ns/standoc' xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
   <include href="relaton-itu.rng"/>
   <include href="isodoc.rng">
-    <define name="OlAttr" combine="interleave">
+    <define name="OlAttributes" combine="interleave">
       <optional>
         <attribute name="class">
           <value>steps</value>

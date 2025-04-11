@@ -83,7 +83,6 @@ module Metanorma
           metadata_committee1(node, xml, "_#{suffix}")
           suffix += 1
         end
-        metadata_question(node, xml)
       end
 
       def hyphenate_node_attributes(node)
@@ -216,11 +215,12 @@ module Metanorma
 
       def metadata_ext(node, xml)
         super
+        structured_id(node, xml)
+        metadata_question(node, xml)
         metadata_recommendationstatus(node, xml)
         metadata_ip_notice(node, xml)
         metadata_techreport(node, xml)
         metadata_contribution(node, xml)
-        structured_id(node, xml)
       end
     end
   end

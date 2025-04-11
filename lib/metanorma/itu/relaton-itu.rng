@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+<grammar xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
   <include href="biblio-standoc.rng">
     <define name="DocumentType">
       <choice>
@@ -61,49 +61,46 @@
         </optional>
       </element>
     </define>
-    <define name="BibDataExtensionType">
-      <optional>
-        <attribute name="schema-version"/>
-      </optional>
-      <optional>
-        <ref name="doctype"/>
-      </optional>
-      <optional>
-        <ref name="docsubtype"/>
-      </optional>
-      <ref name="flavor"/>
-      <oneOrMore>
-        <ref name="editorialgroup"/>
-      </oneOrMore>
+    <define name="BibDataExtensionType" combine="interleave">
       <zeroOrMore>
-        <ref name="question"/>
-      </zeroOrMore>
-      <zeroOrMore>
-        <ref name="ics"/>
+        <ref name="question">
+          <a:documentation>The Questions that the document addresses.  A document can address multiple questions</a:documentation>
+        </ref>
       </zeroOrMore>
       <optional>
-        <ref name="recommendationstatus"/>
+        <ref name="recommendationstatus">
+          <a:documentation>Status of approval of Recommendation status</a:documentation>
+        </ref>
       </optional>
       <optional>
-        <ref name="ipnoticereceived"/>
+        <ref name="ipnoticereceived">
+          <a:documentation>ITU has received a notice of intellectual property, protected by patents, which may be required to implement this Recommendation</a:documentation>
+        </ref>
       </optional>
       <optional>
-        <ref name="meeting"/>
+        <ref name="meeting">
+          <a:documentation>Name of meeting that generated this document (for resolutions, technical reports, technical papers, implementers guides) </a:documentation>
+        </ref>
       </optional>
       <optional>
-        <ref name="meeting-place"/>
+        <ref name="meeting-place">
+          <a:documentation>Place of meeting that generated this document (for resolutions, technical reports, technical papers, implementers guides)</a:documentation>
+        </ref>
       </optional>
       <optional>
-        <ref name="meeting-date"/>
+        <ref name="meeting-date">
+          <a:documentation>Date of meeting that generated this document (for resolutions, technical reports, technical papers, implementers guides)</a:documentation>
+        </ref>
       </optional>
       <optional>
-        <ref name="intended-type"/>
+        <ref name="intended-type">
+          <a:documentation>Intended type for this document (for technical reports) (`R`, `C`, `TD`) </a:documentation>
+        </ref>
       </optional>
       <optional>
-        <ref name="ext_source"/>
-      </optional>
-      <optional>
-        <ref name="structuredidentifier"/>
+        <ref name="ext_source">
+          <a:documentation>Source for this document (for technical reports, technical papers, implementers guides) </a:documentation>
+        </ref>
       </optional>
     </define>
   </include>

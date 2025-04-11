@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<grammar ns='https://www.metanorma.org/ns/standoc' xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+<grammar ns='https://www.metanorma.org/ns/standoc' xmlns="http://relaxng.org/ns/structure/1.0">
   <include href="relaton-itu.rng"/>
   <include href="isodoc.rng">
     <define name="OlAttributes" combine="interleave">
@@ -24,37 +24,9 @@
       </element>
     </define>
     <define name="Clause-Section">
-      <optional>
-        <attribute name="id">
-          <data type="ID"/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="language"/>
-      </optional>
-      <optional>
-        <attribute name="script"/>
-      </optional>
-      <optional>
-        <attribute name="inline-header">
-          <data type="boolean"/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="obligation">
-          <choice>
-            <value>normative</value>
-            <value>informative</value>
-          </choice>
-        </attribute>
-      </optional>
+      <ref name="Section-Attributes"/>
       <optional>
         <attribute name="type"/>
-      </optional>
-      <optional>
-        <attribute name="unnumbered">
-          <data type="boolean"/>
-        </attribute>
       </optional>
       <optional>
         <ref name="section-title"/>
@@ -75,32 +47,6 @@
           </choice>
         </zeroOrMore>
       </group>
-    </define>
-    <define name="standard-document">
-      <element name="metanorma">
-        <ref name="Root-Attributes"/>
-        <ref name="bibdata"/>
-        <zeroOrMore>
-          <ref name="termdocsource"/>
-        </zeroOrMore>
-        <optional>
-          <ref name="misccontainer"/>
-        </optional>
-        <optional>
-          <ref name="boilerplate"/>
-        </optional>
-        <ref name="preface"/>
-        <oneOrMore>
-          <ref name="sections"/>
-        </oneOrMore>
-        <zeroOrMore>
-          <ref name="annex"/>
-        </zeroOrMore>
-        <ref name="bibliography"/>
-        <zeroOrMore>
-          <ref name="indexsect"/>
-        </zeroOrMore>
-      </element>
     </define>
   </include>
 </grammar>

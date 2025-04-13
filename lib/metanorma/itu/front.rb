@@ -215,7 +215,6 @@ module Metanorma
 
       def metadata_ext(node, xml)
         super
-        structured_id(node, xml)
         metadata_question(node, xml)
         metadata_recommendationstatus(node, xml)
         metadata_ip_notice(node, xml)

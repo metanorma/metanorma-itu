@@ -61,49 +61,49 @@
         </optional>
       </element>
     </define>
-    <define name="BibDataExtensionType" combine="interleave">
-      <zeroOrMore>
-        <ref name="question">
-          <a:documentation>The Questions that the document addresses.  A document can address multiple questions</a:documentation>
-        </ref>
-      </zeroOrMore>
-      <optional>
-        <ref name="recommendationstatus">
-          <a:documentation>Status of approval of Recommendation status</a:documentation>
-        </ref>
-      </optional>
-      <optional>
-        <ref name="ipnoticereceived">
-          <a:documentation>ITU has received a notice of intellectual property, protected by patents, which may be required to implement this Recommendation</a:documentation>
-        </ref>
-      </optional>
-      <optional>
-        <ref name="meeting">
-          <a:documentation>Name of meeting that generated this document (for resolutions, technical reports, technical papers, implementers guides) </a:documentation>
-        </ref>
-      </optional>
-      <optional>
-        <ref name="meeting-place">
-          <a:documentation>Place of meeting that generated this document (for resolutions, technical reports, technical papers, implementers guides)</a:documentation>
-        </ref>
-      </optional>
-      <optional>
-        <ref name="meeting-date">
-          <a:documentation>Date of meeting that generated this document (for resolutions, technical reports, technical papers, implementers guides)</a:documentation>
-        </ref>
-      </optional>
-      <optional>
-        <ref name="intended-type">
-          <a:documentation>Intended type for this document (for technical reports) (`R`, `C`, `TD`) </a:documentation>
-        </ref>
-      </optional>
-      <optional>
-        <ref name="ext_source">
-          <a:documentation>Source for this document (for technical reports, technical papers, implementers guides) </a:documentation>
-        </ref>
-      </optional>
-    </define>
   </include>
+  <define name="BibDataExtensionType" combine="interleave">
+    <zeroOrMore>
+      <ref name="question">
+        <a:documentation>The Questions that the document addresses.  A document can address multiple questions</a:documentation>
+      </ref>
+    </zeroOrMore>
+    <optional>
+      <ref name="recommendationstatus">
+        <a:documentation>Status of approval of Recommendation status</a:documentation>
+      </ref>
+    </optional>
+    <optional>
+      <ref name="ipnoticereceived">
+        <a:documentation>ITU has received a notice of intellectual property, protected by patents, which may be required to implement this Recommendation</a:documentation>
+      </ref>
+    </optional>
+    <optional>
+      <ref name="meeting">
+        <a:documentation>Name of meeting that generated this document (for resolutions, technical reports, technical papers, implementers guides) </a:documentation>
+      </ref>
+    </optional>
+    <optional>
+      <ref name="meeting-place">
+        <a:documentation>Place of meeting that generated this document (for resolutions, technical reports, technical papers, implementers guides)</a:documentation>
+      </ref>
+    </optional>
+    <optional>
+      <ref name="meeting-date">
+        <a:documentation>Date of meeting that generated this document (for resolutions, technical reports, technical papers, implementers guides)</a:documentation>
+      </ref>
+    </optional>
+    <optional>
+      <ref name="intended-type">
+        <a:documentation>Intended type for this document (for technical reports) (`R`, `C`, `TD`) </a:documentation>
+      </ref>
+    </optional>
+    <optional>
+      <ref name="ext_source">
+        <a:documentation>Source for this document (for technical reports, technical papers, implementers guides) </a:documentation>
+      </ref>
+    </optional>
+  </define>
   <define name="meeting">
     <element name="meeting">
       <optional>

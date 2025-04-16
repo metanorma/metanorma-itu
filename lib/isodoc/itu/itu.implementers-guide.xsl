@@ -733,11 +733,11 @@
 													</fo:block>
 												</xsl:if>
 
-												<xsl:if test="/itu:metanorma/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']">
+												<xsl:if test="/itu:metanorma/itu:boilerplate/itu:legal-statement/itu:clause[starts-with(@id, 'draft-warning')]">
 													<fo:block-container margin-left="1mm" margin-right="1mm" border="0.7mm solid black" margin-top="5mm">
 														<fo:block-container margin-left="1mm" margin-right="1mm">
 															<fo:block padding-top="3mm">
-																<xsl:apply-templates select="/itu:metanorma/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']" mode="caution"/>
+																<xsl:apply-templates select="/itu:metanorma/itu:boilerplate/itu:legal-statement/itu:clause[starts-with(@id, 'draft-warning')]" mode="caution"/>
 															</fo:block>
 														</fo:block-container>
 													</fo:block-container>
@@ -1354,10 +1354,10 @@
 															<fo:block-container>
 																<xsl:call-template name="setWritingMode"/>
 																<xsl:choose>
-																	<xsl:when test="/itu:metanorma/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']">
+																	<xsl:when test="/itu:metanorma/itu:boilerplate/itu:legal-statement/itu:clause[starts-with(@id, 'draft-warning')]">
 																		<xsl:attribute name="border">0.7mm solid black</xsl:attribute>
 																		<fo:block font-family="Times New Roman" padding-top="3mm" margin-left="1mm" margin-right="1mm">
-																			<xsl:apply-templates select="/itu:metanorma/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']" mode="caution"/>
+																			<xsl:apply-templates select="/itu:metanorma/itu:boilerplate/itu:legal-statement/itu:clause[starts-with(@id, 'draft-warning')]" mode="caution"/>
 																		</fo:block>
 																	</xsl:when>
 																	<xsl:otherwise>
@@ -1375,7 +1375,7 @@
 															<fo:block-container>
 																<xsl:call-template name="setWritingMode"/>
 																<fo:block font-size="16pt" margin-top="3pt">
-																	<xsl:if test="/itu:metanorma/itu:boilerplate/itu:legal-statement/itu:clause[@id='draft-warning']">
+																	<xsl:if test="/itu:metanorma/itu:boilerplate/itu:legal-statement/itu:clause[starts-with(@id, 'draft-warning')]">
 																		<xsl:attribute name="margin-top">6pt</xsl:attribute>
 																		<xsl:if test="$doctype = 'recommendation-supplement'">
 																			<xsl:attribute name="margin-top">12pt</xsl:attribute>
@@ -2160,7 +2160,7 @@
 	<!-- ============================= -->
 	<!-- ============================= -->
 
-	<xsl:template match="itu:clause[@id='draft-warning']/itu:title" mode="caution">
+	<xsl:template match="itu:clause[starts-with(@id, 'draft-warning')]/itu:title" mode="caution">
 		<fo:block font-size="16pt" font-style="italic" font-weight="bold" text-align="center" space-after="6pt" role="H1">
 			<xsl:if test="$lang = 'ar'"> <!-- to prevent rendering `###` due the missing Arabic glyphs in the italic font (Times New Roman) -->
 				<xsl:attribute name="font-style">normal</xsl:attribute>
@@ -2170,7 +2170,7 @@
 		</fo:block>
 	</xsl:template>
 
-	<xsl:template match="itu:clause[@id='draft-warning']/itu:p" mode="caution">
+	<xsl:template match="itu:clause[starts-with(@id, 'draft-warning')]/itu:p" mode="caution">
 		<fo:block font-size="12pt" text-align="justify">
 			<xsl:apply-templates/>
 			<xsl:apply-templates select="following-sibling::*[1][local-name() = 'variant-title'][@type = 'sub']" mode="subtitle"/>

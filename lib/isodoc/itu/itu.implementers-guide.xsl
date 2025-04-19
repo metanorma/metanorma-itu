@@ -5409,6 +5409,10 @@
 
 			<fo:block-container xsl:use-attribute-sets="table-container-style" role="SKIP">
 
+				<xsl:for-each select="*[local-name() = 'name']">
+					<xsl:call-template name="setIDforNamedDestination"/>
+				</xsl:for-each>
+
 				<xsl:call-template name="refine_table-container-style">
 					<xsl:with-param name="margin-side" select="$margin-side"/>
 				</xsl:call-template>
@@ -9747,7 +9751,7 @@
 		<xsl:variable name="level">
 			<xsl:call-template name="getLevel"/>
 		</xsl:variable>
-		<fo:inline role="H{$level}"><xsl:apply-templates/></fo:inline>
+		<fo:inline role="H{$level}"><xsl:call-template name="setIDforNamedDestination"/><xsl:apply-templates/></fo:inline>
 	</xsl:template>
 	<!-- ======================== -->
 	<!-- END Appendix processing -->
@@ -9877,9 +9881,7 @@
 							</fo:block>
 						</fo:table-cell>
 						<fo:table-cell display-align="center">
-							<xsl:for-each select="../*[local-name() = 'name']">
-								<xsl:call-template name="setNamedDestination"/>
-							</xsl:for-each>
+
 							<fo:block xsl:use-attribute-sets="formula-stem-number-style" role="SKIP">
 
 								<xsl:for-each select="../*[local-name() = 'name']">
@@ -10151,10 +10153,6 @@
 			<xsl:variable name="show_figure_key_in_block_container">
 				true
 			</xsl:variable>
-
-			<xsl:for-each select="*[local-name() = 'name']"> <!-- set context -->
-				<xsl:call-template name="setNamedDestination"/>
-			</xsl:for-each>
 
 			<fo:block xsl:use-attribute-sets="figure-style" role="SKIP">
 
@@ -13003,9 +13001,7 @@
 		<fo:block font-size="{normalize-space($font-size)}" role="H{$levelTerm}" xsl:use-attribute-sets="preferred-block-style">
 
 			<xsl:if test="parent::*[local-name() = 'term'] and not(preceding-sibling::*[local-name() = 'preferred'])"> <!-- if first preffered in term, then display term's name -->
-				<xsl:for-each select="ancestor::*[local-name() = 'term'][1]/*[local-name() = 'name']"><!-- change context -->
-					<xsl:call-template name="setNamedDestination"/>
-				</xsl:for-each>
+
 				<fo:block xsl:use-attribute-sets="term-name-style" role="SKIP">
 
 					<xsl:for-each select="ancestor::*[local-name() = 'term'][1]/*[local-name() = 'name']"><!-- change context -->
@@ -13252,6 +13248,7 @@
 
 				<fo:block break-after="page"/>
 				<xsl:call-template name="setNamedDestination"/>
+
 				<fo:block id="{@id}">
 
 					<xsl:call-template name="setBlockSpanAll"/>
@@ -16638,9 +16635,11 @@
 		<xsl:if test="@id and      normalize-space(java:matches(java:java.lang.String.new(@id), '_[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}')) = 'false'">
 			<fox:destination internal-destination="{@id}"/>
 		</xsl:if>
-		<xsl:if test="@named_dest">
-			<fox:destination internal-destination="{@named_dest}"/>
-		</xsl:if>
+		<xsl:for-each select=". | *[local-name() = 'title'] | *[local-name() = 'name']">
+			<xsl:if test="@named_dest">
+				<fox:destination internal-destination="{@named_dest}"/>
+			</xsl:if>
+		</xsl:for-each>
 	</xsl:template>
 
 	<xsl:template name="add-letter-spacing">

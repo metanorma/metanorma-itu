@@ -75,9 +75,8 @@ module Metanorma
         text.nil? and return
         arr = text.split(/\W+/)
         arr.each_index do |i|
-          m = regex.match arr[i]
           m_prev = i.zero? ? nil : regex_prev.match(arr[i - 1])
-          if !m.nil? && m_prev.nil?
+          if !regex.match?(arr[i]) && m_prev.nil?
             @log.add("Style", node, "#{warning}: #{m[:num]}")
           end
         end
@@ -98,7 +97,7 @@ module Metanorma
       def itu_identifier_validate(xmldoc)
         xmldoc.xpath("//bibdata/docidentifier[@type = 'ITU']").each do |x|
           /^SG \d+/.match?(x.text) ||
-          /^ITU-[RTD] [AD-VX-Z]\.\d+(\.\d+)?$/.match?(x.text) or
+            /^ITU-[RTD] [AD-VX-Z]\.\d+(\.\d+)?$/.match?(x.text) or
             @log.add("Style", nil, "#{x.text} does not match ITU document " \
                                    "identifier conventions")
         end

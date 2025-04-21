@@ -44,7 +44,7 @@ module Metanorma
 
       def itu_contrib_id(node)
         group = node.attr("group-acronym") ||
-          node.attr("group").sub("Study Group ", "SG")
+          node.attr("group")&.sub("Study Group ", "SG") || "XXX"
         "#{group}-C#{node.attr('docnumber')}"
       end
 

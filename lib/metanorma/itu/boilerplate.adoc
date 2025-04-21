@@ -35,6 +35,14 @@ Compliance with this Recommendation is voluntary. However, the Recommendation ma
 
 {% endif %}
 
+{% if doctype == "Contribution" %}
+
+[[draft-warning]]
+=== CAUTION! CONTRIBUTION
+
+This is an ITU Contribution. It is an internal document to ITU,
+and it is not to be used outside of ITU.
+{% else %}
 {% if unpublished and docnumber_provisional == nil %}
 [[draft-warning]]
 === CAUTION! PREPUBLISHED {{ doctype  | upcase }}
@@ -43,6 +51,7 @@ This prepublication is an unedited version of a recently approved {{doctype}}.
 It will be replaced by the published version after editing. Therefore,
 there will be differences between this prepublication and the published
 version.
+{% endif %}
 {% endif %}
 {% endif %}
 

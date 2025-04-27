@@ -5617,6 +5617,7 @@
 	<!-- table/name-->
 	<xsl:template match="*[local-name()='table']/*[local-name() = 'name']">
 		<xsl:param name="continued"/>
+		<xsl:param name="cols-count"/>
 		<xsl:if test="normalize-space() != ''">
 
 					<fo:block xsl:use-attribute-sets="table-name-style">
@@ -5638,9 +5639,30 @@
 
 					<!-- <xsl:if test="$namespace = 'bsi' or $namespace = 'iec' or $namespace = 'iso'"> -->
 					<xsl:if test="$continued = 'true'">
-						<fo:block text-align="right">
-							<xsl:apply-templates select="../*[local-name() = 'note'][@type = 'units']/node()"/>
-						</fo:block>
+
+						<!-- to prevent the error 'THead element may contain only TR elements' -->
+
+						<xsl:choose>
+							<xsl:when test="string(number($cols-count)) != 'NaN'">
+								<fo:table width="100%" table-layout="fixed" role="SKIP">
+									<fo:table-body role="SKIP">
+										<fo:table-row>
+											<fo:table-cell role="TH" number-columns-spanned="{$cols-count}">
+												<fo:block text-align="right" role="SKIP">
+													<xsl:apply-templates select="../*[local-name() = 'note'][@type = 'units']/node()"/>
+												</fo:block>
+											</fo:table-cell>
+										</fo:table-row>
+									</fo:table-body>
+								</fo:table>
+							</xsl:when>
+							<xsl:otherwise>
+								<fo:block text-align="right">
+									<xsl:apply-templates select="../*[local-name() = 'note'][@type = 'units']/node()"/>
+								</fo:block>
+							</xsl:otherwise>
+						</xsl:choose>
+
 					</xsl:if>
 					<!-- </xsl:if> -->
 
@@ -6033,6 +6055,7 @@
 
 						<xsl:apply-templates select="ancestor::*[local-name()='table']/*[local-name()='name']">
 							<xsl:with-param name="continued">true</xsl:with-param>
+							<xsl:with-param name="cols-count" select="$cols-count"/>
 						</xsl:apply-templates>
 
 						<xsl:if test="not(ancestor::*[local-name()='table']/*[local-name()='name'])"> <!-- to prevent empty fo:table-cell in case of missing table's name -->
@@ -10210,6 +10233,7 @@
 	</xsl:template>
 
 	<!-- SOURCE: ... -->
+	<!-- figure/source -->
 	<xsl:template match="*[local-name() = 'figure']/*[local-name() = 'source']" priority="2">
 
 				<xsl:call-template name="termsource"/>
@@ -11442,6 +11466,7 @@
 	<xsl:template match="title" mode="bookmark"/>
 	<xsl:template match="text()" mode="bookmark"/>
 
+	<!-- figure/name -->
 	<xsl:template match="*[local-name() = 'figure']/*[local-name() = 'name'] |         *[local-name() = 'image']/*[local-name() = 'name']">
 		<xsl:if test="normalize-space() != ''">
 			<fo:block xsl:use-attribute-sets="figure-name-style">

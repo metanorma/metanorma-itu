@@ -442,7 +442,7 @@ RSpec.describe Metanorma::Itu do
   it "cleans up footnotes" do
     FileUtils.rm_f "test.html"
     input = <<~INPUT
-          <itu-standard xmlns="http://riboseinc.com/isoxml">
+      <itu-standard xmlns="http://riboseinc.com/isoxml">
           <bibdata>
           <title language="en" format="text/plain" type="main">An ITU Standard</title>
           <ext><doctype>recommendation</doctype></ext>

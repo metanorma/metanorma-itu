@@ -9,20 +9,6 @@
         </attribute>
       </optional>
     </define>
-    <define name="preface">
-      <element name="preface">
-        <oneOrMore>
-          <choice>
-            <ref name="content"/>
-            <ref name="abstract"/>
-            <ref name="foreword"/>
-            <ref name="introduction"/>
-            <ref name="acknowledgements"/>
-            <ref name="clause"/>
-          </choice>
-        </oneOrMore>
-      </element>
-    </define>
     <define name="Clause-Section">
       <ref name="Section-Attributes"/>
       <optional>

@@ -10,13 +10,13 @@ RSpec.describe Metanorma::Itu do
         <term id="J">
         <preferred><expression><name>Term2</name></expression></preferred>
         <definition><verbal-definition><p>This is a journey into sound</p></verbal-definition></definition>
-        <termsource><origin citeas="XYZ">x y z</origin></termsource>
+        <source><origin citeas="XYZ">x y z</origin></source>
         <termnote id="J1" keep-with-next="true" keep-lines-together="true"><p>This is a note</p></termnote>
       </term>
         <term id="K">
         <preferred><expression><name>Term3</name></expression></preferred>
         <definition><verbal-definition><p>This is a journey into sound</p></verbal-definition></definition>
-        <termsource><origin citeas="XYZ">x y z</origin></termsource>
+        <source><origin citeas="XYZ">x y z</origin></source>
         <termnote id="J2"><p>This is a note</p></termnote>
         <termnote id="J3"><p>This is a note</p></termnote>
       </term>
@@ -85,11 +85,11 @@ RSpec.describe Metanorma::Itu do
                           <p>This is a journey into sound</p>
                        </semx>
                     </fmt-definition>
-                    <termsource id="_">
+                    <source id="_">
                        <origin citeas="XYZ">x y z</origin>
-                    </termsource>
+                    </source>
                     <fmt-termsource>
-                       <semx element="termsource" source="_">
+                       <semx element="source" source="_">
                           <origin citeas="XYZ" id="_">x y z</origin>
                           <semx element="origin" source="_">
                              <fmt-origin citeas="[XYZ]">x y z</fmt-origin>
@@ -150,11 +150,11 @@ RSpec.describe Metanorma::Itu do
                           <p>This is a journey into sound</p>
                        </semx>
                     </fmt-definition>
-                    <termsource id="_">
+                    <source id="_">
                        <origin citeas="XYZ">x y z</origin>
-                    </termsource>
+                    </source>
                     <fmt-termsource>
-                       <semx element="termsource" source="_">
+                       <semx element="source" source="_">
                           <origin citeas="XYZ" id="_">x y z</origin>
                           <semx element="origin" source="_">
                              <fmt-origin citeas="[XYZ]">x y z</fmt-origin>
@@ -263,7 +263,7 @@ RSpec.describe Metanorma::Itu do
         <term id="J">
         <preferred><expression><name>Term2</name></expression></preferred>
         <definition><p>This is a journey into sound</p></definition>
-        <termsource><origin citeas="XYZ">x y z</origin></termsource>
+        <source><origin citeas="XYZ">x y z</origin></source>
         <termnote id="J1"><p>This is a note</p></termnote>
       </term>
        </terms>
@@ -328,11 +328,11 @@ RSpec.describe Metanorma::Itu do
                           <p>This is a journey into sound</p>
                        </semx>
                     </fmt-definition>
-                    <termsource id="_">
+                    <source id="_">
                        <origin citeas="XYZ">x y z</origin>
-                    </termsource>
+                    </source>
                     <fmt-termsource>
-                       <semx element="termsource" source="_">
+                       <semx element="source" source="_">
                           <origin citeas="XYZ" id="_">x y z</origin>
                           <semx element="origin" source="_">
                              <fmt-origin citeas="[XYZ]">x y z</fmt-origin>

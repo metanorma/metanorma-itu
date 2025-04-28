@@ -462,7 +462,7 @@ RSpec.describe Metanorma::Itu do
         </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <preface>
              <clause type="toc" id="_" displayorder="1">
                 <fmt-title depth="1">Table of Contents</fmt-title>
@@ -496,7 +496,7 @@ RSpec.describe Metanorma::Itu do
                          Repeatability and reproducibility of
                          <em>husked</em>
                          rice yield
-                         <fn reference="1" original-reference="1" id="_" target="_">
+                         <fn reference="1" id="_" original-reference="1" target="_">
                             <p>X</p>
                             <fmt-fn-label>
                                <sup>
@@ -601,31 +601,57 @@ RSpec.describe Metanorma::Itu do
                       <dt>Drago</dt>
                       <dd>A type of rice</dd>
                    </dl>
-                   <source status="generalisation">
-                      [SOURCE:
-                      <origin bibitemid="ISO712" type="inline" citeas="" id="_">
+                   <source status="generalisation" id="_">
+                      <origin bibitemid="ISO712" type="inline" citeas="">
                          <localityStack>
                             <locality type="section">
                                <referenceFrom>1</referenceFrom>
                             </locality>
                          </localityStack>
                       </origin>
-                      <semx element="origin" source="_">
-                         <fmt-xref type="inline" target="ISO712">[ISO 712], Section 1</fmt-xref>
+                      <modification id="_">
+                         <p original-id="_">with adjustments</p>
+                      </modification>
+                   </source>
+                   <fmt-source>
+                      [SOURCE:
+                      <semx element="source" source="_">
+                         <origin bibitemid="ISO712" type="inline" citeas="" id="_">
+                            <localityStack>
+                               <locality type="section">
+                                  <referenceFrom>1</referenceFrom>
+                               </locality>
+                            </localityStack>
+                         </origin>
+                         <semx element="origin" source="_">
+                            <fmt-xref type="inline" target="ISO712">[ISO 712], Section 1</fmt-xref>
+                         </semx>
+                         —
+                         <semx element="modification" source="_">with adjustments</semx>
                       </semx>
-                      —
-                      with adjustments;
-                      <origin bibitemid="ISO712" type="inline" citeas="" id="_">
+                      ;
+                      <semx element="source" source="_">
+                         <origin bibitemid="ISO712" type="inline" citeas="" id="_">
+                            <localityStack>
+                               <locality type="section">
+                                  <referenceFrom>2</referenceFrom>
+                               </locality>
+                            </localityStack>
+                         </origin>
+                         <semx element="origin" source="_">
+                            <fmt-xref type="inline" target="ISO712">[ISO 712], Section 2</fmt-xref>
+                         </semx>
+                      </semx>
+                      ]
+                   </fmt-source>
+                   <source status="specialisation" id="_">
+                      <origin bibitemid="ISO712" type="inline" citeas="">
                          <localityStack>
                             <locality type="section">
                                <referenceFrom>2</referenceFrom>
                             </locality>
                          </localityStack>
                       </origin>
-                      <semx element="origin" source="_">
-                         <fmt-xref type="inline" target="ISO712">[ISO 712], Section 2</fmt-xref>
-                      </semx>
-                      ]
                    </source>
                    <note>
                       <fmt-name>

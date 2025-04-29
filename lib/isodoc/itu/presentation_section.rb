@@ -56,7 +56,7 @@ module IsoDoc
 
       def middle_title(isoxml)
         s = isoxml.at(ns("//sections")) or return
-        isoxml.at(ns("//note[@type = 'title-footnote']"))
+        # isoxml.at(ns("//note[@type = 'title-footnote']"))
         case @doctype
         when "resolution"
           middle_title_resolution(isoxml, s.children.first)
@@ -102,7 +102,9 @@ module IsoDoc
         ret = ""
         isoxml.xpath(ns("//note[@type = 'title-footnote']"))
           .each_with_index do |f, i|
-            ret += "<fn reference='H#{i}'>#{f.remove.children.to_xml}</fn>"
+            ret += <<~FN.strip
+              <fn id='_#{UUIDTools::UUID.random_create}' reference='H#{i}'>#{f.remove.children.to_xml}</fn>
+            FN
           end
         ret
       end

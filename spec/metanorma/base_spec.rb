@@ -1693,7 +1693,7 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id="_" obligation="normative" inline-header='false'>
+          <clause id="_" anchor="_clause" obligation="normative" inline-header='false'>
             <title>Clause</title>
             <ol id="_" class="steps">
               <name>Caption</name>
@@ -1733,13 +1733,13 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id="_" obligation="normative" inline-header='false'>
+          <clause id="_" anchor="_quotation_as" obligation="normative" inline-header='false'>
             <title>"Quotation" A's</title>
             <p id="_">
               <tt>"quote" A's</tt>
             </p>
           </clause>
-          <clause id="_" obligation="normative" inline-header='false'>
+          <clause id="_" anchor="_quotation_as_2" obligation="normative" inline-header='false'>
             <title>"Quotation" A's</title>
             <p id="_">"Quotation" A's</p>
           </clause>
@@ -1811,7 +1811,7 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id='clause' obligation='normative' inline-header='false'>
+          <clause id='_' anchor='clause' obligation='normative' inline-header='false'>
             <title>Clause</title>
             <p id='_'>&lt;&amp;&gt;</p>
           </clause>
@@ -1840,21 +1840,21 @@ RSpec.describe Metanorma::Itu do
           <table id="_">
             <thead>
               <tr>
-                <th valign="top" align="center">A b</th>
-                <th valign="top" align="center">B c</th>
-                <th valign="top" align="center">C</th>
+                <th id="_" valign="top" align="center">A b</th>
+                <th id="_" valign="top" align="center">B c</th>
+                <th id="_" valign="top" align="center">C</th>
               </tr>
               <tr>
-                <th valign="top" align="center">a</th>
-                <th valign="top" align="center">b</th>
-                <th valign="top" align="center">c</th>
+                <th id="_" valign="top" align="center">a</th>
+                <th id="_" valign="top" align="center">b</th>
+                <th id="_" valign="top" align="center">c</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td valign="top" align="left">a</td>
-                <td valign="top" align="left">b</td>
-                <td valign="top" align="left">c</td>
+                <td id="_" valign="top" align="left">a</td>
+                <td id="_" valign="top" align="left">b</td>
+                <td id="_" valign="top" align="left">c</td>
               </tr>
             </tbody>
           </table>

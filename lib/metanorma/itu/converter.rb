@@ -40,14 +40,8 @@ module Metanorma
         @default_doctype = "recommendation"
       end
 
-      def olist(node)
-        id = Metanorma::Utils::anchor_or_uuid(node)
-        noko do |xml|
-          xml.ol **attr_code(id: id, class: node.attr("class")) do |xml_ol|
-            list_caption(node, xml_ol)
-            node.items.each { |item| li(xml_ol, item) }
-          end
-        end
+      def ol_attrs(node)
+        attr_code(id_attr(node).merge(class: node.attr("class")))
       end
 
       def outputs(node, ret)
@@ -105,8 +99,7 @@ module Metanorma
       end
 
       def metadata_keywords(node, xml)
-        return unless node.attr("keywords")
-
+        node.attr("keywords") or return
         node.attr("keywords").split(/, */).sort.each_with_index do |kw, i|
           kw_out = i.zero? ? Metanorma::Utils.strict_capitalize_first(kw) : kw
           xml.keyword kw_out

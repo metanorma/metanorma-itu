@@ -26,7 +26,7 @@ module Metanorma
         insert_conventions(xml)
       end
 
-      def add_id
+      def add_id_txt
         %(id="_#{UUIDTools::UUID.random_create}")
       end
 
@@ -38,7 +38,7 @@ module Metanorma
         ins = xml.at("//sections").elements.first
         xml.at("//sections/clause[@type = 'scope']") or
           ins.previous =
-            "<clause type='scope' #{add_id}><title>#{@i18n.scope}</title><p>" \
+            "<clause type='scope' #{add_id_txt}><title>#{@i18n.scope}</title><p>" \
             "#{@i18n.clause_empty}</p></clause>"
         xml.at("//sentinel")&.remove
       end
@@ -49,7 +49,7 @@ module Metanorma
             "<bibliography><sentinel/></bibliography>"
         ins = xml.at("//bibliography").elements.first
         xml.at("//bibliography/references[@normative = 'true']") or
-          ins.previous = "<references #{add_id} normative='true'>" \
+          ins.previous = "<references #{add_id_txt} normative='true'>" \
                          "<title>#{@i18n.normref}</title></references>"
         xml.at("//sentinel")&.remove
       end
@@ -57,14 +57,14 @@ module Metanorma
       def insert_terms(xml)
         ins = xml.at("//sections/clause[@type = 'scope']")
         xml.at("//sections//terms") or
-          ins.next = "<terms #{add_id}><title>#{@i18n.termsdef}</title></terms>"
+          ins.next = "<terms #{add_id_txt}><title>#{@i18n.termsdef}</title></terms>"
       end
 
       def insert_symbols(xml)
         ins =  xml.at("//sections/terms") ||
           xml.at("//sections/clause[descendant::terms]")
         unless xml.at("//sections//definitions")
-          ins.next = "<definitions #{add_id}>" \
+          ins.next = "<definitions #{add_id_txt}>" \
                      "<title>#{@i18n.symbolsabbrev}</title></definitions>"
         end
       end
@@ -73,7 +73,7 @@ module Metanorma
         ins =  xml.at("//sections//definitions") ||
           xml.at("//sections/clause[descendant::definitions]")
         unless xml.at("//sections/clause[@type = 'conventions']")
-          ins.next = "<clause #{add_id} type='conventions'>" \
+          ins.next = "<clause #{add_id_txt} type='conventions'>" \
                      "<title>#{@i18n.conventions}</title><p>" \
                      "#{@i18n.clause_empty}</p></clause>"
         end
@@ -142,7 +142,7 @@ module Metanorma
       def sections_names_pref_cleanup(xml)
         super
         t = xml.at("//preface//abstract") or return
-        t["id"] == "_summary" and
+        t["anchor"] == "_summary" and
           replace_title(xml, "//preface//abstract", @i18n&.summary)
       end
     end

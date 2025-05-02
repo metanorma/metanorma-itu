@@ -67,13 +67,13 @@ module Metanorma
       # then title
       def sort_biblio_key(bib)
         pubclass = pub_class(bib)
-        id = bib&.at("./docidentifier[not(#{skip_docid} or @type = " \
+        id = bib.at("./docidentifier[not(#{skip_docid} or @type = " \
                      "'metanorma')]")
-        metaid = bib&.at("./docidentifier[@type = 'metanorma']")&.text
-        abbrid = metaid unless /^\[\d+\]$/.match?(metaid)
+        metaid = bib.at("./docidentifier[@type = 'metanorma']")&.text
+        #abbrid = metaid unless /^\[\d+\]$/.match?(metaid)
         type = id["type"] if id
-        title = bib&.at("./title[@type = 'main']")&.text ||
-          bib&.at("./title")&.text || bib&.at("./formattedref")&.text
+        title = bib.at("./title[@type = 'main']")&.text ||
+          bib.at("./title")&.text || bib.at("./formattedref")&.text
         "#{pubclass} :: #{type} :: #{id&.text || metaid} :: #{title}"
       end
 

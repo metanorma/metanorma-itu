@@ -1189,13 +1189,6 @@ RSpec.describe Metanorma::Itu do
                 <p id='_'>Compliance with this Recommendation is voluntary. However, the Recommendation may contain certain mandatory provisions (to ensure, e.g., interoperability or applicability) and compliance with the Recommendation is achieved when all of these mandatory provisions are met. The words "shall" or some other obligatory language such as "must" and the negative equivalents are used to express requirements. The use of such words does not suggest that compliance with the Recommendation is required of any party.</p>
               </div>
             </div>
-            <div id="_">
-                <h1 class="IntroTitle">
-                   <a class="anchor" href="#_"/>
-                   <a class="header" href="#_">CAUTION! PREPUBLISHED RECOMMENDATION</a>
-                </h1>
-                <p id="_">This prepublication is an unedited version of a recently approved Recommendation. It will be replaced by the published version after editing. Therefore, there will be differences between this prepublication and the published version.</p>
-             </div>
           </div>
           <div class='boilerplate-license'>
             <div id="_">
@@ -1232,17 +1225,6 @@ RSpec.describe Metanorma::Itu do
 
 
 
-             <div>
-                <a name="_" id="_"/>
-                <p class="boilerplate"> </p>
-                <p class="boilerplate"> </p>
-                <p class="boilerplate"> </p>
-                <p class="boilerplateHdr">CAUTION! PREPUBLISHED RECOMMENDATION</p>
-                <p class="boilerplate">
-                   <a name="_" id="_"/>
-                   This prepublication is an unedited version of a recently approved Recommendation. It will be replaced by the published version after editing. Therefore, there will be differences between this prepublication and the published version.
-                </p>
-             </div>
           <p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p></div>
         <div class="boilerplate-license">
             <div><a name="_" id="_"/><p class="boilerplateHdr">INTELLECTUAL PROPERTY RIGHTS</p>

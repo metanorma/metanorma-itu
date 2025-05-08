@@ -1225,7 +1225,6 @@ RSpec.describe Metanorma::Itu do
 
 
 
-
           <p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p></div>
         <div class="boilerplate-license">
             <div><a name="_" id="_"/><p class="boilerplateHdr">INTELLECTUAL PROPERTY RIGHTS</p>

@@ -19,7 +19,7 @@ RSpec.describe Metanorma::Itu do
         <sections>
         </sections>
         <bibliography>
-          <references id="_" obligation="informative" normative="true">
+          <references id="_" anchor="_references" obligation="informative" normative="true">
             <title>References</title>
             <p id="_">None.</p>
           </references>
@@ -44,10 +44,10 @@ RSpec.describe Metanorma::Itu do
         <sections>
         </sections>
         <bibliography>
-          <references id="_" obligation="informative" normative="true">
+          <references id="_" anchor="_references" obligation="informative" normative="true">
             <title>References</title>
             <p id="_">The following ITU-T Recommendations and other references contain provisions which, through reference in this text, constitute provisions of this Recommendation. At the time of publication, the editions indicated were valid. All Recommendations and other references are subject to revision; users of this Recommendation are therefore encouraged to investigate the possibility of applying the most recent edition of the Recommendations and other references listed below. A list of the currently valid ITU-T Recommendations is regularly published. The reference to a document within this Recommendation does not give it, as a stand-alone document, the status of a Recommendation.</p>
-            <bibitem id="a">
+            <bibitem id="_" anchor="a">
               <formattedref format="application/x-isodoc+xml">A</formattedref>
               <docidentifier>b</docidentifier>
             </bibitem>
@@ -70,26 +70,34 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~OUTPUT
         #{@blank_hdr}
-        <sections>
-          <clause id='_' obligation='normative' type="terms">
-            <title>Definitions</title>
-            <terms id='_' type='external' obligation='normative'>
-              <title>Terms defined elsewhere</title>
-              <p id='_'>This Recommendation uses the following terms defined elsewhere:</p>
-              <term id='term-Term-1'>
-                <preferred><expression><name>Term 1</name></expression></preferred>
-              </term>
-            </terms>
-            <terms id='_' type='internal' obligation='normative'>
-              <title>Terms defined in this recommendation</title>
-              <p id='_'>This Recommendation defines the following terms:</p>
-              <term id='term-Term-2'>
-                <preferred><expression><name>Term 2</name></expression></preferred>
-              </term>
-            </terms>
-          </clause>
-        </sections>
-      </metanorma>
+          <sections>
+             <clause id="_" anchor="_definitions" obligation="normative" type="terms">
+                <title>Definitions</title>
+                <terms id="_" anchor="_terms_defined_elsewhere" type="external" obligation="normative">
+                   <title>Terms defined elsewhere</title>
+                   <p id="_">This Recommendation uses the following terms defined elsewhere:</p>
+                   <term id="_" anchor="term-Term-1">
+                      <preferred>
+                         <expression>
+                            <name>Term 1</name>
+                         </expression>
+                      </preferred>
+                   </term>
+                </terms>
+                <terms id="_" anchor="_terms_defined_in_this_recommendation" type="internal" obligation="normative">
+                   <title>Terms defined in this recommendation</title>
+                   <p id="_">This Recommendation defines the following terms:</p>
+                   <term id="_" anchor="term-Term-2">
+                      <preferred>
+                         <expression>
+                            <name>Term 2</name>
+                         </expression>
+                      </preferred>
+                   </term>
+                </terms>
+             </clause>
+          </sections>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
@@ -104,20 +112,20 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~OUTPUT
         #{@blank_hdr}
-        <sections>
-          <clause id='_' obligation='normative' type="terms">
-            <title>Definitions</title>
-            <terms id='_' type='external' obligation='normative'>
-              <title>Terms defined elsewhere</title>
-              <p id='_'>None.</p>
-            </terms>
-            <terms id='_' type='internal' obligation='normative'>
-              <title>Terms defined in this recommendation</title>
-              <p id='_'>None.</p>
-            </terms>
-          </clause>
-        </sections>
-      </metanorma>
+          <sections>
+             <clause id="_" anchor="_definitions" obligation="normative" type="terms">
+                <title>Definitions</title>
+                <terms id="_" anchor="_terms_defined_elsewhere" type="external" obligation="normative">
+                   <title>Terms defined elsewhere</title>
+                   <p id="_">None.</p>
+                </terms>
+                <terms id="_" anchor="_terms_defined_in_this_recommendation" type="internal" obligation="normative">
+                   <title>Terms defined in this recommendation</title>
+                   <p id="_">None.</p>
+                </terms>
+             </clause>
+          </sections>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
@@ -140,26 +148,34 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~OUTPUT
        #{@blank_hdr}
-       <sections>
-          <clause id='_' obligation='normative' type="terms">
-            <title>Definitions</title>
-            <terms id='_' type='external' obligation='normative'>
-              <title>Terms defined elsewhere</title>
-              <p id='_'>Boilerplate</p>
-              <term id='term-Term-1'>
-                <preferred><expression><name>Term 1</name></expression></preferred>
-              </term>
-            </terms>
-            <terms id='_' type='internal' obligation='normative'>
-              <title>Terms defined in this recommendation</title>
-              <p id='_'>Boilerplate</p>
-              <term id='term-Term-2'>
-                <preferred><expression><name>Term 2</name></expression></preferred>
-              </term>
-            </terms>
-          </clause>
-        </sections>
-      </metanorma>
+          <sections>
+             <clause id="_" anchor="_definitions" obligation="normative" type="terms">
+                <title>Definitions</title>
+                <terms id="_" anchor="_terms_defined_elsewhere" type="external" obligation="normative">
+                   <title>Terms defined elsewhere</title>
+                   <p id="_">Boilerplate</p>
+                   <term id="_" anchor="term-Term-1">
+                      <preferred>
+                         <expression>
+                            <name>Term 1</name>
+                         </expression>
+                      </preferred>
+                   </term>
+                </terms>
+                <terms id="_" anchor="_terms_defined_in_this_recommendation" type="internal" obligation="normative">
+                   <title>Terms defined in this recommendation</title>
+                   <p id="_">Boilerplate</p>
+                   <term id="_" anchor="term-Term-2">
+                      <preferred>
+                         <expression>
+                            <name>Term 2</name>
+                         </expression>
+                      </preferred>
+                   </term>
+                </terms>
+             </clause>
+          </sections>
+       </metanorma>
     OUTPUT
     expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Xml::C14n.format(strip_guid(output))
@@ -177,18 +193,18 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id="_" obligation="normative" type="terms">
+          <clause id="_" anchor="_definitions" obligation="normative" type="terms">
             <title>Definitions</title>
             <p id="_">This Recommendation defines the following terms:</p>
-            <terms id="_" obligation="normative">
+            <terms id="_" anchor="_terms_defined_somewhere" obligation="normative">
               <title>terms defined somewhere</title>
-              <term id="term-Term-1">
+              <term id="_" anchor="term-Term-1">
                 <preferred><expression><name>Term 1</name></expression></preferred>
               </term>
             </terms>
-            <terms id="_" obligation="normative">
+            <terms id="_" anchor="_terms_defined_somewhere_else" obligation="normative">
               <title>terms defined somewhere else</title>
-              <term id="term-Term-2">
+              <term id="_" anchor="term-Term-2">
                 <preferred><expression><name>Term 2</name></expression></preferred>
               </term>
             </terms>
@@ -215,18 +231,18 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id="_" obligation="normative" type="terms">
+          <clause id="_" anchor="_definitions" obligation="normative" type="terms">
             <title>Definitions</title>
             <p id="_">Boilerplate</p>
-            <terms id="_" obligation="normative">
+            <terms id="_" anchor="_terms_defined_somewhere" obligation="normative">
               <title>terms defined somewhere</title>
-                <term id="term-Term-1">
+                <term id="_" anchor="term-Term-1">
                 <preferred><expression><name>Term 1</name></expression></preferred>
               </term>
             </terms>
-            <terms id="_" obligation="normative">
+            <terms id="_" anchor="_terms_defined_somewhere_else" obligation="normative">
               <title>terms defined somewhere else</title>
-              <term id="term-Term-2">
+              <term id="_" anchor="term-Term-2">
                 <preferred><expression><name>Term 2</name></expression></preferred>
               </term>
             </terms>
@@ -248,11 +264,11 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <definitions id="_" obligation='normative'>
+          <definitions id="_" anchor="_abbreviations_and_acronyms" obligation='normative'>
             <title>Abbreviations and acronyms</title>
             <p id="_">This Recommendation uses the following abbreviations and acronyms:</p>
             <dl id="_">
-              <dt id='symbol-a'>a</dt>
+              <dt anchor='symbol-a' id="_">a</dt>
               <dd>
                 <p id="_">b</p>
               </dd>
@@ -277,9 +293,10 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <definitions id="_" obligation='normative'><title>Abbreviations and acronyms</title><p id="_">Boilerplate</p>
+          <definitions id="_" anchor="_abbreviations_and_acronyms" obligation='normative'>
+            <title>Abbreviations and acronyms</title><p id="_">Boilerplate</p>
             <dl id="_">
-              <dt id='symbol-a'>a</dt>
+              <dt anchor='symbol-a' id="_">a</dt>
               <dd>
                 <p id="_">b</p>
               </dd>
@@ -304,13 +321,13 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
        #{@blank_hdr}
        <sections>
-          <terms id='_' obligation='normative'>
+          <terms id='_' anchor="_terms_and_definitions" obligation='normative'>
             <title>Definitions</title>
             <p id='_'>None.</p>
           </terms>
         </sections>
         <bibliography>
-          <references id='_' normative='true' obligation='informative'>
+          <references id='_' anchor="_normative_references" normative='true' obligation='informative'>
             <title>References</title>
             <p id='_'>None.</p>
           </references>

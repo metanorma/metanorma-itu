@@ -38,47 +38,59 @@ RSpec.describe Metanorma::Itu do
       <dl id="A"><name>Deflist</name>
       <dt>A</dt><dd>B</dd>
       <dt>C</dt><dd>D</dd>
+      <dt>E</dt>
+      <dd><dl><dt><F</dt><dd>G</dd>
+      </dl></dd>
       <note>hien?</note>
       </dl>
       </foreword></preface>
       </itu-standard>
     INPUT
     presxml = <<~OUTPUT
-      <itu-standard xmlns="https://www.calconnect.org/standards/itu" type="presentation">
-         <preface>
-            <clause type="toc" id="_" displayorder="1">
-               <fmt-title depth="1">Table of Contents</fmt-title>
-            </clause>
-            <foreword displayorder="2" id="_">
-               <title id="_">Foreword</title>
-               <fmt-title depth="1">
-                     <semx element="title" source="_">Foreword</semx>
-               </fmt-title>
-               <dl id="A" autonum="">
-                  <name id="_">Deflist</name>
-                  <fmt-name>
-                        <semx element="name" source="_">Deflist</semx>
-                  </fmt-name>
-                  <colgroup>
-                     <col width="20%"/>
-                     <col width="80%"/>
-                  </colgroup>
-                  <dt>A</dt>
-                  <dd>B</dd>
-                  <dt>C</dt>
-                  <dd>D</dd>
-                  <note>
-                     <fmt-name>
-                        <span class="fmt-caption-label">
-                           <span class="fmt-element-name">NOTE</span>
-                        </span>
-                     </fmt-name>
-                     hien?
-                  </note>
-               </dl>
-            </foreword>
-         </preface>
-      </itu-standard>
+       <itu-standard xmlns="https://www.calconnect.org/standards/itu" type="presentation">
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1">Table of Contents</fmt-title>
+             </clause>
+             <foreword id="_" displayorder="2">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1">
+                   <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <dl id="A" autonum="">
+                   <name id="_">Deflist</name>
+                   <fmt-name>
+                      <semx element="name" source="_">Deflist</semx>
+                   </fmt-name>
+                   <colgroup>
+                      <col width="20%"/>
+                      <col width="80%"/>
+                   </colgroup>
+                   <dt>A</dt>
+                   <dd>B</dd>
+                   <dt>C</dt>
+                   <dd>D</dd>
+                   <dt>E</dt>
+                   <dd>
+                      <dl>
+                         <dt>
+                            <F/>
+                         </dt>
+                         <dd>G</dd>
+                      </dl>
+                   </dd>
+                   <note>
+                      <fmt-name>
+                         <span class="fmt-caption-label">
+                            <span class="fmt-element-name">NOTE</span>
+                         </span>
+                      </fmt-name>
+                      hien?
+                   </note>
+                </dl>
+             </foreword>
+          </preface>
+       </itu-standard>
     OUTPUT
     html = <<~OUTPUT
        #{HTML_HDR}
@@ -480,9 +492,11 @@ RSpec.describe Metanorma::Itu do
                       <fn reference="1" original-reference="1" target="_" original-id="_">
                          <p>X</p>
                          <fmt-fn-label>
-                            <sup>
-                               <semx element="autonum" source="_">1</semx>
-                            </sup>
+                            <span class="fmt-caption-label">
+                               <sup>
+                                  <semx element="autonum" source="_">1</semx>
+                               </sup>
+                            </span>
                          </fmt-fn-label>
                       </fn>
                    </name>
@@ -499,9 +513,11 @@ RSpec.describe Metanorma::Itu do
                          <fn reference="1" id="_" original-reference="1" target="_">
                             <p>X</p>
                             <fmt-fn-label>
-                               <sup>
-                                  <semx element="autonum" source="_">1</semx>
-                               </sup>
+                               <span class="fmt-caption-label">
+                                  <sup>
+                                     <semx element="autonum" source="_">1</semx>
+                                  </sup>
+                               </span>
                             </fmt-fn-label>
                          </fn>
                       </semx>
@@ -529,10 +545,12 @@ RSpec.describe Metanorma::Itu do
                             <fn reference="a" id="_" target="_">
                                <p original-id="_">Parboiled rice.</p>
                                <fmt-fn-label>
-                                  <sup>
-                                     <semx element="autonum" source="_">a</semx>
-                                     <span class="fmt-label-delim">)</span>
-                                  </sup>
+                                  <span class="fmt-caption-label">
+                                     <sup>
+                                        <semx element="autonum" source="_">a</semx>
+                                        <span class="fmt-label-delim">)</span>
+                                     </sup>
+                                  </span>
                                </fmt-fn-label>
                             </fn>
                          </td>
@@ -541,10 +559,12 @@ RSpec.describe Metanorma::Itu do
                             <fn reference="a" id="_" target="_">
                                <p id="_">Parboiled rice.</p>
                                <fmt-fn-label>
-                                  <sup>
-                                     <semx element="autonum" source="_">a</semx>
-                                     <span class="fmt-label-delim">)</span>
-                                  </sup>
+                                  <span class="fmt-caption-label">
+                                     <sup>
+                                        <semx element="autonum" source="_">a</semx>
+                                        <span class="fmt-label-delim">)</span>
+                                     </sup>
+                                  </span>
                                </fmt-fn-label>
                             </fn>
                          </td>
@@ -667,10 +687,12 @@ RSpec.describe Metanorma::Itu do
                          <semx element="fn" source="_">
                             <p id="_">
                                <fmt-fn-label>
-                                  <sup>
-                                     <semx element="autonum" source="_">a</semx>
-                                     <span class="fmt-label-delim">)</span>
-                                  </sup>
+                                  <span class="fmt-caption-label">
+                                     <sup>
+                                        <semx element="autonum" source="_">a</semx>
+                                        <span class="fmt-label-delim">)</span>
+                                     </sup>
+                                  </span>
                                   <span class="fmt-caption-delim">
                                      <tab/>
                                   </span>
@@ -784,9 +806,11 @@ RSpec.describe Metanorma::Itu do
                 <semx element="fn" source="_">
                    <p>
                       <fmt-fn-label>
-                         <sup>
-                            <semx element="autonum" source="_">1</semx>
-                         </sup>
+                         <span class="fmt-caption-label">
+                            <sup>
+                               <semx element="autonum" source="_">1</semx>
+                            </sup>
+                         </span>
                          <span class="fmt-caption-delim">
                             <tab/>
                          </span>

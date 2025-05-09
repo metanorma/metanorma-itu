@@ -141,7 +141,7 @@ module IsoDoc
       def dl(xml)
         super
         (xml.xpath(ns("//dl")) -
-         xml.xpath(ns("//table//dl | //figure//dl | //formula//dl")))
+         xml.xpath(ns("//table//dl | //figure//dl | //formula//dl | //dl//dl")))
           .each do |d|
             dl2(d)
           end

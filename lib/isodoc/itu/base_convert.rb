@@ -42,19 +42,6 @@ module IsoDoc
         super
       end
 
-      # KILL
-      def ol_depthx(node)
-        node["class"] == "steps" ||
-          node.at(".//ancestor::xmlns:ol[@class = 'steps']") or return super
-        depth = node.ancestors("ul, ol").size + 1
-        type = :arabic
-        type = :alphabet if [2, 7].include? depth
-        type = :roman if [3, 8].include? depth
-        type = :alphabet_upper if [4, 9].include? depth
-        type = :roman_upper if [5, 10].include? depth
-        ol_style(type)
-      end
-
       def annex_name(_annex, name, div)
         r_a = @meta.get[:doctype_original] == "recommendation-annex"
         div.h1 class: r_a ? "RecommendationAnnex" : "Annex" do |t|
@@ -81,29 +68,6 @@ module IsoDoc
         @meta.techreport isoxml, out
         @meta.contribution isoxml, out
         super
-      end
-
-      # TODO kill
-      def note_p_parsex(node, div)
-        name = node.at(ns("./name"))&.remove
-        div.p do |p|
-          name and p.span class: "note_label" do |s|
-            name.children.each { |n| parse(n, s) }
-          end
-          node.first_element_child.children.each { |n| parse(n, p) }
-        end
-        node.element_children[1..-1].each { |n| parse(n, div) }
-      end
-
-      # TODO kill
-      def note_parse1x(node, div)
-        name = node.at(ns("./name"))&.remove
-        div.p do |p|
-          name and p.span class: "note_label" do |s|
-            name.children.each { |n| parse(n, s) }
-          end
-        end
-        node.children.each { |n| parse(n, div) }
       end
 
       def note_parse(node, out)

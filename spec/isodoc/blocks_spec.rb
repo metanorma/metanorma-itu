@@ -39,7 +39,7 @@ RSpec.describe Metanorma::Itu do
       <dt>A</dt><dd>B</dd>
       <dt>C</dt><dd>D</dd>
       <dt>E</dt>
-      <dd><dl><dt><F</dt><dd>G</dd>
+      <dd><dl><dt>F</dt><dd>G</dd>
       </dl></dd>
       <note>hien?</note>
       </dl>
@@ -74,7 +74,7 @@ RSpec.describe Metanorma::Itu do
                    <dd>
                       <dl>
                          <dt>
-                            <F/>
+                            F
                          </dt>
                          <dd>G</dd>
                       </dl>
@@ -94,29 +94,49 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     html = <<~OUTPUT
        #{HTML_HDR}
-              <div id="_">
-              <h1 class="IntroTitle">Foreword</h1>
-            <p class="TableTitle" style="text-align:center;">Deflist</p>
-            <table id="A" class="dl" style="table-layout:fixed;">
-              <colgroup>
-                <col style="width: 20%;"/>
-                <col style="width: 80%;"/>
-              </colgroup>
-              <tbody>
-                <tr>
-                  <th style="font-weight:bold;" scope="row">A</th>
-                  <td style="">B</td>
-                </tr>
-                <tr>
-                  <th style="font-weight:bold;" scope="row">C</th>
-                  <td style="">D</td>
-                </tr>
-              </tbody>
-              <div class="Note"><p><span class="note_label">NOTE</span></p>hien?</div>
-            </table>
+             <div id="_">
+                <h1 class="IntroTitle">Foreword</h1>
+                <p class="TableTitle" style="text-align:center;">
+         Deflist
+       </p>
+                <table id="A" class="dl" style="table-layout:fixed;">
+                   <colgroup>
+                      <col style="width: 20%;"/>
+                      <col style="width: 80%;"/>
+                   </colgroup>
+                   <tbody>
+                      <tr>
+                         <th style="font-weight:bold;" scope="row">A</th>
+                         <td style="">B</td>
+                      </tr>
+                      <tr>
+                         <th style="font-weight:bold;" scope="row">C</th>
+                         <td style="">D</td>
+                      </tr>
+                      <tr>
+                         <th style="font-weight:bold;" scope="row">E</th>
+                         <td style="">
+                            <div class="figdl">
+                               <dl>
+                                  <dt>
+                                     <p>F</p>
+                                  </dt>
+                                  <dd>G</dd>
+                               </dl>
+                            </div>
+                         </td>
+                      </tr>
+                   </tbody>
+                   <div class="Note">
+                      <p>
+                         <span class="note_label">NOTE</span>
+                      </p>
+                      hien?
+                   </div>
+                </table>
+             </div>
           </div>
-        </div>
-      </body>
+       </body>
     OUTPUT
     doc = <<~OUTPUT
       <body lang="EN-US" link="blue" vlink="#954F72">
@@ -137,35 +157,54 @@ RSpec.describe Metanorma::Itu do
                <b>Page</b>
              </p>
            </div>
-           <div id="_">
-             <h1 class="IntroTitle">Foreword</h1>
-             <p class="TableTitle" style="text-align:center;">Deflist</p>
-             <div align="center" class="table_container">
-               <table id="A" class="dl" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;">
-                 <colgroup>
-                   <col width="20%"/>
-                   <col width="80%"/>
-                 </colgroup>
-                 <tbody>
-                   <tr>
-                     <th valign="top" style="font-weight:bold;page-break-after:avoid;">A</th>
-                     <td valign="top" style="page-break-after:avoid;">B</td>
-                   </tr>
-                   <tr>
-                     <th valign="top" style="font-weight:bold;page-break-after:auto;">C</th>
-                     <td valign="top" style="page-break-after:auto;">D</td>
-                   </tr>
-                 </tbody>
-                 <div class="Note"><p class="Note"><span class="note_label">NOTE</span></p>hien?</div>
-               </table>
+             <div id="_">
+                <h1 class="IntroTitle">Foreword</h1>
+                <p class="TableTitle" style="text-align:center;">
+         Deflist
+       </p>
+                <div align="center" class="table_container">
+                   <table id="A" class="dl" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;">
+                      <colgroup>
+                         <col width="20%"/>
+                         <col width="80%"/>
+                      </colgroup>
+                      <tbody>
+                         <tr>
+                            <th valign="top" style="font-weight:bold;page-break-after:avoid;">A</th>
+                            <td valign="top" style="page-break-after:avoid;">B</td>
+                         </tr>
+                         <tr>
+                            <th valign="top" style="font-weight:bold;page-break-after:avoid;">C</th>
+                            <td valign="top" style="page-break-after:avoid;">D</td>
+                         </tr>
+                         <tr>
+                            <th valign="top" style="font-weight:bold;page-break-after:auto;">E</th>
+                            <td valign="top" style="page-break-after:auto;">
+                               <div class="figdl">
+                                  <p style="text-indent: -2.0cm; margin-left: 2.0cm; tab-stops: 2.0cm;">
+                                     F
+                                     <span style="mso-tab-count:1">  </span>
+                                     G
+                                  </p>
+                               </div>
+                            </td>
+                         </tr>
+                      </tbody>
+                      <div class="Note">
+                         <p class="Note">
+                            <span class="note_label">NOTE</span>
+                         </p>
+                         hien?
+                      </div>
+                   </table>
+                </div>
              </div>
-           </div>
-           <p> </p>
-         </div>
-         <p class="section-break">
-           <br clear="all" class="section"/>
-         </p>
-         <div class="WordSection3"/>
+             <p> </p>
+          </div>
+          <p class="section-break">
+             <br clear="all" class="section"/>
+          </p>
+          <div class="WordSection3"/>
        </body>
     OUTPUT
     pres_output = IsoDoc::Itu::PresentationXMLConvert

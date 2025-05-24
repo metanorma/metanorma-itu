@@ -140,10 +140,10 @@ module Metanorma
       end
 
       def sections_names_pref_cleanup(xml)
+        t = xml.at("//preface//abstract/title")
+        t&.text&.downcase == "summary" and summary = true
         super
-        t = xml.at("//preface//abstract") or return
-        t.at("./title")&.text&.downcase == "summary" and
-          replace_title(xml, "//preface//abstract", @i18n&.summary)
+        summary and replace_title(xml, "//preface//abstract", @i18n&.summary)
       end
     end
   end

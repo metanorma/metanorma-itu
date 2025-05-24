@@ -1693,7 +1693,7 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id="_" anchor="_clause" obligation="normative" inline-header='false'>
+          <clause id="_" obligation="normative" inline-header='false'>
             <title>Clause</title>
             <ol id="_" class="steps">
               <name>Caption</name>
@@ -1733,13 +1733,13 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <clause id="_" anchor="_quotation_as" obligation="normative" inline-header='false'>
+          <clause id="_" obligation="normative" inline-header='false'>
             <title>"Quotation" A's</title>
             <p id="_">
               <tt>"quote" A's</tt>
             </p>
           </clause>
-          <clause id="_" anchor="_quotation_as_2" obligation="normative" inline-header='false'>
+          <clause id="_" obligation="normative" inline-header='false'>
             <title>"Quotation" A's</title>
             <p id="_">"Quotation" A's</p>
           </clause>

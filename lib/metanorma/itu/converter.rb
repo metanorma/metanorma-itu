@@ -116,6 +116,13 @@ module Metanorma
         super
       end
 
+      def abstract_parse(attrs, xml, node)
+        xml.abstract **attr_code(attrs) do |xml_section|
+          xml_section.title { |name| name << node.title }
+          xml_section << node.content
+        end
+      end
+
       def document_scheme(node)
         super || "current"
       end

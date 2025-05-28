@@ -9,9 +9,6 @@ require_relative "./cleanup"
 module Metanorma
   module Itu
     class Converter < Standoc::Converter
-      XML_ROOT_TAG = "itu-standard".freeze
-      XML_NAMESPACE = "https://www.metanorma.org/ns/itu".freeze
-
       register_for "itu"
 
       def title_validate(_root)

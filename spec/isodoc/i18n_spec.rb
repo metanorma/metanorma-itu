@@ -21,41 +21,41 @@ RSpec.describe Metanorma::Itu do
           </bibdata>
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title depth="1">Table des matières</fmt-title>
+                <fmt-title id="_" depth="1">Table des matières</fmt-title>
              </clause>
              <abstract displayorder="2" id="_">
                 <title id="_">Abstract</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Abstract</semx>
                 </fmt-title>
                 <p>This is an abstract</p>
              </abstract>
              <clause type="keyword" displayorder="3" id="_">
-                <fmt-title depth="1">Mots clés</fmt-title>
+                <fmt-title id="_" depth="1">Mots clés</fmt-title>
                 <p>A, B.</p>
              </clause>
              <foreword obligation="informative" displayorder="4" id="_">
                 <title id="_">Foreword</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <p id="A">This is a preamble</p>
              </foreword>
              <introduction id="B" obligation="informative" displayorder="5">
                 <title id="_">Introduction</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Introduction</semx>
                 </fmt-title>
                 <clause id="C" inline-header="false" obligation="informative">
                    <title id="_">Introduction Subsection</title>
-                   <fmt-title depth="2">
+                   <fmt-title id="_" depth="2">
                       <semx element="title" source="_">Introduction Subsection</semx>
                    </fmt-title>
                 </clause>
              </introduction>
              <clause id="A0" displayorder="6">
                 <title id="_">History</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">History</semx>
                 </fmt-title>
                 <p>history</p>
@@ -66,7 +66,7 @@ RSpec.describe Metanorma::Itu do
              <p class="zzSTDTitle2" displayorder="8">Un Standard ITU</p>
              <clause id="D" obligation="normative" type="scope" displayorder="9">
                 <title id="_">Scope</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="D">1</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -83,7 +83,7 @@ RSpec.describe Metanorma::Itu do
                 <p id="E">Text</p>
              </clause>
              <terms id="I" obligation="normative" displayorder="11">
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="I">3</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -94,7 +94,7 @@ RSpec.describe Metanorma::Itu do
                    <semx element="autonum" source="I">3</semx>
                 </fmt-xref-label>
                 <term id="J">
-                   <fmt-name>
+                   <fmt-name id="_">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="I">3</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -122,7 +122,7 @@ RSpec.describe Metanorma::Itu do
              </terms>
              <definitions id="L" displayorder="12">
                 <title id="_">Abréviations et acronymes</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="L">4</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -147,7 +147,7 @@ RSpec.describe Metanorma::Itu do
              </definitions>
              <clause id="M" inline-header="false" obligation="normative" displayorder="13">
                 <title id="_">Clause 4</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="M">5</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -163,7 +163,7 @@ RSpec.describe Metanorma::Itu do
                 </fmt-xref-label>
                 <clause id="N" inline-header="false" obligation="normative">
                    <title id="_">Introduction</title>
-                   <fmt-title depth="2">
+                   <fmt-title id="_" depth="2">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="M">5</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -184,7 +184,7 @@ RSpec.describe Metanorma::Itu do
                 </clause>
                 <clause id="O" inline-header="false" obligation="normative">
                    <title id="_">Clause 4.2</title>
-                   <fmt-title depth="2">
+                   <fmt-title id="_" depth="2">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="M">5</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -206,7 +206,7 @@ RSpec.describe Metanorma::Itu do
              </clause>
              <references id="R" obligation="informative" normative="true" displayorder="10">
                 <title id="_">References</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="R">2</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -226,7 +226,7 @@ RSpec.describe Metanorma::Itu do
              <title id="_">
                 <strong>Annex</strong>
              </title>
-             <fmt-title>
+             <fmt-title id="_">
                 <strong>
                    <span class="fmt-caption-label">
                       <span class="fmt-element-name">Annexe</span>
@@ -250,7 +250,7 @@ RSpec.describe Metanorma::Itu do
              </p>
              <clause id="Q" inline-header="false" obligation="normative">
                 <title id="_">Annex A.1</title>
-                <fmt-title depth="2">
+                <fmt-title id="_" depth="2">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="P">A</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -270,7 +270,7 @@ RSpec.describe Metanorma::Itu do
                 </fmt-xref-label>
                 <clause id="Q1" inline-header="false" obligation="normative">
                    <title id="_">Annex A.1a</title>
-                   <fmt-title depth="3">
+                   <fmt-title id="_" depth="3">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="P">A</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -298,12 +298,12 @@ RSpec.describe Metanorma::Itu do
           <bibliography>
              <clause id="S" obligation="informative" displayorder="15">
                 <title id="_">Bibliography</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Bibliography</semx>
                 </fmt-title>
                 <references id="T" obligation="informative" normative="false">
                    <title id="_">Bibliography Subsection</title>
-                   <fmt-title depth="2">
+                   <fmt-title id="_" depth="2">
                       <semx element="title" source="_">Bibliography Subsection</semx>
                    </fmt-title>
                 </references>
@@ -437,41 +437,41 @@ RSpec.describe Metanorma::Itu do
           </bibdata>
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title depth="1">目　录</fmt-title>
+                <fmt-title id="_" depth="1">目　录</fmt-title>
              </clause>
              <abstract displayorder="2" id="_">
                 <title id="_">Abstract</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Abstract</semx>
                 </fmt-title>
                 <p>This is an abstract</p>
              </abstract>
              <clause type="keyword" displayorder="3" id="_">
-                <fmt-title depth="1">关　键　词</fmt-title>
+                <fmt-title id="_" depth="1">关　键　词</fmt-title>
                 <p>A, B.</p>
              </clause>
              <foreword obligation="informative" displayorder="4" id="_">
                 <title id="_">Foreword</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <p id="A">This is a preamble</p>
              </foreword>
              <introduction id="B" obligation="informative" displayorder="5">
                 <title id="_">Introduction</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Introduction</semx>
                 </fmt-title>
                 <clause id="C" inline-header="false" obligation="informative">
                    <title id="_">Introduction Subsection</title>
-                   <fmt-title depth="2">
+                   <fmt-title id="_" depth="2">
                       <semx element="title" source="_">Introduction Subsection</semx>
                    </fmt-title>
                 </clause>
              </introduction>
              <clause id="A0" displayorder="6">
                 <title id="_">History</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">History</semx>
                 </fmt-title>
                 <p>history</p>
@@ -481,7 +481,7 @@ RSpec.describe Metanorma::Itu do
              <p class="zzSTDTitle1" displayorder="7">新Recommendation草案 12345</p>
              <clause id="D" obligation="normative" type="scope" displayorder="8">
                 <title id="_">Scope</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="D">1</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -498,7 +498,7 @@ RSpec.describe Metanorma::Itu do
                 <p id="E">Text</p>
              </clause>
              <terms id="I" obligation="normative" displayorder="10">
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="I">3</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -509,7 +509,7 @@ RSpec.describe Metanorma::Itu do
                    <semx element="autonum" source="I">3</semx>
                 </fmt-xref-label>
                 <term id="J">
-                   <fmt-name>
+                   <fmt-name id="_">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="I">3</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -538,7 +538,7 @@ RSpec.describe Metanorma::Itu do
              </terms>
              <definitions id="L" displayorder="11">
                 <title id="_">缩略语与缩写</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="L">4</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -563,7 +563,7 @@ RSpec.describe Metanorma::Itu do
              </definitions>
              <clause id="M" inline-header="false" obligation="normative" displayorder="12">
                 <title id="_">Clause 4</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="M">5</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -579,7 +579,7 @@ RSpec.describe Metanorma::Itu do
                 </fmt-xref-label>
                 <clause id="N" inline-header="false" obligation="normative">
                    <title id="_">Introduction</title>
-                   <fmt-title depth="2">
+                   <fmt-title id="_" depth="2">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="M">5</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -600,7 +600,7 @@ RSpec.describe Metanorma::Itu do
                 </clause>
                 <clause id="O" inline-header="false" obligation="normative">
                    <title id="_">Clause 4.2</title>
-                   <fmt-title depth="2">
+                   <fmt-title id="_" depth="2">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="M">5</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -622,7 +622,7 @@ RSpec.describe Metanorma::Itu do
              </clause>
              <references id="R" obligation="informative" normative="true" displayorder="9">
                 <title id="_">References</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="R">2</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -642,7 +642,7 @@ RSpec.describe Metanorma::Itu do
              <title id="_">
                 <strong>Annex</strong>
              </title>
-             <fmt-title>
+             <fmt-title id="_">
                 <strong>
                    <span class="fmt-caption-label">
                       <span class="fmt-element-name">附件</span>
@@ -666,7 +666,7 @@ RSpec.describe Metanorma::Itu do
              </p>
              <clause id="Q" inline-header="false" obligation="normative">
                 <title id="_">Annex A.1</title>
-                <fmt-title depth="2">
+                <fmt-title id="_" depth="2">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="P">A</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -686,7 +686,7 @@ RSpec.describe Metanorma::Itu do
                 </fmt-xref-label>
                 <clause id="Q1" inline-header="false" obligation="normative">
                    <title id="_">Annex A.1a</title>
-                   <fmt-title depth="3">
+                   <fmt-title id="_" depth="3">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="P">A</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -714,12 +714,12 @@ RSpec.describe Metanorma::Itu do
           <bibliography>
              <clause id="S" obligation="informative" displayorder="14">
                 <title id="_">Bibliography</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Bibliography</semx>
                 </fmt-title>
                 <references id="T" obligation="informative" normative="false">
                    <title id="_">Bibliography Subsection</title>
-                   <fmt-title depth="2">
+                   <fmt-title id="_" depth="2">
                       <semx element="title" source="_">Bibliography Subsection</semx>
                    </fmt-title>
                 </references>
@@ -880,14 +880,14 @@ RSpec.describe Metanorma::Itu do
          <clause id='_' type='editors' displayorder='1'>
            <table id='_' unnumbered='true'>
              <tbody>
-               <tr>
-                 <th>Éditeurs&#xa0;:</th>
-                 <td>
+               <tr id="_">
+                 <th id="_">Éditeurs&#xa0;:</th>
+                 <td id="_">
                    Fred Flintstone
                    <br/>
                    World Health Organization
                  </td>
-                 <td>
+                 <td id="_">
                    E-mail&#xa0;:
                   <link target="mailto:jack@example.com" id="_">jack@example.com</link>
                   <semx element="link" source="_">
@@ -895,10 +895,10 @@ RSpec.describe Metanorma::Itu do
                   </semx>
                  </td>
                </tr>
-               <tr>
-                 <th/>
-                 <td>Barney Rubble</td>
-                 <td/>
+               <tr id="_">
+                 <th id="_"/>
+                 <td id="_">Barney Rubble</td>
+                 <td id="_"/>
                </tr>
              </tbody>
            </table>

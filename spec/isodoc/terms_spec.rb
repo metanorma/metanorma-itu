@@ -29,13 +29,13 @@ RSpec.describe Metanorma::Itu do
         <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
            <preface>
               <clause type="toc" id="_" displayorder="1">
-                 <fmt-title depth="1">Table of Contents</fmt-title>
+                 <fmt-title id="_" depth="1">Table of Contents</fmt-title>
               </clause>
            </preface>
            <sections>
               <terms id="H" obligation="normative" displayorder="2">
                  <title id="_">Terms</title>
-                 <fmt-title depth="1">
+                 <fmt-title id="_" depth="1">
                     <span class="fmt-caption-label">
                        <semx element="autonum" source="H">1</semx>
                        <span class="fmt-autonum-delim">.</span>
@@ -50,7 +50,7 @@ RSpec.describe Metanorma::Itu do
                     <semx element="autonum" source="H">1</semx>
                  </fmt-xref-label>
                  <term id="J">
-                    <fmt-name>
+                    <fmt-name id="_">
                        <span class="fmt-caption-label">
                           <semx element="autonum" source="H">1</semx>
                           <span class="fmt-autonum-delim">.</span>
@@ -80,7 +80,7 @@ RSpec.describe Metanorma::Itu do
                           <p>This is a journey into sound</p>
                        </verbal-definition>
                     </definition>
-                    <fmt-definition>
+                    <fmt-definition id="_">
                        <semx element="definition" source="_">
                           <p>This is a journey into sound</p>
                        </semx>
@@ -97,7 +97,7 @@ RSpec.describe Metanorma::Itu do
                        </semx>
                     </fmt-termsource>
                     <termnote id="J1" keep-with-next="true" keep-lines-together="true" autonum="">
-                       <fmt-name>
+                       <fmt-name id="_">
                           <span class="fmt-caption-label">
                              <span class="fmt-element-name">NOTE</span>
                           </span>
@@ -115,7 +115,7 @@ RSpec.describe Metanorma::Itu do
                     </termnote>
                  </term>
                  <term id="K">
-                    <fmt-name>
+                    <fmt-name id="_">
                        <span class="fmt-caption-label">
                           <semx element="autonum" source="H">1</semx>
                           <span class="fmt-autonum-delim">.</span>
@@ -145,7 +145,7 @@ RSpec.describe Metanorma::Itu do
                           <p>This is a journey into sound</p>
                        </verbal-definition>
                     </definition>
-                    <fmt-definition>
+                    <fmt-definition id="_">
                        <semx element="definition" source="_">
                           <p>This is a journey into sound</p>
                        </semx>
@@ -162,7 +162,7 @@ RSpec.describe Metanorma::Itu do
                        </semx>
                     </fmt-termsource>
                     <termnote id="J2" autonum="1">
-                       <fmt-name>
+                       <fmt-name id="_">
                           <span class="fmt-caption-label">
                              <span class="fmt-element-name">NOTE</span>
                              <semx element="autonum" source="J2">1</semx>
@@ -181,7 +181,7 @@ RSpec.describe Metanorma::Itu do
                        <p>This is a note</p>
                     </termnote>
                     <termnote id="J3" autonum="2">
-                       <fmt-name>
+                       <fmt-name id="_">
                           <span class="fmt-caption-label">
                              <span class="fmt-element-name">NOTE</span>
                              <semx element="autonum" source="J3">2</semx>
@@ -274,13 +274,13 @@ RSpec.describe Metanorma::Itu do
         <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
            <preface>
               <clause type="toc" id="_" displayorder="1">
-                 <fmt-title depth="1">Table of Contents</fmt-title>
+                 <fmt-title id="_" depth="1">Table of Contents</fmt-title>
               </clause>
            </preface>
            <sections>
               <terms id="H" obligation="normative" displayorder="2">
                  <title id="_">Terms</title>
-                 <fmt-title depth="1">
+                 <fmt-title id="_" depth="1">
                     <span class="fmt-caption-label">
                        <semx element="autonum" source="H">1</semx>
                        <span class="fmt-autonum-delim">.</span>
@@ -295,7 +295,7 @@ RSpec.describe Metanorma::Itu do
                     <semx element="autonum" source="H">1</semx>
                  </fmt-xref-label>
                  <term id="J">
-                    <fmt-name>
+                    <fmt-name id="_">
                        <span class="fmt-caption-label">
                           <semx element="autonum" source="H">1</semx>
                           <span class="fmt-autonum-delim">.</span>
@@ -323,7 +323,7 @@ RSpec.describe Metanorma::Itu do
                     <definition id="_">
                        <p>This is a journey into sound</p>
                     </definition>
-                    <fmt-definition>
+                    <fmt-definition id="_">
                        <semx element="definition" source="_">
                           <p>This is a journey into sound</p>
                        </semx>
@@ -340,7 +340,7 @@ RSpec.describe Metanorma::Itu do
                        </semx>
                     </fmt-termsource>
                     <termnote id="J1" autonum="">
-                       <fmt-name>
+                       <fmt-name id="_">
                           <span class="fmt-caption-label">
                              <span class="fmt-element-name">NOTE</span>
                           </span>
@@ -421,13 +421,13 @@ RSpec.describe Metanorma::Itu do
           <termdocsource type="inline" bibitemid="ISO712"/>
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title depth="1">Table of Contents</fmt-title>
+                <fmt-title id="_" depth="1">Table of Contents</fmt-title>
              </clause>
           </preface>
           <sections>
              <clause id="G" displayorder="3">
                 <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="G">2</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -443,7 +443,7 @@ RSpec.describe Metanorma::Itu do
                 </fmt-xref-label>
                 <terms id="H" obligation="normative">
                    <title id="_">Terms defined in this recommendation</title>
-                   <fmt-title depth="2">
+                   <fmt-title id="_" depth="2">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="G">2</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -462,7 +462,7 @@ RSpec.describe Metanorma::Itu do
                       <semx element="autonum" source="H">1</semx>
                    </fmt-xref-label>
                    <term id="J">
-                      <fmt-name>
+                      <fmt-name id="_">
                          <span class="fmt-caption-label">
                             <semx element="autonum" source="G">2</semx>
                             <span class="fmt-autonum-delim">.</span>
@@ -495,7 +495,7 @@ RSpec.describe Metanorma::Itu do
                 </terms>
                 <terms id="I" obligation="normative">
                    <title id="_">Terms defined elsewhere</title>
-                   <fmt-title depth="2">
+                   <fmt-title id="_" depth="2">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="G">2</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -514,7 +514,7 @@ RSpec.describe Metanorma::Itu do
                       <semx element="autonum" source="I">2</semx>
                    </fmt-xref-label>
                    <term id="K">
-                      <fmt-name>
+                      <fmt-name id="_">
                          <span class="fmt-caption-label">
                             <semx element="autonum" source="G">2</semx>
                             <span class="fmt-autonum-delim">.</span>
@@ -547,7 +547,7 @@ RSpec.describe Metanorma::Itu do
                 </terms>
                 <terms id="L" obligation="normative">
                    <title id="_">Other terms</title>
-                   <fmt-title depth="2">
+                   <fmt-title id="_" depth="2">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="G">2</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -569,7 +569,7 @@ RSpec.describe Metanorma::Itu do
              </clause>
              <references id="_" obligation="informative" normative="true" displayorder="2">
                 <title id="_">References</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="_">1</semx>
                       <span class="fmt-autonum-delim">.</span>

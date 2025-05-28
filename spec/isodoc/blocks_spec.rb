@@ -7,7 +7,7 @@ RSpec.describe Metanorma::Itu do
       <itu-standard xmlns="https://www.calconnect.org/standards/itu">
       <preface>
           <clause type="toc" id="_" displayorder="1">
-      <fmt-title depth="1">Table of Contents</fmt-title>
+      <fmt-title id="_" depth="1">Table of Contents</fmt-title>
       </clause>
       <foreword  displayorder="2">
       <pre>ABC</pre>
@@ -50,16 +50,16 @@ RSpec.describe Metanorma::Itu do
        <itu-standard xmlns="https://www.calconnect.org/standards/itu" type="presentation">
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title depth="1">Table of Contents</fmt-title>
+                <fmt-title id="_" depth="1">Table of Contents</fmt-title>
              </clause>
              <foreword id="_" displayorder="2">
                 <title id="_">Foreword</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <dl id="A" autonum="">
                    <name id="_">Deflist</name>
-                   <fmt-name>
+                   <fmt-name id="_">
                       <semx element="name" source="_">Deflist</semx>
                    </fmt-name>
                    <colgroup>
@@ -80,7 +80,7 @@ RSpec.describe Metanorma::Itu do
                       </dl>
                    </dd>
                    <note>
-                      <fmt-name>
+                      <fmt-name id="_">
                          <span class="fmt-caption-label">
                             <span class="fmt-element-name">NOTE</span>
                          </span>
@@ -251,11 +251,11 @@ RSpec.describe Metanorma::Itu do
       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
          <preface>
             <clause type="toc" id="_" displayorder="1">
-               <fmt-title depth="1">Table of Contents</fmt-title>
+               <fmt-title id="_" depth="1">Table of Contents</fmt-title>
             </clause>
             <foreword id="_" displayorder="2">
                <title id="_">Foreword</title>
-               <fmt-title depth="1">
+               <fmt-title id="_" depth="1">
                   <semx element="title" source="_">Foreword</semx>
                </fmt-title>
                <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
@@ -516,11 +516,11 @@ RSpec.describe Metanorma::Itu do
        <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title depth="1">Table of Contents</fmt-title>
+                <fmt-title id="_" depth="1">Table of Contents</fmt-title>
              </clause>
              <foreword id="fwd" displayorder="2">
                 <title id="_">Foreword</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <table id="tableD-1" alt="tool tip" summary="long desc" width="70%" keep-with-next="true" keep-lines-together="true" autonum="1">
@@ -539,7 +539,7 @@ RSpec.describe Metanorma::Itu do
                          </fmt-fn-label>
                       </fn>
                    </name>
-                   <fmt-name>
+                   <fmt-name id="_">
                       <span class="fmt-caption-label">
                          <span class="fmt-element-name">Table</span>
                          <semx element="autonum" source="tableD-1">1</semx>
@@ -654,7 +654,7 @@ RSpec.describe Metanorma::Itu do
                    </tfoot>
                    <dl key="true">
                       <name id="_">Key</name>
-                      <fmt-name>
+                      <fmt-name id="_">
                          <semx element="name" source="_">Key</semx>
                       </fmt-name>
                       <dt>Drago</dt>
@@ -669,7 +669,7 @@ RSpec.describe Metanorma::Itu do
                          </localityStack>
                       </origin>
                       <modification id="_">
-                         <p original-id="_">with adjustments</p>
+                         <p id="_">with adjustments</p>
                       </modification>
                    </source>
                    <fmt-source>
@@ -713,7 +713,7 @@ RSpec.describe Metanorma::Itu do
                       </origin>
                    </source>
                    <note>
-                      <fmt-name>
+                      <fmt-name id="_">
                          <span class="fmt-caption-label">
                             <span class="fmt-element-name">NOTE</span>
                          </span>
@@ -754,7 +754,7 @@ RSpec.describe Metanorma::Itu do
           <sections>
              <references id="_" obligation="informative" normative="true" displayorder="3">
                 <title id="_">Normative References</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="_">1</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -789,7 +789,7 @@ RSpec.describe Metanorma::Itu do
              </references>
           </sections>
           <annex id="Annex1" autonum="A" displayorder="4">
-             <fmt-title>
+             <fmt-title id="_">
                 <strong>
                    <span class="fmt-caption-label">
                       <span class="fmt-element-name">Annex</span>
@@ -805,7 +805,7 @@ RSpec.describe Metanorma::Itu do
                 <span class="fmt-obligation">(This annex forms an integral part of this .)</span>
              </p>
              <table id="AnnexTable" autonum="A.1">
-                <fmt-name>
+                <fmt-name id="_">
                    <span class="fmt-caption-label">
                       <span class="fmt-element-name">Table</span>
                       <semx element="autonum" source="Annex1">A</semx>
@@ -826,7 +826,7 @@ RSpec.describe Metanorma::Itu do
                 </tbody>
              </table>
              <table>
-                <fmt-name>
+                <fmt-name id="_">
                    <span class="fmt-caption-label">
                       <span class="fmt-element-name">Table</span>
                    </span>
@@ -1259,8 +1259,8 @@ RSpec.describe Metanorma::Itu do
     input = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml">
           <preface>
-          <clause type="toc" id="_" displayorder="1"> <fmt-title depth="1">Table of contents</fmt-title> </clause>
-          <foreword displayorder="2" id="fwd"><fmt-title>Foreword</fmt-title>
+          <clause type="toc" id="_" displayorder="1"> <fmt-title id="_" depth="1">Table of contents</fmt-title> </clause>
+          <foreword displayorder="2" id="fwd"><fmt-title id="_">Foreword</fmt-title>
           <ul id="_61961034-0fb1-436b-b281-828857a59ddb"  keep-with-next="true" keep-lines-together="true">
           <name>Caption</name>
         <li>
@@ -1293,39 +1293,39 @@ RSpec.describe Metanorma::Itu do
           <preface>
              <foreword displayorder="1" id="fwd">
                 <title id="_">Foreword</title>
-                <fmt-title depth="1">Foreword</fmt-title>
+                <fmt-title id="_" depth="1">Foreword</fmt-title>
                 <ul id="_" keep-with-next="true" keep-lines-together="true">
                    <name id="_">Caption</name>
-                   <fmt-name>
+                   <fmt-name id="_">
                       <semx element="name" source="_">Caption</semx>
                    </fmt-name>
-                   <li>
-                      <fmt-name>
-                         <semx element="autonum" source="">–</semx>
+                   <li id="_">
+                      <fmt-name id="_">
+                         <semx element="autonum" source="_">–</semx>
                       </fmt-name>
                       <p id="_">Level 1</p>
                    </li>
-                   <li>
-                      <fmt-name>
-                         <semx element="autonum" source="">–</semx>
+                   <li id="_">
+                      <fmt-name id="_">
+                         <semx element="autonum" source="_">–</semx>
                       </fmt-name>
                       <p id="_">deletion of 4.3.</p>
                       <ul id="_" keep-with-next="true" keep-lines-together="true">
-                         <li>
-                            <fmt-name>
-                               <semx element="autonum" source="">•</semx>
+                         <li id="_">
+                            <fmt-name id="_">
+                               <semx element="autonum" source="_">•</semx>
                             </fmt-name>
                             <p id="_">Level 2</p>
                             <ul id="_" keep-with-next="true" keep-lines-together="true">
-                               <li>
-                                  <fmt-name>
-                                     <semx element="autonum" source="">o</semx>
+                               <li id="_">
+                                  <fmt-name id="_">
+                                     <semx element="autonum" source="_">o</semx>
                                   </fmt-name>
                                   <p id="_">Level 3</p>
                                   <ul id="_" keep-with-next="true" keep-lines-together="true">
-                                     <li>
-                                        <fmt-name>
-                                           <semx element="autonum" source="">–</semx>
+                                     <li id="_">
+                                        <fmt-name id="_">
+                                           <semx element="autonum" source="_">–</semx>
                                         </fmt-name>
                                         <p id="_">Level 4</p>
                                      </li>
@@ -1338,11 +1338,11 @@ RSpec.describe Metanorma::Itu do
                 </ul>
              </foreword>
              <clause type="toc" id="_" displayorder="2">
-                <fmt-title depth="1">Table of contents</fmt-title>
+                <fmt-title id="_" depth="1">Table of contents</fmt-title>
              </clause>
           </preface>
        </iso-standard>
-    INPUT
+           INPUT
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
@@ -1393,20 +1393,20 @@ RSpec.describe Metanorma::Itu do
        <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title depth="1">Table of Contents</fmt-title>
+                <fmt-title id="_" depth="1">Table of Contents</fmt-title>
              </clause>
              <foreword id="_" displayorder="2">
                 <title id="_">Foreword</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <ol id="_" type="alphabet" keep-with-next="true" keep-lines-together="true" autonum="1">
                    <name id="_">Caption</name>
-                   <fmt-name>
+                   <fmt-name id="_">
                       <semx element="name" source="_">Caption</semx>
                    </fmt-name>
                    <li id="_">
-                      <fmt-name>
+                      <fmt-name id="_">
                          <semx element="autonum" source="_">a</semx>
                          <span class="fmt-label-delim">)</span>
                       </fmt-name>
@@ -1415,35 +1415,35 @@ RSpec.describe Metanorma::Itu do
                 </ol>
                 <ol id="A" type="alphabet">
                    <li id="_">
-                      <fmt-name>
+                      <fmt-name id="_">
                          <semx element="autonum" source="_">a</semx>
                          <span class="fmt-label-delim">)</span>
                       </fmt-name>
                       <p id="_">Level 1</p>
                    </li>
                    <li id="_">
-                      <fmt-name>
+                      <fmt-name id="_">
                          <semx element="autonum" source="_">b</semx>
                          <span class="fmt-label-delim">)</span>
                       </fmt-name>
                       <p id="_">Level 1</p>
                       <ol type="arabic">
                          <li id="_">
-                            <fmt-name>
+                            <fmt-name id="_">
                                <semx element="autonum" source="_">1</semx>
                                <span class="fmt-label-delim">)</span>
                             </fmt-name>
                             <p id="_">Level 2</p>
                             <ol type="roman">
                                <li id="_">
-                                  <fmt-name>
+                                  <fmt-name id="_">
                                      <semx element="autonum" source="_">i</semx>
                                      <span class="fmt-label-delim">)</span>
                                   </fmt-name>
                                   <p id="_">Level 3</p>
                                   <ol type="alphabet_upper">
                                      <li id="_">
-                                        <fmt-name>
+                                        <fmt-name id="_">
                                            <semx element="autonum" source="_">A</semx>
                                            <span class="fmt-label-delim">.</span>
                                         </fmt-name>
@@ -1498,42 +1498,42 @@ RSpec.describe Metanorma::Itu do
        <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title depth="1">Table of Contents</fmt-title>
+                <fmt-title id="_" depth="1">Table of Contents</fmt-title>
              </clause>
              <foreword id="_" displayorder="2">
                 <title id="_">Foreword</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <ol id="_" class="steps" type="arabic">
                    <li id="_">
-                      <fmt-name>
+                      <fmt-name id="_">
                          <semx element="autonum" source="_">1</semx>
                          <span class="fmt-label-delim">)</span>
                       </fmt-name>
                       <p id="_">all information necessary for the complete identification of the sample;</p>
                    </li>
                    <li id="_">
-                      <fmt-name>
+                      <fmt-name id="_">
                          <semx element="autonum" source="_">2</semx>
                          <span class="fmt-label-delim">)</span>
                       </fmt-name>
                       <ol id="A" type="alphabet">
                          <li id="_">
-                            <fmt-name>
+                            <fmt-name id="_">
                                <semx element="autonum" source="_">a</semx>
                                <span class="fmt-label-delim">)</span>
                             </fmt-name>
                             <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
                          </li>
                          <li id="_">
-                            <fmt-name>
+                            <fmt-name id="_">
                                <semx element="autonum" source="_">b</semx>
                                <span class="fmt-label-delim">)</span>
                             </fmt-name>
                             <ol id="B" type="roman">
                                <li id="_">
-                                  <fmt-name>
+                                  <fmt-name id="_">
                                      <semx element="autonum" source="_">i</semx>
                                      <span class="fmt-label-delim">)</span>
                                   </fmt-name>
@@ -1673,16 +1673,16 @@ RSpec.describe Metanorma::Itu do
       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title depth="1">Table of Contents</fmt-title>
+                <fmt-title id="_" depth="1">Table of Contents</fmt-title>
              </clause>
              <foreword displayorder="2" id="_">
                 <title id="_">Foreword</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                       <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <table>
                    <name id="_">title title</name>
-                   <fmt-name>
+                   <fmt-name id="_">
                       <span class="fmt-caption-label">
                          <span class="fmt-element-name">Table</span>
                          </span>
@@ -1732,11 +1732,11 @@ RSpec.describe Metanorma::Itu do
       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
          <preface>
             <clause type="toc" id="_" displayorder="1">
-               <fmt-title depth="1">Table of Contents</fmt-title>
+               <fmt-title id="_" depth="1">Table of Contents</fmt-title>
             </clause>
             <foreword displayorder="2" id="_">
                <title id="_">Foreword</title>
-               <fmt-title depth="1">
+               <fmt-title id="_" depth="1">
                      <semx element="title" source="_">Foreword</semx>
                </fmt-title>
                <table>
@@ -1744,7 +1744,7 @@ RSpec.describe Metanorma::Itu do
                      <span style="text-transform:none">title</span>
                      title
                   </name>
-                  <fmt-name>
+                  <fmt-name id="_">
                      <span class="fmt-caption-label">
                         <span class="fmt-element-name">Table</span>
                         </span>
@@ -1822,7 +1822,7 @@ RSpec.describe Metanorma::Itu do
             <div><a name="A" id="A"/>
           <p class='h1Preface'/>
           <div class="ol_wrap">
-          <p style='mso-list:l4 level1 lfo1;' class='MsoListParagraphCxSpFirst'> <a name="_" id="_"/> all information necessary for the complete identification of the sample; </p>
+          <p style='mso-list:l4 level1 lfo1;' class='MsoListParagraphCxSpFirst'> all information necessary for the complete identification of the sample; </p>
           <div class="ol_wrap">
           <p style='mso-list:l4 level1 lfo2;' class='MsoListParagraphCxSpFirst'> a reference to this document (i.e. ISO 17301-1); </p>
           <div class="ol_wrap">
@@ -1847,15 +1847,15 @@ RSpec.describe Metanorma::Itu do
       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title depth="1">Table of Contents</fmt-title>
+                <fmt-title id="_" depth="1">Table of Contents</fmt-title>
              </clause>
              <foreword id="A" displayorder="2">
                 <title id="_">Foreword</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                       <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <note unnumbered="true">
-                   <fmt-name>
+                   <fmt-name id="_">
                       <span class="fmt-caption-label">
                          <span class="fmt-element-name">NOTE</span>
                       </span>
@@ -1957,15 +1957,15 @@ RSpec.describe Metanorma::Itu do
       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title depth="1">Table of Contents</fmt-title>
+                <fmt-title id="_" depth="1">Table of Contents</fmt-title>
              </clause>
              <foreword id="A" displayorder="2">
                 <title id="_">Foreword</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                       <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <note id="note1" autonum="1">
-                   <fmt-name>
+                   <fmt-name id="_">
                       <span class="fmt-caption-label">
                          <span class="fmt-element-name">NOTE</span>
                          <semx element="autonum" source="note1">1</semx>
@@ -1987,7 +1987,7 @@ RSpec.describe Metanorma::Itu do
                    <p id="_">These results are based on a study carried out on three different types of kernel.</p>
                 </note>
                 <note id="note2" autonum="2">
-                   <fmt-name>
+                   <fmt-name id="_">
                       <span class="fmt-caption-label">
                          <span class="fmt-element-name">NOTE</span>
                          <semx element="autonum" source="note2">2</semx>

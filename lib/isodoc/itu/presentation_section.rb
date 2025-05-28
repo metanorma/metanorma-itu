@@ -103,7 +103,7 @@ module IsoDoc
         isoxml.xpath(ns("//note[@type = 'title-footnote']"))
           .each_with_index do |f, i|
             ret += <<~FN.strip
-              <fn id='_#{UUIDTools::UUID.random_create}' reference='H#{i}'>#{f.remove.children.to_xml}</fn>
+              <fn #{add_id_text} reference='H#{i}'>#{f.remove.children.to_xml}</fn>
             FN
           end
         ret

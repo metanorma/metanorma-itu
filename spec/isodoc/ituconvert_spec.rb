@@ -392,7 +392,11 @@ RSpec.describe Metanorma::Itu do
                   <sections>
             <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION 1 (Rev. Andorra, 1204)</p>
             <p align="center" class="zzSTDTitle2" displayorder="2"><em>(Andorra, 1204</em>)</p>
-            <clause displayorder="3"/>
+       <p keep-with-next="true" class="supertitle" displayorder="3">
+         <span class="fmt-element-name">SECTION</span>
+         <semx element="autonum" source="_">1</semx>
+      </p>
+      <clause id="_" displayorder="4"/>
           </sections>
       </itu-standard>
     OUTPUT
@@ -409,7 +413,8 @@ RSpec.describe Metanorma::Itu do
          <div class="main-section">
           <p class='zzSTDTitle1'  style='text-align:center;'>RESOLUTION 1 (Rev. Andorra, 1204)</p>
           <p class='zzSTDTitle2'  style='text-align:center;'><i>(Andorra, 1204</i>)</p>
-          <div/>
+     <p class="supertitle" style="page-break-after: avoid;">SECTION 1</p>
+     <div id="_"/>
         </div>
       </body>
     OUTPUT
@@ -419,10 +424,10 @@ RSpec.describe Metanorma::Itu do
     expect(Xml::C14n.format(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
       .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
+    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
+      .gsub(%r{</body>.*}m, "</body>"))))
       .to be_equivalent_to Xml::C14n.format(html)
   end
 
@@ -431,7 +436,7 @@ RSpec.describe Metanorma::Itu do
         <itu-standard xmlns="https://www.calconnect.org/standards/itu">
         <preface>
             <clause type="toc" id="_" displayorder="1">
-        <fmt-title depth="1">Table of Contents</fmt-title>
+        <fmt-title id="_" depth="1">Table of Contents</fmt-title>
       </clause>
         <foreword displayorder="2" id="_">
         <keyword>ABC</keyword>
@@ -514,11 +519,11 @@ RSpec.describe Metanorma::Itu do
           </bibdata>
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title depth="1">Table of Contents</fmt-title>
+                <fmt-title id="_" depth="1">Table of Contents</fmt-title>
              </clause>
              <foreword displayorder="2" id="_">
                 <title id="_">Foreword</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <p>
@@ -566,7 +571,7 @@ RSpec.describe Metanorma::Itu do
                       <em>husked</em>
                       rice yield
                    </name>
-                   <fmt-name>
+                   <fmt-name id="_">
                       <span class="fmt-caption-label">
                          <span class="fmt-element-name">Table</span>
                          <semx element="autonum" source="tableD-1">1</semx>
@@ -669,7 +674,18 @@ RSpec.describe Metanorma::Itu do
                    </fmt-fn-label>
                 </fn>
              </p>
-             <clause displayorder="4"/>
+      <clause id="_" displayorder="4">
+         <fmt-title depth="1" id="_">
+            <span class="fmt-caption-label">
+               <semx element="autonum" source="_">1</semx>
+               <span class="fmt-autonum-delim">.</span>
+            </span>
+         </fmt-title>
+         <fmt-xref-label>
+            <span class="fmt-element-name">clause</span>
+            <semx element="autonum" source="_">1</semx>
+         </fmt-xref-label>
+      </clause>
           </sections>
           <fmt-footnote-container>
              <fmt-fn-body id="_" target="_" reference="1">
@@ -831,7 +847,12 @@ RSpec.describe Metanorma::Itu do
                 <sup>4</sup>
              </a>
           </p>
-          <div/>
+            <div id="_">
+               <h1 id="_">
+                  <a class="anchor" href="#_"/>
+                  <a class="header" href="#_">1.</a>
+               </h1>
+            </div>
           <aside id="fn:_" class="footnote">
              <p id="_">
                 <a class="FootnoteRef" href="#fn:_">
@@ -1063,11 +1084,11 @@ RSpec.describe Metanorma::Itu do
        <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title depth="1">Table of Contents</fmt-title>
+                <fmt-title id="_" depth="1">Table of Contents</fmt-title>
              </clause>
              <foreword displayorder="2" id="_">
                 <title id="_">Foreword</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <p>
@@ -1105,7 +1126,7 @@ RSpec.describe Metanorma::Itu do
           <sections>
              <references id="_" obligation="informative" normative="true" displayorder="3">
                 <title id="_">References</title>
-                <fmt-title depth="1">
+                <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="_">1</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -1390,9 +1411,9 @@ RSpec.describe Metanorma::Itu do
           </bibdata>
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title depth="1">Table of Contents</fmt-title>
+                <fmt-title id="_" depth="1">Table of Contents</fmt-title>
              </clause>
-             <p displayorder="2" id="_">
+             <p displayorder="2">
                 <stem type="MathML" id="_">
                    <math xmlns="http://www.w3.org/1998/Math/MathML">
                       <mn>30000</mn>

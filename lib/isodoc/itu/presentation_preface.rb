@@ -42,8 +42,8 @@ module IsoDoc
         ed_lbl &&= l10n("#{ed_lbl.capitalize}:")
         mail_lbl = l10n("#{@i18n.get['email']}: ")
         ret = <<~SUBMITTING
-          <clause id="_#{UUIDTools::UUID.random_create}" type="editors">
-          <table id="_#{UUIDTools::UUID.random_create}" unnumbered="true"><tbody>
+          <clause #{add_id_text} type="editors">
+          <table #{add_id_text} unnumbered="true"><tbody>
         SUBMITTING
         ret += editor_table_entries(eds, ed_lbl, mail_lbl)
         "#{ret}</tbody></table></clause>"
@@ -56,8 +56,10 @@ module IsoDoc
             mail = "#{mail_lbl}<link target='mailto:#{n[:email]}'>" \
                    "#{n[:email]}</link>"
           aff = n[:affiliation].empty? ? "" : "<br/>#{n[:affiliation]}"
-          th = "<th>#{i.zero? ? ed_lbl : ''}</th>"
-          m << "<tr>#{th}<td>#{n[:name]}#{aff}</td><td>#{mail}</td></tr>"
+          th = "<th #{add_id_text}>#{i.zero? ? ed_lbl : ''}</th>"
+          m << <<~XML
+            <tr #{add_id_text}>#{th}<td #{add_id_text}>#{n[:name]}#{aff}</td><td #{add_id_text}>#{mail}</td></tr>
+          XML
         end.join("\n")
       end
 
@@ -87,11 +89,11 @@ module IsoDoc
         abstract.at(ns("./title"))&.remove
         abstract.at(ns("./fmt-title"))&.remove
         abstract.children = <<~TABLE
-          <table class="abstract" unnumbered="true" width="100%">
+          <table #{add_id_text} class="abstract" unnumbered="true" width="100%">
           <colgroup><col width="11.8%"/><col width="78.2%"/></colgroup>
           <tbody>
-          <tr><th align="left" width="95"><p>#{colon_i18n(@i18n.abstract)}</p></th>
-          <td>#{abstract.children.to_xml}</td></tr>
+          <tr #{add_id_text}><th #{add_id_text} align="left" width="95"><p>#{colon_i18n(@i18n.abstract)}</p></th>
+          <td #{add_id_text}>#{abstract.children.to_xml}</td></tr>
           </tbody></table>
         TABLE
       end
@@ -99,8 +101,10 @@ module IsoDoc
       def keywords(_docxml)
         kw = @meta.get[:keywords]
         kw.nil? || kw.empty? || @doctype == "contribution" and return
-        "<clause type='keyword'><fmt-title>#{@i18n.keywords}</fmt-title>" \
-          "<p>#{@i18n.l10n(kw.join(', '))}.</p>"
+        <<~XML
+          <clause #{add_id_text} type='keyword'><fmt-title #{add_id_text}>#{@i18n.keywords}</fmt-title>
+            <p>#{@i18n.l10n(kw.join(', '))}.</p>
+        XML
       end
 
       def toc_title(docxml)

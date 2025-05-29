@@ -207,7 +207,7 @@ RSpec.describe Metanorma::Itu do
         INPUT
         output = <<~OUTPUT
           <abstract id='_'>
-            <title>#{v}</title>
+            <title id="_">#{v}</title>
           </abstract>
         OUTPUT
         xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
@@ -228,24 +228,24 @@ RSpec.describe Metanorma::Itu do
             }
             <preface>
               <abstract id="_">
-                 <title>Résumé</title>
+                 <title id="_">Résumé</title>
                  <p id="_">Text</p>
               </abstract>
               <foreword id="_" obligation="informative">
-                 <title>Avant-propos</title>
+                 <title id="_">Avant-propos</title>
                  <p id="_">Text</p>
               </foreword>
               <introduction id="_" obligation="informative">
-                 <title>Introduction</title>
+                 <title id="_">Introduction</title>
                  <clause id="_" inline-header="false" obligation="informative">
-                    <title>Introduction Subsection</title>
+                    <title id="_">Introduction Subsection</title>
                  </clause>
               </introduction>
               <clause id="_" type="history" inline-header="false" obligation="informative">
-                 <title>History</title>
+                 <title id="_">History</title>
               </clause>
               <clause id="_" type="source" inline-header="false" obligation="informative">
-                 <title>Source</title>
+                 <title id="_">Source</title>
               </clause>
            </preface>
            <sections>
@@ -253,11 +253,11 @@ RSpec.describe Metanorma::Itu do
                  <p id="_">Initial text</p>
               </clause>
               <clause id="_" type="scope" inline-header="false" obligation="normative">
-                 <title>Domaine d'application</title>
+                 <title id="_">Domaine d'application</title>
                  <p id="_">Text</p>
               </clause>
               <terms id="_" obligation="normative">
-                 <title>Définitions</title>
+                 <title id="_">Définitions</title>
                  <p id="_">La présente Recommandation définit les termes suivants:</p>
                  <term id="_" anchor="term-Term1">
                     <preferred>
@@ -268,24 +268,24 @@ RSpec.describe Metanorma::Itu do
                  </term>
               </terms>
               <clause id="_" obligation="normative" type="terms">
-                 <title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+                 <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Introduction</title>
+                    <title id="_">Introduction</title>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>Intro 1</title>
+                       <title id="_">Intro 1</title>
                     </clause>
                  </clause>
                  <terms id="_" obligation="normative">
-                    <title>Intro 2</title>
+                    <title id="_">Intro 2</title>
                     <p id="_">Aucun.</p>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>Intro 3</title>
+                       <title id="_">Intro 3</title>
                     </clause>
                  </terms>
                  <clause id="_" obligation="normative" type="terms">
-                    <title>Intro 4</title>
+                    <title id="_">Intro 4</title>
                     <terms id="_" obligation="normative">
-                       <title>Intro 5</title>
+                       <title id="_">Intro 5</title>
                        <term id="_" anchor="term-Term1-1">
                           <preferred>
                              <expression>
@@ -296,7 +296,7 @@ RSpec.describe Metanorma::Itu do
                     </terms>
                  </clause>
                  <terms id="_" obligation="normative">
-                    <title>Normal Terms</title>
+                    <title id="_">Normal Terms</title>
                     <term id="_" anchor="term-Term2">
                        <preferred>
                           <expression>
@@ -305,14 +305,14 @@ RSpec.describe Metanorma::Itu do
                        </preferred>
                     </term>
                     <terms id="_" type="external" obligation="normative">
-                       <title>Termes définis ailleurs</title>
+                       <title id="_">Termes définis ailleurs</title>
                        <p id="_">Aucun.</p>
                     </terms>
                  </terms>
                  <terms id="_" obligation="normative">
-                    <title>Symbols and Abbreviated Terms</title>
+                    <title id="_">Symbols and Abbreviated Terms</title>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>General</title>
+                       <title id="_">General</title>
                     </clause>
                     <term id="_" anchor="term-Symbols-1">
                        <preferred>
@@ -324,50 +324,50 @@ RSpec.describe Metanorma::Itu do
                  </terms>
               </clause>
               <definitions id="_" type="abbreviated_terms" obligation="normative">
-                 <title>Abréviations et acronymes</title>
+                 <title id="_">Abréviations et acronymes</title>
                  <p id="_">Aucun.</p>
               </definitions>
               <clause id="_" type="conventions" inline-header="false" obligation="normative">
-                 <title>Conventions</title>
+                 <title id="_">Conventions</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Clause 4</title>
+                 <title id="_">Clause 4</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Introduction</title>
+                    <title id="_">Introduction</title>
                  </clause>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Clause 4.2</title>
+                    <title id="_">Clause 4.2</title>
                  </clause>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Terms and Definitions</title>
+                 <title id="_">Terms and Definitions</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>History</title>
+                 <title id="_">History</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Source</title>
+                 <title id="_">Source</title>
               </clause>
            </sections>
            <annex id="_" inline-header="false" obligation="normative">
-              <title>Annex</title>
+              <title id="_">Annex</title>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Annex A.1</title>
+                 <title id="_">Annex A.1</title>
               </clause>
            </annex>
            <bibliography>
               <references id="_" normative="true" obligation="informative">
-                 <title>Références</title>
+                 <title id="_">Références</title>
                  <p id="_">Aucun.</p>
               </references>
               <clause id="_" obligation="informative">
-                 <title>Bibliographie</title>
+                 <title id="_">Bibliographie</title>
                  <references id="_" normative="false" obligation="informative">
-                    <title>Bibliography Subsection</title>
+                    <title id="_">Bibliography Subsection</title>
                  </references>
               </clause>
               <references id="_" normative="false" obligation="informative">
-                 <title>Second Bibliography</title>
+                 <title id="_">Second Bibliography</title>
               </references>
            </bibliography>
         </metanorma>
@@ -577,24 +577,24 @@ RSpec.describe Metanorma::Itu do
       }
             <preface>
               <abstract id="_">
-                 <title>摘要</title>
+                 <title id="_">摘要</title>
                  <p id="_">Text</p>
               </abstract>
               <foreword id="_" obligation="informative">
-                 <title>前言</title>
+                 <title id="_">前言</title>
                  <p id="_">Text</p>
               </foreword>
               <introduction id="_" obligation="informative">
-                 <title>引言</title>
+                 <title id="_">引言</title>
                  <clause id="_" inline-header="false" obligation="informative">
-                    <title>Introduction Subsection</title>
+                    <title id="_">Introduction Subsection</title>
                  </clause>
               </introduction>
               <clause id="_" type="history" inline-header="false" obligation="informative">
-                 <title>History</title>
+                 <title id="_">History</title>
               </clause>
               <clause id="_" type="source" inline-header="false" obligation="informative">
-                 <title>Source</title>
+                 <title id="_">Source</title>
               </clause>
            </preface>
            <sections>
@@ -602,11 +602,11 @@ RSpec.describe Metanorma::Itu do
                  <p id="_">Initial text</p>
               </clause>
               <clause id="_" type="scope" inline-header="false" obligation="normative">
-                 <title>范围</title>
+                 <title id="_">范围</title>
                  <p id="_">Text</p>
               </clause>
               <terms id="_" obligation="normative">
-                 <title>定义</title>
+                 <title id="_">定义</title>
                  <p id="_">本建议书定义下列术语：</p>
                  <term id="_" anchor="term-Term1">
                     <preferred>
@@ -617,24 +617,24 @@ RSpec.describe Metanorma::Itu do
                  </term>
               </terms>
               <clause id="_" obligation="normative" type="terms">
-                 <title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+                 <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Introduction</title>
+                    <title id="_">Introduction</title>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>Intro 1</title>
+                       <title id="_">Intro 1</title>
                     </clause>
                  </clause>
                  <terms id="_" obligation="normative">
-                    <title>Intro 2</title>
+                    <title id="_">Intro 2</title>
                     <p id="_">无</p>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>Intro 3</title>
+                       <title id="_">Intro 3</title>
                     </clause>
                  </terms>
                  <clause id="_" obligation="normative" type="terms">
-                    <title>Intro 4</title>
+                    <title id="_">Intro 4</title>
                     <terms id="_" obligation="normative">
-                       <title>Intro 5</title>
+                       <title id="_">Intro 5</title>
                        <term id="_" anchor="term-Term1-1">
                           <preferred>
                              <expression>
@@ -645,7 +645,7 @@ RSpec.describe Metanorma::Itu do
                     </terms>
                  </clause>
                  <terms id="_" obligation="normative">
-                    <title>Normal Terms</title>
+                    <title id="_">Normal Terms</title>
                     <term id="_" anchor="term-Term2">
                        <preferred>
                           <expression>
@@ -654,14 +654,14 @@ RSpec.describe Metanorma::Itu do
                        </preferred>
                     </term>
                     <terms id="_" type="external" obligation="normative">
-                       <title>其他地方定义的术语</title>
+                       <title id="_">其他地方定义的术语</title>
                        <p id="_">无</p>
                     </terms>
                  </terms>
                  <terms id="_" obligation="normative">
-                    <title>Symbols and Abbreviated Terms</title>
+                    <title id="_">Symbols and Abbreviated Terms</title>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>General</title>
+                       <title id="_">General</title>
                     </clause>
                     <term id="_" anchor="term-Symbols-1">
                        <preferred>
@@ -673,50 +673,50 @@ RSpec.describe Metanorma::Itu do
                  </terms>
               </clause>
               <definitions id="_" type="abbreviated_terms" obligation="normative">
-                 <title>缩略语与缩写</title>
+                 <title id="_">缩略语与缩写</title>
                  <p id="_">无</p>
               </definitions>
               <clause id="_" type="conventions" inline-header="false" obligation="normative">
-                 <title>Conventions</title>
+                 <title id="_">Conventions</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Clause 4</title>
+                 <title id="_">Clause 4</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Introduction</title>
+                    <title id="_">Introduction</title>
                  </clause>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Clause 4.2</title>
+                    <title id="_">Clause 4.2</title>
                  </clause>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Terms and Definitions</title>
+                 <title id="_">Terms and Definitions</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>History</title>
+                 <title id="_">History</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Source</title>
+                 <title id="_">Source</title>
               </clause>
            </sections>
            <annex id="_" inline-header="false" obligation="normative">
-              <title>Annex</title>
+              <title id="_">Annex</title>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Annex A.1</title>
+                 <title id="_">Annex A.1</title>
               </clause>
            </annex>
            <bibliography>
               <references id="_" normative="true" obligation="informative">
-                 <title>规范性参考文献</title>
+                 <title id="_">规范性参考文献</title>
                  <p id="_">无</p>
               </references>
               <clause id="_" obligation="informative">
-                 <title>参考文献</title>
+                 <title id="_">参考文献</title>
                  <references id="_" normative="false" obligation="informative">
-                    <title>Bibliography Subsection</title>
+                    <title id="_">Bibliography Subsection</title>
                  </references>
               </clause>
               <references id="_" normative="false" obligation="informative">
-                 <title>Second Bibliography</title>
+                 <title id="_">Second Bibliography</title>
               </references>
            </bibliography>
         </metanorma>
@@ -930,24 +930,24 @@ RSpec.describe Metanorma::Itu do
             }
            <preface>
               <abstract id="_" >
-                 <title>ملخص</title>
+                 <title id="_">ملخص</title>
                  <p id="_">Text</p>
               </abstract>
               <foreword id="_" obligation="informative">
-                 <title>تمهيد</title>
+                 <title id="_">تمهيد</title>
                  <p id="_">Text</p>
               </foreword>
               <introduction id="_" obligation="informative">
-                 <title>مقدمة</title>
+                 <title id="_">مقدمة</title>
                  <clause id="_" inline-header="false" obligation="informative">
-                    <title>Introduction Subsection</title>
+                    <title id="_">Introduction Subsection</title>
                  </clause>
               </introduction>
               <clause id="_" type="history" inline-header="false" obligation="informative">
-                 <title>History</title>
+                 <title id="_">History</title>
               </clause>
               <clause id="_" type="source" inline-header="false" obligation="informative">
-                 <title>Source</title>
+                 <title id="_">Source</title>
               </clause>
            </preface>
            <sections>
@@ -955,11 +955,11 @@ RSpec.describe Metanorma::Itu do
                  <p id="_">Initial text</p>
               </clause>
               <clause id="_" type="scope" inline-header="false" obligation="normative">
-                 <title>مجال التطبيق</title>
+                 <title id="_">مجال التطبيق</title>
                  <p id="_">Text</p>
               </clause>
               <terms id="_" obligation="normative">
-                 <title>مصطلحات معرفة</title>
+                 <title id="_">مصطلحات معرفة</title>
                  <p id="_">تعّرف هذه التوصية المصطلحات التالية:</p>
                  <term id="_" anchor="term-Term1">
                     <preferred>
@@ -970,24 +970,24 @@ RSpec.describe Metanorma::Itu do
                  </term>
               </terms>
               <clause id="_" obligation="normative" type="terms">
-                 <title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+                 <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Introduction</title>
+                    <title id="_">Introduction</title>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>Intro 1</title>
+                       <title id="_">Intro 1</title>
                     </clause>
                  </clause>
                  <terms id="_" obligation="normative">
-                    <title>Intro 2</title>
+                    <title id="_">Intro 2</title>
                     <p id="_">لا توجد.</p>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>Intro 3</title>
+                       <title id="_">Intro 3</title>
                     </clause>
                  </terms>
                  <clause id="_" obligation="normative" type="terms">
-                    <title>Intro 4</title>
+                    <title id="_">Intro 4</title>
                     <terms id="_" obligation="normative">
-                       <title>Intro 5</title>
+                       <title id="_">Intro 5</title>
                        <term id="_" anchor="term-Term1-1">
                           <preferred>
                              <expression>
@@ -998,7 +998,7 @@ RSpec.describe Metanorma::Itu do
                     </terms>
                  </clause>
                  <terms id="_" obligation="normative">
-                    <title>Normal Terms</title>
+                    <title id="_">Normal Terms</title>
                     <term id="_" anchor="term-Term2">
                        <preferred>
                           <expression>
@@ -1007,14 +1007,14 @@ RSpec.describe Metanorma::Itu do
                        </preferred>
                     </term>
                     <terms id="_" type="external" obligation="normative">
-                       <title>المصطلحات المعَّرفة في وثائق أخرى</title>
+                       <title id="_">المصطلحات المعَّرفة في وثائق أخرى</title>
                        <p id="_">لا توجد.</p>
                     </terms>
                  </terms>
                  <terms id="_" obligation="normative">
-                    <title>Symbols and Abbreviated Terms</title>
+                    <title id="_">Symbols and Abbreviated Terms</title>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>General</title>
+                       <title id="_">General</title>
                     </clause>
                     <term id="_" anchor="term-Symbols-1">
                        <preferred>
@@ -1026,50 +1026,50 @@ RSpec.describe Metanorma::Itu do
                  </terms>
               </clause>
               <definitions id="_" type="abbreviated_terms" obligation="normative">
-                 <title>اختصار</title>
+                 <title id="_">اختصار</title>
                  <p id="_">لا توجد.</p>
               </definitions>
               <clause id="_" type="conventions" inline-header="false" obligation="normative">
-                 <title>Conventions</title>
+                 <title id="_">Conventions</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Clause 4</title>
+                 <title id="_">Clause 4</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Introduction</title>
+                    <title id="_">Introduction</title>
                  </clause>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Clause 4.2</title>
+                    <title id="_">Clause 4.2</title>
                  </clause>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Terms and Definitions</title>
+                 <title id="_">Terms and Definitions</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>History</title>
+                 <title id="_">History</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Source</title>
+                 <title id="_">Source</title>
               </clause>
            </sections>
            <annex id="_" inline-header="false" obligation="normative">
-              <title>Annex</title>
+              <title id="_">Annex</title>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Annex A.1</title>
+                 <title id="_">Annex A.1</title>
               </clause>
            </annex>
            <bibliography>
               <references id="_" normative="true" obligation="informative">
-                 <title>المراجع المعيارية</title>
+                 <title id="_">المراجع المعيارية</title>
                  <p id="_">لا توجد.</p>
               </references>
               <clause id="_" obligation="informative">
-                 <title>بيبليوغرافيا</title>
+                 <title id="_">بيبليوغرافيا</title>
                  <references id="_" normative="false" obligation="informative">
-                    <title>Bibliography Subsection</title>
+                    <title id="_">Bibliography Subsection</title>
                  </references>
               </clause>
               <references id="_" normative="false" obligation="informative">
-                 <title>Second Bibliography</title>
+                 <title id="_">Second Bibliography</title>
               </references>
            </bibliography>
         </metanorma>
@@ -1275,24 +1275,24 @@ RSpec.describe Metanorma::Itu do
              }
             <preface>
               <abstract id="_">
-                 <title>Resumen</title>
+                 <title id="_">Resumen</title>
                  <p id="_">Text</p>
               </abstract>
               <foreword id="_" obligation="informative">
-                 <title>Prólogo</title>
+                 <title id="_">Prólogo</title>
                  <p id="_">Text</p>
               </foreword>
               <introduction id="_" obligation="informative">
-                 <title>Introducción</title>
+                 <title id="_">Introducción</title>
                  <clause id="_" inline-header="false" obligation="informative">
-                    <title>Introduction Subsection</title>
+                    <title id="_">Introduction Subsection</title>
                  </clause>
               </introduction>
               <clause id="_" type="history" inline-header="false" obligation="informative">
-                 <title>History</title>
+                 <title id="_">History</title>
               </clause>
               <clause id="_" type="source" inline-header="false" obligation="informative">
-                 <title>Source</title>
+                 <title id="_">Source</title>
               </clause>
            </preface>
            <sections>
@@ -1300,11 +1300,11 @@ RSpec.describe Metanorma::Itu do
                  <p id="_">Initial text</p>
               </clause>
               <clause id="_" type="scope" inline-header="false" obligation="normative">
-                 <title>Alcance</title>
+                 <title id="_">Alcance</title>
                  <p id="_">Text</p>
               </clause>
               <terms id="_" obligation="normative">
-                 <title>Definiciones</title>
+                 <title id="_">Definiciones</title>
                  <p id="_">Esta Recomendación define los siguientes términos:</p>
                  <term id="_" anchor="term-Term1">
                     <preferred>
@@ -1315,24 +1315,24 @@ RSpec.describe Metanorma::Itu do
                  </term>
               </terms>
               <clause id="_" obligation="normative" type="terms">
-                 <title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+                 <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Introduction</title>
+                    <title id="_">Introduction</title>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>Intro 1</title>
+                       <title id="_">Intro 1</title>
                     </clause>
                  </clause>
                  <terms id="_" obligation="normative">
-                    <title>Intro 2</title>
+                    <title id="_">Intro 2</title>
                     <p id="_">Ninguna.</p>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>Intro 3</title>
+                       <title id="_">Intro 3</title>
                     </clause>
                  </terms>
                  <clause id="_" obligation="normative" type="terms">
-                    <title>Intro 4</title>
+                    <title id="_">Intro 4</title>
                     <terms id="_" obligation="normative">
-                       <title>Intro 5</title>
+                       <title id="_">Intro 5</title>
                        <term id="_" anchor="term-Term1-1">
                           <preferred>
                              <expression>
@@ -1343,7 +1343,7 @@ RSpec.describe Metanorma::Itu do
                     </terms>
                  </clause>
                  <terms id="_" obligation="normative">
-                    <title>Normal Terms</title>
+                    <title id="_">Normal Terms</title>
                     <term id="_" anchor="term-Term2">
                        <preferred>
                           <expression>
@@ -1352,14 +1352,14 @@ RSpec.describe Metanorma::Itu do
                        </preferred>
                     </term>
                     <terms id="_" type="external" obligation="normative">
-                       <title>Términos definidos en otro lugar</title>
+                       <title id="_">Términos definidos en otro lugar</title>
                        <p id="_">Ninguna.</p>
                     </terms>
                  </terms>
                  <terms id="_" obligation="normative">
-                    <title>Symbols and Abbreviated Terms</title>
+                    <title id="_">Symbols and Abbreviated Terms</title>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>General</title>
+                       <title id="_">General</title>
                     </clause>
                     <term id="_" anchor="term-Symbols-1">
                        <preferred>
@@ -1371,50 +1371,50 @@ RSpec.describe Metanorma::Itu do
                  </terms>
               </clause>
               <definitions id="_" type="abbreviated_terms" obligation="normative">
-                 <title>Abreviaciones y acrónimos</title>
+                 <title id="_">Abreviaciones y acrónimos</title>
                  <p id="_">Ninguna.</p>
               </definitions>
               <clause id="_" type="conventions" inline-header="false" obligation="normative">
-                 <title>Conventions</title>
+                 <title id="_">Conventions</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Clause 4</title>
+                 <title id="_">Clause 4</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Introduction</title>
+                    <title id="_">Introduction</title>
                  </clause>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Clause 4.2</title>
+                    <title id="_">Clause 4.2</title>
                  </clause>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Terms and Definitions</title>
+                 <title id="_">Terms and Definitions</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>History</title>
+                 <title id="_">History</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Source</title>
+                 <title id="_">Source</title>
               </clause>
            </sections>
            <annex id="_" inline-header="false" obligation="normative">
-              <title>Annex</title>
+              <title id="_">Annex</title>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Annex A.1</title>
+                 <title id="_">Annex A.1</title>
               </clause>
            </annex>
            <bibliography>
               <references id="_" normative="true" obligation="informative">
-                 <title>Referencias</title>
+                 <title id="_">Referencias</title>
                  <p id="_">Ninguna.</p>
               </references>
               <clause id="_" obligation="informative">
-                 <title>Bibliografía</title>
+                 <title id="_">Bibliografía</title>
                  <references id="_" normative="false" obligation="informative">
-                    <title>Bibliography Subsection</title>
+                    <title id="_">Bibliography Subsection</title>
                  </references>
               </clause>
               <references id="_" normative="false" obligation="informative">
-                 <title>Second Bibliography</title>
+                 <title id="_">Second Bibliography</title>
               </references>
            </bibliography>
         </metanorma>
@@ -1619,24 +1619,24 @@ RSpec.describe Metanorma::Itu do
              }
            <preface>
               <abstract id="_">
-                 <title>Abstrakt</title>
+                 <title id="_">Abstrakt</title>
                  <p id="_">Text</p>
               </abstract>
               <foreword id="_" obligation="informative">
-                 <title>Vorwort</title>
+                 <title id="_">Vorwort</title>
                  <p id="_">Text</p>
               </foreword>
               <introduction id="_" obligation="informative">
-                 <title>Einführung</title>
+                 <title id="_">Einführung</title>
                  <clause id="_" inline-header="false" obligation="informative">
-                    <title>Introduction Subsection</title>
+                    <title id="_">Introduction Subsection</title>
                  </clause>
               </introduction>
               <clause id="_" type="history" inline-header="false" obligation="informative">
-                 <title>History</title>
+                 <title id="_">History</title>
               </clause>
               <clause id="_" type="source" inline-header="false" obligation="informative">
-                 <title>Source</title>
+                 <title id="_">Source</title>
               </clause>
            </preface>
            <sections>
@@ -1644,11 +1644,11 @@ RSpec.describe Metanorma::Itu do
                  <p id="_">Initial text</p>
               </clause>
               <clause id="_" type="scope" inline-header="false" obligation="normative">
-                 <title>Umfang</title>
+                 <title id="_">Umfang</title>
                  <p id="_">Text</p>
               </clause>
               <terms id="_" obligation="normative">
-                 <title>Definitionen</title>
+                 <title id="_">Definitionen</title>
                  <p id="_">Diese Empfehlung definiert die folgenden Begriffe:</p>
                  <term id="_" anchor="term-Term1">
                     <preferred>
@@ -1659,24 +1659,24 @@ RSpec.describe Metanorma::Itu do
                  </term>
               </terms>
               <clause id="_" obligation="normative" type="terms">
-                 <title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+                 <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Introduction</title>
+                    <title id="_">Introduction</title>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>Intro 1</title>
+                       <title id="_">Intro 1</title>
                     </clause>
                  </clause>
                  <terms id="_" obligation="normative">
-                    <title>Intro 2</title>
+                    <title id="_">Intro 2</title>
                     <p id="_">Keine.</p>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>Intro 3</title>
+                       <title id="_">Intro 3</title>
                     </clause>
                  </terms>
                  <clause id="_" obligation="normative" type="terms">
-                    <title>Intro 4</title>
+                    <title id="_">Intro 4</title>
                     <terms id="_" obligation="normative">
-                       <title>Intro 5</title>
+                       <title id="_">Intro 5</title>
                        <term id="_" anchor="term-Term1-1">
                           <preferred>
                              <expression>
@@ -1687,7 +1687,7 @@ RSpec.describe Metanorma::Itu do
                     </terms>
                  </clause>
                  <terms id="_" obligation="normative">
-                    <title>Normal Terms</title>
+                    <title id="_">Normal Terms</title>
                     <term id="_" anchor="term-Term2">
                        <preferred>
                           <expression>
@@ -1696,14 +1696,14 @@ RSpec.describe Metanorma::Itu do
                        </preferred>
                     </term>
                     <terms id="_" type="external" obligation="normative">
-                       <title>An anderer Stelle definierte Begriffe</title>
+                       <title id="_">An anderer Stelle definierte Begriffe</title>
                        <p id="_">Keine.</p>
                     </terms>
                  </terms>
                  <terms id="_" obligation="normative">
-                    <title>Symbols and Abbreviated Terms</title>
+                    <title id="_">Symbols and Abbreviated Terms</title>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>General</title>
+                       <title id="_">General</title>
                     </clause>
                     <term id="_" anchor="term-Symbols-1">
                        <preferred>
@@ -1715,50 +1715,50 @@ RSpec.describe Metanorma::Itu do
                  </terms>
               </clause>
               <definitions id="_" type="abbreviated_terms" obligation="normative">
-                 <title>Abkürzungen und Akronyme</title>
+                 <title id="_">Abkürzungen und Akronyme</title>
                  <p id="_">Keine.</p>
               </definitions>
               <clause id="_" type="conventions" inline-header="false" obligation="normative">
-                 <title>Conventions</title>
+                 <title id="_">Conventions</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Clause 4</title>
+                 <title id="_">Clause 4</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Introduction</title>
+                    <title id="_">Introduction</title>
                  </clause>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Clause 4.2</title>
+                    <title id="_">Clause 4.2</title>
                  </clause>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Terms and Definitions</title>
+                 <title id="_">Terms and Definitions</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>History</title>
+                 <title id="_">History</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Source</title>
+                 <title id="_">Source</title>
               </clause>
            </sections>
            <annex id="_" inline-header="false" obligation="normative">
-              <title>Annex</title>
+              <title id="_">Annex</title>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Annex A.1</title>
+                 <title id="_">Annex A.1</title>
               </clause>
            </annex>
            <bibliography>
               <references id="_" normative="true" obligation="informative">
-                 <title>Referenzen</title>
+                 <title id="_">Referenzen</title>
                  <p id="_">Keine.</p>
               </references>
               <clause id="_" obligation="informative">
-                 <title>Bibliographie</title>
+                 <title id="_">Bibliographie</title>
                  <references id="_" normative="false" obligation="informative">
-                    <title>Bibliography Subsection</title>
+                    <title id="_">Bibliography Subsection</title>
                  </references>
               </clause>
               <references id="_" normative="false" obligation="informative">
-                 <title>Second Bibliography</title>
+                 <title id="_">Second Bibliography</title>
               </references>
            </bibliography>
         </metanorma>
@@ -1971,24 +1971,24 @@ RSpec.describe Metanorma::Itu do
       }
             <preface>
               <abstract id="_">
-                 <title>Реферат</title>
+                 <title id="_">Реферат</title>
                  <p id="_">Text</p>
               </abstract>
               <foreword id="_" obligation="informative">
-                 <title>Предисловие</title>
+                 <title id="_">Предисловие</title>
                  <p id="_">Text</p>
               </foreword>
               <introduction id="_" obligation="informative">
-                 <title>Введение</title>
+                 <title id="_">Введение</title>
                  <clause id="_" inline-header="false" obligation="informative">
-                    <title>Introduction Subsection</title>
+                    <title id="_">Introduction Subsection</title>
                  </clause>
               </introduction>
               <clause id="_" type="history" inline-header="false" obligation="informative">
-                 <title>History</title>
+                 <title id="_">History</title>
               </clause>
               <clause id="_" type="source" inline-header="false" obligation="informative">
-                 <title>Source</title>
+                 <title id="_">Source</title>
               </clause>
            </preface>
            <sections>
@@ -1996,11 +1996,11 @@ RSpec.describe Metanorma::Itu do
                  <p id="_">Initial text</p>
               </clause>
               <clause id="_" type="scope" inline-header="false" obligation="normative">
-                 <title>Сфера применения</title>
+                 <title id="_">Сфера применения</title>
                  <p id="_">Text</p>
               </clause>
               <terms id="_" obligation="normative">
-                 <title>Определения</title>
+                 <title id="_">Определения</title>
                  <p id="_">В настоящей Рекомендации определены следующие термины:</p>
                  <term id="_" anchor="term-Term1">
                     <preferred>
@@ -2011,24 +2011,24 @@ RSpec.describe Metanorma::Itu do
                  </term>
               </terms>
               <clause id="_" obligation="normative" type="terms">
-                 <title>Terms, Definitions, Symbols and Abbreviated Terms</title>
+                 <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Introduction</title>
+                    <title id="_">Introduction</title>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>Intro 1</title>
+                       <title id="_">Intro 1</title>
                     </clause>
                  </clause>
                  <terms id="_" obligation="normative">
-                    <title>Intro 2</title>
+                    <title id="_">Intro 2</title>
                     <p id="_">Отсутствуют.</p>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>Intro 3</title>
+                       <title id="_">Intro 3</title>
                     </clause>
                  </terms>
                  <clause id="_" obligation="normative" type="terms">
-                    <title>Intro 4</title>
+                    <title id="_">Intro 4</title>
                     <terms id="_" obligation="normative">
-                       <title>Intro 5</title>
+                       <title id="_">Intro 5</title>
                        <term id="_" anchor="term-Term1-1">
                           <preferred>
                              <expression>
@@ -2039,7 +2039,7 @@ RSpec.describe Metanorma::Itu do
                     </terms>
                  </clause>
                  <terms id="_" obligation="normative">
-                    <title>Normal Terms</title>
+                    <title id="_">Normal Terms</title>
                     <term id="_" anchor="term-Term2">
                        <preferred>
                           <expression>
@@ -2048,14 +2048,14 @@ RSpec.describe Metanorma::Itu do
                        </preferred>
                     </term>
                     <terms id="_" type="external" obligation="normative">
-                       <title>Термины, определенные в других документах</title>
+                       <title id="_">Термины, определенные в других документах</title>
                        <p id="_">Отсутствуют.</p>
                     </terms>
                  </terms>
                  <terms id="_" obligation="normative">
-                    <title>Symbols and Abbreviated Terms</title>
+                    <title id="_">Symbols and Abbreviated Terms</title>
                     <clause id="_" inline-header="false" obligation="normative">
-                       <title>General</title>
+                       <title id="_">General</title>
                     </clause>
                     <term id="_" anchor="term-Symbols-1">
                        <preferred>
@@ -2067,50 +2067,50 @@ RSpec.describe Metanorma::Itu do
                  </terms>
               </clause>
               <definitions id="_" type="abbreviated_terms" obligation="normative">
-                 <title>Сокращения и акронимы</title>
+                 <title id="_">Сокращения и акронимы</title>
                  <p id="_">Отсутствуют.</p>
               </definitions>
               <clause id="_" type="conventions" inline-header="false" obligation="normative">
-                 <title>Conventions</title>
+                 <title id="_">Conventions</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Clause 4</title>
+                 <title id="_">Clause 4</title>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Introduction</title>
+                    <title id="_">Introduction</title>
                  </clause>
                  <clause id="_" inline-header="false" obligation="normative">
-                    <title>Clause 4.2</title>
+                    <title id="_">Clause 4.2</title>
                  </clause>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Terms and Definitions</title>
+                 <title id="_">Terms and Definitions</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>History</title>
+                 <title id="_">History</title>
               </clause>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Source</title>
+                 <title id="_">Source</title>
               </clause>
            </sections>
            <annex id="_" inline-header="false" obligation="normative">
-              <title>Annex</title>
+              <title id="_">Annex</title>
               <clause id="_" inline-header="false" obligation="normative">
-                 <title>Annex A.1</title>
+                 <title id="_">Annex A.1</title>
               </clause>
            </annex>
            <bibliography>
               <references id="_" normative="true" obligation="informative">
-                 <title>Ссылки</title>
+                 <title id="_">Ссылки</title>
                  <p id="_">Отсутствуют.</p>
               </references>
               <clause id="_" obligation="informative">
-                 <title>Библиография</title>
+                 <title id="_">Библиография</title>
                  <references id="_" normative="false" obligation="informative">
-                    <title>Bibliography Subsection</title>
+                    <title id="_">Bibliography Subsection</title>
                  </references>
               </clause>
               <references id="_" normative="false" obligation="informative">
-                 <title>Second Bibliography</title>
+                 <title id="_">Second Bibliography</title>
               </references>
            </bibliography>
         </metanorma>

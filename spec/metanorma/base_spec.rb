@@ -6,14 +6,6 @@ RSpec.describe Metanorma::Itu do
     @blank_hdr = blank_hdr_gen
   end
 
-  before do
-    # Force to download Relaton index file
-    allow_any_instance_of(Relaton::Index::Type).to receive(:actual?)
-      .and_return(false)
-    allow_any_instance_of(Relaton::Index::FileIO).to receive(:check_file)
-      .and_return(nil)
-  end
-
   it "has a version number" do
     expect(Metanorma::Itu::VERSION).not_to be nil
   end
@@ -162,8 +154,6 @@ RSpec.describe Metanorma::Itu do
   end
 
   it "processes explicit metadata" do
-    VCR.use_cassette("ITU-complements",
-                     match_requests_on: %i[method uri body]) do
       xml = Nokogiri::XML(Asciidoctor.convert(<<~INPUT, *OPTIONS))
         = Document title
         Author
@@ -250,6 +240,7 @@ RSpec.describe Metanorma::Itu do
         :document-scheme: legacy
         :question: Q10/17: Identity management and telebiometrics architecture and mechanisms, "Q11/17: Generic technologies (such as Directory, PKI, formal languages, object identifiers) to support secure applications"
         :timing: 2025-Q4
+        :local-cache: spec/relatondb
       INPUT
       output = <<~"OUTPUT"
         <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}" flavor="itu">
@@ -692,7 +683,6 @@ RSpec.describe Metanorma::Itu do
         .each(&:remove)
       expect(strip_guid(Xml::C14n.format(xml.to_xml)))
         .to be_equivalent_to Xml::C14n.format(strip_guid(output))
-    end
   end
 
   it "infer study period" do
@@ -1751,14 +1741,8 @@ RSpec.describe Metanorma::Itu do
   end
 
   it "reorders references in bibliography, and renumbers citations accordingly" do
-    VCR.use_cassette("multi_standards_sort",
-                     match_requests_on: %i[method uri body]) do
       xml = Asciidoctor.convert(<<~INPUT, *OPTIONS)
-        = Document title
-        Author
-        :docfile: test.adoc
-        :nodoc:
-        :novalid:
+        #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
 
         == Clause 1
         <<ref1>>
@@ -1796,7 +1780,6 @@ RSpec.describe Metanorma::Itu do
            <docidentifier type="URN">urn:iec:std:iec:60027::::</docidentifier>
            </div>
         OUTPUT
-    end
   end
 
   it "preserves &lt; &amp; &gt;" do

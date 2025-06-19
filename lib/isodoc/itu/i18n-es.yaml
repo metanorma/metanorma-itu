@@ -29,6 +29,7 @@ clause: cláusula
 section: Sección
 annex_subclause: cláusula
 keywords: Palabras clave
+international_standard: Norma internacional
 in: en
 to: a
 nested_xref: "%2 <conn>en</conn> %1"

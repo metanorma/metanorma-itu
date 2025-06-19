@@ -240,6 +240,7 @@ RSpec.describe Metanorma::Itu do
         :document-scheme: legacy
         :question: Q10/17: Identity management and telebiometrics architecture and mechanisms, "Q11/17: Generic technologies (such as Directory, PKI, formal languages, object identifiers) to support secure applications"
         :timing: 2025-Q4
+        :common-text-docnumber: ISO/IEC 99999
         :local-cache: spec/relatondb
       INPUT
       output = <<~"OUTPUT"
@@ -263,6 +264,7 @@ RSpec.describe Metanorma::Itu do
              <docidentifier type="ITU-lang">ITU-R 1000-E</docidentifier>
              <docidentifier type="ITU-Recommendation">G.7713.1</docidentifier>
              <docidentifier type="ITU-Recommendation">Y.1704.1</docidentifier>
+             <docidentifier type="ISO">ISO/IEC 99999</docidentifier>
              <docnumber>1000</docnumber>
                           <contributor>
                 <role type="author"/>

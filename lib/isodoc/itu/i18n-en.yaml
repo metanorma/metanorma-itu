@@ -29,6 +29,7 @@ clause: clause
 section: Section
 annex_subclause: clause
 keywords: Keywords
+international_standard: International Standard
 in: in
 to: to
 where: "where:"

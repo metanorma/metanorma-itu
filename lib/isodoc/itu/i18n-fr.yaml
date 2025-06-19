@@ -29,6 +29,7 @@ clause: article
 section: Section
 annex_subclause: article
 keywords: Mots clés
+international_standard: Norme internationale
 in: dans
 to: à
 nested_xref: "%2 <conn>dans</conn> %1"

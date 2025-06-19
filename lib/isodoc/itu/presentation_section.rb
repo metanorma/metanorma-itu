@@ -13,7 +13,6 @@ module IsoDoc
           "<p keep-with-next='true' class='supertitle'>" \
           "#{labelled_autonum(@i18n.get['section'].upcase, elem['id'],
                               lbl)}</p>"
-        # "<span element='fmt-element-name'>#{@i18n.get['section'].upcase}</span> #{autonum(elem['id'], lbl)}</p>"
       end
 
       def clause1_super?(elem)
@@ -43,7 +42,9 @@ module IsoDoc
         ins = elem.at(ns("./fmt-xref-label")) || elem.at(ns("./fmt-title"))
         p = (info ? @i18n.inform_annex : @i18n.norm_annex)
           .gsub("%", @i18n.doctype_dict[@meta.get[:doctype_original]] || "")
-        ins.next = %(<p class="annex_obligation"><span class='fmt-obligation'>#{p}</span></p>)
+        ins.next = <<~XML
+          <p class="annex_obligation"><span class='fmt-obligation'>#{p}</span></p>
+        XML
       end
 
       def annex1_supertitle(elem)
@@ -86,16 +87,31 @@ module IsoDoc
 
       def middle_title_recommendation(isoxml, out)
         ret = ""
-        type = @meta.get[:doctype]
+        id = @meta.get[:docnumber_iso] and ret += <<~XML
+          <p class='zzSTDTitle1'>#{@i18n.international_standard} #{id}</p>
+        XML
+        ret += middle_title_recommendation_first_line
+        ret += middle_title_recommendation_second_line(isoxml)
+        s = @meta.get[:docsubtitle] and ret += "<p class='zzSTDTitle3'>#{s}</p>"
+        out.previous = ret
+      end
+
+      def middle_title_recommendation_first_line
+        ret = ""
+        type = @meta.get[:doctype_display]
         @meta.get[:unpublished] && @meta.get[:draft_new_doctype] and
           type = @meta.get[:draft_new_doctype]
         id = @meta.get[:docnumber] and
-          ret += "<<p class='zzSTDTitle1'>#{type} #{id}</p>"
-        t = @meta.get[:doctitle] and
-          ret += "<p class='zzSTDTitle2'>#{t}"
+          ret += "<p class='zzSTDTitle1'>#{type} #{id}</p>"
+        ret
+      end
+
+      def middle_title_recommendation_second_line(isoxml)
+        ret = ""
+        t = @meta.get[:doctitle] or return ret
+        ret += "<p class='zzSTDTitle2'>#{t}"
         ret += "#{title_footnotes(isoxml)}</p>"
-        s = @meta.get[:docsubtitle] and ret += "<p class='zzSTDTitle3'>#{s}</p>"
-        out.previous = ret
+        ret
       end
 
       def title_footnotes(isoxml)

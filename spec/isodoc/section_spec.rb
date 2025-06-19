@@ -1312,6 +1312,137 @@ RSpec.describe Metanorma::Itu do
       .to be_equivalent_to Xml::C14n.format(word)
   end
 
+  it "generates middle title for joint ISO/IEC/ITU common text" do
+    input = <<~INPUT
+             <metanorma xmlns="http://riboseinc.com/isoxml">
+             <bibdata type="standard">
+             <title language="en" format="text/plain" type="main">An ITU Standard</title>
+             <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+             <docidentifier type="ITU">12345</docidentifier>
+             <docidentifier type="ISO">ISO/IEC 99999</docidentifier>
+             <language>en</language>
+             <script>Latn</script>
+             <keyword>A</keyword>
+             <keyword>B</keyword>
+             <ext>
+             <doctype>recommendation</doctype>
+             <flavor>itu</flavor>
+             </ext>
+             </bibdata>
+    <preface>
+    <abstract><title>Abstract</title>
+    <p>This is an abstract</p>
+    </abstract>
+    <clause id="A0"><title>History</title>
+    <p>history</p>
+    </clause>
+    <foreword obligation="informative">
+       <title>Foreword</title>
+       <p id="A">This is a preamble</p>
+     </foreword>
+      <introduction id="B" obligation="informative"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+       <title>Introduction Subsection</title>
+     </clause>
+     </introduction></preface><sections>
+     <clause id="D" obligation="normative" type="scope">
+       <title>Scope</title>
+       <p id="E">Text</p>
+     </clause>
+     </sections>
+     </metanorma>
+    INPUT
+    presxml = <<~OUTPUT
+           <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <bibdata type="standard">
+             <title language="en" format="text/plain" type="main">An ITU Standard</title>
+             <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+             <docidentifier type="ITU">12345</docidentifier>
+             <docidentifier type="ISO">ISO/IEC 99999</docidentifier>
+             <language current="true">en</language>
+             <script current="true">Latn</script>
+             <keyword>A</keyword>
+             <keyword>B</keyword>
+             <ext>
+                <doctype language="">recommendation</doctype>
+                <doctype language="en">Recommendation</doctype>
+                <flavor>itu</flavor>
+             </ext>
+          </bibdata>
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1" id="_">Table of Contents</fmt-title>
+             </clause>
+             <abstract id="_" displayorder="2">
+                <title id="_">Abstract</title>
+                <fmt-title depth="1" id="_">
+                   <semx element="title" source="_">Abstract</semx>
+                </fmt-title>
+                <p>This is an abstract</p>
+             </abstract>
+             <clause id="_" type="keyword" displayorder="3">
+                <fmt-title id="_" depth="1">Keywords</fmt-title>
+                <p>A, B.</p>
+             </clause>
+             <foreword obligation="informative" id="_" displayorder="4">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1" id="_">
+                   <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <p id="A">This is a preamble</p>
+             </foreword>
+             <introduction id="B" obligation="informative" displayorder="5">
+                <title id="_">Introduction</title>
+                <fmt-title depth="1" id="_">
+                   <semx element="title" source="_">Introduction</semx>
+                </fmt-title>
+                <clause id="C" inline-header="false" obligation="informative">
+                   <title id="_">Introduction Subsection</title>
+                   <fmt-title depth="2" id="_">
+                      <semx element="title" source="_">Introduction Subsection</semx>
+                   </fmt-title>
+                </clause>
+             </introduction>
+             <clause id="A0" displayorder="6">
+                <title id="_">History</title>
+                <fmt-title depth="1" id="_">
+                   <semx element="title" source="_">History</semx>
+                </fmt-title>
+                <p>history</p>
+             </clause>
+          </preface>
+          <sections>
+             <p class="zzSTDTitle1" displayorder="7">International Standard ISO/IEC 99999</p>
+             <p class="zzSTDTitle1" displayorder="8">Draft new Recommendation 12345</p>
+             <p class="zzSTDTitle2" displayorder="9">An ITU Standard</p>
+             <clause id="D" obligation="normative" type="scope" displayorder="10">
+                <title id="_">Scope</title>
+                <fmt-title depth="1" id="_">
+                   <span class="fmt-caption-label">
+                      <semx element="autonum" source="D">1</semx>
+                      <span class="fmt-autonum-delim">.</span>
+                   </span>
+                   <span class="fmt-caption-delim">
+                      <tab/>
+                   </span>
+                   <semx element="title" source="_">Scope</semx>
+                </fmt-title>
+                <fmt-xref-label>
+                   <span class="fmt-element-name">clause</span>
+                   <semx element="autonum" source="D">1</semx>
+                </fmt-xref-label>
+                <p id="E">Text</p>
+             </clause>
+          </sections>
+       </metanorma>
+    OUTPUT
+     pres_output = IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)
+    expect(Xml::C14n.format(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to Xml::C14n.format(presxml)
+  end
+
   it "post-processes section names (Word)" do
     FileUtils.rm_f "test.doc"
     IsoDoc::Itu::WordConvert.new({}).convert("test", <<~INPUT, false)

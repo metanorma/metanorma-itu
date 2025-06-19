@@ -29,6 +29,7 @@ clause: пункт
 section: Раздел
 annex_subclause: пункт
 keywords: Ключевые слова
+international_standard: Международный стандарт
 in: в
 to: до
 nested_xref: "%2 <conn>в</conn> %1"

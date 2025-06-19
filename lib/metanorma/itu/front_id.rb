@@ -6,6 +6,7 @@ module Metanorma
         td_id(node, xml)
         itu_id(node, xml)
         recommendation_id(node, xml)
+        iso_id(node, xml)
       end
 
       def provisional_id(node, xml)
@@ -20,6 +21,11 @@ module Metanorma
         xml.docidentifier type: "ITU-TemporaryDocument" do |i|
           i << node.attr("td-number")
         end
+      end
+
+      def iso_id(node, xml)
+        a = node.attr("common-text-docnumber") and
+          xml.docidentifier a, type: "ISO"
       end
 
       ITULANG = { "en" => "E", "fr" => "F", "ar" => "A", "es" => "S",

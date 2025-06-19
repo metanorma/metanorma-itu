@@ -120,7 +120,7 @@ module IsoDoc
       def docid(xml, _out)
         { docnumber: "ITU", recommendationnumber: "ITU-Recommendation",
           docnumber_lang: "ITU-lang", docnumber_td: "ITU-TemporaryDocument",
-          docnumber_provisional: "ITU-provisional" }
+          docnumber_provisional: "ITU-provisional", docnumber_iso: "ISO" }
           .each do |k, v|
             dn = xml.at(ns("//bibdata/docidentifier[@type = '#{v}']")) and
               set(k, dn.text)
@@ -168,7 +168,7 @@ module IsoDoc
           set(:doctype_display, "Recommendation")
         else super
         end
-        d = get[:doctype] and
+        d = get[:doctype_display] and
           set(:draft_new_doctype, @labels["draft_new"].sub("%", d))
       end
 

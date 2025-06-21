@@ -62,7 +62,7 @@ RSpec.describe Metanorma::Itu do
              </clause>
           </preface>
           <sections>
-             <p class="zzSTDTitle1" displayorder="7">Projet de nouvelle Recommendation 12345</p>
+             <p class="zzSTDTitle1" displayorder="7">Projet de nouvelle Recommandation 12345</p>
              <p class="zzSTDTitle2" displayorder="8">Un Standard ITU</p>
              <clause id="D" obligation="normative" type="scope" displayorder="9">
                 <title id="_">Scope</title>
@@ -337,7 +337,7 @@ RSpec.describe Metanorma::Itu do
         <h1 class="IntroTitle">History</h1>
         <p>history</p>
       </div>
-                     <p class="zzSTDTitle1">Projet de nouvelle Recommendation 12345</p>
+                     <p class="zzSTDTitle1">Projet de nouvelle Recommandation 12345</p>
                      <p class="zzSTDTitle2">Un Standard ITU</p>
                      <div id="D">
                      <h1>1.&#160; Scope</h1>
@@ -478,7 +478,7 @@ RSpec.describe Metanorma::Itu do
              </clause>
           </preface>
           <sections>
-             <p class="zzSTDTitle1" displayorder="7">新Recommendation草案 12345</p>
+             <p class="zzSTDTitle1" displayorder="7">新建议书草案 12345</p>
              <clause id="D" obligation="normative" type="scope" displayorder="8">
                 <title id="_">Scope</title>
                 <fmt-title id="_" depth="1">
@@ -753,7 +753,7 @@ RSpec.describe Metanorma::Itu do
                 <h1 class="IntroTitle">History</h1>
                 <p>history</p>
              </div>
-             <p class="zzSTDTitle1">新Recommendation草案 12345</p>
+             <p class="zzSTDTitle1">新建议书草案 12345</p>
              <div id="D">
                 <h1>1.　Scope</h1>
                 <p id="E">Text</p>

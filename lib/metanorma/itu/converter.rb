@@ -27,11 +27,6 @@ module Metanorma
         File.join(@libdir, "boilerplate.adoc")
       end
 
-      def makexml(node)
-        @draft = node.attributes.has_key?("draft")
-        super
-      end
-
       def init_misc(node)
         super
         @default_doctype = "recommendation"

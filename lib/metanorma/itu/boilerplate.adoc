@@ -45,9 +45,9 @@ and it is not to be used outside of ITU.
 {% else %}
 {% if unpublished and docnumber_provisional == nil %}
 [[draft-warning]]
-=== CAUTION! PREPUBLISHED {{ doctype  | upcase }}
+=== CAUTION! PREPUBLISHED {{ doctype_display  | upcase }}
 
-This prepublication is an unedited version of a recently approved {{doctype}}.
+This prepublication is an unedited version of a recently approved {{doctype_display}}.
 It will be replaced by the published version after editing. Therefore,
 there will be differences between this prepublication and the published
 version.

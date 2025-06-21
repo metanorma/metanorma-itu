@@ -28,6 +28,7 @@ section: Abschnitt
 summary: Zusammenfassung
 annex_subclause: Klausel
 keywords: Schlüsselwörter
+international_standard: Internationaler Standard
 in: in
 to: bis
 nested_xref: "%2 <conn>in</conn> %1"

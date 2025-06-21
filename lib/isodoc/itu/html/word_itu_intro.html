@@ -4,6 +4,10 @@
  style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
  <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
   <td width="663" valign="top" style='width:497.25pt;padding:0cm 5.4pt 0cm 5.4pt'>
+    {% if docnumber_iso %}
+    <p class="RecNo"><span
+       lang="FR-CH" style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>{{ labels["international_standard"] }} {{ docnumber_iso }}<o:p></o:p></span></p>
+   {% endif %}
   <p class="RecNo"><span style='mso-bookmark:_Hlk526346232'><a name="irecnoe"></a><span
       lang="FR-CH" style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>{% if doctype != "Service Publication" %}{{ doctype_display }} {% endif %}{{ docnumber }}<o:p></o:p></span></span></p>
   <p class="Rectitle" align="center"><span style='mso-bookmark:_Hlk526346232'><span lang="FR-CH"
@@ -33,8 +37,6 @@
       style='mso-ansi-language:FR-CH;font-size:14pt;font-weight:bold;'>{{ corrigendumtitle }}<o:p></o:p></span></span></p>
   {% endif %}
   <span style='mso-bookmark:_Hlk526346232'></span>
-  <p class="MsoNormal"><span style='mso-bookmark:_Hlk526346232'><span lang="FR-CH"
-  style='mso-ansi-language:FR-CH'><o:p>&#xa0;</o:p></span></span></p>
   </td>
   <span style='mso-bookmark:_Hlk526346232'></span>
  </tr>

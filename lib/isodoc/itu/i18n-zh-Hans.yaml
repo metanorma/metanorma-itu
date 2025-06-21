@@ -29,6 +29,7 @@ clause: 条款
 section: 节
 annex_subclause: 条款
 keywords: 关键词
+international_standard: 国际标准
 in: 中的
 to: 至
 nested_xref: "%1<conn>中的</conn>%2"

@@ -102,7 +102,8 @@ module IsoDoc
       end
 
       def ol_attrs(node)
-        { class: node["class"], id: node["id"], style: keep_style(node) }
+        { class: node["class"], id: node["id"], style: keep_style(node),
+          start: node["start"] }
       end
 
       def link_parse(node, out)

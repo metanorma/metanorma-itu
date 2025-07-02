@@ -336,7 +336,7 @@ RSpec.describe Metanorma::Itu do
                      </p>
                   </div>
                   <p style="page-break-after: avoid;">where</p>
-                  <table id="_" class="formula_dl">
+                  <table id="_" class="formula_dl" align="left" >
                      <tr>
                         <td valign="top" align="left">
                            <p align="left" style="margin-left:0pt;text-align:left;">
@@ -357,7 +357,7 @@ RSpec.describe Metanorma::Itu do
                      </p>
                   </div>
                   <p style="page-break-after: avoid;">where:</p>
-                  <table id="_" class="formula_dl">
+                  <table id="_" class="formula_dl" align="left" >
                      <tr>
                         <td valign="top" align="left">
                            <p align="left" style="margin-left:0pt;text-align:left;">
@@ -1468,7 +1468,7 @@ RSpec.describe Metanorma::Itu do
       .to be_equivalent_to Xml::C14n.format(presxml)
   end
 
-  it "processes steps class of ordered lists" do
+  it "processes steps class of ordered lists and start" do
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">
           <preface><foreword>
@@ -1477,7 +1477,7 @@ RSpec.describe Metanorma::Itu do
           <p id="_0091a277-fb0e-424a-aea8-f0001303fe78">all information necessary for the complete identification of the sample;</p>
           </li>
           <li>
-        <ol id="A">
+        <ol id="A" start="3">
         <li>
           <p id="_8a7b6299-db05-4ff8-9de7-ff019b9017b2">a reference to this document (i.e. ISO 17301-1);</p>
         </li>
@@ -1518,17 +1518,17 @@ RSpec.describe Metanorma::Itu do
                          <semx element="autonum" source="_">2</semx>
                          <span class="fmt-label-delim">)</span>
                       </fmt-name>
-                      <ol id="A" type="alphabet">
+                      <ol id="A" type="alphabet" start="3">
                          <li id="_">
                             <fmt-name id="_">
-                               <semx element="autonum" source="_">a</semx>
+                               <semx element="autonum" source="_">c</semx>
                                <span class="fmt-label-delim">)</span>
                             </fmt-name>
                             <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
                          </li>
                          <li id="_">
                             <fmt-name id="_">
-                               <semx element="autonum" source="_">b</semx>
+                               <semx element="autonum" source="_">d</semx>
                                <span class="fmt-label-delim">)</span>
                             </fmt-name>
                             <ol id="B" type="roman">
@@ -1559,7 +1559,7 @@ RSpec.describe Metanorma::Itu do
                </li>
                <li id="_">
                 <div class="ol_wrap">
-                 <ol type="a" id="A">
+                 <ol type="a" id="A" start="3">
                    <li id="_">
                      <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
                    </li>
@@ -1609,7 +1609,7 @@ RSpec.describe Metanorma::Itu do
                  </li>
                  <li id="_">
                    <div class="ol_wrap">
-                     <ol id="A">
+                     <ol id="A" start="3">
                        <li id="_">
                          <p id="_">a reference to this document (i.e. ISO 17301-1);</p>
                        </li>
@@ -1855,12 +1855,6 @@ RSpec.describe Metanorma::Itu do
                       <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <note unnumbered="true">
-                   <fmt-name id="_">
-                      <span class="fmt-caption-label">
-                         <span class="fmt-element-name">NOTE</span>
-                      </span>
-                      <span class="fmt-label-delim"> – </span>
-                   </fmt-name>
                    <p id="_">These results are based on a study carried out on three different types of kernel.</p>
                 </note>
              </foreword>
@@ -1873,7 +1867,6 @@ RSpec.describe Metanorma::Itu do
                 <h1 class="IntroTitle">Foreword</h1>
                 <div class="Note">
                    <p>
-                      <span class="note_label">NOTE – </span>
                       These results are based on a study carried out on three different types of kernel.
                    </p>
                 </div>
@@ -1905,7 +1898,6 @@ RSpec.describe Metanorma::Itu do
                <h1 class="IntroTitle">Foreword</h1>
                <div class='Note'>
                  <p class="Note">
-                   <span class="note_label">NOTE – </span>
                    These results are based on a study carried out on three different
                    types of kernel.
                  </p>

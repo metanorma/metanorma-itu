@@ -33,7 +33,7 @@ module Metanorma
       end
 
       def ol_attrs(node)
-        attr_code(id_attr(node).merge(class: node.attr("class")))
+        super..merge(class: node.attr("class")))
       end
 
       def outputs(node, ret)

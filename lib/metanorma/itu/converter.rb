@@ -33,7 +33,9 @@ module Metanorma
       end
 
       def ol_attrs(node)
-        super..merge(class: node.attr("class")))
+        ret = super
+        ret.delete(:type)
+        ret.merge(class: node.attr("class"))
       end
 
       def outputs(node, ret)

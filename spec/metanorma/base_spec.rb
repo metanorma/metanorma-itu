@@ -245,8 +245,8 @@ RSpec.describe Metanorma::Itu do
       INPUT
       output = <<~"OUTPUT"
         <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}" flavor="itu">
-                    <bibdata type='standard'>
-                                 <title language="en" format="text/plain" type="main">Main Title</title>
+          <bibdata type="standard">
+             <title language="en" format="text/plain" type="main">Main Title</title>
              <title language="en" format="text/plain" type="annex">I3</title>
              <title language="fr" format="text/plain" type="main">Titre Principal</title>
              <title language="fr" format="text/plain" type="annex">J3</title>
@@ -266,7 +266,7 @@ RSpec.describe Metanorma::Itu do
              <docidentifier type="ITU-Recommendation">Y.1704.1</docidentifier>
              <docidentifier type="ISO">ISO/IEC 99999</docidentifier>
              <docnumber>1000</docnumber>
-                          <contributor>
+             <contributor>
                 <role type="author"/>
                 <organization>
                    <name>International Telecommunication Union</name>
@@ -317,10 +317,7 @@ RSpec.describe Metanorma::Itu do
              </copyright>
              <relation type="complements">
                 <bibitem type="standard">
-                   <title type="title-main" format="text/plain" language="en" script="Latn">Plan for telex destination codes</title>
-                   <title type="main" format="text/plain" language="en" script="Latn">Plan for telex destination codes</title>
-                   <uri type="src">https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en</uri>
-                   <uri type="obp">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.69-198811-S!!PDF-E&amp;type=items</uri>
+                   <uri type="src">https://www.itu.int/myworkspace/#/t-rec/item?id=694&amp;lang=en</uri>
                    <docidentifier type="ITU" primary="true">ITU-T F.69 (11/1988)</docidentifier>
                    <contributor>
                       <role type="publisher"/>
@@ -330,14 +327,10 @@ RSpec.describe Metanorma::Itu do
                          <uri>www.itu.int</uri>
                       </organization>
                    </contributor>
-                   <edition>5</edition>
                    <language>en</language>
                    <script>Latn</script>
-                   <status>
-                      <stage>Withdrawal</stage>
-                   </status>
                    <copyright>
-                      <from>1988</from>
+                      <from>unknown</from>
                       <owner>
                          <organization>
                             <name>International Telecommunication Union</name>
@@ -346,40 +339,10 @@ RSpec.describe Metanorma::Itu do
                          </organization>
                       </owner>
                    </copyright>
-                   <relation type="complementOf">
-                      <bibitem type="standard">
-                         <formattedref format="text/plain" language="en" script="Latn">F Suppl. 1 (11/1988)</formattedref>
-                         <docidentifier type="ITU">F Suppl. 1 (11/1988)</docidentifier>
-                      </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                      <bibitem type="standard">
-                         <formattedref format="text/plain" language="en" script="Latn">F Suppl. 2 (11/1988)</formattedref>
-                         <docidentifier type="ITU">F Suppl. 2 (11/1988)</docidentifier>
-                      </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                      <bibitem type="standard">
-                         <formattedref format="text/plain" language="en" script="Latn">F Suppl. 3 (09/2016)</formattedref>
-                         <docidentifier type="ITU">F Suppl. 3 (09/2016)</docidentifier>
-                      </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                      <bibitem type="standard">
-                         <formattedref format="text/plain" language="en" script="Latn">F Suppl. 4 (04/2021)</formattedref>
-                         <docidentifier type="ITU">F Suppl. 4 (04/2021)</docidentifier>
-                      </bibitem>
-                   </relation>
                    <relation type="instanceOf">
                       <bibitem type="standard">
-                         <title type="title-main" format="text/plain" language="en" script="Latn">Plan for telex destination codes</title>
-                         <title type="main" format="text/plain" language="en" script="Latn">Plan for telex destination codes</title>
-                         <uri type="src">https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=694&amp;lang=en</uri>
-                         <uri type="obp">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.69-198811-S!!PDF-E&amp;type=items</uri>
+                         <uri type="src">https://www.itu.int/myworkspace/#/t-rec/item?id=694&amp;lang=en</uri>
                          <docidentifier type="ITU" primary="true">ITU-T F.69 (11/1988)</docidentifier>
-                         <date type="published">
-                            <on>1988-11-25</on>
-                         </date>
                          <contributor>
                             <role type="publisher"/>
                             <organization>
@@ -388,14 +351,10 @@ RSpec.describe Metanorma::Itu do
                                <uri>www.itu.int</uri>
                             </organization>
                          </contributor>
-                         <edition>5</edition>
                          <language>en</language>
                          <script>Latn</script>
-                         <status>
-                            <stage>Withdrawal</stage>
-                         </status>
                          <copyright>
-                            <from>1988</from>
+                            <from>unknown</from>
                             <owner>
                                <organization>
                                   <name>International Telecommunication Union</name>
@@ -404,42 +363,16 @@ RSpec.describe Metanorma::Itu do
                                </organization>
                             </owner>
                          </copyright>
-                         <relation type="complementOf">
-                            <bibitem type="standard">
-                               <formattedref format="text/plain" language="en" script="Latn">F Suppl. 1 (11/1988)</formattedref>
-                               <docidentifier type="ITU">F Suppl. 1 (11/1988)</docidentifier>
-                            </bibitem>
-                         </relation>
-                         <relation type="complementOf">
-                            <bibitem type="standard">
-                               <formattedref format="text/plain" language="en" script="Latn">F Suppl. 2 (11/1988)</formattedref>
-                               <docidentifier type="ITU">F Suppl. 2 (11/1988)</docidentifier>
-                            </bibitem>
-                         </relation>
-                         <relation type="complementOf">
-                            <bibitem type="standard">
-                               <formattedref format="text/plain" language="en" script="Latn">F Suppl. 3 (09/2016)</formattedref>
-                               <docidentifier type="ITU">F Suppl. 3 (09/2016)</docidentifier>
-                            </bibitem>
-                         </relation>
-                         <relation type="complementOf">
-                            <bibitem type="standard">
-                               <formattedref format="text/plain" language="en" script="Latn">F Suppl. 4 (04/2021)</formattedref>
-                               <docidentifier type="ITU">F Suppl. 4 (04/2021)</docidentifier>
-                            </bibitem>
-                         </relation>
                          <place>Geneva</place>
                       </bibitem>
                    </relation>
                    <place>Geneva</place>
+                   <title>(MISSING TITLE)</title>
                 </bibitem>
              </relation>
              <relation type="complements">
                 <bibitem type="standard">
-                   <title type="title-main" format="text/plain" language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
-                   <title type="main" format="text/plain" language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
-                   <uri type="src">https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&amp;lang=en</uri>
-                   <uri type="obp">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.68-198811-I!!PDF-E&amp;type=items</uri>
+                   <uri type="src">https://www.itu.int/myworkspace/#/t-rec/item?id=693&amp;lang=en</uri>
                    <docidentifier type="ITU" primary="true">ITU-T F.68 (11/1988)</docidentifier>
                    <contributor>
                       <role type="publisher"/>
@@ -449,14 +382,10 @@ RSpec.describe Metanorma::Itu do
                          <uri>www.itu.int</uri>
                       </organization>
                    </contributor>
-                   <edition>5</edition>
                    <language>en</language>
                    <script>Latn</script>
-                   <status>
-                      <stage>Published</stage>
-                   </status>
                    <copyright>
-                      <from>1988</from>
+                      <from>unknown</from>
                       <owner>
                          <organization>
                             <name>International Telecommunication Union</name>
@@ -465,40 +394,10 @@ RSpec.describe Metanorma::Itu do
                          </organization>
                       </owner>
                    </copyright>
-                   <relation type="complementOf">
-                      <bibitem type="standard">
-                         <formattedref format="text/plain" language="en" script="Latn">F Suppl. 1 (11/1988)</formattedref>
-                         <docidentifier type="ITU">F Suppl. 1 (11/1988)</docidentifier>
-                      </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                      <bibitem type="standard">
-                         <formattedref format="text/plain" language="en" script="Latn">F Suppl. 2 (11/1988)</formattedref>
-                         <docidentifier type="ITU">F Suppl. 2 (11/1988)</docidentifier>
-                      </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                      <bibitem type="standard">
-                         <formattedref format="text/plain" language="en" script="Latn">F Suppl. 3 (09/2016)</formattedref>
-                         <docidentifier type="ITU">F Suppl. 3 (09/2016)</docidentifier>
-                      </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                      <bibitem type="standard">
-                         <formattedref format="text/plain" language="en" script="Latn">F Suppl. 4 (04/2021)</formattedref>
-                         <docidentifier type="ITU">F Suppl. 4 (04/2021)</docidentifier>
-                      </bibitem>
-                   </relation>
                    <relation type="instanceOf">
                       <bibitem type="standard">
-                         <title type="title-main" format="text/plain" language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
-                         <title type="main" format="text/plain" language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
-                         <uri type="src">https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=693&amp;lang=en</uri>
-                         <uri type="obp">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.68-198811-I!!PDF-E&amp;type=items</uri>
+                         <uri type="src">https://www.itu.int/myworkspace/#/t-rec/item?id=693&amp;lang=en</uri>
                          <docidentifier type="ITU" primary="true">ITU-T F.68 (11/1988)</docidentifier>
-                         <date type="published">
-                            <on>1988-11-25</on>
-                         </date>
                          <contributor>
                             <role type="publisher"/>
                             <organization>
@@ -507,15 +406,10 @@ RSpec.describe Metanorma::Itu do
                                <uri>www.itu.int</uri>
                             </organization>
                          </contributor>
-                         <edition>5</edition>
                          <language>en</language>
                          <script>Latn</script>
-                         <abstract format="text/plain" language="en" script="Latn"/>
-                         <status>
-                            <stage>Published</stage>
-                         </status>
                          <copyright>
-                            <from>1988</from>
+                            <from>unknown</from>
                             <owner>
                                <organization>
                                   <name>International Telecommunication Union</name>
@@ -524,34 +418,11 @@ RSpec.describe Metanorma::Itu do
                                </organization>
                             </owner>
                          </copyright>
-                         <relation type="complementOf">
-                            <bibitem type="standard">
-                               <formattedref format="text/plain" language="en" script="Latn">F Suppl. 1 (11/1988)</formattedref>
-                               <docidentifier type="ITU">F Suppl. 1 (11/1988)</docidentifier>
-                            </bibitem>
-                         </relation>
-                         <relation type="complementOf">
-                            <bibitem type="standard">
-                               <formattedref format="text/plain" language="en" script="Latn">F Suppl. 2 (11/1988)</formattedref>
-                               <docidentifier type="ITU">F Suppl. 2 (11/1988)</docidentifier>
-                            </bibitem>
-                         </relation>
-                         <relation type="complementOf">
-                            <bibitem type="standard">
-                               <formattedref format="text/plain" language="en" script="Latn">F Suppl. 3 (09/2016)</formattedref>
-                               <docidentifier type="ITU">F Suppl. 3 (09/2016)</docidentifier>
-                            </bibitem>
-                         </relation>
-                         <relation type="complementOf">
-                            <bibitem type="standard">
-                               <formattedref format="text/plain" language="en" script="Latn">F Suppl. 4 (04/2021)</formattedref>
-                               <docidentifier type="ITU">F Suppl. 4 (04/2021)</docidentifier>
-                            </bibitem>
-                         </relation>
                          <place>Geneva</place>
                       </bibitem>
                    </relation>
                    <place>Geneva</place>
+                   <title>(MISSING TITLE)</title>
                 </bibitem>
              </relation>
              <series type="main">
@@ -567,7 +438,7 @@ RSpec.describe Metanorma::Itu do
              <keyword>word2</keyword>
              <ext>
                 <doctype>directive</doctype>
-            <flavor>itu</flavor>
+                <flavor>itu</flavor>
                 <editorialgroup>
                    <sector>Sector</sector>
                 </editorialgroup>
@@ -625,6 +496,13 @@ RSpec.describe Metanorma::Itu do
                       </period>
                    </workgroup>
                 </editorialgroup>
+                <structuredidentifier>
+                   <bureau>R</bureau>
+                   <docnumber>1000</docnumber>
+                   <annexid>H3</annexid>
+                   <amendment>88</amendment>
+                   <corrigendum>88</corrigendum>
+                </structuredidentifier>
                 <question>
                    <identifier>Q10/17</identifier>
                    <name>Identity management and telebiometrics architecture and mechanisms</name>
@@ -640,13 +518,6 @@ RSpec.describe Metanorma::Itu do
                 </recommendationstatus>
                 <ip-notice-received>false</ip-notice-received>
                 <timing>2025-Q4</timing>
-                <structuredidentifier>
-                   <bureau>R</bureau>
-                   <docnumber>1000</docnumber>
-                   <annexid>H3</annexid>
-                   <amendment>88</amendment>
-                   <corrigendum>88</corrigendum>
-                </structuredidentifier>
              </ext>
           </bibdata>
           <metanorma-extension>

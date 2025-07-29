@@ -1846,7 +1846,7 @@
 		</fo:block>
 	</xsl:template>
 
-	<xsl:template match="mn:preface//mn:clause[@type = 'toc']" priority="4">
+	<xsl:template match="mn:preface//mn:clause[@type = 'toc']" name="toc" priority="4">
 		<xsl:param name="process">false</xsl:param>
 		<xsl:param name="num"/>
 
@@ -13533,12 +13533,18 @@
 		<xsl:attribute name="role">H1</xsl:attribute>
 	</xsl:attribute-set>
 
+	<xsl:template name="refine_toc-title-style">
+	</xsl:template>
+
 	<xsl:attribute-set name="toc-title-page-style">
 		<xsl:attribute name="margin-top">6pt</xsl:attribute>
 		<xsl:attribute name="text-align">end</xsl:attribute>
 		<xsl:attribute name="font-weight">bold</xsl:attribute>
 		<xsl:attribute name="keep-with-next">always</xsl:attribute>
 	</xsl:attribute-set> <!-- toc-title-page-style -->
+
+	<xsl:template name="refine_toc-title-page-style">
+	</xsl:template>
 
 	<xsl:attribute-set name="toc-item-block-style">
 	</xsl:attribute-set>
@@ -13574,6 +13580,9 @@
 		<xsl:attribute name="font-weight">bold</xsl:attribute>
 		<xsl:attribute name="keep-with-next">always</xsl:attribute>
 	</xsl:attribute-set>
+
+	<xsl:template name="refine_toc-listof-title-style">
+	</xsl:template>
 
 	<xsl:attribute-set name="toc-listof-item-block-style">
 	</xsl:attribute-set>

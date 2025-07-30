@@ -14,7 +14,7 @@ require "htmlentities"
 require "metanorma"
 require "metanorma/itu"
 require "relaton_iso"
-require "xml-c14n"
+require "canon"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

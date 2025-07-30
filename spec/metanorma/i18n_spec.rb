@@ -188,8 +188,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
+    expect(Canon.format_xml(strip_guid(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "processes summaries in other languages" do
@@ -212,8 +212,8 @@ RSpec.describe Metanorma::Itu do
         OUTPUT
         xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
         xml = xml.at("//xmlns:preface/xmlns:abstract")
-        expect(Xml::C14n.format(strip_guid(xml.to_xml)))
-          .to be_equivalent_to Xml::C14n.format(strip_guid(output))
+        expect(Canon.format_xml(strip_guid(xml.to_xml)))
+          .to be_equivalent_to Canon.format_xml(strip_guid(output))
       end
   end
 
@@ -372,8 +372,8 @@ RSpec.describe Metanorma::Itu do
            </bibliography>
         </metanorma>
     OUTPUT
-  expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
+  expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "processes explicit metadata, service publication in Chinese" do
@@ -561,8 +561,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
+    expect(Canon.format_xml(strip_guid(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "processes sections in Chinese" do
@@ -721,8 +721,8 @@ RSpec.describe Metanorma::Itu do
            </bibliography>
         </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "processes explicit metadata, service publication in Arabic" do
@@ -914,8 +914,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
+    expect(Canon.format_xml(strip_guid(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "processes sections in Arabic" do
@@ -1074,8 +1074,8 @@ RSpec.describe Metanorma::Itu do
            </bibliography>
         </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "processes explicit metadata, service publication in Spanish" do
@@ -1260,8 +1260,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
+    expect(Canon.format_xml(strip_guid(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "processes sections in Spanish" do
@@ -1419,8 +1419,8 @@ RSpec.describe Metanorma::Itu do
            </bibliography>
         </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "processes explicit metadata, service publication in German" do
@@ -1605,8 +1605,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
+    expect(Canon.format_xml(strip_guid(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "processes sections in German" do
@@ -1763,8 +1763,8 @@ RSpec.describe Metanorma::Itu do
            </bibliography>
         </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "processes explicit metadata, service publication in Russian" do
@@ -1955,8 +1955,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Xml::C14n.format(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
+    expect(Canon.format_xml(strip_guid(xml.to_xml)))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "processes sections in Russian" do
@@ -2115,8 +2115,8 @@ RSpec.describe Metanorma::Itu do
            </bibliography>
         </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(strip_guid(output))
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   private

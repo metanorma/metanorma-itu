@@ -829,7 +829,7 @@ RSpec.describe Metanorma::Itu do
               </clause>
            </preface>
            <sections>
-              <p class="zzSTDTitle1" displayorder="7">Draft new Recommendation 12345</p>
+              <p class="zzSTDTitle1" displayorder="7">Recommendation 12345</p>
               <p class="zzSTDTitle2" displayorder="8">An ITU Standard</p>
               <clause id="D" obligation="normative" type="scope" displayorder="9">
                  <title id="_">Scope</title>
@@ -1105,7 +1105,7 @@ RSpec.describe Metanorma::Itu do
            <h1 class="IntroTitle">History</h1>
            <p>history</p>
          </div>
-                        <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
+                        <p class="zzSTDTitle1">Recommendation 12345</p>
                         <p class="zzSTDTitle2">An ITU Standard</p>
                         <div id="D">
                           <h1>1.&#160; Scope</h1>
@@ -1220,7 +1220,7 @@ RSpec.describe Metanorma::Itu do
            <br clear="all" class="section"/>
          </p>
          <div class="WordSection3">
-           <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
+           <p class="zzSTDTitle1">Recommendation 12345</p>
            <p class="zzSTDTitle2">An ITU Standard</p>
            <div id="D">
              <h1>1.<span style="mso-tab-count:1">&#160; </span>Scope</h1>
@@ -1412,7 +1412,7 @@ RSpec.describe Metanorma::Itu do
           </preface>
           <sections>
              <p class="zzSTDTitle1" displayorder="7">International Standard ISO/IEC 99999</p>
-             <p class="zzSTDTitle1" displayorder="8">Draft new Recommendation 12345</p>
+             <p class="zzSTDTitle1" displayorder="8">Recommendation 12345</p>
              <p class="zzSTDTitle2" displayorder="9">An ITU Standard</p>
              <clause id="D" obligation="normative" type="scope" displayorder="10">
                 <title id="_">Scope</title>
@@ -1595,7 +1595,7 @@ RSpec.describe Metanorma::Itu do
               </clause>
            </preface>
            <sections>
-              <p class="zzSTDTitle1" displayorder="3">Draft new Recommendation 12345</p>
+              <p class="zzSTDTitle1" displayorder="3">Recommendation 12345</p>
               <p class="zzSTDTitle2" displayorder="4">An ITU Standard</p>
               <p class="zzSTDTitle3" displayorder="5">Subtitle</p>
        <clause id="_" displayorder="6">
@@ -1737,7 +1737,7 @@ RSpec.describe Metanorma::Itu do
                     <p>A, B.</p>
                 </div>
                  <br/>
-                 <p class='zzSTDTitle1'>Draft new Recommendation 12345</p>
+                 <p class='zzSTDTitle1'>Recommendation 12345</p>
                  <p class='zzSTDTitle2'>An ITU Standard</p>
                  <p class='zzSTDTitle3'>Subtitle</p>
                   <div id="_">
@@ -1780,7 +1780,7 @@ RSpec.describe Metanorma::Itu do
  .gsub(%r{<div style="mso-element:footnote-list"/>.*}m, ""))))
       .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
         <div class='WordSection3' xmlns:m='http://schemas.microsoft.com/office/2004/12/omml'>
-              <p class='zzSTDTitle1'>Draft new Recommendation 12345</p>
+              <p class='zzSTDTitle1'>Recommendation 12345</p>
               <p class='zzSTDTitle2'>An ITU Standard</p>
               <p class='zzSTDTitle3'>Subtitle</p>
                 <div>

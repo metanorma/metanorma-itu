@@ -524,7 +524,7 @@ RSpec.describe Metanorma::Itu do
               </clause>
            </preface>
            <sections>
-              <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
+              <p class="zzSTDTitle1">Recommendation 12345</p>
               <p class="zzSTDTitle2">An ITU Standard</p>
            </sections>
            <annex id="A1" obligation="normative" displayorder="4" autonum="F2">

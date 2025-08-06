@@ -294,6 +294,57 @@ RSpec.describe Metanorma::Itu do
                 </person>
              </contributor>
              <contributor>
+                <role type="author">
+                   <description>Bureau</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>R</name>
+                   </subdivision>
+                   <subdivision type="Sector">
+                      <name>Sector</name>
+                   </subdivision>
+                   <subdivision type="Group" subtype="A">
+                      <name>I</name>
+                      <identifier>C</identifier>
+                   </subdivision>
+                   <subdivision type="Subgroup" subtype="A1">
+                      <name>I1</name>
+                      <identifier>C1</identifier>
+                   </subdivision>
+                   <subdivision type="Workgroup" subtype="A2">
+                      <name>I2</name>
+                      <identifier>C2</identifier>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
+             </contributor>
+             <contributor>
+                <role type="author">
+                   <description>Bureau</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>T</name>
+                   </subdivision>
+                   <subdivision type="Group" subtype="B">
+                      <name>J</name>
+                      <identifier>D</identifier>
+                   </subdivision>
+                   <subdivision type="Subgroup" subtype="B1">
+                      <name>J1</name>
+                      <identifier>D1</identifier>
+                   </subdivision>
+                   <subdivision type="Workgroup" subtype="B2">
+                      <name>J2</name>
+                      <identifier>D2</identifier>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
+             </contributor>
+             <contributor>
                 <role type="publisher"/>
                 <organization>
                    <name>International Telecommunication Union</name>
@@ -524,6 +575,9 @@ RSpec.describe Metanorma::Itu do
              </ext>
           </bibdata>
           <metanorma-extension>
+             <semantic-metadata>
+                <stage-published>true</stage-published>
+             </semantic-metadata>
              <presentation-metadata>
                 <name>document-scheme</name>
                 <value>legacy</value>
@@ -535,9 +589,6 @@ RSpec.describe Metanorma::Itu do
                    <image src="images/image2.gif"/>
                 </value>
              </presentation-metadata>
-       <semantic-metadata>
-      <stage-published>true</stage-published>
-      </semantic-metadata>
              <presentation-metadata>
                 <name>TOC Heading Levels</name>
                 <value>2</value>
@@ -789,6 +840,28 @@ RSpec.describe Metanorma::Itu do
               <email>y@example.com</email>
             </person>
           </contributor>
+      <contributor>
+         <role type="author">
+            <description>Bureau</description>
+         </role>
+         <organization>
+            <name>International Telecommunication Union</name>
+            <subdivision type="Bureau">
+               <name>R</name>
+            </subdivision>
+            <subdivision type="Group" subtype="study-group">
+               <name>Study Group 17</name>
+               <identifier>SG17</identifier>
+            </subdivision>
+            <subdivision type="Subgroup">
+               <name>I1</name>
+            </subdivision>
+            <subdivision type="Workgroup">
+               <name>I2</name>
+            </subdivision>
+            <abbreviation>ITU</abbreviation>
+         </organization>
+      </contributor>
           <contributor>
             <role type='publisher'/>
             <organization>
@@ -874,6 +947,7 @@ RSpec.describe Metanorma::Itu do
       .each(&:remove)
     expect(Canon.format_xml(strip_guid(xml.to_xml)))
       .to be_equivalent_to Canon.format_xml(strip_guid(output)
+      .sub("<identifier>SG17</identifier>", "")
       .sub("<acronym>SG17</acronym>", ""))
   end
 
@@ -984,6 +1058,27 @@ RSpec.describe Metanorma::Itu do
               <email>y@example.com</email>
             </person>
           </contributor>
+      <contributor>
+         <role type="author">
+            <description>Bureau</description>
+         </role>
+         <organization>
+            <name>International Telecommunication Union</name>
+            <subdivision type="Bureau">
+               <name>R</name>
+            </subdivision>
+            <subdivision type="Group">
+               <name>I</name>
+            </subdivision>
+            <subdivision type="Subgroup">
+               <name>I1</name>
+            </subdivision>
+            <subdivision type="Workgroup">
+               <name>I2</name>
+            </subdivision>
+            <abbreviation>ITU</abbreviation>
+         </organization>
+      </contributor>
           <contributor>
             <role type='publisher'/>
             <organization>
@@ -1118,6 +1213,27 @@ RSpec.describe Metanorma::Itu do
               <abbreviation>ITU</abbreviation>
             </organization>
           </contributor>
+      <contributor>
+         <role type="author">
+            <description>Bureau</description>
+         </role>
+         <organization>
+            <name>International Telecommunication Union</name>
+            <subdivision type="Bureau">
+               <name>R</name>
+            </subdivision>
+            <subdivision type="Group">
+               <name>I</name>
+            </subdivision>
+            <subdivision type="Subgroup">
+               <name>I1</name>
+            </subdivision>
+            <subdivision type="Workgroup">
+               <name>I2</name>
+            </subdivision>
+            <abbreviation>ITU</abbreviation>
+         </organization>
+      </contributor>
           <contributor>
             <role type='publisher'/>
             <organization>
@@ -1302,6 +1418,27 @@ RSpec.describe Metanorma::Itu do
               <email>y@example.com</email>
             </person>
           </contributor>
+               <contributor>
+        <role type="author">
+           <description>Bureau</description>
+        </role>
+        <organization>
+           <name>International Telecommunication Union</name>
+           <subdivision type="Bureau">
+              <name>R</name>
+           </subdivision>
+           <subdivision type="Group">
+              <name>I</name>
+           </subdivision>
+           <subdivision type="Subgroup">
+              <name>I1</name>
+           </subdivision>
+           <subdivision type="Workgroup">
+              <name>I2</name>
+           </subdivision>
+           <abbreviation>ITU</abbreviation>
+        </organization>
+     </contributor>
           <contributor>
             <role type='publisher'/>
             <organization>

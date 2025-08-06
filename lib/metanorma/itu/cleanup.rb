@@ -82,6 +82,10 @@ module Metanorma
           biblio_reorder1(r)
         end
       end
+
+      def published?(status, _xmldoc)
+        !%w(in-force-prepublished draft).include?(status.downcase)
+      end
     end
   end
 end

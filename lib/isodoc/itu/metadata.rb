@@ -136,10 +136,6 @@ module IsoDoc
               @i18n.l10n("#{@labels['corrigendum']} #{dn.text}"))
       end
 
-      def unpublished(status)
-        %w(in-force-prepublished draft).include? status.downcase
-      end
-
       def bibdate(xml, _out)
         d = xml.at(ns("//bibdata/date[not(@format)][@type = 'published']"))
         d and set(:pubdate_monthyear, monthyr(d.text))

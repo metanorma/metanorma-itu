@@ -127,6 +127,9 @@ RSpec.describe Metanorma::Itu do
              <name>document-scheme</name>
              <value>current</value>
            </presentation-metadata>
+       <semantic-metadata>
+      <stage-published>false</stage-published>
+      </semantic-metadata>
            <presentation-metadata>
              <name>TOC Heading Levels</name>
              <value>2</value>
@@ -532,6 +535,9 @@ RSpec.describe Metanorma::Itu do
                    <image src="images/image2.gif"/>
                 </value>
              </presentation-metadata>
+       <semantic-metadata>
+      <stage-published>true</stage-published>
+      </semantic-metadata>
              <presentation-metadata>
                 <name>TOC Heading Levels</name>
                 <value>2</value>
@@ -642,6 +648,9 @@ RSpec.describe Metanorma::Itu do
             <image src="images/image2.gif"/>
           </value>
         </presentation-metadata>
+       <semantic-metadata>
+      <stage-published>true</stage-published>
+      </semantic-metadata>
          <presentation-metadata>
            <name>TOC Heading Levels</name>
            <value>2</value>

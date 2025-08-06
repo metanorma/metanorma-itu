@@ -75,7 +75,7 @@ module Metanorma
       end
 
       def metadata_committee(node, xml)
-        hyphenate_node_attributes(node)
+        metadata_committee_prep(node)
         metadata_sector(node, xml)
         metadata_committee1(node, xml, "")
         suffix = 2
@@ -85,7 +85,23 @@ module Metanorma
         end
       end
 
-      def hyphenate_node_attributes(node)
+      def committee_contributors(node, xml, agency, opt)
+         metadata_committee_prep(node) or return
+         super
+       end
+
+      def metadata_committee_types(_node)
+        %w(bureau sector group subgroup workgroup)
+      end
+
+      def extract_org_attrs_complex(node, opts, source, suffix)
+        super.merge(ident: node.attr("#{source}-acronym#{suffix}")).compact
+      end
+
+      def full_committee_id(contrib)
+      end
+
+      def metadata_committee_prep(node)
         a = node.attributes.dup
         a.each do |k, v|
           /group(type|acronym)/.match?(k) and
@@ -95,8 +111,19 @@ module Metanorma
         end
       end
 
+      def org_attrs_add_committees(node, ret, opts, opts_orig)
+        opts_orig[:groups]&.each_with_index do |g, i|
+          i.zero? and next
+          contributors_committees_pad_multiples(ret.first, node, g)
+          opts = committee_contrib_org_prep(node, g, nil, opts_orig)
+          ret << org_attrs_parse_core(node, opts)
+        end
+        contributors_committees_nest1(ret)
+      end
+
       def metadata_sector(node, xml)
         s = node.attr("sector") or return
+        s.empty? and return
         xml.editorialgroup do |a|
           a.sector { |x| x << s }
         end

@@ -116,7 +116,9 @@ module Metanorma
           i.zero? and next
           contributors_committees_pad_multiples(ret.first, node, g)
           opts = committee_contrib_org_prep(node, g, nil, opts_orig)
-          ret << org_attrs_parse_core(node, opts)
+          ret << org_attrs_parse_core(node, opts).map do |x|
+            x.merge(subdivtype: opts[:subdivtype])
+          end
         end
         contributors_committees_nest1(ret)
       end

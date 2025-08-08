@@ -199,6 +199,10 @@ RSpec.describe Metanorma::Itu do
         <approvalstage process="F3">G3</approvalstage>
       </recommendationstatus>
       <ip-notice-received>false</ip-notice-received>
+              <studyperiod>
+           <start>E</start>
+           <end>G</end>
+        </studyperiod>
       <timing>Q4-2025</timing>
       <structuredidentifier>
       <bureau>R</bureau>

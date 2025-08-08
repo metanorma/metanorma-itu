@@ -74,8 +74,10 @@ module IsoDoc
         #tc = xml.at(ns("//bibdata/ext/editorialgroup/group/acronym"))
         tc = xml.at(ns("//bibdata/contributor[role/@type='author']/organization/subdivision[@type='Group']/identifier"))
         set(:group_acronym, tc.text) if tc
-        start1 = xml.at(ns("//bibdata/ext/editorialgroup/group/period/start"))
-        end1 = xml.at(ns("//bibdata/ext/editorialgroup/group/period/end"))
+        #start1 = xml.at(ns("//bibdata/ext/editorialgroup/group/period/start"))
+        #end1 = xml.at(ns("//bibdata/ext/editorialgroup/group/period/end"))
+        start1 = xml.at(ns("//bibdata/ext/studyperiod/start"))
+        end1 = xml.at(ns("//bibdata/ext/studyperiod/end"))
         if start1
           set(:study_group_period,
               @i18n.l10n("#{start1.text}–#{end1.text}"))

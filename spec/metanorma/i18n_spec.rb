@@ -115,7 +115,7 @@ RSpec.describe Metanorma::Itu do
           </contributor>
       <contributor>
          <role type="author">
-            <description>Bureau</description>
+            <description>committee</description>
          </role>
          <organization>
             <name>Union internationale des télécommunications</name>
@@ -190,6 +190,10 @@ RSpec.describe Metanorma::Itu do
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
             <meeting>Meeting X</meeting>
             <meeting-date>
               <from>2000-01-01</from>
@@ -511,7 +515,7 @@ RSpec.describe Metanorma::Itu do
           </contributor>
       <contributor>
          <role type="author">
-            <description>Bureau</description>
+            <description>committee</description>
          </role>
          <organization>
             <name>国际电信联盟</name>
@@ -583,6 +587,10 @@ RSpec.describe Metanorma::Itu do
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
             <meeting>Meeting X</meeting>
             <meeting-date>
               <from>2000-01-01</from>
@@ -884,7 +892,7 @@ RSpec.describe Metanorma::Itu do
         </contributor>
       <contributor>
          <role type="author">
-            <description>Bureau</description>
+            <description>committee</description>
          </role>
          <organization>
             <name>الاتحاد الدولي للاتصالات</name>
@@ -956,6 +964,10 @@ RSpec.describe Metanorma::Itu do
             </workgroup>
           </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
+                       <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
           <meeting>Meeting X</meeting>
           <meeting-date>
             <from>2000-01-01</from>
@@ -1248,7 +1260,7 @@ RSpec.describe Metanorma::Itu do
         </contributor>
       <contributor>
          <role type="author">
-            <description>Bureau</description>
+            <description>committee</description>
          </role>
          <organization>
             <name>Unión Internacional de Telecomunicaciones</name>
@@ -1323,6 +1335,10 @@ RSpec.describe Metanorma::Itu do
             </workgroup>
           </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
+                       <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
           <meeting>Meeting X</meeting>
           <meeting-date>
             <from>2000-01-01</from>
@@ -1614,7 +1630,7 @@ RSpec.describe Metanorma::Itu do
         </contributor>
               <contributor>
          <role type="author">
-            <description>Bureau</description>
+            <description>committee</description>
          </role>
          <organization>
             <name>Internationale Fernmeldeunion</name>
@@ -1689,6 +1705,10 @@ RSpec.describe Metanorma::Itu do
             </workgroup>
           </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
+             <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
           <meeting>Meeting X</meeting>
           <meeting-date>
             <from>2000-01-01</from>
@@ -1985,7 +2005,7 @@ RSpec.describe Metanorma::Itu do
            </contributor>
      <contributor>
         <role type="author">
-           <description>Bureau</description>
+           <description>committee</description>
         </role>
         <organization>
            <name>Международный Союз Электросвязи</name>
@@ -2060,6 +2080,10 @@ RSpec.describe Metanorma::Itu do
                </workgroup>
              </editorialgroup>
              <ip-notice-received>false</ip-notice-received>
+             <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
              <meeting>Meeting X</meeting>
              <meeting-date>
                <from>2000-01-01</from>

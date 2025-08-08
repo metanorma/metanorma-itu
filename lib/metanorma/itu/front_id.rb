@@ -65,8 +65,7 @@ module Metanorma
       end
 
       def recommendation_id(node, xml)
-        return unless node.attr("recommendationnumber")
-
+        node.attr("recommendationnumber") or return
         node.attr("recommendationnumber").split("/").each do |s|
           xml.docidentifier type: "ITU-Recommendation" do |i|
             i << s
@@ -75,8 +74,7 @@ module Metanorma
       end
 
       def structured_id(node, xml)
-        return unless node.attr("docnumber")
-
+        node.attr("docnumber") or return
         xml.structuredidentifier do |i|
           i.bureau node.attr("bureau") || "T"
           i.docnumber node.attr("docnumber")

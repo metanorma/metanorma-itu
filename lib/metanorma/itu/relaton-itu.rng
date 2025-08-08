@@ -79,6 +79,11 @@
       </ref>
     </optional>
     <optional>
+      <ref name="studyperiod">
+        <a:documentation>Study period that the editorial groups working on this document fall under</a:documentation>
+      </ref>
+    </optional>
+    <optional>
       <ref name="meeting">
         <a:documentation>Name of meeting that generated this document (for resolutions, technical reports, technical papers, implementers guides) </a:documentation>
       </ref>
@@ -229,7 +234,7 @@
       <ref name="groupacronym"/>
     </optional>
     <optional>
-      <ref name="groupperiod"/>
+      <ref name="studyperiod"/>
     </optional>
   </define>
   <define name="ItuGroupType">
@@ -252,8 +257,8 @@
       <text/>
     </element>
   </define>
-  <define name="groupperiod">
-    <element name="period">
+  <define name="studyperiod">
+    <element name="studyperiod">
       <ref name="groupperiodstart"/>
       <optional>
         <ref name="groupperiodend"/>

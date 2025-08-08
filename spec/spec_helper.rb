@@ -238,6 +238,10 @@ BLANK_HDR = <<~"HDR".freeze
     <ext>
            <doctype>recommendation</doctype>
              <flavor>itu</flavor>
+             <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
            <editorialgroup>
            <bureau>T</bureau>
            </editorialgroup>

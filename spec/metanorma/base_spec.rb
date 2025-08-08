@@ -116,6 +116,10 @@ RSpec.describe Metanorma::Itu do
               <bureau>T</bureau>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
             <structuredidentifier>
           <bureau>T</bureau>
           <docnumber>1000</docnumber>
@@ -571,6 +575,10 @@ RSpec.describe Metanorma::Itu do
                    <approvalstage process="F3">G3</approvalstage>
                 </recommendationstatus>
                 <ip-notice-received>false</ip-notice-received>
+                             <studyperiod>
+             <start>E</start>
+             <end>G</end>
+             </studyperiod>
                 <timing>2025-Q4</timing>
              </ext>
           </bibdata>
@@ -919,6 +927,10 @@ RSpec.describe Metanorma::Itu do
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>2000</start>
+             <end>2002</end>
+             </studyperiod>
             <meeting acronym='MX'>Meeting X</meeting>
             <meeting-place>Kronos</meeting-place>
             <meeting-date>
@@ -1135,6 +1147,11 @@ RSpec.describe Metanorma::Itu do
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
+
             <meeting acronym='MX'>Meeting X</meeting>
             <meeting-place>Kronos</meeting-place>
             <meeting-date>
@@ -1290,6 +1307,10 @@ RSpec.describe Metanorma::Itu do
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
             <meeting>Meeting X</meeting>
             <meeting-date>
               <on>2000-01-01</on>
@@ -1495,6 +1516,10 @@ RSpec.describe Metanorma::Itu do
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
             <meeting>Meeting X</meeting>
             <meeting-date>
               <from>2000-01-01</from>
@@ -1576,6 +1601,10 @@ RSpec.describe Metanorma::Itu do
             <bureau>T</bureau>
           </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
+                       <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
           <structuredidentifier>
             <bureau>T</bureau>
             <docnumber>1000</docnumber>
@@ -1921,6 +1950,10 @@ RSpec.describe Metanorma::Itu do
                 <bureau>T</bureau>
              </editorialgroup>
              <ip-notice-received>false</ip-notice-received>
+                          <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
           </ext>
        </bibdata>
     OUTPUT

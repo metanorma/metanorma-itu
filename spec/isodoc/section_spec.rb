@@ -2453,6 +2453,10 @@ RSpec.describe Metanorma::Itu do
                 <approvalstage process='F3'>G3</approvalstage>
               </recommendationstatus>
               <ip-notice-received>false</ip-notice-received>
+                      <studyperiod>
+           <start>2000</start>
+           <end>2002</end>
+        </studyperiod>
               <timing>2025-Q4</timing>
             <meeting acronym='MX'>Meeting X</meeting>
             <meeting-place>Kronos</meeting-place>

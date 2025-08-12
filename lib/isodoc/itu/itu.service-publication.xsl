@@ -634,7 +634,8 @@
 		<xsl:variable name="date_published"><xsl:call-template name="get_date_published"/></xsl:variable>
 		<xsl:variable name="annexid" select="normalize-space(/mn:metanorma/mn:bibdata/mn:ext/mn:structuredidentifier/mn:annexid)"/>
 
-		<xsl:variable name="bureau" select="/mn:metanorma/mn:bibdata/mn:ext/mn:editorialgroup/mn:bureau"/>
+		<!-- <xsl:variable name="bureau" select="/mn:metanorma/mn:bibdata/mn:ext/mn:editorialgroup/mn:bureau"/> -->
+		<xsl:variable name="bureau" select="/mn:metanorma/mn:bibdata/mn:contributor[mn:role[@type = 'author']/mn:description = 'committee']/mn:organization/mn:subdivision[@type = 'Bureau']/mn:name"/>
 
 		<xsl:variable name="docidentifier_ITU" select="/mn:metanorma/mn:bibdata/mn:docidentifier[@type = 'ITU']"/>
 		<xsl:variable name="docidentifier_ITU_left_part_" select="normalize-space(substring-before($docidentifier_ITU, ' '))"/>
@@ -745,7 +746,8 @@
 													<!-- Sector or Bureau name -->
 													<fo:table-cell text-align="end">
 														<fo:block>
-															<xsl:variable name="sector" select="normalize-space(/mn:metanorma/mn:bibdata/mn:ext/mn:editorialgroup/mn:sector)"/>
+															<!-- <xsl:variable name="sector" select="normalize-space(/mn:metanorma/mn:bibdata/mn:ext/mn:editorialgroup/mn:sector)"/> -->
+															<xsl:variable name="sector" select="/mn:metanorma/mn:bibdata/mn:contributor[mn:role[@type = 'author']/mn:description = 'committee']/mn:organization/mn:subdivision[@type = 'Sector']/mn:name"/>
 															<xsl:value-of select="$sector"/>
 															<xsl:if test="$sector = ''">
 																<xsl:variable name="bureau_key">
@@ -1114,7 +1116,8 @@
 															<fo:block font-weight="bold">Question(s):</fo:block>
 													</fo:table-cell>
 													<fo:table-cell padding-top="3mm">
-															<fo:block><xsl:value-of select="/mn:metanorma/mn:bibdata/mn:ext/mn:editorialgroup/mn:group/mn:name"/></fo:block>
+															<!-- <fo:block><xsl:value-of select="/mn:metanorma/mn:bibdata/mn:ext/mn:editorialgroup/mn:group/mn:name"/></fo:block> -->
+															<fo:block><xsl:value-of select="/mn:metanorma/mn:bibdata/mn:contributor[mn:role[@type = 'author']/mn:description = 'committee']/mn:organization/mn:subdivision[@type = 'Group']/mn:name"/></fo:block>
 													</fo:table-cell>
 													<fo:table-cell padding-top="3mm">
 															<fo:block font-weight="bold">Meeting, date:</fo:block>
@@ -1149,14 +1152,16 @@
 														<fo:block font-weight="bold">Study Group:</fo:block>
 													</fo:table-cell>
 													<fo:table-cell padding-top="2mm">
-														<xsl:variable name="subgroup" select="/mn:metanorma/mn:bibdata/mn:ext/mn:editorialgroup/mn:subgroup/mn:name"/>
+														<!-- <xsl:variable name="subgroup" select="/mn:metanorma/mn:bibdata/mn:ext/mn:editorialgroup/mn:subgroup/mn:name"/> -->
+														<xsl:variable name="subgroup" select="/mn:metanorma/mn:bibdata/mn:contributor[mn:role[@type = 'author']/mn:description = 'committee']/mn:organization/mn:subdivision[@type = 'Subgroup']/mn:name"/>
 														<fo:block><xsl:value-of select="java:replaceAll(java:java.lang.String.new($subgroup),'(.)','$1​')"/></fo:block>
 													</fo:table-cell>
 													<fo:table-cell padding-top="2mm">
 														<fo:block font-weight="bold">Working Party:</fo:block>
 													</fo:table-cell>
 													<fo:table-cell padding-top="2mm">
-														<xsl:variable name="workgroup" select="/mn:metanorma/mn:bibdata/mn:ext/mn:editorialgroup/mn:workgroup/mn:name"/>
+														<!-- <xsl:variable name="workgroup" select="/mn:metanorma/mn:bibdata/mn:ext/mn:editorialgroup/mn:workgroup/mn:name"/> -->
+														<xsl:variable name="workgroup" select="/mn:metanorma/mn:bibdata/mn:contributor[mn:role[@type = 'author']/mn:description = 'committee']/mn:organization/mn:subdivision[@type = 'Workgroup']/mn:name"/>
 														<fo:block><xsl:value-of select="java:replaceAll(java:java.lang.String.new($workgroup),'(.)','$1​')"/></fo:block>
 													</fo:table-cell>
 													<fo:table-cell padding-top="2mm">

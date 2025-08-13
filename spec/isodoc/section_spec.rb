@@ -2364,6 +2364,33 @@ RSpec.describe Metanorma::Itu do
               <phone type='fax'>558</phone>
             </person>
           </contributor>
+             <contributor>
+                <role type="author">
+                   <description>Bureau</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>R</name>
+                   </subdivision>
+                   <subdivision type="Sector">
+                      <name>Sector</name>
+                   </subdivision>
+                   <subdivision type="Group" subtype="A">
+                      <name>Study Group 17</name>
+                      <identifier>C</identifier>
+                   </subdivision>
+                   <subdivision type="Subgroup" subtype="A1">
+                      <name>I1</name>
+                      <identifier>C1</identifier>
+                   </subdivision>
+                   <subdivision type="Workgroup" subtype="A2">
+                      <name>I2</name>
+                      <identifier>C2</identifier>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
+             </contributor>
           <contributor>
             <role type='publisher'/>
             <organization>
@@ -2426,6 +2453,10 @@ RSpec.describe Metanorma::Itu do
                 <approvalstage process='F3'>G3</approvalstage>
               </recommendationstatus>
               <ip-notice-received>false</ip-notice-received>
+                      <studyperiod>
+           <start>2000</start>
+           <end>2002</end>
+        </studyperiod>
               <timing>2025-Q4</timing>
             <meeting acronym='MX'>Meeting X</meeting>
             <meeting-place>Kronos</meeting-place>

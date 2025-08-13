@@ -1,5 +1,6 @@
 require "fileutils"
 require_relative "./front_id"
+require_relative "./front_contrib"
 
 module Metanorma
   module Itu
@@ -64,44 +65,6 @@ module Metanorma
         end
       end
 
-      def default_publisher
-        @i18n.get["ITU"] || @i18n.international_telecommunication_union
-      end
-
-      def org_abbrev
-        if @i18n.get["ITU"]
-          { @i18n.international_telecommunication_union => @i18n.get["ITU"] }
-        else {} end
-      end
-
-      def metadata_committee(node, xml)
-        hyphenate_node_attributes(node)
-        metadata_sector(node, xml)
-        metadata_committee1(node, xml, "")
-        suffix = 2
-        while node.attr("bureau_#{suffix}")
-          metadata_committee1(node, xml, "_#{suffix}")
-          suffix += 1
-        end
-      end
-
-      def hyphenate_node_attributes(node)
-        a = node.attributes.dup
-        a.each do |k, v|
-          /group(type|acronym)/.match?(k) and
-            node.set_attr(k.sub(/group(type|acronym)/, "group-\\1"), v)
-          /group(yearstart|yearend)/.match?(k) and
-            node.set_attr(k.sub(/groupyear(start|end)/, "group-year-\\1"), v)
-        end
-      end
-
-      def metadata_sector(node, xml)
-        s = node.attr("sector") or return
-        xml.editorialgroup do |a|
-          a.sector { |x| x << s }
-        end
-      end
-
       def metadata_question(node, xml)
         vals = csv_split(node.attr("question"), ",").map do |s1|
           t, v = s1.split(":", 2).map(&:strip)
@@ -112,29 +75,6 @@ module Metanorma
             a = v[:id] and q.identifier a
             a = v[:value] and q.name a
           end
-        end
-      end
-
-      def metadata_committee1(node, xml, suffix)
-        xml.editorialgroup do |a|
-          a.bureau ( node.attr("bureau#{suffix}") || "T")
-          ["", "sub", "work"].each do |p|
-            node.attr("#{p}group#{suffix}") or next
-            type = node.attr("#{p}group-type#{suffix}")
-            a.send "#{p}group", **attr_code(type: type) do |g|
-              metadata_committee2(node, g, suffix, p)
-            end
-          end
-        end
-      end
-
-      def metadata_committee2(node, group, suffix, prefix)
-        group.name node.attr("#{prefix}group#{suffix}")
-        a = node.attr("#{prefix}group-acronym#{suffix}") and group.acronym a
-        s, e = group_period(node, prefix, suffix)
-        group.period do |p|
-          p.start s
-          p.end e
         end
       end
 
@@ -213,11 +153,20 @@ module Metanorma
         end
       end
 
+      def metadata_studyperiod(node, xml)
+        s, e = group_period(node, "", "")
+        xml.studyperiod do |p|
+          p.start s
+          p.end e
+        end
+      end
+
       def metadata_ext(node, xml)
         super
         metadata_question(node, xml)
         metadata_recommendationstatus(node, xml)
         metadata_ip_notice(node, xml)
+        metadata_studyperiod(node, xml)
         metadata_techreport(node, xml)
         metadata_contribution(node, xml)
       end

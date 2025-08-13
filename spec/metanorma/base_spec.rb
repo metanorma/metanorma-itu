@@ -116,6 +116,10 @@ RSpec.describe Metanorma::Itu do
               <bureau>T</bureau>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
             <structuredidentifier>
           <bureau>T</bureau>
           <docnumber>1000</docnumber>
@@ -292,6 +296,57 @@ RSpec.describe Metanorma::Itu do
                       <surname>Rubble</surname>
                    </name>
                 </person>
+             </contributor>
+             <contributor>
+                <role type="author">
+                   <description>committee</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>R</name>
+                   </subdivision>
+                   <subdivision type="Sector">
+                      <name>Sector</name>
+                   </subdivision>
+                   <subdivision type="Group" subtype="A">
+                      <name>I</name>
+                      <identifier>C</identifier>
+                   </subdivision>
+                   <subdivision type="Subgroup" subtype="A1">
+                      <name>I1</name>
+                      <identifier>C1</identifier>
+                   </subdivision>
+                   <subdivision type="Workgroup" subtype="A2">
+                      <name>I2</name>
+                      <identifier>C2</identifier>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
+             </contributor>
+             <contributor>
+                <role type="author">
+                   <description>committee</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>T</name>
+                   </subdivision>
+                   <subdivision type="Group" subtype="B">
+                      <name>J</name>
+                      <identifier>D</identifier>
+                   </subdivision>
+                   <subdivision type="Subgroup" subtype="B1">
+                      <name>J1</name>
+                      <identifier>D1</identifier>
+                   </subdivision>
+                   <subdivision type="Workgroup" subtype="B2">
+                      <name>J2</name>
+                      <identifier>D2</identifier>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
              </contributor>
              <contributor>
                 <role type="publisher"/>
@@ -520,10 +575,17 @@ RSpec.describe Metanorma::Itu do
                    <approvalstage process="F3">G3</approvalstage>
                 </recommendationstatus>
                 <ip-notice-received>false</ip-notice-received>
+                             <studyperiod>
+             <start>E</start>
+             <end>G</end>
+             </studyperiod>
                 <timing>2025-Q4</timing>
              </ext>
           </bibdata>
           <metanorma-extension>
+             <semantic-metadata>
+                <stage-published>true</stage-published>
+             </semantic-metadata>
              <presentation-metadata>
                 <name>document-scheme</name>
                 <value>legacy</value>
@@ -535,9 +597,6 @@ RSpec.describe Metanorma::Itu do
                    <image src="images/image2.gif"/>
                 </value>
              </presentation-metadata>
-       <semantic-metadata>
-      <stage-published>true</stage-published>
-      </semantic-metadata>
              <presentation-metadata>
                 <name>TOC Heading Levels</name>
                 <value>2</value>
@@ -789,6 +848,28 @@ RSpec.describe Metanorma::Itu do
               <email>y@example.com</email>
             </person>
           </contributor>
+      <contributor>
+         <role type="author">
+            <description>committee</description>
+         </role>
+         <organization>
+            <name>International Telecommunication Union</name>
+            <subdivision type="Bureau">
+               <name>R</name>
+            </subdivision>
+            <subdivision type="Group" subtype="study-group">
+               <name>Study Group 17</name>
+               <identifier>SG17</identifier>
+            </subdivision>
+            <subdivision type="Subgroup">
+               <name>I1</name>
+            </subdivision>
+            <subdivision type="Workgroup">
+               <name>I2</name>
+            </subdivision>
+            <abbreviation>ITU</abbreviation>
+         </organization>
+      </contributor>
           <contributor>
             <role type='publisher'/>
             <organization>
@@ -846,6 +927,10 @@ RSpec.describe Metanorma::Itu do
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>2000</start>
+             <end>2002</end>
+             </studyperiod>
             <meeting acronym='MX'>Meeting X</meeting>
             <meeting-place>Kronos</meeting-place>
             <meeting-date>
@@ -874,6 +959,7 @@ RSpec.describe Metanorma::Itu do
       .each(&:remove)
     expect(Canon.format_xml(strip_guid(xml.to_xml)))
       .to be_equivalent_to Canon.format_xml(strip_guid(output)
+      .sub("<identifier>SG17</identifier>", "")
       .sub("<acronym>SG17</acronym>", ""))
   end
 
@@ -984,6 +1070,27 @@ RSpec.describe Metanorma::Itu do
               <email>y@example.com</email>
             </person>
           </contributor>
+      <contributor>
+         <role type="author">
+            <description>committee</description>
+         </role>
+         <organization>
+            <name>International Telecommunication Union</name>
+            <subdivision type="Bureau">
+               <name>R</name>
+            </subdivision>
+            <subdivision type="Group">
+               <name>I</name>
+            </subdivision>
+            <subdivision type="Subgroup">
+               <name>I1</name>
+            </subdivision>
+            <subdivision type="Workgroup">
+               <name>I2</name>
+            </subdivision>
+            <abbreviation>ITU</abbreviation>
+         </organization>
+      </contributor>
           <contributor>
             <role type='publisher'/>
             <organization>
@@ -1040,6 +1147,11 @@ RSpec.describe Metanorma::Itu do
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
+
             <meeting acronym='MX'>Meeting X</meeting>
             <meeting-place>Kronos</meeting-place>
             <meeting-date>
@@ -1118,6 +1230,27 @@ RSpec.describe Metanorma::Itu do
               <abbreviation>ITU</abbreviation>
             </organization>
           </contributor>
+      <contributor>
+         <role type="author">
+            <description>committee</description>
+         </role>
+         <organization>
+            <name>International Telecommunication Union</name>
+            <subdivision type="Bureau">
+               <name>R</name>
+            </subdivision>
+            <subdivision type="Group">
+               <name>I</name>
+            </subdivision>
+            <subdivision type="Subgroup">
+               <name>I1</name>
+            </subdivision>
+            <subdivision type="Workgroup">
+               <name>I2</name>
+            </subdivision>
+            <abbreviation>ITU</abbreviation>
+         </organization>
+      </contributor>
           <contributor>
             <role type='publisher'/>
             <organization>
@@ -1174,6 +1307,10 @@ RSpec.describe Metanorma::Itu do
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
             <meeting>Meeting X</meeting>
             <meeting-date>
               <on>2000-01-01</on>
@@ -1302,6 +1439,27 @@ RSpec.describe Metanorma::Itu do
               <email>y@example.com</email>
             </person>
           </contributor>
+               <contributor>
+        <role type="author">
+           <description>committee</description>
+        </role>
+        <organization>
+           <name>International Telecommunication Union</name>
+           <subdivision type="Bureau">
+              <name>R</name>
+           </subdivision>
+           <subdivision type="Group">
+              <name>I</name>
+           </subdivision>
+           <subdivision type="Subgroup">
+              <name>I1</name>
+           </subdivision>
+           <subdivision type="Workgroup">
+              <name>I2</name>
+           </subdivision>
+           <abbreviation>ITU</abbreviation>
+        </organization>
+     </contributor>
           <contributor>
             <role type='publisher'/>
             <organization>
@@ -1358,6 +1516,10 @@ RSpec.describe Metanorma::Itu do
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
             <meeting>Meeting X</meeting>
             <meeting-date>
               <from>2000-01-01</from>
@@ -1439,6 +1601,10 @@ RSpec.describe Metanorma::Itu do
             <bureau>T</bureau>
           </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
+                       <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
           <structuredidentifier>
             <bureau>T</bureau>
             <docnumber>1000</docnumber>
@@ -1784,6 +1950,10 @@ RSpec.describe Metanorma::Itu do
                 <bureau>T</bureau>
              </editorialgroup>
              <ip-notice-received>false</ip-notice-received>
+                          <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
           </ext>
        </bibdata>
     OUTPUT

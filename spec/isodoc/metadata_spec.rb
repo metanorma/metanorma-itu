@@ -37,6 +37,57 @@ RSpec.describe Metanorma::Itu do
             <abbreviation>ITU</abbreviation>
           </organization>
         </contributor>
+             <contributor>
+                <role type="author">
+                   <description>Bureau</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>R</name>
+                   </subdivision>
+                   <subdivision type="Sector">
+                      <name>Sector</name>
+                   </subdivision>
+                   <subdivision type="Group" subtype="A">
+                      <name>I</name>
+                      <identifier>C</identifier>
+                   </subdivision>
+                   <subdivision type="Subgroup" subtype="A1">
+                      <name>I1</name>
+                      <identifier>C1</identifier>
+                   </subdivision>
+                   <subdivision type="Workgroup" subtype="A2">
+                      <name>I2</name>
+                      <identifier>C2</identifier>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
+             </contributor>
+             <contributor>
+                <role type="author">
+                   <description>Bureau</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>T</name>
+                   </subdivision>
+                   <subdivision type="Group" subtype="B">
+                      <name>J</name>
+                      <identifier>D</identifier>
+                   </subdivision>
+                   <subdivision type="Subgroup" subtype="B1">
+                      <name>J1</name>
+                      <identifier>D1</identifier>
+                   </subdivision>
+                   <subdivision type="Workgroup" subtype="B2">
+                      <name>J2</name>
+                      <identifier>D2</identifier>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
+             </contributor>
         <contributor>
           <role type="publisher"/>
           <organization>
@@ -148,6 +199,10 @@ RSpec.describe Metanorma::Itu do
         <approvalstage process="F3">G3</approvalstage>
       </recommendationstatus>
       <ip-notice-received>false</ip-notice-received>
+              <studyperiod>
+           <start>E</start>
+           <end>G</end>
+        </studyperiod>
       <timing>Q4-2025</timing>
       <structuredidentifier>
       <bureau>R</bureau>
@@ -391,6 +446,29 @@ RSpec.describe Metanorma::Itu do
                </person>
              </contributor>
              <contributor>
+                <role type="author">
+                   <description>Bureau</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>R</name>
+                   </subdivision>
+                   <subdivision type="Group" subtype="A">
+                      <name>I</name>
+                   </subdivision>
+                   <subdivision type="Subgroup" subtype="A1">
+                      <name>I1</name>
+                      <identifier>C1</identifier>
+                   </subdivision>
+                   <subdivision type="Workgroup" subtype="A2">
+                      <name>I2</name>
+                      <identifier>C2</identifier>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
+             </contributor>
+             <contributor>
                <role type='publisher'/>
                <organization>
                  <name>International Telecommunication Union</name>
@@ -562,6 +640,18 @@ RSpec.describe Metanorma::Itu do
                <organization> <name>International Telecommunication Union</name> </organization>
              </contributor>
              <contributor>
+                <role type="author">
+                   <description>Bureau</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>R</name>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
+             </contributor>
+             <contributor>
                <role type='publisher'/>
                <organization> <name>International Telecommunication Union</name> </organization>
              </contributor>
@@ -684,6 +774,18 @@ RSpec.describe Metanorma::Itu do
              <contributor>
                <role type='author'/>
                <organization> <name>International Telecommunication Union</name> </organization>
+             </contributor>
+            <contributor>
+                <role type="author">
+                   <description>Bureau</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>R</name>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
              </contributor>
              <contributor>
                <role type='publisher'/>
@@ -811,6 +913,18 @@ RSpec.describe Metanorma::Itu do
                <role type='author'/>
                <organization> <name>International Telecommunication Union</name> </organization>
              </contributor>
+            <contributor>
+                <role type="author">
+                   <description>Bureau</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>R</name>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
+             </contributor>
              <contributor>
                <role type='publisher'/>
                <organization> <name>International Telecommunication Union</name> </organization>
@@ -936,6 +1050,18 @@ RSpec.describe Metanorma::Itu do
              <contributor>
                <role type='author'/>
                <organization> <name>International Telecommunication Union</name> </organization>
+             </contributor>
+            <contributor>
+                <role type="author">
+                   <description>Bureau</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>R</name>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
              </contributor>
              <contributor>
                <role type='publisher'/>
@@ -1106,6 +1232,29 @@ RSpec.describe Metanorma::Itu do
                  <phone type='fax'>558</phone>
                  <email>y@example.com</email>
                </person>
+             </contributor>
+             <contributor>
+                <role type="author">
+                   <description>Bureau</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>R</name>
+                   </subdivision>
+                   <subdivision type="Group" subtype="A">
+                      <name>I</name>
+                   </subdivision>
+                   <subdivision type="Subgroup" subtype="A1">
+                      <name>I1</name>
+                      <identifier>C1</identifier>
+                   </subdivision>
+                   <subdivision type="Workgroup" subtype="A2">
+                      <name>I2</name>
+                      <identifier>C2</identifier>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
              </contributor>
              <contributor>
                <role type='publisher'/>

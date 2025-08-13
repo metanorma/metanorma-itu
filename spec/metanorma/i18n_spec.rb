@@ -113,6 +113,27 @@ RSpec.describe Metanorma::Itu do
               <email>y@example.com</email>
             </person>
           </contributor>
+      <contributor>
+         <role type="author">
+            <description>committee</description>
+         </role>
+         <organization>
+            <name>Union internationale des télécommunications</name>
+            <subdivision type="Bureau">
+               <name>R</name>
+            </subdivision>
+            <subdivision type="Group">
+               <name>I</name>
+            </subdivision>
+            <subdivision type="Subgroup">
+               <name>I1</name>
+            </subdivision>
+            <subdivision type="Workgroup">
+               <name>I2</name>
+            </subdivision>
+            <abbreviation>UIT</abbreviation>
+         </organization>
+      </contributor>
           <contributor>
             <role type='publisher'/>
             <organization>
@@ -169,6 +190,10 @@ RSpec.describe Metanorma::Itu do
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
             <meeting>Meeting X</meeting>
             <meeting-date>
               <from>2000-01-01</from>
@@ -488,6 +513,26 @@ RSpec.describe Metanorma::Itu do
               <email>y@example.com</email>
             </person>
           </contributor>
+      <contributor>
+         <role type="author">
+            <description>committee</description>
+         </role>
+         <organization>
+            <name>国际电信联盟</name>
+            <subdivision type="Bureau">
+               <name>R</name>
+            </subdivision>
+            <subdivision type="Group">
+               <name>I</name>
+            </subdivision>
+            <subdivision type="Subgroup">
+               <name>I1</name>
+            </subdivision>
+            <subdivision type="Workgroup">
+               <name>I2</name>
+            </subdivision>
+         </organization>
+      </contributor>
           <contributor>
             <role type='publisher'/>
             <organization>
@@ -542,6 +587,10 @@ RSpec.describe Metanorma::Itu do
               </workgroup>
             </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
+                         <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
             <meeting>Meeting X</meeting>
             <meeting-date>
               <from>2000-01-01</from>
@@ -841,6 +890,26 @@ RSpec.describe Metanorma::Itu do
             <email>y@example.com</email>
           </person>
         </contributor>
+      <contributor>
+         <role type="author">
+            <description>committee</description>
+         </role>
+         <organization>
+            <name>الاتحاد الدولي للاتصالات</name>
+            <subdivision type="Bureau">
+               <name>R</name>
+            </subdivision>
+            <subdivision type="Group">
+               <name>I</name>
+            </subdivision>
+            <subdivision type="Subgroup">
+               <name>I1</name>
+            </subdivision>
+            <subdivision type="Workgroup">
+               <name>I2</name>
+            </subdivision>
+         </organization>
+      </contributor>
         <contributor>
           <role type='publisher'/>
           <organization>
@@ -895,6 +964,10 @@ RSpec.describe Metanorma::Itu do
             </workgroup>
           </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
+                       <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
           <meeting>Meeting X</meeting>
           <meeting-date>
             <from>2000-01-01</from>
@@ -1185,6 +1258,27 @@ RSpec.describe Metanorma::Itu do
             <email>y@example.com</email>
           </person>
         </contributor>
+      <contributor>
+         <role type="author">
+            <description>committee</description>
+         </role>
+         <organization>
+            <name>Unión Internacional de Telecomunicaciones</name>
+            <subdivision type="Bureau">
+               <name>R</name>
+            </subdivision>
+            <subdivision type="Group">
+               <name>I</name>
+            </subdivision>
+            <subdivision type="Subgroup">
+               <name>I1</name>
+            </subdivision>
+            <subdivision type="Workgroup">
+               <name>I2</name>
+            </subdivision>
+            <abbreviation>UIT</abbreviation>
+         </organization>
+      </contributor>
         <contributor>
           <role type='publisher'/>
           <organization>
@@ -1241,6 +1335,10 @@ RSpec.describe Metanorma::Itu do
             </workgroup>
           </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
+                       <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
           <meeting>Meeting X</meeting>
           <meeting-date>
             <from>2000-01-01</from>
@@ -1530,6 +1628,27 @@ RSpec.describe Metanorma::Itu do
             <email>y@example.com</email>
           </person>
         </contributor>
+              <contributor>
+         <role type="author">
+            <description>committee</description>
+         </role>
+         <organization>
+            <name>Internationale Fernmeldeunion</name>
+            <subdivision type="Bureau">
+               <name>R</name>
+            </subdivision>
+            <subdivision type="Group">
+               <name>I</name>
+            </subdivision>
+            <subdivision type="Subgroup">
+               <name>I1</name>
+            </subdivision>
+            <subdivision type="Workgroup">
+               <name>I2</name>
+            </subdivision>
+            <abbreviation>ITU</abbreviation>
+         </organization>
+      </contributor>
         <contributor>
           <role type='publisher'/>
           <organization>
@@ -1586,6 +1705,10 @@ RSpec.describe Metanorma::Itu do
             </workgroup>
           </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
+             <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
           <meeting>Meeting X</meeting>
           <meeting-date>
             <from>2000-01-01</from>
@@ -1880,6 +2003,27 @@ RSpec.describe Metanorma::Itu do
                <email>y@example.com</email>
              </person>
            </contributor>
+     <contributor>
+        <role type="author">
+           <description>committee</description>
+        </role>
+        <organization>
+           <name>Международный Союз Электросвязи</name>
+           <subdivision type="Bureau">
+              <name>R</name>
+           </subdivision>
+           <subdivision type="Group">
+              <name>I</name>
+           </subdivision>
+           <subdivision type="Subgroup">
+              <name>I1</name>
+           </subdivision>
+           <subdivision type="Workgroup">
+              <name>I2</name>
+           </subdivision>
+           <abbreviation>МСЭ</abbreviation>
+        </organization>
+     </contributor>
            <contributor>
              <role type='publisher'/>
              <organization>
@@ -1936,6 +2080,10 @@ RSpec.describe Metanorma::Itu do
                </workgroup>
              </editorialgroup>
              <ip-notice-received>false</ip-notice-received>
+             <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
              <meeting>Meeting X</meeting>
              <meeting-date>
                <from>2000-01-01</from>

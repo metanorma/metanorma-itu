@@ -174,21 +174,6 @@ RSpec.describe Metanorma::Itu do
           <ext>
             <doctype>service-publication</doctype>
             <flavor>itu</flavor>
-            <editorialgroup>
-              <bureau>R</bureau>
-              <group>
-                <name>I</name>
-                #{current_study_period}
-              </group>
-              <subgroup>
-                <name>I1</name>
-                #{current_study_period}
-              </subgroup>
-              <workgroup>
-                <name>I2</name>
-                #{current_study_period}
-              </workgroup>
-            </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
                          <studyperiod>
              <start>#{Date.today.year - (Date.today.year % 2)}</start>
@@ -571,21 +556,6 @@ RSpec.describe Metanorma::Itu do
           <ext>
             <doctype>service-publication</doctype>
             <flavor>itu</flavor>
-            <editorialgroup>
-              <bureau>R</bureau>
-              <group>
-                <name>I</name>
-                #{current_study_period}
-              </group>
-              <subgroup>
-                <name>I1</name>
-                #{current_study_period}
-              </subgroup>
-              <workgroup>
-                <name>I2</name>
-                #{current_study_period}
-              </workgroup>
-            </editorialgroup>
             <ip-notice-received>false</ip-notice-received>
                          <studyperiod>
              <start>#{Date.today.year - (Date.today.year % 2)}</start>
@@ -948,21 +918,6 @@ RSpec.describe Metanorma::Itu do
         <ext>
           <doctype>service-publication</doctype>
             <flavor>itu</flavor>
-          <editorialgroup>
-            <bureau>R</bureau>
-            <group>
-              <name>I</name>
-                #{current_study_period}
-            </group>
-            <subgroup>
-              <name>I1</name>
-                #{current_study_period}
-            </subgroup>
-            <workgroup>
-              <name>I2</name>
-                #{current_study_period}
-            </workgroup>
-          </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
                        <studyperiod>
              <start>#{Date.today.year - (Date.today.year % 2)}</start>
@@ -1319,21 +1274,6 @@ RSpec.describe Metanorma::Itu do
         <ext>
           <doctype>service-publication</doctype>
             <flavor>itu</flavor>
-          <editorialgroup>
-            <bureau>R</bureau>
-            <group>
-              <name>I</name>
-                #{current_study_period}
-            </group>
-            <subgroup>
-              <name>I1</name>
-                #{current_study_period}
-            </subgroup>
-            <workgroup>
-              <name>I2</name>
-                #{current_study_period}
-            </workgroup>
-          </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
                        <studyperiod>
              <start>#{Date.today.year - (Date.today.year % 2)}</start>
@@ -1689,21 +1629,6 @@ RSpec.describe Metanorma::Itu do
         <ext>
           <doctype>service-publication</doctype>
             <flavor>itu</flavor>
-          <editorialgroup>
-            <bureau>R</bureau>
-            <group>
-              <name>I</name>
-                #{current_study_period}
-            </group>
-            <subgroup>
-              <name>I1</name>
-                #{current_study_period}
-            </subgroup>
-            <workgroup>
-              <name>I2</name>
-                #{current_study_period}
-            </workgroup>
-          </editorialgroup>
           <ip-notice-received>false</ip-notice-received>
              <studyperiod>
              <start>#{Date.today.year - (Date.today.year % 2)}</start>
@@ -2064,21 +1989,6 @@ RSpec.describe Metanorma::Itu do
            <ext>
              <doctype>service-publication</doctype>
             <flavor>itu</flavor>
-             <editorialgroup>
-               <bureau>R</bureau>
-               <group>
-                 <name>I</name>
-                #{current_study_period}
-               </group>
-               <subgroup>
-                 <name>I1</name>
-                #{current_study_period}
-               </subgroup>
-               <workgroup>
-                 <name>I2</name>
-                #{current_study_period}
-               </workgroup>
-             </editorialgroup>
              <ip-notice-received>false</ip-notice-received>
              <studyperiod>
              <start>#{Date.today.year - (Date.today.year % 2)}</start>

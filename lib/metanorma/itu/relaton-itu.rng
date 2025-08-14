@@ -21,23 +21,6 @@
         <value>contribution</value>
       </choice>
     </define>
-    <define name="editorialgroup">
-      <element name="editorialgroup">
-        <choice>
-          <ref name="bureau"/>
-          <ref name="sector"/>
-        </choice>
-        <optional>
-          <ref name="group"/>
-        </optional>
-        <optional>
-          <ref name="subgroup"/>
-        </optional>
-        <optional>
-          <ref name="workgroup"/>
-        </optional>
-      </element>
-    </define>
     <define name="structuredidentifier">
       <element name="structuredidentifier">
         <ref name="bureau"/>
@@ -208,35 +191,6 @@
       </choice>
     </element>
   </define>
-  <define name="sector">
-    <element name="sector">
-      <text/>
-    </element>
-  </define>
-  <define name="group">
-    <element name="group">
-      <ref name="ItuGroup"/>
-    </element>
-  </define>
-  <define name="subgroup">
-    <element name="subgroup">
-      <ref name="ItuGroup"/>
-    </element>
-  </define>
-  <define name="ItuGroup">
-    <optional>
-      <attribute name="type">
-        <ref name="ItuGroupType"/>
-      </attribute>
-    </optional>
-    <ref name="tname"/>
-    <optional>
-      <ref name="groupacronym"/>
-    </optional>
-    <optional>
-      <ref name="studyperiod"/>
-    </optional>
-  </define>
   <define name="ItuGroupType">
     <choice>
       <value>tsag</value>
@@ -251,11 +205,6 @@
       <value>intersector-rapporteur-group</value>
       <value>regional-group</value>
     </choice>
-  </define>
-  <define name="groupacronym">
-    <element name="acronym">
-      <text/>
-    </element>
   </define>
   <define name="studyperiod">
     <element name="studyperiod">
@@ -273,11 +222,6 @@
   <define name="groupperiodend">
     <element name="end">
       <data type="gYear"/>
-    </element>
-  </define>
-  <define name="workgroup">
-    <element name="workgroup">
-      <ref name="ItuGroup"/>
     </element>
   </define>
   <define name="question">

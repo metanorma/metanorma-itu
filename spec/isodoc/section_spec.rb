@@ -2366,7 +2366,7 @@ RSpec.describe Metanorma::Itu do
           </contributor>
              <contributor>
                 <role type="author">
-                   <description>Bureau</description>
+                   <description>committee</description>
                 </role>
                 <organization>
                    <name>International Telecommunication Union</name>
@@ -2429,31 +2429,14 @@ RSpec.describe Metanorma::Itu do
           <keyword>VoIP</keyword>
           <keyword>word1</keyword>
           <ext>
-            <doctype>contribution</doctype>
-            <editorialgroup>
-              <bureau>R</bureau>
-              <group type="study-group">
-                <name>Study Group 17</name>
-                <acronym>SG17</acronym>
-                <period>
-                  <start>2000</start>
-                  <end>2002</end>
-                </period>
-              </group>
-              <subgroup>
-                <name>I1</name>
-              </subgroup>
-              <workgroup>
-                <name>I2</name>
-              </workgroup>
-            </editorialgroup>
+          <doctype>contribution</doctype>
             <recommendationstatus>
                 <from>D3</from>
                 <to>E3</to>
                 <approvalstage process='F3'>G3</approvalstage>
               </recommendationstatus>
               <ip-notice-received>false</ip-notice-received>
-                      <studyperiod>
+              <studyperiod>
            <start>2000</start>
            <end>2002</end>
         </studyperiod>

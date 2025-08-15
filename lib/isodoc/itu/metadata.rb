@@ -61,32 +61,26 @@ module IsoDoc
         nil
       end
 
+      COMMITTEE_XPATH = "//bibdata/contributor[role/description = 'committee']/" \
+        "organization/subdivision".freeze
+
       def author(xml, _out)
-        #sector = xml.at(ns("//bibdata/ext/editorialgroup/sector"))
-        sector = xml.at(ns("//bibdata/contributor[role/@type='author']/organization/subdivision[@type='Sector']/name"))
+        sector = xml.at(ns("#{COMMITTEE_XPATH}[@type='Sector']/name"))
         set(:sector, sector.text) if sector
         bureau(xml)
-        #tc = xml.at(ns("//bibdata/ext/editorialgroup/committee"))
-        #set(:tc, tc.text) if tc
-        #tc = xml.at(ns("//bibdata/ext/editorialgroup/group/name"))
-        tc = xml.at(ns("//bibdata/contributor[role/@type='author']/organization/subdivision[@type='Group']/name"))
+        tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Group']/name"))
         set(:group, tc.text) if tc
-        #tc = xml.at(ns("//bibdata/ext/editorialgroup/group/acronym"))
-        tc = xml.at(ns("//bibdata/contributor[role/@type='author']/organization/subdivision[@type='Group']/identifier"))
+        tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Group']/identifier"))
         set(:group_acronym, tc.text) if tc
-        #start1 = xml.at(ns("//bibdata/ext/editorialgroup/group/period/start"))
-        #end1 = xml.at(ns("//bibdata/ext/editorialgroup/group/period/end"))
         start1 = xml.at(ns("//bibdata/ext/studyperiod/start"))
         end1 = xml.at(ns("//bibdata/ext/studyperiod/end"))
         if start1
           set(:study_group_period,
               @i18n.l10n("#{start1.text}–#{end1.text}"))
         end
-        tc = xml.at(ns("//bibdata/contributor[role/@type='author']/organization/subdivision[@type='Subgroup']/name"))
-        #tc = xml.at(ns("//bibdata/ext/editorialgroup/subgroup/name"))
+        tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Subgroup']/name"))
         set(:subgroup, tc.text) if tc
-        tc = xml.at(ns("//bibdata/contributor[role/@type='author']/organization/subdivision[@type='Workgroup']/name"))
-        #tc = xml.at(ns("//bibdata/ext/editorialgroup/workgroup/name"))
+        tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Workgroup']/name"))
         set(:workgroup, tc.text) if tc
         super
         authors = xml.xpath(ns("//bibdata/contributor[role/@type = 'author' " \
@@ -95,8 +89,7 @@ module IsoDoc
       end
 
       def bureau(xml)
-        #if bureau = xml.at(ns("//bibdata/ext/editorialgroup/bureau"))
-        if bureau = xml.at(ns("//bibdata/contributor[role/@type='author']/organization/subdivision[@type='Bureau']/name"))
+        if bureau = xml.at(ns("#{COMMITTEE_XPATH}[@type='Bureau']/name"))
           set(:bureau, bureau.text)
           case bureau.text
           when "T" then set(:bureau_full, @i18n.tsb_full)

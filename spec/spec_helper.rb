@@ -242,9 +242,6 @@ BLANK_HDR = <<~"HDR".freeze
              <start>#{Date.today.year - (Date.today.year % 2)}</start>
              <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
              </studyperiod>
-           <editorialgroup>
-           <bureau>T</bureau>
-           </editorialgroup>
            <ip-notice-received>false</ip-notice-received>
    </ext>
   </bibdata>

@@ -39,7 +39,7 @@ RSpec.describe Metanorma::Itu do
         </contributor>
              <contributor>
                 <role type="author">
-                   <description>Bureau</description>
+                   <description>committee</description>
                 </role>
                 <organization>
                    <name>International Telecommunication Union</name>
@@ -66,7 +66,7 @@ RSpec.describe Metanorma::Itu do
              </contributor>
              <contributor>
                 <role type="author">
-                   <description>Bureau</description>
+                   <description>committee</description>
                 </role>
                 <organization>
                    <name>International Telecommunication Union</name>
@@ -447,7 +447,7 @@ RSpec.describe Metanorma::Itu do
              </contributor>
              <contributor>
                 <role type="author">
-                   <description>Bureau</description>
+                   <description>committee</description>
                 </role>
                 <organization>
                    <name>International Telecommunication Union</name>
@@ -641,7 +641,7 @@ RSpec.describe Metanorma::Itu do
              </contributor>
              <contributor>
                 <role type="author">
-                   <description>Bureau</description>
+                   <description>committee</description>
                 </role>
                 <organization>
                    <name>International Telecommunication Union</name>
@@ -777,7 +777,7 @@ RSpec.describe Metanorma::Itu do
              </contributor>
             <contributor>
                 <role type="author">
-                   <description>Bureau</description>
+                   <description>committee</description>
                 </role>
                 <organization>
                    <name>International Telecommunication Union</name>
@@ -915,7 +915,7 @@ RSpec.describe Metanorma::Itu do
              </contributor>
             <contributor>
                 <role type="author">
-                   <description>Bureau</description>
+                   <description>committee</description>
                 </role>
                 <organization>
                    <name>International Telecommunication Union</name>
@@ -1053,7 +1053,7 @@ RSpec.describe Metanorma::Itu do
              </contributor>
             <contributor>
                 <role type="author">
-                   <description>Bureau</description>
+                   <description>committee</description>
                 </role>
                 <organization>
                    <name>International Telecommunication Union</name>
@@ -1235,7 +1235,7 @@ RSpec.describe Metanorma::Itu do
              </contributor>
              <contributor>
                 <role type="author">
-                   <description>Bureau</description>
+                   <description>committee</description>
                 </role>
                 <organization>
                    <name>International Telecommunication Union</name>

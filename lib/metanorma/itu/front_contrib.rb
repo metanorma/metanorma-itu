@@ -11,17 +11,6 @@ module Metanorma
         else {} end
       end
 
-      def metadata_committee(node, xml)
-        metadata_committee_prep(node)
-        metadata_sector(node, xml)
-        metadata_committee1(node, xml, "")
-        suffix = 2
-        while node.attr("bureau_#{suffix}")
-          metadata_committee1(node, xml, "_#{suffix}")
-          suffix += 1
-        end
-      end
-
       def committee_contributors(node, xml, agency, opt)
         metadata_committee_prep(node) or return
         super
@@ -57,37 +46,6 @@ module Metanorma
           end
         end
         contributors_committees_nest1(ret)
-      end
-
-      def metadata_sector(node, xml)
-        s = node.attr("sector") or return
-        s.empty? and return
-        xml.editorialgroup do |a|
-          a.sector { |x| x << s }
-        end
-      end
-
-      def metadata_committee1(node, xml, suffix)
-        xml.editorialgroup do |a|
-          a.bureau ( node.attr("bureau#{suffix}") || "T")
-          ["", "sub", "work"].each do |p|
-            node.attr("#{p}group#{suffix}") or next
-            type = node.attr("#{p}group-type#{suffix}")
-            a.send "#{p}group", **attr_code(type: type) do |g|
-              metadata_committee2(node, g, suffix, p)
-            end
-          end
-        end
-      end
-
-      def metadata_committee2(node, group, suffix, prefix)
-        group.name node.attr("#{prefix}group#{suffix}")
-        a = node.attr("#{prefix}group-acronym#{suffix}") and group.acronym a
-        s, e = group_period(node, prefix, suffix)
-        group.period do |p|
-          p.start s
-          p.end e
-        end
       end
 
       def metadata_ext(node, xml)

@@ -2356,13 +2356,9 @@
 	</xsl:template>
 
 	<xsl:template match="mn:copyright-statement//mn:p" priority="2">
-		<fo:block>
-			<xsl:if test="not(preceding-sibling::mn:p)"> <!-- first para -->
-				<xsl:attribute name="text-align">center</xsl:attribute>
-				<xsl:attribute name="margin-top">6pt</xsl:attribute>
-				<xsl:attribute name="margin-bottom">14pt</xsl:attribute>
-				<xsl:attribute name="keep-with-next">always</xsl:attribute>
-			</xsl:if>
+		<fo:block xsl:use-attribute-sets="copyright-statement-p-style">
+			<xsl:call-template name="refine_copyright-statement-p-style"/>
+
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
@@ -4637,6 +4633,13 @@
 	</xsl:attribute-set> <!-- copyright-statement-p-style -->
 
 	<xsl:template name="refine_copyright-statement-p-style">
+		<xsl:if test="not(preceding-sibling::mn:p)"> <!-- first para -->
+			<xsl:attribute name="text-align">center</xsl:attribute>
+			<xsl:attribute name="margin-top">6pt</xsl:attribute>
+			<xsl:attribute name="margin-bottom">14pt</xsl:attribute>
+			<xsl:attribute name="keep-with-next">always</xsl:attribute>
+		</xsl:if>
+
 	</xsl:template>
 
 	<xsl:attribute-set name="license-statement-style">
@@ -4650,6 +4653,10 @@
 
 	<xsl:attribute-set name="license-statement-p-style">
 	</xsl:attribute-set> <!-- license-statement-p-style -->
+
+	<xsl:template name="refine_license-statement-p-style">
+
+	</xsl:template>
 
 	<xsl:attribute-set name="legal-statement-style">
 	</xsl:attribute-set> <!-- legal-statement-style -->

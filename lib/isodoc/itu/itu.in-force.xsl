@@ -10150,6 +10150,9 @@
 		<xsl:attribute name="space-before">4pt</xsl:attribute>
 	</xsl:attribute-set>
 
+	<xsl:template name="refine_note-p-style">
+	</xsl:template>
+
 	<xsl:attribute-set name="termnote-style">
 		<xsl:attribute name="margin-top">4pt</xsl:attribute>
 	</xsl:attribute-set>
@@ -10229,11 +10232,13 @@
 		<xsl:choose>
 			<xsl:when test="$num = 1"> <!-- display first NOTE's paragraph in the same line with label NOTE -->
 				<fo:inline xsl:use-attribute-sets="note-p-style" role="SKIP">
+					<xsl:call-template name="refine_note-p-style"/>
 					<xsl:apply-templates/>
 				</fo:inline>
 			</xsl:when>
 			<xsl:otherwise>
 				<fo:block xsl:use-attribute-sets="note-p-style" role="SKIP">
+					<xsl:call-template name="refine_note-p-style"/>
 					<xsl:apply-templates/>
 				</fo:block>
 			</xsl:otherwise>
@@ -12879,7 +12884,7 @@
 	</xsl:template> <!-- bibitem -->
 
 	<!-- Bibliography (non-normative references) -->
-	<xsl:template match="mn:references[not(@normative='true')]/mn:bibitem | mn:references[not(@normative='true')]/mn:note" name="bibitem_non_normative" priority="2">
+	<xsl:template match="mn:references[not(@normative='true')]/mn:bibitem" name="bibitem_non_normative" priority="2">
 		<xsl:param name="skip" select="normalize-space(preceding-sibling::*[not(self::mn:note)][1][self::mn:bibitem] and 1 = 1)"/> <!-- current bibiitem is non-first -->
 		<xsl:choose>
 			<xsl:when test="$skip = 'true'"><!-- skip bibitem --></xsl:when>
@@ -12892,6 +12897,9 @@
 		</xsl:choose>
 
 	</xsl:template> <!-- references[not(@normative='true')]/bibitem -->
+
+	<!-- bibitem's notes will be processing in 'processBibitemFollowingNotes' -->
+	<xsl:template match="mn:references[not(@normative='true')]/mn:note" priority="2"/>
 
 	<xsl:template name="insertListItem_Bibitem">
 		<xsl:choose>
@@ -12909,16 +12917,17 @@
 						</fo:block>
 					</fo:list-item-label>
 					<fo:list-item-body start-indent="body-start()">
-						<fo:block xsl:use-attribute-sets="bibitem-non-normative-list-body-style" role="SKIP">
+						<fo:block xsl:use-attribute-sets="bibitem-non-normative-list-body-style"> <!-- role="SKIP" -->
 							<xsl:call-template name="processBibitem">
 								<xsl:with-param name="biblio_tag_part">last</xsl:with-param>
 							</xsl:call-template>
 						</fo:block>
+						<xsl:call-template name="processBibitemFollowingNotes"/>
 					</fo:list-item-body>
 				</fo:list-item>
 			</xsl:otherwise>
 		</xsl:choose>
-		<xsl:apply-templates select="following-sibling::*[1]"> <!-- [self::mn:bibitem] -->
+		<xsl:apply-templates select="following-sibling::*[self::mn:bibitem][1]">
 			<xsl:with-param name="skip">false</xsl:with-param>
 		</xsl:apply-templates>
 	</xsl:template>
@@ -12946,6 +12955,7 @@
 				<xsl:with-param name="biblio_tag_part">last</xsl:with-param>
 			</xsl:apply-templates>
 			<xsl:apply-templates select="mn:formattedref"/>
+			<xsl:call-template name="processBibitemFollowingNotes"/>
 		</xsl:variable>
 
 		<xsl:choose>
@@ -12979,6 +12989,7 @@
 							<fo:block>
 								<xsl:copy-of select="$bibitem_body"/>
 							</fo:block>
+							<xsl:call-template name="processBibitemFollowingNotes"/>
 						</fo:list-item-body>
 					</fo:list-item>
 				</fo:list-block>
@@ -12986,23 +12997,21 @@
 		</xsl:choose>
 		<!-- end ITU bibitem processing -->
 
-		<xsl:call-template name="processBibliographyNote"/>
+		<!-- <xsl:call-template name="processBibliographyNote"/> -->
 	</xsl:template> <!-- processBibitem (bibitem) -->
 
 	<xsl:template name="processBibliographyNote">
 		<xsl:if test="self::mn:note">
-			<xsl:variable name="note_node">
-				<xsl:element name="{local-name(..)}" namespace="{$namespace_full}"> <!-- save parent context node for determining styles -->
-					<xsl:copy> <!-- skip @id -->
-						<xsl:copy-of select="node()"/>
-					</xsl:copy>
-				</xsl:element>
-			</xsl:variable>
-			<!-- <xsl:for-each select="xalan:nodeset($note_node)//mn:note">
-				<xsl:call-template name="note"/>
-			</xsl:for-each> -->
 			<xsl:call-template name="note"/>
 		</xsl:if>
+	</xsl:template>
+
+	<xsl:template name="processBibitemFollowingNotes">
+		<!-- current context is bibitem element -->
+		<xsl:variable name="bibitem_id" select="@id"/>
+		<xsl:for-each select="following-sibling::mn:note[preceding-sibling::mn:bibitem[1][@id = $bibitem_id]]">
+			<xsl:call-template name="note"/>
+		</xsl:for-each>
 	</xsl:template>
 
 	<xsl:template match="mn:title" mode="title">

@@ -12899,7 +12899,7 @@
 	</xsl:template> <!-- references[not(@normative='true')]/bibitem -->
 
 	<!-- bibitem's notes will be processing in 'processBibitemFollowingNotes' -->
-	<xsl:template match="mn:references[not(@normative='true')]/mn:note" priority="2"/>
+	<xsl:template match="mn:references/mn:note" priority="2"/> <!-- [not(@normative='true')] -->
 
 	<xsl:template name="insertListItem_Bibitem">
 		<xsl:choose>

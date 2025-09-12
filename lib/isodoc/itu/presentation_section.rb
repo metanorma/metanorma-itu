@@ -55,7 +55,8 @@ module IsoDoc
                                          lbl)}<br/>#{subhead}</p>"
       end
 
-      def middle_title(isoxml)
+      # KILL
+      def middle_titlex(isoxml)
         s = isoxml.at(ns("//sections")) or return
         # isoxml.at(ns("//note[@type = 'title-footnote']"))
         case @doctype
@@ -68,7 +69,18 @@ module IsoDoc
         # titfn and renumber_footnotes(isoxml)
       end
 
-      def middle_title_resolution(isoxml, out)
+      def middle_title_template
+        case @doctype
+        when "resolution"
+          middle_title_resolution
+        when "contribution"
+        else
+          middle_title_recommendation
+        end
+      end
+
+      # KILL
+      def middle_title_resolutionx(isoxml, out)
         res = isoxml.at(ns("//bibdata/title[@type = 'resolution']"))
         out.previous =
           "<p class='zzSTDTitle1' align='center'>#{res.children.to_xml}</p>"
@@ -77,6 +89,15 @@ module IsoDoc
         middle_title_resolution_subtitle(isoxml, out)
       end
 
+      def middle_title_resolution
+        <<~OUTPUT
+          <p class='zzSTDTitle1' align='center'>{{ resolutiontitle }}</p>
+          {% if doctitle %}<p class='zzSTDTitle2'>{{ doctitle }}</p>{% endif %}
+          <p align='center' class='zzSTDTitle2'><em>({{ resolutionplacedate }})</em><span id='_middle_title_footnotes'/></p>
+        OUTPUT
+      end
+
+      # KILL
       def middle_title_resolution_subtitle(isoxml, out)
         ret = "<p align='center' class='zzSTDTitle2'><em>("
         d = isoxml.at(ns("//bibdata/title[@type = 'resolution-placedate']"))
@@ -85,7 +106,8 @@ module IsoDoc
         out.previous = ret
       end
 
-      def middle_title_recommendation(isoxml, out)
+      # KILL
+      def middle_title_recommendationx(isoxml, out)
         ret = ""
         id = @meta.get[:docnumber_iso] and ret += <<~XML
           <p class='zzSTDTitle1'>#{@i18n.international_standard} #{id}</p>
@@ -96,6 +118,19 @@ module IsoDoc
         out.previous = ret
       end
 
+      def middle_title_recommendation
+        <<~OUTPUT
+          {% if docnumber_iso %}<p class='zzSTDTitle1'>{{ labels["international_standard"] }}
+            {{ docnumber_iso }}</p>{% endif %}
+          {% if docnumber %}<p class='zzSTDTitle1'>
+            {%- if unpublished and draft_new_doctype %}{{ draft_new_doctype }}{% else %}{{ doctype_display }}{% endif %}
+            {{ docnumber }}</p>{% endif %}
+          {% if doctitle %}<p class='zzSTDTitle2'>{{ doctitle }}<span id='_middle_title_footnotes'/></p>{% endif %}
+          {% if docsubtitle %}<p class='zzSTDTitle3'>{{ docsubtitle }}</p>{% endif %}
+        OUTPUT
+      end
+
+      # KILL
       def middle_title_recommendation_first_line
         ret = ""
         type = @meta.get[:doctype_display]
@@ -106,12 +141,22 @@ module IsoDoc
         ret
       end
 
+      # KILL
       def middle_title_recommendation_second_line(isoxml)
         ret = ""
         t = @meta.get[:doctitle] or return ret
         ret += "<p class='zzSTDTitle2'>#{t}"
         ret += "#{title_footnotes(isoxml)}</p>"
         ret
+      end
+
+      def middle_title(docxml)
+        super
+        ins = docxml.at(ns("//span[@id = '_middle_title_footnotes']")) or return
+        if fn = title_footnotes(docxml)
+          ins.replace(fn)
+        else ins.remove
+        end
       end
 
       def title_footnotes(isoxml)

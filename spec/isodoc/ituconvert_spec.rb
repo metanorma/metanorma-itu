@@ -130,8 +130,7 @@ RSpec.describe Metanorma::Itu do
          <sections>
             <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION 1 (Andorra, 1204)</p>
             <p align="center" class="zzSTDTitle2" displayorder="2">
-               <em>(Andorra, 1204</em>
-               )
+               <em>(Andorra, 1204)</em>
                <fn id="_" reference="1" original-reference="H0" target="_">
                   <p>One fn</p>
                   <fmt-fn-label>
@@ -241,8 +240,7 @@ RSpec.describe Metanorma::Itu do
          <div class="main-section">
             <p class="zzSTDTitle1" style="text-align:center;">RESOLUTION 1 (Andorra, 1204)</p>
             <p class="zzSTDTitle2" style="text-align:center;">
-               <i>(Andorra, 1204</i>
-               )
+               <i>(Andorra, 1204)</i>
                <a class="FootnoteRef" href="#fn:_">
                   <sup>1</sup>
                </a>
@@ -289,8 +287,7 @@ RSpec.describe Metanorma::Itu do
          <div class="WordSection3">
             <p class="zzSTDTitle1" style="text-align:center;" align="center">RESOLUTION 1 (Andorra, 1204)</p>
             <p class="zzSTDTitle2" style="text-align:center;" align="center">
-               <i>(Andorra, 1204</i>
-               )
+               <i>(Andorra, 1204)</i>
                <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
                   <a class="FootnoteRef" epub:type="footnote" href="#ftn_">1</a>
                </span>
@@ -391,7 +388,7 @@ RSpec.describe Metanorma::Itu do
         </bibdata>
                   <sections>
             <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION 1 (Rev. Andorra, 1204)</p>
-            <p align="center" class="zzSTDTitle2" displayorder="2"><em>(Andorra, 1204</em>)</p>
+            <p align="center" class="zzSTDTitle2" displayorder="2"><em>(Andorra, 1204)</em></p>
        <p keep-with-next="true" class="supertitle" displayorder="3">
          <span class="fmt-element-name">SECTION</span>
          <semx element="autonum" source="_">1</semx>
@@ -412,7 +409,7 @@ RSpec.describe Metanorma::Itu do
           <br/>
           <div class="main-section">
            <p class='zzSTDTitle1'  style='text-align:center;'>RESOLUTION 1 (Rev. Andorra, 1204)</p>
-           <p class='zzSTDTitle2'  style='text-align:center;'><i>(Andorra, 1204</i>)</p>
+           <p class='zzSTDTitle2'  style='text-align:center;'><i>(Andorra, 1204)</i></p>
       <p class="supertitle" style="page-break-after: avoid;">SECTION 1</p>
       <div id="_"/>
          </div>

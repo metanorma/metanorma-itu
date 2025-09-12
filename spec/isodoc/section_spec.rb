@@ -773,8 +773,8 @@ RSpec.describe Metanorma::Itu do
     presxml = <<~OUTPUT
        <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
            <bibdata type="standard">
-              <title language="en" format="text/plain" type="main">An ITU Standard</title>
-              <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+              <title language="en" type="main">An ITU Standard</title>
+              <title language="fr" type="main">Un Standard ITU</title>
               <docidentifier type="ITU">12345</docidentifier>
               <language current="true">en</language>
               <script current="true">Latn</script>

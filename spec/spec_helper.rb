@@ -128,8 +128,8 @@ def itudoc(lang)
   <<~"INPUT"
              <metanorma xmlns="http://riboseinc.com/isoxml">
              <bibdata type="standard">
-             <title language="en" format="text/plain" type="main">An ITU Standard</title>
-             <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+             <title language="en" type="main">An ITU Standard</title>
+             <title language="fr" type="main">Un Standard ITU</title>
              <docidentifier type="ITU">12345</docidentifier>
              <language>#{lang}</language>
              <script>#{script}</script>
@@ -203,7 +203,7 @@ BLANK_HDR = <<~"HDR".freeze
   <?xml version="1.0" encoding="UTF-8"?>
   <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}" flavor="itu">
   <bibdata type="standard">
-   <title language="en" format="text/plain" type="main">Document title</title>
+   <title language="en" type="main">Document title</title>
 
     <contributor>
       <role type="author"/>

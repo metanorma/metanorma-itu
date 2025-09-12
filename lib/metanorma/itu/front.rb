@@ -17,19 +17,12 @@ module Metanorma
         super + %w(complements)
       end
 
-      def insert_title(xml, type, lang, content)
-        attr = { language: lang, format: "text/plain", type: type }
-        xml.title **attr_code(attr) do |t|
-          t << Metanorma::Utils::asciidoc_sub(content)
-        end
-      end
-
       def title_defaultlang(node, xml)
         a = node.attr("title") || node.attr("title-#{@lang}") ||
           node.attr("doctitle")
-        insert_title(xml, "main", @lang, a)
+        add_title_xml(xml, a, @lang, "main")
         if a = node.attr("annextitle") || node.attr("annextitle-#{@lang}")
-          insert_title(xml, "annex", @lang, a)
+          add_title_xml(xml, a, @lang, "annex")
         end
       end
 
@@ -38,7 +31,7 @@ module Metanorma
           /^(?:annex)?title-(?<lang>.+)$/ =~ k or next
           lang == @lang and next
           type = /^annex/.match?(k) ? "annex" : "main"
-          insert_title(xml, type, lang, v)
+          add_title_xml(xml, v, lang, type)
         end
       end
 
@@ -54,14 +47,14 @@ module Metanorma
 
       def other_title_defaultlang(node, xml, type)
         a = node.attr(type) || node.attr("#{type}-#{@lang}")
-        insert_title(xml, type.sub(/-title/, ""), @lang, a)
+        add_title_xml(xml, a, @lang, type.sub(/-title/, ""))
       end
 
       def other_title_otherlangs(node, xml, type)
         node.attributes.each do |k, v|
           m = /^#{type}-(?<lang>.+)$/.match(k) or next
           m[:lang] == @lang and next
-          insert_title(xml, type.sub(/-title/, ""), m[:lang], v)
+          add_title_xml(xml, v, m[:lang], type.sub(/-title/, ""))
         end
       end
 

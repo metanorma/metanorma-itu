@@ -6,8 +6,8 @@ RSpec.describe Metanorma::Itu do
     presxml = <<~OUTPUT
       <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
           <bibdata type="standard">
-             <title language="en" format="text/plain" type="main">An ITU Standard</title>
-             <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+             <title language="en" type="main">An ITU Standard</title>
+             <title language="fr" type="main">Un Standard ITU</title>
              <docidentifier type="ITU">12345</docidentifier>
              <language current="true">fr</language>
              <script current="true">Latn</script>
@@ -422,8 +422,8 @@ RSpec.describe Metanorma::Itu do
     presxml = <<~OUTPUT
       <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
          <bibdata type="standard">
-            <title language="en" format="text/plain" type="main">An ITU Standard</title>
-            <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+            <title language="en" type="main">An ITU Standard</title>
+            <title language="fr" type="main">Un Standard ITU</title>
             <docidentifier type="ITU">12345</docidentifier>
             <language current="true">zh</language>
             <script current="true">Hans</script>
@@ -850,8 +850,8 @@ RSpec.describe Metanorma::Itu do
     input = <<~INPUT
       <metanorma xmlns="http://riboseinc.com/isoxml">
       <bibdata type="standard">
-      <title language="en" format="text/plain" type="main">An ITU Standard</title>
-      <title language="en" format="text/plain" type="subtitle">Subtitle</title>
+      <title language="en" type="main">An ITU Standard</title>
+      <title language="en" type="subtitle">Subtitle</title>
       <docidentifier type="ITU">12345</docidentifier>
       <contributor><role type="editor"/>
       <person><name><completename>Fred Flintstone</completename></name>

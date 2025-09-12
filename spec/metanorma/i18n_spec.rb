@@ -60,10 +60,10 @@ RSpec.describe Metanorma::Itu do
     output = <<~"OUTPUT"
       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
         <bibdata type='standard'>
-          <title language='en' format='text/plain' type='main'>Main Title</title>
-          <title language='fr' format='text/plain' type='main'>Titre Principal</title>
-          <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-          <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+          <title language='en' type='main'>Main Title</title>
+          <title language='fr' type='main'>Titre Principal</title>
+          <title language='en' type='subtitle'>Subtitle</title>
+          <title language='fr' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docidentifier primary="true" type='ITU'>Annexe au BE de l'UIT 1000</docidentifier>
           <docidentifier type='ITU-lang'>Annexe au BE de l'UIT 1000-F</docidentifier>
@@ -441,11 +441,11 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
       <bibdata type='standard'>
-          <title language='zh' format='text/plain' type='main'>Document title</title>
-          <title language='en' format='text/plain' type='main'>Main Title</title>
-          <title language='fr' format='text/plain' type='main'>Titre Principal</title>
-          <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-          <title language='fr' format='text/plain' type='subtitle'>Soustitre</title>
+          <title language='zh' type='main'>Document title</title>
+          <title language='en' type='main'>Main Title</title>
+          <title language='fr' type='main'>Titre Principal</title>
+          <title language='en' type='subtitle'>Subtitle</title>
+          <title language='fr' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docidentifier primary="true" type='ITU'>
             &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;
@@ -798,10 +798,10 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
            <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
       <bibdata type='standard'>
-        <title language='en' format='text/plain' type='main'>Main Title</title>
-        <title language='ar' format='text/plain' type='main'>Titre Principal</title>
-        <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-        <title language='ar' format='text/plain' type='subtitle'>Soustitre</title>
+        <title language='en' type='main'>Main Title</title>
+        <title language='ar' type='main'>Titre Principal</title>
+        <title language='en' type='subtitle'>Subtitle</title>
+        <title language='ar' type='subtitle'>Soustitre</title>
         <docidentifier type='ITU-provisional'>ABC</docidentifier>
         <docidentifier primary="true" type='ITU'>
           &#1605;&#1604;&#1581;&#1602;
@@ -1160,10 +1160,10 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
            <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
             <bibdata type='standard'>
-        <title language='en' format='text/plain' type='main'>Main Title</title>
-        <title language='es' format='text/plain' type='main'>Titre Principal</title>
-        <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-        <title language='es' format='text/plain' type='subtitle'>Soustitre</title>
+        <title language='en' type='main'>Main Title</title>
+        <title language='es' type='main'>Titre Principal</title>
+        <title language='en' type='subtitle'>Subtitle</title>
+        <title language='es' type='subtitle'>Soustitre</title>
         <docidentifier type='ITU-provisional'>ABC</docidentifier>
         <docidentifier primary="true" type='ITU'>Anexo al BE de la UIT 1000</docidentifier>
         <docidentifier type='ITU-lang'>Anexo al BE de la UIT 1000-S</docidentifier>
@@ -1515,10 +1515,10 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
           <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
       <bibdata type='standard'>
-        <title language='en' format='text/plain' type='main'>Main Title</title>
-        <title language='de' format='text/plain' type='main'>Titre Principal</title>
-        <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-        <title language='de' format='text/plain' type='subtitle'>Soustitre</title>
+        <title language='en' type='main'>Main Title</title>
+        <title language='de' type='main'>Titre Principal</title>
+        <title language='en' type='subtitle'>Subtitle</title>
+        <title language='de' type='subtitle'>Soustitre</title>
         <docidentifier type='ITU-provisional'>ABC</docidentifier>
         <docidentifier primary="true" type='ITU'>Anhang zum  ITU OB 1000</docidentifier>
         <docidentifier type='ITU-lang'>Anhang zum  ITU OB 1000-</docidentifier>
@@ -1869,10 +1869,10 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
       <bibdata type='standard'>
-           <title language='en' format='text/plain' type='main'>Main Title</title>
-           <title language='ru' format='text/plain' type='main'>Titre Principal</title>
-           <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-           <title language='ru' format='text/plain' type='subtitle'>Soustitre</title>
+           <title language='en' type='main'>Main Title</title>
+           <title language='ru' type='main'>Titre Principal</title>
+           <title language='en' type='subtitle'>Subtitle</title>
+           <title language='ru' type='subtitle'>Soustitre</title>
            <docidentifier type='ITU-provisional'>ABC</docidentifier>
            <docidentifier primary="true" type='ITU'>
              &#1055;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;

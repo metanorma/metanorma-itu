@@ -1232,8 +1232,7 @@ RSpec.describe Metanorma::Itu do
            <sections>
               <p class="zzSTDTitle1" align="center" displayorder="3">RESOLUTION  (Peoria, 1871)</p>
               <p align="center" class="zzSTDTitle2" displayorder="4">
-                 <em>(Peoria, 1871</em>
-                 )
+                 <em>(Peoria, 1871)</em>
               </p>
               <p keep-with-next="true" class="supertitle" displayorder="5">
                  <span class="fmt-element-name">SECTION</span>
@@ -1410,7 +1409,7 @@ RSpec.describe Metanorma::Itu do
                  </div>
                  <p class='zzSTDTitle1' style='text-align:center;'>RESOLUTION (Peoria, 1871)</p>
                  <p class='zzSTDTitle2' style='text-align:center;'>
-                   <i>(Peoria, 1871</i>)
+                   <i>(Peoria, 1871)</i>
                  </p>
                  <p style='page-break-after: avoid;' class="supertitle">SECTION 1</p>
                  <div id='D'>

@@ -1968,8 +1968,7 @@ RSpec.describe Metanorma::Itu do
               <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION  (, )</p>
               <p class="zzSTDTitle2" displayorder="2">An ITU Standard</p>
               <p align="center" class="zzSTDTitle2" displayorder="3">
-                 <em>(,</em>
-                 )
+                 <em>(, )</em>
               </p>
               <clause unnumbered="true" id="A" displayorder="4">
                  <p>Text</p>
@@ -2041,8 +2040,7 @@ RSpec.describe Metanorma::Itu do
               <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION  (, )</p>
               <p class="zzSTDTitle2" displayorder="2">An ITU Standard</p>
               <p align="center" class="zzSTDTitle2" displayorder="3">
-                 <em>(,</em>
-                 )
+                 <em>(, )</em>
               </p>
               <p keep-with-next="true" class="supertitle" displayorder="4">
                  <span class="fmt-element-name">SECTION</span>

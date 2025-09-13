@@ -28,6 +28,8 @@ module IsoDoc
                           "[@type = 'amendment']",
           corrigendumtitle: "//bibdata/title[@language='@_lang']" \
                             "[@type = 'corrigendum']",
+          resolutiontitle: "//bibdata/title[@type = 'resolution']",
+          resolutionplacedate: "//bibdata/title[@type = 'resolution-placedate']",
           series: "//bibdata/series[@type='main']/title",
           series1: "//bibdata/series[@type='secondary']/title",
           series2: "//bibdata/series[@type='tertiary']/title",

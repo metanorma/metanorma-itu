@@ -3290,6 +3290,7 @@
 	<xsl:variable name="en_dash">–</xsl:variable>
 	<xsl:variable name="em_dash">—</xsl:variable>
 	<xsl:variable name="nonbreak_space_em_dash_space"> — </xsl:variable>
+	<xsl:variable name="nonbreak_space_em_dash"> —</xsl:variable>
 	<xsl:variable name="cr">&#13;</xsl:variable>
 	<xsl:variable name="lf">
 </xsl:variable>

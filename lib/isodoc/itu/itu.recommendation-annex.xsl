@@ -326,6 +326,10 @@
 						<xsl:with-param name="num" select="$num"/>
 					</xsl:call-template>
 
+					<xsl:call-template name="inner-cover-page">
+						<xsl:with-param name="num" select="$num"/>
+					</xsl:call-template>
+
 					<!-- <xsl:for-each select="xalan:nodeset($updated_xml)/*"> -->
 
 					<!-- <xsl:for-each select="xalan:nodeset($updated_xml)//mn:metanorma">
@@ -1072,24 +1076,6 @@
 						</fo:block-container>
 					</fo:flow>
 				</fo:page-sequence>
-				<!-- Second cover page -->
-				<xsl:variable name="secondCoverPageData_">
-					<xsl:call-template name="insertBackgroundPageImage">
-						<xsl:with-param name="number">2</xsl:with-param>
-					</xsl:call-template>
-				</xsl:variable>
-				<xsl:variable name="secondCoverPageData" select="xalan:nodeset($secondCoverPageData_)"/>
-				<fo:page-sequence force-page-count="no-force" master-reference="cover-page_2023">
-					<xsl:if test="$secondCoverPageData//*[self::fo:instream-foreign-object or self::fo:external-graphic]">
-						<fo:static-content flow-name="header" role="artifact" id="__internal_layout__coverpage2_header_{$num}_{generate-id()}">
-							<xsl:copy-of select="$secondCoverPageData"/>
-						</fo:static-content>
-					</xsl:if>
-					<fo:flow flow-name="xsl-region-body">
-						<fo:block> </fo:block>
-					</fo:flow>
-				</fo:page-sequence>
-				 <!-- End: Second cover page -->
 			</xsl:when> <!-- $layoutVersion = '2023' -->
 
 			<xsl:otherwise>
@@ -1759,6 +1745,38 @@
 		<!-- ============================================= -->
 		<!-- END Cover page -->
 		<!-- ============================================= -->
+	</xsl:template>
+
+	<xsl:template name="inner-cover-page">
+		<xsl:param name="num"/>
+		<xsl:variable name="document_scheme" select="normalize-space(/mn:metanorma/mn:metanorma-extension/mn:presentation-metadata[mn:name = 'document-scheme']/mn:value)"/>
+		<xsl:variable name="layoutVersion_">
+			<xsl:choose>
+				<xsl:when test="$document_scheme = '' or $document_scheme = 'current'">2023</xsl:when>
+				<xsl:otherwise>default</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="layoutVersion" select="normalize-space($layoutVersion_)"/>
+		<xsl:if test="$layoutVersion = '2023'">
+			<!-- Second cover page -->
+			<xsl:variable name="secondCoverPageData_">
+				<xsl:call-template name="insertBackgroundPageImage">
+					<xsl:with-param name="number">2</xsl:with-param>
+				</xsl:call-template>
+			</xsl:variable>
+			<xsl:variable name="secondCoverPageData" select="xalan:nodeset($secondCoverPageData_)"/>
+			<fo:page-sequence force-page-count="no-force" master-reference="cover-page_2023">
+				<xsl:if test="$secondCoverPageData//*[self::fo:instream-foreign-object or self::fo:external-graphic]">
+					<fo:static-content flow-name="header" role="artifact" id="__internal_layout__coverpage2_header_{$num}_{generate-id()}">
+						<xsl:copy-of select="$secondCoverPageData"/>
+					</fo:static-content>
+				</xsl:if>
+				<fo:flow flow-name="xsl-region-body">
+					<fo:block> </fo:block>
+				</fo:flow>
+			</fo:page-sequence>
+			 <!-- End: Second cover page -->
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template name="insertMeetingInfo">

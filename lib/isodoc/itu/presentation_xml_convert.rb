@@ -153,8 +153,8 @@ module IsoDoc
           '<colgroup><col width="20%"/><col width="80%"/></colgroup>'
       end
 
-      def termnote_delim(_elem)
-        " &#x2013; "
+      def termnote_delim(_elem, lbl)
+        l10n(" &#x2013; ", { prev: lbl })
       end
 
       include Init

@@ -23,7 +23,7 @@ module IsoDoc
 
       def bibrenderer(options = {})
         ::Relaton::Render::Itu::General.new(options
-          .merge(language: @lang, i18nhash: @i18n.get))
+          .merge(language: @lang, script: @script, i18nhash: @i18n.get))
       end
 
       def fileloc(loc)

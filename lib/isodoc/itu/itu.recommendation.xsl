@@ -2368,7 +2368,7 @@
 	<!-- ====== -->
 
 	<xsl:template match="mn:legal-statement//mn:p | mn:license-statement//mn:p" priority="2">
-		<fo:block margin-top="6pt">
+		<fo:block xsl:use-attribute-sets="legal-statement-p-style">
 			<xsl:apply-templates/>
 		</fo:block>
 		<xsl:if test="not(following-sibling::mn:p)"> <!-- last para -->
@@ -4683,6 +4683,7 @@
 	</xsl:template>
 
 	<xsl:attribute-set name="license-statement-p-style">
+		<xsl:attribute name="margin-top">6pt</xsl:attribute>
 	</xsl:attribute-set> <!-- license-statement-p-style -->
 
 	<xsl:template name="refine_license-statement-p-style">
@@ -4705,6 +4706,7 @@
 	</xsl:template>
 
 	<xsl:attribute-set name="legal-statement-p-style">
+		<xsl:attribute name="margin-top">6pt</xsl:attribute>
 	</xsl:attribute-set> <!-- legal-statement-p-style -->
 
 	<xsl:template name="refine_legal-statement-p-style">
@@ -4726,7 +4728,6 @@
 	</xsl:attribute-set> <!-- feedback-statement-title-style -->
 
 	<xsl:template name="refine_feedback-statement-title-style">
-
 	</xsl:template>
 
 	<xsl:attribute-set name="feedback-statement-p-style">

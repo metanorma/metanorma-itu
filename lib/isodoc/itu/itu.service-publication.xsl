@@ -375,18 +375,10 @@
 									<xsl:attribute name="initial-page-number">1</xsl:attribute>
 								</xsl:if>
 
-								<xsl:choose>
-									<xsl:when test="$doctype = 'service-publication'">
-										<xsl:call-template name="insertHeaderFooterSP">
-											<xsl:with-param name="footer-text" select="$footer-text"/>
-										</xsl:call-template>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:call-template name="insertHeaderFooter">
-											<xsl:with-param name="footer-text" select="$footer-text"/>
-										</xsl:call-template>
-									</xsl:otherwise>
-								</xsl:choose>
+								<xsl:call-template name="insertHeaderFooter">
+									<xsl:with-param name="doctype" select="$doctype"/>
+									<xsl:with-param name="footer-text" select="$footer-text"/>
+								</xsl:call-template>
 
 								<fo:flow flow-name="xsl-region-body">
 
@@ -498,18 +490,10 @@
 
 								<xsl:call-template name="insertFootnoteSeparatorCommon"/>
 
-								<xsl:choose>
-									<xsl:when test="$doctype = 'service-publication'">
-										<xsl:call-template name="insertHeaderFooterSP">
-											<xsl:with-param name="footer-text" select="$footer-text"/>
-										</xsl:call-template>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:call-template name="insertHeaderFooter">
-											<xsl:with-param name="footer-text" select="$footer-text"/>
-										</xsl:call-template>
-									</xsl:otherwise>
-								</xsl:choose>
+								<xsl:call-template name="insertHeaderFooter">
+									<xsl:with-param name="doctype" select="$doctype"/>
+									<xsl:with-param name="footer-text" select="$footer-text"/>
+								</xsl:call-template>
 
 								<fo:flow flow-name="xsl-region-body">
 
@@ -2827,91 +2811,109 @@
 	</xsl:template> -->
 
 	<xsl:template name="insertHeaderFooter">
+		<xsl:param name="doctype"/>
 		<xsl:param name="footer-text"/>
-		<fo:static-content flow-name="footer-even" font-family="Times New Roman" font-size="11pt" role="artifact">
-			<fo:block-container height="19mm" display-align="after">
-				<fo:table table-layout="fixed" width="100%" display-align="after">
-					<fo:table-column column-width="10%"/>
-					<fo:table-column column-width="90%"/>
-					<fo:table-body>
-						<fo:table-row>
-							<fo:table-cell text-align="start" padding-bottom="8mm">
-								<fo:block><fo:page-number/></fo:block>
-							</fo:table-cell>
-							<fo:table-cell font-weight="bold" text-align="start" padding-bottom="8mm">
-								<fo:block><xsl:value-of select="$footer-text"/></fo:block>
-							</fo:table-cell>
-						</fo:table-row>
-					</fo:table-body>
-				</fo:table>
-			</fo:block-container>
-		</fo:static-content>
-		<fo:static-content flow-name="footer-odd" font-family="Times New Roman" font-size="11pt" role="artifact">
-			<fo:block-container height="19mm" display-align="after">
-				<fo:table table-layout="fixed" width="100%" display-align="after">
-					<fo:table-column column-width="90%"/>
-					<fo:table-column column-width="10%"/>
-					<fo:table-body>
-						<fo:table-row>
-							<fo:table-cell font-weight="bold" text-align="end" padding-bottom="8mm">
-								<fo:block><xsl:value-of select="$footer-text"/></fo:block>
-							</fo:table-cell>
-							<fo:table-cell text-align="end" padding-bottom="8mm" padding-right="2mm">
-								<fo:block><fo:page-number/></fo:block>
-							</fo:table-cell>
-						</fo:table-row>
-					</fo:table-body>
-				</fo:table>
-			</fo:block-container>
-		</fo:static-content>
+
+		<xsl:call-template name="insertHeader"/>
+
+		<xsl:call-template name="insertFooter">
+			<xsl:with-param name="doctype" select="$doctype"/>
+			<xsl:with-param name="footer-text" select="$footer-text"/>
+		</xsl:call-template>
 	</xsl:template>
 
-	<xsl:template name="insertHeaderFooterSP">
+	<xsl:template name="insertHeader">
+	</xsl:template>
+
+	<xsl:template name="insertFooter">
+		<xsl:param name="doctype"/>
 		<xsl:param name="footer-text"/>
-		<fo:static-content flow-name="footer-even" role="artifact">
-			<fo:block-container height="20mm">
-				<fo:table table-layout="fixed" width="100%" margin-top="3mm">
-					<fo:table-column column-width="proportional-column-width(2)"/>
-					<fo:table-column column-width="proportional-column-width(2)"/>
-					<fo:table-column column-width="proportional-column-width(2)"/>
-					<fo:table-body>
-						<fo:table-row>
-							<fo:table-cell text-align="start" font-size="10pt" display-align="center">
-								<fo:block><xsl:value-of select="$footer-text"/></fo:block>
-							</fo:table-cell>
-							<fo:table-cell text-align="center">
-								<fo:block>– <fo:page-number/> –</fo:block>
-							</fo:table-cell>
-							<fo:table-cell>
-								<fo:block> </fo:block>
-							</fo:table-cell>
-						</fo:table-row>
-					</fo:table-body>
-				</fo:table>
-			</fo:block-container>
-		</fo:static-content>
-		<fo:static-content flow-name="footer-odd" role="artifact">
-			<fo:block-container height="20mm">
-				<fo:table table-layout="fixed" width="100%" margin-top="3mm">
-					<fo:table-column column-width="proportional-column-width(2)"/>
-					<fo:table-column column-width="proportional-column-width(2)"/>
-					<fo:table-column column-width="proportional-column-width(2)"/>
-					<fo:table-body>
-						<fo:table-row>
-							<fo:table-cell text-align="start" font-size="10pt" display-align="center">
-								<fo:block><xsl:value-of select="$footer-text"/></fo:block>
-							</fo:table-cell>
-							<fo:table-cell text-align="center">
-								<fo:block>– <fo:page-number/> –</fo:block>
-							</fo:table-cell>
-							<fo:table-cell>
-								<fo:block> </fo:block>
-							</fo:table-cell>
-						</fo:table-row>
-					</fo:table-body>
-				</fo:table>
-			</fo:block-container>
-		</fo:static-content>
+		<xsl:choose>
+			<xsl:when test="$doctype = 'service-publication'">
+				<fo:static-content flow-name="footer-even" role="artifact">
+					<fo:block-container height="20mm">
+						<fo:table table-layout="fixed" width="100%" margin-top="3mm">
+							<fo:table-column column-width="proportional-column-width(2)"/>
+							<fo:table-column column-width="proportional-column-width(2)"/>
+							<fo:table-column column-width="proportional-column-width(2)"/>
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell text-align="start" font-size="10pt" display-align="center">
+										<fo:block><xsl:value-of select="$footer-text"/></fo:block>
+									</fo:table-cell>
+									<fo:table-cell text-align="center">
+										<fo:block>– <fo:page-number/> –</fo:block>
+									</fo:table-cell>
+									<fo:table-cell>
+										<fo:block> </fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+					</fo:block-container>
+				</fo:static-content>
+				<fo:static-content flow-name="footer-odd" role="artifact">
+					<fo:block-container height="20mm">
+						<fo:table table-layout="fixed" width="100%" margin-top="3mm">
+							<fo:table-column column-width="proportional-column-width(2)"/>
+							<fo:table-column column-width="proportional-column-width(2)"/>
+							<fo:table-column column-width="proportional-column-width(2)"/>
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell text-align="start" font-size="10pt" display-align="center">
+										<fo:block><xsl:value-of select="$footer-text"/></fo:block>
+									</fo:table-cell>
+									<fo:table-cell text-align="center">
+										<fo:block>– <fo:page-number/> –</fo:block>
+									</fo:table-cell>
+									<fo:table-cell>
+										<fo:block> </fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+					</fo:block-container>
+				</fo:static-content>
+			</xsl:when>
+			<xsl:otherwise>
+				<fo:static-content flow-name="footer-even" font-family="Times New Roman" font-size="11pt" role="artifact">
+					<fo:block-container height="19mm" display-align="after">
+						<fo:table table-layout="fixed" width="100%" display-align="after">
+							<fo:table-column column-width="10%"/>
+							<fo:table-column column-width="90%"/>
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell text-align="start" padding-bottom="8mm">
+										<fo:block><fo:page-number/></fo:block>
+									</fo:table-cell>
+									<fo:table-cell font-weight="bold" text-align="start" padding-bottom="8mm">
+										<fo:block><xsl:value-of select="$footer-text"/></fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+					</fo:block-container>
+				</fo:static-content>
+				<fo:static-content flow-name="footer-odd" font-family="Times New Roman" font-size="11pt" role="artifact">
+					<fo:block-container height="19mm" display-align="after">
+						<fo:table table-layout="fixed" width="100%" display-align="after">
+							<fo:table-column column-width="90%"/>
+							<fo:table-column column-width="10%"/>
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell font-weight="bold" text-align="end" padding-bottom="8mm">
+										<fo:block><xsl:value-of select="$footer-text"/></fo:block>
+									</fo:table-cell>
+									<fo:table-cell text-align="end" padding-bottom="8mm" padding-right="2mm">
+										<fo:block><fo:page-number/></fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+					</fo:block-container>
+				</fo:static-content>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:variable name="Image-Fond-Rec">

@@ -382,6 +382,110 @@ RSpec.describe Metanorma::Itu do
       .to be_equivalent_to Canon.format_xml(html)
   end
 
+    it "cross-references tabular subfigures" do
+    input = <<~INPUT
+            <iso-standard xmlns="http://riboseinc.com/isoxml">
+            <preface>
+        <foreword id="fwd">
+        <p>
+        <xref target="N"/>
+        <xref target="note1"/>
+        <xref target="AN"/>
+        <xref target="Anote1"/>
+        </p>
+        </foreword>
+        </preface>
+        <sections>
+        <clause id="scope" type="scope"><title>Scope</title>
+                     <figure id="N">
+                <name id="_">Stages of gelatinization</name>
+                <table id="T1" plain="true">
+                   <colgroup>
+                      <col width="25%"/>
+                      <col width="75%"/>
+                   </colgroup>
+                   <tbody>
+                      <tr id="_">
+                         <td id="_" valign="bottom" align="center">
+                            <figure id="note1">
+                               <name id="_">Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
+                               <image id="_" src="spec/examples/rice_images/rice_image3_1.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_1.png"/>
+                            </figure>
+                         </td>
+                         <td id="_" valign="bottom" align="center">
+                            <figure id="AN">
+                               <name id="_">Intermediate stages: Some fully gelatinized kernels are visible</name>
+                               <image id="_" src="spec/examples/rice_images/rice_image3_2.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_2.png"/>
+                            </figure>
+                         </td>
+                      </tr>
+                      <tr id="_">
+                         <td id="_" colspan="2" valign="bottom" align="center">
+                            <figure id="Anote1">
+                               <name id="_">Final stages: All kernels are fully gelatinized</name>
+                               <image id="_" src="spec/examples/rice_images/rice_image3_3.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_3.png"/>
+                            </figure>
+                         </td>
+                      </tr>
+                   </tbody>
+                </table>
+             </figure>
+      </clause>
+      </sections>
+        </iso-standard>
+    INPUT
+presxml = <<~OUTPUT
+      <foreword id="fwd" displayorder="2">
+         <title id="_">Foreword</title>
+         <fmt-title depth="1" id="_">
+            <semx element="title" source="_">Foreword</semx>
+         </fmt-title>
+         <p>
+            <xref target="N" id="_"/>
+            <semx element="xref" source="_">
+               <fmt-xref target="N">
+                  <span class="fmt-element-name">Figure</span>
+                  <semx element="autonum" source="N">1</semx>
+               </fmt-xref>
+            </semx>
+            <xref target="note1" id="_"/>
+            <semx element="xref" source="_">
+               <fmt-xref target="note1">
+                  <span class="fmt-element-name">Figure</span>
+                  <semx element="autonum" source="N">1</semx>
+                  <span class="fmt-autonum-delim">-</span>
+                  <semx element="autonum" source="note1">a</semx>
+               </fmt-xref>
+            </semx>
+            <xref target="AN" id="_"/>
+            <semx element="xref" source="_">
+               <fmt-xref target="AN">
+                  <span class="fmt-element-name">Figure</span>
+                  <semx element="autonum" source="N">1</semx>
+                  <span class="fmt-autonum-delim">-</span>
+                  <semx element="autonum" source="AN">b</semx>
+               </fmt-xref>
+            </semx>
+            <xref target="Anote1" id="_"/>
+            <semx element="xref" source="_">
+               <fmt-xref target="Anote1">
+                  <span class="fmt-element-name">Figure</span>
+                  <semx element="autonum" source="N">1</semx>
+                  <span class="fmt-autonum-delim">-</span>
+                  <semx element="autonum" source="Anote1">c</semx>
+               </fmt-xref>
+            </semx>
+         </p>
+      </foreword>
+OUTPUT
+   pres_output = IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)
+    expect(Canon.format_xml(strip_guid(Nokogiri::XML(pres_output)
+      .at("//xmlns:foreword").to_xml)))
+      .to be_equivalent_to Canon.format_xml(presxml)
+    end
+
   it "cross-references formulae" do
     input = <<~INPUT
                   <itu-standard xmlns="http://riboseinc.com/isoxml">

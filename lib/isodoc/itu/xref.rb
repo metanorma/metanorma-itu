@@ -96,10 +96,10 @@ module IsoDoc
           { unnumb: elem["unnumbered"] }
         )
         if elem["unnumbered"] != "true"
-          #@anchors[elem["id"]][:label] = sublabel
-          @anchors[elem["id"]][:xref] = @anchors[elem.parent["id"]][:xref] +
+          p = elem.at("./ancestor::xmlns:figure")
+          @anchors[elem["id"]][:xref] = @anchors[p["id"]][:xref] +
             delim_wrap("-") + semx(elem, sublabel)
-          x = @anchors[elem.parent["id"]][:container] and
+          x = @anchors[p["id"]][:container] and
             @anchors[elem["id"]][:container] = x
         end
       end

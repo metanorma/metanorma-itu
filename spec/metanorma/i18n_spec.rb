@@ -230,159 +230,159 @@ RSpec.describe Metanorma::Itu do
   it "processes sections in French" do
     input = section_template("fr", "Latn")
     output = <<~OUTPUT
-            #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
-              .sub('<title language="en"', '<title language="fr"')
-              .sub('<language>en</language>', '<language>fr</language>')
-              .gsub('<name>International Telecommunication Union</name>', '<name>Union internationale des télécommunications</name>')
-              .gsub('<abbreviation>ITU</abbreviation>', '<abbreviation>UIT</abbreviation>')
-            }
-            <preface>
-              <abstract id="_">
-                 <title id="_">Résumé</title>
-                 <p id="_">Text</p>
-              </abstract>
-              <foreword id="_" obligation="informative">
-                 <title id="_">Avant-propos</title>
-                 <p id="_">Text</p>
-              </foreword>
-              <introduction id="_" obligation="informative">
-                 <title id="_">Introduction</title>
-                 <clause id="_" inline-header="false" obligation="informative">
-                    <title id="_">Introduction Subsection</title>
-                 </clause>
-              </introduction>
-              <clause id="_" type="history" inline-header="false" obligation="informative">
-                 <title id="_">History</title>
-              </clause>
-              <clause id="_" type="source" inline-header="false" obligation="informative">
-                 <title id="_">Source</title>
-              </clause>
-           </preface>
-           <sections>
-              <clause id="_" unnumbered="true" inline-header="false" obligation="normative">
-                 <p id="_">Initial text</p>
-              </clause>
-              <clause id="_" type="scope" inline-header="false" obligation="normative">
-                 <title id="_">Domaine d'application</title>
-                 <p id="_">Text</p>
-              </clause>
-              <terms id="_" obligation="normative">
-                 <title id="_">Définitions</title>
-                 <p id="_">La présente Recommandation définit les termes suivants:</p>
-                 <term id="_" anchor="term-Term1">
-                    <preferred>
-                       <expression>
-                          <name>Term1</name>
-                       </expression>
-                    </preferred>
-                 </term>
-              </terms>
-              <clause id="_" obligation="normative" type="terms">
-                 <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
-                 <clause id="_" inline-header="false" obligation="normative">
-                    <title id="_">Introduction</title>
-                    <clause id="_" inline-header="false" obligation="normative">
-                       <title id="_">Intro 1</title>
-                    </clause>
-                 </clause>
-                 <terms id="_" obligation="normative">
-                    <title id="_">Intro 2</title>
-                    <p id="_">Aucun.</p>
-                    <clause id="_" inline-header="false" obligation="normative">
-                       <title id="_">Intro 3</title>
-                    </clause>
-                 </terms>
-                 <clause id="_" obligation="normative" type="terms">
-                    <title id="_">Intro 4</title>
-                    <terms id="_" obligation="normative">
-                       <title id="_">Intro 5</title>
-                       <term id="_" anchor="term-Term1-1">
-                          <preferred>
-                             <expression>
-                                <name>Term1</name>
-                             </expression>
-                          </preferred>
-                       </term>
-                    </terms>
-                 </clause>
-                 <terms id="_" obligation="normative">
-                    <title id="_">Normal Terms</title>
-                    <term id="_" anchor="term-Term2">
-                       <preferred>
-                          <expression>
-                             <name>Term2</name>
-                          </expression>
-                       </preferred>
-                    </term>
-                    <terms id="_" type="external" obligation="normative">
-                       <title id="_">Termes définis ailleurs</title>
-                       <p id="_">Aucun.</p>
-                    </terms>
-                 </terms>
-                 <terms id="_" obligation="normative">
-                    <title id="_">Symbols and Abbreviated Terms</title>
-                    <clause id="_" inline-header="false" obligation="normative">
-                       <title id="_">General</title>
-                    </clause>
-                    <term id="_" anchor="term-Symbols-1">
-                       <preferred>
-                          <expression>
-                             <name>Symbols 1</name>
-                          </expression>
-                       </preferred>
-                    </term>
-                 </terms>
-              </clause>
-              <definitions id="_" type="abbreviated_terms" obligation="normative">
-                 <title id="_">Abréviations et acronymes</title>
-                 <p id="_">Aucun.</p>
-              </definitions>
-              <clause id="_" type="conventions" inline-header="false" obligation="normative">
-                 <title id="_">Conventions</title>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Clause 4</title>
-                 <clause id="_" inline-header="false" obligation="normative">
-                    <title id="_">Introduction</title>
-                 </clause>
-                 <clause id="_" inline-header="false" obligation="normative">
-                    <title id="_">Clause 4.2</title>
-                 </clause>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Terms and Definitions</title>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">History</title>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Source</title>
-              </clause>
-           </sections>
-           <annex id="_" inline-header="false" obligation="normative">
-              <title id="_">Annex</title>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Annex A.1</title>
-              </clause>
-           </annex>
-           <bibliography>
-              <references id="_" normative="true" obligation="informative">
-                 <title id="_">Références</title>
-                 <p id="_">Aucun.</p>
-              </references>
-              <clause id="_" obligation="informative">
-                 <title id="_">Bibliographie</title>
-                 <references id="_" normative="false" obligation="informative">
-                    <title id="_">Bibliography Subsection</title>
-                 </references>
-              </clause>
-              <references id="_" normative="false" obligation="informative">
-                 <title id="_">Second Bibliography</title>
-              </references>
-           </bibliography>
-        </metanorma>
+          #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
+            .sub('<title language="en"', '<title language="fr"')
+            .sub('<language>en</language>', '<language>fr</language>')
+            .gsub('<name>International Telecommunication Union</name>', '<name>Union internationale des télécommunications</name>')
+            .gsub('<abbreviation>ITU</abbreviation>', '<abbreviation>UIT</abbreviation>')
+          }
+          <preface>
+            <abstract id="_">
+               <title id="_">Résumé</title>
+               <p id="_">Text</p>
+            </abstract>
+            <foreword id="_" obligation="informative">
+               <title id="_">Avant-propos</title>
+               <p id="_">Text</p>
+            </foreword>
+            <introduction id="_" obligation="informative">
+               <title id="_">Introduction</title>
+               <clause id="_" inline-header="false" obligation="informative">
+                  <title id="_">Introduction Subsection</title>
+               </clause>
+            </introduction>
+            <clause id="_" type="history" inline-header="false" obligation="informative">
+               <title id="_">History</title>
+            </clause>
+            <clause id="_" type="source" inline-header="false" obligation="informative">
+               <title id="_">Source</title>
+            </clause>
+         </preface>
+         <sections>
+            <clause id="_" unnumbered="true" inline-header="false" obligation="normative">
+               <p id="_">Initial text</p>
+            </clause>
+            <clause id="_" type="scope" inline-header="false" obligation="normative">
+               <title id="_">Domaine d'application</title>
+               <p id="_">Text</p>
+            </clause>
+            <terms id="_" obligation="normative">
+               <title id="_">Définitions</title>
+               <p id="_">La présente Recommandation définit les termes suivants:</p>
+               <term id="_" anchor="term-Term1">
+                  <preferred>
+                     <expression>
+                        <name>Term1</name>
+                     </expression>
+                  </preferred>
+               </term>
+            </terms>
+            <clause id="_" obligation="normative" type="terms">
+               <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Introduction</title>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">Intro 1</title>
+                  </clause>
+               </clause>
+               <terms id="_" obligation="normative">
+                  <title id="_">Intro 2</title>
+                  <p id="_">Aucun.</p>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">Intro 3</title>
+                  </clause>
+               </terms>
+               <clause id="_" obligation="normative" type="terms">
+                  <title id="_">Intro 4</title>
+                  <terms id="_" obligation="normative">
+                     <title id="_">Intro 5</title>
+                     <term id="_" anchor="term-Term1-1">
+                        <preferred>
+                           <expression>
+                              <name>Term1</name>
+                           </expression>
+                        </preferred>
+                     </term>
+                  </terms>
+               </clause>
+               <terms id="_" obligation="normative">
+                  <title id="_">Normal Terms</title>
+                  <term id="_" anchor="term-Term2">
+                     <preferred>
+                        <expression>
+                           <name>Term2</name>
+                        </expression>
+                     </preferred>
+                  </term>
+                  <terms id="_" type="external" obligation="normative">
+                     <title id="_">Termes définis ailleurs</title>
+                     <p id="_">Aucun.</p>
+                  </terms>
+               </terms>
+               <terms id="_" obligation="normative">
+                  <title id="_">Symbols and Abbreviated Terms</title>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">General</title>
+                  </clause>
+                  <term id="_" anchor="term-Symbols-1">
+                     <preferred>
+                        <expression>
+                           <name>Symbols 1</name>
+                        </expression>
+                     </preferred>
+                  </term>
+               </terms>
+            </clause>
+            <definitions id="_" type="abbreviated_terms" obligation="normative">
+               <title id="_">Abréviations et acronymes</title>
+               <p id="_">Aucun.</p>
+            </definitions>
+            <clause id="_" type="conventions" inline-header="false" obligation="normative">
+               <title id="_">Conventions</title>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Clause 4</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Introduction</title>
+               </clause>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Clause 4.2</title>
+               </clause>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Terms and Definitions</title>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">History</title>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Source</title>
+            </clause>
+         </sections>
+         <annex id="_" inline-header="false" obligation="normative">
+            <title id="_">Annex</title>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Annex A.1</title>
+            </clause>
+         </annex>
+         <bibliography>
+            <references id="_" normative="true" obligation="informative">
+               <title id="_">Références</title>
+               <p id="_">Aucun.</p>
+            </references>
+            <clause id="_" obligation="informative">
+               <title id="_">Bibliographie</title>
+               <references id="_" normative="false" obligation="informative">
+                  <title id="_">Bibliography Subsection</title>
+               </references>
+            </clause>
+            <references id="_" normative="false" obligation="informative">
+               <title id="_">Second Bibliography</title>
+            </references>
+         </bibliography>
+      </metanorma>
     OUTPUT
-  expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
@@ -441,7 +441,6 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
       <bibdata type='standard'>
-          <title language='zh' type='main'>Document title</title>
           <title language='en' type='main'>Main Title</title>
           <title language='fr' type='main'>Titre Principal</title>
           <title language='en' type='subtitle'>Subtitle</title>
@@ -949,158 +948,158 @@ RSpec.describe Metanorma::Itu do
   it "processes sections in Arabic" do
     input = section_template("ar", "Arab")
     output = <<~OUTPUT
-            #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
-              .sub('<language>en</language>', '<language>ar</language>')
-              .sub('<title language="en"', '<title language="ar"')
-              .sub('<script>Latn</script>', '<script>Arab</script>')
-              .gsub('<name>International Telecommunication Union</name>', '<name>الاتحاد الدولي للاتصالات</name>')
-              .gsub('<abbreviation>ITU</abbreviation>', '')
-            }
-           <preface>
-              <abstract id="_" >
-                 <title id="_">ملخص</title>
-                 <p id="_">Text</p>
-              </abstract>
-              <foreword id="_" obligation="informative">
-                 <title id="_">تمهيد</title>
-                 <p id="_">Text</p>
-              </foreword>
-              <introduction id="_" obligation="informative">
-                 <title id="_">مقدمة</title>
-                 <clause id="_" inline-header="false" obligation="informative">
-                    <title id="_">Introduction Subsection</title>
-                 </clause>
-              </introduction>
-              <clause id="_" type="history" inline-header="false" obligation="informative">
-                 <title id="_">History</title>
-              </clause>
-              <clause id="_" type="source" inline-header="false" obligation="informative">
-                 <title id="_">Source</title>
-              </clause>
-           </preface>
-           <sections>
-              <clause id="_" unnumbered="true" inline-header="false" obligation="normative">
-                 <p id="_">Initial text</p>
-              </clause>
-              <clause id="_" type="scope" inline-header="false" obligation="normative">
-                 <title id="_">مجال التطبيق</title>
-                 <p id="_">Text</p>
-              </clause>
-              <terms id="_" obligation="normative">
-                 <title id="_">مصطلحات معرفة</title>
-                 <p id="_">تعّرف هذه التوصية المصطلحات التالية:</p>
-                 <term id="_" anchor="term-Term1">
-                    <preferred>
-                       <expression>
-                          <name>Term1</name>
-                       </expression>
-                    </preferred>
-                 </term>
-              </terms>
-              <clause id="_" obligation="normative" type="terms">
-                 <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
-                 <clause id="_" inline-header="false" obligation="normative">
-                    <title id="_">Introduction</title>
-                    <clause id="_" inline-header="false" obligation="normative">
-                       <title id="_">Intro 1</title>
-                    </clause>
-                 </clause>
-                 <terms id="_" obligation="normative">
-                    <title id="_">Intro 2</title>
-                    <p id="_">لا توجد.</p>
-                    <clause id="_" inline-header="false" obligation="normative">
-                       <title id="_">Intro 3</title>
-                    </clause>
-                 </terms>
-                 <clause id="_" obligation="normative" type="terms">
-                    <title id="_">Intro 4</title>
-                    <terms id="_" obligation="normative">
-                       <title id="_">Intro 5</title>
-                       <term id="_" anchor="term-Term1-1">
-                          <preferred>
-                             <expression>
-                                <name>Term1</name>
-                             </expression>
-                          </preferred>
-                       </term>
-                    </terms>
-                 </clause>
-                 <terms id="_" obligation="normative">
-                    <title id="_">Normal Terms</title>
-                    <term id="_" anchor="term-Term2">
-                       <preferred>
-                          <expression>
-                             <name>Term2</name>
-                          </expression>
-                       </preferred>
-                    </term>
-                    <terms id="_" type="external" obligation="normative">
-                       <title id="_">المصطلحات المعَّرفة في وثائق أخرى</title>
-                       <p id="_">لا توجد.</p>
-                    </terms>
-                 </terms>
-                 <terms id="_" obligation="normative">
-                    <title id="_">Symbols and Abbreviated Terms</title>
-                    <clause id="_" inline-header="false" obligation="normative">
-                       <title id="_">General</title>
-                    </clause>
-                    <term id="_" anchor="term-Symbols-1">
-                       <preferred>
-                          <expression>
-                             <name>Symbols 1</name>
-                          </expression>
-                       </preferred>
-                    </term>
-                 </terms>
-              </clause>
-              <definitions id="_" type="abbreviated_terms" obligation="normative">
-                 <title id="_">اختصار</title>
-                 <p id="_">لا توجد.</p>
-              </definitions>
-              <clause id="_" type="conventions" inline-header="false" obligation="normative">
-                 <title id="_">Conventions</title>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Clause 4</title>
-                 <clause id="_" inline-header="false" obligation="normative">
-                    <title id="_">Introduction</title>
-                 </clause>
-                 <clause id="_" inline-header="false" obligation="normative">
-                    <title id="_">Clause 4.2</title>
-                 </clause>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Terms and Definitions</title>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">History</title>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Source</title>
-              </clause>
-           </sections>
-           <annex id="_" inline-header="false" obligation="normative">
-              <title id="_">Annex</title>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Annex A.1</title>
-              </clause>
-           </annex>
-           <bibliography>
-              <references id="_" normative="true" obligation="informative">
-                 <title id="_">المراجع المعيارية</title>
-                 <p id="_">لا توجد.</p>
-              </references>
-              <clause id="_" obligation="informative">
-                 <title id="_">بيبليوغرافيا</title>
-                 <references id="_" normative="false" obligation="informative">
-                    <title id="_">Bibliography Subsection</title>
-                 </references>
-              </clause>
-              <references id="_" normative="false" obligation="informative">
-                 <title id="_">Second Bibliography</title>
-              </references>
-           </bibliography>
-        </metanorma>
+          #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
+            .sub('<language>en</language>', '<language>ar</language>')
+            .sub('<title language="en"', '<title language="ar"')
+            .sub('<script>Latn</script>', '<script>Arab</script>')
+            .gsub('<name>International Telecommunication Union</name>', '<name>الاتحاد الدولي للاتصالات</name>')
+            .gsub('<abbreviation>ITU</abbreviation>', '')
+          }
+         <preface>
+            <abstract id="_" >
+               <title id="_">ملخص</title>
+               <p id="_">Text</p>
+            </abstract>
+            <foreword id="_" obligation="informative">
+               <title id="_">تمهيد</title>
+               <p id="_">Text</p>
+            </foreword>
+            <introduction id="_" obligation="informative">
+               <title id="_">مقدمة</title>
+               <clause id="_" inline-header="false" obligation="informative">
+                  <title id="_">Introduction Subsection</title>
+               </clause>
+            </introduction>
+            <clause id="_" type="history" inline-header="false" obligation="informative">
+               <title id="_">History</title>
+            </clause>
+            <clause id="_" type="source" inline-header="false" obligation="informative">
+               <title id="_">Source</title>
+            </clause>
+         </preface>
+         <sections>
+            <clause id="_" unnumbered="true" inline-header="false" obligation="normative">
+               <p id="_">Initial text</p>
+            </clause>
+            <clause id="_" type="scope" inline-header="false" obligation="normative">
+               <title id="_">مجال التطبيق</title>
+               <p id="_">Text</p>
+            </clause>
+            <terms id="_" obligation="normative">
+               <title id="_">مصطلحات معرفة</title>
+               <p id="_">تعّرف هذه التوصية المصطلحات التالية:</p>
+               <term id="_" anchor="term-Term1">
+                  <preferred>
+                     <expression>
+                        <name>Term1</name>
+                     </expression>
+                  </preferred>
+               </term>
+            </terms>
+            <clause id="_" obligation="normative" type="terms">
+               <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Introduction</title>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">Intro 1</title>
+                  </clause>
+               </clause>
+               <terms id="_" obligation="normative">
+                  <title id="_">Intro 2</title>
+                  <p id="_">لا توجد.</p>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">Intro 3</title>
+                  </clause>
+               </terms>
+               <clause id="_" obligation="normative" type="terms">
+                  <title id="_">Intro 4</title>
+                  <terms id="_" obligation="normative">
+                     <title id="_">Intro 5</title>
+                     <term id="_" anchor="term-Term1-1">
+                        <preferred>
+                           <expression>
+                              <name>Term1</name>
+                           </expression>
+                        </preferred>
+                     </term>
+                  </terms>
+               </clause>
+               <terms id="_" obligation="normative">
+                  <title id="_">Normal Terms</title>
+                  <term id="_" anchor="term-Term2">
+                     <preferred>
+                        <expression>
+                           <name>Term2</name>
+                        </expression>
+                     </preferred>
+                  </term>
+                  <terms id="_" type="external" obligation="normative">
+                     <title id="_">المصطلحات المعَّرفة في وثائق أخرى</title>
+                     <p id="_">لا توجد.</p>
+                  </terms>
+               </terms>
+               <terms id="_" obligation="normative">
+                  <title id="_">Symbols and Abbreviated Terms</title>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">General</title>
+                  </clause>
+                  <term id="_" anchor="term-Symbols-1">
+                     <preferred>
+                        <expression>
+                           <name>Symbols 1</name>
+                        </expression>
+                     </preferred>
+                  </term>
+               </terms>
+            </clause>
+            <definitions id="_" type="abbreviated_terms" obligation="normative">
+               <title id="_">اختصار</title>
+               <p id="_">لا توجد.</p>
+            </definitions>
+            <clause id="_" type="conventions" inline-header="false" obligation="normative">
+               <title id="_">Conventions</title>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Clause 4</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Introduction</title>
+               </clause>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Clause 4.2</title>
+               </clause>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Terms and Definitions</title>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">History</title>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Source</title>
+            </clause>
+         </sections>
+         <annex id="_" inline-header="false" obligation="normative">
+            <title id="_">Annex</title>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Annex A.1</title>
+            </clause>
+         </annex>
+         <bibliography>
+            <references id="_" normative="true" obligation="informative">
+               <title id="_">المراجع المعيارية</title>
+               <p id="_">لا توجد.</p>
+            </references>
+            <clause id="_" obligation="informative">
+               <title id="_">بيبليوغرافيا</title>
+               <references id="_" normative="false" obligation="informative">
+                  <title id="_">Bibliography Subsection</title>
+               </references>
+            </clause>
+            <references id="_" normative="false" obligation="informative">
+               <title id="_">Second Bibliography</title>
+            </references>
+         </bibliography>
+      </metanorma>
     OUTPUT
     expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(strip_guid(output))
@@ -1305,157 +1304,157 @@ RSpec.describe Metanorma::Itu do
   it "processes sections in Spanish" do
     input = section_template("es", "Latn")
     output = <<~OUTPUT
-             #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
-               .sub('<title language="en"', '<title language="es"')
-               .sub('<language>en</language>', '<language>es</language>')
-               .gsub('<name>International Telecommunication Union</name>', '<name>Unión Internacional de Telecomunicaciones</name>')
-               .gsub('<abbreviation>ITU</abbreviation>', '<abbreviation>UIT</abbreviation>')
-             }
-            <preface>
-              <abstract id="_">
-                 <title id="_">Resumen</title>
-                 <p id="_">Text</p>
-              </abstract>
-              <foreword id="_" obligation="informative">
-                 <title id="_">Prólogo</title>
-                 <p id="_">Text</p>
-              </foreword>
-              <introduction id="_" obligation="informative">
-                 <title id="_">Introducción</title>
-                 <clause id="_" inline-header="false" obligation="informative">
-                    <title id="_">Introduction Subsection</title>
-                 </clause>
-              </introduction>
-              <clause id="_" type="history" inline-header="false" obligation="informative">
-                 <title id="_">History</title>
-              </clause>
-              <clause id="_" type="source" inline-header="false" obligation="informative">
-                 <title id="_">Source</title>
-              </clause>
-           </preface>
-           <sections>
-              <clause id="_" unnumbered="true" inline-header="false" obligation="normative">
-                 <p id="_">Initial text</p>
-              </clause>
-              <clause id="_" type="scope" inline-header="false" obligation="normative">
-                 <title id="_">Alcance</title>
-                 <p id="_">Text</p>
-              </clause>
-              <terms id="_" obligation="normative">
-                 <title id="_">Definiciones</title>
-                 <p id="_">Esta Recomendación define los siguientes términos:</p>
-                 <term id="_" anchor="term-Term1">
-                    <preferred>
-                       <expression>
-                          <name>Term1</name>
-                       </expression>
-                    </preferred>
-                 </term>
-              </terms>
-              <clause id="_" obligation="normative" type="terms">
-                 <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
-                 <clause id="_" inline-header="false" obligation="normative">
-                    <title id="_">Introduction</title>
-                    <clause id="_" inline-header="false" obligation="normative">
-                       <title id="_">Intro 1</title>
-                    </clause>
-                 </clause>
-                 <terms id="_" obligation="normative">
-                    <title id="_">Intro 2</title>
-                    <p id="_">Ninguna.</p>
-                    <clause id="_" inline-header="false" obligation="normative">
-                       <title id="_">Intro 3</title>
-                    </clause>
-                 </terms>
-                 <clause id="_" obligation="normative" type="terms">
-                    <title id="_">Intro 4</title>
-                    <terms id="_" obligation="normative">
-                       <title id="_">Intro 5</title>
-                       <term id="_" anchor="term-Term1-1">
-                          <preferred>
-                             <expression>
-                                <name>Term1</name>
-                             </expression>
-                          </preferred>
-                       </term>
-                    </terms>
-                 </clause>
-                 <terms id="_" obligation="normative">
-                    <title id="_">Normal Terms</title>
-                    <term id="_" anchor="term-Term2">
-                       <preferred>
-                          <expression>
-                             <name>Term2</name>
-                          </expression>
-                       </preferred>
-                    </term>
-                    <terms id="_" type="external" obligation="normative">
-                       <title id="_">Términos definidos en otro lugar</title>
-                       <p id="_">Ninguna.</p>
-                    </terms>
-                 </terms>
-                 <terms id="_" obligation="normative">
-                    <title id="_">Symbols and Abbreviated Terms</title>
-                    <clause id="_" inline-header="false" obligation="normative">
-                       <title id="_">General</title>
-                    </clause>
-                    <term id="_" anchor="term-Symbols-1">
-                       <preferred>
-                          <expression>
-                             <name>Symbols 1</name>
-                          </expression>
-                       </preferred>
-                    </term>
-                 </terms>
-              </clause>
-              <definitions id="_" type="abbreviated_terms" obligation="normative">
-                 <title id="_">Abreviaciones y acrónimos</title>
-                 <p id="_">Ninguna.</p>
-              </definitions>
-              <clause id="_" type="conventions" inline-header="false" obligation="normative">
-                 <title id="_">Conventions</title>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Clause 4</title>
-                 <clause id="_" inline-header="false" obligation="normative">
-                    <title id="_">Introduction</title>
-                 </clause>
-                 <clause id="_" inline-header="false" obligation="normative">
-                    <title id="_">Clause 4.2</title>
-                 </clause>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Terms and Definitions</title>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">History</title>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Source</title>
-              </clause>
-           </sections>
-           <annex id="_" inline-header="false" obligation="normative">
-              <title id="_">Annex</title>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Annex A.1</title>
-              </clause>
-           </annex>
-           <bibliography>
-              <references id="_" normative="true" obligation="informative">
-                 <title id="_">Referencias</title>
-                 <p id="_">Ninguna.</p>
-              </references>
-              <clause id="_" obligation="informative">
-                 <title id="_">Bibliografía</title>
-                 <references id="_" normative="false" obligation="informative">
-                    <title id="_">Bibliography Subsection</title>
-                 </references>
-              </clause>
-              <references id="_" normative="false" obligation="informative">
-                 <title id="_">Second Bibliography</title>
-              </references>
-           </bibliography>
-        </metanorma>
+           #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
+             .sub('<title language="en"', '<title language="es"')
+             .sub('<language>en</language>', '<language>es</language>')
+             .gsub('<name>International Telecommunication Union</name>', '<name>Unión Internacional de Telecomunicaciones</name>')
+             .gsub('<abbreviation>ITU</abbreviation>', '<abbreviation>UIT</abbreviation>')
+           }
+          <preface>
+            <abstract id="_">
+               <title id="_">Resumen</title>
+               <p id="_">Text</p>
+            </abstract>
+            <foreword id="_" obligation="informative">
+               <title id="_">Prólogo</title>
+               <p id="_">Text</p>
+            </foreword>
+            <introduction id="_" obligation="informative">
+               <title id="_">Introducción</title>
+               <clause id="_" inline-header="false" obligation="informative">
+                  <title id="_">Introduction Subsection</title>
+               </clause>
+            </introduction>
+            <clause id="_" type="history" inline-header="false" obligation="informative">
+               <title id="_">History</title>
+            </clause>
+            <clause id="_" type="source" inline-header="false" obligation="informative">
+               <title id="_">Source</title>
+            </clause>
+         </preface>
+         <sections>
+            <clause id="_" unnumbered="true" inline-header="false" obligation="normative">
+               <p id="_">Initial text</p>
+            </clause>
+            <clause id="_" type="scope" inline-header="false" obligation="normative">
+               <title id="_">Alcance</title>
+               <p id="_">Text</p>
+            </clause>
+            <terms id="_" obligation="normative">
+               <title id="_">Definiciones</title>
+               <p id="_">Esta Recomendación define los siguientes términos:</p>
+               <term id="_" anchor="term-Term1">
+                  <preferred>
+                     <expression>
+                        <name>Term1</name>
+                     </expression>
+                  </preferred>
+               </term>
+            </terms>
+            <clause id="_" obligation="normative" type="terms">
+               <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Introduction</title>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">Intro 1</title>
+                  </clause>
+               </clause>
+               <terms id="_" obligation="normative">
+                  <title id="_">Intro 2</title>
+                  <p id="_">Ninguna.</p>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">Intro 3</title>
+                  </clause>
+               </terms>
+               <clause id="_" obligation="normative" type="terms">
+                  <title id="_">Intro 4</title>
+                  <terms id="_" obligation="normative">
+                     <title id="_">Intro 5</title>
+                     <term id="_" anchor="term-Term1-1">
+                        <preferred>
+                           <expression>
+                              <name>Term1</name>
+                           </expression>
+                        </preferred>
+                     </term>
+                  </terms>
+               </clause>
+               <terms id="_" obligation="normative">
+                  <title id="_">Normal Terms</title>
+                  <term id="_" anchor="term-Term2">
+                     <preferred>
+                        <expression>
+                           <name>Term2</name>
+                        </expression>
+                     </preferred>
+                  </term>
+                  <terms id="_" type="external" obligation="normative">
+                     <title id="_">Términos definidos en otro lugar</title>
+                     <p id="_">Ninguna.</p>
+                  </terms>
+               </terms>
+               <terms id="_" obligation="normative">
+                  <title id="_">Symbols and Abbreviated Terms</title>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">General</title>
+                  </clause>
+                  <term id="_" anchor="term-Symbols-1">
+                     <preferred>
+                        <expression>
+                           <name>Symbols 1</name>
+                        </expression>
+                     </preferred>
+                  </term>
+               </terms>
+            </clause>
+            <definitions id="_" type="abbreviated_terms" obligation="normative">
+               <title id="_">Abreviaciones y acrónimos</title>
+               <p id="_">Ninguna.</p>
+            </definitions>
+            <clause id="_" type="conventions" inline-header="false" obligation="normative">
+               <title id="_">Conventions</title>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Clause 4</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Introduction</title>
+               </clause>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Clause 4.2</title>
+               </clause>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Terms and Definitions</title>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">History</title>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Source</title>
+            </clause>
+         </sections>
+         <annex id="_" inline-header="false" obligation="normative">
+            <title id="_">Annex</title>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Annex A.1</title>
+            </clause>
+         </annex>
+         <bibliography>
+            <references id="_" normative="true" obligation="informative">
+               <title id="_">Referencias</title>
+               <p id="_">Ninguna.</p>
+            </references>
+            <clause id="_" obligation="informative">
+               <title id="_">Bibliografía</title>
+               <references id="_" normative="false" obligation="informative">
+                  <title id="_">Bibliography Subsection</title>
+               </references>
+            </clause>
+            <references id="_" normative="false" obligation="informative">
+               <title id="_">Second Bibliography</title>
+            </references>
+         </bibliography>
+      </metanorma>
     OUTPUT
     expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(strip_guid(output))
@@ -1660,156 +1659,156 @@ RSpec.describe Metanorma::Itu do
   it "processes sections in German" do
     input = section_template("de", "Latn")
     output = <<~OUTPUT
-             #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
-               .sub('<title language="en"', '<title language="de"')
-               .sub('<language>en</language>', '<language>de</language>')
-               .gsub('<name>International Telecommunication Union</name>', '<name>Internationale Fernmeldeunion</name>')
-             }
-           <preface>
-              <abstract id="_">
-                 <title id="_">Abstrakt</title>
-                 <p id="_">Text</p>
-              </abstract>
-              <foreword id="_" obligation="informative">
-                 <title id="_">Vorwort</title>
-                 <p id="_">Text</p>
-              </foreword>
-              <introduction id="_" obligation="informative">
-                 <title id="_">Einführung</title>
-                 <clause id="_" inline-header="false" obligation="informative">
-                    <title id="_">Introduction Subsection</title>
-                 </clause>
-              </introduction>
-              <clause id="_" type="history" inline-header="false" obligation="informative">
-                 <title id="_">History</title>
-              </clause>
-              <clause id="_" type="source" inline-header="false" obligation="informative">
-                 <title id="_">Source</title>
-              </clause>
-           </preface>
-           <sections>
-              <clause id="_" unnumbered="true" inline-header="false" obligation="normative">
-                 <p id="_">Initial text</p>
-              </clause>
-              <clause id="_" type="scope" inline-header="false" obligation="normative">
-                 <title id="_">Umfang</title>
-                 <p id="_">Text</p>
-              </clause>
-              <terms id="_" obligation="normative">
-                 <title id="_">Definitionen</title>
-                 <p id="_">Diese Empfehlung definiert die folgenden Begriffe:</p>
-                 <term id="_" anchor="term-Term1">
-                    <preferred>
-                       <expression>
-                          <name>Term1</name>
-                       </expression>
-                    </preferred>
-                 </term>
-              </terms>
-              <clause id="_" obligation="normative" type="terms">
-                 <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
-                 <clause id="_" inline-header="false" obligation="normative">
-                    <title id="_">Introduction</title>
-                    <clause id="_" inline-header="false" obligation="normative">
-                       <title id="_">Intro 1</title>
-                    </clause>
-                 </clause>
-                 <terms id="_" obligation="normative">
-                    <title id="_">Intro 2</title>
-                    <p id="_">Keine.</p>
-                    <clause id="_" inline-header="false" obligation="normative">
-                       <title id="_">Intro 3</title>
-                    </clause>
-                 </terms>
-                 <clause id="_" obligation="normative" type="terms">
-                    <title id="_">Intro 4</title>
-                    <terms id="_" obligation="normative">
-                       <title id="_">Intro 5</title>
-                       <term id="_" anchor="term-Term1-1">
-                          <preferred>
-                             <expression>
-                                <name>Term1</name>
-                             </expression>
-                          </preferred>
-                       </term>
-                    </terms>
-                 </clause>
-                 <terms id="_" obligation="normative">
-                    <title id="_">Normal Terms</title>
-                    <term id="_" anchor="term-Term2">
-                       <preferred>
-                          <expression>
-                             <name>Term2</name>
-                          </expression>
-                       </preferred>
-                    </term>
-                    <terms id="_" type="external" obligation="normative">
-                       <title id="_">An anderer Stelle definierte Begriffe</title>
-                       <p id="_">Keine.</p>
-                    </terms>
-                 </terms>
-                 <terms id="_" obligation="normative">
-                    <title id="_">Symbols and Abbreviated Terms</title>
-                    <clause id="_" inline-header="false" obligation="normative">
-                       <title id="_">General</title>
-                    </clause>
-                    <term id="_" anchor="term-Symbols-1">
-                       <preferred>
-                          <expression>
-                             <name>Symbols 1</name>
-                          </expression>
-                       </preferred>
-                    </term>
-                 </terms>
-              </clause>
-              <definitions id="_" type="abbreviated_terms" obligation="normative">
-                 <title id="_">Abkürzungen und Akronyme</title>
-                 <p id="_">Keine.</p>
-              </definitions>
-              <clause id="_" type="conventions" inline-header="false" obligation="normative">
-                 <title id="_">Conventions</title>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Clause 4</title>
-                 <clause id="_" inline-header="false" obligation="normative">
-                    <title id="_">Introduction</title>
-                 </clause>
-                 <clause id="_" inline-header="false" obligation="normative">
-                    <title id="_">Clause 4.2</title>
-                 </clause>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Terms and Definitions</title>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">History</title>
-              </clause>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Source</title>
-              </clause>
-           </sections>
-           <annex id="_" inline-header="false" obligation="normative">
-              <title id="_">Annex</title>
-              <clause id="_" inline-header="false" obligation="normative">
-                 <title id="_">Annex A.1</title>
-              </clause>
-           </annex>
-           <bibliography>
-              <references id="_" normative="true" obligation="informative">
-                 <title id="_">Referenzen</title>
-                 <p id="_">Keine.</p>
-              </references>
-              <clause id="_" obligation="informative">
-                 <title id="_">Bibliographie</title>
-                 <references id="_" normative="false" obligation="informative">
-                    <title id="_">Bibliography Subsection</title>
-                 </references>
-              </clause>
-              <references id="_" normative="false" obligation="informative">
-                 <title id="_">Second Bibliography</title>
-              </references>
-           </bibliography>
-        </metanorma>
+           #{@blank_hdr.sub('<status>', '<abstract> <p>Text</p> </abstract><status>')
+             .sub('<title language="en"', '<title language="de"')
+             .sub('<language>en</language>', '<language>de</language>')
+             .gsub('<name>International Telecommunication Union</name>', '<name>Internationale Fernmeldeunion</name>')
+           }
+         <preface>
+            <abstract id="_">
+               <title id="_">Abstrakt</title>
+               <p id="_">Text</p>
+            </abstract>
+            <foreword id="_" obligation="informative">
+               <title id="_">Vorwort</title>
+               <p id="_">Text</p>
+            </foreword>
+            <introduction id="_" obligation="informative">
+               <title id="_">Einführung</title>
+               <clause id="_" inline-header="false" obligation="informative">
+                  <title id="_">Introduction Subsection</title>
+               </clause>
+            </introduction>
+            <clause id="_" type="history" inline-header="false" obligation="informative">
+               <title id="_">History</title>
+            </clause>
+            <clause id="_" type="source" inline-header="false" obligation="informative">
+               <title id="_">Source</title>
+            </clause>
+         </preface>
+         <sections>
+            <clause id="_" unnumbered="true" inline-header="false" obligation="normative">
+               <p id="_">Initial text</p>
+            </clause>
+            <clause id="_" type="scope" inline-header="false" obligation="normative">
+               <title id="_">Umfang</title>
+               <p id="_">Text</p>
+            </clause>
+            <terms id="_" obligation="normative">
+               <title id="_">Definitionen</title>
+               <p id="_">Diese Empfehlung definiert die folgenden Begriffe:</p>
+               <term id="_" anchor="term-Term1">
+                  <preferred>
+                     <expression>
+                        <name>Term1</name>
+                     </expression>
+                  </preferred>
+               </term>
+            </terms>
+            <clause id="_" obligation="normative" type="terms">
+               <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Introduction</title>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">Intro 1</title>
+                  </clause>
+               </clause>
+               <terms id="_" obligation="normative">
+                  <title id="_">Intro 2</title>
+                  <p id="_">Keine.</p>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">Intro 3</title>
+                  </clause>
+               </terms>
+               <clause id="_" obligation="normative" type="terms">
+                  <title id="_">Intro 4</title>
+                  <terms id="_" obligation="normative">
+                     <title id="_">Intro 5</title>
+                     <term id="_" anchor="term-Term1-1">
+                        <preferred>
+                           <expression>
+                              <name>Term1</name>
+                           </expression>
+                        </preferred>
+                     </term>
+                  </terms>
+               </clause>
+               <terms id="_" obligation="normative">
+                  <title id="_">Normal Terms</title>
+                  <term id="_" anchor="term-Term2">
+                     <preferred>
+                        <expression>
+                           <name>Term2</name>
+                        </expression>
+                     </preferred>
+                  </term>
+                  <terms id="_" type="external" obligation="normative">
+                     <title id="_">An anderer Stelle definierte Begriffe</title>
+                     <p id="_">Keine.</p>
+                  </terms>
+               </terms>
+               <terms id="_" obligation="normative">
+                  <title id="_">Symbols and Abbreviated Terms</title>
+                  <clause id="_" inline-header="false" obligation="normative">
+                     <title id="_">General</title>
+                  </clause>
+                  <term id="_" anchor="term-Symbols-1">
+                     <preferred>
+                        <expression>
+                           <name>Symbols 1</name>
+                        </expression>
+                     </preferred>
+                  </term>
+               </terms>
+            </clause>
+            <definitions id="_" type="abbreviated_terms" obligation="normative">
+               <title id="_">Abkürzungen und Akronyme</title>
+               <p id="_">Keine.</p>
+            </definitions>
+            <clause id="_" type="conventions" inline-header="false" obligation="normative">
+               <title id="_">Conventions</title>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Clause 4</title>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Introduction</title>
+               </clause>
+               <clause id="_" inline-header="false" obligation="normative">
+                  <title id="_">Clause 4.2</title>
+               </clause>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Terms and Definitions</title>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">History</title>
+            </clause>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Source</title>
+            </clause>
+         </sections>
+         <annex id="_" inline-header="false" obligation="normative">
+            <title id="_">Annex</title>
+            <clause id="_" inline-header="false" obligation="normative">
+               <title id="_">Annex A.1</title>
+            </clause>
+         </annex>
+         <bibliography>
+            <references id="_" normative="true" obligation="informative">
+               <title id="_">Referenzen</title>
+               <p id="_">Keine.</p>
+            </references>
+            <clause id="_" obligation="informative">
+               <title id="_">Bibliographie</title>
+               <references id="_" normative="false" obligation="informative">
+                  <title id="_">Bibliography Subsection</title>
+               </references>
+            </clause>
+            <references id="_" normative="false" obligation="informative">
+               <title id="_">Second Bibliography</title>
+            </references>
+         </bibliography>
+      </metanorma>
     OUTPUT
     expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
       .to be_equivalent_to Canon.format_xml(strip_guid(output))
@@ -1867,148 +1866,148 @@ RSpec.describe Metanorma::Itu do
 
     INPUT
     output = <<~OUTPUT
-      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
-      <bibdata type='standard'>
-           <title language='en' type='main'>Main Title</title>
-           <title language='ru' type='main'>Titre Principal</title>
-           <title language='en' type='subtitle'>Subtitle</title>
-           <title language='ru' type='subtitle'>Soustitre</title>
-           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-           <docidentifier primary="true" type='ITU'>
-             &#1055;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;
-             &#1082; &#1054;&#1041; &#1052;&#1057;&#1069; 1000
-           </docidentifier>
-           <docidentifier type='ITU-lang'>
-             &#1055;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;
-             &#1082; &#1054;&#1041; &#1052;&#1057;&#1069; 1000-R
-           </docidentifier>
-           <docnumber>1000</docnumber>
-           <contributor>
-             <role type='author'/>
-             <organization>
-                <name>Международный Союз Электросвязи</name>
-                <abbreviation>МСЭ</abbreviation>
-             </organization>
-           </contributor>
-           <contributor>
-             <role type='editor'>raporteur</role>
-             <person>
-               <name>
-                 <completename>Fred Flintstone</completename>
-               </name>
-               <affiliation>
-                 <organization>
-                   <name>Bedrock Quarry</name>
-                   <address>
-                     <formattedAddress>Canada</formattedAddress>
-                   </address>
-                 </organization>
-               </affiliation>
-               <phone>555</phone>
-               <phone type='fax'>556</phone>
-               <email>x@example.com</email>
-             </person>
-           </contributor>
-           <contributor>
-             <role type='editor'/>
-             <person>
-               <name>
-                 <completename>Barney Rubble</completename>
-               </name>
-               <affiliation>
-                 <organization>
-                   <name>Bedrock Quarry 2</name>
-                   <address>
-                     <formattedAddress>USA</formattedAddress>
-                   </address>
-                 </organization>
-               </affiliation>
-               <phone>557</phone>
-               <phone type='fax'>558</phone>
-               <email>y@example.com</email>
-             </person>
-           </contributor>
-     <contributor>
-        <role type="author">
-           <description>committee</description>
-        </role>
-        <organization>
-           <name>Международный Союз Электросвязи</name>
-           <subdivision type="Bureau">
-              <name>R</name>
-           </subdivision>
-           <subdivision type="Group">
-              <name>I</name>
-           </subdivision>
-           <subdivision type="Subgroup">
-              <name>I1</name>
-           </subdivision>
-           <subdivision type="Workgroup">
-              <name>I2</name>
-           </subdivision>
-           <abbreviation>МСЭ</abbreviation>
-        </organization>
-     </contributor>
-           <contributor>
-             <role type='publisher'/>
-             <organization>
-                <name>Международный Союз Электросвязи</name>
-                <abbreviation>МСЭ</abbreviation>
-             </organization>
-           </contributor>
-           <edition>2</edition>
-           <version>
-             <revision-date>2000-01-01</revision-date>
-             <draft>5</draft>
-           </version>
-           <language>ru</language>
-           <script>Cyrl</script>
-           <status>
-             <stage>draft</stage>
-           </status>
-           <copyright>
-             <from>2001</from>
-             <owner>
-               <organization>
+       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
+       <bibdata type='standard'>
+            <title language='en' type='main'>Main Title</title>
+            <title language='ru' type='main'>Titre Principal</title>
+            <title language='en' type='subtitle'>Subtitle</title>
+            <title language='ru' type='subtitle'>Soustitre</title>
+            <docidentifier type='ITU-provisional'>ABC</docidentifier>
+            <docidentifier primary="true" type='ITU'>
+              &#1055;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;
+              &#1082; &#1054;&#1041; &#1052;&#1057;&#1069; 1000
+            </docidentifier>
+            <docidentifier type='ITU-lang'>
+              &#1055;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;
+              &#1082; &#1054;&#1041; &#1052;&#1057;&#1069; 1000-R
+            </docidentifier>
+            <docnumber>1000</docnumber>
+            <contributor>
+              <role type='author'/>
+              <organization>
                  <name>Международный Союз Электросвязи</name>
                  <abbreviation>МСЭ</abbreviation>
-               </organization>
-             </owner>
-           </copyright>
-           <series type='main'>
-             <title>A3</title>
-           </series>
-           <series type='secondary'>
-             <title>B3</title>
-           </series>
-           <series type='tertiary'>
-             <title>C3</title>
-           </series>
-           <keyword>Word1</keyword>
-           <keyword>word2</keyword>
-           <ext>
-             <doctype>service-publication</doctype>
-            <flavor>itu</flavor>
-             <ip-notice-received>false</ip-notice-received>
-             <studyperiod>
-             <start>#{Date.today.year - (Date.today.year % 2)}</start>
-             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
-             </studyperiod>
-             <meeting>Meeting X</meeting>
-             <meeting-date>
-               <from>2000-01-01</from>
-               <to>2000-01-02</to>
-             </meeting-date>
-             <intended-type>TD</intended-type>
-             <source>Source</source>
-             <structuredidentifier>
-               <bureau>R</bureau>
-               <docnumber>1000</docnumber>
-             </structuredidentifier>
-           </ext>
-         </bibdata>
-         <sections> </sections>
-       </metanorma>
+              </organization>
+            </contributor>
+            <contributor>
+              <role type='editor'>raporteur</role>
+              <person>
+                <name>
+                  <completename>Fred Flintstone</completename>
+                </name>
+                <affiliation>
+                  <organization>
+                    <name>Bedrock Quarry</name>
+                    <address>
+                      <formattedAddress>Canada</formattedAddress>
+                    </address>
+                  </organization>
+                </affiliation>
+                <phone>555</phone>
+                <phone type='fax'>556</phone>
+                <email>x@example.com</email>
+              </person>
+            </contributor>
+            <contributor>
+              <role type='editor'/>
+              <person>
+                <name>
+                  <completename>Barney Rubble</completename>
+                </name>
+                <affiliation>
+                  <organization>
+                    <name>Bedrock Quarry 2</name>
+                    <address>
+                      <formattedAddress>USA</formattedAddress>
+                    </address>
+                  </organization>
+                </affiliation>
+                <phone>557</phone>
+                <phone type='fax'>558</phone>
+                <email>y@example.com</email>
+              </person>
+            </contributor>
+      <contributor>
+         <role type="author">
+            <description>committee</description>
+         </role>
+         <organization>
+            <name>Международный Союз Электросвязи</name>
+            <subdivision type="Bureau">
+               <name>R</name>
+            </subdivision>
+            <subdivision type="Group">
+               <name>I</name>
+            </subdivision>
+            <subdivision type="Subgroup">
+               <name>I1</name>
+            </subdivision>
+            <subdivision type="Workgroup">
+               <name>I2</name>
+            </subdivision>
+            <abbreviation>МСЭ</abbreviation>
+         </organization>
+      </contributor>
+            <contributor>
+              <role type='publisher'/>
+              <organization>
+                 <name>Международный Союз Электросвязи</name>
+                 <abbreviation>МСЭ</abbreviation>
+              </organization>
+            </contributor>
+            <edition>2</edition>
+            <version>
+              <revision-date>2000-01-01</revision-date>
+              <draft>5</draft>
+            </version>
+            <language>ru</language>
+            <script>Cyrl</script>
+            <status>
+              <stage>draft</stage>
+            </status>
+            <copyright>
+              <from>2001</from>
+              <owner>
+                <organization>
+                  <name>Международный Союз Электросвязи</name>
+                  <abbreviation>МСЭ</abbreviation>
+                </organization>
+              </owner>
+            </copyright>
+            <series type='main'>
+              <title>A3</title>
+            </series>
+            <series type='secondary'>
+              <title>B3</title>
+            </series>
+            <series type='tertiary'>
+              <title>C3</title>
+            </series>
+            <keyword>Word1</keyword>
+            <keyword>word2</keyword>
+            <ext>
+              <doctype>service-publication</doctype>
+             <flavor>itu</flavor>
+              <ip-notice-received>false</ip-notice-received>
+              <studyperiod>
+              <start>#{Date.today.year - (Date.today.year % 2)}</start>
+              <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+              </studyperiod>
+              <meeting>Meeting X</meeting>
+              <meeting-date>
+                <from>2000-01-01</from>
+                <to>2000-01-02</to>
+              </meeting-date>
+              <intended-type>TD</intended-type>
+              <source>Source</source>
+              <structuredidentifier>
+                <bureau>R</bureau>
+                <docnumber>1000</docnumber>
+              </structuredidentifier>
+            </ext>
+          </bibdata>
+          <sections> </sections>
+        </metanorma>
     OUTPUT
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")

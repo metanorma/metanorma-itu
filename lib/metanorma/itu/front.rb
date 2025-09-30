@@ -18,8 +18,7 @@ module Metanorma
       end
 
       def title_defaultlang(node, xml)
-        a = node.attr("title") || node.attr("title-#{@lang}") ||
-          node.attr("doctitle")
+        a = node.attr("title") || node.attr("title-#{@lang}") or return
         add_title_xml(xml, a, @lang, "main")
         if a = node.attr("annextitle") || node.attr("annextitle-#{@lang}")
           add_title_xml(xml, a, @lang, "annex")
@@ -38,6 +37,7 @@ module Metanorma
       def title(node, xml)
         title_defaultlang(node, xml)
         title_otherlangs(node, xml)
+        title_fallback(node, xml)
         %w(subtitle amendment-title corrigendum-title collection-title
            slogan-title).each do |t|
           other_title_defaultlang(node, xml, t)

@@ -131,9 +131,9 @@ module Metanorma
           para = t.at("./definition/verbal-definition") || return
           term = t.at("./preferred//name").text
           termdef_warn(term, /^[A-Z][a-z]+/, t, term, "term is not lowercase")
-          termdef_warn(para.text, /^[a-z]/, t, term,
+          termdef_warn(para.text.strip, /^[a-z]/, t, term,
                        "term definition does not start with capital")
-          termdef_warn(para.text, /[^.]$/, t, term,
+          termdef_warn(para.text.strip, /[^.]\z/, t, term,
                        "term definition does not end with period")
         end
       end

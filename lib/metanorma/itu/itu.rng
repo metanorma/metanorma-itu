@@ -2,13 +2,6 @@
 <grammar ns='https://www.metanorma.org/ns/standoc' xmlns="http://relaxng.org/ns/structure/1.0">
   <include href="relaton-itu.rng"/>
   <include href="isodoc.rng">
-    <define name="OlAttributes" combine="interleave">
-      <optional>
-        <attribute name="class">
-          <value>steps</value>
-        </attribute>
-      </optional>
-    </define>
     <define name="Clause-Section">
       <ref name="Section-Attributes"/>
       <optional>
@@ -35,4 +28,11 @@
       </group>
     </define>
   </include>
+  <define name="OlAttributes" combine="interleave">
+    <optional>
+      <attribute name="class">
+        <value>steps</value>
+      </attribute>
+    </optional>
+  </define>
 </grammar>

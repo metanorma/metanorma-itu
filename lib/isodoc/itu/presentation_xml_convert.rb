@@ -52,7 +52,7 @@ module IsoDoc
       end
 
       def termsource_label(elem, sources)
-        elem.replace(sources)
+        elem.replace(@i18n.l10n(sources))
       end
 
       def eref1(elem)

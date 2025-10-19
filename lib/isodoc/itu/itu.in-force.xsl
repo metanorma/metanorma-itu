@@ -15284,10 +15284,42 @@
 	</xsl:template>
 
 	<xsl:attribute-set name="p-style">
+		<xsl:attribute name="margin-top">6pt</xsl:attribute>
 	</xsl:attribute-set> <!-- p-style -->
 
 	<xsl:template name="refine_p-style">
 		<xsl:param name="element-name"/>
+		<xsl:param name="margin"/>
+		<xsl:call-template name="setKeepAttributes"/>
+
+		<xsl:if test="@class='supertitle'">
+			<xsl:attribute name="space-before">36pt</xsl:attribute>
+			<xsl:attribute name="margin-bottom">24pt</xsl:attribute>
+			<xsl:attribute name="margin-top">0pt</xsl:attribute>
+			<xsl:attribute name="font-size">14pt</xsl:attribute>
+		</xsl:if>
+		<xsl:attribute name="text-align">
+			<xsl:choose>
+				<xsl:when test="@class='supertitle'">center</xsl:when>
+				<!-- <xsl:when test="@align"><xsl:value-of select="@align"/></xsl:when> -->
+				<xsl:when test="@align"><xsl:call-template name="setAlignment"/></xsl:when>
+				<xsl:when test="ancestor::*[1][self::mn:td]/@align">
+					<!-- <xsl:value-of select="ancestor::*[1][local-name() = 'td']/@align"/> -->
+					<xsl:call-template name="setAlignment">
+						<xsl:with-param name="align" select="ancestor::*[1][self::mn:td]/@align"/>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:when test="ancestor::*[1][self::mn:th]/@align">
+					<!-- <xsl:value-of select="ancestor::*[1][local-name() = 'th']/@align"/> -->
+					<xsl:call-template name="setAlignment">
+						<xsl:with-param name="align" select="ancestor::*[1][self::mn:th]/@align"/>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>justify</xsl:otherwise>
+			</xsl:choose>
+		</xsl:attribute>
+		<!-- $namespace = 'itu' -->
+
 	</xsl:template> <!-- refine_p-style -->
 
 	<xsl:template name="processPrefaceSectionsDefault">

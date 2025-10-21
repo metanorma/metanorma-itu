@@ -12,16 +12,14 @@ module Metanorma
            focus-group implementers-guide technical-paper technical-report
            joint-itu-iso-iec service-publication
            contribution).include? @doctype or
-          @log.add("Document Attributes", nil,
-                   "#{@doctype} is not a recognised document type")
+          @log.add("ITU_1", nil, params: [@doctype])
       end
 
       def stage_validate(xmldoc)
         stage = xmldoc&.at("//bibdata/status/stage")&.text
         %w(in-force superseded in-force-prepublished withdrawn
            draft).include? stage or
-          @log.add("Document Attributes", nil,
-                   "#{stage} is not a recognised status")
+          @log.add("ITU_2", nil, params: [stage])
       end
 
       def content_validate(doc)
@@ -41,8 +39,7 @@ module Metanorma
         xmldoc.xpath("//bibdata/series/title").each do |s|
           series = s.text.sub(/^[A-Z]: /, "")
           t.downcase.include?(series.downcase) and
-            @log.add("Document Attributes", nil,
-                     "Title includes series name #{series}")
+            @log.add("ITU_3", nil, params: [series])
         end
       end
 
@@ -61,8 +58,7 @@ module Metanorma
         xmldoc.xpath("//preface/*").each do |c|
           extract_text(c).split(/\.\s+/).each do |t|
             /\b(shall|must)\b/i.match(t) and
-              @log.add("Style", c,
-                       "Requirement possibly in preface: #{t.strip}")
+              @log.add("ITU_4", c, params: [t.strip])
           end
         end
       end
@@ -71,35 +67,33 @@ module Metanorma
       # Supplanted by rendering
       def numbers_validate(xmldoc); end
 
-      def style_two_regex_not_prev(node, text, regex, regex_prev, warning)
-        text.nil? and return
-        arr = text.split(/\W+/)
-        arr.each_index do |i|
-          m_prev = i.zero? ? nil : regex_prev.match(arr[i - 1])
-          if !regex.match?(arr[i]) && m_prev.nil?
-            @log.add("Style", node, "#{warning}: #{m[:num]}")
-          end
-        end
-      end
+      #       def style_two_regex_not_prev(node, text, regex, regex_prev, warning)
+      #         text.nil? and return
+      #         arr = text.split(/\W+/)
+      #         arr.each_index do |i|
+      #           m_prev = i.zero? ? nil : regex_prev.match(arr[i - 1])
+      #           if !regex.match?(arr[i]) && m_prev.nil?
+      #             @log.add("Style", node, "#{warning}: #{m[:num]}")
+      #             # ID = ITU_5
+      #           end
+      #         end
+      #       end
 
       def approval_validate(xmldoc)
         s = xmldoc.at("//bibdata/ext/recommendationstatus/approvalstage") or
           return
         process = s["process"]
         (process == "aap") && %w(determined in-force).include?(s.text) and
-          @log.add("Document Attributes", nil,
-                   "Recommendation Status #{s.text} inconsistent with AAP")
+          @log.add("ITU_6", nil, params: [s.text])
         (process == "tap") && !%w(determined in-force).include?(s.text) and
-          @log.add("Document Attributes", nil,
-                   "Recommendation Status #{s.text} inconsistent with TAP")
+          @log.add("ITU_7", nil, params: [s.text])
       end
 
       def itu_identifier_validate(xmldoc)
         xmldoc.xpath("//bibdata/docidentifier[@type = 'ITU']").each do |x|
           /^SG \d+/.match?(x.text) ||
             /^ITU-[RTD] [AD-VX-Z]\.\d+(\.\d+)?$/.match?(x.text) or
-            @log.add("Style", nil, "#{x.text} does not match ITU document " \
-                                   "identifier conventions")
+            @log.add("ITU_8", nil, params: [x.text])
         end
       end
 
@@ -114,16 +108,16 @@ module Metanorma
           next if (@doctype == "resolution") && (c.parent.name == "sections") &&
             !c.at("./preceding-sibling::clause")
 
-          @log.add("Style", c, "Unnumbered clause out of place")
+          @log.add("ITU_9", c)
         end
       end
 
       # Editing Guidelines 7.2, 7.3
       def section_check(xmldoc)
         xmldoc.at("//bibdata/abstract") or
-          @log.add("Style", nil, "No Summary has been provided")
+          @log.add("ITU_10", nil)
         xmldoc.at("//bibdata/keyword") or
-          @log.add("Style", nil, "No Keywords have been provided")
+          @log.add("ITU_11", nil)
       end
 
       def termdef_style(xmldoc)
@@ -139,7 +133,7 @@ module Metanorma
       end
 
       def termdef_warn(text, regex, node, term, msg)
-        regex.match(text) && @log.add("Style", node, "#{term}: #{msg}")
+        regex.match(text) && @log.add("ITU_12", node, params: [term, msg])
       end
     end
   end

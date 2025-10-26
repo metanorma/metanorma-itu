@@ -2155,38 +2155,15 @@
 				<xsl:otherwise>fo:block</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+
+		<xsl:variable name="p_styles">
+			<styles xsl:use-attribute-sets="p-style">
+				<xsl:call-template name="refine_p-style"><xsl:with-param name="element-name" select="$element-name"/></xsl:call-template>
+			</styles>
+		</xsl:variable>
+
 		<xsl:element name="{$element-name}">
-			<xsl:attribute name="margin-top">6pt</xsl:attribute>
-
-			<xsl:call-template name="setKeepAttributes"/>
-
-			<xsl:if test="@class='supertitle'">
-				<xsl:attribute name="space-before">36pt</xsl:attribute>
-				<xsl:attribute name="margin-bottom">24pt</xsl:attribute>
-				<xsl:attribute name="margin-top">0pt</xsl:attribute>
-				<xsl:attribute name="font-size">14pt</xsl:attribute>
-
-			</xsl:if>
-			<xsl:attribute name="text-align">
-				<xsl:choose>
-					<xsl:when test="@class='supertitle'">center</xsl:when>
-					<!-- <xsl:when test="@align"><xsl:value-of select="@align"/></xsl:when> -->
-					<xsl:when test="@align"><xsl:call-template name="setAlignment"/></xsl:when>
-					<xsl:when test="ancestor::*[1][self::mn:td]/@align">
-						<!-- <xsl:value-of select="ancestor::*[1][local-name() = 'td']/@align"/> -->
-						<xsl:call-template name="setAlignment">
-							<xsl:with-param name="align" select="ancestor::*[1][self::mn:td]/@align"/>
-						</xsl:call-template>
-					</xsl:when>
-					<xsl:when test="ancestor::*[1][self::mn:th]/@align">
-						<!-- <xsl:value-of select="ancestor::*[1][local-name() = 'th']/@align"/> -->
-						<xsl:call-template name="setAlignment">
-							<xsl:with-param name="align" select="ancestor::*[1][self::mn:th]/@align"/>
-						</xsl:call-template>
-					</xsl:when>
-					<xsl:otherwise>justify</xsl:otherwise>
-				</xsl:choose>
-			</xsl:attribute>
+			<xsl:copy-of select="xalan:nodeset($p_styles)/styles/@*"/>
 
 			<xsl:if test="not(preceding-sibling::*) and parent::mn:li and $doctype = 'service-publication'">
 				<fo:inline padding-right="9mm">
@@ -2263,35 +2240,12 @@
 
 	<!-- Bibliography -->
 	<xsl:template match="mn:references[not(@normative='true')]/mn:fmt-title">
-		<xsl:variable name="doctype" select="ancestor::mn:metanorma/mn:bibdata/mn:ext/mn:doctype[not(@language) or @language = '']"/>
-		<fo:block font-size="14pt" font-weight="bold" text-align="center" margin-bottom="18pt" role="H1">
-			<xsl:if test="$doctype = 'implementers-guide'">
-				<xsl:attribute name="text-align">left</xsl:attribute>
-				<xsl:attribute name="font-size">12pt</xsl:attribute>
-				<xsl:attribute name="margin-bottom">12pt</xsl:attribute>
-			</xsl:if>
+		<fo:block xsl:use-attribute-sets="references-non-normative-title-style">
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
 
 	<xsl:template match="mn:fmt-title" name="title">
-
-		<xsl:variable name="level">
-			<xsl:call-template name="getLevel"/>
-		</xsl:variable>
-
-		<xsl:variable name="doctype" select="ancestor::mn:metanorma/mn:bibdata/mn:ext/mn:doctype[not(@language) or @language = '']"/>
-
-		<xsl:variable name="font-size">
-			<xsl:choose>
-				<xsl:when test="$level = 1 and $doctype = 'resolution'">14pt</xsl:when>
-				<xsl:when test="$doctype = 'service-publication'">11pt</xsl:when>
-				<xsl:when test="$level &gt;= 2 and $doctype = 'resolution' and ../@inline-header = 'true'">11pt</xsl:when>
-				<xsl:when test="$level = 2">12pt</xsl:when>
-				<xsl:when test="$level &gt;= 3">12pt</xsl:when>
-				<xsl:otherwise>12pt</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
 
 		<xsl:variable name="element-name">
 			<xsl:choose>
@@ -2300,49 +2254,13 @@
 			</xsl:choose>
 		</xsl:variable>
 
-		<xsl:variable name="space-before">
-			<xsl:choose>
-					<xsl:when test="$level = 1 and $doctype = 'service-publication'">12pt</xsl:when>
-					<xsl:when test="$level = '' or $level = 1">18pt</xsl:when>
-					<xsl:when test="$level = 2">12pt</xsl:when>
-					<xsl:otherwise>6pt</xsl:otherwise>
-				</xsl:choose>
-		</xsl:variable>
-
-		<xsl:variable name="space-after">
-			<xsl:choose>
-				<xsl:when test="$level = 1 and $doctype = 'resolution'">24pt</xsl:when>
-				<xsl:when test="$level = 1 and $doctype = 'service-publication'">12pt</xsl:when>
-				<xsl:when test="$level = 2">6pt</xsl:when>
-				<xsl:otherwise>6pt</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
-		<xsl:variable name="text-align">
-			<xsl:choose>
-				<xsl:when test="$level = 1 and $doctype = 'resolution'">center</xsl:when>
-				<xsl:when test="$lang = 'ar'">start</xsl:when>
-				<xsl:otherwise>left</xsl:otherwise>
-			</xsl:choose>
+		<xsl:variable name="title_styles">
+			<styles xsl:use-attribute-sets="title-style"><xsl:call-template name="refine_title-style"><xsl:with-param name="element-name" select="$element-name"/></xsl:call-template></styles>
 		</xsl:variable>
 
 		<xsl:element name="{$element-name}">
-			<xsl:attribute name="font-size"><xsl:value-of select="$font-size"/></xsl:attribute>
-			<xsl:attribute name="font-weight">bold</xsl:attribute>
-			<xsl:attribute name="text-align"><xsl:value-of select="$text-align"/></xsl:attribute>
-			<xsl:attribute name="space-before"><xsl:value-of select="$space-before"/></xsl:attribute>
-			<xsl:attribute name="space-after"><xsl:value-of select="$space-after"/></xsl:attribute>
-			<xsl:attribute name="keep-with-next">always</xsl:attribute>
-			<xsl:if test="$element-name = 'fo:inline'">
-				<xsl:attribute name="padding-right">
-					<xsl:choose>
-						<xsl:when test="$level = 2">9mm</xsl:when>
-						<xsl:when test="$level = 3">6.5mm</xsl:when>
-						<xsl:otherwise>4mm</xsl:otherwise>
-					</xsl:choose>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:attribute name="role">H<xsl:value-of select="$level"/></xsl:attribute>
+			<xsl:copy-of select="xalan:nodeset($title_styles)/styles/@*"/>
+
 			<xsl:apply-templates/>
 			<xsl:apply-templates select="following-sibling::*[1][self::mn:variant-title][@type = 'sub']" mode="subtitle"/>
 		</xsl:element>
@@ -13149,9 +13067,20 @@
 	<!-- ================ -->
 
 	<xsl:attribute-set name="references-non-normative-title-style">
+		<xsl:attribute name="font-size">14pt</xsl:attribute>
+		<xsl:attribute name="font-weight">bold</xsl:attribute>
+		<xsl:attribute name="text-align">center</xsl:attribute>
+		<xsl:attribute name="margin-bottom">18pt</xsl:attribute>
+		<xsl:attribute name="role">H1</xsl:attribute>
 	</xsl:attribute-set>
 
 	<xsl:template name="refine_references-non-normative-title-style">
+		<xsl:variable name="doctype" select="ancestor::mn:metanorma/mn:bibdata/mn:ext/mn:doctype[not(@language) or @language = '']"/>
+		<xsl:if test="$doctype = 'implementers-guide'">
+			<xsl:attribute name="text-align">left</xsl:attribute>
+			<xsl:attribute name="font-size">12pt</xsl:attribute>
+			<xsl:attribute name="margin-bottom">12pt</xsl:attribute>
+		</xsl:if>
 	</xsl:template>
 
 	<!-- bibitem in Normative References (references/@normative="true") -->
@@ -15321,6 +15250,71 @@
 		<!-- $namespace = 'itu' -->
 
 	</xsl:template> <!-- refine_p-style -->
+
+	<xsl:attribute-set name="title-style">
+		<!-- Note: font-size for level 1 title -->
+		<xsl:attribute name="font-size">12pt</xsl:attribute>
+		<xsl:attribute name="font-weight">bold</xsl:attribute>
+		<xsl:attribute name="text-align">left</xsl:attribute>
+		<xsl:attribute name="space-before">18pt</xsl:attribute>
+		<xsl:attribute name="space-after">6pt</xsl:attribute>
+		<xsl:attribute name="keep-with-next">always</xsl:attribute>
+	</xsl:attribute-set> <!-- title-style -->
+
+	<xsl:template name="refine_title-style">
+		<xsl:param name="element-name"/>
+		<xsl:variable name="level">
+			<xsl:call-template name="getLevel"/>
+		</xsl:variable>
+		<xsl:variable name="doctype" select="ancestor::mn:metanorma/mn:bibdata/mn:ext/mn:doctype[not(@language) or @language = '']"/>
+
+		<xsl:if test="$level = 1">
+			<xsl:if test="$doctype = 'resolution'">
+				<xsl:attribute name="font-size">14pt</xsl:attribute>
+				<xsl:attribute name="text-align">center</xsl:attribute>
+				<xsl:attribute name="space-after">24pt</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="$doctype = 'service-publication'">
+				<xsl:attribute name="space-before">12pt</xsl:attribute>
+				<xsl:attribute name="space-after">12pt</xsl:attribute>
+			</xsl:if>
+		</xsl:if>
+
+		<xsl:if test="$level = 2">
+			<xsl:attribute name="space-before">12pt</xsl:attribute>
+			<xsl:attribute name="space-after">6pt</xsl:attribute>
+		</xsl:if>
+
+		<xsl:if test="$level &gt;= 2">
+			<xsl:if test="$doctype = 'resolution' and ../@inline-header = 'true'">
+				<xsl:attribute name="font-size">11pt</xsl:attribute>
+			</xsl:if>
+		</xsl:if>
+
+		<xsl:if test="$level &gt;= 3">
+			<xsl:attribute name="space-before">6pt</xsl:attribute>
+		</xsl:if>
+
+		<xsl:if test="$doctype = 'service-publication'">
+			<xsl:attribute name="font-size">11pt</xsl:attribute>
+		</xsl:if>
+
+		<xsl:if test="$lang = 'ar'">
+			<xsl:attribute name="text-align">start</xsl:attribute>
+		</xsl:if>
+
+		<xsl:if test="$element-name = 'fo:inline'">
+			<xsl:attribute name="padding-right">
+				<xsl:choose>
+					<xsl:when test="$level = 2">9mm</xsl:when>
+					<xsl:when test="$level = 3">6.5mm</xsl:when>
+					<xsl:otherwise>4mm</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
+		</xsl:if>
+		<!-- $namespace = 'itu' -->
+		<xsl:attribute name="role">H<xsl:value-of select="$level"/></xsl:attribute>
+	</xsl:template> <!-- refine_title-style -->
 
 	<xsl:template name="processPrefaceSectionsDefault">
 		<xsl:for-each select="/*/mn:preface/*[not(self::mn:note or self::mn:admonition)]">

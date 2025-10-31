@@ -50,6 +50,8 @@ RSpec.describe Metanorma::Itu do
             <bibitem id="_" anchor="a">
               <formattedref format="application/x-isodoc+xml">A</formattedref>
               <docidentifier>b</docidentifier>
+              <language>en</language>
+            <script>Latn</script>
             </bibitem>
           </references>
         </bibliography>

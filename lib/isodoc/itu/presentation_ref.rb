@@ -84,7 +84,7 @@ module IsoDoc
 
       def norm_ref_entry_code(_ordinal, idents, _ids, _standard, datefn, _bib)
         ret = (idents[:metanorma] || idents[:ordinal] || idents[:sdo]).to_s
-        ret.empty? and return ret
+        ret.empty? and return ""
         ret = ret.sub(/^\[(.+)\]$/, "\\1")
         ret = "[#{esc ret}]"
         ret += datefn

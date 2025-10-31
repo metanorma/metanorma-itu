@@ -84,15 +84,17 @@ module IsoDoc
 
       def norm_ref_entry_code(_ordinal, idents, _ids, _standard, datefn, _bib)
         ret = (idents[:metanorma] || idents[:ordinal] || idents[:sdo]).to_s
-        ret.empty? and return ret
-        /^\[.+\]$/.match?(ret) or ret = "[#{ret}]"
+        ret.empty? and return ""
+        ret = ret.sub(/^\[(.+)\]$/, "\\1")
+        ret = "[#{esc ret}]"
         ret += datefn
         ret.gsub("-", "&#x2011;").gsub(/ /, "&#xa0;")
       end
 
       def biblio_ref_entry_code(_ordinal, idents, _id, _standard, datefn, _bib)
         ret = (idents[:metanorma] || idents[:ordinal] || idents[:sdo]).to_s
-        /^\[.+\]$/.match?(ret) or ret = "[#{ret}]"
+        ret = ret.sub(/^\[(.+)\]$/, "\\1")
+        ret = "[#{esc ret}]"
         ret += datefn
         ret.empty? and return ret
         ret.gsub("-", "&#x2011;").gsub(/ /, "&#xa0;")

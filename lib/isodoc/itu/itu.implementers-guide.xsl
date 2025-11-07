@@ -2116,29 +2116,6 @@
 		</xsl:if>
 		<xsl:apply-templates/>
 	</xsl:template>
-
-	<xsl:template match="mn:preface//mn:fmt-title" priority="3">
-		<!-- <xsl:if test="$doctype = 'service-publication'">
-			<fo:block>&#xa0;</fo:block>
-			<fo:block>&#xa0;</fo:block>
-		</xsl:if> -->
-		<xsl:variable name="level">
-			<xsl:call-template name="getLevel"/>
-		</xsl:variable>
-		<xsl:variable name="doctype" select="ancestor::mn:metanorma/mn:bibdata/mn:ext/mn:doctype[not(@language) or @language = '']"/>
-		<fo:block font-weight="bold" margin-top="18pt" margin-bottom="18pt" keep-with-next="always" role="H{$level}">
-			<xsl:if test="$doctype = 'service-publication'">
-				<xsl:attribute name="margin-top">24pt</xsl:attribute>
-				<xsl:attribute name="margin-bottom">12pt</xsl:attribute>
-				<xsl:attribute name="font-size">12pt</xsl:attribute>
-			</xsl:if>
-			<xsl:apply-templates/>
-			<xsl:apply-templates select="following-sibling::*[1][self::mn:variant-title][@type = 'sub']" mode="subtitle"/>
-		</fo:block>
-		<!-- <xsl:if test="$doctype = 'service-publication'">
-			<fo:block keep-with-next="always">&#xa0;</fo:block>
-		</xsl:if> -->
-	</xsl:template>
 	<!-- ============================= -->
 	<!-- ============================= -->
 
@@ -2209,41 +2186,10 @@
 	<!-- ====== -->
 	<!-- title      -->
 	<!-- ====== -->
-	<xsl:template match="mn:annex/mn:fmt-title">
-		<xsl:variable name="doctype" select="ancestor::mn:metanorma/mn:bibdata/mn:ext/mn:doctype[not(@language) or @language = '']"/>
-		<fo:block xsl:use-attribute-sets="annex-title-style">
-			<xsl:call-template name="refine_annex-title-style"/>
-			<fo:block>
-				<xsl:apply-templates/>
-				<xsl:apply-templates select="following-sibling::*[1][self::mn:variant-title][@type = 'sub']" mode="subtitle"/>
-			</fo:block>
-			<xsl:if test="$doctype != 'resolution'">
-				<fo:block font-size="12pt" font-weight="normal" margin-top="6pt">
-					<!-- <xsl:choose>
-						<xsl:when test="parent::*[@obligation = 'informative']">
-							<xsl:text>(This appendix does not form an integral part of this Recommendation.)</xsl:text>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:text>(This annex forms an integral part of this Recommendation.)</xsl:text>
-						</xsl:otherwise>
-					</xsl:choose> -->
-					<!-- Added for https://github.com/metanorma/isodoc/issues/614 -->
-					<xsl:apply-templates select="following-sibling::mn:p[not(preceding-sibling::mn:clause)][starts-with(normalize-space(), '(')]/node()"/>
-				</fo:block>
-			</xsl:if>
-		</fo:block>
-	</xsl:template>
 
 	<!-- Added for https://github.com/metanorma/isodoc/issues/614 -->
 	<!-- renders in the annex/title template -->
 	<xsl:template match="mn:annex/mn:p[preceding-sibling::*[1][self::mn:fmt-title or self::mn:variant-title]][starts-with(normalize-space(), '(')]" priority="3"/>
-
-	<!-- Bibliography -->
-	<xsl:template match="mn:references[not(@normative='true')]/mn:fmt-title">
-		<fo:block xsl:use-attribute-sets="references-non-normative-title-style">
-			<xsl:apply-templates/>
-		</fo:block>
-	</xsl:template>
 
 	<xsl:template match="mn:fmt-title" name="title">
 
@@ -2263,6 +2209,24 @@
 
 			<xsl:apply-templates/>
 			<xsl:apply-templates select="following-sibling::*[1][self::mn:variant-title][@type = 'sub']" mode="subtitle"/>
+
+      <xsl:if test="parent::mn:annex"><!-- Annex title -->
+        <xsl:variable name="doctype" select="ancestor::mn:metanorma/mn:bibdata/mn:ext/mn:doctype[not(@language) or @language = '']"/>
+        <xsl:if test="$doctype != 'resolution'">
+          <fo:block font-size="12pt" font-weight="normal" margin-top="6pt">
+            <!-- <xsl:choose>
+              <xsl:when test="parent::*[@obligation = 'informative']">
+                <xsl:text>(This appendix does not form an integral part of this Recommendation.)</xsl:text>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:text>(This annex forms an integral part of this Recommendation.)</xsl:text>
+              </xsl:otherwise>
+            </xsl:choose> -->
+            <!-- Added for https://github.com/metanorma/isodoc/issues/614 -->
+            <xsl:apply-templates select="following-sibling::mn:p[not(preceding-sibling::mn:clause)][starts-with(normalize-space(), '(')]/node()"/>
+          </fo:block>
+        </xsl:if>
+      </xsl:if>
 		</xsl:element>
 
 		<xsl:if test="$element-name = 'fo:inline' and not(following-sibling::mn:p)">
@@ -13066,15 +13030,16 @@
 	<!-- END Admonition -->
 	<!-- ================ -->
 
-	<xsl:attribute-set name="references-non-normative-title-style">
+	<xsl:attribute-set name="bibliography-title-style">
 		<xsl:attribute name="font-size">14pt</xsl:attribute>
 		<xsl:attribute name="font-weight">bold</xsl:attribute>
 		<xsl:attribute name="text-align">center</xsl:attribute>
+		<xsl:attribute name="space-before">0pt</xsl:attribute>
 		<xsl:attribute name="margin-bottom">18pt</xsl:attribute>
 		<xsl:attribute name="role">H1</xsl:attribute>
 	</xsl:attribute-set>
 
-	<xsl:template name="refine_references-non-normative-title-style">
+	<xsl:template name="refine_bibliography-title-style">
 		<xsl:variable name="doctype" select="ancestor::mn:metanorma/mn:bibdata/mn:ext/mn:doctype[not(@language) or @language = '']"/>
 		<xsl:if test="$doctype = 'implementers-guide'">
 			<xsl:attribute name="text-align">left</xsl:attribute>
@@ -15196,9 +15161,11 @@
 	<!-- ===================================== -->
 
 	<xsl:attribute-set name="annex-title-style">
+		<xsl:attribute name="keep-with-next">always</xsl:attribute>
 		<xsl:attribute name="font-size">14pt</xsl:attribute>
 		<xsl:attribute name="font-weight">bold</xsl:attribute>
 		<xsl:attribute name="text-align">center</xsl:attribute>
+		<xsl:attribute name="space-before">0pt</xsl:attribute>
 		<xsl:attribute name="margin-bottom">18pt</xsl:attribute>
 		<xsl:attribute name="role">H1</xsl:attribute>
 	</xsl:attribute-set> <!-- annex-title-style -->
@@ -15301,6 +15268,33 @@
 
 		<xsl:if test="$lang = 'ar'">
 			<xsl:attribute name="text-align">start</xsl:attribute>
+		</xsl:if>
+
+		<xsl:if test="ancestor::mn:preface">
+			<xsl:attribute name="font-size">inherit</xsl:attribute>
+			<xsl:attribute name="margin-top">18pt</xsl:attribute>
+			<xsl:attribute name="margin-bottom">18pt</xsl:attribute>
+			<xsl:attribute name="space-before">0pt</xsl:attribute>
+			<xsl:attribute name="space-after">0pt</xsl:attribute>
+			<xsl:if test="$doctype = 'service-publication'">
+				<xsl:attribute name="margin-top">24pt</xsl:attribute>
+				<xsl:attribute name="margin-bottom">12pt</xsl:attribute>
+				<xsl:attribute name="font-size">12pt</xsl:attribute>
+			</xsl:if>
+		</xsl:if>
+
+		<xsl:if test="parent::mn:annex"><!-- Annex title -->
+			<xsl:variable name="annex_title_styles">
+				<styles xsl:use-attribute-sets="annex-title-style"><xsl:call-template name="refine_annex-title-style"/></styles>
+			</xsl:variable>
+			<xsl:copy-of select="xalan:nodeset($annex_title_styles)/styles/@*"/>
+		</xsl:if>
+
+		<xsl:if test="parent::mn:references[not(@normative='true')]"><!-- Bibliography section title -->
+			<xsl:variable name="bibliography_title_styles">
+				<styles xsl:use-attribute-sets="bibliography-title-style"><xsl:call-template name="refine_bibliography-title-style"/></styles>
+			</xsl:variable>
+			<xsl:copy-of select="xalan:nodeset($bibliography_title_styles)/styles/@*"/>
 		</xsl:if>
 
 		<xsl:if test="$element-name = 'fo:inline'">

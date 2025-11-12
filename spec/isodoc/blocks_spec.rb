@@ -309,85 +309,89 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     word = <<~OUTPUT
       <body lang="EN-US" link="blue" vlink="#954F72">
-         <div class="WordSection1">
-            <p> </p>
-         </div>
-         <p class="section-break">
-            <br clear="all" class="section"/>
-         </p>
-         <div class="WordSection2">
-            <p class="page-break">
-               <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
-            </p>
-            <div id="_" class="TOC">
-               <p class="zzContents">Table of Contents</p>
-               <p style="tab-stops:right 17.0cm">
-                  <span style="mso-tab-count:1">  </span>
-                  <b>Page</b>
-               </p>
-            </div>
-            <div id="_">
-               <h1 class="IntroTitle">Foreword</h1>
-               <div id="_" style="page-break-after: avoid;page-break-inside: avoid;">
-                  <div class="formula">
-                     <p class="formula">
-                        <span style="mso-tab-count:1">  </span>
-                        <span class="stem">(#(r = 1 %)#)</span>
-                     </p>
-                  </div>
-                  <p style="page-break-after: avoid;">where</p>
-                  <table id="_" class="formula_dl" align="left" >
-                     <tr>
-                        <td valign="top" align="left">
-                           <p align="left" style="margin-left:0pt;text-align:left;">
-                              <span class="stem">(#(r)#)</span>
-                           </p>
-                        </td>
-                        <td valign="top">
-                           <p id="_">is the repeatability limit.</p>
-                        </td>
-                     </tr>
-                  </table>
-               </div>
-               <div id="_" style="page-break-after: avoid;page-break-inside: avoid;">
-                  <div class="formula">
-                     <p class="formula">
-                        <span style="mso-tab-count:1">  </span>
-                        <span class="stem">(#(r = 1 %)#)</span>
-                     </p>
-                  </div>
-                  <p style="page-break-after: avoid;">where:</p>
-                  <table id="_" class="formula_dl" align="left" >
-                     <tr>
-                        <td valign="top" align="left">
-                           <p align="left" style="margin-left:0pt;text-align:left;">
-                              <span class="stem">(#(r)#)</span>
-                           </p>
-                        </td>
-                        <td valign="top">
-                           <p id="_">is the repeatability limit.</p>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td valign="top" align="left">
-                           <p align="left" style="margin-left:0pt;text-align:left;">
-                              <span class="stem">(#(s)#)</span>
-                           </p>
-                        </td>
-                        <td valign="top">
-                           <p id="_">is the other repeatability limit.</p>
-                        </td>
-                     </tr>
-                  </table>
-               </div>
-            </div>
-            <p> </p>
-         </div>
-         <p class="section-break">
-            <br clear="all" class="section"/>
-         </p>
-         <div class="WordSection3"/>
-      </body>
+          <div class="WordSection1">
+             <p> </p>
+          </div>
+          <p class="section-break">
+             <br clear="all" class="section"/>
+          </p>
+          <div class="WordSection2">
+             <p class="page-break">
+                <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+             </p>
+             <div id="_" class="TOC">
+                <p class="zzContents">Table of Contents</p>
+                <p style="tab-stops:right 17.0cm">
+                   <span style="mso-tab-count:1">  </span>
+                   <b>Page</b>
+                </p>
+             </div>
+             <div id="_">
+                <h1 class="IntroTitle">Foreword</h1>
+                <div id="_" style="page-break-after: avoid;page-break-inside: avoid;">
+                   <div class="formula">
+                      <p class="formula">
+                         <span style="mso-tab-count:1">  </span>
+                         <span class="stem">(#(r = 1 %)#)</span>
+                      </p>
+                   </div>
+                   <p style="page-break-after: avoid;">where</p>
+                   <div align="left">
+                      <table id="_" style="text-align:left;" class="formula_dl">
+                         <tr>
+                            <td valign="top" align="left">
+                               <p align="left" style="margin-left:0pt;text-align:left;">
+                                  <span class="stem">(#(r)#)</span>
+                               </p>
+                            </td>
+                            <td valign="top">
+                               <p id="_">is the repeatability limit.</p>
+                            </td>
+                         </tr>
+                      </table>
+                   </div>
+                </div>
+                <div id="_" style="page-break-after: avoid;page-break-inside: avoid;">
+                   <div class="formula">
+                      <p class="formula">
+                         <span style="mso-tab-count:1">  </span>
+                         <span class="stem">(#(r = 1 %)#)</span>
+                      </p>
+                   </div>
+                   <p style="page-break-after: avoid;">where:</p>
+                   <div align="left">
+                      <table id="_" style="text-align:left;" class="formula_dl">
+                         <tr>
+                            <td valign="top" align="left">
+                               <p align="left" style="margin-left:0pt;text-align:left;">
+                                  <span class="stem">(#(r)#)</span>
+                               </p>
+                            </td>
+                            <td valign="top">
+                               <p id="_">is the repeatability limit.</p>
+                            </td>
+                         </tr>
+                         <tr>
+                            <td valign="top" align="left">
+                               <p align="left" style="margin-left:0pt;text-align:left;">
+                                  <span class="stem">(#(s)#)</span>
+                               </p>
+                            </td>
+                            <td valign="top">
+                               <p id="_">is the other repeatability limit.</p>
+                            </td>
+                         </tr>
+                      </table>
+                   </div>
+                </div>
+             </div>
+             <p> </p>
+          </div>
+          <p class="section-break">
+             <br clear="all" class="section"/>
+          </p>
+          <div class="WordSection3"/>
+       </body>
     OUTPUT
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)

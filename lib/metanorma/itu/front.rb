@@ -9,7 +9,8 @@ module Metanorma
         stage = node.attr("status") || node.attr("docstage") || "published"
         stage = "draft" if node.attributes.has_key?("draft")
         xml.status do |s|
-          s.stage stage
+          add_noko_elem(s, "stage", stage)
+          # s.stage stage
         end
       end
 
@@ -65,8 +66,9 @@ module Metanorma
         end
         vals.each do |v|
           xml.question do |q|
-            a = v[:id] and q.identifier a
-            a = v[:value] and q.name a
+            add_noko_elem(q, "identifier", v[:id])
+            # q.identifier a
+            add_noko_elem(q, "name", v[:value]) # q.name a
           end
         end
       end
@@ -83,7 +85,7 @@ module Metanorma
           .each do |k, v|
           node.attr(k.to_s) and
             xml.series **{ type: v } do |s|
-              s.title node.attr(k.to_s)
+              add_noko_elem(s, "title", node.attr(k.to_s))
             end
         end
       end
@@ -92,37 +94,46 @@ module Metanorma
         node.attr("recommendation-from") || node.attr("approval-process") or
           return
         xml.recommendationstatus do |s|
-          a = node.attr("recommendation-from") and s.from a
-          a = node.attr("recommendation-to") and s.to a
+          add_noko_elem(s, "from", node.attr("recommendation-from"))
+          add_noko_elem(s, "to", node.attr("recommendation-to"))
           node.attr("approval-process") and
-            s.approvalstage **{ process: node.attr("approval-process") } do |x|
-              x << node.attr("approval-status")
-            end
+            add_noko_elem(s, "approvalstage", node.attr("approval-status"),
+                          process: node.attr("approval-process"))
+          # s.approvalstage **{ process: node.attr("approval-process") } do |x|
+          #  x << node.attr("approval-status")
+          # end
         end
       end
 
       def metadata_ip_notice(node, xml)
-        xml.ip_notice_received (node.attr("ip-notice-received") || "false")
+        add_noko_elem(xml, "ip-notice-received",
+                      node.attr("ip-notice-received") || "false")
+        # xml.ip_notice_received (node.attr("ip-notice-received") || "false")
       end
 
       def metadata_techreport(node, xml)
         a = node.attr("meeting") and
           metadata_meeting(a, node.attr("meeting-acronym"), xml)
-        a = node.attr("meeting-place") and xml.meeting_place a
+        add_noko_elem(xml, "meeting_place", node.attr("meeting-place"))
+        # a = node.attr("meeting-place") and xml.meeting_place a
         a = node.attr("meeting-date") and metadata_meeting_date(a, xml)
-        a = node.attr("intended-type") and xml.intended_type a
-        a = node.attr("source") and xml.source a
+        add_noko_elem(xml, "intended_type", node.attr("intended-type"))
+        # a = node.attr("intended-type") and xml.intended_type a
+        add_noko_elem(xml, "source", node.attr("source"))
+        # a = node.attr("source") and xml.source a
       end
 
       def metadata_meeting(mtg, acronym, xml)
-        xml.meeting **attr_code(acronym: acronym) do |m|
-          m << mtg
-        end
+        add_noko_elem(xml, "meeting", mtg, acronym: acronym)
+        # xml.meeting **attr_code(acronym: acronym) do |m|
+        #  m << mtg
+        # end
       end
 
       def metadata_contribution(node, xml)
         %w(timing).each do |k|
-          a = node.attr(k) and xml.send k, a
+          add_noko_elem(xml, k, node.attr(k))
+          # a = node.attr(k) and xml.send k, a
         end
       end
 
@@ -130,17 +141,21 @@ module Metanorma
         xml.meeting_date do |m|
           d = val.split("/")
           if d.size > 1
-            m.from d[0]
-            m.to d[1]
+            add_noko_elem(m, "from", d[0])
+            # m.from d[0]
+            add_noko_elem(m, "to", d[1])
+            # m.to d[1]
           else
-            m.on d[0]
+            add_noko_elem(m, "on", d[0])
+            # m.on d[0]
           end
         end
       end
 
       def personal_role(node, contrib, suffix)
         if node.attr("role#{suffix}")&.downcase == "rapporteur"
-          contrib.role "raporteur", **{ type: "editor" }
+          add_noko_elem(contrib, "role", "raporteur", type: "editor")
+          # contrib.role "raporteur", **{ type: "editor" }
         else
           super
         end
@@ -149,8 +164,8 @@ module Metanorma
       def metadata_studyperiod(node, xml)
         s, e = group_period(node, "", "")
         xml.studyperiod do |p|
-          p.start s
-          p.end e
+          add_noko_elem(p, "start", s.to_s)
+          add_noko_elem(p, "end", e.to_s)
         end
       end
 

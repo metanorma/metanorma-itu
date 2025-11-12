@@ -96,7 +96,8 @@ module Metanorma
         node.attr("keywords") or return
         node.attr("keywords").split(/, */).sort.each_with_index do |kw, i|
           kw_out = i.zero? ? Metanorma::Utils.strict_capitalize_first(kw) : kw
-          xml.keyword kw_out
+          add_noko_elem(xml, "keyword", kw_out)
+          # xml.keyword kw_out
         end
       end
 
@@ -112,7 +113,8 @@ module Metanorma
 
       def abstract_parse(attrs, xml, node)
         xml.abstract **attr_code(attrs) do |xml_section|
-          xml_section.title { |name| name << node.title }
+          # xml_section.title { |name| name << node.title }
+          add_noko_elem(xml_section, "title", node.title)
           xml_section << node.content
         end
       end

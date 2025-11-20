@@ -6,13 +6,16 @@ module IsoDoc
     class Metadata < IsoDoc::Metadata
       def initialize(lang, script, locale, labels)
         super
+        @isodoc = IsoDoc::Itu::HtmlConvert.new({})
+      end
+
+      def images(isoxml, xml)
         n = "International_Telecommunication_Union_Logo.svg"
         set(:logo_html, fileloc(n))
         set(:logo_comb, fileloc("itu-document-comb.png"))
         set(:logo_word, fileloc(n))
         set(:logo_sp, fileloc("logo-sp.png"))
         set(:logo_small, fileloc("logo-small.png"))
-        @isodoc = IsoDoc::Itu::HtmlConvert.new({})
       end
 
       def fileloc(file)

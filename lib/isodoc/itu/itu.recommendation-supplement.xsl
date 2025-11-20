@@ -420,10 +420,19 @@
 										<xsl:if test="position() = last()">
 											<!-- Keywords -->
 											<xsl:if test="/mn:metanorma/mn:bibdata/mn:keyword">
-												<fo:block font-size="12pt">
-													<xsl:value-of select="$linebreak"/>
-													<xsl:value-of select="$linebreak"/>
-												</fo:block>
+												<!-- https://github.com/metanorma/metanorma-itu/issues/730:
+													Contribution abstract should flow normally (not in a separate page) -->
+												<xsl:choose>
+													<xsl:when test="$doctype = 'contribution' and *[last()][self::mn:abstract]">
+														<fo:block break-after="page"/>
+													</xsl:when>
+													<xsl:otherwise>
+														<fo:block font-size="12pt">
+															<xsl:value-of select="$linebreak"/>
+															<xsl:value-of select="$linebreak"/>
+														</fo:block>
+													</xsl:otherwise>
+												</xsl:choose>
 												<fo:block font-weight="bold" margin-top="18pt" margin-bottom="18pt">
 													<xsl:value-of select="$i18n_keywords"/>
 												</fo:block>
@@ -2382,29 +2391,6 @@
 			</fo:footnote-body>
 		</fo:footnote>
 	</xsl:template> -->
-
-	<xsl:template match="mn:tt" priority="2">
-		<xsl:variable name="element-name">
-			<xsl:choose>
-				<xsl:when test="$isGenerateTableIF = 'true'">fo:inline</xsl:when>
-				<xsl:when test="ancestor::mn:dd">fo:inline</xsl:when>
-				<xsl:when test="ancestor::mn:fmt-title">fo:inline</xsl:when>
-				<xsl:when test="normalize-space(ancestor::mn:p[1]//text()[not(parent::mn:tt)]) != ''">fo:inline</xsl:when>
-				<xsl:otherwise>fo:block</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:element name="{$element-name}">
-			<xsl:attribute name="font-family">Courier New, <xsl:value-of select="$font_noto_sans_mono"/></xsl:attribute>
-			<xsl:attribute name="font-size">10pt</xsl:attribute>
-			<xsl:if test="not(parent::mn:dt) and not(ancestor::mn:dd) and not(ancestor::mn:fmt-title) and $isGenerateTableIF = 'false'">
-				<xsl:attribute name="text-align">center</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="ancestor::mn:fmt-title">
-				<xsl:attribute name="font-size">11pt</xsl:attribute>
-			</xsl:if>
-			<xsl:apply-templates/>
-		</xsl:element>
-	</xsl:template>
 
 	<xsl:template match="mn:ul | mn:ol | mn:sections/mn:ul | mn:sections/mn:ol" mode="list" priority="2">
 		<xsl:variable name="doctype" select="ancestor::mn:metanorma/mn:bibdata/mn:ext/mn:doctype[not(@language) or @language = '']"/>
@@ -5373,10 +5359,15 @@
 	</xsl:template>
 
 	<xsl:attribute-set name="tt-style">
+		<xsl:attribute name="font-family">Courier New, <xsl:value-of select="$font_noto_sans_mono"/></xsl:attribute>
 	</xsl:attribute-set>
 
 	<xsl:template name="refine_tt-style">
 		<xsl:variable name="_font-size"> <!-- inherit -->
+			<xsl:choose>
+				<xsl:when test="ancestor::mn:fmt-title">11</xsl:when>
+				<xsl:otherwise>10</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="font-size" select="normalize-space($_font-size)"/>
 		<xsl:if test="$font-size != ''">
@@ -15717,7 +15708,17 @@
 	</xsl:template> <!-- sections_element_style -->
 
 	<xsl:template match="//mn:metanorma/mn:preface/*" priority="2" name="preface_node"> <!-- /*/mn:preface/* -->
-		<fo:block break-after="page"/>
+		<xsl:variable name="doctype"><xsl:call-template name="get_doctype"/></xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$doctype = 'contribution' and self::mn:abstract">
+				<!-- https://github.com/metanorma/metanorma-itu/issues/730:
+						Contribution abstract should flow normally (not in a separate page) -->
+			</xsl:when>
+			<xsl:otherwise>
+				<fo:block break-after="page"/>
+			</xsl:otherwise>
+		</xsl:choose>
+
 		<xsl:call-template name="setNamedDestination"/>
 		<fo:block>
 			<xsl:call-template name="setId"/>

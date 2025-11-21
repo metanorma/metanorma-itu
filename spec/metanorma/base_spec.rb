@@ -1728,7 +1728,7 @@ RSpec.describe Metanorma::Itu do
       #{ASCIIDOC_BLANK_HDR}
       [headerrows=2]
       |===
-      |a b |b c |c
+      |abc bbc |Abc Bbc |ABC BBC
       |a |b |c
 
       |a |b |c
@@ -1741,9 +1741,9 @@ RSpec.describe Metanorma::Itu do
           <table id="_">
             <thead>
               <tr id="_">
-                <th id="_" valign="top" align="center">A b</th>
-                <th id="_" valign="top" align="center">B c</th>
-                <th id="_" valign="top" align="center">C</th>
+                <th id="_" valign="top" align="center">Abc bbc</th>
+                <th id="_" valign="top" align="center">Abc Bbc</th>
+                <th id="_" valign="top" align="center">ABC BBC</th>
               </tr>
               <tr id="_">
                 <th id="_" valign="top" align="center">a</th>

@@ -420,24 +420,19 @@
 										<xsl:if test="position() = last()">
 											<!-- Keywords -->
 											<xsl:if test="/mn:metanorma/mn:bibdata/mn:keyword">
-												<!-- https://github.com/metanorma/metanorma-itu/issues/730:
-													Contribution abstract should flow normally (not in a separate page) -->
-												<xsl:choose>
-													<xsl:when test="$doctype = 'contribution' and *[last()][self::mn:abstract]">
-														<fo:block break-after="page"/>
-													</xsl:when>
-													<xsl:otherwise>
-														<fo:block font-size="12pt">
-															<xsl:value-of select="$linebreak"/>
-															<xsl:value-of select="$linebreak"/>
-														</fo:block>
-													</xsl:otherwise>
-												</xsl:choose>
-												<fo:block font-weight="bold" margin-top="18pt" margin-bottom="18pt">
-													<xsl:value-of select="$i18n_keywords"/>
-												</fo:block>
-												<fo:block>
-													<xsl:call-template name="insertKeywords"/>
+												<fo:block font-size="12pt">
+													<xsl:if test="*[last()]/mn:table">
+														<xsl:attribute name="font-size">10pt</xsl:attribute>
+													</xsl:if>
+													<xsl:value-of select="$linebreak"/>
+													<xsl:value-of select="$linebreak"/>
+
+													<fo:block font-weight="bold" margin-top="18pt" margin-bottom="18pt" keep-with-next="always">
+														<xsl:value-of select="$i18n_keywords"/>
+													</fo:block>
+													<fo:block>
+														<xsl:call-template name="insertKeywords"/>
+													</fo:block>
 												</fo:block>
 											</xsl:if>
 
@@ -15708,17 +15703,6 @@
 	</xsl:template> <!-- sections_element_style -->
 
 	<xsl:template match="//mn:metanorma/mn:preface/*" priority="2" name="preface_node"> <!-- /*/mn:preface/* -->
-		<xsl:variable name="doctype"><xsl:call-template name="get_doctype"/></xsl:variable>
-		<xsl:choose>
-			<xsl:when test="$doctype = 'contribution' and self::mn:abstract">
-				<!-- https://github.com/metanorma/metanorma-itu/issues/730:
-						Contribution abstract should flow normally (not in a separate page) -->
-			</xsl:when>
-			<xsl:otherwise>
-				<fo:block break-after="page"/>
-			</xsl:otherwise>
-		</xsl:choose>
-
 		<xsl:call-template name="setNamedDestination"/>
 		<fo:block>
 			<xsl:call-template name="setId"/>

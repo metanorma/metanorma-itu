@@ -2580,17 +2580,6 @@ RSpec.describe Metanorma::Itu do
                              557
                           </td>
                        </tr>
-                       <tr id="_">
-                          <th id="_" align="left" width="95">Contact:</th>
-                          <td id="_">
-                             <br/>
-                             <br/>
-                          </td>
-                          <td id="_">
-                             Tel.
-                             <tab/>
-                          </td>
-                       </tr>
                     </tbody>
                  </table>
               </clause>
@@ -2633,155 +2622,149 @@ RSpec.describe Metanorma::Itu do
                  <p>This is the first clause</p>
               </clause>
            </sections>
-           <annex id="A1" autonum="A" displayorder="4">
-              <title id="_">
-                 <strong>Annex</strong>
-              </title>
-              <fmt-title id="_">
-                 <strong>
-                    <span class="fmt-caption-label">
-                       <span class="fmt-element-name">Annex</span>
-                       <semx element="autonum" source="A1">A</semx>
-                    </span>
-                 </strong>
-                 <span class="fmt-caption-delim">
-                    <br/>
-                    <br/>
-                 </span>
-                 <semx element="title" source="_">
-                    <strong>Annex</strong>
-                 </semx>
-              </fmt-title>
-              <fmt-xref-label>
-                 <span class="fmt-element-name">Annex</span>
-                 <semx element="autonum" source="A1">A</semx>
-              </fmt-xref-label>
-              <p class="annex_obligation">
-                 <span class="fmt-obligation">(This annex forms an integral part of this Contribution.)</span>
-              </p>
-           </annex>
-           <annex id="A2" type="justification" autonum="B" displayorder="5">
-              <title id="_">
-         <strong>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</strong>
-      </title>
-              <fmt-title id="_">
-                 <strong>
-                    <span class="fmt-caption-label">
-                       <span class="fmt-element-name">Annex</span>
-                       <semx element="autonum" source="A2">B</semx>
-                    </span>
-                 </strong>
-         <span class="fmt-caption-delim">
-            <br/>
-            <br/>
-         </span>
-         <semx element="title" source="_">
-            <strong>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</strong>
-         </semx>
-              </fmt-title>
-              <fmt-xref-label>
-                 <span class="fmt-element-name">Annex</span>
-                 <semx element="autonum" source="A2">B</semx>
-              </fmt-xref-label>
-              <p class="annex_obligation">
-                 <span class="fmt-obligation">(This annex forms an integral part of this Contribution.)</span>
-              </p>
-              <table id="_" class="contribution-metadata" unnumbered="true" width="100%">
-                 <colgroup>
-                    <col width="15.9%"/>
-                    <col width="6.1%"/>
-                    <col width="45.5%"/>
-                    <col width="17.4%"/>
-                    <col width="15.1%"/>
-                 </colgroup>
-                 <tbody>
-                    <tr id="_">
-                       <th id="_" align="left">Question(s):</th>
-                       <td id="_"/>
-                       <th id="_" align="left">Proposed new ITU-T </th>
-                       <td id="_" colspan="2">Kronos, 01 Jan 2000/02 Jan 2000</td>
-                    </tr>
-                    <tr id="_">
-                       <th id="_" align="left">Reference and title:</th>
-                       <td id="_" colspan="4">Draft new  on “Main Title”</td>
-                    </tr>
-                    <tr id="_">
-                       <th id="_" align="left">Base text:</th>
-                       <td id="_" colspan="2"/>
-                       <th id="_" align="left">Timing:</th>
-                       <td id="_">2025-Q4</td>
-                    </tr>
-                    <tr id="_">
-                       <th id="_" align="left" rowspan="2">Editor(s):</th>
-                       <td id="_" colspan="2">
-                          Fred Flintstone
-                          <br/>
-                          Bedrock Quarry
-                          <br/>
-                          Canada, E-mail
-                          <tab/>
-                          x@example.com
-                       </td>
-                       <th id="_" align="left" rowspan="2">Approval process:</th>
-                       <td id="_" rowspan="2">F3</td>
-                    </tr>
-                    <tr id="_">
-                       <td id="_" colspan="2">
-                          Barney Rubble
-                          <br/>
-                          Bedrock Quarry 2
-                          <br/>
-                          USA
-                       </td>
-                    </tr>
-                    <tr id="_">
-                       <td id="_" colspan="2">
-                          <br/>
-                          <br/>
-                       </td>
-                    </tr>
-                    <tr id="_">
-                       <td id="_" colspan="5">
-                          <p>
-                             <strong>Scope</strong>
-                             (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):
-                          </p>
-                       </td>
-                    </tr>
-                    <tr id="_">
-                       <td id="_" colspan="5">
-                          <p>
-                             <strong>Summary</strong>
-                             (provides a brief overview of the purpose and contents of the Recommendation, thus permitting readers to judge its usefulness for their work):
-                          </p>
-                       </td>
-                    </tr>
-                    <tr id="_">
-                       <td id="_" colspan="5">
-                          <p>
-                             <strong>Relations to ITU-T Recommendations or to other standards</strong>
-                             (approved or under development):
-                          </p>
-                       </td>
-                    </tr>
-                    <tr id="_">
-                       <td id="_" colspan="5">
-                          <p>
-                             <strong>Liaisons with other study groups or with other standards bodies:</strong>
-                          </p>
-                       </td>
-                    </tr>
-                    <tr id="_">
-                       <td id="_" colspan="5">
-                          <p>
-                             <strong>Supporting members that are committing to contributing actively to the work item:</strong>
-                          </p>
-                       </td>
-                    </tr>
-                 </tbody>
-              </table>
-           </annex>
-        </metanorma>
+          <annex id="A1" autonum="A" displayorder="4">
+             <title id="_">
+                <strong>Annex</strong>
+             </title>
+             <fmt-title id="_">
+                <strong>
+                   <span class="fmt-caption-label">
+                      <span class="fmt-element-name">Annex</span>
+                      <semx element="autonum" source="A1">A</semx>
+                   </span>
+                </strong>
+                <span class="fmt-caption-delim">
+                   <br/>
+                   <br/>
+                </span>
+                <semx element="title" source="_">
+                   <strong>Annex</strong>
+                </semx>
+             </fmt-title>
+             <fmt-xref-label>
+                <span class="fmt-element-name">Annex</span>
+                <semx element="autonum" source="A1">A</semx>
+             </fmt-xref-label>
+             <p class="annex_obligation">
+                <span class="fmt-obligation">(This annex forms an integral part of this Contribution.)</span>
+             </p>
+          </annex>
+          <annex id="A2" type="justification" autonum="B" displayorder="5">
+             <title id="_">
+                <strong>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</strong>
+             </title>
+             <fmt-title id="_">
+                <strong>
+                   <span class="fmt-caption-label">
+                      <span class="fmt-element-name">Annex</span>
+                      <semx element="autonum" source="A2">B</semx>
+                   </span>
+                </strong>
+                <span class="fmt-caption-delim">
+                   <br/>
+                   <br/>
+                </span>
+                <semx element="title" source="_">
+                   <strong>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</strong>
+                </semx>
+             </fmt-title>
+             <fmt-xref-label>
+                <span class="fmt-element-name">Annex</span>
+                <semx element="autonum" source="A2">B</semx>
+             </fmt-xref-label>
+             <p class="annex_obligation">
+                <span class="fmt-obligation">(This annex forms an integral part of this Contribution.)</span>
+             </p>
+             <table id="_" class="contribution-metadata" unnumbered="true" width="100%">
+                <colgroup>
+                   <col width="15.9%"/>
+                   <col width="6.1%"/>
+                   <col width="45.5%"/>
+                   <col width="17.4%"/>
+                   <col width="15.1%"/>
+                </colgroup>
+                <tbody>
+                   <tr id="_">
+                      <th id="_" align="left">Question(s):</th>
+                      <td id="_"/>
+                      <th id="_" align="left">Proposed new ITU-T </th>
+                      <td id="_" colspan="2">Kronos, 01 Jan 2000/02 Jan 2000</td>
+                   </tr>
+                   <tr id="_">
+                      <th id="_" align="left">Reference and title:</th>
+                      <td id="_" colspan="4">Draft new  on “Main Title”</td>
+                   </tr>
+                   <tr id="_">
+                      <th id="_" align="left">Base text:</th>
+                      <td id="_" colspan="2"/>
+                      <th id="_" align="left">Timing:</th>
+                      <td id="_">2025-Q4</td>
+                   </tr>
+                   <tr id="_">
+                      <th id="_" align="left" rowspan="1">Editor(s):</th>
+                      <td id="_" colspan="2">
+                         Fred Flintstone
+                         <br/>
+                         Bedrock Quarry
+                         <br/>
+                         Canada, E-mail
+                         <tab/>
+                         x@example.com
+                      </td>
+                      <th id="_" align="left" rowspan="1">Approval process:</th>
+                      <td id="_" rowspan="1">F3</td>
+                   </tr>
+                   <tr id="_">
+                      <td id="_" colspan="2">
+                         Barney Rubble
+                         <br/>
+                         Bedrock Quarry 2
+                         <br/>
+                         USA
+                      </td>
+                   </tr>
+                   <tr id="_">
+                      <td id="_" colspan="5">
+                         <p>
+                            <strong>Scope</strong>
+                            (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):
+                         </p>
+                      </td>
+                   </tr>
+                   <tr id="_">
+                      <td id="_" colspan="5">
+                         <p>
+                            <strong>Summary</strong>
+                            (provides a brief overview of the purpose and contents of the Recommendation, thus permitting readers to judge its usefulness for their work):
+                         </p>
+                      </td>
+                   </tr>
+                   <tr id="_">
+                      <td id="_" colspan="5">
+                         <p>
+                            <strong>Relations to ITU-T Recommendations or to other standards</strong>
+                            (approved or under development):
+                         </p>
+                      </td>
+                   </tr>
+                   <tr id="_">
+                      <td id="_" colspan="5">
+                         <p>
+                            <strong>Liaisons with other study groups or with other standards bodies:</strong>
+                         </p>
+                      </td>
+                   </tr>
+                   <tr id="_">
+                      <td id="_" colspan="5">
+                         <p>
+                            <strong>Supporting members that are committing to contributing actively to the work item:</strong>
+                         </p>
+                      </td>
+                   </tr>
+                </tbody>
+             </table>
+          </annex>
+       </metanorma>
     OUTPUT
 
     xml = Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
@@ -2858,14 +2841,6 @@ RSpec.describe Metanorma::Itu do
        Bedrock Quarry 2<br/>
        USA</td>
                  <td id="_">Tél.<tab/>557</td>
-               </tr>
-               <tr id="_">
-                 <th id="_" align="left" width="95">Contact :</th>
-                 <td id="_">
-                   <br/>
-                   <br/>
-                 </td>
-                 <td id="_">Tél.<tab/></td>
                </tr>
              </tbody>
            </table>

@@ -28,7 +28,7 @@ RSpec.describe Metanorma::Itu do
       :title-fr: Titre Principal
       :subtitle-en: Subtitle
       :subtitle-fr: Soustitre
-      :bureau: R
+      :bureau: T
       :group: I
       :subgroup: I1
       :workgroup: I2
@@ -65,8 +65,9 @@ RSpec.describe Metanorma::Itu do
           <title language='en' type='subtitle'>Subtitle</title>
           <title language='fr' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
-          <docidentifier primary="true" type='ITU'>Annexe au BE de l'UIT 1000</docidentifier>
-          <docidentifier type='ITU-lang'>Annexe au BE de l'UIT 1000-F</docidentifier>
+          <docidentifier type="ITU" primary="true">Annex to ITU-T OB No. 1000</docidentifier>
+          <docidentifier type="ITU-lang">Annexe au UIT-T OB No. 1000-F</docidentifier>
+          <docidentifier type="ITU-lang-long">Annexe au BE de l'UIT 1000-F</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>
@@ -187,7 +188,7 @@ RSpec.describe Metanorma::Itu do
             <intended-type>TD</intended-type>
             <source>Source</source>
             <structuredidentifier>
-              <bureau>R</bureau>
+              <bureau>T</bureau>
               <docnumber>1000</docnumber>
             </structuredidentifier>
           </ext>
@@ -409,7 +410,7 @@ RSpec.describe Metanorma::Itu do
       :title-fr: Titre Principal
       :subtitle-en: Subtitle
       :subtitle-fr: Soustitre
-      :bureau: R
+      :bureau: T
       :group: I
       :subgroup: I1
       :workgroup: I2
@@ -450,6 +451,9 @@ RSpec.describe Metanorma::Itu do
             &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;
           </docidentifier>
           <docidentifier type='ITU-lang'>
+            &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;-C
+          </docidentifier>
+          <docidentifier type='ITU-lang-long'>
             &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;-C
           </docidentifier>
           <docnumber>1000</docnumber>
@@ -568,7 +572,7 @@ RSpec.describe Metanorma::Itu do
             <intended-type>TD</intended-type>
             <source>Source</source>
             <structuredidentifier>
-              <bureau>R</bureau>
+              <bureau>T</bureau>
               <docnumber>1000</docnumber>
             </structuredidentifier>
           </ext>
@@ -765,7 +769,7 @@ RSpec.describe Metanorma::Itu do
       :title-ar: Titre Principal
       :subtitle-en: Subtitle
       :subtitle-ar: Soustitre
-      :bureau: R
+      :bureau: T
       :group: I
       :subgroup: I1
       :workgroup: I2
@@ -802,18 +806,9 @@ RSpec.describe Metanorma::Itu do
         <title language='en' type='subtitle'>Subtitle</title>
         <title language='ar' type='subtitle'>Soustitre</title>
         <docidentifier type='ITU-provisional'>ABC</docidentifier>
-        <docidentifier primary="true" type='ITU'>
-          &#1605;&#1604;&#1581;&#1602;
-          &#1576;&#1575;&#1604;&#1606;&#1588;&#1585;&#1577;
-          &#1575;&#1604;&#1578;&#1588;&#1594;&#1610;&#1604;&#1610;&#1577;
-          &#1604;&#1604;&#1575;&#1578;&#1581;&#1575;&#1583; &#1585;&#1602;&#1605;
-        </docidentifier>
-        <docidentifier type='ITU-lang'>
-          &#1605;&#1604;&#1581;&#1602;
-          &#1576;&#1575;&#1604;&#1606;&#1588;&#1585;&#1577;
-          &#1575;&#1604;&#1578;&#1588;&#1594;&#1610;&#1604;&#1610;&#1577;
-          &#1604;&#1604;&#1575;&#1578;&#1581;&#1575;&#1583; &#1585;&#1602;&#1605;-A
-        </docidentifier>
+        <docidentifier type="ITU" primary="true">Annex to ITU-T OB No. 1000</docidentifier>
+        <docidentifier type="ITU-lang">ITU-T OB No. 1000 ملحق-A</docidentifier>
+        <docidentifier type="ITU-lang-long">ملحق ابلنشرة التشغيلية رقم 1000-A</docidentifier>
         <docnumber>1000</docnumber>
         <contributor>
           <role type='author'/>
@@ -930,7 +925,7 @@ RSpec.describe Metanorma::Itu do
           <intended-type>TD</intended-type>
           <source>Source</source>
           <structuredidentifier>
-            <bureau>R</bureau>
+            <bureau>T</bureau>
             <docnumber>1000</docnumber>
           </structuredidentifier>
         </ext>
@@ -1127,7 +1122,7 @@ RSpec.describe Metanorma::Itu do
       :title-es: Titre Principal
       :subtitle-en: Subtitle
       :subtitle-es: Soustitre
-      :bureau: R
+      :bureau: T
       :group: I
       :subgroup: I1
       :workgroup: I2
@@ -1164,8 +1159,9 @@ RSpec.describe Metanorma::Itu do
         <title language='en' type='subtitle'>Subtitle</title>
         <title language='es' type='subtitle'>Soustitre</title>
         <docidentifier type='ITU-provisional'>ABC</docidentifier>
-        <docidentifier primary="true" type='ITU'>Anexo al BE de la UIT 1000</docidentifier>
-        <docidentifier type='ITU-lang'>Anexo al BE de la UIT 1000-S</docidentifier>
+        <docidentifier type="ITU" primary="true">Annex to ITU-T OB No. 1000</docidentifier>
+        <docidentifier type="ITU-lang">Anexo al UIT-T OB No. 1000-S</docidentifier>
+        <docidentifier type="ITU-lang-long">Anexo al BE de la UIT N.º 1000-S</docidentifier>
         <docnumber>1000</docnumber>
         <contributor>
           <role type='author'/>
@@ -1286,7 +1282,7 @@ RSpec.describe Metanorma::Itu do
           <intended-type>TD</intended-type>
           <source>Source</source>
           <structuredidentifier>
-            <bureau>R</bureau>
+            <bureau>T</bureau>
             <docnumber>1000</docnumber>
           </structuredidentifier>
         </ext>
@@ -1836,7 +1832,7 @@ RSpec.describe Metanorma::Itu do
       :title-ru: Titre Principal
       :subtitle-en: Subtitle
       :subtitle-ru: Soustitre
-      :bureau: R
+      :bureau: T
       :group: I
       :subgroup: I1
       :workgroup: I2

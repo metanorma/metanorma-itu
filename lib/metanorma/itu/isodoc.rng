@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  instantiations of this grammar may replace leaf strings
-  with more elaborated types; e.g. title (text) replaced with
-  title-main, title-intro, title-part; type replaced with
-  enum.
-  
-  some renaming at leaf nodes is permissible
-  
-  obligations can change both from optional to mandatory,
-  and from mandatory to optional; optional elements may
-  be omitted; freely positioned alternatives may be replaced
-  with strict ordering
-  
-  DO NOT introduce a namespace here. We do not want a distinct namespace
-  for these elements, and a distinct namespace for any grammar inheriting
-  these elements; we just want one namespace for any child grammars
-  of this.
--->
-<!-- VERSION v1.3.4 -->
 <grammar xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+<!-- VERSION v2.1.5 -->
+
+  <!--
+    ALERT: cannot have root comments, because of https://github.com/metanorma/metanorma/issues/437
+    
+    instantiations of this grammar may replace leaf strings
+    with more elaborated types; e.g. title (text) replaced with
+    title-main, title-intro, title-part; type replaced with
+    enum.
+    
+    some renaming at leaf nodes is permissible
+    
+    obligations can change both from optional to mandatory,
+    and from mandatory to optional; optional elements may
+    be omitted; freely positioned alternatives may be replaced
+    with strict ordering
+    
+    DO NOT introduce a namespace here. We do not want a distinct namespace
+    for these elements, and a distinct namespace for any grammar inheriting
+    these elements; we just want one namespace for any child grammars
+    of this.
+  -->
   <include href="reqt.rng"/>
   <include href="basicdoc.rng">
     <define name="amend">
@@ -33,33 +36,49 @@
         </zeroOrMore>
       </element>
     </define>
-    <define name="index-primary">
-      <element name="primary">
+    <define name="IdRefType">
+      <a:documentation>Cross-references are not normalised to xsd:IDREF in Semantic XML: that is deferred to Presentation XML.
+All IdRefType instances point not to `@id` in Semantic XML, which is the Content GUID for an element,
+but to `@anchor`, the user-supplied cross-reference</a:documentation>
+      <text/>
+    </define>
+    <define name="review">
+      <a:documentation>Generalise BasicDoc element from just review comments, to general annotations;
+the type attribute defaults to `review` for reviews</a:documentation>
+      <element name="annotation">
+        <ref name="RequiredId"/>
+        <ref name="ReviewAttributes"/>
         <oneOrMore>
-          <choice>
-            <ref name="PureTextElement"/>
-            <ref name="stem"/>
-          </choice>
+          <ref name="paragraph">
+            <a:documentation>Reviewer comments content</a:documentation>
+          </ref>
         </oneOrMore>
       </element>
     </define>
-    <define name="index-secondary">
-      <element name="secondary">
-        <oneOrMore>
-          <choice>
-            <ref name="PureTextElement"/>
-            <ref name="stem"/>
-          </choice>
-        </oneOrMore>
+    <define name="ruby_pronunciation">
+      <a:documentation>Ruby annotation giving pronunciation of text: change tag from BasicDoc for disambiguation</a:documentation>
+      <element name="ruby-pronunciation">
+        <attribute name="value">
+          <a:documentation>Ruby annotation value</a:documentation>
+        </attribute>
+        <ref name="LocalizedStringAttributes"/>
       </element>
     </define>
-    <define name="index-tertiary">
-      <element name="tertiary">
+    <define name="ruby_annotation">
+      <a:documentation>Ruby annotation giving information other than pronunciation of text: change tag from BasicDoc for disambiguation</a:documentation>
+      <element name="ruby-annotation">
+        <attribute name="value">
+          <a:documentation>Ruby annotation value</a:documentation>
+        </attribute>
+        <ref name="LocalizedStringAttributes"/>
+      </element>
+    </define>
+    <define name="annotation">
+      <a:documentation>Source code annotation, corresponding to a callout</a:documentation>
+      <element name="callout-annotation">
+        <ref name="RequiredId"/>
         <oneOrMore>
-          <choice>
-            <ref name="PureTextElement"/>
-            <ref name="stem"/>
-          </choice>
+          <ref name="paragraph"/>
         </oneOrMore>
       </element>
     </define>
@@ -67,6 +86,7 @@
       <a:documentation>Title(s) of a clause</a:documentation>
       <element name="title">
         <a:documentation>Title proper for a clause</a:documentation>
+        <ref name="RequiredId"/>
         <zeroOrMore>
           <ref name="TextElement"/>
         </zeroOrMore>
@@ -74,9 +94,18 @@
       <zeroOrMore>
         <element name="variant-title">
           <a:documentation>Alternate title for a clause</a:documentation>
+          <ref name="RequiredId"/>
           <ref name="TypedTitleString"/>
         </element>
       </zeroOrMore>
+    </define>
+    <define name="tname">
+      <element name="name">
+        <ref name="RequiredId"/>
+        <oneOrMore>
+          <ref name="NestedTextElement"/>
+        </oneOrMore>
+      </element>
     </define>
     <define name="UlBody">
       <optional>
@@ -94,6 +123,10 @@
           <a:documentation>Notes whose scope is the current block</a:documentation>
         </ref>
       </zeroOrMore>
+      <ref name="BlockSource">
+        <a:documentation>Bibliographic source for the information in the list.
+Sources are currently only rendered in metanorma-plateau</a:documentation>
+      </ref>
     </define>
     <define name="OlBody">
       <optional>
@@ -111,6 +144,10 @@
           <a:documentation>Notes whose scope is the current block</a:documentation>
         </ref>
       </zeroOrMore>
+      <ref name="BlockSource">
+        <a:documentation>Bibliographic source for the information in the list.
+Sources are currently only rendered in metanorma-plateau</a:documentation>
+      </ref>
     </define>
     <define name="OlAttributes">
       <a:documentation>NOTE: `start` attribute is not included by default, because of problems it raises with DOC output</a:documentation>
@@ -159,6 +196,10 @@
           <a:documentation>Notes whose scope is the current block</a:documentation>
         </ref>
       </zeroOrMore>
+      <ref name="BlockSource">
+        <a:documentation>Bibliographic source for the information in the list.
+Sources are currently only rendered in metanorma-plateau</a:documentation>
+      </ref>
     </define>
     <define name="dt">
       <element name="dt">
@@ -235,7 +276,7 @@
           <a:documentation>Notes specific to this block</a:documentation>
         </ref>
       </zeroOrMore>
-      <ref name="TermSource">
+      <ref name="BlockSource">
         <a:documentation>A source for the table</a:documentation>
       </ref>
     </define>
@@ -245,23 +286,9 @@
           <a:documentation>The caption of the block</a:documentation>
         </ref>
       </optional>
-      <oneOrMore>
-        <choice>
-          <text>
-            <a:documentation>The computer code or other such text presented in the block, as a single unformatted string. 
-(The string should be treated as pre-formatted text, with whitespace treated as significant)</a:documentation>
-          </text>
-          <ref name="callout">
-            <a:documentation>Zero or more cross-references; these are intended to be embedded within the content string, and link to annotations</a:documentation>
-          </ref>
-          <ref name="xref">
-            <a:documentation>Hyperlink of code segment to another part of the document</a:documentation>
-          </ref>
-          <ref name="eref">
-            <a:documentation>Hyperlink of code segment to external bibliographic resource</a:documentation>
-          </ref>
-        </choice>
-      </oneOrMore>
+      <ref name="sourcecodebody">
+        <a:documentation>The sourcecode content</a:documentation>
+      </ref>
       <zeroOrMore>
         <ref name="annotation">
           <a:documentation>Annotations to the source code; each annotation consists of zero or more paragraphs,
@@ -273,9 +300,153 @@ and is intended to be referenced by a callout within the source code</a:document
           <a:documentation>Notes whose scope is the current block</a:documentation>
         </ref>
       </zeroOrMore>
-      <ref name="TermSource">
+      <ref name="BlockSource">
         <a:documentation>A source for the block</a:documentation>
       </ref>
+    </define>
+    <define name="FigureBody">
+      <optional>
+        <ref name="tname">
+          <a:documentation>The caption of the block</a:documentation>
+        </ref>
+      </optional>
+      <choice>
+        <a:documentation>Content of the figure     </a:documentation>
+        <ref name="image">
+          <a:documentation>by default the content of a figure is a media file</a:documentation>
+        </ref>
+        <ref name="video"/>
+        <ref name="audio"/>
+        <ref name="pre">
+          <a:documentation>figures can contain ASCII art</a:documentation>
+        </ref>
+        <oneOrMore>
+          <ref name="paragraph-with-footnote">
+            <a:documentation>figures can contain discursive art</a:documentation>
+          </ref>
+        </oneOrMore>
+        <zeroOrMore>
+          <ref name="figure">
+            <a:documentation>subfigures, nested directly within a figure</a:documentation>
+          </ref>
+        </zeroOrMore>
+        <ref name="table">
+          <a:documentation>Table is understood in this context to be a tabular arrangement of subfigures</a:documentation>
+        </ref>
+      </choice>
+      <zeroOrMore>
+        <ref name="fn">
+          <a:documentation>Footnotes specific to the figure</a:documentation>
+        </ref>
+      </zeroOrMore>
+      <optional>
+        <ref name="dl">
+          <a:documentation>An optional definitions list defining any symbols used in the figure</a:documentation>
+        </ref>
+      </optional>
+      <zeroOrMore>
+        <ref name="note">
+          <a:documentation>Notes whose scope is the current block</a:documentation>
+        </ref>
+      </zeroOrMore>
+      <ref name="BlockSource">
+        <a:documentation>A source for the block</a:documentation>
+      </ref>
+    </define>
+    <define name="FigureNoIdBody">
+      <optional>
+        <ref name="source">
+          <a:documentation>A URI or other reference intended to link to an externally hosted image (or equivalent)</a:documentation>
+        </ref>
+      </optional>
+      <optional>
+        <ref name="tname">
+          <a:documentation>The caption of the block</a:documentation>
+        </ref>
+      </optional>
+      <choice>
+        <a:documentation>Content of the figure     </a:documentation>
+        <ref name="image-no-id">
+          <a:documentation>by default the content of a figure is a media file</a:documentation>
+        </ref>
+        <ref name="video-no-id"/>
+        <ref name="audio-no-id"/>
+        <ref name="pre-no-id">
+          <a:documentation>figures can contain ASCII art</a:documentation>
+        </ref>
+        <oneOrMore>
+          <ref name="paragraph-with-footnote-no-id">
+            <a:documentation>figures can contain discursive art</a:documentation>
+          </ref>
+        </oneOrMore>
+        <zeroOrMore>
+          <ref name="figure-no-id">
+            <a:documentation>subfigures, nested directly within a figure</a:documentation>
+          </ref>
+        </zeroOrMore>
+        <ref name="table-no-id">
+          <a:documentation>Table is understood in this context to be a tabular arrangement of subfigures</a:documentation>
+        </ref>
+      </choice>
+      <zeroOrMore>
+        <ref name="fn">
+          <a:documentation>Footnotes specific to the figure</a:documentation>
+        </ref>
+      </zeroOrMore>
+      <optional>
+        <ref name="dl-no-id">
+          <a:documentation>An optional definitions list defining any symbols used in the figure</a:documentation>
+        </ref>
+      </optional>
+      <zeroOrMore>
+        <ref name="note-no-id">
+          <a:documentation>Notes whose scope is the current block</a:documentation>
+        </ref>
+      </zeroOrMore>
+      <ref name="BlockSource">
+        <a:documentation>A source for the block</a:documentation>
+      </ref>
+    </define>
+    <define name="source">
+      <element name="source">
+        <attribute name="status">
+          <a:documentation>The status of the term as it is used in this document, relative to its definition in the original document</a:documentation>
+          <ref name="SourceStatusType"/>
+        </attribute>
+        <attribute name="type">
+          <a:documentation>The type of the managed term in the present context</a:documentation>
+          <ref name="SourceTypeType"/>
+        </attribute>
+        <ref name="origin">
+          <a:documentation>The original document and location where the term definition has been obtained from</a:documentation>
+        </ref>
+        <optional>
+          <ref name="modification">
+            <a:documentation>Any changes that the definition of the term has undergone relative to the original document,
+in order to be applicable in this standardisation document</a:documentation>
+          </ref>
+        </optional>
+      </element>
+    </define>
+    <define name="sourcecodebody">
+      <a:documentation>The computer code or other such text presented in the block, as a single unformatted string. 
+(The string should be treated as pre-formatted text, with whitespace treated as significant)</a:documentation>
+      <element name="body">
+        <oneOrMore>
+          <choice>
+            <text/>
+            <ref name="callout">
+              <a:documentation>Zero or more cross-references; these are intended to be embedded within the content string, and link to annotations</a:documentation>
+            </ref>
+            <ref name="xref">
+              <a:documentation>Hyperlink of code segment to another part of the document</a:documentation>
+            </ref>
+            <ref name="eref">
+              <a:documentation>Hyperlink of code segment to external bibliographic resource</a:documentation>
+            </ref>
+          </choice>
+        </oneOrMore>
+      </element>
     </define>
     <define name="sections">
       <element name="sections">
@@ -306,14 +477,7 @@ normative or informative references, some split references into sections organiz
           </ref>
         </zeroOrMore>
         <zeroOrMore>
-          <ref name="doc_bibitem">
-            <a:documentation>Bibliographic item cited in the document</a:documentation>
-          </ref>
-          <zeroOrMore>
-            <ref name="note">
-              <a:documentation>Annotation of the bibliographic item</a:documentation>
-            </ref>
-          </zeroOrMore>
+          <ref name="ReferenceEntry"/>
         </zeroOrMore>
         <zeroOrMore>
           <ref name="references">
@@ -326,7 +490,7 @@ normative or informative references, some split references into sections organiz
       <a:documentation>Content of note</a:documentation>
       <oneOrMore>
         <choice>
-          <ref name="paragraph"/>
+          <ref name="paragraph-with-footnote"/>
           <ref name="ul"/>
           <ref name="ol"/>
           <ref name="dl"/>
@@ -358,6 +522,7 @@ normative or informative references, some split references into sections organiz
     <!-- exclude figures? -->
     <define name="dd">
       <element name="dd">
+        <ref name="OptionalId"/>
         <zeroOrMore>
           <!-- exclude figures? -->
           <ref name="BasicBlock"/>
@@ -408,34 +573,20 @@ normative or informative references, some split references into sections organiz
         </oneOrMore>
       </choice>
     </define>
+    <define name="TrAttributes">
+      <ref name="OptionalId"/>
+      <optional>
+        <attribute name="style">
+          <a:documentation>CSS style: only background-color, color, border supported</a:documentation>
+        </attribute>
+      </optional>
+    </define>
     <define name="table-note">
       <element name="note">
         <ref name="OptionalId"/>
         <oneOrMore>
-          <ref name="paragraph"/>
+          <ref name="paragraph-with-footnote"/>
         </oneOrMore>
-      </element>
-    </define>
-    <define name="sub">
-      <a:documentation>Subscript text. Corresponds to HTML `sub</a:documentation>
-      <element name="sub">
-        <zeroOrMore>
-          <choice>
-            <ref name="PureTextElement"/>
-            <ref name="stem"/>
-          </choice>
-        </zeroOrMore>
-      </element>
-    </define>
-    <define name="sup">
-      <a:documentation>Superscript text. Corresponds to HTML `sup`</a:documentation>
-      <element name="sup">
-        <zeroOrMore>
-          <choice>
-            <ref name="PureTextElement"/>
-            <ref name="stem"/>
-          </choice>
-        </zeroOrMore>
       </element>
     </define>
     <define name="pagebreak">
@@ -459,14 +610,38 @@ gives an explicit page orientation</a:documentation>
           <a:documentation>Description of location in a reference, which can be combined with other locations in a single citation</a:documentation>
         </ref>
       </zeroOrMore>
-      <zeroOrMore>
-        <ref name="PureTextElement">
+      <optional>
+        <element name="display-text">
           <a:documentation>The textual content of the element. The `text` is what we wish to show the link as (e.g., the "content" of `&lt;xx&gt;my link text&lt;/xx&gt;`)</a:documentation>
-        </ref>
-      </zeroOrMore>
+          <oneOrMore>
+            <ref name="PureTextElement"/>
+          </oneOrMore>
+        </element>
+      </optional>
+    </define>
+    <define name="FnAttributes">
+      <ref name="RequiredId"/>
+      <optional>
+        <attribute name="hiddenref">
+          <a:documentation>If true, number the footnote as normal, but suppress display of the footnote reference in the document body.
+This is done if the footnote reference is already presented in some other form, e.g. within a figure image.</a:documentation>
+          <data type="boolean"/>
+        </attribute>
+      </optional>
+      <attribute name="reference">
+        <a:documentation>The number of the footnote, used to identify it visually</a:documentation>
+      </attribute>
     </define>
   </include>
   <!-- end overrides -->
+  <define name="TdAttributes" combine="interleave">
+    <ref name="RequiredId"/>
+    <optional>
+      <attribute name="style">
+        <a:documentation>CSS style: only background-color, color, border supported</a:documentation>
+      </attribute>
+    </optional>
+  </define>
   <define name="NumberingAttributes" combine="interleave">
     <optional>
       <attribute name="number">
@@ -539,8 +714,19 @@ titlecase, or lowercase</a:documentation>
   </define>
   <define name="TableAttributes" combine="interleave">
     <optional>
+      <attribute name="plain">
+        <a:documentation>Render as a plain attribute, with no shading or borders</a:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
       <attribute name="width">
         <a:documentation>Width of the table block in rendering</a:documentation>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="style">
+        <a:documentation>CSS style: only background-color, color, border supported</a:documentation>
       </attribute>
     </optional>
     <ref name="BlockAttributes"/>
@@ -645,12 +831,56 @@ titlecase, or lowercase</a:documentation>
       </attribute>
     </optional>
   </define>
+  <define name="Basic-Section-Attributes" combine="interleave">
+    <optional>
+      <attribute name="obligation">
+        <ref name="ObligationType"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="RequiredId" combine="interleave">
+    <optional>
+      <attribute name="anchor">
+        <a:documentation>User-supplied anchor of element; replaced by content-based id, with all references to the anchor updated accordingly</a:documentation>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="source">
+        <a:documentation>Sourcing of the current element in an external data model</a:documentation>
+        <ref name="IdRefType"/>
+      </attribute>
+    </optional>
+  </define>
+  <define name="OptionalId" combine="interleave">
+    <optional>
+      <attribute name="anchor">
+        <a:documentation> User-supplied anchor of element; replaced by content-based id, with all references to the anchor updated accordingly</a:documentation>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="source">
+        <a:documentation>Sourcing of the current element in an external data model</a:documentation>
+        <ref name="IdRefType"/>
+      </attribute>
+    </optional>
+  </define>
   <define name="ObligationType">
     <a:documentation>The force of a clause in a standard document: whether it has normative or informative effect</a:documentation>
     <choice>
       <value>normative</value>
       <value>informative</value>
     </choice>
+  </define>
+  <define name="ReferenceEntry">
+    <a:documentation>Entry in bibliography</a:documentation>
+    <ref name="doc_bibitem">
+      <a:documentation>Bibliographic item cited in the document</a:documentation>
+    </ref>
+    <zeroOrMore>
+      <ref name="note">
+        <a:documentation>Annotation of the bibliographic item</a:documentation>
+      </ref>
+    </zeroOrMore>
   </define>
   <define name="doc_bibitem">
     <a:documentation>Standardisation document representation of bibliographic entry</a:documentation>
@@ -668,19 +898,45 @@ titlecase, or lowercase</a:documentation>
           <data type="boolean"/>
         </attribute>
       </optional>
+      <ref name="LocalizedStringAttributes">
+        <a:documentation>Specify language of bibitem, can be used to render it with language-specific bibliographic style</a:documentation>
+      </ref>
       <ref name="ReducedBibliographicItem"/>
     </element>
   </define>
   <define name="image" combine="choice">
-    <element name="svg">
-      <a:documentation>Add svg mark up to image</a:documentation>
-      <oneOrMore>
-        <choice>
-          <text/>
-          <ref name="AnyElement"/>
-        </choice>
-      </oneOrMore>
-    </element>
+    <choice>
+      <element name="image">
+        <ref name="RequiredId"/>
+        <ref name="ImageAttributes"/>
+        <optional>
+          <element name="svg">
+            <a:documentation>Allow svg in image/svg, for consistency</a:documentation>
+            <oneOrMore>
+              <choice>
+                <text/>
+                <ref name="AnyElement"/>
+              </choice>
+            </oneOrMore>
+          </element>
+        </optional>
+      </element>
+      <element name="svg">
+        <a:documentation>Add svg mark up to image</a:documentation>
+        <oneOrMore>
+          <choice>
+            <text/>
+            <ref name="AnyElement"/>
+          </choice>
+        </oneOrMore>
+      </element>
+    </choice>
+  </define>
+  <define name="ParagraphFnBody" combine="interleave">
+    <ref name="BlockSource">
+      <a:documentation>Bibliographic source for the information in the paragraph
+parargaph sources are currently only rendered in metanorma-plateau</a:documentation>
+    </ref>
   </define>
   <define name="BasicBlock" combine="choice">
     <ref name="columnbreak"/>
@@ -790,6 +1046,7 @@ titlecase, or lowercase</a:documentation>
 is used in particular to capture mutually agreed definitions of codepoints in Unicode Private Use Area</a:documentation>
         </attribute>
       </optional>
+      <ref name="OptionalId"/>
       <oneOrMore>
         <ref name="TextElement">
           <a:documentation>Textual content of span</a:documentation>
@@ -852,7 +1109,6 @@ That concept may be defined as a term within the current document, or it may be 
           <zeroOrMore>
             <choice>
               <ref name="PureTextElement"/>
-              <ref name="stem"/>
               <ref name="index"/>
               <ref name="index-xref"/>
             </choice>
@@ -865,7 +1121,6 @@ That concept may be defined as a term within the current document, or it may be 
           <zeroOrMore>
             <choice>
               <ref name="PureTextElement"/>
-              <ref name="stem"/>
               <ref name="index"/>
               <ref name="index-xref"/>
             </choice>
@@ -1039,7 +1294,7 @@ That concept may be defined as a term within the current document, or it may be 
     <element name="label">
       <!-- Identifier of form input element that this element is a label of -->
       <attribute name="for">
-        <data type="IDREF"/>
+        <ref name="IdRefType"/>
       </attribute>
       <zeroOrMore>
         <ref name="PureTextElement"/>
@@ -1159,13 +1414,6 @@ numbers</a:documentation>
       </attribute>
     </optional>
   </define>
-  <define name="Basic-Section-Attributes" combine="interleave">
-    <optional>
-      <attribute name="obligation">
-        <ref name="ObligationType"/>
-      </attribute>
-    </optional>
-  </define>
   <define name="reference-clause">
     <a:documentation>References clause with recursive nesting</a:documentation>
     <element name="clause">
@@ -1205,14 +1453,22 @@ numbers</a:documentation>
         <value>presentation</value>
       </choice>
     </attribute>
+    <attribute name="flavor">
+      <a:documentation>Metanorma flavor, indicating SDO whose requirements the realisation aligns to</a:documentation>
+    </attribute>
   </define>
   <define name="standard-document">
     <a:documentation>Representation of a standardisation document</a:documentation>
-    <element name="standard-document">
+    <element name="metanorma">
       <ref name="Root-Attributes"/>
       <ref name="bibdata">
         <a:documentation>Bibliographic description of the document itself, expressed in the Relaton model</a:documentation>
       </ref>
+      <zeroOrMore>
+        <ref name="termdocsource">
+          <a:documentation>Source for term definitions in the document</a:documentation>
+        </ref>
+      </zeroOrMore>
       <optional>
         <ref name="misccontainer">
           <a:documentation>Extension point for extraneous elements that need to be added to standards document as data</a:documentation>
@@ -1223,41 +1479,56 @@ numbers</a:documentation>
           <a:documentation>Front matter that is repeated at the start of documents issued from an SDO, with content not specific to the document</a:documentation>
         </ref>
       </optional>
+      <ref name="DocumentBody"/>
       <optional>
-        <ref name="preface">
-          <a:documentation>Prefatory sections</a:documentation>
-        </ref>
-      </optional>
-      <ref name="sections">
-        <a:documentation>Main body of document</a:documentation>
-      </ref>
-      <zeroOrMore>
-        <ref name="annex">
-          <a:documentation>Annex sections</a:documentation>
-        </ref>
-      </zeroOrMore>
-      <optional>
-        <ref name="bibliography">
-          <a:documentation>Bibliographic sections</a:documentation>
-        </ref>
-      </optional>
-      <zeroOrMore>
-        <ref name="indexsect">
-          <a:documentation>Index of the document</a:documentation>
-        </ref>
-      </zeroOrMore>
-      <optional>
-        <ref name="colophon">
-          <a:documentation>Colophon or postface material</a:documentation>
+        <ref name="annotation-container">
+          <a:documentation>Annotations to the document</a:documentation>
         </ref>
       </optional>
     </element>
+  </define>
+  <define name="DocumentBody">
+    <optional>
+      <ref name="preface">
+        <a:documentation>Prefatory sections</a:documentation>
+      </ref>
+    </optional>
+    <ref name="sections">
+      <a:documentation>Main body of document</a:documentation>
+    </ref>
+    <zeroOrMore>
+      <ref name="annex">
+        <a:documentation>Annex sections</a:documentation>
+      </ref>
+    </zeroOrMore>
+    <optional>
+      <ref name="bibliography">
+        <a:documentation>Bibliographic sections</a:documentation>
+      </ref>
+    </optional>
+    <zeroOrMore>
+      <ref name="indexsect">
+        <a:documentation>Index of the document</a:documentation>
+      </ref>
+    </zeroOrMore>
+    <optional>
+      <ref name="colophon">
+        <a:documentation>Colophon or postface material</a:documentation>
+      </ref>
+    </optional>
   </define>
   <define name="misccontainer">
     <a:documentation>Elements added to metanorma-extension are open-ended, and constitute source data</a:documentation>
     <element name="metanorma-extension">
       <oneOrMore>
         <ref name="AnyElement"/>
+      </oneOrMore>
+    </element>
+  </define>
+  <define name="annotation-container">
+    <element name="annotation-container">
+      <oneOrMore>
+        <ref name="review"/>
       </oneOrMore>
     </element>
   </define>
@@ -1270,6 +1541,7 @@ numbers</a:documentation>
           <ref name="foreword"/>
           <ref name="introduction"/>
           <ref name="acknowledgements"/>
+          <ref name="executivesummary"/>
         </choice>
       </oneOrMore>
     </element>
@@ -1290,6 +1562,11 @@ numbers</a:documentation>
   <define name="introduction">
     <a:documentation>Introduction of document</a:documentation>
     <element name="introduction">
+      <ref name="Content-Section"/>
+    </element>
+  </define>
+  <define name="executivesummary">
+    <element name="executivesummary">
       <ref name="Content-Section"/>
     </element>
   </define>
@@ -1518,6 +1795,15 @@ used in document amendments</a:documentation>
   <define name="annex">
     <element name="annex">
       <ref name="Annex-Section"/>
+      <zeroOrMore>
+        <ref name="annex-appendix"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="annex-appendix">
+    <a:documentation>Appendix, distinct subclause type for annexes (annex to annex, rather than subclause to annex)</a:documentation>
+    <element name="appendix">
+      <ref name="Clause-Section"/>
     </element>
   </define>
   <define name="terms">
@@ -1560,9 +1846,7 @@ used in document amendments</a:documentation>
   <define name="term">
     <a:documentation>Terminology entry with its definition</a:documentation>
     <element name="term">
-      <ref name="OptionalId"/>
-      <ref name="LocalizedStringAttributes"/>
-      <ref name="BlockAttributes"/>
+      <ref name="TermAttributes"/>
       <oneOrMore>
         <ref name="preferred">
           <a:documentation>One or more names under which the term being defined is canonically known</a:documentation>
@@ -1613,6 +1897,11 @@ used in document amendments</a:documentation>
         <a:documentation>Bibliographic references for the managed term</a:documentation>
       </ref>
     </element>
+  </define>
+  <define name="TermAttributes">
+    <ref name="RequiredId"/>
+    <ref name="LocalizedStringAttributes"/>
+    <ref name="BlockAttributes"/>
   </define>
   <define name="preferred">
     <element name="preferred">
@@ -1749,10 +2038,7 @@ used in document amendments</a:documentation>
       <element name="name">
         <a:documentation>The symbolic form of the designation</a:documentation>
         <oneOrMore>
-          <choice>
-            <ref name="PureTextElement"/>
-            <ref name="stem"/>
-          </choice>
+          <ref name="PureTextElement"/>
         </oneOrMore>
       </element>
     </element>
@@ -1805,7 +2091,6 @@ used in document amendments</a:documentation>
         <zeroOrMore>
           <choice>
             <ref name="PureTextElement"/>
-            <ref name="stem"/>
             <ref name="index"/>
             <ref name="index-xref"/>
           </choice>
@@ -1953,6 +2238,7 @@ used in document amendments</a:documentation>
   <define name="termdefinition">
     <a:documentation>The definition of a term applied in the current document</a:documentation>
     <element name="definition">
+      <ref name="RequiredId"/>
       <optional>
         <attribute name="type">
           <a:documentation>Type of definition, used to differentiate it from other definitions of the same term if present</a:documentation>
@@ -1974,10 +2260,11 @@ used in document amendments</a:documentation>
   </define>
   <define name="verbaldefinition">
     <element name="verbal-definition">
+      <ref name="RequiredId"/>
       <oneOrMore>
         <choice>
           <a:documentation>Content of the verbal representation of the term</a:documentation>
-          <ref name="paragraph"/>
+          <ref name="paragraph-with-footnote"/>
           <ref name="dl"/>
           <ref name="ol"/>
           <ref name="ul"/>
@@ -1994,6 +2281,7 @@ used in document amendments</a:documentation>
   <define name="nonverbalrep">
     <a:documentation>Non-verbal representation of the term</a:documentation>
     <element name="non-verbal-representation">
+      <ref name="RequiredId"/>
       <oneOrMore>
         <choice>
           <a:documentation>Content of the non-verbal representation of the term</a:documentation>
@@ -2012,10 +2300,15 @@ used in document amendments</a:documentation>
       <ref name="RequiredId"/>
       <ref name="NumberingAttributes"/>
       <ref name="BlockAttributes"/>
+      <optional>
+        <attribute name="type">
+          <a:documentation>Semantic classification of note</a:documentation>
+        </attribute>
+      </optional>
       <oneOrMore>
         <choice>
           <a:documentation>Content of the term note</a:documentation>
-          <ref name="paragraph"/>
+          <ref name="paragraph-with-footnote"/>
           <ref name="ul"/>
           <ref name="ol"/>
           <ref name="dl"/>
@@ -2037,7 +2330,7 @@ used in document amendments</a:documentation>
           <ref name="dl"/>
           <ref name="quote"/>
           <ref name="sourcecode"/>
-          <ref name="paragraph"/>
+          <ref name="paragraph-with-footnote"/>
           <ref name="figure"/>
         </choice>
       </oneOrMore>
@@ -2045,7 +2338,7 @@ used in document amendments</a:documentation>
   </define>
   <define name="termsource">
     <a:documentation>The bibliographic source where a term is defined in the sense applicable in this standardisation document</a:documentation>
-    <element name="termsource">
+    <element name="source">
       <attribute name="status">
         <a:documentation>The status of the term as it is used in this document, relative to its definition in the original document</a:documentation>
         <ref name="SourceStatusType"/>
@@ -2275,25 +2568,31 @@ links within an SVG file, so that the SVG file can hyperlink to anchors within t
     </element>
   </define>
   <define name="ul_li">
-    <a:documentation>Unorderd list item for standards documents</a:documentation>
+    <a:documentation>Unordered list item for standards documents</a:documentation>
     <element name="li">
       <ref name="OptionalId"/>
-      <optional>
-        <attribute name="uncheckedcheckbox">
-          <a:documentation>Include a checkbox for the list item</a:documentation>
-          <data type="boolean"/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="checkedcheckbox">
-          <a:documentation>Check the checkbox for the list item</a:documentation>
-          <data type="boolean"/>
-        </attribute>
-      </optional>
-      <oneOrMore>
-        <ref name="BasicBlock"/>
-      </oneOrMore>
+      <ref name="UlLiAttributes"/>
+      <ref name="UlLiBody"/>
     </element>
+  </define>
+  <define name="UlLiBody">
+    <oneOrMore>
+      <ref name="BasicBlock"/>
+    </oneOrMore>
+  </define>
+  <define name="UlLiAttributes">
+    <optional>
+      <attribute name="uncheckedcheckbox">
+        <a:documentation>Include a checkbox for the list item</a:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="checkedcheckbox">
+        <a:documentation>Check the checkbox for the list item</a:documentation>
+        <data type="boolean"/>
+      </attribute>
+    </optional>
   </define>
   <define name="floating-title">
     <a:documentation>A floating title, outside of the clause hierarchy of the document</a:documentation>
@@ -2419,6 +2718,11 @@ Normative References contents contain normative references, but as a clause in t
   <define name="TermSource">
     <zeroOrMore>
       <ref name="termsource"/>
+    </zeroOrMore>
+  </define>
+  <define name="BlockSource">
+    <zeroOrMore>
+      <ref name="source"/>
     </zeroOrMore>
   </define>
   <start>

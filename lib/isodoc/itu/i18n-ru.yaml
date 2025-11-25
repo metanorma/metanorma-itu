@@ -10,7 +10,7 @@ termsdef: Определения
 termsdefsymbolsabbrev: Определения
 termsdefsymbols: Определения
 termsdefabbrev: Определения
-termnote: ПРИМЕЧАНИЕ %
+termnote: <span class='fmt-element-name'>ПРИМЕЧАНИЕ</span> %
 normref: Ссылки
 symbolsabbrev: Сокращения и акронимы
 abbrev: Сокращения и акронимы
@@ -29,9 +29,10 @@ clause: пункт
 section: Раздел
 annex_subclause: пункт
 keywords: Ключевые слова
+international_standard: Международный стандарт
 in: в
 to: до
-nested_xref: "%2 в %1"
+nested_xref: "%2 <conn>в</conn> %1"
 where: "где:"
 where_one: "где"
 blankclause: Этот пункт намеренно оставлен пустым.

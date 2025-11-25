@@ -11,25 +11,25 @@ module IsoDoc
         @doctype == "contribution" or return
         bureau = bold_and_upcase(@meta.get[:bureau_full])
         <<~TABLE
-          <clause unnumbered="true" type="contribution-metadata">
-          <table class="contribution-metadata" unnumbered="true" width="100%">
+          <clause #{add_id_text} unnumbered="true" type="contribution-metadata">
+          <table #{add_id_text} class="contribution-metadata" unnumbered="true" width="100%">
           <colgroup><col width="11.8%"/><col width="41.2%"/><col width="47.0%"/></colgroup>
           <thead>
-          <tr><th rowspan="3"><image height="56" width="56" src="#{@meta.get[:logo_small]}"/></th>
-          <td rowspan="3"><p style="font-size:8pt;margin-top:6pt;margin-bottom:0pt;">#{@i18n.international_telecommunication_union.upcase}</p>
+          <tr #{add_id_text}><th rowspan="3" #{add_id_text}><image height="56" width="56" src="#{@meta.get[:logo_small]}"/></th>
+          <td #{add_id_text} rowspan="3"><p style="font-size:8pt;margin-top:6pt;margin-bottom:0pt;">#{@i18n.international_telecommunication_union.upcase}</p>
           <p class="bureau_big" style="font-size:13pt;margin-top:6pt;margin-bottom:0pt;">#{bureau}</p>
           <p style="font-size:10pt;margin-top:6pt;margin-bottom:0pt;">#{@i18n.studyperiod.sub('%', @meta.get[:study_group_period]).upcase}</p></th>
-          <th align="right"><p style="font-size:16pt;">#{@meta.get[:docnumber]}</p></th></tr>
-          <tr><th align="right"><p  style="font-size:14pt;">#{@meta.get[:group].upcase}</p></th></tr>
-          <tr>
-          <th align="right"><p style="font-size:14pt;">#{@i18n.l10n("#{@i18n.original}: #{@i18n.current_language}")}</p></th>
+          <th #{add_id_text} align="right"><p style="font-size:16pt;">#{@meta.get[:docnumber]}</p></th></tr>
+          <tr #{add_id_text}><th #{add_id_text} align="right"><p  style="font-size:14pt;">#{@meta.get[:group].upcase}</p></th></tr>
+          <tr #{add_id_text}>
+          <th #{add_id_text} align="right"><p style="font-size:14pt;">#{@i18n.l10n("#{@i18n.original}: #{@i18n.current_language}")}</p></th>
           </tr></thead>
           <tbody>
-          <tr><th align="left" width="95">#{colon_i18n(@i18n.questions)}</th><td>#{@meta.get[:questions]}</td>
-          <td align="right">#{@i18n.l10n("#{@meta.get[:meeting_place]}, #{@meta.get[:meeting_date]}")}</td></tr>
-          <tr><th align="center" colspan="3">#{@i18n.get['doctype_dict']['contribution'].upcase}</th></tr>
-          <tr><th align="left" width="95">#{colon_i18n(@i18n.document_source)}</th><td colspan="2">#{@meta.get[:source]}</td></tr>
-          <tr><th align="left" width="95">#{colon_i18n(@i18n.title)}</th><td colspan="2">#{@meta.get[:doctitle_en]}</td></tr>
+          <tr #{add_id_text}><th #{add_id_text} align="left" width="95">#{colon_i18n(@i18n.questions)}</th><td #{add_id_text}>#{@meta.get[:questions]}</td>
+          <td #{add_id_text} align="right">#{@i18n.l10n("#{@meta.get[:meeting_place]}, #{@meta.get[:meeting_date]}")}</td></tr>
+          <tr #{add_id_text}><th #{add_id_text} align="center" colspan="3">#{@i18n.get['doctype_dict']['contribution'].upcase}</th></tr>
+          <tr #{add_id_text}><th #{add_id_text} align="left" width="95">#{colon_i18n(@i18n.document_source)}</th><td #{add_id_text} colspan="2">#{@meta.get[:source]}</td></tr>
+          <tr #{add_id_text}><th #{add_id_text} align="left" width="95">#{colon_i18n(@i18n.title)}</th><td #{add_id_text} colspan="2">#{@meta.get[:doctitle_en]}</td></tr>
           #{contribution_table_contacts}
           </tbody></table>
           </clause>
@@ -55,7 +55,8 @@ module IsoDoc
         end
         n.map do |x|
           lbl = colon_i18n(@i18n.contact)
-          "<tr><th align='left' width='95'>#{lbl}</th>#{x}</tr>"
+          "<tr #{add_id_text}>"  \
+            "<th #{add_id_text} align='left' width='95'>#{lbl}</th>#{x}</tr>"
         end.join("\n")
       end
 
@@ -63,10 +64,10 @@ module IsoDoc
         @meta.get[:emails][idx] and
           e = "<br/>#{@i18n.email}<tab/>#{@meta.get[:emails][idx]}"
         <<~CELL
-          <td>#{@meta.get[:authors][idx]}<br/>
+          <td #{add_id_text}>#{@meta.get[:authors][idx]}<br/>
           #{@meta.get[:affiliations][idx]}<br/>
           #{@meta.get[:addresses][idx]}</td>
-          <td>#{@i18n.tel_abbrev}<tab/>#{@meta.get[:phones][idx]}#{e}</td>
+          <td #{add_id_text}>#{@i18n.tel_abbrev}<tab/>#{@meta.get[:phones][idx]}#{e}</td>
         CELL
       end
 
@@ -74,6 +75,7 @@ module IsoDoc
         x = clause.at(ns("./clause[@type = '#{type}']")) or return
         ret = x.dup
         ret.at(ns("./title"))&.remove
+        ret.at(ns("./fmt-title"))&.remove
         ret.children.to_xml
       end
 
@@ -107,7 +109,7 @@ module IsoDoc
       def contribution_justification_auths
         auths = contrib_justification_contacts
         auths_tail = auths[1..auths.size].map do |x|
-          "<tr><td colspan='2'>#{x}</td></td>"
+          "<tr #{add_id_text}><td #{add_id_text} colspan='2'>#{x}</td></td>"
         end.join("\n")
         [auths, auths_tail]
       end
@@ -117,33 +119,33 @@ module IsoDoc
         annex = doc.at(ns("//annex[@type = 'justification']")) or return
         auths, auths_tail = contribution_justification_auths
         annex.children = <<~TABLE
-          <title>#{contribution_justification_title(doc)}</title>
-          <table class="contribution-metadata" unnumbered="true" width="100%">
+          <title #{add_id_text}>#{contribution_justification_title(doc)}</title>
+          <table #{add_id_text} class="contribution-metadata" unnumbered="true" width="100%">
             <colgroup><col width="15.9%"/><col width="6.1%"/><col width="45.5%"/><col width="17.4%"/><col width="15.1%"/></colgroup>
             <tbody>
-            <tr>
-            <th align="left">#{colon_i18n(@i18n.questions)}</th><td>#{@meta.get[:questions]}</td>
-            <th align="left">Proposed new ITU-T #{@meta.get[:subdoctype]}</th>
-            <td colspan="2">#{@i18n.l10n("#{@meta.get[:meeting_place]}, #{@meta.get[:meeting_date]}")}</td>
+            <tr #{add_id_text}>
+            <th #{add_id_text} align="left">#{colon_i18n(@i18n.questions)}</th><td #{add_id_text}>#{@meta.get[:questions]}</td>
+            <th #{add_id_text} align="left">Proposed new ITU-T #{@meta.get[:subdoctype]}</th>
+            <td #{add_id_text} colspan="2">#{@i18n.l10n("#{@meta.get[:meeting_place]}, #{@meta.get[:meeting_date]}")}</td>
             </tr>
-            <tr><th align="left">Reference and title:</th>
-            <td colspan="4">Draft new #{@meta.get[:subdoctype]} on “#{@meta.get[:doctitle_en]}”</td>
+            <tr #{add_id_text}><th #{add_id_text} align="left">Reference and title:</th>
+            <td #{add_id_text} colspan="4">Draft new #{@meta.get[:subdoctype]} on “#{@meta.get[:doctitle_en]}”</td>
             </tr>
-            <tr>
-            <th align="left">Base text:</th><td colspan="2">#{extract_clause_data(annex, 'basetext')}</td>
-            <th align="left">Timing:</th><td>#{@meta.get[:timing]}</td>
+            <tr #{add_id_text}>
+            <th #{add_id_text} align="left">Base text:</th><td #{add_id_text} colspan="2">#{extract_clause_data(annex, 'basetext')}</td>
+            <th #{add_id_text} align="left">Timing:</th><td #{add_id_text}>#{@meta.get[:timing]}</td>
             </tr>
-            <tr><th align="left" rowspan="#{auths.size - 1}">Editor(s):</th>
-            <td colspan="2">#{auths[0]}</td>
-            <th align="left" rowspan="#{auths.size - 1}">Approval process:</th>
-            <td rowspan="#{auths.size - 1}">#{@meta.get[:approval_process]}</td>
+            <tr #{add_id_text}><th #{add_id_text} align="left" rowspan="#{auths.size - 1}">Editor(s):</th>
+            <td #{add_id_text} colspan="2">#{auths[0]}</td>
+            <th #{add_id_text} align="left" rowspan="#{auths.size - 1}">Approval process:</th>
+            <td #{add_id_text} rowspan="#{auths.size - 1}">#{@meta.get[:approval_process]}</td>
             </tr>
             #{auths_tail}
-            <tr><td colspan="5"><p><strong>Scope</strong> (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):</p>#{extract_clause_data(annex, 'scope')}</td></tr>
-            <tr><td colspan="5"><p><strong>Summary</strong> (provides a brief overview of the purpose and contents of the Recommendation, thus permitting readers to judge its usefulness for their work):</p>#{extract_clause_data(annex, 'summary')}</td></tr>
-            <tr><td colspan="5"><p><strong>Relations to ITU-T Recommendations or to other standards</strong> (approved or under development):</p>#{extract_clause_data(annex, 'relatedstandards')}</td></tr>
-            <tr><td colspan="5"><p><strong>Liaisons with other study groups or with other standards bodies:</strong></p>#{extract_clause_data(annex, 'liaisons')}</td></tr>
-            <tr><td colspan="5"><p><strong>Supporting members that are committing to contributing actively to the work item:</strong></p>#{extract_clause_data(annex, 'supportingmembers')}</td></tr>
+            <tr #{add_id_text}><td #{add_id_text} colspan="5"><p><strong>Scope</strong> (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):</p>#{extract_clause_data(annex, 'scope')}</td></tr>
+            <tr #{add_id_text}><td #{add_id_text} colspan="5"><p><strong>Summary</strong> (provides a brief overview of the purpose and contents of the Recommendation, thus permitting readers to judge its usefulness for their work):</p>#{extract_clause_data(annex, 'summary')}</td></tr>
+            <tr #{add_id_text}><td #{add_id_text} colspan="5"><p><strong>Relations to ITU-T Recommendations or to other standards</strong> (approved or under development):</p>#{extract_clause_data(annex, 'relatedstandards')}</td></tr>
+            <tr #{add_id_text}><td #{add_id_text} colspan="5"><p><strong>Liaisons with other study groups or with other standards bodies:</strong></p>#{extract_clause_data(annex, 'liaisons')}</td></tr>
+            <tr #{add_id_text}><td #{add_id_text} colspan="5"><p><strong>Supporting members that are committing to contributing actively to the work item:</strong></p>#{extract_clause_data(annex, 'supportingmembers')}</td></tr>
             </tbody>
           </table>
         TABLE

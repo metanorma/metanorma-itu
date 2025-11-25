@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  instantiations of this grammar may replace leaf strings
-  with more elaborated types; e.g. title (text) replaced with
-  title-main, title-intro, title-part; type replaced with
-  enum.
-  
-  some renaming at leaf nodes is permissible
-  
-  obligations can change both from optional to mandatory,
-  and from mandatory to optional; optional elements may
-  be omitted; freely positioned alternatives may be replaced
-  with strict ordering
-  
-  DO NOT introduce a namespace here. We do not want a distinct namespace
-  for these elements, and a distinct namespace for any grammar inheriting
-  these elements; we just want one namespace for any child grammars
-  of this.
--->
 <grammar xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <!--
+    ALERT: we cannot have comments on root element, as they intervene with https://github.com/metanorma/metanorma/issues/437 fix
+    
+    Instantiations of this grammar may replace leaf strings
+    with more elaborated types; e.g. title (text) replaced with
+    title-main, title-intro, title-part; type replaced with
+    enum.
+    
+    Some renaming at leaf nodes is permissible
+    
+    Obligations can change both from optional to mandatory,
+    and from mandatory to optional; optional elements may
+    be omitted; freely positioned alternatives may be replaced
+    with strict ordering
+    
+    DO NOT introduce a namespace here. We do not want a distinct namespace
+    for these elements, and a distinct namespace for any grammar inheriting
+    these elements; we just want one namespace for any child grammars
+    of this.
+  -->
   <!--
     https://www.myintervals.com/blog/2009/05/20/iso-8601-date-validation-that-doesnt-suck/
     iso8601date = xsd:string { pattern = "([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?" }
@@ -240,6 +242,8 @@ Detailed in https://www.relaton.org/model/creator/</a:documentation>
     </choice>
   </define>
   <define name="roledescription">
+    <a:documentation>A more detailed description of the role of the contributor
+Some descriptions are reserved words; in particular, the editorial committee of a standard has the role description "committee"</a:documentation>
     <element name="description">
       <ref name="LocalizedMarkedUpString"/>
     </element>
@@ -267,11 +271,11 @@ Detailed in https://www.relaton.org/model/creator/</a:documentation>
           <a:documentation>An identifier of the person according to an international identifier scheme</a:documentation>
         </ref>
       </zeroOrMore>
-      <zeroOrMore>
+      <optional>
         <ref name="contact">
           <a:documentation>Contact information for the person, including URI, address, phone number, and email</a:documentation>
         </ref>
-      </zeroOrMore>
+      </optional>
     </element>
   </define>
   <define name="fullname">
@@ -441,7 +445,10 @@ real names (if the person is named with a pseudonym or user name); previous lega
     </oneOrMore>
     <zeroOrMore>
       <ref name="subdivision">
-        <a:documentation>The subdivision of the organization directly involved with the production of the bibliographic item</a:documentation>
+        <a:documentation>The subdivision of the organization directly involved with the production of the bibliographic item.
+Multiple subdivisions can be specified for an organization, with no implication of hierarchical
+relation between them
+Editorial and advisory groups are represented as consecutive subdivisions of the SDO</a:documentation>
       </ref>
     </zeroOrMore>
     <optional>
@@ -454,16 +461,16 @@ real names (if the person is named with a pseudonym or user name); previous lega
         <a:documentation>An identifier of the organization according to an international identifier scheme</a:documentation>
       </ref>
     </zeroOrMore>
-    <zeroOrMore>
+    <optional>
       <ref name="contact">
         <a:documentation>Contact information for the organization, including address, phone number, and email</a:documentation>
       </ref>
-    </zeroOrMore>
-    <optional>
+    </optional>
+    <zeroOrMore>
       <ref name="logo">
         <a:documentation>A logo for the organization</a:documentation>
       </ref>
-    </optional>
+    </zeroOrMore>
   </define>
   <define name="orgname">
     <element name="name">
@@ -483,6 +490,11 @@ real names (if the person is named with a pseudonym or user name); previous lega
           <a:documentation>The type of subdivision</a:documentation>
         </attribute>
       </optional>
+      <optional>
+        <attribute name="subtype">
+          <a:documentation>The subtype of subdivision; e.g. different types of technical committee</a:documentation>
+        </attribute>
+      </optional>
       <ref name="OrganizationType">
         <a:documentation>The subdivision, modelled recursively as an organization</a:documentation>
       </ref>
@@ -490,6 +502,11 @@ real names (if the person is named with a pseudonym or user name); previous lega
   </define>
   <define name="logo">
     <element name="logo">
+      <optional>
+        <attribute name="type">
+          <a:documentation>The type of logo</a:documentation>
+        </attribute>
+      </optional>
       <ref name="image-no-id"/>
     </element>
   </define>
@@ -499,6 +516,11 @@ real names (if the person is named with a pseudonym or user name); previous lega
       <optional>
         <attribute name="scope">
           <a:documentation>Description of what is being depicted</a:documentation>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="type">
+          <a:documentation>Description of what kind of depiction this</a:documentation>
         </attribute>
       </optional>
       <zeroOrMore>
@@ -540,12 +562,18 @@ real names (if the person is named with a pseudonym or user name); previous lega
   <!-- TODO may change -->
   <define name="contact">
     <a:documentation>Contact information for a person or organization</a:documentation>
-    <choice>
+    <zeroOrMore>
       <ref name="address"/>
+    </zeroOrMore>
+    <zeroOrMore>
       <ref name="phone"/>
+    </zeroOrMore>
+    <zeroOrMore>
       <ref name="email"/>
+    </zeroOrMore>
+    <zeroOrMore>
       <ref name="uri"/>
-    </choice>
+    </zeroOrMore>
   </define>
   <define name="phone">
     <a:documentation>The phone number associated with a person or organization</a:documentation>
@@ -672,7 +700,7 @@ Examples include GRID, LEI, CrossRef, and Ringgold</a:documentation>
   <define name="CitationType">
     <attribute name="bibitemid">
       <a:documentation>Bibliographic item that the citation applies to, referenced as the anchor of a bibliographic description</a:documentation>
-      <data type="IDREF"/>
+      <ref name="IdRefType"/>
     </attribute>
     <choice>
       <zeroOrMore>
@@ -851,7 +879,7 @@ depending on whether the items exist as independent documents, or are parts of a
       </zeroOrMore>
     </element>
   </define>
-  <define name="BibItemType" combine="choice">
+  <define name="BibItemType">
     <a:documentation>Type of bibliographic item.
 The value list complies with the types provided in ISO 690:2021.
 NOTE: These values represent a strict superset to BibTeX
@@ -941,6 +969,8 @@ May be electronic (e.g. Twitter direct message, email) or voice (e.g. a remark m
 typically cited as "personal communication")</a:documentation>
       <value>conversation</value>
       <a:documentation>An exchange of messages between two or more persons. May be electronic (e.g. web chat) or voice (e.g. phone call)</a:documentation>
+      <value>collection</value>
+      <a:documentation>A compound resource consisting of other resources, which are themselves presupposed to have their type specified..</a:documentation>
       <value>misc</value>
       <a:documentation>Bibliographic type not adequately described in the foregoing</a:documentation>
     </choice>
@@ -1216,9 +1246,9 @@ Refer to `BibliographicItem` for definitions</a:documentation>
     <optional>
       <ref name="validity"/>
     </optional>
-    <optional>
+    <zeroOrMore>
       <ref name="depiction"/>
-    </optional>
+    </zeroOrMore>
   </define>
   <define name="btitle">
     <a:documentation>A title of a bibliographic item, associated with a type of title</a:documentation>
@@ -1233,6 +1263,11 @@ Refer to `BibliographicItem` for definitions</a:documentation>
   </define>
   <define name="formattedref">
     <element name="formattedref">
+      <optional>
+        <attribute name="format">
+          <a:documentation>format of formatted reference; Metanorma assumes references are formatted as Metanorma XML</a:documentation>
+        </attribute>
+      </optional>
       <oneOrMore>
         <ref name="TextElement"/>
       </oneOrMore>
@@ -1783,15 +1818,32 @@ that the `number` given for the series applies to the second iteration of number
 May be used to differentiate rendering of notes in bibliographies</a:documentation>
         </attribute>
       </optional>
-      <ref name="LocalizedMarkedUpString">
+      <ref name="LocalizedStringAttributes">
         <a:documentation>The content of the note</a:documentation>
       </ref>
+      <choice>
+        <oneOrMore>
+          <ref name="BasicBlockNoId">
+            <a:documentation>Multiple blocks of content</a:documentation>
+          </ref>
+        </oneOrMore>
+        <oneOrMore>
+          <ref name="TextElement">
+            <a:documentation>Single block of content</a:documentation>
+          </ref>
+        </oneOrMore>
+      </choice>
     </element>
   </define>
   <define name="bibabstract">
     <a:documentation>Abstract of bibliographic item</a:documentation>
     <element name="abstract">
       <ref name="LocalizedStringAttributes"/>
+      <optional>
+        <attribute name="format">
+          <a:documentation>What format the formatted abstract is in. In Metanorma, assumed to be Metanorma XML</a:documentation>
+        </attribute>
+      </optional>
       <choice>
         <oneOrMore>
           <ref name="BasicBlockNoId">

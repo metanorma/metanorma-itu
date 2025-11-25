@@ -10,7 +10,7 @@ termsdef: 定义
 termsdefsymbolsabbrev: 定义
 termsdefsymbols: 定义
 termsdefabbrev: 定义
-termnote:  注 %
+termnote:  <span class='fmt-element-name'>注</span>%
 normref: 规范性参考文献
 symbolsabbrev: 缩略语与缩写
 abbrev: 缩略语与缩写
@@ -29,9 +29,10 @@ clause: 条款
 section: 节
 annex_subclause: 条款
 keywords: 关键词
+international_standard: 国际标准
 in: 中的
 to: 至
-nested_xref: "%1中的%2"
+nested_xref: "%1<conn>中的</conn>%2"
 where:  式中：
 where_one:  式中
 blankclause: This clause is intentionally left blank.

@@ -1,69 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<grammar ns='https://www.metanorma.org/ns/itu' xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
-  <!--
-    VERSION v1.2.1
-    Currently we inherit from a namespaced grammar, isostandard. Until we inherit from isodoc,
-    we cannot have a new default namespace: we will end up with a grammar with two different
-    namespaces, one for isostandard and one for csand additions. And we do not want that.
-  -->
+<grammar ns='https://www.metanorma.org/ns/standoc' xmlns="http://relaxng.org/ns/structure/1.0">
   <include href="relaton-itu.rng"/>
   <include href="isodoc.rng">
-    <start>
-      <ref name="itu"/>
-    </start>
-    <define name="OlAttr" combine="interleave">
-      <optional>
-        <attribute name="class">
-          <value>steps</value>
-        </attribute>
-      </optional>
-    </define>
-    <define name="preface">
-      <element name="preface">
-        <oneOrMore>
-          <choice>
-            <ref name="content"/>
-            <ref name="abstract"/>
-            <ref name="foreword"/>
-            <ref name="introduction"/>
-            <ref name="acknowledgements"/>
-            <ref name="clause"/>
-          </choice>
-        </oneOrMore>
-      </element>
-    </define>
     <define name="Clause-Section">
-      <optional>
-        <attribute name="id">
-          <data type="ID"/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="language"/>
-      </optional>
-      <optional>
-        <attribute name="script"/>
-      </optional>
-      <optional>
-        <attribute name="inline-header">
-          <data type="boolean"/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="obligation">
-          <choice>
-            <value>normative</value>
-            <value>informative</value>
-          </choice>
-        </attribute>
-      </optional>
+      <ref name="Section-Attributes"/>
       <optional>
         <attribute name="type"/>
-      </optional>
-      <optional>
-        <attribute name="unnumbered">
-          <data type="boolean"/>
-        </attribute>
       </optional>
       <optional>
         <ref name="section-title"/>
@@ -86,30 +28,11 @@
       </group>
     </define>
   </include>
-  <define name="itu">
-    <element name="itu-standard">
-      <ref name="Root-Attributes"/>
-      <ref name="bibdata"/>
-      <zeroOrMore>
-        <ref name="termdocsource"/>
-      </zeroOrMore>
-      <optional>
-        <ref name="misccontainer"/>
-      </optional>
-      <optional>
-        <ref name="boilerplate"/>
-      </optional>
-      <ref name="preface"/>
-      <oneOrMore>
-        <ref name="sections"/>
-      </oneOrMore>
-      <zeroOrMore>
-        <ref name="annex"/>
-      </zeroOrMore>
-      <ref name="bibliography"/>
-      <zeroOrMore>
-        <ref name="indexsect"/>
-      </zeroOrMore>
-    </element>
+  <define name="OlAttributes" combine="interleave">
+    <optional>
+      <attribute name="class">
+        <value>steps</value>
+      </attribute>
+    </optional>
   </define>
 </grammar>

@@ -1,4 +1,5 @@
-@import 'base_style/all';
+@use 'variables' as *;
+@use 'base_style/all' as *;
 
 .icon-svg {
   width: 100%;

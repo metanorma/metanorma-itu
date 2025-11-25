@@ -78,7 +78,6 @@ module IsoDoc
         super
       end
 
-
       include BaseConvert
       include Init
     end

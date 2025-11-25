@@ -1,16 +1,3 @@
-require "vcr"
-
-VCR.configure do |config|
-  config.cassette_library_dir = "spec/vcr_cassettes"
-  config.hook_into :webmock
-  config.default_cassette_options = {
-    clean_outdated_http_interactions: true,
-    re_record_interval: 1512000,
-    record: :once,
-    preserve_exact_body_bytes: true,
-  }
-end
-
 require "simplecov"
 SimpleCov.start do
   add_filter "/spec/"
@@ -27,7 +14,7 @@ require "htmlentities"
 require "metanorma"
 require "metanorma/itu"
 require "relaton_iso"
-require "xml-c14n"
+require "canon"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -71,7 +58,14 @@ end
 
 def strip_guid(xml)
   xml.gsub(%r{ id="_[^"]+"}, ' id="_"')
+    .gsub(%r{ id="(ftn|fn:)_[^"]+"}, ' id="fn:_"')
+    .gsub(%r{ semx-id="[^"]*"}, '')
+    .gsub(%r{ original-id="_[^"]+"}, ' original-id="_"')
     .gsub(%r{ target="_[^"]+"}, ' target="_"')
+    .gsub(%r{ source="_[^"]+"}, ' source="_"')
+    .gsub(%r{ name="_[^"]+"}, ' name="_"')
+    .gsub(%r{ href="#_[^"]+"}, ' href="#_"')
+    .gsub(%r{ href="#(fn:|ftn)_[^"]+"}, ' href="#fn:_"')
     .gsub(%r{<fetched>[^<]+</fetched>}, "<fetched/>")
     .gsub(%r{ schema-version="[^"]+"}, "")
 end
@@ -94,6 +88,16 @@ VALIDATING_BLANK_HDR = <<~HDR.freeze
 
 HDR
 
+LOCAL_CACHED_ISOBIB_BLANK_HDR = <<~HDR.freeze
+  = Document title
+  Author
+  :docfile: test.adoc
+  :nodoc:
+  :novalid:
+  :local-cache: spec/relatondb
+
+HDR
+
 def boilerplate_read(file, xmldoc)
   conv = Metanorma::Itu::Converter.new(:itu, {})
   conv.init(Asciidoctor::Document.new([]))
@@ -102,7 +106,7 @@ def boilerplate_read(file, xmldoc)
   ret.to_xml(encoding: "UTF-8", indent: 2,
              save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
     .gsub(/<(\/)?sections>/, "<\\1boilerplate>")
-    .gsub(/ id="_[^"]+"/, " id='_'")
+    #.gsub(/ id="_[^"]+"/, " id='_'")
 end
 
 def boilerplate(xmldoc)
@@ -122,10 +126,10 @@ def itudoc(lang)
              "Latn"
            end
   <<~"INPUT"
-             <itu-standard xmlns="http://riboseinc.com/isoxml">
+             <metanorma xmlns="http://riboseinc.com/isoxml">
              <bibdata type="standard">
-             <title language="en" format="text/plain" type="main">An ITU Standard</title>
-             <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+             <title language="en" type="main">An ITU Standard</title>
+             <title language="fr" type="main">Un Standard ITU</title>
              <docidentifier type="ITU">12345</docidentifier>
              <language>#{lang}</language>
              <script>#{script}</script>
@@ -158,7 +162,7 @@ def itudoc(lang)
 
      <terms id="I" obligation="normative">
        <term id="J">
-       <preferred>Term2</preferred>
+       <preferred><expression><name>Term2</name></expression></preferred>
      </term>
      </terms>
      <definitions id="L">
@@ -191,15 +195,15 @@ def itudoc(lang)
      </references>
      </clause>
      </bibliography>
-     </itu-standard>
+     </metanorma>
   INPUT
 end
 
 BLANK_HDR = <<~"HDR".freeze
   <?xml version="1.0" encoding="UTF-8"?>
-  <itu-standard xmlns="https://www.metanorma.org/ns/itu" type="semantic" version="#{Metanorma::Itu::VERSION}">
+  <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}" flavor="itu">
   <bibdata type="standard">
-   <title language="en" format="text/plain" type="main">Document title</title>
+   <title language="en" type="main">Document title</title>
 
     <contributor>
       <role type="author"/>
@@ -234,13 +238,17 @@ BLANK_HDR = <<~"HDR".freeze
     <ext>
            <doctype>recommendation</doctype>
              <flavor>itu</flavor>
-           <editorialgroup>
-           <bureau>T</bureau>
-           </editorialgroup>
+             <studyperiod>
+             <start>#{Date.today.year - (Date.today.year % 2)}</start>
+             <end>#{Date.today.year - (Date.today.year % 2) + 2}</end>
+             </studyperiod>
            <ip-notice-received>false</ip-notice-received>
    </ext>
   </bibdata>
                      <metanorma-extension>
+            <semantic-metadata>
+         <stage-published>true</stage-published>
+      </semantic-metadata>
             <presentation-metadata>
               <name>TOC Heading Levels</name>
               <value>2</value>
@@ -267,7 +275,7 @@ HDR
 def blank_hdr_gen
   <<~"HDR"
     #{BLANK_HDR}
-    #{boilerplate(Nokogiri::XML("#{BLANK_HDR}</itu-standard>"))}
+    #{boilerplate(Nokogiri::XML("#{BLANK_HDR}</metanorma>"))}
   HDR
 end
 

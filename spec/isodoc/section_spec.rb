@@ -6,8 +6,8 @@ RSpec.describe Metanorma::Itu do
     input = <<~INPUT
       <iso-standard xmlns="http://riboseinc.com/isoxml">
       <preface>
-      <clause type="history" id="H" displayorder="1"><title>History</title></clause>
-      <clause type="source" id="I" displayorder="2"><title>Source</title></clause>
+      <clause type="history" id="H" displayorder="1"><fmt-title id="_">History</fmt-title></clause>
+      <clause type="source" id="I" displayorder="2"><fmt-title id="_">Source</fmt-title></clause>
       </preface>
       </iso-standard>
     INPUT
@@ -22,16 +22,16 @@ RSpec.describe Metanorma::Itu do
         <p>&#160;</p>
       </div>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
+    expect(Canon.format_xml(IsoDoc::Itu::WordConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<div class="WordSection2">}m, '<div class="WordSection2">')
       .gsub(%r{<p>\s*<br clear="all" class="section"/>\s*</p>\s*<div class="WordSection3">.*}m, "")))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes annexes and appendixes" do
     input = <<~INPUT
-             <itu-standard xmlns="http://riboseinc.com/isoxml">
+             <metanorma xmlns="http://riboseinc.com/isoxml">
              <bibdata type="standard">
              <title language="en" format="text/plain" type="main">An ITU Standard</title>
              <docidentifier type="ITU">12345</docidentifier>
@@ -69,49 +69,587 @@ RSpec.describe Metanorma::Itu do
       <annex id="B10" obligation="informative"><title>Annex</title></annex>
     INPUT
     presxml = <<~OUTPUT
-      <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-             <bibdata type="standard">
-             <title language="en" format="text/plain" type="main">An ITU Standard</title>
-             <docidentifier type="ITU">12345</docidentifier>
-             <language current="true">en</language>
-             <ext>
-             <doctype language="">recommendation</doctype><doctype language="en">Recommendation</doctype>
-             </ext>
-             </bibdata>
-             <preface>
-             <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-             <abstract displayorder="2">
-             <title>Abstract</title>
-                 <xref target="A1">Annex A</xref>
-                 <xref target="B1">Appendix I</xref>
-             </abstract>
-             </preface>
-      <annex id="A1" obligation="normative" displayorder="3"><title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A2" obligation="normative" displayorder="4"><title><strong>Annex B</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A3" obligation="normative" displayorder="5"><title><strong>Annex C</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A4" obligation="normative" displayorder="6"><title><strong>Annex D</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A5" obligation="normative" displayorder="7"><title><strong>Annex E</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A6" obligation="normative" displayorder="8"><title><strong>Annex F</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A7" obligation="normative" displayorder="9"><title><strong>Annex G</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A8" obligation="normative" displayorder="10"><title><strong>Annex H</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A9" obligation="normative" displayorder="11"><title><strong>Annex J</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="A10" obligation="normative" displayorder="12"><title><strong>Annex K</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B1" obligation="informative" displayorder="13"><title><strong>Appendix I</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B2" obligation="informative" displayorder="14"><title><strong>Appendix II</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B3" obligation="informative" displayorder="15"><title><strong>Appendix III</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B4" obligation="informative" displayorder="16"><title><strong>Appendix IV</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B5" obligation="informative" displayorder="17"><title><strong>Appendix V</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B6" obligation="informative" displayorder="18"><title><strong>Appendix VI</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B7" obligation="informative" displayorder="19"><title><strong>Appendix VII</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B8" obligation="informative" displayorder="20"><title><strong>Appendix VIII</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B9" obligation="informative" displayorder="21"><title><strong>Appendix IX</strong><br/><br/><strong>Annex</strong></title></annex>
-      <annex id="B10" obligation="informative" displayorder="22"><title><strong>Appendix X</strong><br/><br/><strong>Annex</strong></title></annex>
-      </itu-standard>
+        <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
+           <bibdata type="standard">
+              <title language="en" format="text/plain" type="main">An ITU Standard</title>
+              <docidentifier type="ITU">12345</docidentifier>
+              <language current="true">en</language>
+              <ext>
+                 <doctype language="">recommendation</doctype>
+                 <doctype language="en">Recommendation</doctype>
+              </ext>
+           </bibdata>
+           <preface>
+              <clause type="toc" id="_" displayorder="1">
+                 <fmt-title id="_" depth="1">Table of Contents</fmt-title>
+              </clause>
+              <abstract displayorder="2" id="_">
+                 <title id="_">Abstract</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">Abstract</semx>
+                 </fmt-title>
+                 <xref target="A1" id="_"/>
+                 <semx element="xref" source="_">
+                    <fmt-xref target="A1">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A1">A</semx>
+                    </fmt-xref>
+                 </semx>
+                 <xref target="B1" id="_"/>
+                 <semx element="xref" source="_">
+                    <fmt-xref target="B1">
+                       <span class="fmt-element-name">Appendix</span>
+                       <semx element="autonum" source="B1">I</semx>
+                    </fmt-xref>
+                 </semx>
+              </abstract>
+           </preface>
+           <annex id="A1" obligation="normative" autonum="A" displayorder="3">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A1">A</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A1">A</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="A2" obligation="normative" autonum="B" displayorder="4">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A2">B</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A2">B</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="A3" obligation="normative" autonum="C" displayorder="5">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A3">C</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A3">C</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="A4" obligation="normative" autonum="D" displayorder="6">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A4">D</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A4">D</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="A5" obligation="normative" autonum="E" displayorder="7">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A5">E</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A5">E</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="A6" obligation="normative" autonum="F" displayorder="8">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A6">F</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A6">F</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="A7" obligation="normative" autonum="G" displayorder="9">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A7">G</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A7">G</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="A8" obligation="normative" autonum="H" displayorder="10">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A8">H</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A8">H</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="A9" obligation="normative" autonum="J" displayorder="11">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A9">J</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A9">J</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="A10" obligation="normative" autonum="K" displayorder="12">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A10">K</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A10">K</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="B1" obligation="informative" autonum="I" displayorder="13">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Appendix</span>
+                       <semx element="autonum" source="B1">I</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Appendix</span>
+                 <semx element="autonum" source="B1">I</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This appendix does not form an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="B2" obligation="informative" autonum="II" displayorder="14">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Appendix</span>
+                       <semx element="autonum" source="B2">II</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Appendix</span>
+                 <semx element="autonum" source="B2">II</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This appendix does not form an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="B3" obligation="informative" autonum="III" displayorder="15">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Appendix</span>
+                       <semx element="autonum" source="B3">III</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Appendix</span>
+                 <semx element="autonum" source="B3">III</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This appendix does not form an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="B4" obligation="informative" autonum="IV" displayorder="16">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Appendix</span>
+                       <semx element="autonum" source="B4">IV</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Appendix</span>
+                 <semx element="autonum" source="B4">IV</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This appendix does not form an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="B5" obligation="informative" autonum="V" displayorder="17">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Appendix</span>
+                       <semx element="autonum" source="B5">V</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Appendix</span>
+                 <semx element="autonum" source="B5">V</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This appendix does not form an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="B6" obligation="informative" autonum="VI" displayorder="18">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Appendix</span>
+                       <semx element="autonum" source="B6">VI</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Appendix</span>
+                 <semx element="autonum" source="B6">VI</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This appendix does not form an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="B7" obligation="informative" autonum="VII" displayorder="19">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Appendix</span>
+                       <semx element="autonum" source="B7">VII</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Appendix</span>
+                 <semx element="autonum" source="B7">VII</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This appendix does not form an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="B8" obligation="informative" autonum="VIII" displayorder="20">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Appendix</span>
+                       <semx element="autonum" source="B8">VIII</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Appendix</span>
+                 <semx element="autonum" source="B8">VIII</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This appendix does not form an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="B9" obligation="informative" autonum="IX" displayorder="21">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Appendix</span>
+                       <semx element="autonum" source="B9">IX</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Appendix</span>
+                 <semx element="autonum" source="B9">IX</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This appendix does not form an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+           <annex id="B10" obligation="informative" autonum="X" displayorder="22">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Appendix</span>
+                       <semx element="autonum" source="B10">X</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Appendix</span>
+                 <semx element="autonum" source="B10">X</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This appendix does not form an integral part of this Recommendation.)</span>
+              </p>
+           </annex>
+        </metanorma>
     OUTPUT
     html = <<~OUTPUT
               #{HTML_HDR}
               <br/>
-              <div>
+              <div id="_">
                      <h1 class="AbstractTitle">Abstract</h1>
                      <a href='#A1'>Annex A</a>
       <a href='#B1'>Appendix I</a>
@@ -219,119 +757,341 @@ RSpec.describe Metanorma::Itu do
                  </div>
                </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Canon.format_xml(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
-      .gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to Xml::C14n.format(html)
+      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", pres_output, true)
+      .gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))))
+      .to be_equivalent_to Canon.format_xml(html)
   end
 
   it "processes section names" do
     presxml = <<~OUTPUT
-      <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-               <bibdata type="standard">
-               <title language="en" format="text/plain" type="main">An ITU Standard</title>
-               <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
-               <docidentifier type="ITU">12345</docidentifier>
-               <language current="true">en</language>
-               <script current="true">Latn</script>
-               <keyword>A</keyword>
-               <keyword>B</keyword>
-               <ext>
-               <doctype language="">recommendation</doctype><doctype language="en">Recommendation</doctype>
-               <flavor>itu</flavor>
-               </ext>
-               </bibdata>
-      <preface>
-        <clause type="toc" id="_" displayorder="1">
-        <title depth="1">Table of Contents</title>
-        </clause>
-      <abstract displayorder="2"><title>Abstract</title>
-      <p>This is an abstract</p>
-      </abstract>
-          <clause type="keyword" displayorder="3">
-          <title depth="1">Keywords</title>
-          <p>A, B.</p>
-        </clause>
-      <foreword obligation="informative" displayorder="4">
-         <title>Foreword</title>
-         <p id="A">This is a preamble</p>
-       </foreword>
-        <introduction id="B" obligation="informative" displayorder="5">
-        <title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
-         <title depth="2">Introduction Subsection</title>
-       </clause>
-       </introduction>
-      <clause id="A0" displayorder="6"><title depth="1">History</title>
-      <p>history</p>
-      </clause>
-        </preface><sections>
-            <p class="zzSTDTitle1" displayorder="7">Draft new Recommendation 12345</p>
-        <p class="zzSTDTitle2" displayorder="8">An ITU Standard</p>
-       <clause id="D" obligation="normative" type="scope" displayorder="9">
-         <title depth="1">1.<tab/>Scope</title>
-         <p id="E">Text</p>
-       </clause>
-       <terms id="I" obligation="normative" displayorder="11"><title>3.</title>
-         <term id="J"><name>3.1.</name>
-         <preferred>Term2</preferred>
-       </term>
-       </terms>
-       <definitions id="L" displayorder="12"><title>4.</title>
-       <dl>
-        <colgroup>
-          <col width="20%"/>
-          <col width="80%"/>
-        </colgroup>
-        <dt>Symbol</dt>
-        <dd>Definition</dd>
-      </dl>
-       </definitions>
-       <clause id="M" inline-header="false" obligation="normative" displayorder="13">
-        <title depth="1">5.<tab/>Clause 4</title><clause id="N" inline-header="false" obligation="normative">
-         <title depth="2">5.1.<tab/>Introduction</title>
-       </clause>
-       <clause id="O" inline-header="false" obligation="normative">
-         <title depth="2">5.2.<tab/>Clause 4.2</title>
-       </clause></clause>
-       <references id="R" obligation="informative" normative="true" displayorder="10">
-         <title depth="1">2.<tab/>References</title>
-       </references><
-       </sections><annex id="P" inline-header="false" obligation="normative" displayorder="14">
-         <title><strong>Annex A</strong><br/><br/><strong>Annex</strong></title>
-         <clause id="Q" inline-header="false" obligation="normative">
-         <title depth="2">A.1.<tab/>Annex A.1</title>
-         <clause id="Q1" inline-header="false" obligation="normative">
-         <title depth="3">A.1.1.<tab/>Annex A.1a</title>
-         </clause>
-       </clause>
-       </annex><bibliography>
-       <clause id="S" obligation="informative" displayorder="15">
-         <title depth="1">Bibliography</title>
-         <references id="T" obligation="informative" normative="false">
-         <title depth="2">Bibliography Subsection</title>
-       </references>
-       </clause>
-       </bibliography>
-       </itu-standard>
+       <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
+           <bibdata type="standard">
+              <title language="en" type="main">An ITU Standard</title>
+              <title language="fr" type="main">Un Standard ITU</title>
+              <docidentifier type="ITU">12345</docidentifier>
+              <language current="true">en</language>
+              <script current="true">Latn</script>
+              <keyword>A</keyword>
+              <keyword>B</keyword>
+              <ext>
+                 <doctype language="">recommendation</doctype>
+                 <doctype language="en">Recommendation</doctype>
+                 <flavor>itu</flavor>
+              </ext>
+           </bibdata>
+           <preface>
+              <clause type="toc" id="_" displayorder="1">
+                 <fmt-title id="_" depth="1">Table of Contents</fmt-title>
+              </clause>
+              <abstract displayorder="2" id="_">
+                 <title id="_">Abstract</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">Abstract</semx>
+                 </fmt-title>
+                 <p>This is an abstract</p>
+              </abstract>
+              <clause type="keyword" displayorder="3" id="_">
+                 <fmt-title id="_" depth="1">Keywords</fmt-title>
+                 <p>A, B.</p>
+              </clause>
+              <foreword obligation="informative" displayorder="4" id="_">
+                 <title id="_">Foreword</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">Foreword</semx>
+                 </fmt-title>
+                 <p id="A">This is a preamble</p>
+              </foreword>
+              <introduction id="B" obligation="informative" displayorder="5">
+                 <title id="_">Introduction</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">Introduction</semx>
+                 </fmt-title>
+                 <clause id="C" inline-header="false" obligation="informative">
+                    <title id="_">Introduction Subsection</title>
+                    <fmt-title id="_" depth="2">
+                       <semx element="title" source="_">Introduction Subsection</semx>
+                    </fmt-title>
+                 </clause>
+              </introduction>
+              <clause id="A0" displayorder="6">
+                 <title id="_">History</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">History</semx>
+                 </fmt-title>
+                 <p>history</p>
+              </clause>
+           </preface>
+           <sections>
+              <p class="zzSTDTitle1" displayorder="7">Recommendation 12345</p>
+              <p class="zzSTDTitle2" displayorder="8">An ITU Standard</p>
+              <clause id="D" obligation="normative" type="scope" displayorder="9">
+                 <title id="_">Scope</title>
+                 <fmt-title id="_" depth="1">
+                    <span class="fmt-caption-label">
+                       <semx element="autonum" source="D">1</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                    </span>
+                    <span class="fmt-caption-delim">
+                       <tab/>
+                    </span>
+                    <semx element="title" source="_">Scope</semx>
+                 </fmt-title>
+                 <fmt-xref-label>
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="D">1</semx>
+                 </fmt-xref-label>
+                 <p id="E">Text</p>
+              </clause>
+              <terms id="I" obligation="normative" displayorder="11">
+                 <fmt-title id="_" depth="1">
+                    <span class="fmt-caption-label">
+                       <semx element="autonum" source="I">3</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                    </span>
+                 </fmt-title>
+                 <fmt-xref-label>
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="I">3</semx>
+                 </fmt-xref-label>
+                 <term id="J">
+                    <fmt-name id="_">
+                       <span class="fmt-caption-label">
+                          <semx element="autonum" source="I">3</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="J">1</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                       </span>
+                    </fmt-name>
+                    <fmt-xref-label>
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="I">3</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="J">1</semx>
+                    </fmt-xref-label>
+            <preferred id="_">
+               <expression>
+                  <name>Term2</name>
+               </expression>
+            </preferred>
+            <fmt-preferred>
+               <semx element="preferred" source="_">
+                  <strong>Term2</strong>
+                  :
+               </semx>
+            </fmt-preferred>
+                 </term>
+              </terms>
+              <definitions id="L" displayorder="12">
+                 <title id="_">Abbreviations and acronyms</title>
+                 <fmt-title id="_" depth="1">
+                    <span class="fmt-caption-label">
+                       <semx element="autonum" source="L">4</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                    </span>
+                    <span class="fmt-caption-delim">
+                       <tab/>
+                    </span>
+                    <semx element="title" source="_">Abbreviations and acronyms</semx>
+                 </fmt-title>
+                 <fmt-xref-label>
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="L">4</semx>
+                 </fmt-xref-label>
+                 <dl>
+                    <colgroup>
+                       <col width="20%"/>
+                       <col width="80%"/>
+                    </colgroup>
+                    <dt>Symbol</dt>
+                    <dd>Definition</dd>
+                 </dl>
+              </definitions>
+              <clause id="M" inline-header="false" obligation="normative" displayorder="13">
+                 <title id="_">Clause 4</title>
+                 <fmt-title id="_" depth="1">
+                    <span class="fmt-caption-label">
+                       <semx element="autonum" source="M">5</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                    </span>
+                    <span class="fmt-caption-delim">
+                       <tab/>
+                    </span>
+                    <semx element="title" source="_">Clause 4</semx>
+                 </fmt-title>
+                 <fmt-xref-label>
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="M">5</semx>
+                 </fmt-xref-label>
+                 <clause id="N" inline-header="false" obligation="normative">
+                    <title id="_">Introduction</title>
+                    <fmt-title id="_" depth="2">
+                       <span class="fmt-caption-label">
+                          <semx element="autonum" source="M">5</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="N">1</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                       </span>
+                       <span class="fmt-caption-delim">
+                          <tab/>
+                       </span>
+                       <semx element="title" source="_">Introduction</semx>
+                    </fmt-title>
+                    <fmt-xref-label>
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="M">5</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="N">1</semx>
+                    </fmt-xref-label>
+                 </clause>
+                 <clause id="O" inline-header="false" obligation="normative">
+                    <title id="_">Clause 4.2</title>
+                    <fmt-title id="_" depth="2">
+                       <span class="fmt-caption-label">
+                          <semx element="autonum" source="M">5</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="O">2</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                       </span>
+                       <span class="fmt-caption-delim">
+                          <tab/>
+                       </span>
+                       <semx element="title" source="_">Clause 4.2</semx>
+                    </fmt-title>
+                    <fmt-xref-label>
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="M">5</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="O">2</semx>
+                    </fmt-xref-label>
+                 </clause>
+              </clause>
+              <references id="R" obligation="informative" normative="true" displayorder="10">
+                 <title id="_">References</title>
+                 <fmt-title id="_" depth="1">
+                    <span class="fmt-caption-label">
+                       <semx element="autonum" source="R">2</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                    </span>
+                    <span class="fmt-caption-delim">
+                       <tab/>
+                    </span>
+                    <semx element="title" source="_">References</semx>
+                 </fmt-title>
+                 <fmt-xref-label>
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="R">2</semx>
+                 </fmt-xref-label>
+              </references>
+           </sections>
+           <annex id="P" inline-header="false" obligation="normative" autonum="A" displayorder="14">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="P">A</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="P">A</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Recommendation.)</span>
+              </p>
+              <clause id="Q" inline-header="false" obligation="normative">
+                 <title id="_">Annex A.1</title>
+                 <fmt-title id="_" depth="2">
+                    <span class="fmt-caption-label">
+                       <semx element="autonum" source="P">A</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="Q">1</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                    </span>
+                    <span class="fmt-caption-delim">
+                       <tab/>
+                    </span>
+                    <semx element="title" source="_">Annex A.1</semx>
+                 </fmt-title>
+                 <fmt-xref-label>
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="P">A</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="Q">1</semx>
+                 </fmt-xref-label>
+                 <clause id="Q1" inline-header="false" obligation="normative">
+                    <title id="_">Annex A.1a</title>
+                    <fmt-title id="_" depth="3">
+                       <span class="fmt-caption-label">
+                          <semx element="autonum" source="P">A</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="Q">1</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="Q1">1</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                       </span>
+                       <span class="fmt-caption-delim">
+                          <tab/>
+                       </span>
+                       <semx element="title" source="_">Annex A.1a</semx>
+                    </fmt-title>
+                    <fmt-xref-label>
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="P">A</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="Q">1</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="Q1">1</semx>
+                    </fmt-xref-label>
+                 </clause>
+              </clause>
+           </annex>
+           <bibliography>
+              <clause id="S" obligation="informative" displayorder="15">
+                 <title id="_">Bibliography</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">Bibliography</semx>
+                 </fmt-title>
+                 <references id="T" obligation="informative" normative="false">
+                    <title id="_">Bibliography Subsection</title>
+                    <fmt-title id="_" depth="2">
+                       <semx element="title" source="_">Bibliography Subsection</semx>
+                    </fmt-title>
+                 </references>
+              </clause>
+           </bibliography>
+        </metanorma>
     OUTPUT
 
     html = <<~OUTPUT
        #{HTML_HDR}
                  <br/>
-                 <div>
+                 <div id="_">
            <h1 class="AbstractTitle">Abstract</h1>
            <p>This is an abstract</p>
          </div>
-            <div class="Keyword">
+            <div class="Keyword" id="_">
         <h1 class="IntroTitle">Keywords</h1>
         <p>A, B.</p>
       </div>
-                      <div>
+                      <div id="_">
                           <h1 class="IntroTitle">Foreword</h1>
                           <p id="A">This is a preamble</p>
                         </div>
@@ -345,7 +1105,7 @@ RSpec.describe Metanorma::Itu do
            <h1 class="IntroTitle">History</h1>
            <p>history</p>
          </div>
-                        <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
+                        <p class="zzSTDTitle1">Recommendation 12345</p>
                         <p class="zzSTDTitle2">An ITU Standard</p>
                         <div id="D">
                           <h1>1.&#160; Scope</h1>
@@ -359,11 +1119,11 @@ RSpec.describe Metanorma::Itu do
                         </div>
                         <div id="I">
                         <h1>3.</h1>
-                        <div id="J"><p class="TermNum" id="J"><b>3.1.&#160; Term2</b>:</p>
+                        <div id="J"><p class="TermNum" id="J"><b>3.1.&#160; <b>Term2</b>:</b></p>
                  </div>
                       </div>
                         <div id="L" class="Symbols">
-                          <h1>4.</h1>
+                        <h1>4.  Abbreviations and acronyms</h1>
                                 <table class="dl" style="table-layout:fixed;">
         <colgroup>
           <col style="width: 20%;"/>
@@ -433,15 +1193,15 @@ RSpec.describe Metanorma::Itu do
             <b>Page</b>
           </p>
         </div>
-         <div class='Abstract'>
+         <div class='Abstract' id="_">
              <h1 class="AbstractTitle">Summary</h1>
              <p>This is an abstract</p>
            </div>
-           <div class='Keyword'>
+           <div class='Keyword' id="_">
              <h1 class="IntroTitle">Keywords</h1>
              <p>A, B.</p>
            </div>
-           <div>
+           <div id="_">
              <h1 class="IntroTitle">Foreword</h1>
              <p id="A">This is a preamble</p>
            </div>
@@ -460,7 +1220,7 @@ RSpec.describe Metanorma::Itu do
            <br clear="all" class="section"/>
          </p>
          <div class="WordSection3">
-           <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
+           <p class="zzSTDTitle1">Recommendation 12345</p>
            <p class="zzSTDTitle2">An ITU Standard</p>
            <div id="D">
              <h1>1.<span style="mso-tab-count:1">&#160; </span>Scope</h1>
@@ -473,11 +1233,16 @@ RSpec.describe Metanorma::Itu do
             </table>
            </div>
            <div id="I"><h1>3.</h1>
-        <div id="J"><p class="TermNum" id="J"><b>3.1.<span style="mso-tab-count:1">&#160; </span>Term2</b>: </p>
+        <div id="J"><p class="TermNum" id="J"><b>3.1.<span style="mso-tab-count:1">&#160; </span><b>Term2</b>:</b> </p>
       </div>
       </div>
            <div id="L" class="Symbols">
-             <h1>4.</h1>
+           <h1>
+            4.
+            <span style="mso-tab-count:1">  </span>
+            Abbreviations and acronyms
+         </h1>
+
                    <div align="center" class="table_container">
         <table class="dl" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;">
           <colgroup>
@@ -529,27 +1294,159 @@ RSpec.describe Metanorma::Itu do
          </div>
        </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", itudoc("en"), true)
+    expect(Canon.format_xml(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to Xml::C14n.format(html)
-    expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", presxml, true)
+      .gsub(%r{</body>.*}m, "</body>"))))
+      .to be_equivalent_to Canon.format_xml(html)
+    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to Xml::C14n.format(word)
+      .gsub(%r{</body>.*}m, "</body>"))))
+      .to be_equivalent_to Canon.format_xml(word)
+  end
+
+  it "generates middle title for joint ISO/IEC/ITU common text" do
+    input = <<~INPUT
+             <metanorma xmlns="http://riboseinc.com/isoxml">
+             <bibdata type="standard">
+             <title language="en" format="text/plain" type="main">An ITU Standard</title>
+             <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+             <docidentifier type="ITU">12345</docidentifier>
+             <docidentifier type="ISO">ISO/IEC 99999</docidentifier>
+             <language>en</language>
+             <script>Latn</script>
+             <keyword>A</keyword>
+             <keyword>B</keyword>
+             <ext>
+             <doctype>recommendation</doctype>
+             <flavor>itu</flavor>
+             </ext>
+             </bibdata>
+    <preface>
+    <abstract><title>Abstract</title>
+    <p>This is an abstract</p>
+    </abstract>
+    <clause id="A0"><title>History</title>
+    <p>history</p>
+    </clause>
+    <foreword obligation="informative">
+       <title>Foreword</title>
+       <p id="A">This is a preamble</p>
+     </foreword>
+      <introduction id="B" obligation="informative"><title>Introduction</title><clause id="C" inline-header="false" obligation="informative">
+       <title>Introduction Subsection</title>
+     </clause>
+     </introduction></preface><sections>
+     <clause id="D" obligation="normative" type="scope">
+       <title>Scope</title>
+       <p id="E">Text</p>
+     </clause>
+     </sections>
+     </metanorma>
+    INPUT
+    presxml = <<~OUTPUT
+           <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <bibdata type="standard">
+             <title language="en" format="text/plain" type="main">An ITU Standard</title>
+             <title language="fr" format="text/plain" type="main">Un Standard ITU</title>
+             <docidentifier type="ITU">12345</docidentifier>
+             <docidentifier type="ISO">ISO/IEC 99999</docidentifier>
+             <language current="true">en</language>
+             <script current="true">Latn</script>
+             <keyword>A</keyword>
+             <keyword>B</keyword>
+             <ext>
+                <doctype language="">recommendation</doctype>
+                <doctype language="en">Recommendation</doctype>
+                <flavor>itu</flavor>
+             </ext>
+          </bibdata>
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1" id="_">Table of Contents</fmt-title>
+             </clause>
+             <abstract id="_" displayorder="2">
+                <title id="_">Abstract</title>
+                <fmt-title depth="1" id="_">
+                   <semx element="title" source="_">Abstract</semx>
+                </fmt-title>
+                <p>This is an abstract</p>
+             </abstract>
+             <clause id="_" type="keyword" displayorder="3">
+                <fmt-title id="_" depth="1">Keywords</fmt-title>
+                <p>A, B.</p>
+             </clause>
+             <foreword obligation="informative" id="_" displayorder="4">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1" id="_">
+                   <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <p id="A">This is a preamble</p>
+             </foreword>
+             <introduction id="B" obligation="informative" displayorder="5">
+                <title id="_">Introduction</title>
+                <fmt-title depth="1" id="_">
+                   <semx element="title" source="_">Introduction</semx>
+                </fmt-title>
+                <clause id="C" inline-header="false" obligation="informative">
+                   <title id="_">Introduction Subsection</title>
+                   <fmt-title depth="2" id="_">
+                      <semx element="title" source="_">Introduction Subsection</semx>
+                   </fmt-title>
+                </clause>
+             </introduction>
+             <clause id="A0" displayorder="6">
+                <title id="_">History</title>
+                <fmt-title depth="1" id="_">
+                   <semx element="title" source="_">History</semx>
+                </fmt-title>
+                <p>history</p>
+             </clause>
+          </preface>
+          <sections>
+             <p class="zzSTDTitle1" displayorder="7">International Standard ISO/IEC 99999</p>
+             <p class="zzSTDTitle1" displayorder="8">Recommendation 12345</p>
+             <p class="zzSTDTitle2" displayorder="9">An ITU Standard</p>
+             <clause id="D" obligation="normative" type="scope" displayorder="10">
+                <title id="_">Scope</title>
+                <fmt-title depth="1" id="_">
+                   <span class="fmt-caption-label">
+                      <semx element="autonum" source="D">1</semx>
+                      <span class="fmt-autonum-delim">.</span>
+                   </span>
+                   <span class="fmt-caption-delim">
+                      <tab/>
+                   </span>
+                   <semx element="title" source="_">Scope</semx>
+                </fmt-title>
+                <fmt-xref-label>
+                   <span class="fmt-element-name">clause</span>
+                   <semx element="autonum" source="D">1</semx>
+                </fmt-xref-label>
+                <p id="E">Text</p>
+             </clause>
+          </sections>
+       </metanorma>
+    OUTPUT
+     pres_output = IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)
+    expect(Canon.format_xml(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to Canon.format_xml(presxml)
   end
 
   it "post-processes section names (Word)" do
     FileUtils.rm_f "test.doc"
     IsoDoc::Itu::WordConvert.new({}).convert("test", <<~INPUT, false)
-      <itu-standard xmlns="http://riboseinc.com/isoxml">
+      <metanorma xmlns="http://riboseinc.com/isoxml">
                      <bibdata type="standard">
                      <title language="en" format="text/plain" type="main">An ITU Standard</title>
                      <docidentifier type="ITU">12345</docidentifier>
@@ -563,42 +1460,44 @@ RSpec.describe Metanorma::Itu do
             <preface/>
              <sections>
              <clause id="D" obligation="normative" type="scope" displayorder="1">
-               <title>1<tab/>Scope</title>
+               <fmt-title id="_">1<tab/>Scope</fmt-title>
                <p id="E">Text</p>
                <figure id="fig-f1-1">
-        <name>Static aspects of SDL‑2010</name>
+        <fmt-name id="_">Static aspects of SDL‑2010</fmt-name>
         </figure>
         <p>Hello</p>
         <figure id="fig-f1-2">
-        <name>Static aspects of SDL‑2010</name>
+        <fmt-name id="_">Static aspects of SDL‑2010</fmt-name>
         </figure>
         <note><p>Hello</p></note>
              </clause>
              </sections>
               <annex id="P" inline-header="false" obligation="normative" displayorder="2">
-               <title><strong>Annex A</strong><br/><br/><strong>Annex 1</strong></title>
+               <fmt-title id="_"><strong>Annex A</strong><br/><br/><strong>Annex 1</strong></fmt-title>
+               <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
                <clause id="Q" inline-header="false" obligation="normative">
-               <title>A.1<tab/>Annex A.1</title>
+               <fmt-title id="_">A.1<tab/>Annex A.1</fmt-title>
                <p>Hello</p>
                </clause>
              </annex>
                  <annex id="P1" inline-header="false" obligation="normative" displayorder="3">
-               <title><strong>Annex B</strong><br/><br/><strong>Annex 2</strong></title>
+               <fmt-title id="_"><strong>Annex B</strong><br/><br/><strong>Annex 2</strong></fmt-title>
+               <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
                <p>Hello</p>
                <clause id="Q1" inline-header="false" obligation="normative">
-               <title>B.1<tab/>Annex A1.1</title>
+               <fmt-title id="_">B.1<tab/>Annex A1.1</fmt-title>
                <p>Hello</p>
                </clause>
                </clause>
              </annex>
-             </itu-standard>
+             </metanorma>
     INPUT
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(Xml::C14n.format(html
+    expect(Canon.format_xml(html
       .sub(%r{^.*<div class="WordSection3">}m, %{<body><div class="WordSection3">})
       .gsub(%r{</body>.*$}m, "</body>")))
-      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
+      .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
         <body><div class="WordSection3">
               <div><a name="D" id="D"></a>
                 <h1>1<span style="mso-tab-count:1">&#xA0; </span>Scope</h1>
@@ -642,7 +1541,7 @@ RSpec.describe Metanorma::Itu do
     FileUtils.rm_f "test.html"
     FileUtils.rm_f "test.doc"
     input = <<~INPUT
-             <itu-standard xmlns="http://riboseinc.com/isoxml">
+             <metanorma xmlns="http://riboseinc.com/isoxml">
              <bibdata type="standard">
              <title language="en" format="text/plain" type="main">An ITU Standard</title>
              <title language="en" format="text/plain" type="subtitle">Subtitle</title>
@@ -666,83 +1565,187 @@ RSpec.describe Metanorma::Itu do
               <formula id="V"><stem type="AsciiMath">r = 1 %</stem></formula>
               </clause>
       </annex>
-      </itu-standard>
+      </metanorma>
     INPUT
 
     presxml = <<~OUTPUT
-      <itu-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
-            <bibdata type='standard'>
-              <title language='en' format='text/plain' type='main'>An ITU Standard</title>
-              <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-              <docidentifier type='ITU'>12345</docidentifier>
+      <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
+           <bibdata type="standard">
+              <title language="en" format="text/plain" type="main">An ITU Standard</title>
+              <title language="en" format="text/plain" type="subtitle">Subtitle</title>
+              <docidentifier type="ITU">12345</docidentifier>
               <language current="true">en</language>
               <keyword>A</keyword>
               <keyword>B</keyword>
               <ext>
-                <doctype language="">recommendation-annex</doctype>
-                <doctype language="en">Recommendation Annex</doctype>
-                <structuredidentifier>
-                  <annexid>F2</annexid>
-                </structuredidentifier>
+                 <doctype language="">recommendation-annex</doctype>
+                 <doctype language="en">Recommendation Annex</doctype>
+                 <structuredidentifier>
+                    <annexid>F2</annexid>
+                 </structuredidentifier>
               </ext>
-            </bibdata>
-            <preface>
-            <clause type="keyword" displayorder="1">
-              <title depth="1">Keywords</title>
-              <p>A, B.</p>
-            </clause>
-            <clause type="toc" id="_" displayorder="2"> <title depth="1">Table of Contents</title> </clause>
-            </preface>
-              <sections>
-          <p class="zzSTDTitle1" displayorder="3">Draft new Recommendation 12345</p>
-          <p class="zzSTDTitle2" displayorder="4">An ITU Standard</p>
-          <p class="zzSTDTitle3" displayorder="5">Subtitle</p>
-          <clause displayorder="6"/>
-        </sections>
-            <annex id='A1' obligation='normative' displayorder='7'>
-              <title>
-                <strong>Annex F2</strong>
-                <br/>
-                <br/>
-                <strong>Annex</strong>
-              </title>
-              <clause id='A2'>
-                <title depth='2'>F2.1.<tab/>Subtitle</title>
-                <table id='T'>
-                  <name>Table F2.1</name>
-                </table>
-                <figure id='U'>
-                  <name>Figure F2.1</name>
-                </figure>
-                <formula id='V'>
-                  <name>F2-1</name>
-                  <stem type='AsciiMath'>r = 1 %</stem>
-                </formula>
+           </bibdata>
+           <preface>
+              <clause type="keyword" displayorder="1" id="_">
+                 <fmt-title id="_" depth="1">Keywords</fmt-title>
+                 <p>A, B.</p>
               </clause>
-            </annex>
-          </itu-standard>
+              <clause type="toc" id="_" displayorder="2">
+                 <fmt-title id="_" depth="1">Table of Contents</fmt-title>
+              </clause>
+           </preface>
+           <sections>
+              <p class="zzSTDTitle1" displayorder="3">Recommendation 12345</p>
+              <p class="zzSTDTitle2" displayorder="4">An ITU Standard</p>
+              <p class="zzSTDTitle3" displayorder="5">Subtitle</p>
+       <clause id="_" displayorder="6">
+         <fmt-title depth="1" id="_">
+            <span class="fmt-caption-label">
+               <semx element="autonum" source="_">1</semx>
+               <span class="fmt-autonum-delim">.</span>
+            </span>
+         </fmt-title>
+         <fmt-xref-label>
+            <span class="fmt-element-name">clause</span>
+            <semx element="autonum" source="_">1</semx>
+         </fmt-xref-label>
+      </clause>
+           </sections>
+           <annex id="A1" obligation="normative" autonum="F2" displayorder="7">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A1">F2</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A1">F2</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Recommendation Annex.)</span>
+              </p>
+              <clause id="A2">
+                 <title id="_">Subtitle</title>
+                 <fmt-title id="_" depth="2">
+                    <span class="fmt-caption-label">
+                       <semx element="autonum" source="A1">F2</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="A2">1</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                    </span>
+                    <span class="fmt-caption-delim">
+                       <tab/>
+                    </span>
+                    <semx element="title" source="_">Subtitle</semx>
+                 </fmt-title>
+                 <fmt-xref-label>
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="A1">F2</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="A2">1</semx>
+                 </fmt-xref-label>
+                 <table id="T" autonum="F2.1">
+                    <fmt-name id="_">
+                       <span class="fmt-caption-label">
+                          <span class="fmt-element-name">Table</span>
+                          <semx element="autonum" source="A1">F2</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="T">1</semx>
+                       </span>
+                    </fmt-name>
+                    <fmt-xref-label>
+                       <span class="fmt-element-name">Table</span>
+                       <semx element="autonum" source="A1">F2</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="T">1</semx>
+                    </fmt-xref-label>
+                 </table>
+                 <figure id="U" autonum="F2.1">
+                    <fmt-name id="_">
+                       <span class="fmt-caption-label">
+                          <span class="fmt-element-name">Figure</span>
+                          <semx element="autonum" source="A1">F2</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="U">1</semx>
+                       </span>
+                    </fmt-name>
+                    <fmt-xref-label>
+                       <span class="fmt-element-name">Figure</span>
+                       <semx element="autonum" source="A1">F2</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="U">1</semx>
+                    </fmt-xref-label>
+                 </figure>
+                 <formula id="V" autonum="F2-1">
+                    <fmt-name id="_">
+                       <span class="fmt-caption-label">
+                          <span class="fmt-autonum-delim">(</span>
+                          <semx element="autonum" source="A1">F2</semx>
+                          <span class="fmt-autonum-delim">-</span>
+                          <semx element="autonum" source="V">1</semx>
+                          <span class="fmt-autonum-delim">)</span>
+                       </span>
+                    </fmt-name>
+                    <fmt-xref-label>
+                       <span class="fmt-element-name">Equation</span>
+                       <span class="fmt-autonum-delim">(</span>
+                       <semx element="autonum" source="A1">F2</semx>
+                       <span class="fmt-autonum-delim">-</span>
+                       <semx element="autonum" source="V">1</semx>
+                       <span class="fmt-autonum-delim">)</span>
+                    </fmt-xref-label>
+            <stem type="AsciiMath" id="_">r = 1 %</stem>
+            <fmt-stem type="AsciiMath">
+               <semx element="stem" source="_">r = 1 %</semx>
+            </fmt-stem>
+                 </formula>
+              </clause>
+           </annex>
+        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Canon.format_xml(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Xml::C14n.format(presxml)
-    IsoDoc::Itu::HtmlConvert.new({}).convert("test", presxml, false)
+      .to be_equivalent_to Canon.format_xml(presxml)
+    IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
     html = File.read("test.html", encoding: "utf-8")
-    expect(Xml::C14n.format(strip_guid(html.gsub(%r{^.*<main}m, "<main")
+    expect(Canon.format_xml(strip_guid(html.gsub(%r{^.*<main}m, "<main")
       .gsub(%r{</main>.*}m, "</main>"))))
-      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
+      .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
             <main class='main-section'>
                  <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
-                   <div class="Keyword">
-                  <h1 class="IntroTitle" id="_">Keywords</h1>
+                    <div id="_" class="Keyword">
+              <h1 class="IntroTitle" id="_">
+                <a class="anchor" href="#_"/>
+                <a class="header" href="#_">Keywords</a>
+              </h1>
                     <p>A, B.</p>
                 </div>
                  <br/>
-                 <p class='zzSTDTitle1'>Draft new Recommendation 12345</p>
+                 <p class='zzSTDTitle1'>Recommendation 12345</p>
                  <p class='zzSTDTitle2'>An ITU Standard</p>
                  <p class='zzSTDTitle3'>Subtitle</p>
-                 <div/>
+                  <div id="_">
+                     <h1 id="_">
+                        <a class="anchor" href="#_"/>
+                        <a class="header" href="#_">1.</a>
+                     </h1>
+                  </div>
                  <div id='A1' class='Section3'>
                    <p class='h1Annex'>
                      <b>Annex F2</b>
@@ -750,7 +1753,7 @@ RSpec.describe Metanorma::Itu do
                      <br/>
                      <b>Annex</b>
                    </p>
-                   <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
+                   <p class='annex_obligation'>(This annex forms an integral part of this Recommendation Annex.)</p>
                    <div id='A2'>
                      <h2 id='_'><a class="anchor" href="#A2"/><a class="header" href="#A2">F2.1.&#xA0; Subtitle</a></h2>
                      <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
@@ -770,17 +1773,20 @@ RSpec.describe Metanorma::Itu do
                </main>
       OUTPUT
 
-    IsoDoc::Itu::WordConvert.new({}).convert("test", presxml, false)
+    IsoDoc::Itu::WordConvert.new({}).convert("test", pres_output, false)
     html = File.read("test.doc", encoding: "utf-8")
-    expect(Xml::C14n.format(html
+    expect(Canon.format_xml(strip_guid(html
  .gsub(%r{^.*<div class="WordSection3">}m, '<div class="WordSection3" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">')
- .gsub(%r{<div style="mso-element:footnote-list"/>.*}m, "")))
-      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
+ .gsub(%r{<div style="mso-element:footnote-list"/>.*}m, ""))))
+      .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
         <div class='WordSection3' xmlns:m='http://schemas.microsoft.com/office/2004/12/omml'>
-              <p class='zzSTDTitle1'>Draft new Recommendation 12345</p>
+              <p class='zzSTDTitle1'>Recommendation 12345</p>
               <p class='zzSTDTitle2'>An ITU Standard</p>
               <p class='zzSTDTitle3'>Subtitle</p>
-              <div/>
+                <div>
+                  <a name="_" id="_"/>
+                  <h1>1.</h1>
+                  </div>
               <div class='Section3'>
                 <a name='A1' id='A1'/>
                 <p class='h1Annex'>
@@ -789,7 +1795,7 @@ RSpec.describe Metanorma::Itu do
                   <br/>
                   <b>Annex</b>
                 </p>
-                <p class='annex_obligation'>(This annex forms an integral part of this Recommendation.)</p>
+                <p class='annex_obligation'>(This annex forms an integral part of this Recommendation Annex.)</p>
                 <div>
                   <a name='A2' id='A2'/>
                   <h2>
@@ -829,29 +1835,34 @@ RSpec.describe Metanorma::Itu do
     IsoDoc::Itu::WordConvert.new({}).convert("test", <<~INPUT, false)
             <iso-standard xmlns="http://riboseinc.com/isoxml">
             <preface><clause id="_history" obligation="normative" displayorder="1">
-        <title>History</title>
+        <fmt-title id="_">History</fmt-title>
         <table id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4">
-        <name>Table 1</name>
+        <fmt-name id="_">Table 1</fmt-name>
         <tbody>
-          <tr>
-            <td align="left">Edition</td>
-            <td align="left">Recommendation</td>
-            <td align="left">Approval</td>
-            <td align="left">Study Group</td>
-            <td align="left">Unique ID<fn reference="a">
-        <p id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9">To access the Recommendation, type the URL <link target="http://handle.itu.int/"/> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <link target="http://handle.itu.int/11.1002/1000/11830-en"/></p>
+          <tr id="_">
+            <td id="_" align="left">Edition</td>
+            <td id="_" align="left">Recommendation</td>
+            <td id="_" align="left">Approval</td>
+            <td id="_" align="left">Study Group</td>
+            <td id="_" align="left">Unique ID<fn reference="a)" id="F1" target="FF1">
+        <p original-id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9">To access the Recommendation, type the URL <fmt-link target="http://handle.itu.int/"/> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <fmt-link target="http://handle.itu.int/11.1002/1000/11830-en"/></p><fmt-fn-label><semx source="F1">a)</semx></fmt-fn-label>
       </fn>.</td>
           </tr>
-      <tr>
-            <td align="left">1.0</td>
-            <td align="left">ITU-T G.650</td>
-            <td align="left">1993-03-12</td>
-            <td align="left">XV</td>
-            <td align="left">
-              <link target="http://handle.itu.int/11.1002/1000/879">11.1002/1000/879</link>
+      <tr id="_">
+            <td id="_" align="left">1.0</td>
+            <td id="_" align="left">ITU-T G.650</td>
+            <td id="_" align="left">1993-03-12</td>
+            <td id="_" align="left">XV</td>
+            <td id="_" align="left">
+              <fmt-link target="http://handle.itu.int/11.1002/1000/879">11.1002/1000/879</link>
             </td>
           </tr>
           </tbody>
+          <fmt-footnote-container>
+          <fmt-fn-body id="FF1"><fmt-fn-label><semx source="F1">a)</semx></fmt-fn-label>
+            <p id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9">To access the Recommendation, type the URL <fmt-link target="http://handle.itu.int/"/> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <fmt-link target="http://handle.itu.int/11.1002/1000/11830-en"/></p>
+          </fmt-fn-body>
+          </fmt-footnote-container>
           </table>
           </clause>
           </preface>
@@ -859,45 +1870,65 @@ RSpec.describe Metanorma::Itu do
     INPUT
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(Xml::C14n.format(html
+    expect(Canon.format_xml(html
       .gsub(%r{.*<p class="h1Preface">History</p>}m,
             '<div><p class="h1Preface">History</p>')
       .sub(%r{</table>.*$}m, "</table></div></div>")))
-      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
-              <div>
-              <p class="h1Preface">History</p>
-                       <p class="TableTitle" style="text-align:center;">Table 1</p>
-                        <div align='center' class='table_container'>
-        <table class='MsoNormalTable' style='mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;'>
-        <a name='_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4' id='_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4'/>
-                           <tbody>
-                             <tr>
-                               <td align="left" style="" valign="top">Edition</td>
-                               <td align="left" style="" valign="top">Recommendation</td>
-                               <td align="left" style="" valign="top">Approval</td>
-                               <td align="left" style="" valign="top">Study Group</td>
-                               <td align="left" style="" valign="top">Unique ID<a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" class="TableFootnoteRef">a)</a>.</td>
-                             </tr>
-                             <tr>
-                               <td align="left" style="" valign="top">1.0</td>
-                               <td align="left" style="" valign="top">ITU-T G.650</td>
-                               <td align="left" style="" valign="top">1993-03-12</td>
-                               <td align="left" style="" valign="top">XV</td>
-                               <td align="left" style="" valign="top">
-                       <a href="http://handle.itu.int/11.1002/1000/879" class="url">11.1002/1000/879</a>
-                     </td>
-                             </tr>
-                           </tbody>
-                         <tfoot><tr><td colspan="5" style=""><div class="TableFootnote"><div><a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>
-                 <p class="TableFootnote"><a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a><span><span class="TableFootnoteRef"><a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a"></a>a)</span><span style="mso-tab-count:1">&#xA0; </span></span>To access the Recommendation, type the URL <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a> in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example, <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11.1002/1000/11830-en</a></p>
-               </div></div></td></tr></tfoot></table>
-               </div></div>
+      .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
+       <div>
+          <p class="h1Preface">History</p>
+          <p class="TableTitle" style="text-align:center;">Table 1</p>
+          <div align="center" class="table_container">
+             <table class="MsoNormalTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;">
+                <a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4"/>
+                <tbody>
+                   <tr>
+                      <td valign="top" align="left" style="">Edition</td>
+                      <td valign="top" align="left" style="">Recommendation</td>
+                      <td valign="top" align="left" style="">Approval</td>
+                      <td valign="top" align="left" style="">Study Group</td>
+                      <td valign="top" align="left" style="">
+                         Unique ID
+                         <a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)" class="TableFootnoteRef">a)</a>
+                         .
+                      </td>
+                   </tr>
+                   <tr>
+                      <td valign="top" align="left" style="">1.0</td>
+                      <td valign="top" align="left" style="">ITU-T G.650</td>
+                      <td valign="top" align="left" style="">1993-03-12</td>
+                      <td valign="top" align="left" style="">XV</td>
+                      <td valign="top" align="left" style="">
+                         <a href="http://handle.itu.int/11.1002/1000/879" class="url">11.1002/1000/879</a>
+                      </td>
+                   </tr>
+                </tbody>
+                <tfoot>
+                   <tr>
+                      <td colspan="5" style="">
+                         <div class="TableFootnote">
+                            <a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)"/>
+                            <span class="TableFootnoteRef">a)</span>
+                            <p class="TableFootnote">
+                               <a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"/>
+                               To access the Recommendation, type the URL
+                               <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a>
+                               in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example,
+                               <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11.1002/1000/11830-en</a>
+                            </p>
+                         </div>
+                      </td>
+                   </tr>
+                </tfoot>
+             </table>
+          </div>
+       </div>
       OUTPUT
   end
 
   it "processes unnumbered clauses" do
     input = <<~INPUT
-             <itu-standard xmlns="http://riboseinc.com/isoxml">
+             <metanorma xmlns="http://riboseinc.com/isoxml">
              <bibdata type="standard">
              <title language="en" format="text/plain" type="main">An ITU Standard</title>
              <title language="en" format="text/plain" type="subtitle">Subtitle</title>
@@ -914,48 +1945,56 @@ RSpec.describe Metanorma::Itu do
       <clause unnumbered="true" id="A"><p>Text</p></clause>
       <clause id="B"><title>First Clause</title></clause>
       </sections>
-      </itu-standard>
+      </metanorma>
     INPUT
     presxml = <<~OUTPUT
-        <itu-standard xmlns='http://riboseinc.com/isoxml' type='presentation'>
-      <bibdata type='standard'>
-        <title language='en' format='text/plain' type='main'>An ITU Standard</title>
-        <title language='en' format='text/plain' type='resolution'>RESOLUTION (, )</title>
-        <title language='en' format='text/plain' type='resolution-placedate'>, </title>
-        <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
-        <docidentifier type='ITU'>12345</docidentifier>
-        <language current='true'>en</language>
-        <ext>
-          <doctype language=''>resolution</doctype>
-          <doctype language='en'>Resolution</doctype>
-          <structuredidentifier>
-            <annexid>F2</annexid>
-          </structuredidentifier>
-        </ext>
-      </bibdata>
-                <sections>
-          <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION  (, )</p>
-          <p class="zzSTDTitle2" displayorder="2">An ITU Standard</p>
-          <p align="center" class="zzSTDTitle2" displayorder="3"><em>(,</em>)</p>
-          <clause unnumbered="true" id="A" displayorder="4">
-            <p>Text</p>
-          </clause>
-          <p keep-with-next="true" class="supertitle" displayorder="5">SECTION 1</p>
-          <clause id="B" displayorder="6">
-            <title depth="1">First Clause</title>
-          </clause>
-        </sections>
-      </itu-standard>
+        <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
+           <bibdata type="standard">
+              <title language="en" format="text/plain" type="main">An ITU Standard</title>
+              <title language="en" format="text/plain" type="resolution">RESOLUTION  (, )</title>
+              <title language="en" format="text/plain" type="resolution-placedate">, </title>
+              <title language="en" format="text/plain" type="subtitle">Subtitle</title>
+              <docidentifier type="ITU">12345</docidentifier>
+              <language current="true">en</language>
+              <ext>
+                 <doctype language="">resolution</doctype>
+                 <doctype language="en">Resolution</doctype>
+                 <structuredidentifier>
+                    <annexid>F2</annexid>
+                 </structuredidentifier>
+              </ext>
+           </bibdata>
+           <sections>
+              <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION  (, )</p>
+              <p class="zzSTDTitle2" displayorder="2">An ITU Standard</p>
+              <p align="center" class="zzSTDTitle2" displayorder="3">
+                 <em>(, )</em>
+              </p>
+              <clause unnumbered="true" id="A" displayorder="4">
+                 <p>Text</p>
+              </clause>
+              <p keep-with-next="true" class="supertitle" displayorder="5">
+                 <span class="fmt-element-name">SECTION</span>
+                 <semx element="autonum" source="B">1</semx>
+              </p>
+              <clause id="B" displayorder="6">
+                 <title id="_">First Clause</title>
+                 <fmt-title id="_" depth="1">
+                       <semx element="title" source="_">First Clause</semx>
+                 </fmt-title>
+              </clause>
+           </sections>
+        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
-      .to be_equivalent_to Xml::C14n.format(presxml)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to Canon.format_xml(presxml)
   end
 
   it "processes bis, ter etc clauses" do
     input = <<~INPUT
-                     <itu-standard xmlns="http://riboseinc.com/isoxml">
+                     <metanorma xmlns="http://riboseinc.com/isoxml">
                      <bibdata type="standard">
                      <title language="en" format="text/plain" type="main">An ITU Standard</title>
                      <title language="en" format="text/plain" type="subtitle">Subtitle</title>
@@ -978,59 +2017,163 @@ RSpec.describe Metanorma::Itu do
       </clause>
               <clause id="E" number="10bit"><title>Non-Clause</title></clause>
               </sections>
-              </itu-standard>
+              </metanorma>
     INPUT
     presxml = <<~OUTPUT
-      <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-                        <bibdata type="standard">
-                        <title language="en" format="text/plain" type="main">An ITU Standard</title><title language="en" format="text/plain" type="resolution">RESOLUTION  (, )</title>
-         <title language="en" format="text/plain" type="resolution-placedate">, </title>
-
-                        <title language="en" format="text/plain" type="subtitle">Subtitle</title>
-                        <docidentifier type="ITU">12345</docidentifier>
-                        <language current="true">en</language>
-                        <ext>
-                        <doctype language="">resolution</doctype><doctype language="en">Resolution</doctype>
-                        <structuredidentifier>
-                        <annexid>F2</annexid>
-                        </structuredidentifier>
-                        </ext>
-                        </bibdata>
-                                  <sections>
-            <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION  (, )</p>
-            <p class="zzSTDTitle2" displayorder="2">An ITU Standard</p>
-            <p align="center" class="zzSTDTitle2" displayorder="3"><em>(,</em>)</p>
-            <p keep-with-next="true" class="supertitle" displayorder="4">SECTION 1</p>
-            <clause id="A" displayorder="5">
-              <p><xref target="B">Section 1<em>bis</em></xref>, <xref target="C">Section 10<em>ter</em></xref>, <xref target="D">10<em>ter</em>.10<em>quater</em></xref>, <xref target="E">Section 10bit</xref></p>
-            </clause>
-            <p keep-with-next="true" class="supertitle" displayorder="6">SECTION 1<em>bis</em></p>
-            <clause id="B" number="1bis" displayorder="7">
-              <title depth="1">First Clause</title>
-            </clause>
-            <p keep-with-next="true" class="supertitle" displayorder="8">SECTION 10<em>ter</em></p>
-            <clause id="C" number="10ter" displayorder="9">
-              <title depth="1">Second Clause</title>
-              <clause id="D" number="10quater">
-                <title depth="2">10<em>ter</em>.10<em>quater</em>.<tab/>Second Clause Subclause</title>
+        <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
+           <bibdata type="standard">
+              <title language="en" format="text/plain" type="main">An ITU Standard</title>
+              <title language="en" format="text/plain" type="resolution">RESOLUTION  (, )</title>
+              <title language="en" format="text/plain" type="resolution-placedate">, </title>
+              <title language="en" format="text/plain" type="subtitle">Subtitle</title>
+              <docidentifier type="ITU">12345</docidentifier>
+              <language current="true">en</language>
+              <ext>
+                 <doctype language="">resolution</doctype>
+                 <doctype language="en">Resolution</doctype>
+                 <structuredidentifier>
+                    <annexid>F2</annexid>
+                 </structuredidentifier>
+              </ext>
+           </bibdata>
+           <sections>
+              <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION  (, )</p>
+              <p class="zzSTDTitle2" displayorder="2">An ITU Standard</p>
+              <p align="center" class="zzSTDTitle2" displayorder="3">
+                 <em>(, )</em>
+              </p>
+              <p keep-with-next="true" class="supertitle" displayorder="4">
+                 <span class="fmt-element-name">SECTION</span>
+                 <semx element="autonum" source="A">1</semx>
+              </p>
+              <clause id="A" displayorder="5">
+                 <p>
+                    <xref target="B" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="B">
+                          <span class="fmt-element-name">Section</span>
+                          <semx element="autonum" source="B">
+                             1
+                             <em>bis</em>
+                          </semx>
+                       </fmt-xref>
+                    </semx>
+                    ,
+                    <xref target="C" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="C">
+                          <span class="fmt-element-name">Section</span>
+                          <semx element="autonum" source="C">
+                             10
+                             <em>ter</em>
+                          </semx>
+                       </fmt-xref>
+                    </semx>
+                    ,
+                    <xref target="D" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="D">
+                          <semx element="autonum" source="C">
+                             10
+                             <em>ter</em>
+                          </semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="D">
+                             10
+                             <em>quater</em>
+                          </semx>
+                       </fmt-xref>
+                    </semx>
+                    ,
+                    <xref target="E" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="E">
+                          <span class="fmt-element-name">Section</span>
+                          <semx element="autonum" source="E">10bit</semx>
+                       </fmt-xref>
+                    </semx>
+                 </p>
               </clause>
-            </clause>
-            <p keep-with-next="true" class="supertitle" displayorder="10">SECTION 10bit</p>
-            <clause id="E" number="10bit" displayorder="11">
-              <title depth="1">Non-Clause</title>
-            </clause>
-          </sections>
-        </itu-standard>
+              <p keep-with-next="true" class="supertitle" displayorder="6">
+                 <span class="fmt-element-name">SECTION</span>
+                 <semx element="autonum" source="B">
+                    1
+                    <em>bis</em>
+                 </semx>
+              </p>
+              <clause id="B" number="1bis" displayorder="7">
+                 <title id="_">First Clause</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">First Clause</semx>
+                 </fmt-title>
+              </clause>
+              <p keep-with-next="true" class="supertitle" displayorder="8">
+                 <span class="fmt-element-name">SECTION</span>
+                 <semx element="autonum" source="C">
+                    10
+                    <em>ter</em>
+                 </semx>
+              </p>
+              <clause id="C" number="10ter" displayorder="9">
+                 <title id="_">Second Clause</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">Second Clause</semx>
+                 </fmt-title>
+                 <clause id="D" number="10quater">
+                    <title id="_">Second Clause Subclause</title>
+                    <fmt-title id="_" depth="2">
+                       <span class="fmt-caption-label">
+                          <semx element="autonum" source="C">
+                             10
+                             <em>ter</em>
+                          </semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="D">
+                             10
+                             <em>quater</em>
+                          </semx>
+                          <span class="fmt-autonum-delim">.</span>
+                       </span>
+                       <span class="fmt-caption-delim">
+                          <tab/>
+                       </span>
+                       <semx element="title" source="_">Second Clause Subclause</semx>
+                    </fmt-title>
+                    <fmt-xref-label>
+                       <semx element="autonum" source="C">
+                          10
+                          <em>ter</em>
+                       </semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="D">
+                          10
+                          <em>quater</em>
+                       </semx>
+                    </fmt-xref-label>
+                 </clause>
+              </clause>
+              <p keep-with-next="true" class="supertitle" displayorder="10">
+                 <span class="fmt-element-name">SECTION</span>
+                 <semx element="autonum" source="E">10bit</semx>
+              </p>
+              <clause id="E" number="10bit" displayorder="11">
+                 <title id="_">Non-Clause</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">Non-Clause</semx>
+                 </fmt-title>
+              </clause>
+           </sections>
+        </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
-      .to be_equivalent_to Xml::C14n.format(presxml)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to Canon.format_xml(presxml)
   end
 
   it "processes editor clauses, one editor" do
     input = <<~INPUT
-      <itu-standard xmlns="http://riboseinc.com/isoxml">
+      <metanorma xmlns="http://riboseinc.com/isoxml">
       <bibdata type="standard">
       <title language="en" format="text/plain" type="main">An ITU Standard</title>
       <title language="en" format="text/plain" type="subtitle">Subtitle</title>
@@ -1057,24 +2200,29 @@ RSpec.describe Metanorma::Itu do
       <sections>
         <clause id="A"/>
       </sections>
-      </itu-standard>
+      </metanorma>
     INPUT
     presxml = <<~OUTPUT
       <preface>
-        <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
+        <clause type="toc" id="_" displayorder="1"> 
+        <fmt-title id="_" depth="1">Table of Contents</fmt-title>
+          </clause>
          <clause id='_' type='editors' displayorder='2'>
-           <table id='_' unnumbered='true'>
+           <table id="_" id='_' unnumbered='true'>
              <tbody>
-               <tr>
-                 <th>Editor:</th>
-                 <td>
+               <tr id="_">
+                 <th id="_">Editor:</th>
+                 <td id="_">
                    Fred Flintstone
                    <br/>
                    World Health Organization
                  </td>
-                 <td>
+                 <td id="_">
                    E-mail:
-                   <link target='mailto:jack@example.com'>jack@example.com</link>
+                                     <link target="mailto:jack@example.com" id="_">jack@example.com</link>
+                  <semx element="link" source="_">
+                     <fmt-link target="mailto:jack@example.com">jack@example.com</fmt-link>
+                  </semx>
                  </td>
                </tr>
              </tbody>
@@ -1085,13 +2233,13 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
     xml = xml.at("//xmlns:preface").to_xml
-    expect(Xml::C14n.format(strip_guid(xml)))
-      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Canon.format_xml(strip_guid(xml)))
+      .to be_equivalent_to Canon.format_xml(presxml)
   end
 
   it "processes editor clauses, two editors" do
     input = <<~INPUT
-      <itu-standard xmlns="http://riboseinc.com/isoxml">
+      <metanorma xmlns="http://riboseinc.com/isoxml">
       <bibdata type="standard">
       <title language="en" format="text/plain" type="main">An ITU Standard</title>
       <title language="en" format="text/plain" type="subtitle">Subtitle</title>
@@ -1116,29 +2264,32 @@ RSpec.describe Metanorma::Itu do
       <sections>
         <clause id="A"><p/></clause>
       </sections>
-      </itu-standard>
+      </metanorma>
     INPUT
     presxml = <<~OUTPUT
       <preface>
          <clause id='_' type='editors' displayorder='1'>
-           <table id='_' unnumbered='true'>
+           <table id="_" id='_' unnumbered='true'>
              <tbody>
-               <tr>
-                 <th>Editors:</th>
-                 <td>
+               <tr id="_">
+                 <th id="_">Editors:</th>
+                 <td id="_">
                    Fred Flintstone
                    <br/>
                    World Health Organization
                  </td>
-                 <td>
+                 <td id="_">
                    E-mail:
-                   <link target='mailto:jack@example.com'>jack@example.com</link>
+                   <link target="mailto:jack@example.com" id="_">jack@example.com</link>
+                  <semx element="link" source="_">
+                     <fmt-link target="mailto:jack@example.com">jack@example.com</fmt-link>
+                  </semx>
                  </td>
                </tr>
-               <tr>
-                 <th/>
-                 <td>Barney Rubble</td>
-                 <td/>
+               <tr id="_">
+                 <th id="_"/>
+                 <td id="_">Barney Rubble</td>
+                 <td id="_"/>
                </tr>
              </tbody>
            </table>
@@ -1148,8 +2299,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
     xml = xml.at("//xmlns:preface").to_xml
-    expect(Xml::C14n.format(strip_guid(xml)))
-      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Canon.format_xml(strip_guid(xml)))
+      .to be_equivalent_to Canon.format_xml(presxml)
   end
 
   it "generates contribution prefatory table and abstract table" do
@@ -1158,7 +2309,7 @@ RSpec.describe Metanorma::Itu do
                 "html"),
     )
     input = <<~INPUT
-      <itu-standard xmlns='https://www.metanorma.org/ns/itu' type='semantic'>
+      <metanorma xmlns='https://www.metanorma.org/ns/itu' type='semantic'>
         <bibdata type='standard'>
           <title language='en' format='text/plain' type='main'>Main Title</title>
           <title language='fr' format='text/plain' type='main'>Titre Principal</title>
@@ -1211,6 +2362,33 @@ RSpec.describe Metanorma::Itu do
               <phone type='fax'>558</phone>
             </person>
           </contributor>
+             <contributor>
+                <role type="author">
+                   <description>committee</description>
+                </role>
+                <organization>
+                   <name>International Telecommunication Union</name>
+                   <subdivision type="Bureau">
+                      <name>R</name>
+                   </subdivision>
+                   <subdivision type="Sector">
+                      <name>Sector</name>
+                   </subdivision>
+                   <subdivision type="Group" subtype="A">
+                      <name>Study Group 17</name>
+                      <identifier>C</identifier>
+                   </subdivision>
+                   <subdivision type="Subgroup" subtype="A1">
+                      <name>I1</name>
+                      <identifier>C1</identifier>
+                   </subdivision>
+                   <subdivision type="Workgroup" subtype="A2">
+                      <name>I2</name>
+                      <identifier>C2</identifier>
+                   </subdivision>
+                   <abbreviation>ITU</abbreviation>
+                </organization>
+             </contributor>
           <contributor>
             <role type='publisher'/>
             <organization>
@@ -1249,30 +2427,17 @@ RSpec.describe Metanorma::Itu do
           <keyword>VoIP</keyword>
           <keyword>word1</keyword>
           <ext>
-            <doctype>contribution</doctype>
-            <editorialgroup>
-              <bureau>R</bureau>
-              <group type="study-group">
-                <name>Study Group 17</name>
-                <acronym>SG17</acronym>
-                <period>
-                  <start>2000</start>
-                  <end>2002</end>
-                </period>
-              </group>
-              <subgroup>
-                <name>I1</name>
-              </subgroup>
-              <workgroup>
-                <name>I2</name>
-              </workgroup>
-            </editorialgroup>
+          <doctype>contribution</doctype>
             <recommendationstatus>
                 <from>D3</from>
                 <to>E3</to>
                 <approvalstage process='F3'>G3</approvalstage>
               </recommendationstatus>
               <ip-notice-received>false</ip-notice-received>
+              <studyperiod>
+           <start>2000</start>
+           <end>2002</end>
+        </studyperiod>
               <timing>2025-Q4</timing>
             <meeting acronym='MX'>Meeting X</meeting>
             <meeting-place>Kronos</meeting-place>
@@ -1296,7 +2461,6 @@ RSpec.describe Metanorma::Itu do
         </sections>
         <annex id="A1"><title>Annex</title></annex>
         <annex id="A2" type="justification">
-        clause id="_a6ac7b3c-2a73-4afb-502c-c683372215ca" type="scope" inline-header="false" obligation="normative">
         <title>Scope</title><p id="_37adf2c4-28f1-ea9c-0f52-b2ff84b33b55">TEXT 1</p>
         </clause>
         <clause id="_2" type="summary" inline-header="false" obligation="normative">
@@ -1324,230 +2488,323 @@ RSpec.describe Metanorma::Itu do
         <p id="_a42297b2-5f04-5da9-64c2-7e92670d5cad">TEXT 9</p>
         </clause>
         </annex>
-        </itu-standard>
+        </metanorma>
     INPUT
     presxml = <<~OUTPUT
-      <itu-standard>
-        <preface>
-          <clause unnumbered="true" type="contribution-metadata" displayorder="1">
-            <table class="contribution-metadata" unnumbered="true" width="100%">
-              <colgroup>
-                <col width="11.8%"/>
-                <col width="41.2%"/>
-                <col width="47.0%"/>
-              </colgroup>
-              <thead>
-                <tr>
-                  <th rowspan="3">
-                   <image height="56" width="56" src="#{File.join(logoloc, '/logo-small.png')}"/>
-                  </th>
-                  <td rowspan="3">
-                    <p style="font-size:8pt;margin-top:6pt;margin-bottom:0pt;">INTERNATIONAL TELECOMMUNICATION UNION</p>
-                    <p class="bureau_big" style="font-size:13pt;margin-top:6pt;margin-bottom:0pt;">
-                      <strong>RADIOCOMMUNICATION BUREAU</strong>
-                      <br/>
-                      <strong>OF ITU</strong>
-                    </p>
-                    <p style="font-size:10pt;margin-top:6pt;margin-bottom:0pt;">STUDY PERIOD 2000–2002</p>
-                  </td>
-                  <th align="right">
-                    <p style="font-size:16pt;">SG17-C1000</p>
-                  </th>
-                </tr>
-                <tr>
-                  <th align="right">
-                    <p style="font-size:14pt;">STUDY GROUP 17</p>
-                  </th>
-                </tr>
-                <tr>
-                  <th align="right">
-                    <p style="font-size:14pt;">Original: English</p>
-                  </th>
-                </tr>
-              </thead>
-                             <tbody>
-                 <tr>
-                   <th align="left" width="95">Question(s):</th>
-                   <td/>
-                   <td align="right">Kronos, 01 Jan 2000/02 Jan 2000</td>
-                 </tr>
-                 <tr>
-                   <th align="center" colspan="3">CONTRIBUTION</th>
-                 </tr>
-                 <tr>
-                   <th align="left" width="95">Source:</th>
-                   <td colspan="2">Source1</td>
-                 </tr>
-                 <tr>
-                   <th align="left" width="95">Title:</th>
-                   <td colspan="2">Main Title</td>
-                 </tr>
-                 <tr>
-                   <th align="left" width="95">Contact:</th>
-                   <td>Fred Flintstone<br/>
-       Bedrock Quarry<br/>
-       Canada</td>
-                   <td>Tel.<tab/>555<br/>E-mail<tab/>x@example.com</td>
-                 </tr>
-                 <tr>
-                   <th align="left" width="95">Contact:</th>
-                   <td>Barney Rubble<br/>
-       Bedrock Quarry 2<br/>
-       USA</td>
-                   <td>Tel.<tab/>557</td>
-                 </tr>
-                 <tr>
-                   <th align="left" width="95">Contact:</th>
-                   <td>
-                     <br/>
-                     <br/>
-                   </td>
-                   <td>Tel.<tab/></td>
-                 </tr>
-               </tbody>
-             </table>
-           </clause>
-           <abstract id="A" displayorder="2">
-             <table class="abstract" unnumbered="true" width="100%">
-               <colgroup>
-                 <col width="11.8%"/>
-                 <col width="78.2%"/>
-               </colgroup>
-               <tbody>
-                 <tr>
-                   <th align="left" width="95">
-                     <p>Abstract:</p>
-                   </th>
-                   <td>
-                     <p>This is an abstract.</p>
-                   </td>
-                 </tr>
-               </tbody>
-             </table>
-           </abstract>
-         </preface>
-         <sections>
-           <clause id="B" displayorder="3">
-             <title depth="1">1.<tab/>First</title>
-             <p>This is the first clause</p>
-           </clause>
-         </sections>
-         <annex id="A1" displayorder="4">
-           <title>
-             <strong>Annex A</strong>
-             <br/>
-             <br/>
-             <strong>Annex</strong>
-           </title>
-         </annex>
-         <annex id="A2" type="justification" displayorder="5">
-           <title>
-             <strong>Annex B</strong>
-             <br/>
-             <br/>
-             <strong>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</strong>
-           </title>
-           <table class="contribution-metadata" unnumbered="true" width="100%">
-             <colgroup>
-               <col width="15.9%"/>
-               <col width="6.1%"/>
-               <col width="45.5%"/>
-               <col width="17.4%"/>
-               <col width="15.1%"/>
-             </colgroup>
-             <tbody>
-               <tr>
-                 <th align="left">Question(s):</th>
-                 <td/>
-                 <th align="left">Proposed new ITU-T </th>
-                 <td colspan="2">Kronos, 01 Jan 2000/02 Jan 2000</td>
-               </tr>
-               <tr>
-                 <th align="left">Reference and title:</th>
-                 <td colspan="4">Draft new  on “Main Title”</td>
-               </tr>
-               <tr>
-                 <th align="left">Base text:</th>
-                 <td colspan="2"/>
-                 <th align="left">Timing:</th>
-                 <td>2025-Q4</td>
-               </tr>
-               <tr>
-                 <th align="left" rowspan="2">Editor(s):</th>
-                 <td colspan="2">Fred Flintstone<br/>
-       Bedrock Quarry<br/>
-       Canada, E-mail<tab/>x@example.com
-       </td>
-                 <th align="left" rowspan="2">Approval process:</th>
-                 <td rowspan="2">F3</td>
-               </tr>
-               <tr>
-                 <td colspan="2">Barney Rubble<br/>
-       Bedrock Quarry 2<br/>
-       USA
-       </td>
-               </tr>
-               <tr>
-                 <td colspan="2">
-                   <br/>
-                   <br/>
-                 </td>
-               </tr>
-               <tr>
-                 <td colspan="5">
-                   <p><strong>Scope</strong> (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):</p>
-                 </td>
-               </tr>
-               <tr>
-                 <td colspan="5">
-                   <p><strong>Summary</strong> (provides a brief overview of the purpose and contents of the Recommendation, thus permitting readers to judge its usefulness for their work):</p>
-                 </td>
-               </tr>
-               <tr>
-                 <td colspan="5">
-                   <p><strong>Relations to ITU-T Recommendations or to other standards</strong> (approved or under development):</p>
-                 </td>
-               </tr>
-               <tr>
-                 <td colspan="5">
-                   <p>
-                     <strong>Liaisons with other study groups or with other standards bodies:</strong>
-                   </p>
-                 </td>
-               </tr>
-               <tr>
-                 <td colspan="5">
-                   <p>
-                     <strong>Supporting members that are committing to contributing actively to the work item:</strong>
-                   </p>
-                 </td>
-               </tr>
-             </tbody>
-           </table>
-         </annex>
-       </itu-standard>
+        <metanorma>
+           <preface>
+              <clause unnumbered="true" type="contribution-metadata" displayorder="1" id="_">
+                 <table id="_" class="contribution-metadata" unnumbered="true" width="100%">
+                    <colgroup>
+                       <col width="11.8%"/>
+                       <col width="41.2%"/>
+                       <col width="47.0%"/>
+                    </colgroup>
+                    <thead>
+                       <tr id="_">
+                          <th id="_" rowspan="3">
+                             <image height="56" width="56" src="#{logoloc}/logo-small.png"/>
+                          </th>
+                          <td id="_" rowspan="3">
+                             <p style="font-size:8pt;margin-top:6pt;margin-bottom:0pt;">INTERNATIONAL TELECOMMUNICATION UNION</p>
+                             <p class="bureau_big" style="font-size:13pt;margin-top:6pt;margin-bottom:0pt;">
+                                <strong>RADIOCOMMUNICATION BUREAU</strong>
+                                <br/>
+                                <strong>OF ITU</strong>
+                             </p>
+                             <p style="font-size:10pt;margin-top:6pt;margin-bottom:0pt;">STUDY PERIOD 2000–2002</p>
+                          </td>
+                          <th id="_" align="right">
+                             <p style="font-size:16pt;">SG17-C1000</p>
+                          </th>
+                       </tr>
+                       <tr id="_">
+                          <th id="_" align="right">
+                             <p style="font-size:14pt;">STUDY GROUP 17</p>
+                          </th>
+                       </tr>
+                       <tr id="_">
+                          <th id="_" align="right">
+                             <p style="font-size:14pt;">Original: English</p>
+                          </th>
+                       </tr>
+                    </thead>
+                    <tbody>
+                       <tr id="_">
+                          <th id="_" align="left" width="95">Question(s):</th>
+                          <td id="_"/>
+                          <td id="_" align="right">Kronos, 01 Jan 2000/02 Jan 2000</td>
+                       </tr>
+                       <tr id="_">
+                          <th id="_" align="center" colspan="3">CONTRIBUTION</th>
+                       </tr>
+                       <tr id="_">
+                          <th id="_" align="left" width="95">Source:</th>
+                          <td id="_" colspan="2">Source1</td>
+                       </tr>
+                       <tr id="_">
+                          <th id="_" align="left" width="95">Title:</th>
+                          <td id="_" colspan="2">Main Title</td>
+                       </tr>
+                       <tr id="_">
+                          <th id="_" align="left" width="95">Contact:</th>
+                          <td id="_">
+                             Fred Flintstone
+                             <br/>
+                             Bedrock Quarry
+                             <br/>
+                             Canada
+                          </td>
+                          <td id="_">
+                             Tel.
+                             <tab/>
+                             555
+                             <br/>
+                             E-mail
+                             <tab/>
+                             x@example.com
+                          </td>
+                       </tr>
+                       <tr id="_">
+                          <th id="_" align="left" width="95">Contact:</th>
+                          <td id="_">
+                             Barney Rubble
+                             <br/>
+                             Bedrock Quarry 2
+                             <br/>
+                             USA
+                          </td>
+                          <td id="_">
+                             Tel.
+                             <tab/>
+                             557
+                          </td>
+                       </tr>
+                       <tr id="_">
+                          <th id="_" align="left" width="95">Contact:</th>
+                          <td id="_">
+                             <br/>
+                             <br/>
+                          </td>
+                          <td id="_">
+                             Tel.
+                             <tab/>
+                          </td>
+                       </tr>
+                    </tbody>
+                 </table>
+              </clause>
+              <abstract id="A" displayorder="2">
+                 <table id="_" class="abstract" unnumbered="true" width="100%">
+                    <colgroup>
+                       <col width="11.8%"/>
+                       <col width="78.2%"/>
+                    </colgroup>
+                    <tbody>
+                       <tr id="_">
+                          <th id="_" align="left" width="95">
+                             <p>Abstract:</p>
+                          </th>
+                          <td id="_">
+                             <p>This is an abstract.</p>
+                          </td>
+                       </tr>
+                    </tbody>
+                 </table>
+              </abstract>
+           </preface>
+           <sections>
+              <clause id="B" displayorder="3">
+                 <title id="_">First</title>
+                 <fmt-title id="_" depth="1">
+                    <span class="fmt-caption-label">
+                       <semx element="autonum" source="B">1</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                    </span>
+                    <span class="fmt-caption-delim">
+                       <tab/>
+                    </span>
+                    <semx element="title" source="_">First</semx>
+                 </fmt-title>
+                 <fmt-xref-label>
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="B">1</semx>
+                 </fmt-xref-label>
+                 <p>This is the first clause</p>
+              </clause>
+           </sections>
+           <annex id="A1" autonum="A" displayorder="4">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A1">A</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A1">A</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Contribution.)</span>
+              </p>
+           </annex>
+           <annex id="A2" type="justification" autonum="B" displayorder="5">
+              <title id="_">
+         <strong>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</strong>
+      </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A2">B</semx>
+                    </span>
+                 </strong>
+         <span class="fmt-caption-delim">
+            <br/>
+            <br/>
+         </span>
+         <semx element="title" source="_">
+            <strong>A.13 justification for proposed draft new  SG17-C1000 “Main Title”</strong>
+         </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A2">B</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Contribution.)</span>
+              </p>
+              <table id="_" class="contribution-metadata" unnumbered="true" width="100%">
+                 <colgroup>
+                    <col width="15.9%"/>
+                    <col width="6.1%"/>
+                    <col width="45.5%"/>
+                    <col width="17.4%"/>
+                    <col width="15.1%"/>
+                 </colgroup>
+                 <tbody>
+                    <tr id="_">
+                       <th id="_" align="left">Question(s):</th>
+                       <td id="_"/>
+                       <th id="_" align="left">Proposed new ITU-T </th>
+                       <td id="_" colspan="2">Kronos, 01 Jan 2000/02 Jan 2000</td>
+                    </tr>
+                    <tr id="_">
+                       <th id="_" align="left">Reference and title:</th>
+                       <td id="_" colspan="4">Draft new  on “Main Title”</td>
+                    </tr>
+                    <tr id="_">
+                       <th id="_" align="left">Base text:</th>
+                       <td id="_" colspan="2"/>
+                       <th id="_" align="left">Timing:</th>
+                       <td id="_">2025-Q4</td>
+                    </tr>
+                    <tr id="_">
+                       <th id="_" align="left" rowspan="2">Editor(s):</th>
+                       <td id="_" colspan="2">
+                          Fred Flintstone
+                          <br/>
+                          Bedrock Quarry
+                          <br/>
+                          Canada, E-mail
+                          <tab/>
+                          x@example.com
+                       </td>
+                       <th id="_" align="left" rowspan="2">Approval process:</th>
+                       <td id="_" rowspan="2">F3</td>
+                    </tr>
+                    <tr id="_">
+                       <td id="_" colspan="2">
+                          Barney Rubble
+                          <br/>
+                          Bedrock Quarry 2
+                          <br/>
+                          USA
+                       </td>
+                    </tr>
+                    <tr id="_">
+                       <td id="_" colspan="2">
+                          <br/>
+                          <br/>
+                       </td>
+                    </tr>
+                    <tr id="_">
+                       <td id="_" colspan="5">
+                          <p>
+                             <strong>Scope</strong>
+                             (defines the intent or object of the Recommendation and the aspects covered, thereby indicating the limits of its applicability):
+                          </p>
+                       </td>
+                    </tr>
+                    <tr id="_">
+                       <td id="_" colspan="5">
+                          <p>
+                             <strong>Summary</strong>
+                             (provides a brief overview of the purpose and contents of the Recommendation, thus permitting readers to judge its usefulness for their work):
+                          </p>
+                       </td>
+                    </tr>
+                    <tr id="_">
+                       <td id="_" colspan="5">
+                          <p>
+                             <strong>Relations to ITU-T Recommendations or to other standards</strong>
+                             (approved or under development):
+                          </p>
+                       </td>
+                    </tr>
+                    <tr id="_">
+                       <td id="_" colspan="5">
+                          <p>
+                             <strong>Liaisons with other study groups or with other standards bodies:</strong>
+                          </p>
+                       </td>
+                    </tr>
+                    <tr id="_">
+                       <td id="_" colspan="5">
+                          <p>
+                             <strong>Supporting members that are committing to contributing actively to the work item:</strong>
+                          </p>
+                       </td>
+                    </tr>
+                 </tbody>
+              </table>
+           </annex>
+        </metanorma>
     OUTPUT
+
     xml = Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
     xml = xml.xpath("//xmlns:preface | //xmlns:sections | //xmlns:annex").to_xml
-    expect(Xml::C14n.format(strip_guid("<itu-standard>#{xml}</itu-standard>")))
-      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Canon.format_xml(strip_guid("<metanorma>#{xml}</itu-standard>")))
+      .to be_equivalent_to Canon.format_xml(presxml)
 
     presxml = <<~OUTPUT
       <preface>
-         <clause unnumbered="true" type="contribution-metadata" displayorder="1">
-           <table class="contribution-metadata" unnumbered="true" width="100%">
+         <clause unnumbered="true" type="contribution-metadata" displayorder="1" id="_">
+           <table id="_" class="contribution-metadata" unnumbered="true" width="100%">
              <colgroup>
                <col width="11.8%"/>
                <col width="41.2%"/>
                <col width="47.0%"/>
              </colgroup>
              <thead>
-               <tr>
-                 <th rowspan="3">
+               <tr id="_">
+                 <th id="_" rowspan="3">
                    <image height="56" width="56" src="#{File.join(logoloc, '/logo-small.png')}"/>
                  </th>
-                 <td rowspan="3">
+                 <td id="_" rowspan="3">
                    <p style="font-size:8pt;margin-top:6pt;margin-bottom:0pt;">UNION INTERNATIONALE DES TÉLÉCOMMUNICATIONS</p>
                    <p class="bureau_big" style="font-size:13pt;margin-top:6pt;margin-bottom:0pt;">
                      <strong>BUREAU DES RADIOCOMMUNICATIONS</strong>
@@ -1556,75 +2813,75 @@ RSpec.describe Metanorma::Itu do
                    </p>
                    <p style="font-size:10pt;margin-top:6pt;margin-bottom:0pt;">PÉRIODE D’ÉTUDES 2000–2002</p>
                  </td>
-                 <th align="right">
+                 <th id="_" align="right">
                    <p style="font-size:16pt;">SG17-C1000</p>
                  </th>
                </tr>
-               <tr>
-                 <th align="right">
+               <tr id="_">
+                 <th id="_" align="right">
                    <p style="font-size:14pt;">STUDY GROUP 17</p>
                  </th>
                </tr>
-               <tr>
-                 <th align="right">
+               <tr id="_">
+                 <th id="_" align="right">
                    <p style="font-size:14pt;">Original : Français</p>
                  </th>
                </tr>
              </thead>
                          <tbody>
-               <tr>
-                 <th align="left" width="95">Question(s):</th>
-                 <td/>
-                 <td align="right">Kronos, 01 janv. 2000/02 janv. 2000</td>
+               <tr id="_">
+                 <th id="_" align="left" width="95">Question(s):</th>
+                 <td id="_"/>
+                 <td id="_" align="right">Kronos, 01 janv. 2000/02 janv. 2000</td>
                </tr>
-               <tr>
-                 <th align="center" colspan="3">CONTRIBUTION</th>
+               <tr id="_">
+                 <th id="_" align="center" colspan="3">CONTRIBUTION</th>
                </tr>
-               <tr>
-                 <th align="left" width="95">Source :</th>
-                 <td colspan="2">Source1</td>
+               <tr id="_">
+                 <th id="_" align="left" width="95">Source :</th>
+                 <td id="_" colspan="2">Source1</td>
                </tr>
-               <tr>
-                 <th align="left" width="95">Titre :</th>
-                 <td colspan="2">Main Title</td>
+               <tr id="_">
+                 <th id="_" align="left" width="95">Titre :</th>
+                 <td id="_" colspan="2">Main Title</td>
                </tr>
-               <tr>
-                 <th align="left" width="95">Contact :</th>
-                 <td>Fred Flintstone<br/>
+               <tr id="_">
+                 <th id="_" align="left" width="95">Contact :</th>
+                 <td id="_">Fred Flintstone<br/>
        Bedrock Quarry<br/>
        Canada</td>
-                 <td>Tél.<tab/>555<br/>E-mail<tab/>x@example.com</td>
+                 <td id="_">Tél.<tab/>555<br/>E-mail<tab/>x@example.com</td>
                </tr>
-               <tr>
-                 <th align="left" width="95">Contact :</th>
-                 <td>Barney Rubble<br/>
+               <tr id="_">
+                 <th id="_" align="left" width="95">Contact :</th>
+                 <td id="_">Barney Rubble<br/>
        Bedrock Quarry 2<br/>
        USA</td>
-                 <td>Tél.<tab/>557</td>
+                 <td id="_">Tél.<tab/>557</td>
                </tr>
-               <tr>
-                 <th align="left" width="95">Contact :</th>
-                 <td>
+               <tr id="_">
+                 <th id="_" align="left" width="95">Contact :</th>
+                 <td id="_">
                    <br/>
                    <br/>
                  </td>
-                 <td>Tél.<tab/></td>
+                 <td id="_">Tél.<tab/></td>
                </tr>
              </tbody>
            </table>
          </clause>
          <abstract id="A" displayorder="2">
-           <table class="abstract" unnumbered="true" width="100%">
+           <table id="_" class="abstract" unnumbered="true" width="100%">
              <colgroup>
                <col width="11.8%"/>
                <col width="78.2%"/>
              </colgroup>
              <tbody>
-               <tr>
-                 <th align="left" width="95">
+               <tr id="_">
+                 <th id="_" align="left" width="95">
                    <p>Résumé :</p>
                  </th>
-                 <td>
+                 <td id="_">
                    <p>This is an abstract.</p>
                  </td>
                </tr>
@@ -1637,7 +2894,7 @@ RSpec.describe Metanorma::Itu do
       .convert("test", input
       .sub("<language>en</language>", "<language>fr</language>"), true))
     xml = xml.at("//xmlns:preface").to_xml
-    expect(Xml::C14n.format(strip_guid(xml)))
-      .to be_equivalent_to Xml::C14n.format(presxml)
+    expect(Canon.format_xml(strip_guid(xml)))
+      .to be_equivalent_to Canon.format_xml(presxml)
   end
 end

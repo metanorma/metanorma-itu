@@ -198,14 +198,14 @@ Applicable to modify and delete</a:documentation>
         </zeroOrMore>
       </element>
     </optional>
-    <optional>
+    <zeroOrMore>
       <element name="description">
-        <a:documentation>Description of the change described in this block</a:documentation>
-        <zeroOrMore>
+        <a:documentation>Description(s) of the change described in this block</a:documentation>
+        <oneOrMore>
           <ref name="BasicBlock"/>
-        </zeroOrMore>
+        </oneOrMore>
       </element>
-    </optional>
+    </zeroOrMore>
     <optional>
       <element name="newcontent">
         <a:documentation>New content to be added to the document; applicable to add and modify</a:documentation>
@@ -266,6 +266,10 @@ in a document (e.g. sourcecode annotations)</a:documentation>
       <value>center</value>
       <value>justified</value>
     </choice>
+  </define>
+  <define name="IdRefType">
+    <a:documentation>Type of cross-references to elements. In BasicDoc, these always point to id { xsd:ID } </a:documentation>
+    <data type="IDREF"/>
   </define>
   <define name="RequiredId">
     <a:documentation>Mandatory anchor of element, to be used for cross-references within the document</a:documentation>
@@ -382,39 +386,42 @@ in a document (e.g. sourcecode annotations)</a:documentation>
     <a:documentation>Block intended to capture reviewer comments about some text in the document</a:documentation>
     <element name="review">
       <ref name="RequiredId"/>
-      <attribute name="reviewer">
-        <a:documentation>The party who has offered the comment</a:documentation>
-      </attribute>
-      <optional>
-        <attribute name="type">
-          <a:documentation>The type of reviewer comment</a:documentation>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="date">
-          <a:documentation>The date when the comment was made</a:documentation>
-          <data type="dateTime"/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="from">
-          <a:documentation>Identifier for the start of the text or point in the text to which the comment applies.
-If not provided, the comment applies in the vicinity of the place it has been inserted into the text</a:documentation>
-          <data type="IDREF"/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="to">
-          <a:documentation>Identifier for the end of the text to which the comment applies</a:documentation>
-          <data type="IDREF"/>
-        </attribute>
-      </optional>
+      <ref name="ReviewAttributes"/>
       <oneOrMore>
         <ref name="paragraph">
           <a:documentation>Reviewer comments content</a:documentation>
         </ref>
       </oneOrMore>
     </element>
+  </define>
+  <define name="ReviewAttributes">
+    <attribute name="reviewer">
+      <a:documentation>The party who has offered the comment</a:documentation>
+    </attribute>
+    <optional>
+      <attribute name="type">
+        <a:documentation>The type of reviewer comment</a:documentation>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="date">
+        <a:documentation>The date when the comment was made</a:documentation>
+        <data type="dateTime"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="from">
+        <a:documentation>Identifier for the start of the text or point in the text to which the comment applies.
+If not provided, the comment applies in the vicinity of the place it has been inserted into the text</a:documentation>
+        <ref name="IdRefType"/>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="to">
+        <a:documentation>Identifier for the end of the text to which the comment applies</a:documentation>
+        <ref name="IdRefType"/>
+      </attribute>
+    </optional>
   </define>
   <define name="NumberingAttributes">
     <optional>
@@ -599,17 +606,9 @@ It is included for convenience, in case processing the citation to extract the a
         <a:documentation>The caption of the block</a:documentation>
       </ref>
     </optional>
-    <oneOrMore>
-      <choice>
-        <text>
-          <a:documentation>The computer code or other such text presented in the block, as a single unformatted string. 
-(The string should be treated as pre-formatted text, with whitespace treated as significant)</a:documentation>
-        </text>
-        <ref name="callout">
-          <a:documentation>Zero or more cross-references; these are intended to be embedded within the content string, and link to annotations</a:documentation>
-        </ref>
-      </choice>
-    </oneOrMore>
+    <ref name="sourcecodebody">
+      <a:documentation>The sourcecode content</a:documentation>
+    </ref>
     <zeroOrMore>
       <ref name="annotation">
         <a:documentation>Annotations to the source code; each annotation consists of zero or more paragraphs,
@@ -628,17 +627,9 @@ and is intended to be referenced by a callout within the source code</a:document
         <a:documentation>The caption of the block</a:documentation>
       </ref>
     </optional>
-    <oneOrMore>
-      <choice>
-        <text>
-          <a:documentation>The computer code or other such text presented in the block, as a single unformatted string. 
-(The string should be treated as pre-formatted text, with whitespace treated as significant)</a:documentation>
-        </text>
-        <ref name="callout">
-          <a:documentation>Zero or more cross-references; these are intended to be embedded within the content string, and link to annotations</a:documentation>
-        </ref>
-      </choice>
-    </oneOrMore>
+    <ref name="sourcecodebody">
+      <a:documentation>The sourcecode content</a:documentation>
+    </ref>
     <zeroOrMore>
       <ref name="annotation">
         <a:documentation>Annotations to the source code; each annotation consists of zero or more paragraphs,
@@ -650,6 +641,20 @@ and is intended to be referenced by a callout within the source code</a:document
         <a:documentation>Notes whose scope is the current block</a:documentation>
       </ref>
     </zeroOrMore>
+  </define>
+  <define name="sourcecodebody">
+    <a:documentation>The computer code or other such text presented in the block, as a single unformatted string. 
+(The string should be treated as pre-formatted text, with whitespace treated as significant)</a:documentation>
+    <element name="body">
+      <oneOrMore>
+        <choice>
+          <text/>
+          <ref name="callout">
+            <a:documentation>Zero or more cross-references; these are intended to be embedded within the content string, and link to annotations</a:documentation>
+          </ref>
+        </choice>
+      </oneOrMore>
+    </element>
   </define>
   <define name="pre">
     <a:documentation>Pre-formatted block. Wrapper for text to be rendered with fixed-width typeface, and preserving spaces including line breaks. 
@@ -859,6 +864,7 @@ in case the table cannot be rendered accessibly (HTML 5)</a:documentation>
   <define name="tr">
     <a:documentation>Sequence of cells to be displayed as a row in a table</a:documentation>
     <element name="tr">
+      <ref name="TrAttributes"/>
       <oneOrMore>
         <choice>
           <ref name="td">
@@ -870,6 +876,9 @@ in case the table cannot be rendered accessibly (HTML 5)</a:documentation>
         </choice>
       </oneOrMore>
     </element>
+  </define>
+  <define name="TrAttributes">
+    <empty/>
   </define>
   <define name="tr-no-id">
     <a:documentation>Sequence of cells to be displayed as a row in a table: optional ID attributes recursively (for use in Relaton, metadata)</a:documentation>
@@ -1282,13 +1291,13 @@ Restricted recursively to contain only other such inline elements with no identi
       <ref name="pure_strike"/>
       <ref name="pure_smallcap"/>
       <ref name="br"/>
+      <ref name="stem"/>
     </choice>
   </define>
   <define name="NestedTextElement">
     <a:documentation>Contents of TextElement tags: leaves out tags that should occur only at top level of block: bookmark image hr pagebreak</a:documentation>
     <choice>
       <ref name="PureTextElement"/>
-      <ref name="stem"/>
       <ref name="eref"/>
       <ref name="xref"/>
       <ref name="hyperlink"/>
@@ -1499,7 +1508,7 @@ Restricted recursively to contain only other such inline elements with no identi
         <attribute name="to">
           <a:documentation>A reference to an anchor element (typically a bookmark), 
 to indicate that the index range covers a range of locations between the current index element and the `to` anchor</a:documentation>
-          <data type="IDREF"/>
+          <ref name="IdRefType"/>
         </attribute>
       </optional>
       <ref name="index-primary">
@@ -1657,7 +1666,7 @@ which can be bookmarks as well as block or section references</a:documentation>
   <define name="XrefAttributes">
     <attribute name="target">
       <a:documentation>The identifier of a section, block or inlined element being referenced</a:documentation>
-      <data type="IDREF"/>
+      <ref name="IdRefType"/>
     </attribute>
     <optional>
       <attribute name="type">
@@ -1672,32 +1681,45 @@ which can be bookmarks as well as block or section references</a:documentation>
     </optional>
   </define>
   <define name="XrefBody">
-    <oneOrMore>
-      <ref name="PureTextElement">
-        <a:documentation>The textual content of the element. The `text` is what we wish to show the link as (e.g., the "content" of `&lt;xx&gt;my link text&lt;/xx&gt;`)</a:documentation>
-      </ref>
-    </oneOrMore>
+    <a:documentation>The textual content of the element. The `text` is what we wish to show the link as (e.g., the "content" of `&lt;xx&gt;my link text&lt;/xx&gt;`)</a:documentation>
+    <optional>
+      <element name="display-text">
+        <oneOrMore>
+          <ref name="PureTextElement"/>
+        </oneOrMore>
+      </element>
+    </optional>
   </define>
   <define name="ErefBody">
-    <oneOrMore>
-      <ref name="PureTextElement">
-        <a:documentation>The textual content of the element. The `text` is what we wish to show the link as (e.g., the "content" of `&lt;xx&gt;my link text&lt;/xx&gt;`)</a:documentation>
-      </ref>
-    </oneOrMore>
+    <optional>
+      <element name="display-text">
+        <oneOrMore>
+          <ref name="PureTextElement">
+            <a:documentation>The textual content of the element. The `text` is what we wish to show the link as (e.g., the "content" of `&lt;xx&gt;my link text&lt;/xx&gt;`)</a:documentation>
+          </ref>
+        </oneOrMore>
+      </element>
+    </optional>
   </define>
   <define name="fn">
     <a:documentation>Inline reference to a paragraph or paragraphs, appearing as a footnote.
 The target of a footnote is the location it is embedded in within the text</a:documentation>
     <element name="fn">
-      <attribute name="reference">
-        <a:documentation>The number of the footnote, used to identify it visually</a:documentation>
-      </attribute>
-      <oneOrMore>
-        <ref name="paragraph">
-          <a:documentation>The content of the footnote</a:documentation>
-        </ref>
-      </oneOrMore>
+      <ref name="FnAttributes"/>
+      <ref name="FnBody"/>
     </element>
+  </define>
+  <define name="FnBody">
+    <oneOrMore>
+      <ref name="paragraph">
+        <a:documentation>The content of the footnote</a:documentation>
+      </ref>
+    </oneOrMore>
+  </define>
+  <define name="FnAttributes">
+    <attribute name="reference">
+      <a:documentation>The number of the footnote, used to identify it visually</a:documentation>
+    </attribute>
   </define>
   <define name="callout">
     <a:documentation>Inline reference to a paragraph or paragraphs, appearing as annotation of source code</a:documentation>
@@ -1705,7 +1727,7 @@ The target of a footnote is the location it is embedded in within the text</a:do
       <attribute name="target">
         <a:documentation>The target of the callout is understood to be the location of the callout within the source code; 
 the extent of the target is not expressed overtly</a:documentation>
-        <data type="IDREF"/>
+        <ref name="IdRefType"/>
       </attribute>
       <text>
         <a:documentation>The label of the callout, used to identify its target within the source code</a:documentation>

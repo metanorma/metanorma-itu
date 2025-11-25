@@ -33,11 +33,11 @@ RSpec.describe Metanorma::Itu do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes titles for service publications" do
@@ -70,11 +70,11 @@ RSpec.describe Metanorma::Itu do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes titles for resolutions" do
@@ -104,132 +104,239 @@ RSpec.describe Metanorma::Itu do
       </itu-standard>
     INPUT
     presxml = <<~OUTPUT
-          <itu-standard xmlns='https://www.calconnect.org/standards/itu' type='presentation'>
-        <bibdata>
-        <docnumber>1</docnumber>
-        <edition language=''>1</edition>
-        <edition language='en'>first edition</edition>
-          <language current='true'>en</language>
-                 <script current='true'>Latn</script>
-                 <title type='main'>Title</title>
-                 <title language='en' format='text/plain' type='resolution'>RESOLUTION 1 (Andorra, 1204)</title>
-      <title language='en' format='text/plain' type='resolution-placedate'>Andorra, 1204</title>
-                 <date type='published'>2010-09-08</date>
-                 <date type='published' format='ddMMMyyyy'>8.IX.2010</date>
-                 <ext>
-                   <doctype language=''>resolution</doctype>
-                   <doctype language='en'>Resolution</doctype>
-      <meeting>World Meeting on Stuff</meeting>
-      <meeting-place>Andorra</meeting-place>
-      <meeting-date><from>1204-04-01</from><to>1207-01-01</to></meeting-date>
-                 </ext>
-        </bibdata>
-        <sections>
-                  <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION 1 (Andorra, 1204)</p>
-           <p align="center" class="zzSTDTitle2" displayorder="2"><em>(Andorra, 1204</em>)<fn reference="1"><p>One fn</p></fn><fn reference="2"><p>Another fn</p></fn></p>
-           <p keep-with-next="true" class="supertitle" displayorder="3">SECTION 1</p>
-        <clause id='A' displayorder='4'>
-          <p>Hello.<fn reference='3'><p>Normal footnote</p></fn></p>
-        </clause>
-      </sections>
+      <itu-standard xmlns="https://www.calconnect.org/standards/itu" type="presentation">
+         <bibdata>
+            <docnumber>1</docnumber>
+            <edition language="">1</edition>
+            <edition language="en">first edition</edition>
+            <language current="true">en</language>
+            <script current="true">Latn</script>
+            <title type="main">Title</title>
+            <title language="en" format="text/plain" type="resolution">RESOLUTION 1 (Andorra, 1204)</title>
+            <title language="en" format="text/plain" type="resolution-placedate">Andorra, 1204</title>
+            <date type="published">2010-09-08</date>
+            <date type="published" format="ddMMMyyyy">8.IX.2010</date>
+            <ext>
+               <doctype language="">resolution</doctype>
+               <doctype language="en">Resolution</doctype>
+               <meeting>World Meeting on Stuff</meeting>
+               <meeting-place>Andorra</meeting-place>
+               <meeting-date>
+                  <from>1204-04-01</from>
+                  <to>1207-01-01</to>
+               </meeting-date>
+            </ext>
+         </bibdata>
+         <sections>
+            <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION 1 (Andorra, 1204)</p>
+            <p align="center" class="zzSTDTitle2" displayorder="2">
+               <em>(Andorra, 1204)</em>
+               <fn id="_" reference="1" original-reference="H0" target="_">
+                  <p>One fn</p>
+                  <fmt-fn-label>
+                     <span class="fmt-caption-label">
+                        <sup>
+                           <semx element="autonum" source="_">1</semx>
+                        </sup>
+                     </span>
+                  </fmt-fn-label>
+               </fn>
+               <fn id="_" reference="2" original-reference="H1" target="_">
+                  <p>Another fn</p>
+                  <fmt-fn-label>
+                     <span class="fmt-caption-label">
+                        <sup>
+                           <semx element="autonum" source="_">2</semx>
+                        </sup>
+                     </span>
+                  </fmt-fn-label>
+               </fn>
+            </p>
+            <p keep-with-next="true" class="supertitle" displayorder="3">
+               <span class="fmt-element-name">SECTION</span>
+               <semx element="autonum" source="A">1</semx>
+            </p>
+            <clause id="A" displayorder="4">
+               <p>
+                  Hello.
+                  <fn reference="3" id="_" original-reference="3" target="_">
+                     <p>Normal footnote</p>
+                     <fmt-fn-label>
+                        <span class="fmt-caption-label">
+                           <sup>
+                              <semx element="autonum" source="_">3</semx>
+                           </sup>
+                        </span>
+                     </fmt-fn-label>
+                  </fn>
+               </p>
+            </clause>
+         </sections>
+         <fmt-footnote-container>
+            <fmt-fn-body id="_" target="_" reference="1">
+               <semx element="fn" source="_">
+                  <p>
+                     <fmt-fn-label>
+                        <span class="fmt-caption-label">
+                           <sup>
+                              <semx element="autonum" source="_">1</semx>
+                           </sup>
+                        </span>
+                        <span class="fmt-caption-delim">
+                           <tab/>
+                        </span>
+                     </fmt-fn-label>
+                     One fn
+                  </p>
+               </semx>
+            </fmt-fn-body>
+            <fmt-fn-body id="_" target="_" reference="2">
+               <semx element="fn" source="_">
+                  <p>
+                     <fmt-fn-label>
+                        <span class="fmt-caption-label">
+                           <sup>
+                              <semx element="autonum" source="_">2</semx>
+                           </sup>
+                        </span>
+                        <span class="fmt-caption-delim">
+                           <tab/>
+                        </span>
+                     </fmt-fn-label>
+                     Another fn
+                  </p>
+               </semx>
+            </fmt-fn-body>
+            <fmt-fn-body id="_" target="_" reference="3">
+               <semx element="fn" source="_">
+                  <p>
+                     <fmt-fn-label>
+                        <span class="fmt-caption-label">
+                           <sup>
+                              <semx element="autonum" source="_">3</semx>
+                           </sup>
+                        </span>
+                        <span class="fmt-caption-delim">
+                           <tab/>
+                        </span>
+                     </fmt-fn-label>
+                     Normal footnote
+                  </p>
+               </semx>
+            </fmt-fn-body>
+         </fmt-footnote-container>
       </itu-standard>
     OUTPUT
     html = <<~OUTPUT
-           <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
+      <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
          <div class="title-section">
-           <p> </p>
+            <p> </p>
          </div>
          <br/>
          <div class="prefatory-section">
-           <p> </p>
+            <p> </p>
          </div>
          <br/>
          <div class="main-section">
-              <p class='zzSTDTitle1'  style='text-align:center;'>RESOLUTION 1 (Andorra, 1204)</p>
-          <p class='zzSTDTitle2'  style='text-align:center;'>
-            <i>(Andorra, 1204</i>)
-            <a class='FootnoteRef' href='#fn:1'>
-              <sup>1</sup>
-            </a>
-            <a class='FootnoteRef' href='#fn:2'>
-              <sup>2</sup>
-            </a>
-          </p>
-            <p style='page-break-after: avoid;' class='supertitle'>SECTION 1</p>
-          <div id='A'>
-            <p>
-              Hello.
-              <a class='FootnoteRef' href='#fn:3'>
-                <sup>3</sup>
-              </a>
+            <p class="zzSTDTitle1" style="text-align:center;">RESOLUTION 1 (Andorra, 1204)</p>
+            <p class="zzSTDTitle2" style="text-align:center;">
+               <i>(Andorra, 1204)</i>
+               <a class="FootnoteRef" href="#fn:_">
+                  <sup>1</sup>
+               </a>
+               <a class="FootnoteRef" href="#fn:_">
+                  <sup>2</sup>
+               </a>
             </p>
-          </div>
-          <aside id='fn:1' class='footnote'>
-            <p>One fn</p>
-          </aside>
-          <aside id='fn:2' class='footnote'>
-            <p>Another fn</p>
-          </aside>
-          <aside id='fn:3' class='footnote'>
-            <p>Normal footnote</p>
-          </aside>
-        </div>
+            <p class="supertitle" style="page-break-after: avoid;">SECTION 1</p>
+            <div id="A">
+               <p>
+                  Hello.
+                  <a class="FootnoteRef" href="#fn:_">
+                     <sup>3</sup>
+                  </a>
+               </p>
+            </div>
+            <aside id="fn:_" class="footnote">
+               <p>One fn</p>
+            </aside>
+            <aside id="fn:_" class="footnote">
+               <p>Another fn</p>
+            </aside>
+            <aside id="fn:_" class="footnote">
+               <p>Normal footnote</p>
+            </aside>
+         </div>
       </body>
     OUTPUT
 
     word = <<~OUTPUT
-      <body xmlns:epub='epub' lang='EN-US' link='blue' vlink='#954F72'>
-           <div class='WordSection1'>
-             <p>&#160;</p>
-           </div>
-           <p class="section-break">
-             <br clear='all' class='section'/>
-           </p>
-           <div class='WordSection2'>
-             <p>&#160;</p>
-           </div>
-           <p class="section-break">
-             <br clear='all' class='section'/>
-           </p>
-         <div class="WordSection3">
-           <p class="zzSTDTitle1" style="text-align:center;" align="center">RESOLUTION 1 (Andorra, 1204)</p>
-           <p class="zzSTDTitle2" style="text-align:center;" align="center"><i>(Andorra, 1204</i>)<span style="mso-bookmark:_Ref"><a class="FootnoteRef" href="#ftn1" epub:type="footnote"><sup>1</sup></a></span><span style="mso-bookmark:_Ref"><a class="FootnoteRef" href="#ftn2" epub:type="footnote"><sup>2</sup></a></span></p>
-           <p class="supertitle" style="page-break-after: avoid;">SECTION 1</p>
-           <div id="A">
-             <p>Hello.<span style="mso-bookmark:_Ref"><a class="FootnoteRef" href="#ftn3" epub:type="footnote"><sup>3</sup></a></span></p>
-           </div>
-           <aside id="ftn1">
-             <p>One fn</p>
-           </aside>
-           <aside id="ftn2">
-             <p>Another fn</p>
-           </aside>
-           <aside id="ftn3">
-             <p>Normal footnote</p>
-           </aside>
+      <body xmlns:epub="epub" lang="EN-US" link="blue" vlink="#954F72">
+         <div class="WordSection1">
+            <p> </p>
          </div>
-       </body>
+         <p class="section-break">
+            <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection2">
+            <p> </p>
+         </div>
+         <p class="section-break">
+            <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection3">
+            <p class="zzSTDTitle1" style="text-align:center;" align="center">RESOLUTION 1 (Andorra, 1204)</p>
+            <p class="zzSTDTitle2" style="text-align:center;" align="center">
+               <i>(Andorra, 1204)</i>
+               <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
+                  <a class="FootnoteRef" epub:type="footnote" href="#ftn_">1</a>
+               </span>
+               <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
+                  <a class="FootnoteRef" epub:type="footnote" href="#ftn_">2</a>
+               </span>
+            </p>
+            <p class="supertitle" style="page-break-after: avoid;">SECTION 1</p>
+            <div id="A">
+               <p>
+                  Hello.
+                  <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
+                     <a class="FootnoteRef" epub:type="footnote" href="#ftn_">3</a>
+                  </span>
+               </p>
+            </div>
+            <aside id="ftn_">
+               <p>One fn</p>
+            </aside>
+            <aside id="ftn_">
+               <p>Another fn</p>
+            </aside>
+            <aside id="ftn_">
+               <p>Normal footnote</p>
+            </aside>
+         </div>
+      </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Canon.format_xml(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(Canon.format_xml(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")
-      .gsub(/fn:[0-9a-f-][0-9a-f-]+/, "fn:_")
+      .gsub(/fn:_?[0-9a-f-][0-9a-f-]+/, "fn:_")
       .gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>")))
-      .to be_equivalent_to Xml::C14n.format(html)
-    expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", presxml, true)
+      .to be_equivalent_to Canon.format_xml(html)
+    expect(Canon.format_xml(IsoDoc::Itu::WordConvert.new({})
+      .convert("test", pres_output, true)
       .sub(%r{^.*<body }m, "<body xmlns:epub='epub' ")
       .sub(%r{</body>.*$}m, "</body>")
       .gsub(%r{_Ref\d+}, "_Ref")
       .gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>")
-      .gsub(%r{ftn[0-9a-f-][0-9a-f-]+}, "ftn_")))
-      .to be_equivalent_to Xml::C14n.format(word)
+      .gsub(%r{ftn_?[0-9a-f-][0-9a-f-]+}, "ftn_")))
+      .to be_equivalent_to Canon.format_xml(word)
   end
 
   it "processes titles for revised resolutions" do
@@ -281,38 +388,44 @@ RSpec.describe Metanorma::Itu do
         </bibdata>
                   <sections>
             <p class="zzSTDTitle1" align="center" displayorder="1">RESOLUTION 1 (Rev. Andorra, 1204)</p>
-            <p align="center" class="zzSTDTitle2" displayorder="2"><em>(Andorra, 1204</em>)</p>
-            <clause displayorder="3"/>
+            <p align="center" class="zzSTDTitle2" displayorder="2"><em>(Andorra, 1204)</em></p>
+       <p keep-with-next="true" class="supertitle" displayorder="3">
+         <span class="fmt-element-name">SECTION</span>
+         <semx element="autonum" source="_">1</semx>
+      </p>
+      <clause id="_" displayorder="4"/>
           </sections>
       </itu-standard>
     OUTPUT
     html = <<~OUTPUT
-           <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
-         <div class="title-section">
-           <p> </p>
+            <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
+          <div class="title-section">
+            <p> </p>
+          </div>
+          <br/>
+          <div class="prefatory-section">
+            <p> </p>
+          </div>
+          <br/>
+          <div class="main-section">
+           <p class='zzSTDTitle1'  style='text-align:center;'>RESOLUTION 1 (Rev. Andorra, 1204)</p>
+           <p class='zzSTDTitle2'  style='text-align:center;'><i>(Andorra, 1204)</i></p>
+      <p class="supertitle" style="page-break-after: avoid;">SECTION 1</p>
+      <div id="_"/>
          </div>
-         <br/>
-         <div class="prefatory-section">
-           <p> </p>
-         </div>
-         <br/>
-         <div class="main-section">
-          <p class='zzSTDTitle1'  style='text-align:center;'>RESOLUTION 1 (Rev. Andorra, 1204)</p>
-          <p class='zzSTDTitle2'  style='text-align:center;'><i>(Andorra, 1204</i>)</p>
-          <div/>
-        </div>
-      </body>
+       </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Canon.format_xml(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to Xml::C14n.format(html)
+      .gsub(%r{</body>.*}m, "</body>"))))
+      .to be_equivalent_to Canon.format_xml(html)
   end
 
   it "processes keyword" do
@@ -320,103 +433,33 @@ RSpec.describe Metanorma::Itu do
         <itu-standard xmlns="https://www.calconnect.org/standards/itu">
         <preface>
             <clause type="toc" id="_" displayorder="1">
-        <title depth="1">Table of Contents</title>
+        <fmt-title id="_" depth="1">Table of Contents</fmt-title>
       </clause>
-        <foreword displayorder="2">
+        <foreword displayorder="2" id="_">
         <keyword>ABC</keyword>
         </foreword></preface>
         </itu-standard>
     INPUT
     output = <<~OUTPUT
       #{HTML_HDR}
-           <div>
+           <div id="_">
              <h1 class="IntroTitle"/>
              <span class="keyword">ABC</span>
            </div>
          </div>
        </body>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
+    expect(Canon.format_xml(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to Xml::C14n.format(output)
-  end
-
-  it "processes IsoXML footnotes (Word)" do
-    input = <<~INPUT
-          <itu-standard xmlns="http://riboseinc.com/isoxml">
-          <preface>
-          <foreword displayorder="1">
-          <p>A.<fn reference="2">
-        <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
-      </fn></p>
-          <p>B.<fn reference="2">
-        <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
-      </fn></p>
-          <p>C.<fn reference="1">
-        <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
-      </fn></p>
-          </foreword>
-          </preface>
-          </itu-standard>
-    INPUT
-    output = <<~OUTPUT
-          <body xmlns:epub="epub" lang="EN-US" link="blue" vlink="#954F72">
-                 <div class="WordSection1">
-                   <p>&#160;</p>
-                 </div>
-                 <p class="section-break">
-                   <br clear="all" class="section"/>
-                 </p>
-                 <div class="WordSection2">
-                   <div>
-                     <h1 class="IntroTitle"/>
-                     <p>A.<span style='mso-bookmark:_Ref'>
-        <a href='#ftn2' class='FootnoteRef' epub:type='footnote'>
-          <sup>2</sup>
-        </a>
-      </span></p>
-                     <p>B.<span style='mso-element:field-begin'/>
-       NOTEREF _Ref \\f \\h
-      <span style='mso-element:field-separator'/>
-      <span class='MsoFootnoteReference'>2</span>
-      <span style='mso-element:field-end'/>
-      </p>
-                     <p>C.<span style='mso-bookmark:_Ref'>
-        <a href='#ftn1' class='FootnoteRef' epub:type='footnote'>
-          <sup>1</sup>
-        </a>
-      </span>
-      </p>
-                   </div>
-                   <p>&#160;</p>
-                 </div>
-                 <p class="section-break">
-                   <br clear="all" class="section"/>
-                 </p>
-                 <div class="WordSection3">
-                   <aside id="ftn2">
-               <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Formerly denoted as 15 % (m/m).</p>
-             </aside>
-                   <aside id="ftn1">
-               <p id="_1e228e29-baef-4f38-b048-b05a051747e4">Hello! denoted as 15 % (m/m).</p>
-             </aside>
-                 </div>
-               </body>
-    OUTPUT
-    expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", input, true)
-      .sub(%r{^.*<body }m, "<body xmlns:epub='epub' ")
-      .sub(%r{</body>.*$}m, "</body>")
-      .gsub(%r{_Ref\d+}, "_Ref")))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "cleans up footnotes" do
     FileUtils.rm_f "test.html"
     input = <<~INPUT
-          <itu-standard xmlns="http://riboseinc.com/isoxml">
+      <itu-standard xmlns="http://riboseinc.com/isoxml">
           <bibdata>
           <title language="en" format="text/plain" type="main">An ITU Standard</title>
           <ext><doctype>recommendation</doctype></ext>
@@ -465,158 +508,440 @@ RSpec.describe Metanorma::Itu do
     presxml = <<~PRESXML
       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
           <bibdata>
-            <title language="en" format="text/plain" type="main">An ITU Standard</title>
-            <ext>
-              <doctype language="">recommendation</doctype>
-              <doctype language="en">Recommendation</doctype>
-            </ext>
+             <title language="en" format="text/plain" type="main">An ITU Standard</title>
+             <ext>
+                <doctype language="">recommendation</doctype>
+                <doctype language="en">Recommendation</doctype>
+             </ext>
           </bibdata>
           <preface>
-            <clause type="toc" id="_" displayorder="1">
-              <title depth="1">Table of Contents</title>
-            </clause>
-            <foreword displayorder="2">
-              <p>A.<fn reference="1"><p id="_">Formerly denoted as 15 % (m/m).</p></fn></p>
-              <p>B.<fn reference="2"><p id="_">Formerly denoted as 15 % (m/m).</p></fn></p>
-              <p>C.<fn reference="3"><p id="_">Hello! denoted as 15 % (m/m).</p></fn></p>
-              <table id="tableD-1" alt="tool tip" summary="long desc">
-                <name>Table 1 — Table 1 — Repeatability and reproducibility of <em>husked</em> rice yield</name>
-                <thead>
-                  <tr>
-                    <td rowspan="2" align="left">Description</td>
-                    <td colspan="4" align="center">Rice sample</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td align="left">Arborio</td>
-                    <td align="center">Drago<fn reference="a"><p id="_">Parboiled rice.</p></fn></td>
-                    <td align="center">Balilla<fn reference="a"><p id="_">Parboiled rice.</p></fn></td>
-                    <td align="center">Thaibonnet</td>
-                  </tr>
-                </tbody>
-              </table>
-            </foreword>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title id="_" depth="1">Table of Contents</fmt-title>
+             </clause>
+             <foreword displayorder="2" id="_">
+                <title id="_">Foreword</title>
+                <fmt-title id="_" depth="1">
+                   <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <p>
+                   A.
+                   <fn reference="1" id="_" original-reference="2" target="_">
+                      <p original-id="_">Formerly denoted as 15 % (m/m).</p>
+                      <fmt-fn-label>
+                         <span class="fmt-caption-label">
+                            <sup>
+                               <semx element="autonum" source="_">1</semx>
+                            </sup>
+                         </span>
+                      </fmt-fn-label>
+                   </fn>
+                </p>
+                <p>
+                   B.
+                   <fn reference="1" id="_" original-reference="2" target="_">
+                      <p id="_">Formerly denoted as 15 % (m/m).</p>
+                      <fmt-fn-label>
+                         <span class="fmt-caption-label">
+                            <sup>
+                               <semx element="autonum" source="_">1</semx>
+                            </sup>
+                         </span>
+                      </fmt-fn-label>
+                   </fn>
+                </p>
+                <p>
+                   C.
+                   <fn reference="2" id="_" original-reference="1" target="_">
+                      <p original-id="_">Hello! denoted as 15 % (m/m).</p>
+                      <fmt-fn-label>
+                         <span class="fmt-caption-label">
+                            <sup>
+                               <semx element="autonum" source="_">2</semx>
+                            </sup>
+                         </span>
+                      </fmt-fn-label>
+                   </fn>
+                </p>
+                <table id="tableD-1" alt="tool tip" summary="long desc" autonum="1">
+                   <name id="_">
+                      Table 1 — Repeatability and reproducibility of
+                      <em>husked</em>
+                      rice yield
+                   </name>
+                   <fmt-name id="_">
+                      <span class="fmt-caption-label">
+                         <span class="fmt-element-name">Table</span>
+                         <semx element="autonum" source="tableD-1">1</semx>
+                      </span>
+                      <span class="fmt-caption-delim"> — </span>
+                      <semx element="name" source="_">
+                         Table 1 — Repeatability and reproducibility of
+                         <em>husked</em>
+                         rice yield
+                      </semx>
+                   </fmt-name>
+                   <fmt-xref-label>
+                      <span class="fmt-element-name">Table</span>
+                      <semx element="autonum" source="tableD-1">1</semx>
+                   </fmt-xref-label>
+                   <thead>
+                      <tr>
+                         <td rowspan="2" align="left">Description</td>
+                         <td colspan="4" align="center">Rice sample</td>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                         <td align="left">Arborio</td>
+                         <td align="center">
+                            Drago
+                            <fn reference="a" id="_" target="_">
+                               <p original-id="_">Parboiled rice.</p>
+                               <fmt-fn-label>
+                                  <span class="fmt-caption-label">
+                                     <sup>
+                                        <semx element="autonum" source="_">a</semx>
+                                        <span class="fmt-label-delim">)</span>
+                                     </sup>
+                                  </span>
+                               </fmt-fn-label>
+                            </fn>
+                         </td>
+                         <td align="center">
+                            Balilla
+                            <fn reference="a" id="_" target="_">
+                               <p id="_">Parboiled rice.</p>
+                               <fmt-fn-label>
+                                  <span class="fmt-caption-label">
+                                     <sup>
+                                        <semx element="autonum" source="_">a</semx>
+                                        <span class="fmt-label-delim">)</span>
+                                     </sup>
+                                  </span>
+                               </fmt-fn-label>
+                            </fn>
+                         </td>
+                         <td align="center">Thaibonnet</td>
+                      </tr>
+                   </tbody>
+                   <fmt-footnote-container>
+                      <fmt-fn-body id="_" target="_" reference="a">
+                         <semx element="fn" source="_">
+                            <p id="_">
+                               <fmt-fn-label>
+                                  <span class="fmt-caption-label">
+                                     <sup>
+                                        <semx element="autonum" source="_">a</semx>
+                                        <span class="fmt-label-delim">)</span>
+                                     </sup>
+                                  </span>
+                                  <span class="fmt-caption-delim">
+                                     <tab/>
+                                  </span>
+                               </fmt-fn-label>
+                               Parboiled rice.
+                            </p>
+                         </semx>
+                      </fmt-fn-body>
+                   </fmt-footnote-container>
+                </table>
+             </foreword>
           </preface>
           <sections>
-            <p class="zzSTDTitle2" displayorder="3">An ITU Standard<fn reference="4"><p>One fn</p></fn><fn reference="5"><p>Another fn</p></fn></p>
-            <clause displayorder="4"/>
+             <p class="zzSTDTitle2" displayorder="3">
+                An ITU Standard
+                <fn id="_" reference="3" original-reference="H0" target="_">
+                   <p>One fn</p>
+                   <fmt-fn-label>
+                      <span class="fmt-caption-label">
+                         <sup>
+                            <semx element="autonum" source="_">3</semx>
+                         </sup>
+                      </span>
+                   </fmt-fn-label>
+                </fn>
+                <fn id="_" reference="4" original-reference="H1" target="_">
+                   <p>Another fn</p>
+                   <fmt-fn-label>
+                      <span class="fmt-caption-label">
+                         <sup>
+                            <semx element="autonum" source="_">4</semx>
+                         </sup>
+                      </span>
+                   </fmt-fn-label>
+                </fn>
+             </p>
+      <clause id="_" displayorder="4">
+         <fmt-title depth="1" id="_">
+            <span class="fmt-caption-label">
+               <semx element="autonum" source="_">1</semx>
+               <span class="fmt-autonum-delim">.</span>
+            </span>
+         </fmt-title>
+         <fmt-xref-label>
+            <span class="fmt-element-name">clause</span>
+            <semx element="autonum" source="_">1</semx>
+         </fmt-xref-label>
+      </clause>
           </sections>
-        </itu-standard>
+          <fmt-footnote-container>
+             <fmt-fn-body id="_" target="_" reference="1">
+                <semx element="fn" source="_">
+                   <p id="_">
+                      <fmt-fn-label>
+                         <span class="fmt-caption-label">
+                            <sup>
+                               <semx element="autonum" source="_">1</semx>
+                            </sup>
+                         </span>
+                         <span class="fmt-caption-delim">
+                            <tab/>
+                         </span>
+                      </fmt-fn-label>
+                      Formerly denoted as 15 % (m/m).
+                   </p>
+                </semx>
+             </fmt-fn-body>
+             <fmt-fn-body id="_" target="_" reference="2">
+                <semx element="fn" source="_">
+                   <p id="_">
+                      <fmt-fn-label>
+                         <span class="fmt-caption-label">
+                            <sup>
+                               <semx element="autonum" source="_">2</semx>
+                            </sup>
+                         </span>
+                         <span class="fmt-caption-delim">
+                            <tab/>
+                         </span>
+                      </fmt-fn-label>
+                      Hello! denoted as 15 % (m/m).
+                   </p>
+                </semx>
+             </fmt-fn-body>
+             <fmt-fn-body id="_" target="_" reference="3">
+                <semx element="fn" source="_">
+                   <p>
+                      <fmt-fn-label>
+                         <span class="fmt-caption-label">
+                            <sup>
+                               <semx element="autonum" source="_">3</semx>
+                            </sup>
+                         </span>
+                         <span class="fmt-caption-delim">
+                            <tab/>
+                         </span>
+                      </fmt-fn-label>
+                      One fn
+                   </p>
+                </semx>
+             </fmt-fn-body>
+             <fmt-fn-body id="_" target="_" reference="4">
+                <semx element="fn" source="_">
+                   <p>
+                      <fmt-fn-label>
+                         <span class="fmt-caption-label">
+                            <sup>
+                               <semx element="autonum" source="_">4</semx>
+                            </sup>
+                         </span>
+                         <span class="fmt-caption-delim">
+                            <tab/>
+                         </span>
+                      </fmt-fn-label>
+                      Another fn
+                   </p>
+                </semx>
+             </fmt-fn-body>
+          </fmt-footnote-container>
+       </itu-standard>
     PRESXML
-    p = IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Xml::C14n.format(strip_guid(p
+    expect(Canon.format_xml(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Xml::C14n.format(presxml)
-    IsoDoc::Itu::HtmlConvert.new({}).convert("test", p, false)
+      .to be_equivalent_to Canon.format_xml(presxml)
+    IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
     expect(File.exist?("test.html")).to be true
     html = File.read("test.html", encoding: "UTF-8")
-    expect(Xml::C14n.format(strip_guid(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ")
+    output = <<~OUTPUT
+      <main xmlns:epub="epub" class="main-section">
+          <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+          <br/>
+          <div id="_">
+             <h1 class="IntroTitle" id="_">
+                <a class="anchor" href="#_"/>
+                <a class="header" href="#_">Foreword</a>
+             </h1>
+             <p>
+                A.
+                <a class="FootnoteRef" href="#fn:_" id="fnref:1">
+                   <sup>1</sup>
+                </a>
+             </p>
+             <p>
+                B.
+                <a class="FootnoteRef" href="#fn:_">
+                   <sup>1</sup>
+                </a>
+             </p>
+             <p>
+                C.
+                <a class="FootnoteRef" href="#fn:_" id="fnref:3">
+                   <sup>2</sup>
+                </a>
+             </p>
+             <p class="TableTitle" style="text-align:center;">
+                Table 1 — Table 1 — Repeatability and reproducibility of
+                <i>husked</i>
+                rice yield
+             </p>
+             <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;" title="tool tip">
+                <caption>
+                   <span style="display:none">long desc</span>
+                </caption>
+                <thead>
+                   <tr>
+                      <td rowspan="2" style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="col">Description</td>
+                      <td colspan="4" style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="colgroup">Rice sample</td>
+                   </tr>
+                </thead>
+                <tbody>
+                   <tr>
+                      <td style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Arborio</td>
+                      <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">
+                         Drago
+                         <a href="#tableD-1a" class="TableFootnoteRef">a)</a>
+                      </td>
+                      <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">
+                         Balilla
+                         <a href="#tableD-1a" class="TableFootnoteRef">a)</a>
+                      </td>
+                      <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Thaibonnet</td>
+                   </tr>
+                </tbody>
+                <tfoot>
+                   <tr>
+                      <td colspan="5" style="border-top:0pt;border-bottom:solid windowtext 1.5pt;">
+                         <div id="fn:tableD-1a" class="TableFootnote">
+                            <p id="_" class="TableFootnote">
+                               <span class="TableFootnoteRef">a)</span>
+                                 Parboiled rice.
+                            </p>
+                         </div>
+                      </td>
+                   </tr>
+                </tfoot>
+             </table>
+          </div>
+          <p class="zzSTDTitle2">
+             An ITU Standard
+             <a class="FootnoteRef" href="#fn:_" id="fnref:4">
+                <sup>3, </sup>
+             </a>
+             <a class="FootnoteRef" href="#fn:_" id="fnref:5">
+                <sup>4</sup>
+             </a>
+          </p>
+            <div id="_">
+               <h1 id="_">
+                  <a class="anchor" href="#_"/>
+                  <a class="header" href="#_">1.</a>
+               </h1>
+            </div>
+          <aside id="fn:_" class="footnote">
+             <p id="_">
+                <a class="FootnoteRef" href="#fn:_">
+                   <sup>1</sup>
+                </a>
+                Formerly denoted as 15 % (m/m).
+             </p>
+             <a href="#fnref:1">↩</a>
+          </aside>
+          <aside id="fn:_" class="footnote">
+             <p id="_">
+                <a class="FootnoteRef" href="#fn:_">
+                   <sup>2</sup>
+                </a>
+                Hello! denoted as 15 % (m/m).
+             </p>
+             <a href="#fnref:3">↩</a>
+          </aside>
+          <aside id="fn:_" class="footnote">
+             <p>
+                <a class="FootnoteRef" href="#fn:_">
+                   <sup>3</sup>
+                </a>
+                One fn
+             </p>
+             <a href="#fnref:4">↩</a>
+          </aside>
+          <aside id="fn:_" class="footnote">
+             <p>
+                <a class="FootnoteRef" href="#fn:_">
+                   <sup>4</sup>
+                </a>
+                Another fn
+             </p>
+             <a href="#fnref:5">↩</a>
+          </aside>
+       </main>
+    OUTPUT
+    expect(Canon.format_xml(strip_guid(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ")
       .sub(%r{</main>.*$}m, "</main>")
       .gsub(%r{<script>.+?</script>}i, "")
       .gsub(/fn:[0-9a-f][0-9a-f-]+/, "fn:_"))))
-      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
-          <main xmlns:epub="epub" class="main-section">
-          <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-          <br/>
-          <div>
-            <h1 class="IntroTitle"/>
-            <p>A.<a class="FootnoteRef" href="#fn:1" id="fnref:1"><sup>1</sup></a></p>
-            <p>B.<a class="FootnoteRef" href="#fn:1"><sup>1</sup></a></p>
-            <p>C.<a class="FootnoteRef" href="#fn:3" id="fnref:3"><sup>2</sup></a></p>
-            <p class="TableTitle" style="text-align:center;">Table 1 — Table 1 — Repeatability and reproducibility of <i>husked</i> rice yield</p>
-            <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;" title="tool tip">
-              <caption>
-                <span style="display:none">long desc</span>
-              </caption>
-              <thead>
-                <tr>
-                  <td rowspan="2" style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="col">Description</td>
-                  <td colspan="4" style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;" scope="colgroup">Rice sample</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Arborio</td>
-                  <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Drago<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
-                  <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
-                  <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Thaibonnet</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="5" style="border-top:0pt;border-bottom:solid windowtext 1.5pt;">
-                    <div class="TableFootnote">
-                      <div id="fn:tableD-1a">
-                        <p id="_" class="TableFootnote"><span><span id="tableD-1a" class="TableFootnoteRef">a)</span>  </span>Parboiled rice.</p>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-          <p class="zzSTDTitle2">An ITU Standard<a class="FootnoteRef" href="#fn:4" id="fnref:4"><sup>3</sup></a><a class="FootnoteRef" href="#fn:5" id="fnref:5"><sup>4</sup></a></p>
-          <div/>
-          <aside id="fn:1" class="footnote">
-            <p id="_"><a class="FootnoteRef" href="#fn:1"><sup>1</sup></a>Formerly denoted as 15 % (m/m).</p>
-            <a href="#fnref:1">↩</a>
-          </aside>
-          <aside id="fn:3" class="footnote">
-            <p id="_"><a class="FootnoteRef" href="#fn:3"><sup>2</sup></a>Hello! denoted as 15 % (m/m).</p>
-            <a href="#fnref:3">↩</a>
-          </aside>
-          <aside id="fn:4" class="footnote">
-            <p><a class="FootnoteRef" href="#fn:4"><sup>3</sup></a>One fn</p>
-            <a href="#fnref:4">↩</a>
-          </aside>
-          <aside id="fn:5" class="footnote">
-            <p><a class="FootnoteRef" href="#fn:5"><sup>4</sup></a>Another fn</p>
-            <a href="#fnref:5">↩</a>
-          </aside>
-        </main>
-      OUTPUT
+      .to be_equivalent_to Canon.format_xml(output)
 
     FileUtils.rm_f "test.doc"
-    IsoDoc::Itu::WordConvert.new({}).convert("test", p, false)
+    IsoDoc::Itu::WordConvert.new({}).convert("test", pres_output, false)
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(Xml::C14n.format(html
-      .sub(%r{^.*<div align="center" class="table_container">}m, "")
-      .sub(%r{</table>.*$}m, "</table>")))
-      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
-            <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;" title="tool tip" summary="long desc">
-          <a name="tableD-1" id="tableD-1"/>
-          <thead>
+    output = <<~OUTPUT
+      <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;" title="tool tip" summary="long desc">
+         <a name="tableD-1" id="tableD-1"/>
+         <thead>
             <tr>
-              <td rowspan="2" valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Description</td>
-              <td colspan="4" valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Rice sample</td>
+               <td rowspan="2" valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Description</td>
+               <td colspan="4" valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Rice sample</td>
             </tr>
-          </thead>
-          <tbody>
+         </thead>
+         <tbody>
             <tr>
-              <td valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Arborio</td>
-              <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Drago<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
-              <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
-              <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Thaibonnet</td>
+               <td valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Arborio</td>
+               <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">
+                  Drago
+                  <a href="#tableD-1a" class="TableFootnoteRef">a)</a>
+               </td>
+               <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">
+                  Balilla
+                  <a href="#tableD-1a" class="TableFootnoteRef">a)</a>
+               </td>
+               <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Thaibonnet</td>
             </tr>
-          </tbody>
-          <tfoot>
+         </tbody>
+         <tfoot>
             <tr>
-              <td colspan="5" style="border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;">
-                <div class="TableFootnote">
-                  <div>
-                    <a name="ftntableD-1a" id="ftntableD-1a"/>
-                    <p class="TableFootnote"><a name="_0fe65e9a-5531-408e-8295-eeff35f41a55" id="_0fe65e9a-5531-408e-8295-eeff35f41a55"/><span><span class="TableFootnoteRef"><a name="tableD-1a" id="tableD-1a"/>a)</span><span style="mso-tab-count:1">  </span></span>Parboiled rice.</p>
+               <td colspan="5" style="border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;">
+                  <div class="TableFootnote">
+                     <a name="ftntableD-1a" id="ftntableD-1a"/>
+                     <p class="TableFootnote">
+                        <a name="_0fe65e9a-5531-408e-8295-eeff35f41a55" id="_0fe65e9a-5531-408e-8295-eeff35f41a55"/>
+                        <span class="TableFootnoteRef">a)</span>
+                        <span style="mso-tab-count:1">  </span>
+                        Parboiled rice.
+                     </p>
                   </div>
-                </div>
-              </td>
+               </td>
             </tr>
-          </tfoot>
-        </table>
-      OUTPUT
+         </tfoot>
+      </table>
+    OUTPUT
+    expect(Canon.format_xml(html
+    .sub(%r{^.*<div align="center" class="table_container">}m, "")
+    .sub(%r{</table>.*$}m, "</table>")))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "injects JS into blank html" do
@@ -638,7 +963,7 @@ RSpec.describe Metanorma::Itu do
     input = <<~INPUT
           <itu-standard xmlns="http://riboseinc.com/isoxml">
           <preface><foreword>
-          <p>
+          <p id="A">
           <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">A</eref>
           <eref type="inline" bibitemid="ISO712" citeas="ISO 712">A</eref>
           <eref type="footnote" bibitemid="ISO712" citeas="ISO 712"></eref>
@@ -665,47 +990,70 @@ RSpec.describe Metanorma::Itu do
           </itu-standard>
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-         <preface>
-             <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-           <foreword displayorder="2">
-             <p>
-                    <sup>
-         <xref type="footnote" target="ISO712">A</xref>
-       </sup>
-       <xref type="inline" target="ISO712">A</xref>
-       <sup>
-         <xref type="footnote" target="ISO712">[ISO 712]</xref>
-       </sup>
-       <xref type="inline" target="ISO712">[ISO 712]</xref>
-       <sup>
-         <xref type="footnote" target="ISO712">[ISO 712], Section 8</xref>
-       </sup>
-       <xref type="inline" target="ISO712">[ISO 712], Section 8</xref>
-       <xref type="inline" target="ISO712">[ISO 712], Sections 8 and 10</xref>
-             </p>
-           </foreword>
-         </preface>
-         <sections>
-           <references id="_" obligation="informative" normative="true" displayorder="3">
-             <title depth="1">1.<tab/>References</title>
-             <bibitem id="ISO712" type="standard">
-               <formattedref>ISO 712 (2019), <em>Cereals and cereal products</em>.</formattedref>
-               <docidentifier>ISO&#xa0;712</docidentifier>
-               <docidentifier scope="biblio-tag">ISO 712</docidentifier>
-               <date type="published"><on>2019-01-01</on></date>
-               <biblio-tag>[ISO 712]</biblio-tag>
-             </bibitem>
-           </references>
-           </sections>
-         <bibliography/>
-       </itu-standard>
+      <p id="A">
+         <eref type="footnote" bibitemid="ISO712" citeas="ISO 712" id="_">A</eref>
+         <semx element="eref" source="_">
+            <sup>
+               <fmt-xref type="footnote" target="ISO712">A</fmt-xref>
+            </sup>
+         </semx>
+         <eref type="inline" bibitemid="ISO712" citeas="ISO 712" id="_">A</eref>
+         <semx element="eref" source="_">
+            <fmt-xref type="inline" target="ISO712">A</fmt-xref>
+         </semx>
+         <eref type="footnote" bibitemid="ISO712" citeas="ISO 712" id="_"/>
+         <semx element="eref" source="_">
+            <sup>
+               <fmt-xref type="footnote" target="ISO712">[ISO 712]</fmt-xref>
+            </sup>
+         </semx>
+         <eref type="inline" bibitemid="ISO712" citeas="ISO 712" id="_"/>
+         <semx element="eref" source="_">
+            <fmt-xref type="inline" target="ISO712">[ISO 712]</fmt-xref>
+         </semx>
+         <eref type="footnote" bibitemid="ISO712" citeas="ISO 712" id="_">
+            <locality type="section">
+               <referenceFrom>8</referenceFrom>
+            </locality>
+         </eref>
+         <semx element="eref" source="_">
+            <sup>
+               <fmt-xref type="footnote" target="ISO712">[ISO 712], Section 8</fmt-xref>
+            </sup>
+         </semx>
+         <eref type="inline" bibitemid="ISO712" citeas="ISO 712" id="_">
+            <locality type="section">
+               <referenceFrom>8</referenceFrom>
+            </locality>
+         </eref>
+         <semx element="eref" source="_">
+            <fmt-xref type="inline" target="ISO712">[ISO 712], Section 8</fmt-xref>
+         </semx>
+         <eref type="inline" bibitemid="ISO712" citeas="ISO 712" id="_">
+            <localityStack connective="and">
+               <locality type="section">
+                  <referenceFrom>8</referenceFrom>
+               </locality>
+            </localityStack>
+            <localityStack connective="and">
+               <locality type="section">
+                  <referenceFrom>10</referenceFrom>
+               </locality>
+            </localityStack>
+         </eref>
+         <semx element="eref" source="_">
+            <fmt-xref type="inline" target="ISO712">
+               [ISO 712], Sections 8
+               <span class="fmt-conn">and</span>
+               10
+            </fmt-xref>
+         </semx
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
-      .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .convert("test", input, true))
+      .at("//xmlns:p[@id = 'A']").to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes erefs and xrefs and links (Word)" do
@@ -715,7 +1063,7 @@ RSpec.describe Metanorma::Itu do
           <p>
           <eref type="footnote" bibitemid="ISO712" citeas="ISO 712">A</stem>
           <eref type="inline" bibitemid="ISO712" citeas="ISO 712">A</stem>
-          <xref target="_http_1_1">Requirement <tt>/req/core/http</tt></xref>
+          <xref target="http_1_1">Requirement <tt>/req/core/http</tt></xref>
           <link target="http://www.example.com">Test</link>
           <link target="http://www.example.com"/>
           </p>
@@ -730,35 +1078,79 @@ RSpec.describe Metanorma::Itu do
           </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-          <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-        <preface>
-          <clause type="toc" id="_" displayorder="1">
-            <title depth="1">Table of Contents</title>
-          </clause>
-          <foreword displayorder="2">
-            <p>
-              <sup>
-                <xref type="footnote" target="ISO712">A</xref>
-              </sup>
-              <xref type="inline" target="ISO712">A</xref>
-              <xref target="_">Requirement <tt>/req/core/http</tt></xref>
-              <link target="http://www.example.com">Test</link>
-              <link target="http://www.example.com"/>
-            </p>
-          </foreword>
-        </preface>
-        <sections>
-          <references id="_" obligation="informative" normative="true" displayorder="3">
-            <title depth="1">1.<tab/>References</title>
-            <bibitem id="ISO712" type="standard">
-              <formattedref format="text/plain">ISO 712, <em>Cereals and cereal products</em>.</formattedref>
-              <docidentifier>ISO 712</docidentifier>
-              <docidentifier scope="biblio-tag">ISO 712</docidentifier>
-              <biblio-tag>[ISO 712]</biblio-tag>
-            </bibitem>
-          </references>
-          </sections>
-        <bibliography/>
+      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+         <preface>
+            <clause type="toc" id="_" displayorder="1">
+               <fmt-title id="_" depth="1">Table of Contents</fmt-title>
+            </clause>
+            <foreword displayorder="2" id="_">
+               <title id="_">Foreword</title>
+               <fmt-title id="_" depth="1">
+                  <semx element="title" source="_">Foreword</semx>
+               </fmt-title>
+               <p>
+                  <eref type="footnote" bibitemid="ISO712" citeas="ISO 712" id="_">A</eref>
+                  <semx element="eref" source="_">
+                     <sup>
+                        <fmt-xref type="footnote" target="ISO712">A</fmt-xref>
+                     </sup>
+                  </semx>
+                  <eref type="inline" bibitemid="ISO712" citeas="ISO 712" id="_">A</eref>
+                  <semx element="eref" source="_">
+                     <fmt-xref type="inline" target="ISO712">A</fmt-xref>
+                  </semx>
+                  <xref target="http_1_1" id="_">
+                     Requirement
+                     <tt>/req/core/http</tt>
+                  </xref>
+                  <semx element="xref" source="_">
+                     <fmt-xref target="http_1_1">
+                        Requirement
+                        <tt>/req/core/http</tt>
+                     </fmt-xref>
+                  </semx>
+                  <link target="http://www.example.com" id="_">Test</link>
+                  <semx element="link" source="_">
+                     <fmt-link target="http://www.example.com">Test</fmt-link>
+                  </semx>
+                  <link target="http://www.example.com" id="_"/>
+                  <semx element="link" source="_">
+                     <fmt-link target="http://www.example.com"/>
+                  </semx>
+               </p>
+            </foreword>
+         </preface>
+         <sections>
+            <references id="_" obligation="informative" normative="true" displayorder="3">
+               <title id="_">References</title>
+               <fmt-title id="_" depth="1">
+                  <span class="fmt-caption-label">
+                     <semx element="autonum" source="_">1</semx>
+                     <span class="fmt-autonum-delim">.</span>
+                  </span>
+                  <span class="fmt-caption-delim">
+                     <tab/>
+                  </span>
+                  <semx element="title" source="_">References</semx>
+               </fmt-title>
+               <fmt-xref-label>
+                  <span class="fmt-element-name">clause</span>
+                  <semx element="autonum" source="_">1</semx>
+               </fmt-xref-label>
+               <bibitem id="ISO712" type="standard">
+                  <formattedref format="text/plain">
+                     ISO 712,
+                     <em>Cereals and cereal products</em>
+                     .
+                  </formattedref>
+                  <docidentifier>ISO 712</docidentifier>
+                  <docidentifier scope="biblio-tag">ISO 712</docidentifier>
+                  <biblio-tag>[ISO 712]</biblio-tag>
+               </bibitem>
+            </references>
+         </sections>
+         <bibliography>
+          </bibliography>
       </iso-standard>
     OUTPUT
     output = <<~OUTPUT
@@ -780,14 +1172,14 @@ RSpec.describe Metanorma::Itu do
               <b>Page</b>
             </p>
           </div>
-          <div>
-            <h1 class="IntroTitle"/>
+          <div id="_">
+            <h1 class="IntroTitle">Foreword</h1>
             <p>
               <sup>
                 <a href="#ISO712">A</a>
               </sup>
               <a href="#ISO712">A</a>
-              <a href="#_">Requirement <tt>/req/core/http</tt></a>
+              <a href="#http_1_1">Requirement <tt>/req/core/http</tt></a>
               <a href="http://www.example.com" class="url">Test</a>
               <a href="http://www.example.com" class="url">http://www.example.com</a>
             </p>
@@ -812,16 +1204,17 @@ RSpec.describe Metanorma::Itu do
         </div>
       </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
+    expect(Canon.format_xml(strip_guid(pres_output
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", presxml, true)
+      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .gsub(%r{</body>.*}m, "</body>"))))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes boilerplate" do
@@ -831,11 +1224,14 @@ RSpec.describe Metanorma::Itu do
       #{boilerplate(Nokogiri::XML(%(<iso-standard xmlns="http://riboseinc.com/isoxml"><bibdata><language>en</language><script>Latn</script><copyright><from>#{Time.new.year}</from></copyright><ext><doctype>recommendation</doctype></ext></bibdata></iso-standard>)))}
       </iso-standard>
     INPUT
-    IsoDoc::Itu::HtmlConvert.new({}).convert("test", input, false)
-    expect(Xml::C14n.format(strip_guid(File.read("test.html", encoding: "utf-8")
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)
+    IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
+    expect(Canon.format_xml(strip_guid(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<div class="prefatory-section">}m, '<div class="prefatory-section">')
       .gsub(%r{<nav>.*}m, "</div>"))))
-      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
+      .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
          <div class='prefatory-section'>
           <div class='boilerplate-legal'>
             <div id="_">
@@ -862,11 +1258,11 @@ RSpec.describe Metanorma::Itu do
       OUTPUT
 
     FileUtils.rm_f "test.doc"
-    IsoDoc::Itu::WordConvert.new({}).convert("test", input, false)
-    expect(Xml::C14n.format(File.read("test.doc", encoding: "utf-8")
+    IsoDoc::Itu::WordConvert.new({}).convert("test", pres_output, false)
+    expect(Canon.format_xml(strip_guid(File.read("test.doc", encoding: "utf-8"))
       .gsub(%r{^.*<div class="boilerplate-legal">}m, '<div><div class="boilerplate-legal">')
       .gsub(%r{<b>Table of Contents</b></p>.*}m, "<b>Table of Contents</b></p></div>")))
-      .to be_equivalent_to Xml::C14n.format(<<~"OUTPUT")
+      .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
             <div><div class="boilerplate-legal">
             <div><a name="_" id="_"/><p class="boilerplateHdr">FOREWORD</p>
 
@@ -883,7 +1279,6 @@ RSpec.describe Metanorma::Itu do
         </div>
 
             </div>
-
 
 
 
@@ -952,10 +1347,10 @@ RSpec.describe Metanorma::Itu do
     INPUT
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(Xml::C14n.format(html
+    expect(Canon.format_xml(html
       .sub(%r{^.*<div align="center" class="table_container">}m, "")
       .sub(%r{</table>.*$}m, "</table>")))
-      .to be_equivalent_to Xml::C14n.format(<<~OUTPUT)
+      .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
         <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;">
           <a name="_2a8bd899-ab80-483a-90dc-002b6f497f54" id="_2a8bd899-ab80-483a-90dc-002b6f497f54"/>
           <thead>
@@ -1007,21 +1402,198 @@ RSpec.describe Metanorma::Itu do
       </iso-standard>
     INPUT
     output = <<~OUTPUT
-      <iso-standard xmlns='http://riboseinc.com/isoxml' type='presentation'>
-               <bibdata>
-                 <title language='en'>test</title>
-               </bibdata>
-               <preface>
-                 <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-                 <p displayorder='2'>30'000
-                   <stem type="MathML"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mfenced open="(" close=")"><mrow><mi>X</mi><mo>≥</mo><msub><mrow><mi>X</mi></mrow><mrow><mo>max</mo></mrow></msub></mrow></mfenced><mo>=</mo><munderover><mrow><mo>∑</mo></mrow><mrow><mrow><mi>j</mi><mo>=</mo><msub><mrow><mi>X</mi></mrow><mrow><mo>max</mo></mrow></msub></mrow></mrow><mrow><mn>1'000</mn></mrow></munderover><mfenced open="(" close=")"><mtable><mtr><mtd><mn>1'000</mn></mtd></mtr><mtr><mtd><mi>j</mi></mtd></mtr></mtable></mfenced><msup><mrow><mi>p</mi></mrow><mrow><mi>j</mi></mrow></msup><msup><mrow><mfenced open="(" close=")"><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfenced></mrow><mrow><mrow><mn>1.003</mn><mo>−</mo><mi>j</mi></mrow></mrow></msup></math><asciimath>P (X ge X_(max)) = sum_(j = X_(max))^(1000) ([[1000], [j]]) p^(j) (1 - p)^(1.003 - j)</asciimath></stem></p>
+      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+         <bibdata>
+            <title language="en">test</title>
+         </bibdata>
+         <preface>
+            <clause type="toc" id="_" displayorder="1">
+               <fmt-title id="_" depth="1">Table of Contents</fmt-title>
+            </clause>
+            <p displayorder="2">
+               <stem type="MathML" id="_">
+                  <math xmlns="http://www.w3.org/1998/Math/MathML">
+                     <mn>30000</mn>
+                  </math>
+               </stem>
+               <fmt-stem type="MathML">
+                  <semx element="stem" source="_">30'000</semx>
+               </fmt-stem>
+               <stem type="MathML" id="_">
+                  <math xmlns="http://www.w3.org/1998/Math/MathML">
+                     <mi>P</mi>
+                     <mfenced open="(" close=")">
+                        <mrow>
+                           <mi>X</mi>
+                           <mo>≥</mo>
+                           <msub>
+                              <mrow>
+                                 <mi>X</mi>
+                              </mrow>
+                              <mrow>
+                                 <mo>max</mo>
+                              </mrow>
+                           </msub>
+                        </mrow>
+                     </mfenced>
+                     <mo>=</mo>
+                     <munderover>
+                        <mrow>
+                           <mo>∑</mo>
+                        </mrow>
+                        <mrow>
+                           <mrow>
+                              <mi>j</mi>
+                              <mo>=</mo>
+                              <msub>
+                                 <mrow>
+                                    <mi>X</mi>
+                                 </mrow>
+                                 <mrow>
+                                    <mo>max</mo>
+                                 </mrow>
+                              </msub>
+                           </mrow>
+                        </mrow>
+                        <mrow>
+                           <mn>1000</mn>
+                        </mrow>
+                     </munderover>
+                     <mfenced open="(" close=")">
+                        <mtable>
+                           <mtr>
+                              <mtd>
+                                 <mn>1000</mn>
+                              </mtd>
+                           </mtr>
+                           <mtr>
+                              <mtd>
+                                 <mi>j</mi>
+                              </mtd>
+                           </mtr>
+                        </mtable>
+                     </mfenced>
+                     <msup>
+                        <mrow>
+                           <mi>p</mi>
+                        </mrow>
+                        <mrow>
+                           <mi>j</mi>
+                        </mrow>
+                     </msup>
+                     <msup>
+                        <mrow>
+                           <mfenced open="(" close=")">
+                              <mrow>
+                                 <mn>1</mn>
+                                 <mo>−</mo>
+                                 <mi>p</mi>
+                              </mrow>
+                           </mfenced>
+                        </mrow>
+                        <mrow>
+                           <mrow>
+                              <mn>1.003</mn>
+                              <mo>−</mo>
+                              <mi>j</mi>
+                           </mrow>
+                        </mrow>
+                     </msup>
+                  </math>
+               </stem>
+               <fmt-stem type="MathML">
+                  <semx element="stem" source="_">
+                     <math xmlns="http://www.w3.org/1998/Math/MathML">
+                        <mi>P</mi>
+                        <mfenced open="(" close=")">
+                           <mrow>
+                              <mi>X</mi>
+                              <mo>≥</mo>
+                              <msub>
+                                 <mrow>
+                                    <mi>X</mi>
+                                 </mrow>
+                                 <mrow>
+                                    <mo>max</mo>
+                                 </mrow>
+                              </msub>
+                           </mrow>
+                        </mfenced>
+                        <mo>=</mo>
+                        <munderover>
+                           <mrow>
+                              <mo>∑</mo>
+                           </mrow>
+                           <mrow>
+                              <mrow>
+                                 <mi>j</mi>
+                                 <mo>=</mo>
+                                 <msub>
+                                    <mrow>
+                                       <mi>X</mi>
+                                    </mrow>
+                                    <mrow>
+                                       <mo>max</mo>
+                                    </mrow>
+                                 </msub>
+                              </mrow>
+                           </mrow>
+                           <mrow>
+                              <mn>1'000</mn>
+                           </mrow>
+                        </munderover>
+                        <mfenced open="(" close=")">
+                           <mtable>
+                              <mtr>
+                                 <mtd>
+                                    <mn>1'000</mn>
+                                 </mtd>
+                              </mtr>
+                              <mtr>
+                                 <mtd>
+                                    <mi>j</mi>
+                                 </mtd>
+                              </mtr>
+                           </mtable>
+                        </mfenced>
+                        <msup>
+                           <mrow>
+                              <mi>p</mi>
+                           </mrow>
+                           <mrow>
+                              <mi>j</mi>
+                           </mrow>
+                        </msup>
+                        <msup>
+                           <mrow>
+                              <mfenced open="(" close=")">
+                                 <mrow>
+                                    <mn>1</mn>
+                                    <mo>−</mo>
+                                    <mi>p</mi>
+                                 </mrow>
+                              </mfenced>
+                           </mrow>
+                           <mrow>
+                              <mrow>
+                                 <mn>1.003</mn>
+                                 <mo>−</mo>
+                                 <mi>j</mi>
+                              </mrow>
+                           </mrow>
+                        </msup>
+                     </math>
+                     <asciimath>P (X ge X_(max)) = sum_(j = X_(max))^(1000) ([[1000], [j]]) p^(j) (1 - p)^(1.003 - j)</asciimath>
+                  </semx>
+               </fmt-stem>
+            </p>
          </preface>
-       </iso-standard>
+      </iso-standard>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true))
       .sub(%r{<localized-strings>.*</localized-strings>}m, "")))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Canon.format_xml(output)
   end
 end

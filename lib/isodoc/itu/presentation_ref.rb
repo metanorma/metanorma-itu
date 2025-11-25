@@ -11,16 +11,20 @@ module IsoDoc
       def bibrender_formattedref(formattedref, _xml)
         formattedref << "." unless /\.$/.match?(formattedref.text)
         id = reference_format_start(formattedref.parent) and
-          formattedref.children.first.previous = id
+          formattedref.add_first_child id
       end
 
       def bibrender_relaton(xml, renderings)
-        f = renderings[xml["id"]][:formattedref]
+        f = renderings[xml["id"]][:formattedref] or return
         ids = reference_format_start(xml)
         f &&= "<formattedref>#{ids}#{f}</formattedref>"
-        # retain date in order to generate reference tag
-        keep = "./docidentifier | ./uri | ./note | ./date | ./biblio-tag"
-        xml.children = "#{f}#{xml.xpath(ns(keep)).to_xml}"
+        if x = xml.at(ns("./formattedref"))
+          x.replace(f)
+        elsif xml.children.empty?
+          xml << f
+        else
+          xml.children.first.previous = f
+        end
       end
 
       def multi_bibitem_ref_code(bib)
@@ -53,6 +57,7 @@ module IsoDoc
         id = multi_bibitem_ref_code(bib)
         id1 = render_multi_identifiers(id, bib)
         out = id1
+        out.empty? and return out
         date = bib.at(ns("./date[@type = 'published']/on | " \
           "./date[@type = 'published']/from")) and
           out << " (#{date.text.sub(/-.*$/, '')})"
@@ -60,7 +65,7 @@ module IsoDoc
         out
       end
 
-      def bibliography_bibitem_number1(bib, idx)
+      def bibliography_bibitem_number1(bib, idx, normative)
         mn = bib.at(ns(".//docidentifier[@type = 'metanorma']")) and
           /^\[?\d+\]?$/.match?(mn.text) and
           mn["type"] = "metanorma-ordinal"
@@ -73,24 +78,53 @@ module IsoDoc
       end
 
       def bibliography_bibitem_number_skip(bibitem)
-        @xrefs.klass.implicit_reference(bibitem) ||
+        implicit_reference(bibitem) ||
           bibitem["hidden"] == "true" || bibitem.parent["hidden"] == "true"
       end
 
       def norm_ref_entry_code(_ordinal, idents, _ids, _standard, datefn, _bib)
         ret = (idents[:metanorma] || idents[:ordinal] || idents[:sdo]).to_s
-        /^\[.+\]$/.match?(ret) or ret = "[#{ret}]"
+        ret.empty? and return ""
+        ret = ret.sub(/^\[(.+)\]$/, "\\1")
+        ret = "[#{esc ret}]"
         ret += datefn
-        ret.empty? and return ret
         ret.gsub("-", "&#x2011;").gsub(/ /, "&#xa0;")
       end
 
       def biblio_ref_entry_code(_ordinal, idents, _id, _standard, datefn, _bib)
         ret = (idents[:metanorma] || idents[:ordinal] || idents[:sdo]).to_s
-        /^\[.+\]$/.match?(ret) or ret = "[#{ret}]"
+        ret = ret.sub(/^\[(.+)\]$/, "\\1")
+        ret = "[#{esc ret}]"
         ret += datefn
         ret.empty? and return ret
         ret.gsub("-", "&#x2011;").gsub(/ /, "&#xa0;")
+      end
+
+      def bracket_if_num(num)
+        return nil if num.nil? || num.text.strip.empty?
+
+        num = num.text.sub(/^\[/, "").sub(/\]$/, "")
+        "[#{num}]"
+      end
+
+      def pref_ref_code(bibitem)
+        ret = bibitem.xpath(ns("./docidentifier[@type = 'ITU']"))
+        ret.empty? and ret = super
+        ret
+      end
+
+      def unbracket(ident)
+        if ident.respond_to?(:size)
+          ident.map { |x| unbracket1(x) }.join("&#xA0;| ")
+        else
+          unbracket1(ident)
+        end
+      end
+
+      def reference_name(ref)
+        super
+        @xrefs.get[ref["id"]] =
+          { xref: @xrefs.get[ref["id"]][:xref]&.sub(/^\[/, "")&.sub(/\]$/, "") }
       end
     end
   end

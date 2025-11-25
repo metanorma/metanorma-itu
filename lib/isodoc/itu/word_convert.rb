@@ -39,7 +39,7 @@ module IsoDoc
         out.div **attr_code(id: clause["id"], class: "Abstract") do |s|
           @doctype == "contribution" or
             clause_name(clause, "Summary", s, class: "AbstractTitle")
-          clause.elements.each { |e| parse(e, s) unless e.name == "title" }
+          clause.elements.each { |e| parse(e, s) unless e.name == "fmt-title" }
         end
       end
 
@@ -47,10 +47,10 @@ module IsoDoc
         out.div **attr_code(class: "formula") do |div|
           div.p **attr_code(class: "formula") do |_p|
             insert_tab(div, 1)
-            parse(node.at(ns("./stem")), div)
-            if lbl = node&.at(ns("./name"))&.text
+            parse(node.at(ns("./fmt-stem")), div)
+            if lbl = node&.at(ns("./fmt-name"))&.text
               insert_tab(div, 1)
-              div << "(#{lbl})"
+              div << lbl
             end
           end
         end
@@ -102,7 +102,8 @@ module IsoDoc
       end
 
       def ol_attrs(node)
-        { class: node["class"], id: node["id"], style: keep_style(node) }
+        { class: node["class"], id: node["id"], style: keep_style(node),
+          start: node["start"] }
       end
 
       def link_parse(node, out)
@@ -127,7 +128,7 @@ module IsoDoc
         page_break(out)
         out.div **attr_code(preface_attrs(clause)) do |div|
           div.p class: "zzContents" do |p|
-            clause.at(ns("./title"))&.children&.each do |c|
+            clause.at(ns("./fmt-title"))&.children&.each do |c|
               parse(c, p)
             end
           end
@@ -136,7 +137,7 @@ module IsoDoc
             p << "<b>#{@i18n.page}</b>"
           end
           clause.elements.each do |e|
-            parse(e, div) unless e.name == "title"
+            parse(e, div) unless e.name == "fmt-title"
           end
         end
       end

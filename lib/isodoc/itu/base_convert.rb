@@ -12,10 +12,10 @@ module IsoDoc
                      "[not(local-name() = 'abstract')]".freeze
 
       def introduction(clause, out)
-        title = clause.at(ns("./title"))
+        title = clause.at(ns("./fmt-title"))
         out.div **attr_code(clause_attrs(clause)) do |s|
           clause_name(clause, title, s, class: "IntroTitle")
-          clause.elements.reject { |c1| c1.name == "title" }.each do |c1|
+          clause.elements.reject { |c1| c1.name == "fmt-title" }.each do |c1|
             parse(c1, s)
           end
         end
@@ -37,42 +37,15 @@ module IsoDoc
         ""
       end
 
-      def note_delim
-        " &#x2013; "
-      end
-
       def para_class(node)
-        return "supertitle" if node["class"] == "supertitle"
-
+        node["class"] == "supertitle" and return "supertitle"
         super
       end
 
-      def ol_depth(node)
-        node["class"] == "steps" ||
-          node.at(".//ancestor::xmlns:ol[@class = 'steps']") or return super
-        depth = node.ancestors("ul, ol").size + 1
-        type = :arabic
-        type = :alphabet if [2, 7].include? depth
-        type = :roman if [3, 8].include? depth
-        type = :alphabet_upper if [4, 9].include? depth
-        type = :roman_upper if [5, 10].include? depth
-        ol_style(type)
-      end
-
-      def annex_name(annex, name, div)
+      def annex_name(_annex, name, div)
         r_a = @meta.get[:doctype_original] == "recommendation-annex"
         div.h1 class: r_a ? "RecommendationAnnex" : "Annex" do |t|
           name&.children&.each { |c2| parse(c2, t) }
-        end
-        @meta.get[:doctype_original] == "resolution" or
-          annex_obligation_subtitle(annex, div)
-      end
-
-      def annex_obligation_subtitle(annex, div)
-        info = annex["obligation"] == "informative"
-        div.p class: "annex_obligation" do |p|
-          p << (info ? @i18n.inform_annex : @i18n.norm_annex)
-            .sub("%", @meta.get[:doctype] || "")
         end
       end
 
@@ -80,9 +53,9 @@ module IsoDoc
         @meta.get[:doctype_original] == "recommendation-annex" or
           page_break(out)
         out.div **attr_code(id: node["id"], class: "Section3") do |s|
-          annex_name(node, nil, s) unless node.at(ns("./title"))
+          annex_name(node, nil, s) unless node.at(ns("./fmt-title"))
           node.elements.each do |c1|
-            if c1.name == "title" then annex_name(node, c1, s)
+            if c1.name == "fmt-title" then annex_name(node, c1, s)
             else
               parse(c1, s)
             end
@@ -95,32 +68,6 @@ module IsoDoc
         @meta.techreport isoxml, out
         @meta.contribution isoxml, out
         super
-      end
-
-      def note_p_parse(node, div)
-        name = node.at(ns("./name"))&.remove
-        div.p do |p|
-          name and p.span class: "note_label" do |s|
-            name.children.each { |n| parse(n, s) }
-            s << note_delim
-          end
-          node.first_element_child.children.each { |n| parse(n, p) }
-        end
-        node.element_children[1..-1].each { |n| parse(n, div) }
-      end
-
-      def note_parse1(node, div)
-        name = node.at(ns("./name"))&.remove
-        div.p do |p|
-          name and p.span class: "note_label" do |s|
-            name.children.each { |n| parse(n, s) }
-          end
-        end
-        node.children.each { |n| parse(n, div) }
-      end
-
-      def table_footnote_reference_format(node)
-        node.content += ")"
       end
 
       def note_parse(node, out)
@@ -139,7 +86,7 @@ module IsoDoc
       def clause(clause, out)
         out.div **attr_code(clause_attrs(clause)) do |s|
           clause.elements.each do |c1|
-            if c1.name == "title" then clause_name(clause, c1, s, nil)
+            if c1.name == "fmt-title" then clause_name(clause, c1, s, nil)
             else
               parse(c1, s)
             end
@@ -156,7 +103,7 @@ module IsoDoc
       def dl1(dlist)
         ret = dl2tbody(dlist)
         n = dlist.at(ns("./colgroup")) and ret = "#{n.remove.to_xml}#{ret}"
-        n = dlist.at(ns("./name")) and ret = "#{n.remove.to_xml}#{ret}"
+        n = dlist.at(ns("./fmt-name")) and ret = "#{n.remove.to_xml}#{ret}"
         dlist.name = "table"
         dlist["class"] = "dl"
         dlist.children.first.previous = ret

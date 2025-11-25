@@ -12,7 +12,7 @@ All rights reserved. No part of this publication may be reproduced, by any means
 
 ITU draws attention to the possibility that the practice or implementation of this Recommendation may involve the use of a claimed Intellectual Property Right. ITU takes no position concerning the evidence, validity or applicability of claimed Intellectual Property Rights, whether asserted by ITU members or others outside of the Recommendation development process.
 
-As of the date of approval of this Recommendation, ITU had {% if ip_notice_received %}{% else %}not{% endif %} received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at http://www.itu.int/ITU-T/ipr/[].
+As of the date of approval of this Recommendation, ITU had {% if ip_notice_received != 'false' %}{% else %}not{% endif %} received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at http://www.itu.int/ITU-T/ipr/[].
 {% endif %}
 
 == legal-statement
@@ -35,14 +35,23 @@ Compliance with this Recommendation is voluntary. However, the Recommendation ma
 
 {% endif %}
 
+{% if doctype == "Contribution" %}
+
+[[draft-warning]]
+=== CAUTION! CONTRIBUTION
+
+This is an ITU Contribution. It is an internal document to ITU,
+and it is not to be used outside of ITU.
+{% else %}
 {% if unpublished and docnumber_provisional == nil %}
 [[draft-warning]]
-=== CAUTION! PREPUBLISHED {{ doctype  | upcase }}
+=== CAUTION! PREPUBLISHED {{ doctype_display  | upcase }}
 
-This prepublication is an unedited version of a recently approved {{doctype}}.
+This prepublication is an unedited version of a recently approved {{doctype_display}}.
 It will be replaced by the published version after editing. Therefore,
 there will be differences between this prepublication and the published
 version.
+{% endif %}
 {% endif %}
 {% endif %}
 

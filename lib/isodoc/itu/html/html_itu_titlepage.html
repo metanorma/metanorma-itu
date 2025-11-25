@@ -17,7 +17,7 @@
     <div class="wrapper-top">
 
       {% if unpublished %}
-      {% if doctype == "Technical Report" or doctype == "Technical Paper" or doctype == "Implementers Guide" %}
+      {% if doctype == "Technical Report" or doctype == "Technical Paper" or doctype == "Implementers Guide" or doctype == "Joint Itu Iso Iec" %}
       <table>
         <tr><th>Question(s):</th><td colspan="2">{{ group }}</td><th colspan="2">Meeting, date:</th><td colspan="3">{{ meeting }}{% if meeting and meeting_date %}, {% endif %}{{ meeting_date }}</td></tr>
         <tr><th>Study Group:</th><td>{{ subgroup }}</td><th>Working Party:</th><td>{{ workgroup }}</td><th colspan="3">Intended type of document (R-C-TD):</th><td>{{ intended_type }}</td></tr>
@@ -44,7 +44,7 @@
         <div class="doc-info-left">
           <div class="doc-identifier">
             {% if collectiontitle  %}<div>{{ collectiontitle}}</div>{%endif%}
-            <div>{% if doctype != "Recommendation" %}{{doctype }} {% endif %}{{ docnumeric }}</div>
+            <div>{% if doctype != "Recommendation" %}{{doctype_display }} {% endif %}{{ docnumeric }}</div>
             {% if amendmentid %}<div class="doc-subidentifier">{{ amendmentid }}</div>{% endif %} 
             {% if corrigendumid %}<div class="doc-subidentifier">{{ corrigendumid }}</div>{% endif %}       
             {% if edition %} <div> Revision {{ edition }}</div> {% endif %}

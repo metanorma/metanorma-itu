@@ -2,7 +2,25 @@ require "isodoc"
 require "fileutils"
 require_relative "xref_section"
 
+
 module IsoDoc
+  module XrefGen
+    module OlTypeProvider
+      def ol_type(list, depth)
+        steps = list["class"] == "steps" ||
+          list.at(".//ancestor::xmlns:ol[@class = 'steps']") 
+        !steps && list["type"] and  return list["type"].to_sym if list["type"]
+        type = steps ? :arabic : :alphabet
+        type = (steps ? :alphabet : :arabic) if [2, 7].include? depth
+        type = :roman if [3, 8].include? depth
+        type = :alphabet_upper if [4, 9].include? depth
+        type = :roman_upper if [5, 10].include? depth
+        type
+      end
+    end
+  end
+
+
   module Itu
     class Counter < IsoDoc::XrefGen::Counter
       def print
@@ -48,25 +66,42 @@ module IsoDoc
       end
 
       def subfigure_label(subfignum)
-        subfignum.zero? and return ""
-        "-#{(subfignum + 96).chr}"
+        subfignum.zero? and return
+        (subfignum + 96).chr
       end
 
-      def sequential_figure_body(subfig, counter, elem, klass, container: false)
-        label = counter.print
-        label &&= label + subfigure_label(subfig)
+      def subfigure_delim
+        ")"
+      end
+
+      def figure_anchor(elem, sublabel, label, klass, container: false)
+        if sublabel
+          subfigure_anchor(elem, sublabel, label, klass, container: false)
+        else
+          @anchors[elem["id"]] = anchor_struct(
+            label, elem, @labels[klass] || klass.capitalize, klass,
+            { unnumb: elem["unnumbered"], container: }
+          )
+        end
+      end
+
+      def fig_subfig_label(label, sublabel)
+        "#{label}#{delim_wrap("-")}#{sublabel}"
+      end
+
+      def subfigure_anchor(elem, sublabel, label, klass, container: false)
+        figlabel = fig_subfig_label(semx(elem.parent, label), semx(elem, sublabel))
         @anchors[elem["id"]] = anchor_struct(
-          label, container ? elem : nil, @labels[klass] || klass.capitalize,
-          klass, elem["unnumbered"]
+          figlabel, elem, @labels[klass] || klass.capitalize, klass,
+          { unnumb: elem["unnumbered"] }
         )
-      end
-
-      def hierarchical_figure_body(num, subfignum, counter, block, klass)
-        label = "#{num}#{hiersep}#{counter.print}" + subfigure_label(subfignum)
-        @anchors[block["id"]] = anchor_struct(
-          label, nil, @labels[klass] || klass.capitalize,
-          klass, block["unnumbered"]
-        )
+        if elem["unnumbered"] != "true"
+          p = elem.at("./ancestor::xmlns:figure")
+          @anchors[elem["id"]][:xref] = @anchors[p["id"]][:xref] +
+            delim_wrap("-") + semx(elem, sublabel)
+          x = @anchors[p["id"]][:container] and
+            @anchors[elem["id"]][:container] = x
+        end
       end
 
       def sequential_formula_names(clause, container: false)
@@ -84,17 +119,11 @@ module IsoDoc
         c = Counter.new
         clause.xpath(ns(".//formula")).noblank.each do |t|
           @anchors[t["id"]] = anchor_struct(
-            "#{num}-#{c.increment(t).print}", nil,
+            "#{semx(clause, num)}#{delim_wrap("-")}#{semx(t, c.increment(t).print)}", t,
             t["inequality"] ? @labels["inequality"] : @labels["formula"],
-            "formula", t["unnumbered"]
+            "formula", { unnumb:t["unnumbered"] }
           )
         end
-      end
-
-      def reference_names(ref)
-        super
-        @anchors[ref["id"]] =
-          { xref: @anchors[ref["id"]][:xref].sub(/^\[/, "").sub(/\]$/, "") }
       end
 
       def termnote_anchor_names(docxml)
@@ -102,11 +131,11 @@ module IsoDoc
           c = Counter.new
           notes = t.xpath(ns("./termnote"))
           notes.noblank.each do |n|
-            idx = notes.size == 1 ? "" : " #{c.increment(n).print}"
+            idx = notes.size == 1 ? "" : c.increment(n).print
+            idx.blank? or notenum = " #{semx(n, idx)}"
             @anchors[n["id"]] =
-              { label: termnote_label(idx).strip, type: "termnote", value: idx,
-                xref: l10n("#{anchor(t['id'], :xref)},
-                           #{@labels['note_xref']} #{c.print}") }
+              { label: termnote_label(n, idx).strip, type: "termnote", value: idx,
+                xref: l10n("#{semx(t, anchor(t['id'], :xref))}<span class='fmt-comma'>,</span> <span class='fmt-element-name'>#{@labels['note_xref']}</span>#{notenum}") }
           end
         end
       end

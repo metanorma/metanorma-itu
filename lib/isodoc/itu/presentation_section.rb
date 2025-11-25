@@ -1,0 +1,174 @@
+module IsoDoc
+  module Itu
+    class PresentationXMLConvert < IsoDoc::PresentationXMLConvert
+      def clause1(elem)
+        clause1_super?(elem) and return super
+        lbl = @xrefs.anchor(elem["id"], :label, false)
+        oldsuppressheadingnumbers = @suppressheadingnumbers
+        @suppressheadingnumbers = true
+        super
+        @suppressheadingnumbers = oldsuppressheadingnumbers
+        lbl.blank? || elem["unnumbered"] and return
+        elem.previous =
+          "<p keep-with-next='true' class='supertitle'>" \
+          "#{labelled_autonum(@i18n.get['section'].upcase, elem['id'],
+                              lbl)}</p>"
+      end
+
+      def clause1_super?(elem)
+        @doctype != "resolution" ||
+          !%w(sections bibliography).include?(elem.parent.name)
+      end
+
+      def annex1(elem)
+        if @doctype == "resolution"
+          annex1_resolution(elem)
+        else
+          super
+          annex1_non_resolution(elem)
+        end
+      end
+
+      def annex1_resolution(elem)
+        elem.elements.first.previous = annex1_supertitle(elem)
+        # TODO: do not alter title, alter semx/@element = title
+        t = elem.at(ns("./title")) and
+          t.children = "<strong>#{to_xml(t.children)}</strong>"
+        prefix_name(elem, {}, nil, "title")
+      end
+
+      def annex1_non_resolution(elem)
+        info = elem["obligation"] == "informative"
+        ins = elem.at(ns("./fmt-xref-label")) || elem.at(ns("./fmt-title"))
+        p = (info ? @i18n.inform_annex : @i18n.norm_annex)
+          .gsub("%", @i18n.doctype_dict[@meta.get[:doctype_original]] || "")
+        ins.next = <<~XML
+          <p class="annex_obligation"><span class='fmt-obligation'>#{p}</span></p>
+        XML
+      end
+
+      def annex1_supertitle(elem)
+        lbl = @xrefs.anchor(elem["id"], :label)
+        res = elem.at(ns("//bibdata/title[@type = 'resolution']"))
+        subhead = @i18n.l10n("(#{@i18n.get['to']} #{to_xml(res.children)})")
+        "<p class='supertitle'>#{autonum(elem['id'],
+                                         lbl)}<br/>#{subhead}</p>"
+      end
+
+      # KILL
+      def middle_titlex(isoxml)
+        s = isoxml.at(ns("//sections")) or return
+        # isoxml.at(ns("//note[@type = 'title-footnote']"))
+        case @doctype
+        when "resolution"
+          middle_title_resolution(isoxml, s.children.first)
+        when "contribution"
+        else
+          middle_title_recommendation(isoxml, s.children.first)
+        end
+        # titfn and renumber_footnotes(isoxml)
+      end
+
+      def middle_title_template
+        case @doctype
+        when "resolution"
+          middle_title_resolution
+        when "contribution"
+        else
+          middle_title_recommendation
+        end
+      end
+
+      # KILL
+      def middle_title_resolutionx(isoxml, out)
+        res = isoxml.at(ns("//bibdata/title[@type = 'resolution']"))
+        out.previous =
+          "<p class='zzSTDTitle1' align='center'>#{res.children.to_xml}</p>"
+        t = @meta.get[:doctitle] and
+          out.previous = "<p class='zzSTDTitle2'>#{t}</p>"
+        middle_title_resolution_subtitle(isoxml, out)
+      end
+
+      def middle_title_resolution
+        <<~OUTPUT
+          <p class='zzSTDTitle1' align='center'>{{ resolutiontitle }}</p>
+          {% if doctitle %}<p class='zzSTDTitle2'>{{ doctitle }}</p>{% endif %}
+          <p align='center' class='zzSTDTitle2'><em>({{ resolutionplacedate }})</em><span id='_middle_title_footnotes'/></p>
+        OUTPUT
+      end
+
+      # KILL
+      def middle_title_resolution_subtitle(isoxml, out)
+        ret = "<p align='center' class='zzSTDTitle2'><em>("
+        d = isoxml.at(ns("//bibdata/title[@type = 'resolution-placedate']"))
+        ret += "#{d.children.to_xml.strip}</em>)"
+        ret += "#{title_footnotes(isoxml)}</p>"
+        out.previous = ret
+      end
+
+      # KILL
+      def middle_title_recommendationx(isoxml, out)
+        ret = ""
+        id = @meta.get[:docnumber_iso] and ret += <<~XML
+          <p class='zzSTDTitle1'>#{@i18n.international_standard} #{id}</p>
+        XML
+        ret += middle_title_recommendation_first_line
+        ret += middle_title_recommendation_second_line(isoxml)
+        s = @meta.get[:docsubtitle] and ret += "<p class='zzSTDTitle3'>#{s}</p>"
+        out.previous = ret
+      end
+
+      def middle_title_recommendation
+        <<~OUTPUT
+          {% if docnumber_iso %}<p class='zzSTDTitle1'>{{ labels["international_standard"] }}
+            {{ docnumber_iso }}</p>{% endif %}
+          {% if docnumber %}<p class='zzSTDTitle1'>
+            {%- if unpublished and draft_new_doctype %}{{ draft_new_doctype }}{% else %}{{ doctype_display }}{% endif %}
+            {{ docnumber }}</p>{% endif %}
+          {% if doctitle %}<p class='zzSTDTitle2'>{{ doctitle }}<span id='_middle_title_footnotes'/></p>{% endif %}
+          {% if docsubtitle %}<p class='zzSTDTitle3'>{{ docsubtitle }}</p>{% endif %}
+        OUTPUT
+      end
+
+      # KILL
+      def middle_title_recommendation_first_line
+        ret = ""
+        type = @meta.get[:doctype_display]
+        @meta.get[:unpublished] && @meta.get[:draft_new_doctype] and
+          type = @meta.get[:draft_new_doctype]
+        id = @meta.get[:docnumber] and
+          ret += "<p class='zzSTDTitle1'>#{type} #{id}</p>"
+        ret
+      end
+
+      # KILL
+      def middle_title_recommendation_second_line(isoxml)
+        ret = ""
+        t = @meta.get[:doctitle] or return ret
+        ret += "<p class='zzSTDTitle2'>#{t}"
+        ret += "#{title_footnotes(isoxml)}</p>"
+        ret
+      end
+
+      def middle_title(docxml)
+        super
+        ins = docxml.at(ns("//span[@id = '_middle_title_footnotes']")) or return
+        if fn = title_footnotes(docxml)
+          ins.replace(fn)
+        else ins.remove
+        end
+      end
+
+      def title_footnotes(isoxml)
+        ret = ""
+        isoxml.xpath(ns("//note[@type = 'title-footnote']"))
+          .each_with_index do |f, i|
+            ret += <<~FN.strip
+              <fn #{add_id_text} reference='H#{i}'>#{f.remove.children.to_xml}</fn>
+            FN
+          end
+        ret
+      end
+    end
+  end
+end

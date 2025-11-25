@@ -6,13 +6,16 @@ module IsoDoc
     class Metadata < IsoDoc::Metadata
       def initialize(lang, script, locale, labels)
         super
+        @isodoc = IsoDoc::Itu::HtmlConvert.new({})
+      end
+
+      def images(isoxml, xml)
         n = "International_Telecommunication_Union_Logo.svg"
         set(:logo_html, fileloc(n))
         set(:logo_comb, fileloc("itu-document-comb.png"))
         set(:logo_word, fileloc(n))
         set(:logo_sp, fileloc("logo-sp.png"))
         set(:logo_small, fileloc("logo-small.png"))
-        @isodoc = IsoDoc::Itu::HtmlConvert.new({})
       end
 
       def fileloc(file)
@@ -28,6 +31,8 @@ module IsoDoc
                           "[@type = 'amendment']",
           corrigendumtitle: "//bibdata/title[@language='@_lang']" \
                             "[@type = 'corrigendum']",
+          resolutiontitle: "//bibdata/title[@type = 'resolution']",
+          resolutionplacedate: "//bibdata/title[@type = 'resolution-placedate']",
           series: "//bibdata/series[@type='main']/title",
           series1: "//bibdata/series[@type='secondary']/title",
           series2: "//bibdata/series[@type='tertiary']/title",
@@ -61,25 +66,26 @@ module IsoDoc
         nil
       end
 
+      COMMITTEE_XPATH = "//bibdata/contributor[role/description = 'committee']/" \
+        "organization/subdivision".freeze
+
       def author(xml, _out)
-        sector = xml.at(ns("//bibdata/ext/editorialgroup/sector"))
+        sector = xml.at(ns("#{COMMITTEE_XPATH}[@type='Sector']/name"))
         set(:sector, sector.text) if sector
         bureau(xml)
-        tc = xml.at(ns("//bibdata/ext/editorialgroup/committee"))
-        set(:tc, tc.text) if tc
-        tc = xml.at(ns("//bibdata/ext/editorialgroup/group/name"))
+        tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Group']/name"))
         set(:group, tc.text) if tc
-        tc = xml.at(ns("//bibdata/ext/editorialgroup/group/acronym"))
+        tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Group']/identifier"))
         set(:group_acronym, tc.text) if tc
-        start1 = xml.at(ns("//bibdata/ext/editorialgroup/group/period/start"))
-        end1 = xml.at(ns("//bibdata/ext/editorialgroup/group/period/end"))
+        start1 = xml.at(ns("//bibdata/ext/studyperiod/start"))
+        end1 = xml.at(ns("//bibdata/ext/studyperiod/end"))
         if start1
           set(:study_group_period,
               @i18n.l10n("#{start1.text}–#{end1.text}"))
         end
-        tc = xml.at(ns("//bibdata/ext/editorialgroup/subgroup/name"))
+        tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Subgroup']/name"))
         set(:subgroup, tc.text) if tc
-        tc = xml.at(ns("//bibdata/ext/editorialgroup/workgroup/name"))
+        tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Workgroup']/name"))
         set(:workgroup, tc.text) if tc
         super
         authors = xml.xpath(ns("//bibdata/contributor[role/@type = 'author' " \
@@ -88,7 +94,7 @@ module IsoDoc
       end
 
       def bureau(xml)
-        if bureau = xml.at(ns("//bibdata/ext/editorialgroup/bureau"))
+        if bureau = xml.at(ns("#{COMMITTEE_XPATH}[@type='Bureau']/name"))
           set(:bureau, bureau.text)
           case bureau.text
           when "T" then set(:bureau_full, @i18n.tsb_full)
@@ -120,7 +126,7 @@ module IsoDoc
       def docid(xml, _out)
         { docnumber: "ITU", recommendationnumber: "ITU-Recommendation",
           docnumber_lang: "ITU-lang", docnumber_td: "ITU-TemporaryDocument",
-          docnumber_provisional: "ITU-provisional" }
+          docnumber_provisional: "ITU-provisional", docnumber_iso: "ISO" }
           .each do |k, v|
             dn = xml.at(ns("//bibdata/docidentifier[@type = '#{v}']")) and
               set(k, dn.text)
@@ -134,10 +140,6 @@ module IsoDoc
         dn = xml.at(ns("//bibdata/ext/structuredidentifier/corrigendum")) and
           set(:corrigendumid,
               @i18n.l10n("#{@labels['corrigendum']} #{dn.text}"))
-      end
-
-      def unpublished(status)
-        %w(in-force-prepublished draft).include? status.downcase
       end
 
       def bibdate(xml, _out)
@@ -168,7 +170,7 @@ module IsoDoc
           set(:doctype_display, "Recommendation")
         else super
         end
-        d = get[:doctype] and
+        d = get[:doctype_display] and
           set(:draft_new_doctype, @labels["draft_new"].sub("%", d))
       end
 

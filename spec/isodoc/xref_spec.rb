@@ -67,23 +67,119 @@ RSpec.describe Metanorma::Itu do
           </iso-standard>
     INPUT
     output = <<~OUTPUT
-      <foreword displayorder='2'>
-        <p>
-          <xref target='N1'>Note in Introduction</xref>
-          <xref target='N2'>Note in Preparatory</xref>
-          <xref target='N'>Note in clause 1</xref>
-          <xref target='note1'>Note 1 in clause 3.1</xref>
-          <xref target='note2'>Note 2 in clause 3.1</xref>
-          <xref target='AN'>Note in clause A.1</xref>
-          <xref target='Anote1'>Note 1 in clause A.2</xref>
-          <xref target='Anote2'>Note 2 in clause A.2</xref>
-        </p>
-      </foreword>
+        <foreword displayorder="2" id="_">
+           <title id="_">Foreword</title>
+           <fmt-title id="_" depth="1">
+              <semx element="title" source="_">Foreword</semx>
+           </fmt-title>
+           <p>
+              <xref target="N1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N1">
+                    <span class="fmt-element-name">Note</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <semx element="introduction" source="intro">Introduction</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="N2" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N2">
+                    <span class="fmt-element-name">Note</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <semx element="clause" source="xyz">Preparatory</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="N" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N">
+                    <span class="fmt-element-name">Note</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="scope">1</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="note1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="note1">
+                    <span class="fmt-element-name">Note</span>
+                    <semx element="autonum" source="note1">1</semx>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="widgets">3</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="widgets1">1</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="note2" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="note2">
+                    <span class="fmt-element-name">Note</span>
+                    <semx element="autonum" source="note2">2</semx>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="widgets">3</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="widgets1">1</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="AN" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="AN">
+                    <span class="fmt-element-name">Note</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="annex1">A</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="annex1a">1</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="Anote1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Anote1">
+                    <span class="fmt-element-name">Note</span>
+                    <semx element="autonum" source="Anote1">1</semx>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="annex1">A</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="annex1b">2</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="Anote2" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Anote2">
+                    <span class="fmt-element-name">Note</span>
+                    <semx element="autonum" source="Anote2">2</semx>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="annex1">A</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="annex1b">2</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+           </p>
+        </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .at("//xmlns:foreword").to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "cross-references subfigures" do
@@ -98,6 +194,9 @@ RSpec.describe Metanorma::Itu do
         <xref target="AN"/>
         <xref target="Anote1"/>
         <xref target="Anote2"/>
+                <xref target="AN1"/>
+        <xref target="Anote11"/>
+        <xref target="Anote21"/>
         </p>
         </foreword>
         </preface>
@@ -137,66 +236,127 @@ RSpec.describe Metanorma::Itu do
       </figure>
         </clause>
         </annex>
+                  <bibliography><references normative="false" id="biblio"><title>Bibliographical Section</title>
+                  <figure id="AN1">
+            <figure id="Anote11">
+      <name>Split-it-right sample divider</name>
+      <image src="rice_images/rice_image1.png" id="_8357ede4-6d44-4672-bac4-9a85e82ab7f0" mimetype="image/png"/>
+      </figure>
+        <figure id="Anote21">
+      <name>Split-it-right sample divider</name>
+      <image src="rice_images/rice_image1.png" id="_8357ede4-6d44-4672-bac4-9a85e82ab7f0" mimetype="image/png"/>
+      </figure>
+      </figure>
+          </references></bibliography>
         </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-                    <preface>
-                    <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-                <foreword id="fwd" displayorder='2'>
-                <p>
-                <xref target="N">Figure 1</xref>
-                <xref target="note1">Figure 1-a</xref>
-                <xref target="note2">Figure 1-b</xref>
-                <xref target="AN">Figure A.1</xref>
-                <xref target="Anote1">Figure A.1-a</xref>
-                <xref target="Anote2">Figure A.1-b</xref>
-                </p>
-                </foreword>
-                </preface>
-                <sections>
-                <clause id="scope" type="scope" displayorder='3'><title depth="1">1.<tab/>Scope</title>
-                </clause>
-                <terms id="terms"  displayorder='4'><title>2.</title></terms>
-                <clause id="widgets"  displayorder='5'><title depth="1">3.<tab/>Widgets</title>
-                <clause id="widgets1"><title>3.1.</title>
-                <figure id="N">
-                    <figure id="note1">
-              <name>Figure 1-a&#xA0;&#x2014; Split-it-right sample divider</name>
-              <image src="rice_images/rice_image1.png" id="_" mimetype="image/png"/>
-              </figure>
-                <figure id="note2">
-              <name>Figure 1-b&#xA0;&#x2014; Split-it-right sample divider</name>
-              <image src="rice_images/rice_image1.png" id="_" mimetype="image/png"/>
-              </figure>
-              </figure>
-              <p>    <xref target="note1">Figure 1-a</xref> <xref target="note2">Figure 1-b</xref> </p>
-                </clause>
-                </clause>
-                </sections>
-                <annex id="annex1"   displayorder='6'><title><strong>Annex A</strong></title>
-                <clause id="annex1a"><title>A.1.</title>
-                </clause>
-                <clause id="annex1b"><title>A.2.</title>
-                <figure id="AN">
-                    <figure id="Anote1">
-              <name>Figure A.1-a&#xA0;&#x2014; Split-it-right sample divider</name>
-              <image src="rice_images/rice_image1.png" id="_" mimetype="image/png"/>
-              </figure>
-                <figure id="Anote2">
-              <name>Figure A.1-b&#xA0;&#x2014; Split-it-right sample divider</name>
-              <image src="rice_images/rice_image1.png" id="_" mimetype="image/png"/>
-              </figure>
-              </figure>
-                </clause>
-                </annex>
-                </iso-standard>
+       <foreword id="fwd" displayorder="2">
+           <title id="_">Foreword</title>
+           <fmt-title id="_" depth="1">
+              <semx element="title" source="_">Foreword</semx>
+           </fmt-title>
+           <p>
+              <xref target="N" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="N">1</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="note1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="note1">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="N">1</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="note1">a</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="note2" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="note2">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="N">1</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="note2">b</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="AN" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="AN">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="annex1">A</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="AN">1</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="Anote1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Anote1">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="annex1">A</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="AN">1</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="Anote1">a</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="Anote2" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Anote2">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="annex1">A</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="AN">1</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="Anote2">b</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="AN1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="AN1">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="AN1">1</semx>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <semx element="references" source="biblio">Bibliographical Section</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="Anote11" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Anote11">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="AN1">1</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="Anote11">a</semx>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <semx element="references" source="biblio">Bibliographical Section</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="Anote21" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Anote21">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="AN1">1</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="Anote21">b</semx>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <semx element="references" source="biblio">Bibliographical Section</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+           </p>
+        </foreword>
     OUTPUT
 
     html = <<~OUTPUT
-      #{HTML_HDR}
       <div id='fwd'>
-            <h1 class='IntroTitle'/>
+      <h1 class="IntroTitle">Foreword</h1>
             <p>
               <a href='#N'>Figure 1</a>
               <a href='#note1'>Figure 1-a</a>
@@ -204,71 +364,127 @@ RSpec.describe Metanorma::Itu do
               <a href='#AN'>Figure A.1</a>
               <a href='#Anote1'>Figure A.1-a</a>
               <a href='#Anote2'>Figure A.1-b</a>
+      <a href="#AN1">Figure 1 in Bibliographical Section</a>
+      <a href="#Anote11">Figure 1-a in Bibliographical Section</a>
+      <a href="#Anote21">Figure 1-b in Bibliographical Section</a>
             </p>
           </div>
-          <div id='scope'>
-            <h1>1.&#160; Scope</h1>
-          </div>
-          <div id='terms'>
-            <h1>2.</h1>
-          </div>
-          <div id='widgets'>
-            <h1>3.&#160; Widgets</h1>
-            <div id='widgets1'>
-              <h2>3.1.</h2>
-              <div id='N' class='figure'>
-                <div id='note1' class='figure'>
-                  <img src='rice_images/rice_image1.png' height='auto' width='auto'/>
-                  <p class='FigureTitle' style='text-align:center;'>Figure 1-a&#160;&#8212; Split-it-right sample divider</p>
-                </div>
-                <div id='note2' class='figure'>
-                  <img src='rice_images/rice_image1.png' height='auto' width='auto'/>
-                  <p class='FigureTitle' style='text-align:center;'>Figure 1-b&#160;&#8212; Split-it-right sample divider</p>
-                </div>
-              </div>
-              <p>
-                <a href='#note1'>Figure 1-a</a>
-                <a href='#note2'>Figure 1-b</a>
-              </p>
-            </div>
-          </div>
-          <br/>
-          <div id='annex1' class='Section3'>
-            <h1 class='Annex'>
-              <b>Annex A</b>
-            </h1>
-            <p class='annex_obligation'>(This annex forms an integral part of this .)</p>
-            <div id='annex1a'>
-              <h2>A.1.</h2>
-            </div>
-            <div id='annex1b'>
-              <h2>A.2.</h2>
-              <div id='AN' class='figure'>
-                <div id='Anote1' class='figure'>
-                  <img src='rice_images/rice_image1.png' height='auto' width='auto'/>
-                  <p class='FigureTitle' style='text-align:center;'>Figure A.1-a&#160;&#8212; Split-it-right sample divider</p>
-                </div>
-                <div id='Anote2' class='figure'>
-                  <img src='rice_images/rice_image1.png' height='auto' width='auto'/>
-                  <p class='FigureTitle' style='text-align:center;'>Figure A.1-b&#160;&#8212; Split-it-right sample divider</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </body>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
-      .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to Xml::C14n.format(html)
+    expect(Canon.format_xml(strip_guid(Nokogiri::XML(pres_output)
+      .at("//xmlns:foreword").to_xml)))
+      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", pres_output, true))
+      .at("//div[@id = 'fwd']").to_xml)))
+      .to be_equivalent_to Canon.format_xml(html)
   end
+
+    it "cross-references tabular subfigures" do
+    input = <<~INPUT
+            <iso-standard xmlns="http://riboseinc.com/isoxml">
+            <preface>
+        <foreword id="fwd">
+        <p>
+        <xref target="N"/>
+        <xref target="note1"/>
+        <xref target="AN"/>
+        <xref target="Anote1"/>
+        </p>
+        </foreword>
+        </preface>
+        <sections>
+        <clause id="scope" type="scope"><title>Scope</title>
+                     <figure id="N">
+                <name id="_">Stages of gelatinization</name>
+                <table id="T1" plain="true">
+                   <colgroup>
+                      <col width="25%"/>
+                      <col width="75%"/>
+                   </colgroup>
+                   <tbody>
+                      <tr id="_">
+                         <td id="_" valign="bottom" align="center">
+                            <figure id="note1">
+                               <name id="_">Initial stages: No grains are fully gelatinized (ungelatinized starch granules are visible inside the kernels)</name>
+                               <image id="_" src="spec/examples/rice_images/rice_image3_1.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_1.png"/>
+                            </figure>
+                         </td>
+                         <td id="_" valign="bottom" align="center">
+                            <figure id="AN">
+                               <name id="_">Intermediate stages: Some fully gelatinized kernels are visible</name>
+                               <image id="_" src="spec/examples/rice_images/rice_image3_2.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_2.png"/>
+                            </figure>
+                         </td>
+                      </tr>
+                      <tr id="_">
+                         <td id="_" colspan="2" valign="bottom" align="center">
+                            <figure id="Anote1">
+                               <name id="_">Final stages: All kernels are fully gelatinized</name>
+                               <image id="_" src="spec/examples/rice_images/rice_image3_3.png" mimetype="image/png" height="auto" width="auto" filename="spec/examples/rice_images/rice_image3_3.png"/>
+                            </figure>
+                         </td>
+                      </tr>
+                   </tbody>
+                </table>
+             </figure>
+      </clause>
+      </sections>
+        </iso-standard>
+    INPUT
+presxml = <<~OUTPUT
+      <foreword id="fwd" displayorder="2">
+         <title id="_">Foreword</title>
+         <fmt-title depth="1" id="_">
+            <semx element="title" source="_">Foreword</semx>
+         </fmt-title>
+         <p>
+            <xref target="N" id="_"/>
+            <semx element="xref" source="_">
+               <fmt-xref target="N">
+                  <span class="fmt-element-name">Figure</span>
+                  <semx element="autonum" source="N">1</semx>
+               </fmt-xref>
+            </semx>
+            <xref target="note1" id="_"/>
+            <semx element="xref" source="_">
+               <fmt-xref target="note1">
+                  <span class="fmt-element-name">Figure</span>
+                  <semx element="autonum" source="N">1</semx>
+                  <span class="fmt-autonum-delim">-</span>
+                  <semx element="autonum" source="note1">a</semx>
+               </fmt-xref>
+            </semx>
+            <xref target="AN" id="_"/>
+            <semx element="xref" source="_">
+               <fmt-xref target="AN">
+                  <span class="fmt-element-name">Figure</span>
+                  <semx element="autonum" source="N">1</semx>
+                  <span class="fmt-autonum-delim">-</span>
+                  <semx element="autonum" source="AN">b</semx>
+               </fmt-xref>
+            </semx>
+            <xref target="Anote1" id="_"/>
+            <semx element="xref" source="_">
+               <fmt-xref target="Anote1">
+                  <span class="fmt-element-name">Figure</span>
+                  <semx element="autonum" source="N">1</semx>
+                  <span class="fmt-autonum-delim">-</span>
+                  <semx element="autonum" source="Anote1">c</semx>
+               </fmt-xref>
+            </semx>
+         </p>
+      </foreword>
+OUTPUT
+   pres_output = IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
+      .convert("test", input, true)
+    expect(Canon.format_xml(strip_guid(Nokogiri::XML(pres_output)
+      .at("//xmlns:foreword").to_xml)))
+      .to be_equivalent_to Canon.format_xml(presxml)
+    end
 
   it "cross-references formulae" do
     input = <<~INPUT
@@ -293,17 +509,41 @@ RSpec.describe Metanorma::Itu do
           </itu-standard>
     INPUT
     output = <<~OUTPUT
-          <foreword displayorder='2'>
-            <p>
-              <xref target='N1'>Equation (Introduction-1)</xref>
-      <xref target='N2'>Inequality (Introduction-2)</xref>
-            </p>
-          </foreword>
+        <foreword displayorder="2" id="_">
+           <title id="_">Foreword</title>
+           <fmt-title id="_" depth="1">
+              <semx element="title" source="_">Foreword</semx>
+           </fmt-title>
+           <p>
+              <xref target="N1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N1">
+                    <span class="fmt-element-name">Equation</span>
+                    <span class="fmt-autonum-delim">(</span>
+                    <semx element="introduction" source="intro">Introduction</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="N1">1</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                 </fmt-xref>
+              </semx>
+              <xref target="N2" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N2">
+                    <span class="fmt-element-name">Inequality</span>
+                    <span class="fmt-autonum-delim">(</span>
+                    <semx element="introduction" source="intro">Introduction</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="N2">2</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                 </fmt-xref>
+              </semx>
+           </p>
+        </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .at("//xmlns:foreword").to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "cross-references annex subclauses" do
@@ -339,60 +579,113 @@ RSpec.describe Metanorma::Itu do
           </annex>
     INPUT
     output = <<~OUTPUT
-      <itu-standard xmlns='http://riboseinc.com/isoxml' type="presentation">
-                <bibdata type='standard'>
-                  <title language='en' format='text/plain' type='main'>An ITU Standard</title>
-                  <docidentifier type='ITU'>12345</docidentifier>
-                  <language current="true">en</language>
-                  <keyword>A</keyword>
-                  <keyword>B</keyword>
-                  <ext>
-                    <doctype language="">recommendation-annex</doctype>
-                    <doctype language="en">Recommendation Annex</doctype>
-                    <structuredidentifier>
-                      <annexid>F2</annexid>
-                    </structuredidentifier>
-                  </ext>
-                </bibdata>
-                <preface>
-                  <clause type="toc" id="_" displayorder="1"> <title depth="1">Table of Contents</title> </clause>
-                  <abstract displayorder='2'>
-                    <title>Abstract</title>
-                    <p>
-                      <xref target='A1'>Annex F2</xref>
-                      <xref target='A2'>clause F2.1</xref>
-                    </p>
-                  </abstract>
-                             <clause type="keyword" displayorder="3">
-              <title depth="1">Keywords</title>
-              <p>A, B.</p>
-            </clause>
-                  </preface>
-                  <sections>
-                    <p class="zzSTDTitle1">Draft new Recommendation 12345</p>
-                    <p class="zzSTDTitle2">An ITU Standard</p>
-                  </sections>
-                  <annex id='A1' obligation='normative' displayorder='4'>
-                    <title>
-                      <strong>Annex F2</strong>
-                      <br/>
-                      <br/>
-                      <strong>Annex</strong>
-                    </title>
-                    <clause id='A2'>
-                      <title depth='2'>
-                        F2.1.
-                        <tab/>
-                        Subtitle
-                      </title>
-                    </clause>
-                  </annex>
-              </itu-standard>
+       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+           <bibdata type="standard">
+              <title language="en" format="text/plain" type="main">An ITU Standard</title>
+              <docidentifier type="ITU">12345</docidentifier>
+              <language current="true">en</language>
+              <keyword>A</keyword>
+              <keyword>B</keyword>
+              <ext>
+                 <doctype language="">recommendation-annex</doctype>
+                 <doctype language="en">Recommendation Annex</doctype>
+                 <structuredidentifier>
+                    <annexid>F2</annexid>
+                 </structuredidentifier>
+              </ext>
+           </bibdata>
+           <preface>
+              <clause type="toc" id="_" displayorder="1">
+                 <fmt-title id="_" depth="1">Table of Contents</fmt-title>
+              </clause>
+              <abstract displayorder="2" id="_">
+                 <title id="_">Abstract</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">Abstract</semx>
+                 </fmt-title>
+                 <p>
+                    <xref target="A1" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="A1">
+                          <span class="fmt-element-name">Annex</span>
+                          <semx element="autonum" source="A1">F2</semx>
+                       </fmt-xref>
+                    </semx>
+                    <xref target="A2" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="A2">
+                          <span class="fmt-element-name">clause</span>
+                          <semx element="autonum" source="A1">F2</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="A2">1</semx>
+                       </fmt-xref>
+                    </semx>
+                 </p>
+              </abstract>
+              <clause type="keyword" displayorder="3" id="_">
+                 <fmt-title id="_" depth="1">Keywords</fmt-title>
+                 <p>A, B.</p>
+              </clause>
+           </preface>
+           <sections>
+              <p class="zzSTDTitle1">Recommendation 12345</p>
+              <p class="zzSTDTitle2">An ITU Standard</p>
+           </sections>
+           <annex id="A1" obligation="normative" displayorder="4" autonum="F2">
+              <title id="_">
+                 <strong>Annex</strong>
+              </title>
+              <fmt-title id="_">
+                 <strong>
+                    <span class="fmt-caption-label">
+                       <span class="fmt-element-name">Annex</span>
+                       <semx element="autonum" source="A1">F2</semx>
+                    </span>
+                 </strong>
+                 <span class="fmt-caption-delim">
+                    <br/>
+                    <br/>
+                 </span>
+                 <semx element="title" source="_">
+                    <strong>Annex</strong>
+                 </semx>
+              </fmt-title>
+              <fmt-xref-label>
+                 <span class="fmt-element-name">Annex</span>
+                 <semx element="autonum" source="A1">F2</semx>
+              </fmt-xref-label>
+              <p class="annex_obligation">
+                 <span class="fmt-obligation">(This annex forms an integral part of this Recommendation Annex.)</span>
+              </p>
+              <clause id="A2">
+                 <title id="_">Subtitle</title>
+                 <fmt-title id="_" depth="2">
+                    <span class="fmt-caption-label">
+                       <semx element="autonum" source="A1">F2</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="A2">1</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                    </span>
+                    <span class="fmt-caption-delim">
+                       <tab/>
+                    </span>
+                    <semx element="title" source="_">Subtitle</semx>
+                 </fmt-title>
+                 <fmt-xref-label>
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="A1">F2</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="A2">1</semx>
+                 </fmt-xref-label>
+              </clause>
+           </annex>
+        </itu-standard>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes figures as hierarchical assets (Presentation XML)" do
@@ -449,22 +742,82 @@ RSpec.describe Metanorma::Itu do
         </iso-standard>
     INPUT
     output = <<~OUTPUT
-      <foreword id='fwd' displayorder='2'>
-        <p>
-          <xref target='N'>Figure 3.1</xref>
-          <xref target='note1'>Figure 3.1-a</xref>
-          <xref target='note2'>Figure 3.1-b</xref>
-          <xref target='AN'>Figure A.1</xref>
-          <xref target='Anote1'>Figure A.1-a</xref>
-          <xref target='Anote2'>Figure A.1-b</xref>
-        </p>
-      </foreword>
+        <foreword id="fwd" displayorder="2">
+           <title id="_">Foreword</title>
+           <fmt-title id="_" depth="1">
+              <semx element="title" source="_">Foreword</semx>
+           </fmt-title>
+           <p>
+              <xref target="N" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="widgets">3</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="N">1</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="note1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="note1">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="widgets">3</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="N">1</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="note1">a</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="note2" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="note2">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="widgets">3</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="N">1</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="note2">b</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="AN" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="AN">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="annex1">A</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="AN">1</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="Anote1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Anote1">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="annex1">A</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="AN">1</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="Anote1">a</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="Anote2" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Anote2">
+                    <span class="fmt-element-name">Figure</span>
+                    <semx element="autonum" source="annex1">A</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="AN">1</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="Anote2">b</semx>
+                 </fmt-xref>
+              </semx>
+           </p>
+        </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert
+    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert
       .new({ hierarchicalassets: true })
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .at("//xmlns:foreword").to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "processes formulae as non-hierarchical assets" do
@@ -512,20 +865,67 @@ RSpec.describe Metanorma::Itu do
         </iso-standard>
     INPUT
     output = <<~OUTPUT
-      <foreword id='fwd' displayorder='2'>
-        <p>
-          <xref target='note1'>Equation (3-1)</xref>
-          <xref target='note2'>Equation (3-2)</xref>
-          <xref target='AN'>[AN]</xref>
-          <xref target='Anote1'>Equation (A-1)</xref>
-          <xref target='Anote2'>Equation (A-2)</xref>
-        </p>
-      </foreword>
+        <foreword id="fwd" displayorder="2">
+           <title id="_">Foreword</title>
+           <fmt-title id="_" depth="1">
+              <semx element="title" source="_">Foreword</semx>
+           </fmt-title>
+           <p>
+              <xref target="note1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="note1">
+                    <span class="fmt-element-name">Equation</span>
+                    <span class="fmt-autonum-delim">(</span>
+                    <semx element="autonum" source="widgets">3</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="note1">1</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                 </fmt-xref>
+              </semx>
+              <xref target="note2" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="note2">
+                    <span class="fmt-element-name">Equation</span>
+                    <span class="fmt-autonum-delim">(</span>
+                    <semx element="autonum" source="widgets">3</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="note2">2</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                 </fmt-xref>
+              </semx>
+              <xref target="AN" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="AN">[AN]</fmt-xref>
+              </semx>
+              <xref target="Anote1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Anote1">
+                    <span class="fmt-element-name">Equation</span>
+                    <span class="fmt-autonum-delim">(</span>
+                    <semx element="autonum" source="annex1">A</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="Anote1">1</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                 </fmt-xref>
+              </semx>
+              <xref target="Anote2" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Anote2">
+                    <span class="fmt-element-name">Equation</span>
+                    <span class="fmt-autonum-delim">(</span>
+                    <semx element="autonum" source="annex1">A</semx>
+                    <span class="fmt-autonum-delim">-</span>
+                    <semx element="autonum" source="Anote2">2</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                 </fmt-xref>
+              </semx>
+           </p>
+        </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .at("//xmlns:foreword").to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "cross-references sections" do
@@ -613,33 +1013,149 @@ RSpec.describe Metanorma::Itu do
        </itu-standard>
     INPUT
     output = <<~OUTPUT
-      <foreword obligation='informative' displayorder='2'>
-        <title>Foreword</title>
-        <p id='A'>
-          This is a preamble
-          <xref target='C'>Introduction Subsection</xref>
-          <xref target='C1'>Introduction, 2</xref>
-          <xref target='D'>clause 1</xref>
-          <xref target='H'>clause 3</xref>
-          <xref target='I'>clause 3.1</xref>
-          <xref target='J'>clause 3.1.1</xref>
-          <xref target='K'>clause 3.2</xref>
-          <xref target='L'>clause 4</xref>
-          <xref target='M'>clause 5</xref>
-          <xref target='N'>clause 5.1</xref>
-          <xref target='O'>clause 5.2</xref>
-          <xref target='P'>Annex A</xref>
-          <xref target='Q'>clause A.1</xref>
-          <xref target='Q1'>clause A.1.1</xref>
-          <xref target='R'>clause 2</xref>
-          <xref target='S'>Bibliography</xref>
-        </p>
-      </foreword>
+        <foreword obligation="informative" displayorder="2" id="_">
+           <title id="_">Foreword</title>
+           <fmt-title id="_" depth="1">
+              <semx element="title" source="_">Foreword</semx>
+           </fmt-title>
+           <p id="A">
+              This is a preamble
+              <xref target="C" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="C">
+                    <semx element="clause" source="C">Introduction Subsection</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="C1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="C1">
+                    <semx element="introduction" source="B">Introduction</semx>
+                    <span class="fmt-comma">,</span>
+                    <semx element="autonum" source="C1">2</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="D" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="D">
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="D">1</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="H" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="H">
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="H">3</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="I" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="I">
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="H">3</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="I">1</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="J" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="J">
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="H">3</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="I">1</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="J">1</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="K" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="K">
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="H">3</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="K">2</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="L" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="L">
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="L">4</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="M" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="M">
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="M">5</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="N" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N">
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="M">5</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="N">1</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="O" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="O">
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="M">5</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="O">2</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="P" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="P">
+                    <span class="fmt-element-name">Annex</span>
+                    <semx element="autonum" source="P">A</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="Q" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Q">
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="P">A</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="Q">1</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="Q1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Q1">
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="P">A</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="Q">1</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="Q1">1</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="R" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="R">
+                    <span class="fmt-element-name">clause</span>
+                    <semx element="autonum" source="R">2</semx>
+                 </fmt-xref>
+              </semx>
+              <xref target="S" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="S">
+                    <semx element="clause" source="S">Bibliography</semx>
+                 </fmt-xref>
+              </semx>
+           </p>
+        </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .at("//xmlns:foreword").to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "cross-references sections in resolutions" do
@@ -704,105 +1220,263 @@ RSpec.describe Metanorma::Itu do
     INPUT
 
     presxml = <<~OUTPUT
-          <itu-standard xmlns='http://riboseinc.com/isoxml' type='presentation'>
-               <bibdata>
-                <title>X</title>
-       <title language='en' format='text/plain' type='resolution'>RESOLUTION (Peoria, 1871)</title>
-            <title language='en' format='text/plain' type='resolution-placedate'>Peoria, 1871</title>
-                 <ext>
-                   <doctype language=''>resolution</doctype>
-                   <doctype language='en'>Resolution</doctype>
-            <meeting-place>Peoria</meeting-place>
-      <meeting-date>
-        <on>1871-02-09</on>
-      </meeting-date>
-                 </ext>
-               </bibdata>
-               <preface>
-                 <foreword obligation='informative' displayorder='1'>
-                   <title>Foreword</title>
-                   <p id='A'>
-                     This is a preamble
-                     <xref target='C'>Introduction Subsection</xref>
-                     <xref target='C1'>Introduction, 2</xref>
-                     <xref target='D'>Section 1</xref>
-                     <xref target='M'>Section 2</xref>
-                     <xref target='N'>2.1</xref>
-                     <xref target='O'>2.2</xref>
-                     <xref target='P'>Annex A</xref>
-                     <xref target='Q'>A.1</xref>
-                     <xref target='Q1'>A.1.1</xref>
-                     <xref target='S'>Bibliography</xref>
-                   </p>
-                 </foreword>
-                 <introduction id='B' obligation='informative' displayorder='2'>
-                   <title>Introduction</title>
-                   <clause id='C' inline-header='false' obligation='informative'>
-                     <title depth='2'>Introduction Subsection</title>
-                   </clause>
-                   <clause id='C1' inline-header='false' obligation='informative'>Text</clause>
-                 </introduction>
-               </preface>
-               <sections>
-                   <p class="zzSTDTitle1" align="center" displayorder="3">RESOLUTION  (Peoria, 1871)</p>
-                <p align="center" class="zzSTDTitle2" displayorder="4"><em>(Peoria, 1871</em>)</p>
-                   <p keep-with-next='true' class='supertitle' displayorder="5">SECTION 1</p>
-                 <clause id='D' obligation='normative' type='scope'  displayorder='6'>
-      <title depth='1'>Scope</title>
-                   <p id='E'>Text</p>
+      <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+           <bibdata>
+              <title>X</title>
+              <title language="en" format="text/plain" type="resolution">RESOLUTION  (Peoria, 1871)</title>
+              <title language="en" format="text/plain" type="resolution-placedate">Peoria, 1871</title>
+              <ext>
+                 <doctype language="">resolution</doctype>
+                 <doctype language="en">Resolution</doctype>
+                 <meeting-place>Peoria</meeting-place>
+                 <meeting-date>
+                    <on>1871-02-09</on>
+                 </meeting-date>
+              </ext>
+           </bibdata>
+           <preface>
+              <foreword obligation="informative" displayorder="1" id="_">
+                 <title id="_">Foreword</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">Foreword</semx>
+                 </fmt-title>
+                 <p id="A">
+                    This is a preamble
+                    <xref target="C" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="C">
+                          <semx element="clause" source="C">Introduction Subsection</semx>
+                       </fmt-xref>
+                    </semx>
+                    <xref target="C1" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="C1">
+                          <semx element="introduction" source="B">Introduction</semx>
+                          <span class="fmt-comma">,</span>
+                          <semx element="autonum" source="C1">2</semx>
+                       </fmt-xref>
+                    </semx>
+                    <xref target="D" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="D">
+                          <span class="fmt-element-name">Section</span>
+                          <semx element="autonum" source="D">1</semx>
+                       </fmt-xref>
+                    </semx>
+                    <xref target="M" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="M">
+                          <span class="fmt-element-name">Section</span>
+                          <semx element="autonum" source="M">2</semx>
+                       </fmt-xref>
+                    </semx>
+                    <xref target="N" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="N">
+                          <semx element="autonum" source="M">2</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="N">1</semx>
+                       </fmt-xref>
+                    </semx>
+                    <xref target="O" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="O">
+                          <semx element="autonum" source="M">2</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="O">2</semx>
+                       </fmt-xref>
+                    </semx>
+                    <xref target="P" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="P">
+                          <span class="fmt-element-name">Annex</span>
+                          <semx element="autonum" source="P">A</semx>
+                       </fmt-xref>
+                    </semx>
+                    <xref target="Q" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="Q">
+                          <semx element="autonum" source="P">A</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="Q">1</semx>
+                       </fmt-xref>
+                    </semx>
+                    <xref target="Q1" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="Q1">
+                          <semx element="autonum" source="P">A</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="Q">1</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="Q1">1</semx>
+                       </fmt-xref>
+                    </semx>
+                    <xref target="S" id="_"/>
+                    <semx element="xref" source="_">
+                       <fmt-xref target="S">
+                          <semx element="clause" source="S">Bibliography</semx>
+                       </fmt-xref>
+                    </semx>
+                 </p>
+              </foreword>
+              <introduction id="B" obligation="informative" displayorder="2">
+                 <title id="_">Introduction</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">Introduction</semx>
+                 </fmt-title>
+                 <clause id="C" inline-header="false" obligation="informative">
+                    <title id="_">Introduction Subsection</title>
+                    <fmt-title id="_" depth="2">
+                       <semx element="title" source="_">Introduction Subsection</semx>
+                    </fmt-title>
                  </clause>
-                   <p keep-with-next='true' class='supertitle' displayorder="7">SECTION 2</p>
-                 <clause id='M' inline-header='false' obligation='normative'  displayorder='8'>
-      <title depth='1'>Clause 4</title>
-                   <clause id='N' inline-header='false' obligation='normative'>
-                     <title depth='2'>
-                       2.1.
+                 <clause id="C1" inline-header="false" obligation="informative">Text</clause>
+              </introduction>
+           </preface>
+           <sections>
+              <p class="zzSTDTitle1" align="center" displayorder="3">RESOLUTION  (Peoria, 1871)</p>
+              <p align="center" class="zzSTDTitle2" displayorder="4">
+                 <em>(Peoria, 1871)</em>
+              </p>
+              <p keep-with-next="true" class="supertitle" displayorder="5">
+                 <span class="fmt-element-name">SECTION</span>
+                 <semx element="autonum" source="D">1</semx>
+              </p>
+              <clause id="D" obligation="normative" type="scope" displayorder="6">
+                 <title id="_">Scope</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">Scope</semx>
+                 </fmt-title>
+                 <p id="E">Text</p>
+              </clause>
+              <p keep-with-next="true" class="supertitle" displayorder="7">
+                 <span class="fmt-element-name">SECTION</span>
+                 <semx element="autonum" source="M">2</semx>
+              </p>
+              <clause id="M" inline-header="false" obligation="normative" displayorder="8">
+                 <title id="_">Clause 4</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">Clause 4</semx>
+                 </fmt-title>
+                 <clause id="N" inline-header="false" obligation="normative">
+                    <title id="_">Introduction</title>
+                    <fmt-title id="_" depth="2">
+                       <span class="fmt-caption-label">
+                          <semx element="autonum" source="M">2</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="N">1</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                       </span>
+                       <span class="fmt-caption-delim">
+                          <tab/>
+                       </span>
+                       <semx element="title" source="_">Introduction</semx>
+                    </fmt-title>
+                    <fmt-xref-label>
+                       <semx element="autonum" source="M">2</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="N">1</semx>
+                    </fmt-xref-label>
+                 </clause>
+                 <clause id="O" inline-header="false" obligation="normative">
+                    <title id="_">Clause 4.2</title>
+                    <fmt-title id="_" depth="2">
+                       <span class="fmt-caption-label">
+                          <semx element="autonum" source="M">2</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="O">2</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                       </span>
+                       <span class="fmt-caption-delim">
+                          <tab/>
+                       </span>
+                       <semx element="title" source="_">Clause 4.2</semx>
+                    </fmt-title>
+                    <fmt-xref-label>
+                       <semx element="autonum" source="M">2</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="O">2</semx>
+                    </fmt-xref-label>
+                 </clause>
+              </clause>
+           </sections>
+           <annex id="P" inline-header="false" obligation="normative" autonum="A" displayorder="9">
+              <p class="supertitle">
+                 <span class="fmt-element-name">ANNEX</span>
+                 <semx element="autonum" source="P">A</semx>
+                 <br/>
+                 (to RESOLUTION (Peoria, 1871))
+              </p>
+              <title id="_">
+                 <strong>Annex Title</strong>
+              </title>
+              <fmt-title id="_">
+                 <semx element="title" source="_">
+                    <strong>Annex Title</strong>
+                 </semx>
+              </fmt-title>
+              <clause id="Q" inline-header="false" obligation="normative">
+                 <title id="_">Annex A.1</title>
+                 <fmt-title id="_" depth="2">
+                    <span class="fmt-caption-label">
+                       <semx element="autonum" source="P">A</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="Q">1</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                    </span>
+                    <span class="fmt-caption-delim">
                        <tab/>
-                       Introduction
-                     </title>
-                   </clause>
-                   <clause id='O' inline-header='false' obligation='normative'>
-                     <title depth='2'>
-                       2.2.
-                       <tab/>
-                       Clause 4.2
-                     </title>
-                   </clause>
+                    </span>
+                    <semx element="title" source="_">Annex A.1</semx>
+                 </fmt-title>
+                 <fmt-xref-label>
+                    <semx element="autonum" source="P">A</semx>
+                    <span class="fmt-autonum-delim">.</span>
+                    <semx element="autonum" source="Q">1</semx>
+                 </fmt-xref-label>
+                 <clause id="Q1" inline-header="false" obligation="normative">
+                    <title id="_">Annex A.1a</title>
+                    <fmt-title id="_" depth="3">
+                       <span class="fmt-caption-label">
+                          <semx element="autonum" source="P">A</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="Q">1</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                          <semx element="autonum" source="Q1">1</semx>
+                          <span class="fmt-autonum-delim">.</span>
+                       </span>
+                       <span class="fmt-caption-delim">
+                          <tab/>
+                       </span>
+                       <semx element="title" source="_">Annex A.1a</semx>
+                    </fmt-title>
+                    <fmt-xref-label>
+                       <semx element="autonum" source="P">A</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="Q">1</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="Q1">1</semx>
+                    </fmt-xref-label>
                  </clause>
-               </sections>
-               <annex id='P' inline-header='false' obligation='normative' displayorder='9'>
-               <p class='supertitle'>ANNEX A
-        <br/>
-        (to RESOLUTION (Peoria, 1871))
-      </p>
-                 <title>
-                   <strong>Annex Title</strong>
-                 </title>
-                 <clause id='Q' inline-header='false' obligation='normative'>
-                   <title depth='2'>
-                     A.1.
-                     <tab/>
-                     Annex A.1
-                   </title>
-                   <clause id='Q1' inline-header='false' obligation='normative'>
-                     <title depth='3'>
-                       A.1.1.
-                       <tab/>
-                       Annex A.1a
-                     </title>
-                   </clause>
-                 </clause>
-               </annex>
-               <bibliography>
-                 <clause id='S' obligation='informative' displayorder='10'>
-                   <title depth='1'>Bibliography</title>
-                   <references id='T' obligation='informative' normative='false'>
-                     <title depth='2'>Bibliography Subsection</title>
-                   </references>
-                 </clause>
-               </bibliography>
-             </itu-standard>
+              </clause>
+           </annex>
+           <bibliography>
+              <clause id="S" obligation="informative" displayorder="10">
+                 <title id="_">Bibliography</title>
+                 <fmt-title id="_" depth="1">
+                    <semx element="title" source="_">Bibliography</semx>
+                 </fmt-title>
+                 <references id="T" obligation="informative" normative="false">
+                    <title id="_">Bibliography Subsection</title>
+                    <fmt-title id="_" depth="2">
+                       <semx element="title" source="_">Bibliography Subsection</semx>
+                    </fmt-title>
+                 </references>
+              </clause>
+           </bibliography>
+        </itu-standard>
     OUTPUT
+
     html = <<~OUTPUT
             <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
           <div class="title-section">
@@ -814,7 +1488,7 @@ RSpec.describe Metanorma::Itu do
           </div>
           <br/>
           <div class="main-section">
-                 <div>
+                 <div id="_">
                    <h1 class='IntroTitle'>Foreword</h1>
                    <p id='A'>
                       This is a preamble
@@ -839,7 +1513,7 @@ RSpec.describe Metanorma::Itu do
                  </div>
                  <p class='zzSTDTitle1' style='text-align:center;'>RESOLUTION (Peoria, 1871)</p>
                  <p class='zzSTDTitle2' style='text-align:center;'>
-                   <i>(Peoria, 1871</i>)
+                   <i>(Peoria, 1871)</i>
                  </p>
                  <p style='page-break-after: avoid;' class="supertitle">SECTION 1</p>
                  <div id='D'>
@@ -850,10 +1524,10 @@ RSpec.describe Metanorma::Itu do
                  <div id='M'>
       <h1>Clause 4</h1>
                    <div id='N'>
-                     <h2> 2.1. &#160; Introduction </h2>
+                     <h2>2.1.  Introduction</h2>
                    </div>
                    <div id='O'>
-                     <h2> 2.2. &#160; Clause 4.2 </h2>
+                   <h2>2.2.  Clause 4.2</h2>
                    </div>
                  </div>
                  <br/>
@@ -867,9 +1541,9 @@ RSpec.describe Metanorma::Itu do
                      <b>Annex Title</b>
                    </h1>
                    <div id='Q'>
-                     <h2> A.1. &#160; Annex A.1 </h2>
+                   <h2>A.1.  Annex A.1</h2>
                      <div id='Q1'>
-                       <h3> A.1.1. &#160; Annex A.1a </h3>
+                     <h3>A.1.1.  Annex A.1a</h3>
                      </div>
                    </div>
                  </div>
@@ -889,15 +1563,17 @@ RSpec.describe Metanorma::Itu do
                </div>
              </body>
     OUTPUT
-    expect(Xml::C14n.format(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    pres_output = IsoDoc::Itu::PresentationXMLConvert
+      .new(presxml_options)
       .convert("test", input, true)
-      .sub(%r{<localized-strings>.*</localized-strings>}m, "")))
-      .to be_equivalent_to Xml::C14n.format(presxml)
-    expect(Xml::C14n.format(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", presxml, true)
+    expect(Canon.format_xml(strip_guid(pres_output
+      .sub(%r{<localized-strings>.*</localized-strings>}m, ""))))
+      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", pres_output, true))
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to Xml::C14n.format(html)
+      .to be_equivalent_to Canon.format_xml(html)
   end
 
   it "cross-references list items" do
@@ -970,25 +1646,159 @@ RSpec.describe Metanorma::Itu do
           </iso-standard>
     INPUT
     output = <<~OUTPUT
-      <foreword displayorder='2'>
-        <p>
-          <xref target='N1'>a) in Introduction</xref>
-          <xref target='N11'>a) 1) in Introduction</xref>
-          <xref target='N12'>a) 1) i) in Introduction</xref>
-          <xref target='N2'>1) in Preparatory</xref>
-          <xref target='N'>i) in clause 1</xref>
-          <xref target='note1'>List 1 a) in clause 3.1</xref>
-          <xref target='note2'>List 2 I) in clause 3.1</xref>
-          <xref target='AN'>A) in clause A.1</xref>
-          <xref target='Anote1'>List 1 iv) in clause A.2</xref>
-          <xref target='Anote2'>List 2 a) in clause A.2</xref>
-        </p>
-      </foreword>
+        <foreword displayorder="2" id="_">
+           <title id="_">Foreword</title>
+           <fmt-title id="_" depth="1">
+              <semx element="title" source="_">Foreword</semx>
+           </fmt-title>
+           <p>
+              <xref target="N1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N1">
+                    <semx element="autonum" source="N1">a</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <semx element="introduction" source="intro">Introduction</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="N11" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N11">
+                    <semx element="autonum" source="N1">a</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <semx element="autonum" source="N11">1</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <semx element="introduction" source="intro">Introduction</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="N12" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N12">
+                    <semx element="autonum" source="N1">a</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <semx element="autonum" source="N11">1</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <semx element="autonum" source="N12">i</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <semx element="introduction" source="intro">Introduction</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="N2" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N2">
+                    <semx element="autonum" source="N2">1</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <semx element="clause" source="xyz">Preparatory</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="N" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N">
+                    <semx element="autonum" source="N">i</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="scope">1</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="note1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="note1">
+                    <span class="fmt-element-name">List</span>
+                    <semx element="autonum" source="note1l">1</semx>
+                    <semx element="autonum" source="note1">a</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="widgets">3</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="widgets1">1</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="note2" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="note2">
+                    <span class="fmt-element-name">List</span>
+                    <semx element="autonum" source="note2l">2</semx>
+                    <semx element="autonum" source="note2">I</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="widgets">3</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="widgets1">1</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="AN" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="AN">
+                    <semx element="autonum" source="AN">A</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="annex1">A</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="annex1a">1</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="Anote1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Anote1">
+                    <span class="fmt-element-name">List</span>
+                    <semx element="autonum" source="Anote1l">1</semx>
+                    <semx element="autonum" source="Anote1">iv</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="annex1">A</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="annex1b">2</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="Anote2" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="Anote2">
+                    <span class="fmt-element-name">List</span>
+                    <semx element="autonum" source="Anote2l">2</semx>
+                    <semx element="autonum" source="Anote2">a</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <span class="fmt-element-name">clause</span>
+                       <semx element="autonum" source="annex1">A</semx>
+                       <span class="fmt-autonum-delim">.</span>
+                       <semx element="autonum" source="annex1b">2</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+           </p>
+        </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .at("//xmlns:foreword").to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 
   it "cross-references list items of steps class" do
@@ -1054,17 +1864,57 @@ RSpec.describe Metanorma::Itu do
           </iso-standard>
     INPUT
     output = <<~OUTPUT
-      <foreword displayorder='2'>
-        <p>
-        <xref target='N1'>1) in Introduction</xref>
-        <xref target='N11'>1) a) in Introduction</xref>
-        <xref target='N12'>1) a) i) in Introduction</xref>
-        </p>
-      </foreword>
+        <foreword displayorder="2" id="_">
+           <title id="_">Foreword</title>
+           <fmt-title id="_" depth="1">
+              <semx element="title" source="_">Foreword</semx>
+           </fmt-title>
+           <p>
+              <xref target="N1" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N1">
+                    <semx element="autonum" source="N1">1</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <semx element="introduction" source="intro">Introduction</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="N11" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N11">
+                    <semx element="autonum" source="N1">1</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <semx element="autonum" source="N11">a</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <semx element="introduction" source="intro">Introduction</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+              <xref target="N12" id="_"/>
+              <semx element="xref" source="_">
+                 <fmt-xref target="N12">
+                    <semx element="autonum" source="N1">1</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <semx element="autonum" source="N11">a</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <semx element="autonum" source="N12">i</semx>
+                    <span class="fmt-autonum-delim">)</span>
+                    <span class="fmt-conn">in</span>
+                    <span class="fmt-xref-container">
+                       <semx element="introduction" source="intro">Introduction</semx>
+                    </span>
+                 </fmt-xref>
+              </semx>
+           </p>
+        </foreword>
     OUTPUT
-    expect(Xml::C14n.format(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml))
-      .to be_equivalent_to Xml::C14n.format(output)
+      .at("//xmlns:foreword").to_xml)))
+      .to be_equivalent_to Canon.format_xml(output)
   end
 end

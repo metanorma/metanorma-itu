@@ -9,9 +9,6 @@ require_relative "./cleanup"
 module Metanorma
   module Itu
     class Converter < Standoc::Converter
-      XML_ROOT_TAG = "itu-standard".freeze
-      XML_NAMESPACE = "https://www.metanorma.org/ns/itu".freeze
-
       register_for "itu"
 
       def title_validate(_root)
@@ -30,24 +27,15 @@ module Metanorma
         File.join(@libdir, "boilerplate.adoc")
       end
 
-      def makexml(node)
-        @draft = node.attributes.has_key?("draft")
-        super
-      end
-
       def init_misc(node)
         super
         @default_doctype = "recommendation"
       end
 
-      def olist(node)
-        id = Metanorma::Utils::anchor_or_uuid(node)
-        noko do |xml|
-          xml.ol **attr_code(id: id, class: node.attr("class")) do |xml_ol|
-            list_caption(node, xml_ol)
-            node.items.each { |item| li(xml_ol, item) }
-          end
-        end
+      def ol_attrs(node)
+        ret = super
+        ret.delete(:type)
+        ret.merge(class: node.attr("class"))
       end
 
       def outputs(node, ret)
@@ -62,10 +50,8 @@ module Metanorma
                                        nil, false, "#{@filename}.pdf")
       end
 
-      def validate(doc)
-        content_validate(doc)
-        schema_validate(formattedstr_strip(doc.dup),
-                        File.join(File.dirname(__FILE__), "itu.rng"))
+      def schema_file
+        "itu.rng"
       end
 
       def style(_node, _text)
@@ -107,11 +93,11 @@ module Metanorma
       end
 
       def metadata_keywords(node, xml)
-        return unless node.attr("keywords")
-
+        node.attr("keywords") or return
         node.attr("keywords").split(/, */).sort.each_with_index do |kw, i|
           kw_out = i.zero? ? Metanorma::Utils.strict_capitalize_first(kw) : kw
-          xml.keyword kw_out
+          add_noko_elem(xml, "keyword", kw_out)
+          # xml.keyword kw_out
         end
       end
 
@@ -123,6 +109,14 @@ module Metanorma
           attrs[:preface] and attrs = attrs.merge(type: sectiontype1(node))
         end
         super
+      end
+
+      def abstract_parse(attrs, xml, node)
+        xml.abstract **attr_code(attrs) do |xml_section|
+          # xml_section.title { |name| name << node.title }
+          add_noko_elem(xml_section, "title", node.title)
+          xml_section << node.content
+        end
       end
 
       def document_scheme(node)
@@ -160,3 +154,5 @@ module Metanorma
     end
   end
 end
+
+require_relative "log"

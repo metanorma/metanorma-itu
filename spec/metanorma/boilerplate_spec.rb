@@ -20,14 +20,14 @@ RSpec.describe Metanorma::Itu do
         </sections>
         <bibliography>
           <references id="_" obligation="informative" normative="true">
-            <title>References</title>
+            <title id="_">References</title>
             <p id="_">None.</p>
           </references>
         </bibliography>
-      </itu-standard>
+      </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "inserts boilerplate before non-empty Normative References" do
@@ -45,18 +45,20 @@ RSpec.describe Metanorma::Itu do
         </sections>
         <bibliography>
           <references id="_" obligation="informative" normative="true">
-            <title>References</title>
+            <title id="_">References</title>
             <p id="_">The following ITU-T Recommendations and other references contain provisions which, through reference in this text, constitute provisions of this Recommendation. At the time of publication, the editions indicated were valid. All Recommendations and other references are subject to revision; users of this Recommendation are therefore encouraged to investigate the possibility of applying the most recent edition of the Recommendations and other references listed below. A list of the currently valid ITU-T Recommendations is regularly published. The reference to a document within this Recommendation does not give it, as a stand-alone document, the status of a Recommendation.</p>
-            <bibitem id="a">
+            <bibitem id="_" anchor="a">
               <formattedref format="application/x-isodoc+xml">A</formattedref>
               <docidentifier>b</docidentifier>
+              <language>en</language>
+            <script>Latn</script>
             </bibitem>
           </references>
         </bibliography>
-      </itu-standard>
+      </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "inserts boilerplate before internal and external terms clause" do
@@ -70,29 +72,37 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~OUTPUT
         #{@blank_hdr}
-        <sections>
-          <clause id='_' obligation='normative' type="terms">
-            <title>Definitions</title>
-            <terms id='_' type='external' obligation='normative'>
-              <title>Terms defined elsewhere</title>
-              <p id='_'>This Recommendation uses the following terms defined elsewhere:</p>
-              <term id='term-Term-1'>
-                <preferred><expression><name>Term 1</name></expression></preferred>
-              </term>
-            </terms>
-            <terms id='_' type='internal' obligation='normative'>
-              <title>Terms defined in this recommendation</title>
-              <p id='_'>This Recommendation defines the following terms:</p>
-              <term id='term-Term-2'>
-                <preferred><expression><name>Term 2</name></expression></preferred>
-              </term>
-            </terms>
-          </clause>
-        </sections>
-      </itu-standard>
+          <sections>
+             <clause id="_" obligation="normative" type="terms">
+                <title id="_">Definitions</title>
+                <terms id="_" type="external" obligation="normative">
+                   <title id="_">Terms defined elsewhere</title>
+                   <p id="_">This Recommendation uses the following terms defined elsewhere:</p>
+                   <term id="_" anchor="term-Term-1">
+                      <preferred>
+                         <expression>
+                            <name>Term 1</name>
+                         </expression>
+                      </preferred>
+                   </term>
+                </terms>
+                <terms id="_" type="internal" obligation="normative">
+                   <title id="_">Terms defined in this recommendation</title>
+                   <p id="_">This Recommendation defines the following terms:</p>
+                   <term id="_" anchor="term-Term-2">
+                      <preferred>
+                         <expression>
+                            <name>Term 2</name>
+                         </expression>
+                      </preferred>
+                   </term>
+                </terms>
+             </clause>
+          </sections>
+       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "inserts boilerplate before empty internal and external terms clause" do
@@ -104,23 +114,23 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~OUTPUT
         #{@blank_hdr}
-        <sections>
-          <clause id='_' obligation='normative' type="terms">
-            <title>Definitions</title>
-            <terms id='_' type='external' obligation='normative'>
-              <title>Terms defined elsewhere</title>
-              <p id='_'>None.</p>
-            </terms>
-            <terms id='_' type='internal' obligation='normative'>
-              <title>Terms defined in this recommendation</title>
-              <p id='_'>None.</p>
-            </terms>
-          </clause>
-        </sections>
-      </itu-standard>
+          <sections>
+             <clause id="_" obligation="normative" type="terms">
+                <title id="_">Definitions</title>
+                <terms id="_" type="external" obligation="normative">
+                   <title id="_">Terms defined elsewhere</title>
+                   <p id="_">None.</p>
+                </terms>
+                <terms id="_" type="internal" obligation="normative">
+                   <title id="_">Terms defined in this recommendation</title>
+                   <p id="_">None.</p>
+                </terms>
+             </clause>
+          </sections>
+       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "does not insert boilerplate before internal and external terms clause if already populated" do
@@ -140,29 +150,37 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~OUTPUT
        #{@blank_hdr}
-       <sections>
-          <clause id='_' obligation='normative' type="terms">
-            <title>Definitions</title>
-            <terms id='_' type='external' obligation='normative'>
-              <title>Terms defined elsewhere</title>
-              <p id='_'>Boilerplate</p>
-              <term id='term-Term-1'>
-                <preferred><expression><name>Term 1</name></expression></preferred>
-              </term>
-            </terms>
-            <terms id='_' type='internal' obligation='normative'>
-              <title>Terms defined in this recommendation</title>
-              <p id='_'>Boilerplate</p>
-              <term id='term-Term-2'>
-                <preferred><expression><name>Term 2</name></expression></preferred>
-              </term>
-            </terms>
-          </clause>
-        </sections>
-      </itu-standard>
+          <sections>
+             <clause id="_" obligation="normative" type="terms">
+                <title id="_">Definitions</title>
+                <terms id="_" type="external" obligation="normative">
+                   <title id="_">Terms defined elsewhere</title>
+                   <p id="_">Boilerplate</p>
+                   <term id="_" anchor="term-Term-1">
+                      <preferred>
+                         <expression>
+                            <name>Term 1</name>
+                         </expression>
+                      </preferred>
+                   </term>
+                </terms>
+                <terms id="_" type="internal" obligation="normative">
+                   <title id="_">Terms defined in this recommendation</title>
+                   <p id="_">Boilerplate</p>
+                   <term id="_" anchor="term-Term-2">
+                      <preferred>
+                         <expression>
+                            <name>Term 2</name>
+                         </expression>
+                      </preferred>
+                   </term>
+                </terms>
+             </clause>
+          </sections>
+       </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "inserts boilerplate before definitions with no internal and external terms clauses" do
@@ -178,26 +196,26 @@ RSpec.describe Metanorma::Itu do
         #{@blank_hdr}
         <sections>
           <clause id="_" obligation="normative" type="terms">
-            <title>Definitions</title>
+            <title id="_">Definitions</title>
             <p id="_">This Recommendation defines the following terms:</p>
             <terms id="_" obligation="normative">
-              <title>terms defined somewhere</title>
-              <term id="term-Term-1">
+              <title id="_">terms defined somewhere</title>
+              <term id="_" anchor="term-Term-1">
                 <preferred><expression><name>Term 1</name></expression></preferred>
               </term>
             </terms>
             <terms id="_" obligation="normative">
-              <title>terms defined somewhere else</title>
-              <term id="term-Term-2">
+              <title id="_">terms defined somewhere else</title>
+              <term id="_" anchor="term-Term-2">
                 <preferred><expression><name>Term 2</name></expression></preferred>
               </term>
             </terms>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "doesn't insert boilerplate before definitions with no internal & external terms clauses if already populated" do
@@ -216,26 +234,26 @@ RSpec.describe Metanorma::Itu do
         #{@blank_hdr}
         <sections>
           <clause id="_" obligation="normative" type="terms">
-            <title>Definitions</title>
+            <title id="_">Definitions</title>
             <p id="_">Boilerplate</p>
             <terms id="_" obligation="normative">
-              <title>terms defined somewhere</title>
-                <term id="term-Term-1">
+              <title id="_">terms defined somewhere</title>
+                <term id="_" anchor="term-Term-1">
                 <preferred><expression><name>Term 1</name></expression></preferred>
               </term>
             </terms>
             <terms id="_" obligation="normative">
-              <title>terms defined somewhere else</title>
-              <term id="term-Term-2">
+              <title id="_">terms defined somewhere else</title>
+              <term id="_" anchor="term-Term-2">
                 <preferred><expression><name>Term 2</name></expression></preferred>
               </term>
             </terms>
           </clause>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "inserts boilerplate before symbols" do
@@ -249,20 +267,20 @@ RSpec.describe Metanorma::Itu do
         #{@blank_hdr}
         <sections>
           <definitions id="_" obligation='normative'>
-            <title>Abbreviations and acronyms</title>
+            <title id="_">Abbreviations and acronyms</title>
             <p id="_">This Recommendation uses the following abbreviations and acronyms:</p>
             <dl id="_">
-              <dt id='symbol-a'>a</dt>
-              <dd>
+              <dt anchor='symbol-a' id="_">a</dt>
+              <dd id="_">
                 <p id="_">b</p>
               </dd>
             </dl>
           </definitions>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "does not insert boilerplate before symbols if already populated" do
@@ -277,19 +295,20 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
         #{@blank_hdr}
         <sections>
-          <definitions id="_" obligation='normative'><title>Abbreviations and acronyms</title><p id="_">Boilerplate</p>
+          <definitions id="_" obligation='normative'>
+            <title id="_">Abbreviations and acronyms</title><p id="_">Boilerplate</p>
             <dl id="_">
-              <dt id='symbol-a'>a</dt>
-              <dd>
+              <dt anchor='symbol-a' id="_">a</dt>
+              <dd id="_">
                 <p id="_">b</p>
               </dd>
             </dl>
           </definitions>
         </sections>
-      </itu-standard>
+      </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 
   it "inserts empty clause boilerplate" do
@@ -305,19 +324,19 @@ RSpec.describe Metanorma::Itu do
        #{@blank_hdr}
        <sections>
           <terms id='_' obligation='normative'>
-            <title>Definitions</title>
+            <title id="_">Definitions</title>
             <p id='_'>None.</p>
           </terms>
         </sections>
         <bibliography>
           <references id='_' normative='true' obligation='informative'>
-            <title>References</title>
+            <title id="_">References</title>
             <p id='_'>None.</p>
           </references>
         </bibliography>
-      </itu-standard>
+      </metanorma>
     OUTPUT
-    expect(Xml::C14n.format(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Xml::C14n.format(output)
+    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
+      .to be_equivalent_to Canon.format_xml(strip_guid(output))
   end
 end

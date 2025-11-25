@@ -7,7 +7,7 @@ module Metanorma
         super
         xmldoc.xpath("//thead/tr[1]/th | //thead/tr[1]/td").each do |t|
           text = t.at("./descendant::text()") or next
-          text.replace(text.text.capitalize)
+          text.replace(::Metanorma::Utils.strict_capitalize_first(text.text))
         end
       end
 
@@ -67,13 +67,13 @@ module Metanorma
       # then title
       def sort_biblio_key(bib)
         pubclass = pub_class(bib)
-        id = bib&.at("./docidentifier[not(#{skip_docid} or @type = " \
+        id = bib.at("./docidentifier[not(#{skip_docid} or @type = " \
                      "'metanorma')]")
-        metaid = bib&.at("./docidentifier[@type = 'metanorma']")&.text
-        abbrid = metaid unless /^\[\d+\]$/.match?(metaid)
+        metaid = bib.at("./docidentifier[@type = 'metanorma']")&.text
+        # abbrid = metaid unless /^\[\d+\]$/.match?(metaid)
         type = id["type"] if id
-        title = bib&.at("./title[@type = 'main']")&.text ||
-          bib&.at("./title")&.text || bib&.at("./formattedref")&.text
+        title = (bib.at("./title[@type = 'main']") ||
+          bib.at("./title") || bib.at("./formattedref"))&.text
         "#{pubclass} :: #{type} :: #{id&.text || metaid} :: #{title}"
       end
 
@@ -83,20 +83,8 @@ module Metanorma
         end
       end
 
-      def bibdata_cleanup(xmldoc)
-        super
-        coverpage_images(xmldoc)
-      end
-
-      def coverpage_images(xmldoc)
-        %w(coverpage-image).each do |n|
-          xmldoc.xpath("//bibdata/ext/#{n}").each do |x|
-            ins = add_misc_container(xmldoc)
-            ins << "<presentation-metadata><name>#{n}</name>" \
-                   "<value>#{x.remove.children.to_xml}</value>" \
-                   "</presentation-metadata>"
-          end
-        end
+      def published?(status, _xmldoc)
+        !%w(in-force-prepublished draft).include?(status.downcase)
       end
     end
   end

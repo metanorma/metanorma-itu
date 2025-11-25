@@ -11,27 +11,42 @@ module Metanorma
         else itu_id(node, xml)
         end
         recommendation_id(node, xml)
+        iso_id(node, xml)
       end
 
       def provisional_id(node, xml)
         node.attr("provisional-name") or return
-        xml.docidentifier type: "ITU-provisional" do |i|
-          i << node.attr("provisional-name")
-        end
+        add_noko_elem(xml, "docidentifier",
+                      node.attr("provisional-name"), type: "ITU-provisional")
+        # xml.docidentifier type: "ITU-provisional" do |i|
+        #  i << node.attr("provisional-name")
+        # end
       end
 
       def td_id(node, xml)
         node.attr("td-number") or return
-        xml.docidentifier type: "ITU-TemporaryDocument" do |i|
-          i << node.attr("td-number")
-        end
+        add_noko_elem(xml, "docidentifier",
+                      node.attr("td-number"), type: "ITU-TemporaryDocument")
+        # xml.docidentifier type: "ITU-TemporaryDocument" do |i|
+        #  i << node.attr("td-number")
+        # end
+      end
+
+      def iso_id(node, xml)
+        add_noko_elem(xml, "docidentifier",
+                      node.attr("common-text-docnumber"), type: "ISO")
+        # a = node.attr("common-text-docnumber") and
+        #  xml.docidentifier a, type: "ISO"
       end
 
       ITULANG = { "en" => "E", "fr" => "F", "ar" => "A", "es" => "S",
                   "zh" => "C", "ru" => "R" }.freeze
 
       def itu_id(node, xml)
-        node.attr("docnumber") or return
+        node.attr("docnumber") || node.attr("docidentifier") or return
+        node.attr("docidentifier") and
+          return add_noko_elem(xml, "docidentifier",
+                      node.attr("docidentifier"), type: "ITU", primary: "true")
         params = itu_id_params(node)
         itu_id_out(node, xml, params)
       end
@@ -88,14 +103,14 @@ module Metanorma
       end
 
       def itu_id_out(node, xml, params)
-        xml.docidentifier itu_id_default(node, params).to_s,
-                          **attr_code(type: "ITU", primary: "true")
+        add_noko_elem(xml, "docidentifier", itu_id_default(node, params).to_s,
+                          type: "ITU", primary: "true")
         id_lang = itu_id_lang(node, params)
-        xml.docidentifier id_lang.to_s(language: @lang),
-                          **attr_code(type: "ITU-lang")
-        xml.docidentifier id_lang
+        add_noko_elem(xml, "docidentifier", id_lang.to_s(language: @lang),
+                          type: "ITU-lang")
+        add_noko_elem(xml, "docidentifier", id_lang
           .to_s(language: @lang, format: :long),
-                          **attr_code(type: "ITU-lang-long")
+                          type: "ITU-lang-long")
       end
 
       def itu_id_default(node, params)
@@ -113,20 +128,27 @@ module Metanorma
       def recommendation_id(node, xml)
         node.attr("recommendationnumber") or return
         node.attr("recommendationnumber").split("/").each do |s|
-          xml.docidentifier type: "ITU-Recommendation" do |i|
-            i << s
-          end
+          add_noko_elem(xml, "docidentifier", s, type: "ITU-Recommendation")
+
+          # xml.docidentifier type: "ITU-Recommendation" do |i|
+          #   i << s
+          # end
         end
       end
 
       def structured_id(node, xml)
         node.attr("docnumber") or return
         xml.structuredidentifier do |i|
-          i.bureau node.attr("bureau") || "T"
-          i.docnumber node.attr("docnumber")
-          a = node.attr("annexid") and i.annexid a
-          a = node.attr("amendment-number") and i.amendment a
-          a = node.attr("corrigendum-number") and i.corrigendum a
+          add_noko_elem(i, "bureau", node.attr("bureau") || "T")
+          # i.bureau node.attr("bureau") || "T"
+          add_noko_elem(i, "docnumber", node.attr("docnumber"))
+          # i.docnumber node.attr("docnumber")
+          add_noko_elem(i, "annexid", node.attr("annexid"))
+          # a = node.attr("annexid") and i.annexid a
+          add_noko_elem(i, "amendment", node.attr("amendment-number"))
+          # a = node.attr("amendment-number") and i.amendment a
+          add_noko_elem(i, "corrigendum", node.attr("corrigendum-number"))
+          # a = node.attr("corrigendum-number") and i.corrigendum a
         end
       end
     end

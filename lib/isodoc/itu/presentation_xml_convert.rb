@@ -157,6 +157,16 @@ module IsoDoc
         l10n(" &#x2013; ", { prev: lbl })
       end
 
+      def link(docxml)
+        (docxml.xpath(ns("//fmt-link")) -
+         docxml.xpath(ns("//boilerplate//fmt-link")) -
+         docxml.xpath(ns("//preface//fmt-link"))).each do |l|
+          l.text.empty? || l.text.match?(URI::DEFAULT_PARSER.make_regexp) or
+            next
+          l["style"] ||= "url"
+        end
+      end
+
       include Init
     end
   end

@@ -1899,7 +1899,7 @@ RSpec.describe Metanorma::Itu do
                       <td valign="top" align="left" style="">1993-03-12</td>
                       <td valign="top" align="left" style="">XV</td>
                       <td valign="top" align="left" style="">
-                         <a href="http://handle.itu.int/11.1002/1000/879" class="url">11.1002/1000/879</a>
+                         <a href="http://handle.itu.int/11.1002/1000/879">11.1002/1000/879</a>
                       </td>
                    </tr>
                 </tbody>
@@ -1912,9 +1912,9 @@ RSpec.describe Metanorma::Itu do
                             <p class="TableFootnote">
                                <a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"/>
                                To access the Recommendation, type the URL
-                               <a href="http://handle.itu.int/" class="url">http://handle.itu.int/</a>
+                               <a href="http://handle.itu.int/">http://handle.itu.int/</a>
                                in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example,
-                               <a href="http://handle.itu.int/11.1002/1000/11830-en" class="url">http://handle.itu.int/11.1002/1000/11830-en</a>
+                               <a href="http://handle.itu.int/11.1002/1000/11830-en">http://handle.itu.int/11.1002/1000/11830-en</a>
                             </p>
                          </div>
                       </td>

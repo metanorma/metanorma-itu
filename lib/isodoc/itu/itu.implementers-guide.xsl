@@ -382,7 +382,21 @@
 
 								<fo:flow flow-name="xsl-region-body">
 
-									<xsl:if test="/mn:metanorma/mn:preface/*[not(@type = 'toc')] or /mn:metanorma/mn:bibdata/mn:keyword">
+									<xsl:variable name="showKeywords_">
+										<!-- From: https://github.com/metanorma/metanorma-itu/issues/730#issuecomment-3576320261
+											we removed keywords Metadata field from the cover page of Cs and TDs since the start of the precious study period. It no longer figures in the C and TD template file.
+											Keywords continue to be mandatory in the text of Recs and Suppls and Tech Papers / Reports. -->
+										<xsl:if test="/mn:metanorma/mn:bibdata/mn:keyword">
+											<xsl:choose>
+												<xsl:when test="$doctype = 'contribution'">false</xsl:when>
+												<xsl:when test="$TDnumber != ''">false</xsl:when>
+												<xsl:otherwise>true</xsl:otherwise>
+											</xsl:choose>
+										</xsl:if>
+									</xsl:variable>
+									<xsl:variable name="showKeywords" select="normalize-space($showKeywords_)"/>
+
+									<xsl:if test="/mn:metanorma/mn:preface/*[not(@type = 'toc')] or $showKeywords = 'true'">
 
 										<xsl:if test="position() = 1">
 											<fo:block-container font-size="14pt" font-weight="bold">
@@ -419,7 +433,7 @@
 
 										<xsl:if test="position() = last()">
 											<!-- Keywords -->
-											<xsl:if test="/mn:metanorma/mn:bibdata/mn:keyword">
+											<xsl:if test="$showKeywords = 'true'">
 												<fo:block font-size="12pt">
 													<xsl:if test="*[last()]/mn:table">
 														<xsl:attribute name="font-size">10pt</xsl:attribute>

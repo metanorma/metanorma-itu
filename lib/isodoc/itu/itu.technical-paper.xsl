@@ -2501,16 +2501,16 @@
 		</fo:block>
 	</xsl:template>
 
-	<xsl:template match="mn:fmt-link" priority="2">
+	<!-- <xsl:template match="mn:fmt-link" priority="2">
 		<fo:inline color="blue">
 			<xsl:if test="parent::mn:formattedref or ancestor::mn:preface">
-				<xsl:attribute name="text-decoration">underline</xsl:attribute>
+				<xsl:attribute name="text-decoration">underline</xsl:attribute> -->
 				<!-- <xsl:attribute name="font-family">Arial</xsl:attribute>
 				<xsl:attribute name="font-size">8pt</xsl:attribute> -->
-			</xsl:if>
+			<!-- </xsl:if>
 			<xsl:call-template name="link"/>
 		</fo:inline>
-	</xsl:template>
+	</xsl:template> -->
 
 	<!-- https://github.com/metanorma/metanorma-itu/issues/607 -->
 	<xsl:template match="mn:references/mn:bibitem[1]" priority="5">
@@ -4692,9 +4692,15 @@
 	<!-- ================================= -->
 
 	<xsl:attribute-set name="link-style">
+		<xsl:attribute name="color">blue</xsl:attribute>
+		<xsl:attribute name="text-decoration">underline</xsl:attribute>
 	</xsl:attribute-set>
 
 	<xsl:template name="refine_link-style">
+		<xsl:if test="@style = 'url'">
+			<xsl:attribute name="font-family">Arial</xsl:attribute>
+			<xsl:attribute name="font-size">8pt</xsl:attribute>
+		</xsl:if>
 	</xsl:template> <!-- refine_link-style -->
 
 	<xsl:template match="mn:fmt-link" name="link">

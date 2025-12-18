@@ -250,18 +250,24 @@ RSpec.describe Metanorma::Itu do
     output = <<~"OUTPUT"
        <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}" flavor="itu">
          <bibdata type="standard">
-            <title language="en" type="main">Main Title</title>
-            <title language="en" type="annex">I3</title>
-            <title language="fr" type="main">Titre Principal</title>
-            <title language="fr" type="annex">J3</title>
-            <title language="en" type="subtitle">Subtitle</title>
-            <title language="fr" type="subtitle">Soustitre</title>
-            <title language="en" type="amendment">Amendment Title</title>
-            <title language="fr" type="amendment">Titre de Amendment</title>
-            <title language="en" type="corrigendum">Corrigendum Title</title>
-            <title language="fr" type="corrigendum">Titre de Corrigendum</title>
-            <title language="en" type="collection">Articles</title>
-            <title language="en" type="slogan">Slogan</title>
+                      <title language="en" type="main">Main Title</title>
+             <title language="en" type="annex">I3</title>
+             <title language="en" type="title-amendment-prefix">Amendment 88</title>
+             <title language="en" type="title-corrigendum-prefix">Corrigendum 88</title>
+             <title language="fr" type="main">Titre Principal</title>
+             <title language="fr" type="title-amendment-prefix">Amendement 88</title>
+             <title language="fr" type="title-corrigendum-prefix">Rectificatif 88</title>
+             <title language="fr" type="annex">J3</title>
+             <title language="fr" type="title-amendment-prefix">Amendement 88</title>
+             <title language="fr" type="title-corrigendum-prefix">Rectificatif 88</title>
+             <title language="en" type="subtitle">Subtitle</title>
+             <title language="fr" type="subtitle">Soustitre</title>
+             <title language="en" type="amendment">Amendment Title</title>
+             <title language="fr" type="amendment">Titre de Amendment</title>
+             <title language="en" type="corrigendum">Corrigendum Title</title>
+             <title language="fr" type="corrigendum">Titre de Corrigendum</title>
+             <title language="en" type="collection">Articles</title>
+             <title language="en" type="slogan">Slogan</title>
             <docidentifier type="ITU-provisional">ABC</docidentifier>
             <docidentifier type="ITU-TemporaryDocument">SG17-TD611</docidentifier>
             <docidentifier type="ITU" primary="true">ITU-R 1000</docidentifier>

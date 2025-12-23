@@ -10,7 +10,6 @@ module Metanorma
         stage = "draft" if node.attributes.has_key?("draft")
         xml.status do |s|
           add_noko_elem(s, "stage", stage)
-          # s.stage stage
         end
       end
 
@@ -24,6 +23,7 @@ module Metanorma
         if a = node.attr("annextitle") || node.attr("annextitle-#{@lang}")
           add_title_xml(xml, a, @lang, "annex")
         end
+        title_nums(node, xml, @lang)
       end
 
       def title_otherlangs(node, xml)
@@ -32,6 +32,7 @@ module Metanorma
           lang == @lang and next
           type = /^annex/.match?(k) ? "annex" : "main"
           add_title_xml(xml, v, lang, type)
+          title_nums(node, xml, lang)
         end
       end
 

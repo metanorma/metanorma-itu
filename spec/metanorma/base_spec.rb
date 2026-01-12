@@ -124,28 +124,15 @@ RSpec.describe Metanorma::Itu do
           </ext>
         </bibdata>
         <metanorma-extension>
-           <presentation-metadata>
-             <name>document-scheme</name>
-             <value>current</value>
-           </presentation-metadata>
        <semantic-metadata>
       <stage-published>false</stage-published>
       </semantic-metadata>
            <presentation-metadata>
-             <name>TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
-           <presentation-metadata>
-             <name>HTML TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
-           <presentation-metadata>
-             <name>DOC TOC Heading Levels</name>
-             <value>2</value>
-           </presentation-metadata>
-           <presentation-metadata>
-             <name>PDF TOC Heading Levels</name>
-             <value>2</value>
+               <document-scheme>current</document-scheme>
+                <toc-heading-levels>2</toc-heading-levels>
+                <html-toc-heading-levels>2</html-toc-heading-levels>
+                <doc-toc-heading-levels>2</doc-toc-heading-levels>
+                <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
            </presentation-metadata>
          </metanorma-extension>
         <sections/>
@@ -533,31 +520,15 @@ RSpec.describe Metanorma::Itu do
                <stage-published>true</stage-published>
             </semantic-metadata>
             <presentation-metadata>
-               <name>document-scheme</name>
-               <value>legacy</value>
-            </presentation-metadata>
-            <presentation-metadata>
-               <name>coverpage-image</name>
-               <value>
-                  <image src="images/image1.gif"/>
-                  <image src="images/image2.gif"/>
-               </value>
-            </presentation-metadata>
-            <presentation-metadata>
-               <name>TOC Heading Levels</name>
-               <value>2</value>
-            </presentation-metadata>
-            <presentation-metadata>
-               <name>HTML TOC Heading Levels</name>
-               <value>2</value>
-            </presentation-metadata>
-            <presentation-metadata>
-               <name>DOC TOC Heading Levels</name>
-               <value>2</value>
-            </presentation-metadata>
-            <presentation-metadata>
-               <name>PDF TOC Heading Levels</name>
-               <value>2</value>
+                <document-scheme>legacy</document-scheme>
+                <coverpage-image>
+                   <image src="images/image1.gif"/>
+                   <image src="images/image2.gif"/>
+                </coverpage-image>
+                <toc-heading-levels>2</toc-heading-levels>
+                <html-toc-heading-levels>2</html-toc-heading-levels>
+                <doc-toc-heading-levels>2</doc-toc-heading-levels>
+                <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
             </presentation-metadata>
          </metanorma-extension>
          <sections> </sections>
@@ -639,35 +610,19 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~OUTPUT
       <metanorma-extension>
-        <presentation-metadata>
-          <name>coverpage-image</name>
-          <value>
-            <image src="images/image1.gif"/>
-            <image src="images/image2.gif"/>
-          </value>
-        </presentation-metadata>
        <semantic-metadata>
       <stage-published>true</stage-published>
       </semantic-metadata>
          <presentation-metadata>
-           <name>TOC Heading Levels</name>
-           <value>2</value>
-         </presentation-metadata>
-         <presentation-metadata>
-           <name>HTML TOC Heading Levels</name>
-           <value>2</value>
-         </presentation-metadata>
-         <presentation-metadata>
-           <name>DOC TOC Heading Levels</name>
-           <value>2</value>
-         </presentation-metadata>
-         <presentation-metadata>
-           <name>PDF TOC Heading Levels</name>
-           <value>2</value>
-         </presentation-metadata>
-         <presentation-metadata>
-          <name>document-scheme</name>
-          <value>current</value>
+      <document-scheme>current</document-scheme>
+      <coverpage-image>
+         <image src="images/image1.gif"/>
+         <image src="images/image2.gif"/>
+      </coverpage-image>
+      <toc-heading-levels>2</toc-heading-levels>
+      <html-toc-heading-levels>2</html-toc-heading-levels>
+      <doc-toc-heading-levels>2</doc-toc-heading-levels>
+      <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
         </presentation-metadata>
       </metanorma-extension>
     OUTPUT

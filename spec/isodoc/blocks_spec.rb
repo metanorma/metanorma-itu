@@ -248,67 +248,71 @@ RSpec.describe Metanorma::Itu do
       </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-         <preface>
-            <clause type="toc" id="_" displayorder="1">
-               <fmt-title id="_" depth="1">Table of Contents</fmt-title>
-            </clause>
-            <foreword id="_" displayorder="2">
-               <title id="_">Foreword</title>
-               <fmt-title id="_" depth="1">
-                  <semx element="title" source="_">Foreword</semx>
-               </fmt-title>
-               <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
-                  <stem type="AsciiMath" id="_">r = 1 %</stem>
-                  <fmt-stem type="AsciiMath">
-                     <semx element="stem" source="_">r = 1 %</semx>
-                  </fmt-stem>
-                  <p keep-with-next="true">where</p>
-                  <dl id="_" class="formula_dl">
-                     <dt>
-                        <stem type="AsciiMath" id="_">r</stem>
-                        <fmt-stem type="AsciiMath">
-                           <semx element="stem" source="_">r</semx>
-                        </fmt-stem>
-                     </dt>
-                     <dd>
-                        <p id="_">is the repeatability limit.</p>
-                     </dd>
-                  </dl>
-               </formula>
-               <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
-                  <stem type="AsciiMath" id="_">r = 1 %</stem>
-                  <fmt-stem type="AsciiMath">
-                     <semx element="stem" source="_">r = 1 %</semx>
-                  </fmt-stem>
-                  <p keep-with-next="true">where:</p>
-                  <dl id="_" class="formula_dl">
-                     <dt>
-                        <stem type="AsciiMath" id="_">r</stem>
-                        <fmt-stem type="AsciiMath">
-                           <semx element="stem" source="_">r</semx>
-                        </fmt-stem>
-                     </dt>
-                     <dd>
-                        <p id="_">is the repeatability limit.</p>
-                     </dd>
-                     <dt>
-                        <stem type="AsciiMath" id="_">s</stem>
-                        <fmt-stem type="AsciiMath">
-                           <semx element="stem" source="_">s</semx>
-                        </fmt-stem>
-                     </dt>
-                     <dd>
-                        <p id="_">is the other repeatability limit.</p>
-                     </dd>
-                  </dl>
-               </formula>
-            </foreword>
-         </preface>
-      </iso-standard>
+       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1" id="_">Table of Contents</fmt-title>
+             </clause>
+             <foreword id="_" displayorder="2">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1" id="_">
+                   <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
+                   <stem type="AsciiMath" id="_">r = 1 %</stem>
+                   <fmt-stem type="AsciiMath">
+                      <semx element="stem" source="_">r = 1 %</semx>
+                   </fmt-stem>
+                   <p keep-with-next="true">where</p>
+                   <key class="formula_dl">
+                      <dl id="_">
+                         <dt>
+                            <stem type="AsciiMath" id="_">r</stem>
+                            <fmt-stem type="AsciiMath">
+                               <semx element="stem" source="_">r</semx>
+                            </fmt-stem>
+                         </dt>
+                         <dd>
+                            <p id="_">is the repeatability limit.</p>
+                         </dd>
+                      </dl>
+                   </key>
+                </formula>
+                <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
+                   <stem type="AsciiMath" id="_">r = 1 %</stem>
+                   <fmt-stem type="AsciiMath">
+                      <semx element="stem" source="_">r = 1 %</semx>
+                   </fmt-stem>
+                   <p keep-with-next="true">where:</p>
+                   <key class="formula_dl">
+                      <dl id="_">
+                         <dt>
+                            <stem type="AsciiMath" id="_">r</stem>
+                            <fmt-stem type="AsciiMath">
+                               <semx element="stem" source="_">r</semx>
+                            </fmt-stem>
+                         </dt>
+                         <dd>
+                            <p id="_">is the repeatability limit.</p>
+                         </dd>
+                         <dt>
+                            <stem type="AsciiMath" id="_">s</stem>
+                            <fmt-stem type="AsciiMath">
+                               <semx element="stem" source="_">s</semx>
+                            </fmt-stem>
+                         </dt>
+                         <dd>
+                            <p id="_">is the other repeatability limit.</p>
+                         </dd>
+                      </dl>
+                   </key>
+                </formula>
+             </foreword>
+          </preface>
+       </iso-standard>
     OUTPUT
     word = <<~OUTPUT
-      <body lang="EN-US" link="blue" vlink="#954F72">
+       <body lang="EN-US" link="blue" vlink="#954F72">
           <div class="WordSection1">
              <p> </p>
           </div>
@@ -336,19 +340,21 @@ RSpec.describe Metanorma::Itu do
                       </p>
                    </div>
                    <p style="page-break-after: avoid;">where</p>
-                   <div align="left">
-                      <table id="_" style="text-align:left;" class="formula_dl">
-                         <tr>
-                            <td valign="top" align="left">
-                               <p align="left" style="margin-left:0pt;text-align:left;">
-                                  <span class="stem">(#(r)#)</span>
-                               </p>
-                            </td>
-                            <td valign="top">
-                               <p id="_">is the repeatability limit.</p>
-                            </td>
-                         </tr>
-                      </table>
+                   <div class="key formula_dl">
+                      <div align="left">
+                         <table id="_" style="text-align:left;" class="formula_dl">
+                            <tr>
+                               <td valign="top" align="left">
+                                  <p align="left" style="margin-left:0pt;text-align:left;">
+                                     <span class="stem">(#(r)#)</span>
+                                  </p>
+                               </td>
+                               <td valign="top">
+                                  <p id="_">is the repeatability limit.</p>
+                               </td>
+                            </tr>
+                         </table>
+                      </div>
                    </div>
                 </div>
                 <div id="_" style="page-break-after: avoid;page-break-inside: avoid;">
@@ -359,29 +365,31 @@ RSpec.describe Metanorma::Itu do
                       </p>
                    </div>
                    <p style="page-break-after: avoid;">where:</p>
-                   <div align="left">
-                      <table id="_" style="text-align:left;" class="formula_dl">
-                         <tr>
-                            <td valign="top" align="left">
-                               <p align="left" style="margin-left:0pt;text-align:left;">
-                                  <span class="stem">(#(r)#)</span>
-                               </p>
-                            </td>
-                            <td valign="top">
-                               <p id="_">is the repeatability limit.</p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td valign="top" align="left">
-                               <p align="left" style="margin-left:0pt;text-align:left;">
-                                  <span class="stem">(#(s)#)</span>
-                               </p>
-                            </td>
-                            <td valign="top">
-                               <p id="_">is the other repeatability limit.</p>
-                            </td>
-                         </tr>
-                      </table>
+                   <div class="key formula_dl">
+                      <div align="left">
+                         <table id="_" style="text-align:left;" class="formula_dl">
+                            <tr>
+                               <td valign="top" align="left">
+                                  <p align="left" style="margin-left:0pt;text-align:left;">
+                                     <span class="stem">(#(r)#)</span>
+                                  </p>
+                               </td>
+                               <td valign="top">
+                                  <p id="_">is the repeatability limit.</p>
+                               </td>
+                            </tr>
+                            <tr>
+                               <td valign="top" align="left">
+                                  <p align="left" style="margin-left:0pt;text-align:left;">
+                                     <span class="stem">(#(s)#)</span>
+                                  </p>
+                               </td>
+                               <td valign="top">
+                                  <p id="_">is the other repeatability limit.</p>
+                               </td>
+                            </tr>
+                         </table>
+                      </div>
                    </div>
                 </div>
              </div>
@@ -460,11 +468,13 @@ RSpec.describe Metanorma::Itu do
               <td align="center"><dl><dt>6,06</dt><dd>Definition</dd></dl></td>
             </tr>
           </tfoot>
-          <dl key="true">
+          <key>
              <name>Key</name>
+          <dl>
           <dt>Drago</dt>
         <dd>A type of rice</dd>
         </dl>
+        </key>
               <source status="generalisation">
           <origin bibitemid="ISO712" type="inline" citeas="">
             <localityStack>
@@ -649,14 +659,13 @@ RSpec.describe Metanorma::Itu do
                          </td>
                       </tr>
                    </tfoot>
-                   <dl key="true">
-                      <name id="_">Key</name>
-                      <fmt-name id="_">
-                         <semx element="name" source="_">Key</semx>
-                      </fmt-name>
+                   <key>
+                   <name>Key</name>
+                   <dl>
                       <dt>Drago</dt>
                       <dd>A type of rice</dd>
                    </dl>
+                   </key>
                    <source status="generalisation" id="_">
                       <origin bibitemid="ISO712" type="inline" citeas="">
                          <localityStack>
@@ -954,15 +963,19 @@ RSpec.describe Metanorma::Itu do
                            </td>
                         </tr>
                      </tfoot>
-                     <div class="figdl">
-                        <p class="ListTitle">Key</p>
-                        <dl>
-                           <dt>
-                              <p>Drago</p>
-                           </dt>
-                           <dd>A type of rice</dd>
-                        </dl>
-                     </div>
+               <div class="key">
+                  <p style="page-break-after: avoid;">
+                     <b>Key</b>
+                  </p>
+                  <div class="figdl">
+                     <dl>
+                        <dt>
+                           <p>Drago</p>
+                        </dt>
+                        <dd>A type of rice</dd>
+                     </dl>
+                  </div>
+               </div>
                      <div class="BlockSource">
                         <p>
                            [SOURCE:
@@ -1134,14 +1147,18 @@ RSpec.describe Metanorma::Itu do
                            </td>
                         </tr>
                      </tfoot>
-                     <div class="figdl">
-                        <p class="ListTitle">Key</p>
-                        <p style="text-indent: -2.0cm; margin-left: 2.0cm; tab-stops: 2.0cm;">
-                           Drago
-                           <span style="mso-tab-count:1">  </span>
-                           A type of rice
-                        </p>
-                     </div>
+               <div class="key">
+                  <p style="page-break-after: avoid;">
+                     <b>Key</b>
+                  </p>
+                  <div class="figdl">
+                     <p style="text-indent: -2.0cm; margin-left: 2.0cm; tab-stops: 2.0cm;">
+                        Drago
+                        <span style="mso-tab-count:1">  </span>
+                        A type of rice
+                     </p>
+                  </div>
+               </div>
                      <div class="BlockSource">
                         <p>
                            [SOURCE:

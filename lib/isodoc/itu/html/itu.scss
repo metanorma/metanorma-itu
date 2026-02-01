@@ -743,7 +743,7 @@ p.Formula, li.Formula, div.Formula
 	mso-fareast-font-family:$bodyfont;
 	mso-bidi-font-family:$bodyfont;
 	mso-ansi-language:EN-GB;}
-table.formula_dl {
+div.formula_dl, p.formula_dl, table.formula_dl {
         margin-left:1.4cm;
         margin-right:1.4cm;
 }

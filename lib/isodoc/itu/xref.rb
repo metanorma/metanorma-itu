@@ -83,6 +83,7 @@ module IsoDoc
             { unnumb: elem["unnumbered"], container: }
           )
         end
+        nested_notes(elem)
       end
 
       def fig_subfig_label(label, sublabel)

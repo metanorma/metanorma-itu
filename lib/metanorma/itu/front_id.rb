@@ -1,10 +1,9 @@
 module Metanorma
   module Itu
     class Converter < Standoc::Converter
-      def metadata_id(node, xml)
+      def metadata_id_nonprimary(node, xml)
         provisional_id(node, xml)
         td_id(node, xml)
-        itu_id(node, xml)
         recommendation_id(node, xml)
         iso_id(node, xml)
       end
@@ -39,6 +38,10 @@ module Metanorma
              else
                "ITU-#{bureau} #{node.attr('docnumber')}"
              end
+        itu_lang(id, lang)
+      end
+
+      def itu_lang(id, lang)
         id + (lang ? "-#{ITULANG[@lang]}" : "")
       end
 
@@ -52,19 +55,31 @@ module Metanorma
         "#{group}-C#{node.attr('docnumber')}"
       end
 
-      def itu_id(node, xml)
-        node.attr("docnumber") || node.attr("docidentifier") or return
+      def metadata_id_primary(node, xml)
+        node.attr("docnumber") or return
         add_noko_elem(xml, "docidentifier",
-                      node.attr("docidentifier") || itu_id1(node, false), type: "ITU", primary: "true")
+                      itu_id1(node, false),
+                      type: "ITU", primary: "true")
         add_noko_elem(xml, "docidentifier",
                       itu_id1(node, true), type: "ITU-lang")
+      end
+
+      def metadata_id_docidentifier(node, xml)
+        super
+        add_noko_elem(xml, "docidentifier",
+                      itu_lang(node.attr("docidentifier"), true),
+                      boilerplate: true,
+                      type: "ITU-lang")
+      end
+
+      def metadata_id_primary_type(_node)
+        "ITU"
       end
 
       def recommendation_id(node, xml)
         node.attr("recommendationnumber") or return
         node.attr("recommendationnumber").split("/").each do |s|
           add_noko_elem(xml, "docidentifier", s, type: "ITU-Recommendation")
-
         end
       end
 

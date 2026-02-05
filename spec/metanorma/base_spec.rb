@@ -1347,7 +1347,7 @@ RSpec.describe Metanorma::Itu do
           <title language='fr' type='subtitle'>Soustitre</title>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docidentifier primary="true" type='ITU'>OVERRIDE</docidentifier>
-          <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
+          <docidentifier type='ITU-lang'>OVERRIDE-E</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>

@@ -9,7 +9,7 @@ module Metanorma
         stage = node.attr("status") || node.attr("docstage") || "published"
         stage = "draft" if node.attributes.has_key?("draft")
         xml.status do |s|
-          add_noko_elem(s, "stage", stage)
+          add_noko_elem(s, "stage", stage, abbreviation: node.attr("docstage-abbrev"))
         end
       end
 

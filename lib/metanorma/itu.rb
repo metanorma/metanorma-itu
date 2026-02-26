@@ -1,6 +1,8 @@
 require "metanorma/itu/version"
 require "metanorma/itu/processor"
 require "metanorma/itu/converter"
+require "metanorma/itu/cleanup"
+require "metanorma/itu/validate"
 
 module Metanorma
   module Itu

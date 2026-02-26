@@ -2,7 +2,15 @@ require_relative "cleanup_section"
 
 module Metanorma
   module Itu
-    class Converter < Standoc::Converter
+    class Cleanup < Standoc::Cleanup
+      def copied_instance_variables
+        super + %i[no_insert_missing_sections]
+      end
+
+      def boilerplate_file(_xmldoc)
+        File.join(@libdir, "boilerplate.adoc")
+      end
+
       def table_cleanup(xmldoc)
         super
         xmldoc.xpath("//thead/tr[1]/th | //thead/tr[1]/td").each do |t|

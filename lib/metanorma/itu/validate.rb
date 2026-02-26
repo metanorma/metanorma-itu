@@ -1,6 +1,10 @@
 module Metanorma
   module Itu
-    class Converter < Standoc::Converter
+    class Validate < Standoc::Validate
+      def schema_file
+        "itu.rng"
+      end
+
       def bibdata_validate(doc)
         doctype_validate(doc)
         stage_validate(doc)
@@ -85,7 +89,8 @@ module Metanorma
         process = s["process"]
         (process == "aap") && %w(determined in-force).include?(s.text) and
           @log.add("ITU_6", nil, params: [s.text])
-        (process == "tap") && !%w(determined in-force).include?(s.text) and
+        (process == "tap") && !%w(determined
+                                  in-force).include?(s.text) and
           @log.add("ITU_7", nil, params: [s.text])
       end
 
@@ -124,7 +129,8 @@ module Metanorma
         xmldoc.xpath("//term").each do |t|
           para = t.at("./definition/verbal-definition") || return
           term = t.at("./preferred//name").text
-          termdef_warn(term, /^[A-Z][a-z]+/, t, term, "term is not lowercase")
+          termdef_warn(term, /^[A-Z][a-z]+/, t, term,
+                       "term is not lowercase")
           termdef_warn(para.text.strip, /^[a-z]/, t, term,
                        "term definition does not start with capital")
           termdef_warn(para.text.strip, /[^.]\z/, t, term,

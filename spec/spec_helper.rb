@@ -101,8 +101,9 @@ HDR
 def boilerplate_read(file, xmldoc)
   conv = Metanorma::Itu::Converter.new(:itu, {})
   conv.init(Asciidoctor::Document.new([]))
-  x = conv.boilerplate_isodoc(xmldoc).populate_template(file, nil)
-  ret = conv.boilerplate_file_restructure(x)
+  cl = Metanorma::Itu::Cleanup.new(conv)
+  x = cl.boilerplate_isodoc(xmldoc).populate_template(file, nil)
+  ret = cl.boilerplate_file_restructure(x)
   ret.to_xml(encoding: "UTF-8", indent: 2,
              save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
     .gsub(/<(\/)?sections>/, "<\\1boilerplate>")

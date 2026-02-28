@@ -60,7 +60,6 @@ RSpec.describe Metanorma::Itu do
   end
 
   it "does not strip inline header" do
-    require "debug"; binding.b
     input = <<~INPUT
       #{ASCIIDOC_BLANK_HDR}
       This is a preamble

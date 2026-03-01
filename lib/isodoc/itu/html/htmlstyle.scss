@@ -150,7 +150,7 @@ nav {
 }
 
 
-.figure {
+figure {
   @include figureBlock();
   @include monospaceBlockStyle();
 
@@ -158,7 +158,7 @@ nav {
   font-size: $monospacefontsize;
 }
 
-table div.figure {
+table figure {
   padding: 0;
   margin: 0;
 }
@@ -490,7 +490,7 @@ table:not(.biblio) {
   }
 }
 
-p.TableTitle {
+table > caption {
   text-align: center;
   margin-top: 2.5em;
   font-weight: 400;
@@ -616,7 +616,7 @@ a.anchorjs-link {
     background-color: white;
   }
 
-  .note, .figure, pre, table {
+  .note, figure, pre, table {
     page-break-inside: avoid;
   }
 

@@ -1756,11 +1756,12 @@ RSpec.describe Metanorma::Itu do
                    <p class='annex_obligation'>(This annex forms an integral part of this Recommendation Annex.)</p>
                    <div id='A2'>
                      <h2 id='_'><a class="anchor" href="#A2"/><a class="header" href="#A2">F2.1.&#xA0; Subtitle</a></h2>
-                     <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
-                     <table id='T' class='MsoISOTable' style='border-width:1px;border-spacing:0;'/>
-                     <div id='U' class='figure'>
-          <p class='FigureTitle' style='text-align:center;'>Figure F2.1</p>
-        </div>
+                     <table id='T' class='MsoISOTable' style='border-width:1px;border-spacing:0;'>
+                     <caption>Table F2.1</caption>
+                     </table>
+                     <figure id='U' class='figure'>
+          <figcaption>Figure F2.1</figcaption>
+        </figure>
                      <div id='V'><div class='formula'>
                        <p>
                          <span class='stem'>(#(r = 1 %)#)</span>

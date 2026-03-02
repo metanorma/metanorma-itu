@@ -338,13 +338,11 @@ RSpec.describe Metanorma::Itu do
                    <sup>2</sup>
                 </a>
              </p>
-             <p class="TableTitle" style="text-align:center;">
+             <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;" title="tool tip">
+                <caption>
                 Table 1 — Table 1 — Repeatability and reproducibility of
                 <i>husked</i>
                 rice yield
-             </p>
-             <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;" title="tool tip">
-                <caption>
                    <span style="display:none">long desc</span>
                 </caption>
                 <thead>

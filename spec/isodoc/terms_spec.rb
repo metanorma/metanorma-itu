@@ -26,183 +26,187 @@ RSpec.describe Metanorma::Itu do
     INPUT
 
     presxml = <<~INPUT
-        <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-           <preface>
-              <clause type="toc" id="_" displayorder="1">
-                 <fmt-title id="_" depth="1">Table of Contents</fmt-title>
-              </clause>
-           </preface>
-           <sections>
-              <terms id="H" obligation="normative" displayorder="2">
-                 <title id="_">Terms</title>
-                 <fmt-title id="_" depth="1">
-                    <span class="fmt-caption-label">
-                       <semx element="autonum" source="H">1</semx>
-                       <span class="fmt-autonum-delim">.</span>
-                    </span>
-                    <span class="fmt-caption-delim">
-                       <tab/>
-                    </span>
-                    <semx element="title" source="_">Terms</semx>
-                 </fmt-title>
-                 <fmt-xref-label>
-                    <span class="fmt-element-name">clause</span>
-                    <semx element="autonum" source="H">1</semx>
-                 </fmt-xref-label>
-                 <term id="J">
-                    <fmt-name id="_">
-                       <span class="fmt-caption-label">
-                          <semx element="autonum" source="H">1</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                          <semx element="autonum" source="J">1</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                       </span>
-                    </fmt-name>
-                    <fmt-xref-label>
-                       <span class="fmt-element-name">clause</span>
-                       <semx element="autonum" source="H">1</semx>
-                       <span class="fmt-autonum-delim">.</span>
-                       <semx element="autonum" source="J">1</semx>
-                    </fmt-xref-label>
-                    <preferred id="_">
-                       <expression>
-                          <name>Term2</name>
-                       </expression>
-                    </preferred>
-                    <fmt-preferred>
-                       <semx element="preferred" source="_">
-                          <strong>Term2</strong>
-                          :
-                       </semx>
-                    </fmt-preferred>
-                    <definition id="_">
-                       <verbal-definition>
-                          <p>This is a journey into sound</p>
-                       </verbal-definition>
-                    </definition>
-                    <fmt-definition id="_">
-                       <semx element="definition" source="_">
-                          <p>This is a journey into sound</p>
-                       </semx>
-                    </fmt-definition>
-                    <source id="_">
-                       <origin citeas="XYZ">x y z</origin>
-                    </source>
-                    <fmt-termsource>
-                       <semx element="source" source="_">
-                          <origin citeas="XYZ" id="_">x y z</origin>
-                          <semx element="origin" source="_">
-                             <fmt-origin citeas="[XYZ]">x y z</fmt-origin>
-                          </semx>
-                       </semx>
-                    </fmt-termsource>
-                    <termnote id="J1" keep-with-next="true" keep-lines-together="true" autonum="">
-                       <fmt-name id="_">
-                          <span class="fmt-caption-label">
-                             <span class="fmt-element-name">NOTE</span>
-                          </span>
-                          <span class="fmt-label-delim"> – </span>
-                       </fmt-name>
-                       <fmt-xref-label>
-                          <span class="fmt-element-name">clause</span>
-                          <semx element="autonum" source="H">1</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                          <semx element="autonum" source="J">1</semx>
-                          <span class="fmt-comma">,</span>
-                          <span class="fmt-element-name">Note</span>
-                       </fmt-xref-label>
-                       <p>This is a note</p>
-                    </termnote>
-                 </term>
-                 <term id="K">
-                    <fmt-name id="_">
-                       <span class="fmt-caption-label">
-                          <semx element="autonum" source="H">1</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                          <semx element="autonum" source="K">2</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                       </span>
-                    </fmt-name>
-                    <fmt-xref-label>
-                       <span class="fmt-element-name">clause</span>
-                       <semx element="autonum" source="H">1</semx>
-                       <span class="fmt-autonum-delim">.</span>
-                       <semx element="autonum" source="K">2</semx>
-                    </fmt-xref-label>
-                    <preferred id="_">
-                       <expression>
-                          <name>Term3</name>
-                       </expression>
-                    </preferred>
-                    <fmt-preferred>
-                       <semx element="preferred" source="_">
-                          <strong>Term3</strong>
-                          :
-                       </semx>
-                    </fmt-preferred>
-                    <definition id="_">
-                       <verbal-definition>
-                          <p>This is a journey into sound</p>
-                       </verbal-definition>
-                    </definition>
-                    <fmt-definition id="_">
-                       <semx element="definition" source="_">
-                          <p>This is a journey into sound</p>
-                       </semx>
-                    </fmt-definition>
-                    <source id="_">
-                       <origin citeas="XYZ">x y z</origin>
-                    </source>
-                    <fmt-termsource>
-                       <semx element="source" source="_">
-                          <origin citeas="XYZ" id="_">x y z</origin>
-                          <semx element="origin" source="_">
-                             <fmt-origin citeas="[XYZ]">x y z</fmt-origin>
-                          </semx>
-                       </semx>
-                    </fmt-termsource>
-                    <termnote id="J2" autonum="1">
-                       <fmt-name id="_">
-                          <span class="fmt-caption-label">
-                             <span class="fmt-element-name">NOTE</span>
-                             <semx element="autonum" source="J2">1</semx>
-                          </span>
-                          <span class="fmt-label-delim"> – </span>
-                       </fmt-name>
-                       <fmt-xref-label>
-                          <span class="fmt-element-name">clause</span>
-                          <semx element="autonum" source="H">1</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                          <semx element="autonum" source="K">2</semx>
-                          <span class="fmt-comma">,</span>
-                          <span class="fmt-element-name">Note</span>
-                          <semx element="autonum" source="J2">1</semx>
-                       </fmt-xref-label>
-                       <p>This is a note</p>
-                    </termnote>
-                    <termnote id="J3" autonum="2">
-                       <fmt-name id="_">
-                          <span class="fmt-caption-label">
-                             <span class="fmt-element-name">NOTE</span>
-                             <semx element="autonum" source="J3">2</semx>
-                          </span>
-                          <span class="fmt-label-delim"> – </span>
-                       </fmt-name>
-                       <fmt-xref-label>
-                          <span class="fmt-element-name">clause</span>
-                          <semx element="autonum" source="H">1</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                          <semx element="autonum" source="K">2</semx>
-                          <span class="fmt-comma">,</span>
-                          <span class="fmt-element-name">Note</span>
-                          <semx element="autonum" source="J3">2</semx>
-                       </fmt-xref-label>
-                       <p>This is a note</p>
-                    </termnote>
-                 </term>
-              </terms>
-           </sections>
-        </itu-standard>
+       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1" id="_">Table of Contents</fmt-title>
+             </clause>
+          </preface>
+          <sections>
+             <terms id="H" obligation="normative" displayorder="2">
+                <title id="_">Terms</title>
+                <fmt-title depth="1" id="_">
+                   <span class="fmt-caption-label">
+                      <semx element="autonum" source="H">1</semx>
+                      <span class="fmt-autonum-delim">.</span>
+                   </span>
+                   <span class="fmt-caption-delim">
+                      <tab/>
+                   </span>
+                   <semx element="title" source="_">Terms</semx>
+                </fmt-title>
+                <fmt-xref-label>
+                   <span class="fmt-element-name">clause</span>
+                   <semx element="autonum" source="H">1</semx>
+                </fmt-xref-label>
+                <term id="J">
+                   <fmt-name id="_">
+                      <span class="fmt-caption-label">
+                         <semx element="autonum" source="H">1</semx>
+                         <span class="fmt-autonum-delim">.</span>
+                         <semx element="autonum" source="J">1</semx>
+                         <span class="fmt-autonum-delim">.</span>
+                      </span>
+                   </fmt-name>
+                   <fmt-xref-label>
+                      <span class="fmt-element-name">clause</span>
+                      <semx element="autonum" source="H">1</semx>
+                      <span class="fmt-autonum-delim">.</span>
+                      <semx element="autonum" source="J">1</semx>
+                   </fmt-xref-label>
+                   <preferred id="_">
+                      <expression>
+                         <name id="_">Term2</name>
+                      </expression>
+                   </preferred>
+                   <fmt-preferred>
+                      <semx element="preferred" source="_">
+                         <strong>
+                            <semx element="expression/name" source="_">Term2</semx>
+                         </strong>
+                         :
+                      </semx>
+                   </fmt-preferred>
+                   <definition id="_">
+                      <verbal-definition>
+                         <p>This is a journey into sound</p>
+                      </verbal-definition>
+                   </definition>
+                   <fmt-definition id="_">
+                      <semx element="definition" source="_">
+                         <p>This is a journey into sound</p>
+                      </semx>
+                   </fmt-definition>
+                   <source id="_">
+                      <origin citeas="XYZ">x y z</origin>
+                   </source>
+                   <fmt-termsource>
+                      <semx element="source" source="_">
+                         <origin citeas="XYZ" id="_">x y z</origin>
+                         <semx element="origin" source="_">
+                            <fmt-origin citeas="[XYZ]">x y z</fmt-origin>
+                         </semx>
+                      </semx>
+                   </fmt-termsource>
+                   <termnote id="J1" keep-with-next="true" keep-lines-together="true" autonum="">
+                      <fmt-name id="_">
+                         <span class="fmt-caption-label">
+                            <span class="fmt-element-name">NOTE</span>
+                         </span>
+                         <span class="fmt-label-delim"> – </span>
+                      </fmt-name>
+                      <fmt-xref-label>
+                         <span class="fmt-element-name">clause</span>
+                         <semx element="autonum" source="H">1</semx>
+                         <span class="fmt-autonum-delim">.</span>
+                         <semx element="autonum" source="J">1</semx>
+                         <span class="fmt-comma">,</span>
+                         <span class="fmt-element-name">Note</span>
+                      </fmt-xref-label>
+                      <p>This is a note</p>
+                   </termnote>
+                </term>
+                <term id="K">
+                   <fmt-name id="_">
+                      <span class="fmt-caption-label">
+                         <semx element="autonum" source="H">1</semx>
+                         <span class="fmt-autonum-delim">.</span>
+                         <semx element="autonum" source="K">2</semx>
+                         <span class="fmt-autonum-delim">.</span>
+                      </span>
+                   </fmt-name>
+                   <fmt-xref-label>
+                      <span class="fmt-element-name">clause</span>
+                      <semx element="autonum" source="H">1</semx>
+                      <span class="fmt-autonum-delim">.</span>
+                      <semx element="autonum" source="K">2</semx>
+                   </fmt-xref-label>
+                   <preferred id="_">
+                      <expression>
+                         <name id="_">Term3</name>
+                      </expression>
+                   </preferred>
+                   <fmt-preferred>
+                      <semx element="preferred" source="_">
+                         <strong>
+                            <semx element="expression/name" source="_">Term3</semx>
+                         </strong>
+                         :
+                      </semx>
+                   </fmt-preferred>
+                   <definition id="_">
+                      <verbal-definition>
+                         <p>This is a journey into sound</p>
+                      </verbal-definition>
+                   </definition>
+                   <fmt-definition id="_">
+                      <semx element="definition" source="_">
+                         <p>This is a journey into sound</p>
+                      </semx>
+                   </fmt-definition>
+                   <source id="_">
+                      <origin citeas="XYZ">x y z</origin>
+                   </source>
+                   <fmt-termsource>
+                      <semx element="source" source="_">
+                         <origin citeas="XYZ" id="_">x y z</origin>
+                         <semx element="origin" source="_">
+                            <fmt-origin citeas="[XYZ]">x y z</fmt-origin>
+                         </semx>
+                      </semx>
+                   </fmt-termsource>
+                   <termnote id="J2" autonum="1">
+                      <fmt-name id="_">
+                         <span class="fmt-caption-label">
+                            <span class="fmt-element-name">NOTE</span>
+                            <semx element="autonum" source="J2">1</semx>
+                         </span>
+                         <span class="fmt-label-delim"> – </span>
+                      </fmt-name>
+                      <fmt-xref-label>
+                         <span class="fmt-element-name">clause</span>
+                         <semx element="autonum" source="H">1</semx>
+                         <span class="fmt-autonum-delim">.</span>
+                         <semx element="autonum" source="K">2</semx>
+                         <span class="fmt-comma">,</span>
+                         <span class="fmt-element-name">Note</span>
+                         <semx element="autonum" source="J2">1</semx>
+                      </fmt-xref-label>
+                      <p>This is a note</p>
+                   </termnote>
+                   <termnote id="J3" autonum="2">
+                      <fmt-name id="_">
+                         <span class="fmt-caption-label">
+                            <span class="fmt-element-name">NOTE</span>
+                            <semx element="autonum" source="J3">2</semx>
+                         </span>
+                         <span class="fmt-label-delim"> – </span>
+                      </fmt-name>
+                      <fmt-xref-label>
+                         <span class="fmt-element-name">clause</span>
+                         <semx element="autonum" source="H">1</semx>
+                         <span class="fmt-autonum-delim">.</span>
+                         <semx element="autonum" source="K">2</semx>
+                         <span class="fmt-comma">,</span>
+                         <span class="fmt-element-name">Note</span>
+                         <semx element="autonum" source="J3">2</semx>
+                      </fmt-xref-label>
+                      <p>This is a note</p>
+                   </termnote>
+                </term>
+             </terms>
+          </sections>
+       </itu-standard>
     INPUT
 
     output = <<~OUTPUT
@@ -213,7 +217,7 @@ RSpec.describe Metanorma::Itu do
               <p class='TermNum' id='J'>
                           <b>
                1.1. 
-               <b>Term2</b>
+               <b><dfn>Term2</dfn></b>
                :
             </b>
                  [XYZ]
@@ -225,7 +229,7 @@ RSpec.describe Metanorma::Itu do
             </div>
             <div id='K'>
               <p class='TermNum' id='K'>
-                <b>1.2.&#160; <b>Term3</b>:</b>
+                <b>1.2.&#160; <b><dfn>Term3</dfn></b>:</b>
                  [XYZ]
               </p>
               <p>This is a journey into sound</p>
@@ -271,95 +275,97 @@ RSpec.describe Metanorma::Itu do
        </itu-standard>
     INPUT
     presxml = <<~INPUT
-        <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-           <preface>
-              <clause type="toc" id="_" displayorder="1">
-                 <fmt-title id="_" depth="1">Table of Contents</fmt-title>
-              </clause>
-           </preface>
-           <sections>
-              <terms id="H" obligation="normative" displayorder="2">
-                 <title id="_">Terms</title>
-                 <fmt-title id="_" depth="1">
-                    <span class="fmt-caption-label">
-                       <semx element="autonum" source="H">1</semx>
-                       <span class="fmt-autonum-delim">.</span>
-                    </span>
-                    <span class="fmt-caption-delim">
-                       <tab/>
-                    </span>
-                    <semx element="title" source="_">Terms</semx>
-                 </fmt-title>
-                 <fmt-xref-label>
-                    <span class="fmt-element-name">clause</span>
-                    <semx element="autonum" source="H">1</semx>
-                 </fmt-xref-label>
-                 <term id="J">
-                    <fmt-name id="_">
-                       <span class="fmt-caption-label">
-                          <semx element="autonum" source="H">1</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                          <semx element="autonum" source="J">1</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                       </span>
-                    </fmt-name>
-                    <fmt-xref-label>
-                       <span class="fmt-element-name">clause</span>
-                       <semx element="autonum" source="H">1</semx>
-                       <span class="fmt-autonum-delim">.</span>
-                       <semx element="autonum" source="J">1</semx>
-                    </fmt-xref-label>
-                    <preferred id="_">
-                       <expression>
-                          <name>Term2</name>
-                       </expression>
-                    </preferred>
-                    <fmt-preferred>
-                       <semx element="preferred" source="_">
-                          <strong>Term2</strong>
-                          :
-                       </semx>
-                    </fmt-preferred>
-                    <definition id="_">
-                       <p>This is a journey into sound</p>
-                    </definition>
-                    <fmt-definition id="_">
-                       <semx element="definition" source="_">
-                          <p>This is a journey into sound</p>
-                       </semx>
-                    </fmt-definition>
-                    <source id="_">
-                       <origin citeas="XYZ">x y z</origin>
-                    </source>
-                    <fmt-termsource>
-                       <semx element="source" source="_">
-                          <origin citeas="XYZ" id="_">x y z</origin>
-                          <semx element="origin" source="_">
-                             <fmt-origin citeas="[XYZ]">x y z</fmt-origin>
-                          </semx>
-                       </semx>
-                    </fmt-termsource>
-                    <termnote id="J1" autonum="">
-                       <fmt-name id="_">
-                          <span class="fmt-caption-label">
-                             <span class="fmt-element-name">NOTE</span>
-                          </span>
-                          <span class="fmt-label-delim"> – </span>
-                       </fmt-name>
-                       <fmt-xref-label>
-                          <span class="fmt-element-name">clause</span>
-                          <semx element="autonum" source="H">1</semx>
-                          <span class="fmt-autonum-delim">.</span>
-                          <semx element="autonum" source="J">1</semx>
-                          <span class="fmt-comma">,</span>
-                          <span class="fmt-element-name">Note</span>
-                       </fmt-xref-label>
-                       <p>This is a note</p>
-                    </termnote>
-                 </term>
-              </terms>
-           </sections>
-        </itu-standard>
+       <itu-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1" id="_">Table of Contents</fmt-title>
+             </clause>
+          </preface>
+          <sections>
+             <terms id="H" obligation="normative" displayorder="2">
+                <title id="_">Terms</title>
+                <fmt-title depth="1" id="_">
+                   <span class="fmt-caption-label">
+                      <semx element="autonum" source="H">1</semx>
+                      <span class="fmt-autonum-delim">.</span>
+                   </span>
+                   <span class="fmt-caption-delim">
+                      <tab/>
+                   </span>
+                   <semx element="title" source="_">Terms</semx>
+                </fmt-title>
+                <fmt-xref-label>
+                   <span class="fmt-element-name">clause</span>
+                   <semx element="autonum" source="H">1</semx>
+                </fmt-xref-label>
+                <term id="J">
+                   <fmt-name id="_">
+                      <span class="fmt-caption-label">
+                         <semx element="autonum" source="H">1</semx>
+                         <span class="fmt-autonum-delim">.</span>
+                         <semx element="autonum" source="J">1</semx>
+                         <span class="fmt-autonum-delim">.</span>
+                      </span>
+                   </fmt-name>
+                   <fmt-xref-label>
+                      <span class="fmt-element-name">clause</span>
+                      <semx element="autonum" source="H">1</semx>
+                      <span class="fmt-autonum-delim">.</span>
+                      <semx element="autonum" source="J">1</semx>
+                   </fmt-xref-label>
+                   <preferred id="_">
+                      <expression>
+                         <name id="_">Term2</name>
+                      </expression>
+                   </preferred>
+                   <fmt-preferred>
+                      <semx element="preferred" source="_">
+                         <strong>
+                            <semx element="expression/name" source="_">Term2</semx>
+                         </strong>
+                         :
+                      </semx>
+                   </fmt-preferred>
+                   <definition id="_">
+                      <p>This is a journey into sound</p>
+                   </definition>
+                   <fmt-definition id="_">
+                      <semx element="definition" source="_">
+                         <p>This is a journey into sound</p>
+                      </semx>
+                   </fmt-definition>
+                   <source id="_">
+                      <origin citeas="XYZ">x y z</origin>
+                   </source>
+                   <fmt-termsource>
+                      <semx element="source" source="_">
+                         <origin citeas="XYZ" id="_">x y z</origin>
+                         <semx element="origin" source="_">
+                            <fmt-origin citeas="[XYZ]">x y z</fmt-origin>
+                         </semx>
+                      </semx>
+                   </fmt-termsource>
+                   <termnote id="J1" autonum="">
+                      <fmt-name id="_">
+                         <span class="fmt-caption-label">
+                            <span class="fmt-element-name">NOTE</span>
+                         </span>
+                         <span class="fmt-label-delim"> – </span>
+                      </fmt-name>
+                      <fmt-xref-label>
+                         <span class="fmt-element-name">clause</span>
+                         <semx element="autonum" source="H">1</semx>
+                         <span class="fmt-autonum-delim">.</span>
+                         <semx element="autonum" source="J">1</semx>
+                         <span class="fmt-comma">,</span>
+                         <span class="fmt-element-name">Note</span>
+                      </fmt-xref-label>
+                      <p>This is a note</p>
+                   </termnote>
+                </term>
+             </terms>
+          </sections>
+       </itu-standard>
     INPUT
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
@@ -375,7 +381,7 @@ RSpec.describe Metanorma::Itu do
          <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
          <br/>
               <div id="H"><h1 id="_"><a class="anchor" href="#H"/><a class="header" href="#H">1.&#xA0; Terms</a></h1>
-          <div id="J"><p class="TermNum" id="J"><b>1.1.&#xA0; <b>Term2</b>:</b> [XYZ] This is a journey into sound</p>
+          <div id="J"><p class="TermNum" id="J"><b>1.1.&#xA0; <b><dfn>Term2</dfn></b>:</b> [XYZ] This is a journey into sound</p>
 
 
 
@@ -421,13 +427,13 @@ RSpec.describe Metanorma::Itu do
           <termdocsource type="inline" bibitemid="ISO712"/>
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title id="_" depth="1">Table of Contents</fmt-title>
+                <fmt-title depth="1" id="_">Table of Contents</fmt-title>
              </clause>
           </preface>
           <sections>
              <clause id="G" displayorder="3">
                 <title id="_">Terms, Definitions, Symbols and Abbreviated Terms</title>
-                <fmt-title id="_" depth="1">
+                <fmt-title depth="1" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="G">2</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -443,7 +449,7 @@ RSpec.describe Metanorma::Itu do
                 </fmt-xref-label>
                 <terms id="H" obligation="normative">
                    <title id="_">Terms defined in this recommendation</title>
-                   <fmt-title id="_" depth="2">
+                   <fmt-title depth="2" id="_">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="G">2</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -482,12 +488,14 @@ RSpec.describe Metanorma::Itu do
                       </fmt-xref-label>
                       <preferred id="_">
                          <expression>
-                            <name>Term2</name>
+                            <name id="_">Term2</name>
                          </expression>
                       </preferred>
                       <fmt-preferred>
                          <semx element="preferred" source="_">
-                            <strong>Term2</strong>
+                            <strong>
+                               <semx element="expression/name" source="_">Term2</semx>
+                            </strong>
                             :
                          </semx>
                       </fmt-preferred>
@@ -495,7 +503,7 @@ RSpec.describe Metanorma::Itu do
                 </terms>
                 <terms id="I" obligation="normative">
                    <title id="_">Terms defined elsewhere</title>
-                   <fmt-title id="_" depth="2">
+                   <fmt-title depth="2" id="_">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="G">2</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -534,12 +542,14 @@ RSpec.describe Metanorma::Itu do
                       </fmt-xref-label>
                       <preferred id="_">
                          <expression>
-                            <name>Term2</name>
+                            <name id="_">Term2</name>
                          </expression>
                       </preferred>
                       <fmt-preferred>
                          <semx element="preferred" source="_">
-                            <strong>Term2</strong>
+                            <strong>
+                               <semx element="expression/name" source="_">Term2</semx>
+                            </strong>
                             :
                          </semx>
                       </fmt-preferred>
@@ -547,7 +557,7 @@ RSpec.describe Metanorma::Itu do
                 </terms>
                 <terms id="L" obligation="normative">
                    <title id="_">Other terms</title>
-                   <fmt-title id="_" depth="2">
+                   <fmt-title depth="2" id="_">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="G">2</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -569,7 +579,7 @@ RSpec.describe Metanorma::Itu do
              </clause>
              <references id="_" obligation="informative" normative="true" displayorder="2">
                 <title id="_">References</title>
-                <fmt-title id="_" depth="1">
+                <fmt-title depth="1" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="_">1</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -584,6 +594,7 @@ RSpec.describe Metanorma::Itu do
                    <semx element="autonum" source="_">1</semx>
                 </fmt-xref-label>
                 <bibitem id="ISO712" type="standard">
+                   <biblio-tag>[ISO 712]</biblio-tag>
                    <formattedref format="text/plain">
                       ISO 712,
                       <em>Cereals and cereal products?~@~I?~@~T?~@~IDetermination of moisture content?~@~I?~@~T?~@~IReference method</em>
@@ -591,7 +602,6 @@ RSpec.describe Metanorma::Itu do
                    </formattedref>
                    <docidentifier>ISO 712</docidentifier>
                    <docidentifier scope="biblio-tag">ISO 712</docidentifier>
-                   <biblio-tag>[ISO 712]</biblio-tag>
                 </bibitem>
              </references>
           </sections>
@@ -625,7 +635,7 @@ RSpec.describe Metanorma::Itu do
                       <p class="TermNum" id="J">
                          <b>
                             2.1.1. 
-                            <b>Term2</b>
+                            <b><dfn>Term2</dfn></b>
                             :
                          </b>
                       </p>
@@ -637,7 +647,7 @@ RSpec.describe Metanorma::Itu do
                       <p class="TermNum" id="K">
                          <b>
                             2.2.1. 
-                            <b>Term2</b>
+                            <b><dfn>Term2</dfn></b>
                             :
                          </b>
                       </p>

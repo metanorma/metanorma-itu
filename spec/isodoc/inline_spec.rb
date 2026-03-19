@@ -897,6 +897,12 @@ RSpec.describe Metanorma::Itu do
             </references>
          </sections>
          <annex id="C" autonum="A" displayorder="5">
+               <variant-title type="toc">
+         <span class="fmt-caption-label">
+            <span class="fmt-element-name">Annex</span>
+            <semx element="autonum" source="C">A</semx>
+         </span>
+      </variant-title>
             <fmt-title id="_">
                <strong>
                   <span class="fmt-caption-label">
@@ -980,6 +986,7 @@ RSpec.describe Metanorma::Itu do
              </div>
              <br/>
              <div id="C" class="Section3">
+             <p style="display:none;" class="variant-title-toc">Annex A</p>
                 <h1 class="Annex">
                    <b>Annex A</b>
                 </h1>
@@ -1067,6 +1074,7 @@ RSpec.describe Metanorma::Itu do
                 <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
              </p>
              <div id="C" class="Section3">
+             <p style="display:none;" class="variant-title-toc">Annex A</p>
                 <h1 class="Annex">
                    <b>Annex A</b>
                 </h1>

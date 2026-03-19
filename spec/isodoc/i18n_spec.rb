@@ -227,9 +227,7 @@ RSpec.describe Metanorma::Itu do
              </references>
           </sections>
           <annex id="P" inline-header="false" obligation="normative" autonum="A" displayorder="14">
-             <title id="_">
-                <strong>Annex</strong>
-             </title>
+             <title id="_">Annex</title>
              <fmt-title id="_">
                 <strong>
                    <span class="fmt-caption-label">
@@ -252,6 +250,16 @@ RSpec.describe Metanorma::Itu do
              <p class="annex_obligation">
                 <span class="fmt-obligation">(Cette annexe fait partie intégrante de ce Recommandation.)</span>
              </p>
+                   <variant-title type="toc">
+         <span class="fmt-caption-label">
+            <span class="fmt-element-name">Annexe</span>
+            <semx element="autonum" source="P">A</semx>
+         </span>
+         <span class="fmt-caption-delim">
+            <tab/>
+         </span>
+         <semx element="title" source="_">Annex</semx>
+      </variant-title>
              <clause id="Q" inline-header="false" obligation="normative">
                 <title id="_">Annex A.1</title>
                 <fmt-title depth="2" id="_">
@@ -386,6 +394,7 @@ RSpec.describe Metanorma::Itu do
                      <div id="P" class="Section3">
                        <h1 class="Annex"><b>Annexe A</b> <br/><br/><b>Annex</b></h1>
                       <p class="annex_obligation">(Cette annexe fait partie intégrante de ce Recommandation.)</p>
+                       <p style="display:none;" class="variant-title-toc">Annexe A  Annex</p>
                        <div id="Q">
                 <h2>A.1.&#160; Annex A.1</h2>
                 <div id="Q1">
@@ -646,9 +655,7 @@ RSpec.describe Metanorma::Itu do
              </references>
           </sections>
           <annex id="P" inline-header="false" obligation="normative" autonum="A" displayorder="13">
-             <title id="_">
-                <strong>Annex</strong>
-             </title>
+             <title id="_">Annex</title>
              <fmt-title id="_">
                 <strong>
                    <span class="fmt-caption-label">
@@ -671,6 +678,16 @@ RSpec.describe Metanorma::Itu do
              <p class="annex_obligation">
                 <span class="fmt-obligation">（本附件不构成本建议书的不可或缺部分）</span>
              </p>
+      <variant-title type="toc">
+         <span class="fmt-caption-label">
+            <span class="fmt-element-name">附件</span>
+            <semx element="autonum" source="P">A</semx>
+         </span>
+         <span class="fmt-caption-delim">
+            <tab/>
+         </span>
+         <semx element="title" source="_">Annex</semx>
+      </variant-title>
              <clause id="Q" inline-header="false" obligation="normative">
                 <title id="_">Annex A.1</title>
                 <fmt-title depth="2" id="_">
@@ -817,6 +834,7 @@ RSpec.describe Metanorma::Itu do
                    <b>Annex</b>
                 </h1>
                 <p class="annex_obligation">（本附件不构成本建议书的不可或缺部分）</p>
+                <p style="display:none;" class="variant-title-toc">附件A　Annex</p>
                 <div id="Q">
                    <h2>A.1.　Annex A.1</h2>
                    <div id="Q1">

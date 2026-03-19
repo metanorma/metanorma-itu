@@ -632,9 +632,7 @@ OUTPUT
               <p class="zzSTDTitle2">An ITU Standard</p>
            </sections>
            <annex id="A1" obligation="normative" displayorder="4" autonum="F2">
-              <title id="_">
-                 <strong>Annex</strong>
-              </title>
+              <title id="_">Annex</title>
               <fmt-title id="_">
                  <strong>
                     <span class="fmt-caption-label">
@@ -657,6 +655,16 @@ OUTPUT
               <p class="annex_obligation">
                  <span class="fmt-obligation">(This annex forms an integral part of this Recommendation Annex.)</span>
               </p>
+              <variant-title type="toc">
+         <span class="fmt-caption-label">
+            <span class="fmt-element-name">Annex</span>
+            <semx element="autonum" source="A1">F2</semx>
+         </span>
+         <span class="fmt-caption-delim">
+            <tab/>
+         </span>
+         <semx element="title" source="_">Annex</semx>
+      </variant-title>
               <clause id="A2">
                  <title id="_">Subtitle</title>
                  <fmt-title id="_" depth="2">
@@ -1407,14 +1415,15 @@ OUTPUT
                  <br/>
                  (to RESOLUTION (Peoria, 1871))
               </p>
-              <title id="_">
-                 <strong>Annex Title</strong>
-              </title>
+               <title id="_">Annex Title</title>
               <fmt-title id="_">
                  <semx element="title" source="_">
                     <strong>Annex Title</strong>
                  </semx>
               </fmt-title>
+      <variant-title type="toc">
+         <semx element="title" source="_">Annex Title</semx>
+      </variant-title>
               <clause id="Q" inline-header="false" obligation="normative">
                  <title id="_">Annex A.1</title>
                  <fmt-title id="_" depth="2">
@@ -1540,6 +1549,7 @@ OUTPUT
                    <h1 class='Annex'>
                      <b>Annex Title</b>
                    </h1>
+                   <p style="display:none;" class="variant-title-toc">Annex Title</p>
                    <div id='Q'>
                    <h2>A.1.  Annex A.1</h2>
                      <div id='Q1'>

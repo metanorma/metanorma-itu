@@ -305,14 +305,14 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
     IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
     expect(File.exist?("test.html")).to be true
     html = File.read("test.html", encoding: "UTF-8")
     output = <<~OUTPUT
-      <main xmlns:epub="epub" class="main-section">
+      <main xmlns:epub="https://epub" class="main-section">
           <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
           <br/>
           <div id="_">
@@ -432,11 +432,11 @@ RSpec.describe Metanorma::Itu do
           </aside>
        </main>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(html.sub(/^.*<main /m, "<main xmlns:epub='epub' ")
+    expect(strip_guid(html.sub(/^.*<main /m, "<main xmlns:epub='https://epub' ")
       .sub(%r{</main>.*$}m, "</main>")
       .gsub(%r{<script>.+?</script>}i, "")
-      .gsub(/fn:[0-9a-f][0-9a-f-]+/, "fn:_"))))
-      .to be_equivalent_to Canon.format_xml(output)
+      .gsub(/fn:[0-9a-f][0-9a-f-]+/, "fn:_")))
+      .to be_xml_equivalent_to output
 
     FileUtils.rm_f "test.doc"
     IsoDoc::Itu::WordConvert.new({}).convert("test", pres_output, false)
@@ -482,10 +482,10 @@ RSpec.describe Metanorma::Itu do
          </tfoot>
       </table>
     OUTPUT
-    expect(Canon.format_xml(html
+    expect(html
     .sub(%r{^.*<div align="center" class="table_container">}m, "")
-    .sub(%r{</table>.*$}m, "</table>")))
-      .to be_equivalent_to Canon.format_xml(output)
+    .sub(%r{</table>.*$}m, "</table>"))
+      .to be_xml_equivalent_to output
   end
 
   it "processes eref types" do
@@ -578,11 +578,11 @@ RSpec.describe Metanorma::Itu do
             </fmt-xref>
          </semx
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert
+    expect(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:p[@id = 'A']").to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+      .at("//xmlns:p[@id = 'A']").to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes erefs and xrefs and links (Word)" do
@@ -736,14 +736,14 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::WordConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::WordConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(output)
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_html4_equivalent_to output
   end
 
   it "formats URIs" do
@@ -996,109 +996,109 @@ RSpec.describe Metanorma::Itu do
        </body>
     OUTPUT
     word = <<~OUTPUT
-           <body lang="EN-US" link="blue" vlink="#954F72">
-          <div class="WordSection1">
-             <p> </p>
-          </div>
-          <p class="section-break">
-             <br clear="all" class="section"/>
-          </p>
-          <div class="WordSection2">
-             <div class="authority">
-                <div class="boilerplate-copyright">
-                   <p>
-                      <a href="http://www.example.com">http://www.example.com</a>
-                   </p>
-                </div>
-             </div>
-             <p class="page-break">
-                <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
-             </p>
-             <div id="_" class="TOC">
-                <p class="zzContents">Table of Contents</p>
-                <p style="tab-stops:right 17.0cm">
-                   <span style="mso-tab-count:1">  </span>
-                   <b>Page</b>
-                </p>
-             </div>
-             <div id="A">
-                <h1 class="IntroTitle">Foreword</h1>
-                <p>
-                   <a href="http://www.example.com">http://www.example.com</a>
-                </p>
-             </div>
-             <p> </p>
-          </div>
-          <p class="section-break">
-             <br clear="all" class="section"/>
-          </p>
-          <div class="WordSection3">
-             <div>
-                <h1>
-                   1.
-                   <span style="mso-tab-count:1">  </span>
-                   References
-                </h1>
-                <table class="biblio" border="0">
-                   <tbody>
-                      <tr id="ISO712" class="NormRef">
-                         <td style="vertical-align:top">[ISO 712]</td>
-                         <td>
-                            ISO 712 (2019),
-                            <span style="font-variant:small-caps;">Standard No I.C.C 167</span>
-                            .
-                            <i>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</i>
-                            (see
-                            <a href="http://www.icc.or.at" class="url">http://www.icc.or.at</a>
-                            ).
-                         </td>
-                      </tr>
-                   </tbody>
-                </table>
-             </div>
-             <div id="B">
-                <h1>2.</h1>
-                <p>
-                   <a href="http://www.example.com" class="url">http://www.example.com</a>
-                </p>
-                <p>
-                   <a href="http://www.example.com">Word</a>
-                </p>
-                <p>
-                   <a href="http://www.example.com" class="url">
-                      <tt>http://www.example.com</tt>
-                   </a>
-                </p>
-             </div>
-             <p class="page-break">
-                <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
-             </p>
-             <div id="C" class="Section3">
-             <p style="display:none;" class="variant-title-toc">Annex A</p>
-                <h1 class="Annex">
-                   <b>Annex A</b>
-                </h1>
-                <p class="annex_obligation">(This annex forms an integral part of this .)</p>
-             </div>
-          </div>
-       </body>
+          <body lang="EN-US" link="blue" vlink="#954F72">
+         <div class="WordSection1">
+            <p> </p>
+         </div>
+         <p class="section-break">
+            <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection2">
+            <div class="authority">
+               <div class="boilerplate-copyright">
+                  <p>
+                     <a href="http://www.example.com">http://www.example.com</a>
+                  </p>
+               </div>
+            </div>
+            <p class="page-break">
+               <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+            </p>
+            <div id="_" class="TOC">
+               <p class="zzContents">Table of Contents</p>
+               <p style="tab-stops:right 17.0cm">
+                  <span style="mso-tab-count:1">  </span>
+                  <b>Page</b>
+               </p>
+            </div>
+            <div id="A">
+               <h1 class="IntroTitle">Foreword</h1>
+               <p>
+                  <a href="http://www.example.com">http://www.example.com</a>
+               </p>
+            </div>
+            <p> </p>
+         </div>
+         <p class="section-break">
+            <br clear="all" class="section"/>
+         </p>
+         <div class="WordSection3">
+            <div>
+               <h1>
+                  1.
+                  <span style="mso-tab-count:1">  </span>
+                  References
+               </h1>
+               <table class="biblio" border="0">
+                  <tbody>
+                     <tr id="ISO712" class="NormRef">
+                        <td style="vertical-align:top">[ISO 712]</td>
+                        <td>
+                           ISO 712 (2019),
+                           <span style="font-variant:small-caps;">Standard No I.C.C 167</span>
+                           .
+                           <i>Determination of the protein content in cereal and cereal products for food and animal feeding stuffs according to the Dumas combustion method</i>
+                           (see
+                           <a href="http://www.icc.or.at" class="url">http://www.icc.or.at</a>
+                           ).
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="B">
+               <h1>2.</h1>
+               <p>
+                  <a href="http://www.example.com" class="url">http://www.example.com</a>
+               </p>
+               <p>
+                  <a href="http://www.example.com">Word</a>
+               </p>
+               <p>
+                  <a href="http://www.example.com" class="url">
+                     <tt>http://www.example.com</tt>
+                  </a>
+               </p>
+            </div>
+            <p class="page-break">
+               <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
+            </p>
+            <div id="C" class="Section3">
+            <p style="display:none;" class="variant-title-toc">Annex A</p>
+               <h1 class="Annex">
+                  <b>Annex A</b>
+               </h1>
+               <p class="annex_obligation">(This annex forms an integral part of this .)</p>
+            </div>
+         </div>
+      </body>
     OUTPUT
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(html)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_xml_equivalent_to html
+    expect(strip_guid(IsoDoc::Itu::WordConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(word)
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_html4_equivalent_to word
   end
 
   it "localises numbers in MathML" do
@@ -1302,10 +1302,10 @@ RSpec.describe Metanorma::Itu do
          </preface>
       </iso-standard>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    expect(strip_guid(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true))
-      .sub(%r{<localized-strings>.*</localized-strings>}m, "")))
-      .to be_equivalent_to Canon.format_xml(output)
+      .sub(%r{<localized-strings>.*</localized-strings>}m, ""))
+      .to be_xml_equivalent_to output
   end
 end

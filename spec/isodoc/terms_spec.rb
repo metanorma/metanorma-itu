@@ -247,14 +247,14 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(output)
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_xml_equivalent_to output
   end
 
   it "postprocesses simple terms & definitions" do
@@ -370,14 +370,14 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
     IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
-    expect(Canon.format_xml(strip_guid(File.read("test.html", encoding: "utf-8").to_s
+    expect(strip_guid(File.read("test.html", encoding: "utf-8").to_s
       .gsub(%r{^.*<main}m, "<main")
-      .gsub(%r{</main>.*}m, "</main>"))))
-      .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
+      .gsub(%r{</main>.*}m, "</main>")))
+      .to be_html5_equivalent_to <<~OUTPUT
          <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
          <br/>
               <div id="H"><h1 id="_"><a class="anchor" href="#H"/><a class="header" href="#H">1.&#xA0; Terms</a></h1>
@@ -663,14 +663,14 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(output)
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_xml_equivalent_to output
   end
 
   it "rearranges term headers" do
@@ -717,8 +717,8 @@ RSpec.describe Metanorma::Itu do
              </body>
              </html>
     OUTPUT
-    expect(Canon.format_xml(IsoDoc::Itu::HtmlConvert.new({})
-      .cleanup(Nokogiri::XML(input)).to_s))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(IsoDoc::Itu::HtmlConvert.new({})
+      .cleanup(Nokogiri::XML(input)).to_s)
+      .to be_html5_equivalent_to output
   end
 end

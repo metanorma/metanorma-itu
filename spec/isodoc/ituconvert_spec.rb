@@ -33,11 +33,11 @@ RSpec.describe Metanorma::Itu do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    expect(strip_guid(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(output)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to output
   end
 
   it "processes titles for service publications" do
@@ -70,11 +70,11 @@ RSpec.describe Metanorma::Itu do
         </bibdata>
       </itu-standard>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    expect(strip_guid(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(output)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to output
   end
 
   it "processes titles for resolutions" do
@@ -319,24 +319,24 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")
       .gsub(/fn:_?[0-9a-f-][0-9a-f-]+/, "fn:_")
-      .gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>")))
-      .to be_equivalent_to Canon.format_xml(html)
-    expect(Canon.format_xml(IsoDoc::Itu::WordConvert.new({})
+      .gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>"))
+      .to be_xml_equivalent_to html
+    expect(IsoDoc::Itu::WordConvert.new({})
       .convert("test", pres_output, true)
       .sub(%r{^.*<body }m, "<body xmlns:epub='epub' ")
       .sub(%r{</body>.*$}m, "</body>")
       .gsub(%r{_Ref\d+}, "_Ref")
       .gsub(%r{<sup>[0-9a-f-][0-9a-f-]+</sup>}, "<sup>_</sup>")
-      .gsub(%r{ftn_?[0-9a-f-][0-9a-f-]+}, "ftn_")))
-      .to be_equivalent_to Canon.format_xml(word)
+      .gsub(%r{ftn_?[0-9a-f-][0-9a-f-]+}, "ftn_"))
+      .to be_html4_equivalent_to word
   end
 
   it "processes titles for revised resolutions" do
@@ -418,14 +418,14 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(html)
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_xml_equivalent_to html
   end
 
   it "processes keyword" do
@@ -449,11 +449,11 @@ RSpec.describe Metanorma::Itu do
          </div>
        </body>
     OUTPUT
-    expect(Canon.format_xml(IsoDoc::Itu::HtmlConvert.new({})
+    expect(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to Canon.format_xml(output)
+      .gsub(%r{</body>.*}m, "</body>"))
+      .to be_xml_equivalent_to output
   end
 
   it "injects JS into blank html" do
@@ -482,10 +482,10 @@ RSpec.describe Metanorma::Itu do
       .new(presxml_options)
       .convert("test", input, true)
     IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
-    expect(Canon.format_xml(strip_guid(File.read("test.html", encoding: "utf-8")
+    expect(strip_guid(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<div class="prefatory-section">}m, '<div class="prefatory-section">')
-      .gsub(%r{<nav>.*}m, "</div>"))))
-      .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
+      .gsub(%r{<nav>.*}m, "</div>")))
+      .to be_html5_equivalent_to <<~OUTPUT
          <div class='prefatory-section'>
           <div class='boilerplate-legal'>
             <div id="_">
@@ -513,10 +513,10 @@ RSpec.describe Metanorma::Itu do
 
     FileUtils.rm_f "test.doc"
     IsoDoc::Itu::WordConvert.new({}).convert("test", pres_output, false)
-    expect(Canon.format_xml(strip_guid(File.read("test.doc", encoding: "utf-8"))
+    expect(strip_guid(File.read("test.doc", encoding: "utf-8"))
       .gsub(%r{^.*<div class="boilerplate-legal">}m, '<div><div class="boilerplate-legal">')
-      .gsub(%r{<b>Table of Contents</b></p>.*}m, "<b>Table of Contents</b></p></div>")))
-      .to be_equivalent_to Canon.format_xml(<<~"OUTPUT")
+      .gsub(%r{<b>Table of Contents</b></p>.*}m, "<b>Table of Contents</b></p></div>"))
+      .to be_html4_equivalent_to <<~"OUTPUT"
             <div><div class="boilerplate-legal">
             <div><a name="_" id="_"/><p class="boilerplateHdr">FOREWORD</p>
 
@@ -601,10 +601,10 @@ RSpec.describe Metanorma::Itu do
     INPUT
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(Canon.format_xml(html
+    expect(html
       .sub(%r{^.*<div align="center" class="table_container">}m, "")
-      .sub(%r{</table>.*$}m, "</table>")))
-      .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
+      .sub(%r{</table>.*$}m, "</table>"))
+      .to be_xml_equivalent_to <<~OUTPUT
         <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;">
           <a name="_2a8bd899-ab80-483a-90dc-002b6f497f54" id="_2a8bd899-ab80-483a-90dc-002b6f497f54"/>
           <thead>

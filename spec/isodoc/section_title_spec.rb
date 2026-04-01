@@ -547,19 +547,19 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", itudoc("en"), true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(html)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_xml_equivalent_to html
+    expect(strip_guid(IsoDoc::Itu::WordConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(word)
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_html4_equivalent_to word
   end
 
   it "post-processes section names (Word)" do
@@ -613,10 +613,10 @@ RSpec.describe Metanorma::Itu do
     INPUT
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(Canon.format_xml(html
+    expect(html
       .sub(%r{^.*<div class="WordSection3">}m, %{<body><div class="WordSection3">})
-      .gsub(%r{</body>.*$}m, "</body>")))
-      .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
+      .gsub(%r{</body>.*$}m, "</body>"))
+      .to be_xml_equivalent_to <<~OUTPUT
         <body><div class="WordSection3">
               <div><a name="D" id="D"></a>
                 <h1>1<span style="mso-tab-count:1">&#xA0; </span>Scope</h1>
@@ -846,9 +846,9 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
     IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
     html = File.read("test.html", encoding: "utf-8")
       output = <<~OUTPUT
@@ -899,9 +899,9 @@ RSpec.describe Metanorma::Itu do
                  </div>
                </main>
       OUTPUT
-          expect(Canon.format_xml(strip_guid(html.gsub(%r{^.*<main}m, "<main")
-      .gsub(%r{</main>.*}m, "</main>"))))
-      .to be_equivalent_to Canon.format_xml(output)
+          expect(strip_guid(html.gsub(%r{^.*<main}m, "<main")
+      .gsub(%r{</main>.*}m, "</main>")))
+      .to be_xml_equivalent_to output
 
     IsoDoc::Itu::WordConvert.new({}).convert("test", pres_output, false)
     html = File.read("test.doc", encoding: "utf-8")
@@ -960,10 +960,10 @@ RSpec.describe Metanorma::Itu do
               </div>
             </div>
       OUTPUT
-      expect(Canon.format_xml(strip_guid(html
+      expect(strip_guid(html
  .gsub(%r{^.*<div class="WordSection3">}m, '<div class="WordSection3" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml">')
- .gsub(%r{<div style="mso-element:footnote-list"/>.*}m, ""))))
-      .to be_equivalent_to Canon.format_xml(output)
+ .gsub(%r{<div style="mso-element:footnote-list"/>.*}m, "")))
+      .to be_xml_equivalent_to output
   end
 
   it "processes unnumbered clauses" do
@@ -1026,10 +1026,10 @@ RSpec.describe Metanorma::Itu do
            </sections>
         </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
   end
 
   it "processes bis, ter etc clauses" do
@@ -1205,9 +1205,9 @@ RSpec.describe Metanorma::Itu do
            </sections>
         </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(strip_guid(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
   end
 end

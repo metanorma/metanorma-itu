@@ -22,11 +22,11 @@ RSpec.describe Metanorma::Itu do
         <p>&#160;</p>
       </div>
     OUTPUT
-    expect(Canon.format_xml(IsoDoc::Itu::WordConvert.new({})
+    expect(IsoDoc::Itu::WordConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<div class="WordSection2">}m, '<div class="WordSection2">')
-      .gsub(%r{<p>\s*<br clear="all" class="section"/>\s*</p>\s*<div class="WordSection3">.*}m, "")))
-      .to be_equivalent_to Canon.format_xml(output)
+      .gsub(%r{<p>\s*<br clear="all" class="section"/>\s*</p>\s*<div class="WordSection3">.*}m, ""))
+      .to be_html4_equivalent_to output
   end
 
   it "processes annexes and appendixes" do
@@ -1040,13 +1040,13 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
-      .gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(html)
+      .gsub(%r{^.*<body}m, "<body").gsub(%r{</body>.*}m, "</body>")))
+      .to be_xml_equivalent_to html
   end
 
   it "generates middle title for joint ISO/IEC/ITU common text" do
@@ -1175,9 +1175,9 @@ RSpec.describe Metanorma::Itu do
      pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
   end
 
   it "processes history tables (Word)" do
@@ -1220,11 +1220,11 @@ RSpec.describe Metanorma::Itu do
     INPUT
     expect(File.exist?("test.doc")).to be true
     html = File.read("test.doc", encoding: "UTF-8")
-    expect(Canon.format_xml(html
+    expect(html
       .gsub(%r{.*<p class="h1Preface">History</p>}m,
             '<div><p class="h1Preface">History</p>')
-      .sub(%r{</table>.*$}m, "</table></div></div>")))
-      .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
+      .sub(%r{</table>.*$}m, "</table></div></div>"))
+      .to be_xml_equivalent_to <<~OUTPUT
        <div>
           <p class="h1Preface">History</p>
           <p class="TableTitle" style="text-align:center;">Table 1</p>
@@ -1338,8 +1338,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
     xml = xml.at("//xmlns:preface").to_xml
-    expect(Canon.format_xml(strip_guid(xml)))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(strip_guid(xml))
+      .to be_xml_equivalent_to presxml
   end
 
   it "processes editor clauses, two editors" do
@@ -1404,8 +1404,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
     xml = xml.at("//xmlns:preface").to_xml
-    expect(Canon.format_xml(strip_guid(xml)))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(strip_guid(xml))
+      .to be_xml_equivalent_to presxml
   end
 
   it "generates contribution prefatory table and abstract table" do
@@ -1891,8 +1891,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
     xml = xml.xpath("//xmlns:preface | //xmlns:sections | //xmlns:annex").to_xml
-    expect(Canon.format_xml(strip_guid("<metanorma>#{xml}</itu-standard>")))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(strip_guid("<metanorma>#{xml}</itu-standard>"))
+      .to be_xml_equivalent_to presxml
 
     presxml = <<~OUTPUT
       <preface>
@@ -1990,7 +1990,7 @@ RSpec.describe Metanorma::Itu do
       .convert("test", input
       .sub("<language>en</language>", "<language>fr</language>"), true))
     xml = xml.at("//xmlns:preface").to_xml
-    expect(Canon.format_xml(strip_guid(xml)))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(strip_guid(xml))
+      .to be_xml_equivalent_to presxml
   end
 end

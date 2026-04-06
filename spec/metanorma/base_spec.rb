@@ -1964,9 +1964,9 @@ RSpec.describe Metanorma::Itu do
     expect(Canon.format_xml(strip_guid("<div>#{xpath.to_xml}</div>")))
       .to be_equivalent_to Canon.format_xml(strip_guid(<<~OUTPUT))
          <div>
-         <docidentifier type="ITU" primary="true">ITU-T Y.1001 (11/2000)</docidentifier>
-        <docidentifier type="ITU" primary="true">ITU-T Y.140 (11/2000)</docidentifier>
-        <docidentifier type="ITU" primary="true">ITU-T Z.100 (06/2021)</docidentifier>
+         <docidentifier type="ITU" primary="true">ITU-T Y.1001</docidentifier>
+        <docidentifier type="ITU" primary="true">ITU-T Y.140</docidentifier>
+        <docidentifier type="ITU" primary="true">ITU-T Z.100</docidentifier>
         <docidentifier type="ISO" primary="true">ISO 55000</docidentifier>
         <docidentifier type="iso-reference">ISO 55000(E)</docidentifier>
         <docidentifier type="URN">urn:iso:std:iso:55000:stage-60.60</docidentifier>

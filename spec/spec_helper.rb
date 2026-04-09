@@ -13,7 +13,7 @@ require "equivalent-xml"
 require "htmlentities"
 require "metanorma"
 require "metanorma/itu"
-require "relaton_iso"
+require "relaton/iso"
 require "canon"
 
 RSpec.configure do |config|

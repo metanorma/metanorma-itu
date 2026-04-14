@@ -2123,7 +2123,11 @@
 			</fo:block>
 		</xsl:if>
 		<xsl:call-template name="setNamedDestination"/>
-		<xsl:apply-templates/>
+		<fo:block role="SKIP">
+			<xsl:call-template name="setId"/>
+			<xsl:call-template name="addReviewHelper"/>
+			<xsl:apply-templates/>
+		</fo:block>
 	</xsl:template>
 	<!-- ============================= -->
 	<!-- ============================= -->

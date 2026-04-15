@@ -4,6 +4,8 @@
 
 	<xsl:key name="kfn" match="mn:fn[not(ancestor::*[self::mn:table or self::mn:figure or self::mn:localized-strings] and not(ancestor::mn:fmt-name))]" use="@reference"/>
 
+	<xsl:key name="kid" match="*" use="@id"/>
+
 	<xsl:variable name="debug">false</xsl:variable>
 
 	<!-- Example:
@@ -577,7 +579,9 @@
 						</xsl:for-each>
 					</xsl:for-each>
 
-					<xsl:call-template name="index-pages"/>
+					<xsl:call-template name="index-pages">
+						<xsl:with-param name="num" select="$num"/>
+					</xsl:call-template>
 
 				</xsl:for-each>
 			</xsl:for-each>
@@ -2102,6 +2106,7 @@
 				</fo:block>
 			</xsl:otherwise>
 		</xsl:choose>
+		<xsl:call-template name="setNamedDestination"/>
 		<fo:block>
 			<xsl:call-template name="setId"/>
 			<xsl:call-template name="addReviewHelper"/>
@@ -2117,6 +2122,7 @@
 				<xsl:value-of select="$linebreak"/>
 			</fo:block>
 		</xsl:if>
+		<xsl:call-template name="setNamedDestination"/>
 		<xsl:apply-templates/>
 	</xsl:template>
 	<!-- ============================= -->
@@ -2135,6 +2141,7 @@
 				<xsl:otherwise>fo:block</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		<xsl:call-template name="setNamedDestination"/>
 
 		<xsl:variable name="p_styles">
 			<styles xsl:use-attribute-sets="p-style">
@@ -2170,10 +2177,12 @@
 	<!-- ============================= -->
 
 	<xsl:template match="mn:clause[starts-with(@id, 'draft-warning')]/mn:fmt-title" mode="caution">
+	<xsl:call-template name="setNamedDestination"/>
 		<fo:block font-size="16pt" font-style="italic" font-weight="bold" text-align="center" space-after="6pt" role="H1">
 			<xsl:if test="$lang = 'ar'"> <!-- to prevent rendering `###` due the missing Arabic glyphs in the italic font (Times New Roman) -->
 				<xsl:attribute name="font-style">normal</xsl:attribute>
 			</xsl:if>
+			<xsl:call-template name="setIDforNamedDestinationInline"/>
 			<xsl:apply-templates/>
 			<xsl:apply-templates select="following-sibling::*[1][self::mn:variant-title][@type = 'sub']" mode="subtitle"/>
 		</fo:block>
@@ -2203,12 +2212,16 @@
 			</xsl:choose>
 		</xsl:variable>
 
+		<xsl:call-template name="setNamedDestination"/>
+
 		<xsl:variable name="title_styles">
 			<styles xsl:use-attribute-sets="title-style"><xsl:call-template name="refine_title-style"><xsl:with-param name="element-name" select="$element-name"/></xsl:call-template></styles>
 		</xsl:variable>
 
 		<xsl:element name="{$element-name}">
 			<xsl:copy-of select="xalan:nodeset($title_styles)/styles/@*"/>
+
+			<xsl:call-template name="setIDforNamedDestinationInline"/>
 
 			<xsl:apply-templates/>
 			<xsl:apply-templates select="following-sibling::*[1][self::mn:variant-title][@type = 'sub']" mode="subtitle"/>
@@ -2261,11 +2274,16 @@
 	</xsl:template>
 
 	<xsl:template match="mn:fmt-preferred" priority="2">
+		<xsl:call-template name="setNamedDestination"/>
 		<fo:block xsl:use-attribute-sets="term-preferred-block-style">
 			<xsl:call-template name="refine_term-preferred-block-style"/>
 
 			<fo:inline xsl:use-attribute-sets="term-number-style">
 				<xsl:call-template name="refine_term-number-style"/>
+
+				<xsl:for-each select="ancestor::mn:term[1]/mn:fmt-name">
+					<xsl:call-template name="setIDforNamedDestinationInline"/>
+				</xsl:for-each>
 
 				<xsl:apply-templates select="ancestor::mn:term[1]/mn:fmt-name"/>
 			</fo:inline>
@@ -3822,6 +3840,46 @@
 	</xsl:template>
 
 	<xsl:template name="addNamedDestinationAttribute">
+	<xsl:variable name="docnum"><xsl:number level="any" count="mn:metanorma"/></xsl:variable>
+	<xsl:variable name="caption_label" select="translate(normalize-space(.//mn:span[@class = 'fmt-caption-label']), ' ()', '')"/>
+
+	<xsl:variable name="named_dest_">
+		<xsl:choose>
+			<xsl:when test="count(ancestor::mn:figure) &gt; 1"/> <!-- prevent id 'a)' -->
+			<xsl:when test="ancestor::mn:note or ancestor::mn:example or        ancestor::mn:termnote or ancestor::mn:termexample or        ancestor::mn:admonition"/>
+			<xsl:when test="$caption_label = '' and parent::mn:foreword">
+				<xsl:variable name="foreword_number"><xsl:number count="mn:foreword" level="any"/></xsl:variable>
+				<xsl:if test="$foreword_number = 1">Foreword</xsl:if>
+			</xsl:when>
+			<xsl:when test="$caption_label = '' and parent::mn:introduction">
+				<xsl:variable name="introduction_number"><xsl:number count="mn:introduction" level="any"/></xsl:variable>
+				<xsl:if test="$introduction_number = 1">Introduction</xsl:if>
+			</xsl:when>
+			<xsl:when test="$caption_label = ''"/>
+			<xsl:when test="../@unnumbered = 'true'"/>
+			<xsl:when test="normalize-space(java:matches(java:java.lang.String.new($caption_label), '[\x21-\xFF]+')) = 'false'"/>
+			<!-- 1.1 in Appendix 1 -->
+			<xsl:otherwise>
+				<xsl:if test="ancestor::mn:annex and string(number(substring($caption_label, 1, 1))) != 'NaN'">
+					<xsl:variable name="annex_caption_label" select="translate(normalize-space(ancestor::mn:annex[1]/mn:fmt-title//mn:span[@class = 'fmt-caption-label']), ' ()', '')"/>
+					<xsl:value-of select="concat($annex_caption_label, '_')"/>
+				</xsl:if>
+				<xsl:if test="parent::mn:formula">Formula</xsl:if>
+				<xsl:value-of select="$caption_label"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+	<xsl:variable name="named_dest" select="normalize-space($named_dest_)"/>
+	<xsl:if test="$named_dest != ''">
+		<xsl:variable name="named_dest_doc_">
+			<xsl:value-of select="$named_dest"/>
+			<xsl:if test="$docnum != '1'">_<xsl:value-of select="$docnum"/></xsl:if>
+		</xsl:variable>
+		<xsl:variable name="named_dest_doc" select="normalize-space($named_dest_doc_)"/>
+		<xsl:if test="not(key('kid', $named_dest_doc))"> <!-- if element with id '$named_dest_doc' doesn't exist in the document -->
+			<xsl:attribute name="named_dest"><xsl:value-of select="normalize-space($named_dest_doc)"/></xsl:attribute>
+		</xsl:if>
+	</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="mn:fmt-name" mode="update_xml_step1">
@@ -4777,9 +4835,11 @@
 	</xsl:template>
 
 	<xsl:template match="mn:feedback-statement//mn:p">
+		<xsl:param name="skip_id">false</xsl:param>
 		<xsl:param name="margin"/>
 		<!-- process in the template 'paragraph' -->
 		<xsl:call-template name="paragraph">
+			<xsl:with-param name="skip_id" select="$skip_id"/>
 			<xsl:with-param name="margin" select="$margin"/>
 		</xsl:call-template>
 	</xsl:template>
@@ -11263,7 +11323,12 @@
 	<xsl:template match="mn:figure[@class = 'pseudocode']">
 		<xsl:call-template name="setNamedDestination"/>
 		<fo:block id="{@id}">
-			<xsl:apply-templates select="node()[not(self::mn:fmt-name)]"/>
+			<fo:block role="SKIP">
+				<xsl:for-each select="mn:fmt-name"> <!-- set context -->
+					<xsl:call-template name="setIDforNamedDestination"/>
+				</xsl:for-each>
+				<xsl:apply-templates select="node()[not(self::mn:fmt-name)]"/>
+			</fo:block>
 		</fo:block>
 		<xsl:apply-templates select="mn:fmt-name"/>
 	</xsl:template>
@@ -13879,7 +13944,7 @@
 	</xsl:variable>
 
 	<xsl:template name="index-pages">
-		<xsl:variable name="num"><xsl:number level="any" count="mn:metanorma"/></xsl:variable>
+		<xsl:param name="num"/>
 
 		<xsl:variable name="docid">
 			<xsl:call-template name="getDocumentId"/>
@@ -13899,10 +13964,17 @@
 		</xsl:apply-templates>
 	</xsl:template>
 <xsl:template match="mn:indexsect"/>
+<xsl:template match="/" mode="index">
+	<xsl:param name="num"/>
+	<xsl:apply-templates mode="index">
+		<xsl:with-param name="num" select="$num"/>
+	</xsl:apply-templates>
+</xsl:template>
 <xsl:template match="mn:indexsect" mode="index">
 	<xsl:param name="num"/>
 	<fo:page-sequence master-reference="index" force-page-count="no-force">
 		<xsl:call-template name="insertHeaderFooter">
+			<xsl:with-param name="num" select="$num"/>
 			<xsl:with-param name="section">main</xsl:with-param>
 		</xsl:call-template>
 		<fo:flow flow-name="xsl-region-body">
@@ -15691,6 +15763,7 @@
 				<xsl:otherwise>justify</xsl:otherwise>
 			</xsl:choose>
 		</xsl:attribute>
+		<xsl:call-template name="copyParagraphId"/>
 		<!-- $namespace = 'itu' -->
 
 	</xsl:template> <!-- refine_p-style -->
@@ -15813,6 +15886,15 @@
 				<xsl:call-template name="refine_key-name-style"/>
 				<xsl:apply-templates/>
 			</fo:block>
+		</xsl:if>
+	</xsl:template>
+
+	<!-- debug templates -->
+	<xsl:template name="debug_contents">
+		<xsl:if test="$debug = 'true'">
+			<redirect:write file="contents_.xml"> <!-- {java:getTime(java:java.util.Date.new())} -->
+				<xsl:copy-of select="$contents"/>
+			</redirect:write>
 		</xsl:if>
 	</xsl:template>
 
@@ -17032,14 +17114,18 @@
 	</xsl:template>
 
 	<xsl:template name="setIDforNamedDestination">
-		<xsl:if test="@named_dest">
-			<xsl:attribute name="id"><xsl:value-of select="@named_dest"/></xsl:attribute>
+		<xsl:if test="$isGenerateTableIF = 'false'">
+			<xsl:if test="@named_dest">
+				<xsl:attribute name="id"><xsl:value-of select="@named_dest"/></xsl:attribute>
+			</xsl:if>
 		</xsl:if>
 	</xsl:template>
 
 	<xsl:template name="setIDforNamedDestinationInline">
-		<xsl:if test="@named_dest">
-			<fo:inline><xsl:call-template name="setIDforNamedDestination"/></fo:inline>
+		<xsl:if test="$isGenerateTableIF = 'false'">
+			<xsl:if test="@named_dest">
+				<fo:inline><xsl:call-template name="setIDforNamedDestination"/></fo:inline>
+			</xsl:if>
 		</xsl:if>
 	</xsl:template>
 
@@ -17049,11 +17135,17 @@
 			<xsl:if test="@id and       normalize-space(java:matches(java:java.lang.String.new(@id), '_[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}.*')) = 'false'">
 				<fox:destination internal-destination="{@id}"/>
 			</xsl:if>
-			<xsl:for-each select=". | mn:fmt-title | mn:fmt-name">
+			<xsl:for-each select=". | mn:fmt-title[1] | mn:fmt-name[1]">
 				<xsl:if test="@named_dest">
 					<fox:destination internal-destination="{@named_dest}"/>
 				</xsl:if>
 			</xsl:for-each>
+		</xsl:if>
+	</xsl:template>
+
+	<xsl:template name="copyParagraphId">
+		<xsl:if test="normalize-space(java:matches(java:java.lang.String.new(@id), '_[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}.*')) = 'false'">
+			<xsl:copy-of select="@id"/>
 		</xsl:if>
 	</xsl:template>
 
@@ -17279,7 +17371,7 @@
 	<xsl:template name="insertCoverPageFullImage">
 		<xsl:param name="name">coverpage-image</xsl:param>
 		<xsl:for-each select="//mn:metanorma/mn:metanorma-extension/mn:presentation-metadata/*[local-name() = $name][1]/mn:image">
-			<fo:page-sequence master-reference="cover-page" force-page-count="no-force">
+			<fo:page-sequence master-reference="cover-page" force-page-count="no-force" initial-page-number="1">
 				<fo:flow flow-name="xsl-region-body">
 					<xsl:call-template name="insertBackgroundPageImage">
 						<xsl:with-param name="number" select="position()"/>
@@ -17741,6 +17833,18 @@
 				<xsl:otherwise>_</xsl:otherwise>
 			</xsl:choose>
 		</xsl:attribute>
+	</xsl:template>
+
+	<xsl:template name="insert_firstpage_id">
+		<xsl:param name="num"/>
+		<fo:wrapper role="artifact">
+			<fo:block-container absolute-position="fixed" top="1mm">
+				<xsl:if test="$num = 1">
+					<xsl:attribute name="id">firstpage_id_0</xsl:attribute>
+				</xsl:if>
+				<fo:block id="firstpage_id_{$num}" role="SKIP"> </fo:block>
+			</fo:block-container>
+		</fo:wrapper>
 	</xsl:template>
 
 	<xsl:template name="getCharByCodePoint">

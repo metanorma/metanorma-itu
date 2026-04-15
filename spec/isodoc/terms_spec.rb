@@ -696,7 +696,6 @@ RSpec.describe Metanorma::Itu do
              </html>
     INPUT
     output = <<~OUTPUT
-                <?xml version="1.0"?>
       <html>
              <body lang="EN-US" link="blue" vlink="#954F72" xml:lang="EN-US" class="container">
                <div class="title-section">

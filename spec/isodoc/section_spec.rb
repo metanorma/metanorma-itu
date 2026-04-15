@@ -22,11 +22,10 @@ RSpec.describe Metanorma::Itu do
         <p>&#160;</p>
       </div>
     OUTPUT
-    expect(IsoDoc::Itu::WordConvert.new({})
-      .convert("test", input, true)
-      .gsub(%r{^.*<div class="WordSection2">}m, '<div class="WordSection2">')
-      .gsub(%r{<p>\s*<br clear="all" class="section"/>\s*</p>\s*<div class="WordSection3">.*}m, ""))
-      .to be_html4_equivalent_to output
+    expect(Nokogiri::XML(IsoDoc::Itu::WordConvert.new({})
+      .convert("test", input, true))
+      .at("//div[@class='WordSection2']").to_xml)
+     .to be_html4_equivalent_to output
   end
 
   it "processes annexes and appendixes" do

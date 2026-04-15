@@ -128,9 +128,7 @@ RSpec.describe Metanorma::Itu do
                    <div class="Note">
                       <p>
                          <span class="note_label">NOTE</span>
-                      </p>
-                      hien?
-                   </div>
+                      </p>hien? </div>
                 </table>
              </div>
           </div>
@@ -214,7 +212,7 @@ RSpec.describe Metanorma::Itu do
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
       .gsub(%r{</body>.*}m, "</body>")))
-      .to be_xml_equivalent_to html
+      .to be_html5_equivalent_to html
     expect(strip_guid(IsoDoc::Itu::WordConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
@@ -891,11 +889,7 @@ RSpec.describe Metanorma::Itu do
                <div id="fwd">
                   <h1 class="IntroTitle">Foreword</h1>
                   <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;width:70%;page-break-after: avoid;page-break-inside: avoid;table-layout:fixed;" title="tool tip">
-                     <caption>
-                     Table 1 — Repeatability and reproducibility of
-                     <i>husked</i>
-                     rice yield
-                     <a class="FootnoteRef" href="#fn:_">
+                     <caption>Table 1 — Repeatability and reproducibility of <i>husked</i> rice yield<a class="FootnoteRef" href="#fn:_">
                         <sup>1</sup>
                      </a>
                         <span style="display:none">long desc</span>

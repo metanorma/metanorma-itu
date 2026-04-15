@@ -1711,7 +1711,6 @@ RSpec.describe Metanorma::Itu do
       :legacy-do-not-insert-missing-sections:
     INPUT
     output = <<~"OUTPUT"
-      <?xml version="1.0" encoding="UTF-8"?>
       <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}" flavor="itu">
       <bibdata type="standard">
         <title language="en" type="main">Main Title</title>

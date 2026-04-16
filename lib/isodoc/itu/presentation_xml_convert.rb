@@ -84,10 +84,10 @@ module IsoDoc
       def capitalise_unless_text_transform(elem)
         css = nil
         elem.traverse_topdown do |n|
-          n.name == "span" && /text-transform:/.match?(n["style"]) and
+          n.name == "span" && n["style"].include?("text-transform") and
             css = n
-          n.text? && /\S/.match?(n.text) or next
-          css && n.ancestors.include?(css) or
+          (n.text? && /\S/.match?(n.text)) or next
+          (css && n.ancestors.include?(css)) or
             n.replace(::Metanorma::Utils.strict_capitalize_first(n.text))
           break
         end
@@ -114,9 +114,9 @@ module IsoDoc
       end
 
       def get_eref_linkend(node)
-        non_locality_elems(node).select do |c|
+        non_locality_elems(node).none? do |c|
           !c.text? || /\S/.match(c)
-        end.empty? or return
+        end or return
         link = anchor_linkend(node,
                               docid_l10n(node["target"] || node["citeas"]))
         link && !/^\[.*\]$/.match(link) and link = "[#{link}]"

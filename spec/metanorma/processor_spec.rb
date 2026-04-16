@@ -12,9 +12,10 @@ RSpec.describe Metanorma::Itu::Processor do
   end
 
   it "registers output formats against metanorma" do
-    expect(processor.output_formats.sort.to_s).to be_equivalent_to <<~OUTPUT
+    output = <<~OUTPUT
       [[:doc, "doc"], [:html, "html"], [:pdf, "pdf"], [:presentation, "presentation.xml"], [:rxl, "rxl"], [:xml, "xml"]]
     OUTPUT
+    expect(processor.output_formats.sort.to_s).to be_equivalent_to output.strip
   end
 
   it "registers version against metanorma" do
@@ -30,8 +31,8 @@ RSpec.describe Metanorma::Itu::Processor do
         <sections/>
       </metanorma>
     OUTPUT
-    expect(strip_guid(Canon.format_xml(processor.input_to_isodoc(input, nil))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(processor.input_to_isodoc(input, nil)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "generates HTML from IsoDoc XML" do
@@ -49,10 +50,10 @@ RSpec.describe Metanorma::Itu::Processor do
         </sections>
       </metanorma>
     INPUT
-    expect(Canon.format_xml(strip_guid(File.read("test.html", encoding: "utf-8")
+    expect(strip_guid(File.read("test.html", encoding: "utf-8")
       .gsub(%r{^.*<main}m, "<main")
-      .gsub(%r{</main>.*}m, "</main>"))))
-      .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
+      .gsub(%r{</main>.*}m, "</main>")))
+      .to be_html5_equivalent_to <<~OUTPUT
         <main class="main-section">
           <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
           <div id="H">

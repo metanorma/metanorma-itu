@@ -176,10 +176,10 @@ RSpec.describe Metanorma::Itu do
            </p>
         </foreword>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+      .at("//xmlns:foreword").to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "cross-references subfigures" do
@@ -373,13 +373,13 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(pres_output)
-      .at("//xmlns:foreword").to_xml)))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(Nokogiri::XML(pres_output)
+      .at("//xmlns:foreword").to_xml))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(Nokogiri::XML(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true))
-      .at("//div[@id = 'fwd']").to_xml)))
-      .to be_equivalent_to Canon.format_xml(html)
+      .at("//div[@id = 'fwd']").to_xml))
+      .to be_xml_equivalent_to html
   end
 
     it "cross-references tabular subfigures" do
@@ -481,9 +481,9 @@ OUTPUT
    pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(pres_output)
-      .at("//xmlns:foreword").to_xml)))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(strip_guid(Nokogiri::XML(pres_output)
+      .at("//xmlns:foreword").to_xml))
+      .to be_xml_equivalent_to presxml
     end
 
   it "cross-references formulae" do
@@ -540,10 +540,10 @@ OUTPUT
            </p>
         </foreword>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+      .at("//xmlns:foreword").to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "cross-references annex subclauses" do
@@ -689,11 +689,11 @@ OUTPUT
            </annex>
         </itu-standard>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    expect(strip_guid(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(output)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to output
   end
 
   it "processes figures as hierarchical assets (Presentation XML)" do
@@ -821,11 +821,11 @@ OUTPUT
            </p>
         </foreword>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert
+    expect(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert
       .new({ hierarchicalassets: true })
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+      .at("//xmlns:foreword").to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "processes formulae as non-hierarchical assets" do
@@ -930,10 +930,10 @@ OUTPUT
            </p>
         </foreword>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+      .at("//xmlns:foreword").to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "cross-references sections" do
@@ -1160,10 +1160,10 @@ OUTPUT
            </p>
         </foreword>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+      .at("//xmlns:foreword").to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "cross-references sections in resolutions" do
@@ -1576,14 +1576,14 @@ OUTPUT
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .sub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .sub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true))
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to Canon.format_xml(html)
+      .gsub(%r{</body>.*}m, "</body>"))
+      .to be_xml_equivalent_to html
   end
 
   it "cross-references list items" do
@@ -1805,10 +1805,10 @@ OUTPUT
            </p>
         </foreword>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+      .at("//xmlns:foreword").to_xml))
+      .to be_xml_equivalent_to output
   end
 
   it "cross-references list items of steps class" do
@@ -1922,9 +1922,9 @@ OUTPUT
            </p>
         </foreword>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
+    expect(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
-      .at("//xmlns:foreword").to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+      .at("//xmlns:foreword").to_xml))
+      .to be_xml_equivalent_to output
   end
 end

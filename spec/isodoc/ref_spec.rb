@@ -446,9 +446,9 @@ RSpec.describe IsoDoc::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
     IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
     output = <<~OUTPUT
        <main class="main-section">
@@ -599,10 +599,10 @@ RSpec.describe IsoDoc::Itu do
           </div>
        </main>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(File.read("test.html", encoding: "utf-8")
+    expect(strip_guid(File.read("test.html", encoding: "utf-8")
       .sub(/^.*<main/m, "<main")
-      .sub(%r{</main>.*$}m, "</main>"))))
-      .to be_equivalent_to Canon.format_xml(output)
+      .sub(%r{</main>.*$}m, "</main>")))
+      .to be_html5_equivalent_to output
   end
 
   it "processes IsoXML bibliographies (2)" do
@@ -897,14 +897,14 @@ RSpec.describe IsoDoc::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(html)
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_xml_equivalent_to html
   end
 
   it "selects multiple primary identifiers" do
@@ -942,11 +942,11 @@ RSpec.describe IsoDoc::Itu do
          </semx>
       </p>
     PRESXML
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(
+    expect(strip_guid(Nokogiri::XML(
       IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true),
-    ).at("//xmlns:p[@id = 'A']").to_xml)))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    ).at("//xmlns:p[@id = 'A']").to_xml))
+      .to be_xml_equivalent_to presxml
   end
 
   it "deals with no identifiers in reference" do
@@ -985,10 +985,10 @@ RSpec.describe IsoDoc::Itu do
           </contributor>
        </bibitem>
     PRESXML
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(
+    expect(strip_guid(Nokogiri::XML(
       IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true),
-    ).at("//xmlns:bibitem").to_xml)))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    ).at("//xmlns:bibitem").to_xml))
+      .to be_xml_equivalent_to presxml
   end
 end

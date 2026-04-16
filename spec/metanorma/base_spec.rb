@@ -19,8 +19,8 @@ RSpec.describe Metanorma::Itu do
       <sections/>
       </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "converts a blank document" do
@@ -37,8 +37,8 @@ RSpec.describe Metanorma::Itu do
         <sections/>
       </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
     expect(File.exist?("test.html")).to be true
 
     input = <<~INPUT
@@ -49,8 +49,8 @@ RSpec.describe Metanorma::Itu do
       :no-pdf:
       :document-schema: legacy
     INPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
     expect(File.exist?("test.html")).to be true
   end
 
@@ -140,8 +140,8 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     xml.xpath("//xmlns:boilerplate")
       .each(&:remove)
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes explicit metadata" do
@@ -854,8 +854,8 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     xml.xpath("//xmlns:boilerplate | //xmlns:fetched")
       .each(&:remove)
-    expect(strip_guid(Canon.format_xml(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "infer study period" do
@@ -880,37 +880,37 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:studyperiod")
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
     xml = Nokogiri::XML(Asciidoctor.convert(input
       .sub(":groupyearend: 2002", ""), *OPTIONS))
     xml = xml.at("//xmlns:studyperiod")
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
     mock_year(2000)
     xml = Nokogiri::XML(Asciidoctor.convert(input
       .sub(":groupyearend: 2002", "")
       .sub(":groupyearstart: 2000", ""),
                                             *OPTIONS))
     xml = xml.at("//xmlns:studyperiod")
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
     mock_year(2001)
     xml = Nokogiri::XML(Asciidoctor.convert(input
       .sub(":groupyearend: 2002", "")
       .sub(":groupyearstart: 2000", ""),
                                             *OPTIONS))
     xml = xml.at("//xmlns:studyperiod")
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
     mock_year(2002)
     xml = Nokogiri::XML(Asciidoctor.convert(input
       .sub(":groupyearend: 2002", "")
       .sub(":groupyearstart: 2000", ""),
                                             *OPTIONS))
     xml = xml.at("//xmlns:studyperiod")
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output
       .sub("2002", "2004")
       .sub("2000", "2002"))
   end
@@ -944,10 +944,10 @@ RSpec.describe Metanorma::Itu do
         </presentation-metadata>
       </metanorma-extension>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Nokogiri::XML(Asciidoctor.convert(input,
-                                                                         *OPTIONS))
-      .at("//xmlns:metanorma-extension").to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Nokogiri::XML(Asciidoctor.convert(input,
+                                                        *OPTIONS))
+      .at("//xmlns:metanorma-extension").to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes explicit metadata, contribution" do
@@ -1013,9 +1013,9 @@ RSpec.describe Metanorma::Itu do
           <title language='fr' type='main'>Titre Principal</title>
           <title language='en' type='subtitle'>Subtitle</title>
           <title language='fr' type='subtitle'>Soustitre</title>
-          <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docidentifier primary="true" type='ITU'>SG17-C1000</docidentifier>
           <docidentifier type='ITU-lang'>SG17-C1000-E</docidentifier>
+          <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>
@@ -1148,14 +1148,14 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
     xml = Nokogiri::XML(Asciidoctor.convert(input
       .sub(/:group-acronym: SG17\s+:/m, ":"), *OPTIONS))
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output
       .sub("<identifier>SG17</identifier>", "")
       .sub("<acronym>SG17</acronym>", ""))
   end
@@ -1219,9 +1219,9 @@ RSpec.describe Metanorma::Itu do
           <title language='fr' type='main'>Titre Principal</title>
           <title language='en' type='subtitle'>Subtitle</title>
           <title language='fr' type='subtitle'>Soustitre</title>
-          <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docidentifier primary="true" type='ITU'>ITU-R 1000</docidentifier>
           <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
+          <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>
@@ -1353,8 +1353,8 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes explicit metadata, technical report #2" do
@@ -1401,9 +1401,9 @@ RSpec.describe Metanorma::Itu do
           <title language='fr' type='main'>Titre Principal</title>
           <title language='en' type='subtitle'>Subtitle</title>
           <title language='fr' type='subtitle'>Soustitre</title>
-          <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docidentifier primary="true" type='ITU'>OVERRIDE</docidentifier>
           <docidentifier type='ITU-lang'>OVERRIDE-E</docidentifier>
+          <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>
@@ -1495,8 +1495,8 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes explicit metadata, service publication" do
@@ -1557,9 +1557,9 @@ RSpec.describe Metanorma::Itu do
            <title language='fr' type='main'>Titre Principal</title>
            <title language='en' type='subtitle'>Subtitle</title>
            <title language='fr' type='subtitle'>Soustitre</title>
-           <docidentifier type='ITU-provisional'>ABC</docidentifier>
            <docidentifier primary="true" type='ITU'>Annex to ITU OB 1000</docidentifier>
            <docidentifier type='ITU-lang'>Annex to ITU OB 1000-E</docidentifier>
+           <docidentifier type='ITU-provisional'>ABC</docidentifier>
            <docnumber>1000</docnumber>
            <contributor>
              <role type='author'/>
@@ -1690,8 +1690,8 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "ignores unrecognised status" do
@@ -1711,7 +1711,6 @@ RSpec.describe Metanorma::Itu do
       :legacy-do-not-insert-missing-sections:
     INPUT
     output = <<~"OUTPUT"
-      <?xml version="1.0" encoding="UTF-8"?>
       <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}" flavor="itu">
       <bibdata type="standard">
         <title language="en" type="main">Main Title</title>
@@ -1765,8 +1764,8 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "uses default fonts" do
@@ -1863,8 +1862,8 @@ RSpec.describe Metanorma::Itu do
          </sections>
        </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes steps class of ordered lists" do
@@ -1895,8 +1894,8 @@ RSpec.describe Metanorma::Itu do
         </sections>
       </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "does not apply smartquotes by default" do
@@ -1933,8 +1932,8 @@ RSpec.describe Metanorma::Itu do
         </sections>
       </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "reorders references in bibliography, and renumbers citations accordingly" do
@@ -1961,8 +1960,8 @@ RSpec.describe Metanorma::Itu do
     INPUT
     xpath = Nokogiri::XML(xml)
       .xpath("//xmlns:references/xmlns:bibitem/xmlns:docidentifier")
-    expect(Canon.format_xml(strip_guid("<div>#{xpath.to_xml}</div>")))
-      .to be_equivalent_to Canon.format_xml(strip_guid(<<~OUTPUT))
+    expect(strip_guid("<div>#{xpath.to_xml}</div>"))
+      .to be_xml_equivalent_to strip_guid(<<~OUTPUT)
          <div>
          <docidentifier type="ITU" primary="true">ITU-T Y.1001</docidentifier>
         <docidentifier type="ITU" primary="true">ITU-T Y.140</docidentifier>
@@ -1998,8 +1997,8 @@ RSpec.describe Metanorma::Itu do
         </sections>
       </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "capitalises and centers table header" do
@@ -2041,8 +2040,8 @@ RSpec.describe Metanorma::Itu do
         </sections>
       </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "moves title footnotes to bibdata" do
@@ -2105,8 +2104,8 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:bibdata")
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
 
     input = <<~INPUT
       = XXXX
@@ -2120,7 +2119,7 @@ RSpec.describe Metanorma::Itu do
     INPUT
     xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
     xml = xml.at("//xmlns:bibdata")
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(output)
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to output
   end
 end

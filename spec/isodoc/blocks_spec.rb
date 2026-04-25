@@ -1826,7 +1826,7 @@ RSpec.describe Metanorma::Itu do
       </iso-standard>
     INPUT
     expect(File.exist?("test.doc")).to be true
-    html = Nokogiri::HTML5(File.read("test.doc")
+    html = Nokogiri::XML(File.read("test.doc")
       .sub(/^.*<html/m, "<html").sub(/<\/html>.*$/m, "</html>"))
       .at("//*[@id = 'A']").parent.to_xml
     expect(strip_guid(html))

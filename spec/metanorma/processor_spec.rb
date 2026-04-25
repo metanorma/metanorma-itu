@@ -1,5 +1,5 @@
 require "spec_helper"
-require "metanorma"
+require "metanorma-core"
 
 # RSpec.describe Asciidoctor::Csand do
 RSpec.describe Metanorma::Itu::Processor do

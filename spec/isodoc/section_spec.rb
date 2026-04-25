@@ -22,7 +22,7 @@ RSpec.describe Metanorma::Itu do
         <p>&#160;</p>
       </div>
     OUTPUT
-    expect(Nokogiri::XML(IsoDoc::Itu::WordConvert.new({})
+    expect(Nokogiri::HTML5(IsoDoc::Itu::WordConvert.new({})
       .convert("test", input, true))
       .at("//div[@class='WordSection2']").to_xml)
      .to be_html4_equivalent_to output

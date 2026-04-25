@@ -717,7 +717,7 @@ RSpec.describe Metanorma::Itu do
              </html>
     OUTPUT
     expect(IsoDoc::Itu::HtmlConvert.new({})
-      .cleanup(Nokogiri::HTML5(input)).to_s)
+      .cleanup(Nokogiri::XML(input)).to_s)
       .to be_html5_equivalent_to output
   end
 end

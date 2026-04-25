@@ -376,7 +376,7 @@ RSpec.describe Metanorma::Itu do
     expect(strip_guid(Nokogiri::XML(pres_output)
       .at("//xmlns:foreword").to_xml))
       .to be_xml_equivalent_to presxml
-    expect(strip_guid(Nokogiri::HTML5(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(Nokogiri::XML(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true))
       .at("//div[@id = 'fwd']").to_xml))
       .to be_xml_equivalent_to html

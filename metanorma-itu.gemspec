@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "twitter_cldr", ">= 3.0.0"
   spec.add_dependency "tzinfo-data" # we need this for windows only
 
-  spec.add_development_dependency "canon"
+  spec.add_development_dependency "canon", "= 0.2.3"
   spec.add_development_dependency "debug"
   spec.add_development_dependency "equivalent-xml", "~> 0.6"
   spec.add_development_dependency "guard", "~> 2.14"

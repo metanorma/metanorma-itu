@@ -7,14 +7,16 @@ require "bundler/setup"
 require "asciidoctor"
 require "metanorma-itu"
 require "isodoc/itu/html_convert"
-require "metanorma/standoc/converter"
+require "metanorma-standoc"
 require "rspec/matchers"
 require "equivalent-xml"
 require "htmlentities"
-require "metanorma"
+require "metanorma-core"
 require "metanorma/itu"
-require "relaton_iso"
+require "relaton/iso"
 require "canon"
+
+Canon::Config.instance.profile = :metanorma
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -101,8 +103,9 @@ HDR
 def boilerplate_read(file, xmldoc)
   conv = Metanorma::Itu::Converter.new(:itu, {})
   conv.init(Asciidoctor::Document.new([]))
-  x = conv.boilerplate_isodoc(xmldoc).populate_template(file, nil)
-  ret = conv.boilerplate_file_restructure(x)
+  cl = Metanorma::Itu::Cleanup.new(conv)
+  x = cl.boilerplate_isodoc(xmldoc).populate_template(file, nil)
+  ret = cl.boilerplate_file_restructure(x)
   ret.to_xml(encoding: "UTF-8", indent: 2,
              save_with: Nokogiri::XML::Node::SaveOptions::AS_XML)
     .gsub(/<(\/)?sections>/, "<\\1boilerplate>")
@@ -200,7 +203,6 @@ def itudoc(lang)
 end
 
 BLANK_HDR = <<~"HDR".freeze
-  <?xml version="1.0" encoding="UTF-8"?>
   <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}" flavor="itu">
   <bibdata type="standard">
    <title language="en" type="main">Document title</title>
@@ -250,24 +252,11 @@ BLANK_HDR = <<~"HDR".freeze
          <stage-published>true</stage-published>
       </semantic-metadata>
             <presentation-metadata>
-              <name>TOC Heading Levels</name>
-              <value>2</value>
-            </presentation-metadata>
-            <presentation-metadata>
-              <name>HTML TOC Heading Levels</name>
-              <value>2</value>
-            </presentation-metadata>
-            <presentation-metadata>
-              <name>DOC TOC Heading Levels</name>
-              <value>2</value>
-            </presentation-metadata>
-            <presentation-metadata>
-              <name>PDF TOC Heading Levels</name>
-              <value>2</value>
-            </presentation-metadata>
-            <presentation-metadata>
-              <name>document-scheme</name>
-              <value>current</value>
+         <document-scheme>current</document-scheme>
+         <toc-heading-levels>2</toc-heading-levels>
+         <html-toc-heading-levels>2</html-toc-heading-levels>
+         <doc-toc-heading-levels>2</doc-toc-heading-levels>
+         <pdf-toc-heading-levels>2</pdf-toc-heading-levels>
             </presentation-metadata>
           </metanorma-extension>
 HDR

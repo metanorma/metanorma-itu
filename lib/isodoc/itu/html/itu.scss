@@ -743,7 +743,7 @@ p.Formula, li.Formula, div.Formula
 	mso-fareast-font-family:$bodyfont;
 	mso-bidi-font-family:$bodyfont;
 	mso-ansi-language:EN-GB;}
-table.formula_dl {
+div.formula_dl, p.formula_dl, table.formula_dl {
         margin-left:1.4cm;
         margin-right:1.4cm;
 }
@@ -999,6 +999,10 @@ table.MsoISOTable td, table.MsoISOTableBig td
     {border:solid windowtext 1pt;
     mso-border-alt:solid windowtext 1pt;
     padding:0cm 2.85pt 0cm 2.85pt;}
+table.MsoNormalTable th, table.MsoNormalTable td {
+  border: none;
+  mso-border-alt: none;
+} 
 table.MsoISOTable p, table.MsoISOTableBig p
 {font-size:$smallerfontsize; }
 table.MsoTableGrid

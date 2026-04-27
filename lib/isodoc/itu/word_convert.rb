@@ -106,17 +106,6 @@ module IsoDoc
           start: node["start"] }
       end
 
-      def link_parse(node, out)
-        out.a **attr_code(href: node["target"], title: node["alt"],
-                          class: "url") do |l|
-          if node.text.empty?
-            l << node["target"].sub(/^mailto:/, "")
-          else
-            node.children.each { |n| parse(n, l) }
-          end
-        end
-      end
-
       def clause_attrs(node)
         ret = {}
         %w(source history).include?(node["type"]) and

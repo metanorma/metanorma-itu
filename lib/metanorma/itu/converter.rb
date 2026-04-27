@@ -1,10 +1,8 @@
 require "asciidoctor"
-require "metanorma/standoc/converter"
+require "metanorma-standoc"
 require "fileutils"
 require "metanorma-utils"
 require_relative "./front"
-require_relative "./validate"
-require_relative "./cleanup"
 
 module Metanorma
   module Itu
@@ -23,11 +21,7 @@ module Metanorma
           node.attr("document-schema") == "legacy"
       end
 
-      def boilerplate_file(_xmldoc)
-        File.join(@libdir, "boilerplate.adoc")
-      end
-
-      def init_misc(node)
+      def init_metadata(node)
         super
         @default_doctype = "recommendation"
       end
@@ -48,14 +42,6 @@ module Metanorma
         node.attr("no-pdf") or
           pdf_converter(node)&.convert("#{@filename}.presentation.xml",
                                        nil, false, "#{@filename}.pdf")
-      end
-
-      def schema_file
-        "itu.rng"
-      end
-
-      def style(_node, _text)
-        nil
       end
 
       def sectiontype_streamline(ret)

@@ -23,11 +23,11 @@ RSpec.describe Metanorma::Itu do
              </div>
            </body>
     OUTPUT
-    expect(Canon.format_xml(IsoDoc::Itu::HtmlConvert.new({})
+    expect(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", input, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>")))
-      .to be_equivalent_to Canon.format_xml(output)
+      .gsub(%r{</body>.*}m, "</body>"))
+      .to be_xml_equivalent_to output
   end
 
   it "processes dl" do
@@ -96,10 +96,8 @@ RSpec.describe Metanorma::Itu do
        #{HTML_HDR}
              <div id="_">
                 <h1 class="IntroTitle">Foreword</h1>
-                <p class="TableTitle" style="text-align:center;">
-         Deflist
-       </p>
                 <table id="A" class="dl" style="table-layout:fixed;">
+                <caption>Deflist</caption>
                    <colgroup>
                       <col style="width: 20%;"/>
                       <col style="width: 80%;"/>
@@ -130,9 +128,7 @@ RSpec.describe Metanorma::Itu do
                    <div class="Note">
                       <p>
                          <span class="note_label">NOTE</span>
-                      </p>
-                      hien?
-                   </div>
+                      </p>hien? </div>
                 </table>
              </div>
           </div>
@@ -210,18 +206,18 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output)))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(html)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_html5_equivalent_to html
+    expect(strip_guid(IsoDoc::Itu::WordConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(doc)
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_html4_equivalent_to doc
   end
 
   it "processes formulae" do
@@ -248,67 +244,71 @@ RSpec.describe Metanorma::Itu do
       </iso-standard>
     INPUT
     presxml = <<~OUTPUT
-      <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
-         <preface>
-            <clause type="toc" id="_" displayorder="1">
-               <fmt-title id="_" depth="1">Table of Contents</fmt-title>
-            </clause>
-            <foreword id="_" displayorder="2">
-               <title id="_">Foreword</title>
-               <fmt-title id="_" depth="1">
-                  <semx element="title" source="_">Foreword</semx>
-               </fmt-title>
-               <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
-                  <stem type="AsciiMath" id="_">r = 1 %</stem>
-                  <fmt-stem type="AsciiMath">
-                     <semx element="stem" source="_">r = 1 %</semx>
-                  </fmt-stem>
-                  <p keep-with-next="true">where</p>
-                  <dl id="_" class="formula_dl">
-                     <dt>
-                        <stem type="AsciiMath" id="_">r</stem>
-                        <fmt-stem type="AsciiMath">
-                           <semx element="stem" source="_">r</semx>
-                        </fmt-stem>
-                     </dt>
-                     <dd>
-                        <p id="_">is the repeatability limit.</p>
-                     </dd>
-                  </dl>
-               </formula>
-               <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
-                  <stem type="AsciiMath" id="_">r = 1 %</stem>
-                  <fmt-stem type="AsciiMath">
-                     <semx element="stem" source="_">r = 1 %</semx>
-                  </fmt-stem>
-                  <p keep-with-next="true">where:</p>
-                  <dl id="_" class="formula_dl">
-                     <dt>
-                        <stem type="AsciiMath" id="_">r</stem>
-                        <fmt-stem type="AsciiMath">
-                           <semx element="stem" source="_">r</semx>
-                        </fmt-stem>
-                     </dt>
-                     <dd>
-                        <p id="_">is the repeatability limit.</p>
-                     </dd>
-                     <dt>
-                        <stem type="AsciiMath" id="_">s</stem>
-                        <fmt-stem type="AsciiMath">
-                           <semx element="stem" source="_">s</semx>
-                        </fmt-stem>
-                     </dt>
-                     <dd>
-                        <p id="_">is the other repeatability limit.</p>
-                     </dd>
-                  </dl>
-               </formula>
-            </foreword>
-         </preface>
-      </iso-standard>
+       <iso-standard xmlns="http://riboseinc.com/isoxml" type="presentation">
+          <preface>
+             <clause type="toc" id="_" displayorder="1">
+                <fmt-title depth="1" id="_">Table of Contents</fmt-title>
+             </clause>
+             <foreword id="_" displayorder="2">
+                <title id="_">Foreword</title>
+                <fmt-title depth="1" id="_">
+                   <semx element="title" source="_">Foreword</semx>
+                </fmt-title>
+                <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
+                   <stem type="AsciiMath" id="_">r = 1 %</stem>
+                   <fmt-stem type="AsciiMath">
+                      <semx element="stem" source="_">r = 1 %</semx>
+                   </fmt-stem>
+                   <p keep-with-next="true">where</p>
+                   <key class="formula_dl">
+                      <dl id="_">
+                         <dt>
+                            <stem type="AsciiMath" id="_">r</stem>
+                            <fmt-stem type="AsciiMath">
+                               <semx element="stem" source="_">r</semx>
+                            </fmt-stem>
+                         </dt>
+                         <dd>
+                            <p id="_">is the repeatability limit.</p>
+                         </dd>
+                      </dl>
+                   </key>
+                </formula>
+                <formula id="_" unnumbered="true" keep-with-next="true" keep-lines-together="true">
+                   <stem type="AsciiMath" id="_">r = 1 %</stem>
+                   <fmt-stem type="AsciiMath">
+                      <semx element="stem" source="_">r = 1 %</semx>
+                   </fmt-stem>
+                   <p keep-with-next="true">where:</p>
+                   <key class="formula_dl">
+                      <dl id="_">
+                         <dt>
+                            <stem type="AsciiMath" id="_">r</stem>
+                            <fmt-stem type="AsciiMath">
+                               <semx element="stem" source="_">r</semx>
+                            </fmt-stem>
+                         </dt>
+                         <dd>
+                            <p id="_">is the repeatability limit.</p>
+                         </dd>
+                         <dt>
+                            <stem type="AsciiMath" id="_">s</stem>
+                            <fmt-stem type="AsciiMath">
+                               <semx element="stem" source="_">s</semx>
+                            </fmt-stem>
+                         </dt>
+                         <dd>
+                            <p id="_">is the other repeatability limit.</p>
+                         </dd>
+                      </dl>
+                   </key>
+                </formula>
+             </foreword>
+          </preface>
+       </iso-standard>
     OUTPUT
     word = <<~OUTPUT
-      <body lang="EN-US" link="blue" vlink="#954F72">
+       <body lang="EN-US" link="blue" vlink="#954F72">
           <div class="WordSection1">
              <p> </p>
           </div>
@@ -336,19 +336,21 @@ RSpec.describe Metanorma::Itu do
                       </p>
                    </div>
                    <p style="page-break-after: avoid;">where</p>
-                   <div align="left">
-                      <table id="_" style="text-align:left;" class="formula_dl">
-                         <tr>
-                            <td valign="top" align="left">
-                               <p align="left" style="margin-left:0pt;text-align:left;">
-                                  <span class="stem">(#(r)#)</span>
-                               </p>
-                            </td>
-                            <td valign="top">
-                               <p id="_">is the repeatability limit.</p>
-                            </td>
-                         </tr>
-                      </table>
+                   <div class="key formula_dl">
+                      <div align="left">
+                         <table id="_" style="text-align:left;" class="formula_dl">
+                            <tr>
+                               <td valign="top" align="left">
+                                  <p align="left" style="margin-left:0pt;text-align:left;">
+                                     <span class="stem">(#(r)#)</span>
+                                  </p>
+                               </td>
+                               <td valign="top">
+                                  <p id="_">is the repeatability limit.</p>
+                               </td>
+                            </tr>
+                         </table>
+                      </div>
                    </div>
                 </div>
                 <div id="_" style="page-break-after: avoid;page-break-inside: avoid;">
@@ -359,29 +361,31 @@ RSpec.describe Metanorma::Itu do
                       </p>
                    </div>
                    <p style="page-break-after: avoid;">where:</p>
-                   <div align="left">
-                      <table id="_" style="text-align:left;" class="formula_dl">
-                         <tr>
-                            <td valign="top" align="left">
-                               <p align="left" style="margin-left:0pt;text-align:left;">
-                                  <span class="stem">(#(r)#)</span>
-                               </p>
-                            </td>
-                            <td valign="top">
-                               <p id="_">is the repeatability limit.</p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td valign="top" align="left">
-                               <p align="left" style="margin-left:0pt;text-align:left;">
-                                  <span class="stem">(#(s)#)</span>
-                               </p>
-                            </td>
-                            <td valign="top">
-                               <p id="_">is the other repeatability limit.</p>
-                            </td>
-                         </tr>
-                      </table>
+                   <div class="key formula_dl">
+                      <div align="left">
+                         <table id="_" style="text-align:left;" class="formula_dl">
+                            <tr>
+                               <td valign="top" align="left">
+                                  <p align="left" style="margin-left:0pt;text-align:left;">
+                                     <span class="stem">(#(r)#)</span>
+                                  </p>
+                               </td>
+                               <td valign="top">
+                                  <p id="_">is the repeatability limit.</p>
+                               </td>
+                            </tr>
+                            <tr>
+                               <td valign="top" align="left">
+                                  <p align="left" style="margin-left:0pt;text-align:left;">
+                                     <span class="stem">(#(s)#)</span>
+                                  </p>
+                               </td>
+                               <td valign="top">
+                                  <p id="_">is the other repeatability limit.</p>
+                               </td>
+                            </tr>
+                         </table>
+                      </div>
                    </div>
                 </div>
              </div>
@@ -396,13 +400,13 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output)))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::WordConvert.new({})
+    expect(strip_guid(pres_output))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::WordConvert.new({})
       .convert("test", pres_output, true)
       .gsub(/^.*<body/m, "<body")
-      .sub(/<\/body>.*$/m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(word)
+      .sub(/<\/body>.*$/m, "</body>")))
+      .to be_html4_equivalent_to word
   end
 
   it "processes tables" do
@@ -460,11 +464,13 @@ RSpec.describe Metanorma::Itu do
               <td align="center"><dl><dt>6,06</dt><dd>Definition</dd></dl></td>
             </tr>
           </tfoot>
-          <dl key="true">
+          <key>
              <name>Key</name>
+          <dl>
           <dt>Drago</dt>
         <dd>A type of rice</dd>
         </dl>
+        </key>
               <source status="generalisation">
           <origin bibitemid="ISO712" type="inline" citeas="">
             <localityStack>
@@ -649,14 +655,13 @@ RSpec.describe Metanorma::Itu do
                          </td>
                       </tr>
                    </tfoot>
-                   <dl key="true">
-                      <name id="_">Key</name>
-                      <fmt-name id="_">
-                         <semx element="name" source="_">Key</semx>
-                      </fmt-name>
+                   <key>
+                   <name>Key</name>
+                   <dl>
                       <dt>Drago</dt>
                       <dd>A type of rice</dd>
                    </dl>
+                   </key>
                    <source status="generalisation" id="_">
                       <origin bibitemid="ISO712" type="inline" citeas="">
                          <localityStack>
@@ -786,6 +791,12 @@ RSpec.describe Metanorma::Itu do
              </references>
           </sections>
           <annex id="Annex1" autonum="A" displayorder="4">
+      <variant-title type="toc">
+         <span class="fmt-caption-label">
+            <span class="fmt-element-name">Annex</span>
+            <semx element="autonum" source="Annex1">A</semx>
+         </span>
+      </variant-title>
              <fmt-title id="_">
                 <strong>
                    <span class="fmt-caption-label">
@@ -877,16 +888,10 @@ RSpec.describe Metanorma::Itu do
                </div>
                <div id="fwd">
                   <h1 class="IntroTitle">Foreword</h1>
-                  <p class="TableTitle" style="text-align:center;">
-                     Table 1 — Repeatability and reproducibility of
-                     <i>husked</i>
-                     rice yield
-                     <a class="FootnoteRef" href="#fn:_">
+                  <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;width:70%;page-break-after: avoid;page-break-inside: avoid;table-layout:fixed;" title="tool tip">
+                     <caption>Table 1 — Repeatability and reproducibility of <i>husked</i> rice yield<a class="FootnoteRef" href="#fn:_">
                         <sup>1</sup>
                      </a>
-                  </p>
-                  <table id="tableD-1" class="MsoISOTable" style="border-width:1px;border-spacing:0;width:70%;page-break-after: avoid;page-break-inside: avoid;table-layout:fixed;" title="tool tip">
-                     <caption>
                         <span style="display:none">long desc</span>
                      </caption>
                      <colgroup>
@@ -954,15 +959,19 @@ RSpec.describe Metanorma::Itu do
                            </td>
                         </tr>
                      </tfoot>
-                     <div class="figdl">
-                        <p class="ListTitle">Key</p>
-                        <dl>
-                           <dt>
-                              <p>Drago</p>
-                           </dt>
-                           <dd>A type of rice</dd>
-                        </dl>
-                     </div>
+               <div class="key">
+                  <p style="page-break-after: avoid;">
+                     <b>Key</b>
+                  </p>
+                  <div class="figdl">
+                     <dl>
+                        <dt>
+                           <p>Drago</p>
+                        </dt>
+                        <dd>A type of rice</dd>
+                     </dl>
+                  </div>
+               </div>
                      <div class="BlockSource">
                         <p>
                            [SOURCE:
@@ -1010,20 +1019,21 @@ RSpec.describe Metanorma::Itu do
                </div>
                <br/>
                <div id="Annex1" class="Section3">
+               <p style="display:none;" class="variant-title-toc">Annex A</p>
                   <h1 class="Annex">
                      <b>Annex A</b>
                   </h1>
                   <p class="annex_obligation">(This annex forms an integral part of this .)</p>
-                  <p class="TableTitle" style="text-align:center;">Table A.1</p>
                   <table id="AnnexTable" class="MsoISOTable" style="border-width:1px;border-spacing:0;">
+                         <caption>Table A.1</caption>
                      <tbody>
                         <tr>
                            <td style="border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">A</td>
                         </tr>
                      </tbody>
                   </table>
-                  <p class="TableTitle" style="text-align:center;">Table</p>
                   <table class="MsoISOTable" style="border-width:1px;border-spacing:0;">
+                  <caption>Table</caption>
                      <tbody>
                         <tr>
                            <td style="border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">B</td>
@@ -1134,14 +1144,18 @@ RSpec.describe Metanorma::Itu do
                            </td>
                         </tr>
                      </tfoot>
-                     <div class="figdl">
-                        <p class="ListTitle">Key</p>
-                        <p style="text-indent: -2.0cm; margin-left: 2.0cm; tab-stops: 2.0cm;">
-                           Drago
-                           <span style="mso-tab-count:1">  </span>
-                           A type of rice
-                        </p>
-                     </div>
+               <div class="key">
+                  <p style="page-break-after: avoid;">
+                     <b>Key</b>
+                  </p>
+                  <div class="figdl">
+                     <p style="text-indent: -2.0cm; margin-left: 2.0cm; tab-stops: 2.0cm;">
+                        Drago
+                        <span style="mso-tab-count:1">  </span>
+                        A type of rice
+                     </p>
+                  </div>
+               </div>
                      <div class="BlockSource">
                         <p>
                            [SOURCE:
@@ -1205,6 +1219,7 @@ RSpec.describe Metanorma::Itu do
                <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
             </p>
             <div id="Annex1" class="Section3">
+            <p style="display:none;" class="variant-title-toc">Annex A</p>
                <h1 class="Annex">
                   <b>Annex A</b>
                </h1>
@@ -1239,17 +1254,17 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output)))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
-      .convert("test", pres_output, true))))
-      .to be_equivalent_to Canon.format_xml(html)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::WordConvert.new({})
+    expect(strip_guid(pres_output))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+      .convert("test", pres_output, true)))
+      .to be_xml_equivalent_to html
+    expect(strip_guid(IsoDoc::Itu::WordConvert.new({})
      .convert("test", pres_output, true)
      .gsub(%r{^.*<body}m, "<body")
      .gsub(%r{</body>.*}m, "</body>")
-     .gsub(/mso-bookmark:_Ref\d+/, "mso-bookmark:_Ref"))))
-      .to be_equivalent_to Canon.format_xml(word)
+     .gsub(/mso-bookmark:_Ref\d+/, "mso-bookmark:_Ref")))
+      .to be_html4_equivalent_to word
   end
 
   it "processes unordered lists" do
@@ -1343,8 +1358,8 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output)))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(strip_guid(pres_output))
+      .to be_xml_equivalent_to presxml
   end
 
   it "processes ordered lists" do
@@ -1460,9 +1475,9 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
   end
 
   it "processes steps class of ordered lists and start" do
@@ -1636,19 +1651,19 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(html)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_xml_equivalent_to html
+    expect(strip_guid(IsoDoc::Itu::WordConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(doc)
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_html4_equivalent_to doc
   end
 
   it "capitalises table titles" do
@@ -1705,11 +1720,11 @@ RSpec.describe Metanorma::Itu do
           </preface>
        </iso-standard>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    expect(strip_guid(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
 
     input = <<~INPUT
           <iso-standard xmlns="http://riboseinc.com/isoxml">
@@ -1779,11 +1794,11 @@ RSpec.describe Metanorma::Itu do
          </preface>
       </iso-standard>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::PresentationXMLConvert
+    expect(strip_guid(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
   end
 
   it "post-processes steps class of ordered lists (Word)" do
@@ -1814,8 +1829,8 @@ RSpec.describe Metanorma::Itu do
     html = Nokogiri::XML(File.read("test.doc")
       .sub(/^.*<html/m, "<html").sub(/<\/html>.*$/m, "</html>"))
       .at("//*[@id = 'A']").parent.to_xml
-    expect(Canon.format_xml(strip_guid(html)))
-      .to be_equivalent_to Canon.format_xml(<<~OUTPUT)
+    expect(strip_guid(html))
+      .to be_xml_equivalent_to <<~OUTPUT
             <div><a name="A" id="A"/>
           <p class='h1Preface'/>
           <div class="ol_wrap">
@@ -1912,19 +1927,19 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(html)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_xml_equivalent_to html
+    expect(strip_guid(IsoDoc::Itu::WordConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(doc)
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_html4_equivalent_to doc
   end
 
   it "processes sequences of notes" do
@@ -2081,18 +2096,18 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", input, true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(html)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::WordConvert.new({})
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_xml_equivalent_to html
+    expect(strip_guid(IsoDoc::Itu::WordConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(doc)
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_html4_equivalent_to doc
   end
 end

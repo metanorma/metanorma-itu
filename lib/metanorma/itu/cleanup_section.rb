@@ -1,6 +1,6 @@
 module Metanorma
   module Itu
-    class Converter < Standoc::Converter
+    class Cleanup < Standoc::Cleanup
       def sections_cleanup(xml)
         super
         insert_missing_sections(xml) unless @no_insert_missing_sections

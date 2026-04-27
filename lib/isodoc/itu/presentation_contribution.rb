@@ -50,7 +50,7 @@ module IsoDoc
       end
 
       def contribution_table_contacts
-        n = (0..@meta.get[:authors]&.size).each_with_object([]) do |i, ret|
+        n = (0...@meta.get[:authors]&.size).each_with_object([]) do |i, ret|
           ret << contribution_table_contact(i)
         end
         n.map do |x|
@@ -90,7 +90,7 @@ module IsoDoc
       end
 
       def contrib_justification_contacts
-        (0..@meta.get[:authors]&.size).each_with_object([]) do |i, ret|
+        (0...@meta.get[:authors]&.size).each_with_object([]) do |i, ret|
           ret << contribution_justification_contact(i)
         end
       end

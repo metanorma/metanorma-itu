@@ -4,6 +4,8 @@
 
 	<xsl:key name="kfn" match="mn:fn[not(ancestor::*[self::mn:table or self::mn:figure or self::mn:localized-strings] and not(ancestor::mn:fmt-name))]" use="@reference"/>
 
+	<xsl:key name="kid" match="*" use="@id"/>
+
 	<xsl:variable name="debug">false</xsl:variable>
 
 	<!-- Example:
@@ -36,9 +38,11 @@
 					<mnx:contents>
 						<xsl:call-template name="processMainSectionsDefault_Contents"/>
 
+						<xsl:apply-templates select="//mn:indexsect" mode="contents"/>
+
 						<xsl:apply-templates select="//mn:table" mode="contents"/>
 
-						<xsl:variable name="doctype"><xsl:call-template name="get_doctype"/></xsl:variable>
+						<xsl:variable name="doctype"><xsl:call-template name="getDoctype"/></xsl:variable>
 
 						<xsl:call-template name="processTablesFigures_Contents">
 							<xsl:with-param name="always" select="$doctype = 'technical-report' or $doctype = 'technical-paper'"/>
@@ -186,6 +190,27 @@
 					<fo:conditional-page-master-reference odd-or-even="odd" master-reference="odd-landscape"/>
 				</fo:repeatable-page-master-alternatives>
 			</fo:page-sequence-master>
+			<!-- Index pages (two columns) -->
+			<fo:simple-page-master master-name="index-odd" page-width="{$pageWidth}mm" page-height="{$pageHeight}mm">
+				<fo:region-body margin-top="{$marginTop}mm" margin-bottom="{$marginBottom}mm" margin-left="{$marginLeftRight1}mm" margin-right="{$marginLeftRight2}mm" xsl:use-attribute-sets="indexsect-region-body-style"/>
+				<fo:region-before region-name="header-odd" extent="{$marginTop}mm" display-align="center"/>
+				<fo:region-after region-name="footer-odd" extent="{$marginBottom}mm"/>
+				<fo:region-start region-name="left-region" extent="{$marginLeftRight1}mm"/>
+				<fo:region-end region-name="right-region" extent="{$marginLeftRight2}mm"/>
+			</fo:simple-page-master>
+			<fo:simple-page-master master-name="index-even" page-width="{$pageWidth}mm" page-height="{$pageHeight}mm">
+				<fo:region-body margin-top="{$marginTop}mm" margin-bottom="{$marginBottom}mm" margin-left="{$marginLeftRight2}mm" margin-right="{$marginLeftRight1}mm" xsl:use-attribute-sets="indexsect-region-body-style"/>
+				<fo:region-before region-name="header-even" extent="{$marginTop}mm" display-align="center"/>
+				<fo:region-after region-name="footer-even" extent="{$marginBottom}mm"/>
+				<fo:region-start region-name="left-region" extent="{$marginLeftRight2}mm"/>
+				<fo:region-end region-name="right-region" extent="{$marginLeftRight1}mm"/>
+			</fo:simple-page-master>
+			<fo:page-sequence-master master-name="index">
+				<fo:repeatable-page-master-alternatives>
+					<fo:conditional-page-master-reference odd-or-even="even" master-reference="index-even"/>
+					<fo:conditional-page-master-reference odd-or-even="odd" master-reference="index-odd"/>
+				</fo:repeatable-page-master-alternatives>
+			</fo:page-sequence-master>
 		</fo:layout-master-set>
 	</xsl:template> <!-- END: layout-master-set -->
 
@@ -253,7 +278,7 @@
 						</xsl:call-template>
 					</xsl:variable>
 
-					<xsl:variable name="doctype"><xsl:call-template name="get_doctype"/></xsl:variable>
+					<xsl:variable name="doctype"><xsl:call-template name="getDoctype"/></xsl:variable>
 
 					<xsl:variable name="docnumber"><xsl:call-template name="get_docnumber"/></xsl:variable>
 
@@ -263,7 +288,7 @@
 						<xsl:value-of select="concat($x,'STR-', $acronym)"/>
 					</xsl:variable>
 
-					<xsl:variable name="doctypeTitle"><xsl:call-template name="get_doctypeTitle"/></xsl:variable>
+					<xsl:variable name="doctypeTitle"><xsl:call-template name="getDoctypeTitle"/></xsl:variable>
 
 					<xsl:variable name="TDnumber"><xsl:call-template name="get_TDnumber"/></xsl:variable>
 					<xsl:variable name="provisionalIdentifier"><xsl:call-template name="get_provisionalIdentifier"/></xsl:variable>
@@ -348,32 +373,12 @@
 
 						<xsl:for-each select=".//mn:page_sequence[parent::mn:preface][normalize-space() != '' or .//mn:image or .//*[local-name() = 'svg']]">
 
-							<fo:page-sequence master-reference="preface" format="i" force-page-count="no-force">
+							<!-- <debug><xsl:copy-of select="."/></debug> -->
 
-								<xsl:if test="$doctype = 'resolution'">
-									<xsl:attribute name="font-size">11pt</xsl:attribute>
-								</xsl:if>
-								<xsl:if test="$doctype = 'service-publication'">
-									<xsl:attribute name="font-size">11pt</xsl:attribute>
-									<xsl:attribute name="font-family">Arial, STIX Two Math</xsl:attribute>
-								</xsl:if>
-
-								<xsl:attribute name="master-reference">
-									<xsl:text>preface</xsl:text>
-									<xsl:call-template name="getPageSequenceOrientation"/>
-								</xsl:attribute>
-
-								<xsl:if test="$doctype = 'service-publication'">
-									<xsl:attribute name="master-reference">
-										<xsl:text>document</xsl:text>
-										<xsl:call-template name="getPageSequenceOrientation"/>
-									</xsl:attribute>
-									<xsl:attribute name="format">1</xsl:attribute>
-								</xsl:if>
-
-								<xsl:if test="position() = 1">
-									<xsl:attribute name="initial-page-number">1</xsl:attribute>
-								</xsl:if>
+							<fo:page-sequence xsl:use-attribute-sets="page-sequence-preface">
+								<xsl:call-template name="refine_page-sequence-preface">
+									<xsl:with-param name="doctype" select="$doctype"/>
+								</xsl:call-template>
 
 								<xsl:call-template name="insertHeaderFooter">
 									<xsl:with-param name="doctype" select="$doctype"/>
@@ -382,7 +387,21 @@
 
 								<fo:flow flow-name="xsl-region-body">
 
-									<xsl:if test="/mn:metanorma/mn:preface/*[not(@type = 'toc')] or /mn:metanorma/mn:bibdata/mn:keyword">
+									<xsl:variable name="showKeywords_">
+										<!-- From: https://github.com/metanorma/metanorma-itu/issues/730#issuecomment-3576320261
+											we removed keywords Metadata field from the cover page of Cs and TDs since the start of the precious study period. It no longer figures in the C and TD template file.
+											Keywords continue to be mandatory in the text of Recs and Suppls and Tech Papers / Reports. -->
+										<xsl:if test="/mn:metanorma/mn:bibdata/mn:keyword">
+											<xsl:choose>
+												<xsl:when test="$doctype = 'contribution'">false</xsl:when>
+												<xsl:when test="$TDnumber != ''">false</xsl:when>
+												<xsl:otherwise>true</xsl:otherwise>
+											</xsl:choose>
+										</xsl:if>
+									</xsl:variable>
+									<xsl:variable name="showKeywords" select="normalize-space($showKeywords_)"/>
+
+									<xsl:if test="/mn:metanorma/mn:preface/*[not(@type = 'toc')] or $showKeywords = 'true'">
 
 										<xsl:if test="position() = 1">
 											<fo:block-container font-size="14pt" font-weight="bold">
@@ -419,7 +438,7 @@
 
 										<xsl:if test="position() = last()">
 											<!-- Keywords -->
-											<xsl:if test="/mn:metanorma/mn:bibdata/mn:keyword">
+											<xsl:if test="$showKeywords = 'true'">
 												<fo:block font-size="12pt">
 													<xsl:if test="*[last()]/mn:table">
 														<xsl:attribute name="font-size">10pt</xsl:attribute>
@@ -469,28 +488,10 @@
 						<xsl:for-each select=".//mn:page_sequence[not(parent::mn:preface)][normalize-space() != '' or .//mn:image or .//*[local-name() = 'svg']]">
 
 							<!-- BODY -->
-							<fo:page-sequence master-reference="document" force-page-count="no-force">
-
-								<xsl:if test="$doctype = 'resolution'">
-									<xsl:attribute name="font-size">11pt</xsl:attribute>
-								</xsl:if>
-								<xsl:if test="$doctype = 'service-publication'">
-									<xsl:attribute name="font-size">11pt</xsl:attribute>
-									<xsl:attribute name="font-family">Arial, STIX Two Math</xsl:attribute>
-								</xsl:if>
-
-								<xsl:attribute name="master-reference">
-									<xsl:text>document</xsl:text>
-									<xsl:call-template name="getPageSequenceOrientation"/>
-								</xsl:attribute>
-
-								<xsl:if test="position() = 1">
-									<xsl:attribute name="initial-page-number">1</xsl:attribute>
-								</xsl:if>
-
-								<xsl:if test="$doctype = 'service-publication'">
-									<xsl:attribute name="initial-page-number">auto</xsl:attribute>
-								</xsl:if>
+							<fo:page-sequence xsl:use-attribute-sets="page-sequence-main">
+								<xsl:call-template name="refine_page-sequence-main">
+									<xsl:with-param name="doctype" select="$doctype"/>
+								</xsl:call-template>
 
 								<xsl:call-template name="insertFootnoteSeparatorCommon"/>
 
@@ -577,6 +578,11 @@
 							</fo:page-sequence>
 						</xsl:for-each>
 					</xsl:for-each>
+
+					<xsl:call-template name="index-pages">
+						<xsl:with-param name="num" select="$num"/>
+					</xsl:call-template>
+
 				</xsl:for-each>
 			</xsl:for-each>
 
@@ -585,30 +591,12 @@
 		</fo:root>
 	</xsl:template>
 
-	<xsl:template name="get_doctype">
-		<xsl:value-of select="/mn:metanorma/mn:bibdata/mn:ext/mn:doctype[not(@language) or @language = '']"/>
-	</xsl:template>
-
 	<xsl:template name="get_docnumber">
 		<xsl:value-of select="normalize-space(/mn:metanorma/mn:bibdata/mn:docnumber)"/>
 	</xsl:template>
 
 	<xsl:template name="get_date_published">
 		<xsl:value-of select="/mn:metanorma/mn:bibdata/mn:date[@type = 'published']/mn:on"/>
-	</xsl:template>
-
-	<xsl:template name="get_doctypeTitle">
-		<xsl:variable name="doctype"><xsl:call-template name="get_doctype"/></xsl:variable>
-		<xsl:choose>
-			<xsl:when test="/mn:metanorma/mn:bibdata/mn:ext/mn:doctype[@language = $lang]">
-				<xsl:value-of select="/mn:metanorma/mn:bibdata/mn:ext/mn:doctype[@language = $lang]"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="capitalizeWords">
-					<xsl:with-param name="str" select="$doctype"/>
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template name="get_provisionalIdentifier">
@@ -622,8 +610,8 @@
 	<xsl:template name="cover-page">
 		<xsl:param name="num"/>
 
-		<xsl:variable name="doctype"><xsl:call-template name="get_doctype"/></xsl:variable>
-		<xsl:variable name="doctypeTitle"><xsl:call-template name="get_doctypeTitle"/></xsl:variable>
+		<xsl:variable name="doctype"><xsl:call-template name="getDoctype"/></xsl:variable>
+		<xsl:variable name="doctypeTitle"><xsl:call-template name="getDoctypeTitle"/></xsl:variable>
 		<xsl:variable name="docnumber"><xsl:call-template name="get_docnumber"/></xsl:variable>
 		<xsl:variable name="date_published"><xsl:call-template name="get_date_published"/></xsl:variable>
 		<xsl:variable name="annexid" select="normalize-space(/mn:metanorma/mn:bibdata/mn:ext/mn:structuredidentifier/mn:annexid)"/>
@@ -638,7 +626,7 @@
 			<xsl:if test="$docidentifier_ITU_left_part_ = ''"><xsl:text>ITU-T</xsl:text></xsl:if>
 		</xsl:variable>
 
-		<xsl:variable name="document_scheme" select="normalize-space(/mn:metanorma/mn:metanorma-extension/mn:presentation-metadata[mn:name = 'document-scheme']/mn:value)"/>
+		<xsl:variable name="document_scheme" select="normalize-space(/mn:metanorma/mn:metanorma-extension/mn:presentation-metadata/mn:document-scheme)"/>
 		<xsl:variable name="layoutVersion_">
 			<xsl:choose>
 				<xsl:when test="$document_scheme = '' or $document_scheme = 'current'">2023</xsl:when>
@@ -693,7 +681,7 @@
 		<!-- ============================================= -->
 
 		<xsl:choose>
-			<xsl:when test="/mn:metanorma/mn:metanorma-extension/mn:presentation-metadata[mn:name = 'coverpage-image']/mn:value/mn:image and         normalize-space(/mn:metanorma/mn:metanorma-extension/mn:presentation-metadata/mn:full-coverpage-replacement) = 'true'">
+			<xsl:when test="/mn:metanorma/mn:metanorma-extension/mn:presentation-metadata/mn:coverpage-image/mn:image and         normalize-space(/mn:metanorma/mn:metanorma-extension/mn:presentation-metadata/mn:full-coverpage-replacement) = 'true'">
 				<xsl:call-template name="insertCoverPageFullImage"/>
 			</xsl:when>
 
@@ -1743,7 +1731,7 @@
 
 	<xsl:template name="inner-cover-page">
 		<xsl:param name="num"/>
-		<xsl:variable name="document_scheme" select="normalize-space(/mn:metanorma/mn:metanorma-extension/mn:presentation-metadata[mn:name = 'document-scheme']/mn:value)"/>
+		<xsl:variable name="document_scheme" select="normalize-space(/mn:metanorma/mn:metanorma-extension/mn:presentation-metadata/mn:document-scheme)"/>
 		<xsl:variable name="layoutVersion_">
 			<xsl:choose>
 				<xsl:when test="$document_scheme = '' or $document_scheme = 'current'">2023</xsl:when>
@@ -1859,7 +1847,7 @@
 				</xsl:call-template>
 				<xsl:apply-templates select="." mode="contents"/>
 				<fo:inline keep-together.within-line="always">
-					<fo:leader xsl:use-attribute-sets="toc-leader-style"/>
+					<fo:leader xsl:use-attribute-sets="toc-leader-style"><xsl:call-template name="refine_toc-leader-style"/></fo:leader>
 					<fo:page-number-citation ref-id="{@id}"/>
 				</fo:inline>
 			</fo:basic-link>
@@ -1921,7 +1909,7 @@
 														<fo:basic-link internal-destination="{@id}" fox:alt-text="{mnx:title}">
 															<xsl:apply-templates select="mnx:title"/>
 															<fo:inline keep-together.within-line="always">
-																<fo:leader xsl:use-attribute-sets="toc-leader-style"/>
+																<fo:leader xsl:use-attribute-sets="toc-leader-style"><xsl:call-template name="refine_toc-leader-style"/></fo:leader>
 																<fo:page-number-citation ref-id="{@id}"/>
 															</fo:inline>
 														</fo:basic-link>
@@ -2058,13 +2046,28 @@
 			<xsl:variable name="title">
 				<xsl:call-template name="getName"/>
 			</xsl:variable>
+			<xsl:variable name="variant_title">
+				<xsl:copy-of select="mn:variant-title[@type = 'toc']/node()"/>
+			</xsl:variable>
 
 			<mnx:item level="{$level}" section="{$section}" type="{$type}" display="{$display}">
 				<xsl:call-template name="setId"/>
+				<xsl:if test="$type = 'indexsect'">
+					<xsl:attribute name="level">1</xsl:attribute>
+				</xsl:if>
 				<mnx:title>
-					<xsl:apply-templates select="xalan:nodeset($title)" mode="contents_item"/>
+					<xsl:choose>
+						<xsl:when test="normalize-space($variant_title) != ''">
+							<xsl:apply-templates select="xalan:nodeset($variant_title)" mode="contents_item"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates select="xalan:nodeset($title)" mode="contents_item"/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</mnx:title>
-				<xsl:apply-templates mode="contents"/>
+				<xsl:if test="$type != 'indexsect'">
+					<xsl:apply-templates mode="contents"/>
+				</xsl:if>
 			</mnx:item>
 
 		</xsl:if>
@@ -2103,6 +2106,7 @@
 				</fo:block>
 			</xsl:otherwise>
 		</xsl:choose>
+		<xsl:call-template name="setNamedDestination"/>
 		<fo:block>
 			<xsl:call-template name="setId"/>
 			<xsl:call-template name="addReviewHelper"/>
@@ -2118,7 +2122,12 @@
 				<xsl:value-of select="$linebreak"/>
 			</fo:block>
 		</xsl:if>
-		<xsl:apply-templates/>
+		<xsl:call-template name="setNamedDestination"/>
+		<fo:block role="SKIP">
+			<xsl:call-template name="setId"/>
+			<xsl:call-template name="addReviewHelper"/>
+			<xsl:apply-templates/>
+		</fo:block>
 	</xsl:template>
 	<!-- ============================= -->
 	<!-- ============================= -->
@@ -2136,6 +2145,7 @@
 				<xsl:otherwise>fo:block</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		<xsl:call-template name="setNamedDestination"/>
 
 		<xsl:variable name="p_styles">
 			<styles xsl:use-attribute-sets="p-style">
@@ -2171,10 +2181,12 @@
 	<!-- ============================= -->
 
 	<xsl:template match="mn:clause[starts-with(@id, 'draft-warning')]/mn:fmt-title" mode="caution">
+	<xsl:call-template name="setNamedDestination"/>
 		<fo:block font-size="16pt" font-style="italic" font-weight="bold" text-align="center" space-after="6pt" role="H1">
 			<xsl:if test="$lang = 'ar'"> <!-- to prevent rendering `###` due the missing Arabic glyphs in the italic font (Times New Roman) -->
 				<xsl:attribute name="font-style">normal</xsl:attribute>
 			</xsl:if>
+			<xsl:call-template name="setIDforNamedDestinationInline"/>
 			<xsl:apply-templates/>
 			<xsl:apply-templates select="following-sibling::*[1][self::mn:variant-title][@type = 'sub']" mode="subtitle"/>
 		</fo:block>
@@ -2204,12 +2216,16 @@
 			</xsl:choose>
 		</xsl:variable>
 
+		<xsl:call-template name="setNamedDestination"/>
+
 		<xsl:variable name="title_styles">
 			<styles xsl:use-attribute-sets="title-style"><xsl:call-template name="refine_title-style"><xsl:with-param name="element-name" select="$element-name"/></xsl:call-template></styles>
 		</xsl:variable>
 
 		<xsl:element name="{$element-name}">
 			<xsl:copy-of select="xalan:nodeset($title_styles)/styles/@*"/>
+
+			<xsl:call-template name="setIDforNamedDestinationInline"/>
 
 			<xsl:apply-templates/>
 			<xsl:apply-templates select="following-sibling::*[1][self::mn:variant-title][@type = 'sub']" mode="subtitle"/>
@@ -2262,11 +2278,16 @@
 	</xsl:template>
 
 	<xsl:template match="mn:fmt-preferred" priority="2">
+		<xsl:call-template name="setNamedDestination"/>
 		<fo:block xsl:use-attribute-sets="term-preferred-block-style">
 			<xsl:call-template name="refine_term-preferred-block-style"/>
 
 			<fo:inline xsl:use-attribute-sets="term-number-style">
 				<xsl:call-template name="refine_term-number-style"/>
+
+				<xsl:for-each select="ancestor::mn:term[1]/mn:fmt-name">
+					<xsl:call-template name="setIDforNamedDestinationInline"/>
+				</xsl:for-each>
 
 				<xsl:apply-templates select="ancestor::mn:term[1]/mn:fmt-name"/>
 			</fo:inline>
@@ -2501,16 +2522,16 @@
 		</fo:block>
 	</xsl:template>
 
-	<xsl:template match="mn:fmt-link" priority="2">
+	<!-- <xsl:template match="mn:fmt-link" priority="2">
 		<fo:inline color="blue">
 			<xsl:if test="parent::mn:formattedref or ancestor::mn:preface">
-				<xsl:attribute name="text-decoration">underline</xsl:attribute>
+				<xsl:attribute name="text-decoration">underline</xsl:attribute> -->
 				<!-- <xsl:attribute name="font-family">Arial</xsl:attribute>
 				<xsl:attribute name="font-size">8pt</xsl:attribute> -->
-			</xsl:if>
+			<!-- </xsl:if>
 			<xsl:call-template name="link"/>
 		</fo:inline>
-	</xsl:template>
+	</xsl:template> -->
 
 	<!-- https://github.com/metanorma/metanorma-itu/issues/607 -->
 	<xsl:template match="mn:references/mn:bibitem[1]" priority="5">
@@ -2637,6 +2658,7 @@
 				<xsl:with-param name="biblio_tag_part">last</xsl:with-param>
 			</xsl:apply-templates>
 			<xsl:apply-templates select="mn:formattedref"/>
+			<xsl:call-template name="processFormattedrefNotes"/>
 		</xsl:variable>
 
 		<tr id="{@id}">
@@ -2966,12 +2988,13 @@
 	<xsl:variable name="root_element">metanorma</xsl:variable>
 
 	<!---examples: 2013, 2024 -->
-	<xsl:variable name="document_scheme" select="normalize-space(//mn:metanorma/mn:metanorma-extension/mn:presentation-metadata[mn:name = 'document-scheme']/mn:value)"/>
+	<xsl:variable name="document_scheme" select="normalize-space(//mn:metanorma/mn:metanorma-extension/mn:presentation-metadata/mn:document-scheme)"/>
 
 	<!-- external parameters -->
 	<xsl:param name="svg_images"/> <!-- svg images array -->
 	<xsl:variable name="images" select="document($svg_images)"/>
 	<xsl:param name="basepath"/> <!-- base path for images -->
+	<xsl:param name="mn2pdfpath"/> <!-- mn2pdf working directory -->
 	<xsl:param name="inputxml_basepath"/> <!-- input xml file path -->
 	<xsl:param name="inputxml_filename"/> <!-- input xml file name -->
 	<xsl:param name="output_path"/> <!-- output PDF file name -->
@@ -3094,8 +3117,6 @@
 		</title-part>
 		<title-part lang="fr">
 		</title-part>
-		<title-part lang="ru">
-		</title-part>
 		<title-part lang="zh">第 # 部分:</title-part>
 	</xsl:variable>
 	<xsl:variable name="titles" select="xalan:nodeset($titles_)"/>
@@ -3136,31 +3157,6 @@
 		<xsl:copy-of select="//mn:metanorma/mn:bibdata"/>
 		<xsl:copy-of select="//mn:metanorma/mn:localized-strings"/>
 	</xsl:variable>
-
-	<xsl:template name="getTitle">
-		<xsl:param name="name"/>
-		<xsl:param name="lang"/>
-		<xsl:variable name="lang_">
-			<xsl:choose>
-				<xsl:when test="$lang != ''">
-					<xsl:value-of select="$lang"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:call-template name="getLang"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="language" select="normalize-space($lang_)"/>
-		<xsl:variable name="title_" select="$titles/*[local-name() = $name][@lang = $language]"/>
-		<xsl:choose>
-			<xsl:when test="normalize-space($title_) != ''">
-				<xsl:value-of select="$title_"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$titles/*[local-name() = $name][@lang = 'en']"/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
 
 	<!-- Characters -->
 	<xsl:variable name="linebreak">&#8232;</xsl:variable>
@@ -3254,6 +3250,73 @@
 		</xsl:choose>
 	</xsl:variable>
 
+	<xsl:attribute-set name="page-sequence-preface">
+		<xsl:attribute name="master-reference">preface</xsl:attribute>
+		<xsl:attribute name="format">i</xsl:attribute>
+		<xsl:attribute name="force-page-count">no-force</xsl:attribute>
+	</xsl:attribute-set> <!-- page-sequence-preface -->
+
+	<xsl:template name="refine_page-sequence-preface">
+		<xsl:param name="layoutVersion"/>
+		<xsl:param name="doctype"/>
+		<xsl:param name="num"/>
+		<xsl:param name="skip_force_page_count">false</xsl:param>
+		<xsl:if test="$doctype = 'resolution'">
+			<xsl:attribute name="font-size">11pt</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$doctype = 'service-publication'">
+			<xsl:attribute name="font-size">11pt</xsl:attribute>
+			<xsl:attribute name="font-family">Arial, STIX Two Math</xsl:attribute>
+		</xsl:if>
+
+		<xsl:attribute name="master-reference">
+			<xsl:text>preface</xsl:text>
+			<xsl:call-template name="getPageSequenceOrientation"/>
+		</xsl:attribute>
+
+		<xsl:if test="$doctype = 'service-publication'">
+			<xsl:attribute name="master-reference">
+				<xsl:text>document</xsl:text>
+				<xsl:call-template name="getPageSequenceOrientation"/>
+			</xsl:attribute>
+			<xsl:attribute name="format">1</xsl:attribute>
+		</xsl:if>
+
+		<xsl:if test="position() = 1">
+			<xsl:attribute name="initial-page-number">1</xsl:attribute>
+		</xsl:if>
+	</xsl:template> <!-- refine_page-sequence-preface -->
+
+	<xsl:attribute-set name="page-sequence-main">
+		<xsl:attribute name="master-reference">document</xsl:attribute>
+		<xsl:attribute name="force-page-count">no-force</xsl:attribute>
+	</xsl:attribute-set> <!-- page-sequence-main -->
+
+	<xsl:template name="refine_page-sequence-main">
+		<xsl:param name="layoutVersion"/>
+		<xsl:param name="doctype"/>
+		<xsl:if test="$doctype = 'resolution'">
+			<xsl:attribute name="font-size">11pt</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$doctype = 'service-publication'">
+			<xsl:attribute name="font-size">11pt</xsl:attribute>
+			<xsl:attribute name="font-family">Arial, STIX Two Math</xsl:attribute>
+		</xsl:if>
+
+		<xsl:attribute name="master-reference">
+			<xsl:text>document</xsl:text>
+			<xsl:call-template name="getPageSequenceOrientation"/>
+		</xsl:attribute>
+
+		<xsl:if test="position() = 1">
+			<xsl:attribute name="initial-page-number">1</xsl:attribute>
+		</xsl:if>
+
+		<xsl:if test="$doctype = 'service-publication'">
+			<xsl:attribute name="initial-page-number">auto</xsl:attribute>
+		</xsl:if>
+	</xsl:template> <!-- refine_page-sequence-main -->
+
 	<xsl:variable name="font_noto_sans">Noto Sans, Noto Sans HK, Noto Sans JP, Noto Sans KR, Noto Sans SC, Noto Sans TC</xsl:variable>
 	<xsl:variable name="font_noto_sans_mono">Noto Sans Mono, Noto Sans Mono CJK HK, Noto Sans Mono CJK JP, Noto Sans Mono CJK KR, Noto Sans Mono CJK SC, Noto Sans Mono CJK TC</xsl:variable>
 	<xsl:variable name="font_noto_serif">Noto Serif, Noto Serif HK, Noto Serif JP, Noto Serif KR, Noto Serif SC, Noto Serif TC</xsl:variable>
@@ -3267,8 +3330,22 @@
 		<xsl:param name="root-style"/>
 		<xsl:variable name="root-style_" select="xalan:nodeset($root-style)"/>
 
+		<xsl:variable name="additional_fonts___">
+			<xsl:for-each select="//mn:metanorma/mn:metanorma-extension/mn:presentation-metadata/mn:fonts |      //mn:metanorma[1]/mn:metanorma-extension/mn:presentation-metadata[mn:name = 'fonts']/mn:value |       //mn:metanorma[1]/mn:presentation-metadata[mn:name = 'fonts']/mn:value">
+				<font><xsl:value-of select="."/></font>
+			</xsl:for-each>
+		</xsl:variable>
+		<xsl:variable name="additional_fonts__">
+			<!-- unique fonts -->
+			<xsl:for-each select="xalan:nodeset($additional_fonts___)//font">
+				<xsl:choose>
+					<xsl:when test="preceding-sibling::font[text() = current()/text()]"><!-- skip --></xsl:when>
+					<xsl:otherwise><xsl:copy-of select="."/></xsl:otherwise>
+				</xsl:choose>
+			</xsl:for-each>
+		</xsl:variable>
 		<xsl:variable name="additional_fonts_">
-			<xsl:for-each select="//mn:metanorma[1]/mn:metanorma-extension/mn:presentation-metadata[mn:name = 'fonts']/mn:value |       //mn:metanorma[1]/mn:presentation-metadata[mn:name = 'fonts']/mn:value">
+			<xsl:for-each select="xalan:nodeset($additional_fonts__)//font">
 				<xsl:value-of select="."/><xsl:if test="position() != last()">, </xsl:if>
 			</xsl:for-each>
 		</xsl:variable>
@@ -3542,7 +3619,24 @@
 	<xsl:template match="mn:metanorma-extension/*[local-name() = 'UnitsML']" mode="update_xml_step1"/>
 
 	<!-- remove image/emf -->
-	<xsl:template match="mn:image/mn:emf" mode="update_xml_step1"/>
+	<xsl:template match="mn:image//mn:emf" mode="update_xml_step1"/>
+
+	<!-- https://github.com/metanorma/metanorma/issues/540 -->
+	<xsl:template match="mn:image[mn:altsource]" priority="3" mode="update_xml_step1">
+		<xsl:copy>
+			<xsl:apply-templates select="@*" mode="update_xml_step1"/>
+			<xsl:choose>
+				<xsl:when test="mn:altsource[contains(@tag, 'pdf')]">
+					<xsl:apply-templates select="mn:altsource[contains(@tag, 'pdf')]/@*" mode="update_xml_step1"/>
+					<xsl:apply-templates select="mn:altsource[contains(@tag, 'pdf')]/node()" mode="update_xml_step1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:apply-templates select="mn:altsource[contains(@tag, 'default')]/@*" mode="update_xml_step1"/>
+					<xsl:apply-templates select="mn:altsource[contains(@tag, 'default')]/node()" mode="update_xml_step1"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:copy>
+	</xsl:template>
 
 	<!-- remove preprocess-xslt -->
 	<xsl:template match="mn:preprocess-xslt" mode="update_xml_step1"/>
@@ -3750,6 +3844,46 @@
 	</xsl:template>
 
 	<xsl:template name="addNamedDestinationAttribute">
+	<xsl:variable name="docnum"><xsl:number level="any" count="mn:metanorma"/></xsl:variable>
+	<xsl:variable name="caption_label" select="translate(normalize-space(.//mn:span[@class = 'fmt-caption-label']), ' ()', '')"/>
+
+	<xsl:variable name="named_dest_">
+		<xsl:choose>
+			<xsl:when test="count(ancestor::mn:figure) &gt; 1"/> <!-- prevent id 'a)' -->
+			<xsl:when test="ancestor::mn:note or ancestor::mn:example or        ancestor::mn:termnote or ancestor::mn:termexample or        ancestor::mn:admonition"/>
+			<xsl:when test="$caption_label = '' and parent::mn:foreword">
+				<xsl:variable name="foreword_number"><xsl:number count="mn:foreword" level="any"/></xsl:variable>
+				<xsl:if test="$foreword_number = 1">Foreword</xsl:if>
+			</xsl:when>
+			<xsl:when test="$caption_label = '' and parent::mn:introduction">
+				<xsl:variable name="introduction_number"><xsl:number count="mn:introduction" level="any"/></xsl:variable>
+				<xsl:if test="$introduction_number = 1">Introduction</xsl:if>
+			</xsl:when>
+			<xsl:when test="$caption_label = ''"/>
+			<xsl:when test="../@unnumbered = 'true'"/>
+			<xsl:when test="normalize-space(java:matches(java:java.lang.String.new($caption_label), '[\x21-\xFF]+')) = 'false'"/>
+			<!-- 1.1 in Appendix 1 -->
+			<xsl:otherwise>
+				<xsl:if test="ancestor::mn:annex and string(number(substring($caption_label, 1, 1))) != 'NaN'">
+					<xsl:variable name="annex_caption_label" select="translate(normalize-space(ancestor::mn:annex[1]/mn:fmt-title//mn:span[@class = 'fmt-caption-label']), ' ()', '')"/>
+					<xsl:value-of select="concat($annex_caption_label, '_')"/>
+				</xsl:if>
+				<xsl:if test="parent::mn:formula">Formula</xsl:if>
+				<xsl:value-of select="$caption_label"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+	<xsl:variable name="named_dest" select="normalize-space($named_dest_)"/>
+	<xsl:if test="$named_dest != ''">
+		<xsl:variable name="named_dest_doc_">
+			<xsl:value-of select="$named_dest"/>
+			<xsl:if test="$docnum != '1'">_<xsl:value-of select="$docnum"/></xsl:if>
+		</xsl:variable>
+		<xsl:variable name="named_dest_doc" select="normalize-space($named_dest_doc_)"/>
+		<xsl:if test="not(key('kid', $named_dest_doc))"> <!-- if element with id '$named_dest_doc' doesn't exist in the document -->
+			<xsl:attribute name="named_dest"><xsl:value-of select="normalize-space($named_dest_doc)"/></xsl:attribute>
+		</xsl:if>
+	</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="mn:fmt-name" mode="update_xml_step1">
@@ -3768,6 +3902,15 @@
 				<!-- </xsl:element> -->
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template>
+
+	<!-- https://github.com/metanorma/metanorma-iso/issues/1535 -->
+	<xsl:template match="mn:ol[mn:fmt-ol]" mode="update_xml_step1">
+		<xsl:apply-templates select="mn:fmt-ol" mode="update_xml_step1"/>
+	</xsl:template>
+
+	<xsl:template match="mn:ul[mn:fmt-ul]" mode="update_xml_step1">
+		<xsl:apply-templates select="mn:fmt-ul" mode="update_xml_step1"/>
 	</xsl:template>
 
 	<!-- li/fmt-name -->
@@ -4417,7 +4560,23 @@
 			<xsl:sort select="@displayorder" data-type="number"/>
 			<xsl:element name="page_sequence" namespace="{$namespace_full}">
 				<xsl:attribute name="main_page_sequence"/>
-				<xsl:apply-templates select="." mode="update_xml_step_move_pagebreak"/>
+
+				<!-- from common <xsl:template name="index-pages"> -->
+				<xsl:variable name="docid">
+					<xsl:call-template name="getDocumentId"/>
+				</xsl:variable>
+
+				<xsl:variable name="current_document_index_id">
+					<xsl:apply-templates select="." mode="index_add_id">
+						<xsl:with-param name="docid" select="$docid"/>
+					</xsl:apply-templates>
+				</xsl:variable>
+				<xsl:variable name="current_document_index">
+					<xsl:apply-templates select="xalan:nodeset($current_document_index_id)" mode="index_update"/>
+				</xsl:variable>
+
+				<!-- xalan:nodeset($current_document_index) -->
+				<xsl:apply-templates select="xalan:nodeset($current_document_index)" mode="update_xml_step_move_pagebreak"/>
 			</xsl:element>
 		</xsl:for-each>
 	</xsl:template>
@@ -4680,9 +4839,11 @@
 	</xsl:template>
 
 	<xsl:template match="mn:feedback-statement//mn:p">
+		<xsl:param name="skip_id">false</xsl:param>
 		<xsl:param name="margin"/>
 		<!-- process in the template 'paragraph' -->
 		<xsl:call-template name="paragraph">
+			<xsl:with-param name="skip_id" select="$skip_id"/>
 			<xsl:with-param name="margin" select="$margin"/>
 		</xsl:call-template>
 	</xsl:template>
@@ -4692,9 +4853,15 @@
 	<!-- ================================= -->
 
 	<xsl:attribute-set name="link-style">
+		<xsl:attribute name="color">blue</xsl:attribute>
+		<xsl:attribute name="text-decoration">underline</xsl:attribute>
 	</xsl:attribute-set>
 
 	<xsl:template name="refine_link-style">
+		<xsl:if test="@style = 'url'">
+			<xsl:attribute name="font-family">Arial</xsl:attribute>
+			<xsl:attribute name="font-size">8pt</xsl:attribute>
+		</xsl:if>
 	</xsl:template> <!-- refine_link-style -->
 
 	<xsl:template match="mn:fmt-link" name="link">
@@ -4908,9 +5075,129 @@
 	<xsl:variable name="sourcecode_css" select="xalan:nodeset($sourcecode_css_)"/>
 
 	<xsl:template match="*[local-name() = 'property']" mode="css">
-		<xsl:attribute name="{@name}">
-			<xsl:value-of select="@value"/>
-		</xsl:attribute>
+		<!-- don't delete leading and trailing spaces -->
+		<!-- the list from https://www.data2type.de/en/xml-xslt-xslfo/xsl-fo/xsl-fo-introduction/blocks -->
+		<xsl:variable name="allowed_attributes_">
+			<xsl:text>
+				background-attachment
+				background-color
+				background-image
+				background-position-horizontal
+				background-position-vertical
+				background-repeat
+				border
+				border-after-color
+				border-after-style
+				border-after-width
+				border-before-color
+				border-before-style
+				border-before-width
+				border-bottom-color
+				border-bottom-style
+				border-bottom-width
+				border-color
+				border-end-color
+				border-end-style
+				border-end-width
+				border-left-color
+				border-left-style
+				border-left-width
+				border-right-color
+				border-right-style
+				border-right-width
+				border-start-color
+				border-start-style
+				border-start-width
+				border-style
+				border-top-color
+				border-top-style
+				border-top-width
+				border-width
+				break-after
+				break-before
+				color
+				country
+				end-indent
+				font-family
+				font-model
+				font-selection-strategy
+				font-size
+				font-size-adjust
+				font-stretch
+				font-style
+				font-variant
+				font-weight
+				hyphenate
+				hyphenation-character
+				hyphenation-keep
+				hyphenation-ladder-count
+				hyphenation-push-character-count
+				hyphenation-remain-character-count
+				id
+				intrusion-displace
+				keep-together
+				keep-with-next
+				keep-with-previous
+				language
+				last-line-end-indent
+				line-height
+				line-height-shift-adjustment
+				line-stacking-strategy
+				linefeed-treatment
+				margin
+				margin-bottom
+				margin-left
+				margin-right
+				margin-top
+				orphans
+				padding
+				padding-after
+				padding-before
+				padding-bottom
+				padding-end
+				padding-left
+				padding-right
+				pause-after
+				padding-start
+				padding-top
+				reference-orientation
+				relative-position
+				richness
+				role
+				script
+				source-document
+				space-after
+				space-before
+				span
+				start-indent
+				text-align
+				text-align-last
+				text-altitude
+				text-depth
+				text-indent
+				visibility
+				white-space-collapse
+				white-space-treatment
+				widows
+				wrap-option
+			</xsl:text>
+		</xsl:variable>
+		<xsl:variable name="allowed_attributes" select="concat(' ', normalize-space($allowed_attributes_), ' ')"/>
+		<xsl:choose>
+			<xsl:when test="contains($allowed_attributes, concat(' ', @name, ' '))">
+				<xsl:attribute name="{@name}">
+					<xsl:value-of select="@value"/>
+				</xsl:attribute>
+			</xsl:when>
+			<xsl:when test="@name = 'border-radius'">
+				<xsl:attribute name="fox:border-radius">
+					<xsl:value-of select="@value"/>
+				</xsl:attribute>
+			</xsl:when>
+			<xsl:otherwise>
+				<!-- skip -->
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template name="get_sourcecode_attributes">
@@ -4947,11 +5234,12 @@
 
 		<xsl:choose>
 			<xsl:when test="$isGenerateTableIF = 'true' and (ancestor::*[local-name() = 'td'] or ancestor::*[local-name() = 'th'])">
-				<xsl:for-each select="xalan:nodeset($sourcecode_attributes)/sourcecode_attributes/@*">
-					<xsl:attribute name="{local-name()}">
+				<!-- <xsl:for-each select="xalan:nodeset($sourcecode_attributes)/sourcecode_attributes/@*">					
+					<xsl:attribute name="{name()}">
 						<xsl:value-of select="."/>
 					</xsl:attribute>
-				</xsl:for-each>
+				</xsl:for-each> -->
+				<xsl:copy-of select="xalan:nodeset($sourcecode_attributes)/sourcecode_attributes/@*"/>
 				<xsl:apply-templates select="node()[not(self::mn:fmt-name)]"/>
 			</xsl:when>
 
@@ -4969,11 +5257,12 @@
 
 						<fo:block xsl:use-attribute-sets="sourcecode-style">
 
-							<xsl:for-each select="xalan:nodeset($sourcecode_attributes)/sourcecode_attributes/@*">
-								<xsl:attribute name="{local-name()}">
+							<!-- <xsl:for-each select="xalan:nodeset($sourcecode_attributes)/sourcecode_attributes/@*">					
+								<xsl:attribute name="{name()}">
 									<xsl:value-of select="."/>
 								</xsl:attribute>
-							</xsl:for-each>
+							</xsl:for-each> -->
+							<xsl:copy-of select="xalan:nodeset($sourcecode_attributes)/sourcecode_attributes/@*"/>
 
 							<xsl:call-template name="refine_sourcecode-style"/>
 
@@ -4983,10 +5272,10 @@
 								<xsl:attribute name="margin-bottom">0pt</xsl:attribute>
 							</xsl:if>
 
-							<xsl:apply-templates select="node()[not(self::mn:fmt-name or self::mn:dl)]"/>
+							<xsl:apply-templates select="node()[not(self::mn:fmt-name or self::mn:dl or self::mn:key)]"/>
 						</fo:block>
 
-						<xsl:apply-templates select="mn:dl"/> <!-- Key table -->
+						<xsl:apply-templates select="mn:dl | mn:key"/> <!-- Key table -->
 
 						<!-- <xsl:choose>
 							<xsl:when test="$namespace = 'rsd'"></xsl:when>
@@ -5084,7 +5373,7 @@
 					</xsl:for-each>
 				</xsl:variable>
 				<xsl:for-each select="xalan:nodeset($sourcecode_attributes)/sourcecode_attributes/@*[not(starts-with(local-name(), 'margin-') or starts-with(local-name(), 'space-'))]">
-					<xsl:attribute name="{local-name()}">
+					<xsl:attribute name="{name()}">
 						<xsl:value-of select="."/>
 					</xsl:attribute>
 				</xsl:for-each>
@@ -5354,6 +5643,7 @@
 	</xsl:template>
 
 	<xsl:attribute-set name="tt-style">
+		<xsl:attribute name="font-family">Courier New, <xsl:value-of select="$font_noto_sans_mono"/></xsl:attribute>
 		<xsl:attribute name="font-family">Courier New, <xsl:value-of select="$font_noto_sans_mono"/></xsl:attribute>
 	</xsl:attribute-set>
 
@@ -6259,6 +6549,12 @@
 	<xsl:template name="refine_term-style">
 	</xsl:template>
 
+	<xsl:attribute-set name="term-kind-style">
+	</xsl:attribute-set>
+
+	<xsl:template name="refine_term-kind-style">
+	</xsl:template>
+
 	<xsl:attribute-set name="term-number-style">
 		<xsl:attribute name="keep-with-next">always</xsl:attribute>
 		<xsl:attribute name="font-weight">bold</xsl:attribute>
@@ -6918,6 +7214,8 @@
 		<xsl:if test="$doctype = 'service-publication'">
 			<xsl:attribute name="border">1pt solid rgb(211,211,211)</xsl:attribute>
 		</xsl:if>
+
+		<xsl:call-template name="setNoBordersForTableList"/>
 	</xsl:template> <!-- refine_table-style -->
 
 	<xsl:attribute-set name="table-number-style">
@@ -6956,12 +7254,16 @@
 		<xsl:if test="$doctype = 'service-publication'">
 			<xsl:attribute name="border-bottom">1.1pt solid black</xsl:attribute>
 		</xsl:if>
+
+		<xsl:call-template name="setNoBordersForTableList"/>
 	</xsl:template> <!-- refine_table-header-row-style -->
 
 	<xsl:attribute-set name="table-footer-row-style" use-attribute-sets="table-row-style">
 	</xsl:attribute-set>
 
 	<xsl:template name="refine_table-footer-row-style">
+
+		<xsl:call-template name="setNoBordersForTableList"/>
 	</xsl:template> <!-- refine_table-footer-row-style -->
 
 	<xsl:attribute-set name="table-body-row-style" use-attribute-sets="table-row-style">
@@ -6971,6 +7273,8 @@
 	<xsl:template name="refine_table-body-row-style">
 
 		<xsl:call-template name="setBordersTableArray"/>
+
+		<xsl:call-template name="setNoBordersForTableList"/>
 	</xsl:template> <!-- refine_table-body-row-style -->
 
 	<xsl:attribute-set name="table-header-cell-style">
@@ -7000,6 +7304,16 @@
 		</xsl:if>
 
 		<xsl:call-template name="setTableCellAttributes"/>
+
+		<xsl:if test="ancestor::mn:fmt-ol or ancestor::mn:fmt-ul">
+			<xsl:attribute name="display-align">before</xsl:attribute>
+			<xsl:attribute name="text-align">left</xsl:attribute>
+			<xsl:if test="following-sibling::*">
+				<xsl:attribute name="padding-right">4mm</xsl:attribute>
+			</xsl:if>
+			<xsl:call-template name="setNoBordersForTableList"/>
+		</xsl:if>
+
 	</xsl:template> <!-- refine_table-header-cell-style -->
 
 	<xsl:attribute-set name="table-cell-style">
@@ -7026,6 +7340,15 @@
 			<xsl:attribute name="padding-top">1mm</xsl:attribute>
 		</xsl:if>
 
+		<xsl:if test="ancestor::mn:fmt-ol or ancestor::mn:fmt-ul">
+			<xsl:attribute name="display-align">before</xsl:attribute>
+			<xsl:attribute name="text-align">left</xsl:attribute>
+			<xsl:if test="following-sibling::*">
+				<xsl:attribute name="padding-right">4mm</xsl:attribute>
+			</xsl:if>
+			<xsl:call-template name="setNoBordersForTableList"/>
+		</xsl:if>
+
 	</xsl:template> <!-- refine_table-cell-style -->
 
 	<xsl:attribute-set name="table-footer-cell-style">
@@ -7045,6 +7368,8 @@
 		<xsl:if test="$doctype = 'service-publication'">
 			<xsl:attribute name="border">none</xsl:attribute>
 		</xsl:if>
+
+		<xsl:call-template name="setNoBordersForTableList"/>
 	</xsl:template> <!-- refine_table-footer-cell-style -->
 
 	<xsl:attribute-set name="table-note-style">
@@ -7087,6 +7412,16 @@
 	</xsl:attribute-set>
 
 	<xsl:template name="refine_table-fn-body-style">
+	</xsl:template>
+
+	<xsl:template name="setNoBordersForTableList">
+		<xsl:if test="ancestor::mn:fmt-ol or ancestor::mn:fmt-ul">
+			<xsl:attribute name="border">none</xsl:attribute>
+			<xsl:attribute name="border-top">none</xsl:attribute>
+			<xsl:attribute name="border-bottom">none</xsl:attribute>
+			<xsl:attribute name="border-left">none</xsl:attribute>
+			<xsl:attribute name="border-right">none</xsl:attribute>
+		</xsl:if>
 	</xsl:template>
 
 	<!-- ========================== -->
@@ -7140,6 +7475,11 @@
 			<!-- Display table's name before table as standalone block -->
 			<!-- $namespace = 'iso' or  -->
 			<xsl:apply-templates select="mn:fmt-name"/> <!-- table's title rendered before table -->
+			<xsl:if test="not(mn:fmt-name)"> <!-- for https://github.com/metanorma/mn-samples-jis/issues/75#issuecomment-3922169930 -->
+				<xsl:apply-templates select="mn:name">
+					<xsl:with-param name="process">true</xsl:with-param>
+				</xsl:apply-templates>
+			</xsl:if>
 			<xsl:call-template name="table_name_fn_display"/>
 
 			<xsl:variable name="cols-count" select="count(xalan:nodeset($simple-table)/*/mn:tr[1]/mn:td)"/>
@@ -7291,7 +7631,7 @@
 									<xsl:apply-templates select="*[local-name()='thead']" mode="process_tbody"/>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:apply-templates select="node()[not(self::mn:fmt-name) and not(self::mn:note) and not(self::mn:example) and not(self::mn:dl) and not(self::mn:fmt-source) and not(self::mn:p)          and not(self::mn:thead) and not(self::mn:tfoot) and not(self::mn:fmt-footnote-container)]"/> <!-- process all table' elements, except name, header, footer, note, source and dl which render separaterely -->
+									<xsl:apply-templates select="node()[not(self::mn:fmt-name) and not(self::mn:note) and not(self::mn:example) and not(self::mn:dl) and not(self::mn:key) and not(self::mn:fmt-source) and not(self::mn:p)          and not(self::mn:thead) and not(self::mn:tfoot) and not(self::mn:fmt-footnote-container)]"/> <!-- process all table' elements, except name, header, footer, note, source and dl which render separaterely -->
 								</xsl:otherwise>
 							</xsl:choose>
 
@@ -7388,7 +7728,13 @@
 	</xsl:template>
 
 	<!-- table/name-->
-	<xsl:template match="*[local-name()='table']/mn:fmt-name">
+	<xsl:template match="mn:table[not(mn:fmt-name)]/mn:name"> <!-- for https://github.com/metanorma/mn-samples-jis/issues/75#issuecomment-3922169930 -->
+		<xsl:param name="process">false</xsl:param>
+		<xsl:if test="$process = 'true'">
+			<xsl:call-template name="table_name"/>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template match="*[local-name()='table']/mn:fmt-name" name="table_name">
 		<xsl:param name="continued"/>
 		<xsl:param name="cols-count"/>
 		<xsl:if test="normalize-space() != ''">
@@ -7864,12 +8210,14 @@
 		<xsl:param name="colwidths"/>
 		<xsl:param name="colgroup"/>
 
-		<xsl:variable name="isNoteOrFnExist" select="../mn:note[not(@type = 'units')] or ../mn:example or ../mn:dl or ..//mn:fn[not(parent::mn:fmt-name)] or ../mn:fmt-source or ../mn:p"/>
+		<xsl:variable name="isNoteOrFnExist" select="../mn:note[not(@type = 'units')] or       ../mn:example or       ../mn:dl or       ../mn:key or       (..//mn:fn[not(parent::mn:fmt-name)] and not(ancestor::mn:table[1]//mn:tfoot//mn:fmt-footnote-container)) or       ../mn:fmt-source or ../mn:p"/>
+		<!-- in JIS fmt-footnote-container renders in tfoot, so no need render fn in the separate table -->
 
-		<xsl:variable name="isNoteOrFnExistShowAfterTable">
+		<xsl:variable name="isNoteOrFnExistShowAfterTable_">
 		</xsl:variable>
+		<xsl:variable name="isNoteOrFnExistShowAfterTable" select="normalize-space($isNoteOrFnExistShowAfterTable_)"/>
 
-		<xsl:if test="$isNoteOrFnExist = 'true' or normalize-space($isNoteOrFnExistShowAfterTable) = 'true'">
+		<xsl:if test="$isNoteOrFnExist = 'true' or $isNoteOrFnExistShowAfterTable = 'true'">
 
 			<xsl:variable name="cols-count">
 				<xsl:choose>
@@ -7957,7 +8305,7 @@
 									<fo:block margin-top="7pt" margin-bottom="2pt" role="SKIP"><fo:inline>____________</fo:inline></fo:block>
 								</xsl:if>
 								<xsl:apply-templates select="../mn:p"/>
-								<xsl:apply-templates select="../mn:dl"/>
+								<xsl:apply-templates select="../mn:dl | ../mn:key"/>
 								<xsl:apply-templates select="../mn:note[not(@type = 'units')]"/>
 								<xsl:apply-templates select="../mn:example"/>
 								<xsl:apply-templates select="../mn:fmt-source"/>
@@ -9277,7 +9625,7 @@
 	</xsl:attribute-set>
 
 	<xsl:template name="refine_dl-block-style">
-		<xsl:if test="@key = 'true' and ancestor::mn:figure">
+		<xsl:if test="(@key = 'true' or ancestor::mn:key) and ancestor::mn:figure">
 			<xsl:attribute name="keep-together.within-column">always</xsl:attribute>
 		</xsl:if>
 	</xsl:template>
@@ -9424,15 +9772,15 @@
 			<fo:block-container margin-left="0mm" role="SKIP">
 				<xsl:attribute name="margin-right">0mm</xsl:attribute>
 
-				<xsl:variable name="parent" select="local-name(..)"/>
+				<xsl:variable name="parent" select="local-name(../..)"/>
 
 				<xsl:variable name="key_iso"> <!-- and  (not(../@class) or ../@class !='pseudocode') -->
 				</xsl:variable>
 
-				<xsl:variable name="onlyOneComponent" select="normalize-space($parent = 'formula' and count(mn:dt) = 1)"/>
+				<xsl:variable name="onlyOneFormulaKeyItem" select="normalize-space($parent = 'formula' and count(mn:dt) = 1)"/>
 
 				<xsl:choose>
-					<xsl:when test="$onlyOneComponent = 'true'"> <!-- only one component -->
+					<xsl:when test="$onlyOneFormulaKeyItem = 'true'"> <!-- only one component -->
 						<fo:block margin-bottom="12pt" text-align="left">
 							<!-- <xsl:variable name="title-where">
 										<xsl:call-template name="getLocalizedString">
@@ -9440,7 +9788,7 @@
 										</xsl:call-template>
 									</xsl:variable>
 									<xsl:value-of select="$title-where"/> -->
-							<xsl:apply-templates select="preceding-sibling::*[1][self::mn:p and @keep-with-next = 'true']/node()"/>
+							<xsl:apply-templates select="ancestor::mn:key/preceding-sibling::*[1][self::mn:p and @keep-with-next = 'true']/node()"/>
 							<xsl:text> </xsl:text>
 							<xsl:apply-templates select="mn:dt/*"/>
 							<xsl:if test="mn:dd/node()[normalize-space() != ''][1][self::text()]">
@@ -9461,15 +9809,16 @@
 							</xsl:variable>
 							<xsl:value-of select="$title-where"/><xsl:if test="$namespace = 'bsi' or $namespace = 'itu'">:</xsl:if> -->
 							<!-- preceding 'p' with word 'where' -->
-							<xsl:apply-templates select="preceding-sibling::*[1][self::mn:p and @keep-with-next = 'true']/node()"/>
+							<!-- <xsl:apply-templates select="preceding-sibling::*[1][self::mn:p and @keep-with-next = 'true']/node()"/> -->
+							<xsl:apply-templates select="ancestor::mn:key/preceding-sibling::*[1][self::mn:p and @keep-with-next = 'true']/node()"/>
 						</fo:block>
 					</xsl:when>  <!-- END: a few components -->
 					<xsl:when test="$parent = 'figure' and  (not(../@class) or ../@class !='pseudocode')"> <!-- definition list in a figure -->
 						<!-- Presentation XML contains 'Key' caption, https://github.com/metanorma/isodoc/issues/607 -->
-						<xsl:if test="not(preceding-sibling::*[1][self::mn:p and @keep-with-next])"> <!-- for old Presentation XML -->
+						<xsl:if test="not(preceding-sibling::*[1][self::mn:p and @keep-with-next]) and 1 = 2"> <!-- for old Presentation XML -->
 							<fo:block font-weight="bold" text-align="left" margin-bottom="12pt" keep-with-next="always">
 
-								<xsl:call-template name="refine_figure_key_style"/>
+								<xsl:call-template name="refine_figure-key-name-style"/>
 
 								<xsl:variable name="title-key">
 									<xsl:call-template name="getLocalizedString">
@@ -9483,7 +9832,7 @@
 				</xsl:choose>
 
 				<!-- a few components -->
-				<xsl:if test="$onlyOneComponent = 'false'">
+				<xsl:if test="$onlyOneFormulaKeyItem = 'false'">
 					<fo:block role="SKIP">
 
 						<xsl:call-template name="refine_multicomponent_style"/>
@@ -9496,7 +9845,7 @@
 
 							<xsl:call-template name="refine_multicomponent_block_style"/>
 
-							<xsl:apply-templates select="mn:fmt-name">
+							<xsl:apply-templates select="mn:fmt-name | parent::mn:key[parent::mn:table]/mn:name">
 								<xsl:with-param name="process">true</xsl:with-param>
 							</xsl:apply-templates>
 
@@ -9672,14 +10021,14 @@
 	</xsl:template> <!-- refine_dl_formula_where_style -->
 
 	<xsl:template name="refine_multicomponent_style">
-		<xsl:variable name="parent" select="local-name(..)"/>
+		<xsl:variable name="parent" select="local-name(../..)"/>
 		<xsl:if test="$parent = 'figure' or $parent = 'formula'">
 			<xsl:attribute name="margin-left">7.4mm</xsl:attribute>
 		</xsl:if>
 	</xsl:template> <!-- refine_multicomponent_style -->
 
 	<xsl:template name="refine_multicomponent_block_style">
-		<xsl:variable name="parent" select="local-name(..)"/>
+		<xsl:variable name="parent" select="local-name(../..)"/>
 	</xsl:template> <!-- refine_multicomponent_block_style -->
 
 	<!-- dl/name -->
@@ -10158,6 +10507,18 @@
 			</xsl:with-param>
 		</xsl:call-template>
 	</xsl:template> <!-- xref -->
+<xsl:template match="mn:indexsect//mn:fmt-xref[@pagenumber = 'true']" priority="2">
+	<xsl:call-template name="insert_basic_link">
+		<xsl:with-param name="element">
+			<fo:basic-link internal-destination="{@target}" fox:alt-text="{@target}" xsl:use-attribute-sets="xref-style">
+				<fo:inline>
+					<xsl:copy-of select="@id"/>
+					<fo:page-number-citation ref-id="{@target}"/>
+				</fo:inline>
+			</fo:basic-link>
+		</xsl:with-param>
+	</xsl:call-template>
+</xsl:template>
 
 	<!-- command between two xref points to non-standard bibitem -->
 	<xsl:template match="text()[. = ','][preceding-sibling::node()[1][self::mn:sup][mn:fmt-xref[@type = 'footnote']] and    following-sibling::node()[1][self::mn:sup][mn:fmt-xref[@type = 'footnote']]]"><xsl:value-of select="."/>
@@ -10687,6 +11048,18 @@
 		</xsl:if>
 	</xsl:template>
 
+	<xsl:attribute-set name="figure-key-name-style">
+		<xsl:attribute name="text-align">left</xsl:attribute>
+		<xsl:attribute name="font-weight">bold</xsl:attribute>
+		<xsl:attribute name="margin-bottom">12pt</xsl:attribute>
+		<xsl:attribute name="keep-with-next">always</xsl:attribute>
+		<xsl:attribute name="keep-with-previous">always</xsl:attribute>
+	</xsl:attribute-set> <!-- figure-key-name-style -->
+
+	<xsl:template name="refine_figure-key-name-style">
+
+	</xsl:template> <!-- refine_figure-key-name-style -->
+
 	<!-- ============================ -->
 	<!-- figure's footnotes rendering -->
 	<!-- ============================ -->
@@ -10849,7 +11222,7 @@
 	<!-- added for https://github.com/metanorma/isodoc/issues/607 -->
 	<!-- figure's footnote label -->
 	<!-- figure/dl[@key = 'true']/dt/p/sup -->
-	<xsl:template match="mn:figure/mn:dl[@key = 'true']/mn:dt/     mn:p[count(node()[normalize-space() != '']) = 1]/mn:sup" priority="3">
+	<xsl:template match="mn:figure/mn:dl[@key = 'true']/mn:dt/     mn:p[count(node()[normalize-space() != '']) = 1]/mn:sup |     mn:figure/mn:key/mn:dl/mn:dt/     mn:p[count(node()[normalize-space() != '']) = 1]/mn:sup" priority="3">
 		<xsl:variable name="key_iso">
 		</xsl:variable>
 		<xsl:if test="normalize-space($key_iso) = 'true'">
@@ -10867,15 +11240,12 @@
 	<!-- ============================ -->
 
 	<!-- caption for figure key and another caption, https://github.com/metanorma/isodoc/issues/607 -->
-	<xsl:template match="mn:figure/mn:p[@keep-with-next = 'true' and mn:strong]" priority="3">
-		<fo:block text-align="left" margin-bottom="12pt" keep-with-next="always" keep-with-previous="always">
-			<xsl:call-template name="refine_figure_key_style"/>
+	<xsl:template match="mn:figure/mn:p[@keep-with-next = 'true' and mn:strong] | mn:figure/mn:key/mn:name" priority="3">
+		<fo:block xsl:use-attribute-sets="figure-key-name-style">
+			<xsl:call-template name="refine_figure-key-name-style"/>
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
-
-	<xsl:template name="refine_figure_key_style">
-	</xsl:template> <!-- refine_figure_key_style -->
 
 	<!-- ====== -->
 	<!-- figure    -->
@@ -10957,7 +11327,12 @@
 	<xsl:template match="mn:figure[@class = 'pseudocode']">
 		<xsl:call-template name="setNamedDestination"/>
 		<fo:block id="{@id}">
-			<xsl:apply-templates select="node()[not(self::mn:fmt-name)]"/>
+			<fo:block role="SKIP">
+				<xsl:for-each select="mn:fmt-name"> <!-- set context -->
+					<xsl:call-template name="setIDforNamedDestination"/>
+				</xsl:for-each>
+				<xsl:apply-templates select="node()[not(self::mn:fmt-name)]"/>
+			</fo:block>
 		</fo:block>
 		<xsl:apply-templates select="mn:fmt-name"/>
 	</xsl:template>
@@ -11189,9 +11564,15 @@
 			<xsl:otherwise>
 				<xsl:variable name="src_with_basepath" select="concat($basepath, @src)"/>
 				<xsl:variable name="file_exists" select="normalize-space(java:exists(java:java.io.File.new($src_with_basepath)))"/>
+				<xsl:variable name="src_with_mn2pdfpath" select="concat($mn2pdfpath, @src)"/>
+				<xsl:variable name="file_exists_in_mn2pdf_path" select="normalize-space(java:exists(java:java.io.File.new($src_with_mn2pdfpath)))"/>
 				<xsl:choose>
 					<xsl:when test="$file_exists = 'true'">
-						<xsl:value-of select="$src_with_basepath"/>
+						<xsl:value-of select="java:org.metanorma.fop.Util.getURIFromPath($src_with_basepath)"/>
+					</xsl:when>
+					<xsl:when test="$file_exists_in_mn2pdf_path = 'true'">
+						<!-- <xsl:value-of select="$src_with_mn2pdfpath"/> -->
+						<xsl:value-of select="java:org.metanorma.fop.Util.getURIFromPath($src_with_mn2pdfpath)"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="@src"/>
@@ -11305,7 +11686,9 @@
 	<!-- =================== -->
 	<!-- SVG images processing -->
 	<!-- =================== -->
-	<xsl:variable name="figure_name_height">14</xsl:variable>
+	<xsl:variable name="figure_name_height_">14
+	</xsl:variable>
+	<xsl:variable name="figure_name_height" select="number(normalize-space($figure_name_height_))"/>
 	<xsl:variable name="width_effective" select="$pageWidth - $marginLeftRight1 - $marginLeftRight2"/><!-- paper width minus margins -->
 	<xsl:variable name="height_effective" select="$pageHeight - $marginTop - $marginBottom - $figure_name_height"/><!-- paper height minus margins and title height -->
 	<xsl:variable name="image_dpi" select="96"/>
@@ -11505,6 +11888,17 @@
 							</xsl:if>
 
 							<xsl:copy-of select="$svg_content"/>
+
+							<!-- <debug>
+								<svg_width><xsl:value-of select="$svg_width"/></svg_width>
+								<width_effective_px><xsl:value-of select="$width_effective_px"/></width_effective_px>
+								<scale_x><xsl:value-of select="$scale_x"/></scale_x>
+								<svg_height><xsl:value-of select="$svg_height"/></svg_height>
+								<height_effective_px><xsl:value-of select="$height_effective_px"/></height_effective_px>
+								<isPrecedingTitle><xsl:value-of select="$isPrecedingTitle"/></isPrecedingTitle>
+								<scale_y><xsl:value-of select="$scale_y"/></scale_y>
+							</debug> -->
+
 						</fo:instream-foreign-object>
 					<!-- </fo:block> -->
 					</xsl:copy>
@@ -11638,10 +12032,12 @@
 		</xsl:for-each>
 	</xsl:template>
 
-	<xsl:template match="mn:figure/mn:image[@mimetype = 'image/svg+xml' and @src[not(starts-with(., 'data:image/'))]]" priority="2">
-		<xsl:variable name="svg_content" select="document(@src)"/>
+	<!-- <p id="."><image id="" src="..." mimetype="image/svg+xml" height="auto" width="auto"/></p> -->
+	<xsl:template match="mn:figure/mn:image[@mimetype = 'image/svg+xml' and @src[not(starts-with(., 'data:image/'))]] |    *[not(self::mn:figure)]/mn:image[@mimetype = 'image/svg+xml' and @src[not(starts-with(., 'data:image/'))] and count(node()) = 0]" priority="2">
+		<xsl:variable name="src"><xsl:call-template name="getImageSrcExternal"/></xsl:variable>
+		<xsl:variable name="svg_content" select="document($src)"/>
 		<xsl:variable name="name" select="ancestor::mn:figure/mn:fmt-name"/>
-		<xsl:for-each select="xalan:nodeset($svg_content)/node()">
+		<xsl:for-each select="xalan:nodeset($svg_content)/*"> <!-- node() -->
 			<xsl:call-template name="image_svg">
 				<xsl:with-param name="name" select="$name"/>
 			</xsl:call-template>
@@ -11917,7 +12313,7 @@
 	<!-- ====== -->
 
 	<!-- ignore 'p' with 'where' in formula, before 'dl' -->
-	<xsl:template match="mn:formula/*[self::mn:p and @keep-with-next = 'true' and following-sibling::*[1][self::mn:dl]]"/>
+	<xsl:template match="mn:formula/*[self::mn:p and @keep-with-next = 'true' and following-sibling::*[1][self::mn:dl or self::mn:key]]"/>
 
 	<!-- ======================================= -->
 	<!-- math -->
@@ -12647,9 +13043,19 @@
 		</fo:list-item>
 	</xsl:template>
 
+	<xsl:template match="mn:fmt-ol | mn:fmt-ul">
+		<xsl:apply-templates/>
+	</xsl:template>
+
 	<!-- ===================================== -->
 	<!-- END Lists processing -->
 	<!-- ===================================== -->
+
+	<xsl:attribute-set name="footnote-separator-block-style">
+	</xsl:attribute-set>
+
+	<xsl:template name="refine_footnote-separator-block-style">
+	</xsl:template>
 
 	<xsl:attribute-set name="footnote-separator-leader-style">
 	</xsl:attribute-set>
@@ -13210,7 +13616,7 @@
 								<xsl:with-param name="biblio_tag_part">last</xsl:with-param>
 							</xsl:call-template>
 						</fo:block>
-						<xsl:call-template name="processBibitemFollowingNotes"/>
+						<xsl:call-template name="processFormattedrefNotes"/>
 					</fo:list-item-body>
 				</fo:list-item>
 			</xsl:otherwise>
@@ -13243,7 +13649,7 @@
 				<xsl:with-param name="biblio_tag_part">last</xsl:with-param>
 			</xsl:apply-templates>
 			<xsl:apply-templates select="mn:formattedref"/>
-			<xsl:call-template name="processBibitemFollowingNotes"/>
+			<xsl:call-template name="processFormattedrefNotes"/>
 		</xsl:variable>
 
 		<xsl:choose>
@@ -13277,7 +13683,6 @@
 							<fo:block>
 								<xsl:copy-of select="$bibitem_body"/>
 							</fo:block>
-							<xsl:call-template name="processBibitemFollowingNotes"/>
 						</fo:list-item-body>
 					</fo:list-item>
 				</fo:list-block>
@@ -13286,6 +13691,15 @@
 		<!-- end ITU bibitem processing -->
 
 	</xsl:template> <!-- processBibitem (bibitem) -->
+
+	<!-- note at the end of formattedref, will be processed in processFormattedrefNotes -->
+	<xsl:template match="mn:formattedref/mn:note[not(following-sibling::node()[normalize-space() != '' and not(self::mn:note)])]"/>
+
+	<xsl:template name="processFormattedrefNotes">
+		<xsl:for-each select="mn:formattedref/mn:note[not(following-sibling::node()[normalize-space() != '' and not(self::mn:note)])]">
+			<xsl:call-template name="note"/>
+		</xsl:for-each>
+	</xsl:template>
 
 	<xsl:template name="processBibitemFollowingNotes">
 		<!-- current context is bibitem element -->
@@ -13490,8 +13904,24 @@
 	<!-- End Highlight syntax styles -->
 
 	<!-- Index section styles -->
+
+	<xsl:attribute-set name="indexsect-region-body-style">
+		<xsl:attribute name="column-count">2</xsl:attribute>
+		<xsl:attribute name="column-gap">10mm</xsl:attribute>
+	</xsl:attribute-set>
+
+	<xsl:attribute-set name="indexsect-title-block-style">
+		<xsl:attribute name="role">SKIP</xsl:attribute>
+		<xsl:attribute name="span">all</xsl:attribute>
+		<xsl:attribute name="text-align">center</xsl:attribute>
+	</xsl:attribute-set>
+
 	<xsl:attribute-set name="indexsect-title-style">
 		<xsl:attribute name="role">H1</xsl:attribute>
+		<xsl:attribute name="font-weight">bold</xsl:attribute>
+		<xsl:attribute name="margin-bottom">24pt</xsl:attribute>
+		<xsl:attribute name="font-size">14pt</xsl:attribute>
+		<xsl:attribute name="margin-bottom">6pt</xsl:attribute>
 	</xsl:attribute-set> <!-- indexsect-title-style -->
 
 	<xsl:template name="refine_indexsect-title-style">
@@ -13516,6 +13946,51 @@
 			<bookmark><xsl:value-of select="@id"/></bookmark>
 		</xsl:for-each>
 	</xsl:variable>
+
+	<xsl:template name="index-pages">
+		<xsl:param name="num"/>
+
+		<xsl:variable name="docid">
+			<xsl:call-template name="getDocumentId"/>
+		</xsl:variable>
+
+		<xsl:variable name="current_document_index_id">
+			<xsl:apply-templates select="//mn:indexsect" mode="index_add_id">
+				<xsl:with-param name="docid" select="$docid"/>
+			</xsl:apply-templates>
+		</xsl:variable>
+		<xsl:variable name="current_document_index">
+			<xsl:apply-templates select="xalan:nodeset($current_document_index_id)" mode="index_update"/>
+		</xsl:variable>
+
+		<xsl:apply-templates select="xalan:nodeset($current_document_index)" mode="index">
+			<xsl:with-param name="num" select="$num"/>
+		</xsl:apply-templates>
+	</xsl:template>
+<xsl:template match="mn:indexsect"/>
+<xsl:template match="/" mode="index">
+	<xsl:param name="num"/>
+	<xsl:apply-templates mode="index">
+		<xsl:with-param name="num" select="$num"/>
+	</xsl:apply-templates>
+</xsl:template>
+<xsl:template match="mn:indexsect" mode="index">
+	<xsl:param name="num"/>
+	<fo:page-sequence master-reference="index" force-page-count="no-force">
+		<xsl:call-template name="insertHeaderFooter">
+			<xsl:with-param name="num" select="$num"/>
+			<xsl:with-param name="section">main</xsl:with-param>
+		</xsl:call-template>
+		<fo:flow flow-name="xsl-region-body">
+			<fo:block id="{@id}" xsl:use-attribute-sets="indexsect-title-block-style">
+				<xsl:apply-templates select="mn:fmt-title"/>
+			</fo:block>
+			<fo:block role="Index">
+				<xsl:apply-templates select="*[not(self::mn:fmt-title)]"/>
+			</fo:block>
+		</fo:flow>
+	</fo:page-sequence>
+</xsl:template>
 
 	<xsl:template match="@*|node()" mode="index_add_id">
 		<xsl:param name="docid"/>
@@ -13569,7 +14044,7 @@
 	<xsl:template match="mn:indexsect//mn:li" mode="index_update">
 		<xsl:copy>
 			<xsl:apply-templates select="@*" mode="index_update"/>
-		<xsl:apply-templates select="node()[not(self::mn:fmt-name)][1]" mode="process_li_element"/>
+			<xsl:apply-templates select="node()[not(self::mn:fmt-name)][1]" mode="process_li_element"/>
 		</xsl:copy>
 	</xsl:template>
 
@@ -13777,11 +14252,24 @@
 	<!-- End of Index processing -->
 	<!-- =================== -->
 
-		<!-- =================== -->
+	<xsl:attribute-set name="form-checkbox-style">
+		<xsl:attribute name="border">0.5pt solid black</xsl:attribute>
+		<xsl:attribute name="background-color">yellow</xsl:attribute>
+	</xsl:attribute-set>
+
+	<xsl:variable name="METANORMA_FORM_START_PREFIX">_metanorma_form_start</xsl:variable>
+	<xsl:variable name="METANORMA_FORM_ITEM_PREFIX">_metanorma_form_item_</xsl:variable>
+	<xsl:variable name="METANORMA_FORM_ITEM_BORDER">1pt solid black</xsl:variable>
+
+	<!-- =================== -->
 	<!-- Form's elements processing -->
 	<!-- =================== -->
 	<xsl:template match="mn:form">
 		<fo:block>
+			<fo:inline>
+				<xsl:attribute name="id"><xsl:value-of select="concat($METANORMA_FORM_START_PREFIX, '___', @id, '___', @name)"/></xsl:attribute>
+				<xsl:value-of select="$hair_space"/>
+			</fo:inline>
 			<xsl:apply-templates/>
 		</fo:block>
 	</xsl:template>
@@ -13790,7 +14278,23 @@
 		<fo:inline><xsl:apply-templates/></fo:inline>
 	</xsl:template>
 
-	<xsl:template match="mn:form//mn:input[@type = 'text' or @type = 'date' or @type = 'file' or @type = 'password']">
+	<xsl:template match="mn:form//mn:input[@type = 'text']">
+		<!-- add helper id for mn2pdf class FOPIFFormsHandler  (_metanorma_form_item_border_) -->
+		<fo:inline>
+			<xsl:call-template name="set_id_metanorma_form_item">
+				<xsl:with-param name="add_border_prefix">true</xsl:with-param>
+			</xsl:call-template>
+			<xsl:value-of select="$hair_space"/>
+		</fo:inline>
+		<fo:inline border="{$METANORMA_FORM_ITEM_BORDER}"><!-- don't remove, this border needs for mn2pdf FOPIFFormsHandler -->
+			<fo:inline>
+				<xsl:call-template name="set_id_metanorma_form_item"/>
+				<xsl:call-template name="text_input"/>
+			</fo:inline>
+		</fo:inline>
+	</xsl:template>
+
+	<xsl:template match="mn:form//mn:input[@type = 'date' or @type = 'file' or @type = 'password']">
 		<fo:inline>
 			<xsl:call-template name="text_input"/>
 		</fo:inline>
@@ -13822,7 +14326,20 @@
 	</xsl:template>
 
 	<xsl:template match="mn:form//mn:input[@type = 'checkbox']">
-		<fo:inline padding-right="1mm">
+		<xsl:variable name="form_item_type">checkbox</xsl:variable>
+		<!-- add helper id for mn2pdf class FOPIFFormsHandler  (_metanorma_form_item_border_) -->
+		<fo:inline>
+			<xsl:call-template name="set_id_metanorma_form_item">
+				<xsl:with-param name="form_item_type" select="$form_item_type"/>
+				<xsl:with-param name="add_border_prefix">true</xsl:with-param>
+			</xsl:call-template>
+			<xsl:value-of select="$hair_space"/>
+		</fo:inline>
+
+		<fo:inline border="{$METANORMA_FORM_ITEM_BORDER}"><!-- don't remove 'border', this border needs for mn2pdf FOPIFFormsHandler -->
+			<xsl:call-template name="set_id_metanorma_form_item">
+				<xsl:with-param name="form_item_type" select="$form_item_type"/>
+			</xsl:call-template>
 			<fo:instream-foreign-object fox:alt-text="Box" baseline-shift="-10%">
 				<xsl:attribute name="height">3.5mm</xsl:attribute>
 				<xsl:attribute name="content-width">100%</xsl:attribute>
@@ -13832,11 +14349,24 @@
 					<polyline points="0,0 80,0 80,80 0,80 0,0" stroke="black" stroke-width="5" fill="white"/>
 				</svg>
 			</fo:instream-foreign-object>
-		</fo:inline>
+		</fo:inline><fo:inline padding-right="1mm"><xsl:value-of select="$zero_width_space"/></fo:inline>
 	</xsl:template>
 
 	<xsl:template match="mn:form//mn:input[@type = 'radio']">
-		<fo:inline padding-right="1mm">
+		<xsl:variable name="form_item_type">radiobutton</xsl:variable>
+		<!-- add helper id for mn2pdf class FOPIFFormsHandler  (_metanorma_form_item_border_) -->
+		<fo:inline>
+			<xsl:call-template name="set_id_metanorma_form_item">
+				<xsl:with-param name="form_item_type" select="$form_item_type"/>
+				<xsl:with-param name="add_border_prefix">true</xsl:with-param>
+			</xsl:call-template>
+			<xsl:value-of select="$hair_space"/>
+		</fo:inline>
+
+		<fo:inline border="{$METANORMA_FORM_ITEM_BORDER}"><!-- don't remove 'border', this border needs for mn2pdf FOPIFFormsHandler -->
+			<xsl:call-template name="set_id_metanorma_form_item">
+				<xsl:with-param name="form_item_type" select="$form_item_type"/>
+			</xsl:call-template>
 			<fo:instream-foreign-object fox:alt-text="Box" baseline-shift="-10%">
 				<xsl:attribute name="height">3.5mm</xsl:attribute>
 				<xsl:attribute name="content-width">100%</xsl:attribute>
@@ -13848,6 +14378,7 @@
 				</svg>
 			</fo:instream-foreign-object>
 		</fo:inline>
+		<fo:inline padding-right="1mm"><xsl:value-of select="$zero_width_space"/></fo:inline>
 	</xsl:template>
 
 	<xsl:template match="mn:form//mn:select">
@@ -13857,9 +14388,26 @@
 	</xsl:template>
 
 	<xsl:template match="mn:form//mn:textarea">
-		<fo:block-container border="1pt solid black" width="50%">
+		<fo:block-container border="{$METANORMA_FORM_ITEM_BORDER}" width="50%">
 			<fo:block> </fo:block>
 		</fo:block-container>
+	</xsl:template>
+
+	<xsl:template name="set_id_metanorma_form_item">
+		<xsl:param name="form_item_type">textfield</xsl:param>
+		<xsl:param name="add_border_prefix">false</xsl:param>
+		<xsl:variable name="border_prefix"><xsl:if test="normalize-space($add_border_prefix) = 'true'">border_</xsl:if></xsl:variable>
+		<xsl:if test="@id">
+			<!-- _metanorma_form_item_border____form_item_type___id___name___value -->
+			<!-- split by '___': [2] - form_item_type, [3] - id, [4] - name, [5] - value -->
+			<xsl:variable name="value">
+				<xsl:choose>
+					<xsl:when test="@type = 'checkbox'"><xsl:value-of select="normalize-space(@checked = 'true')"/><!-- true or false --></xsl:when>
+					<xsl:otherwise><xsl:value-of select="@value"/></xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:attribute name="id"><xsl:value-of select="concat($METANORMA_FORM_ITEM_PREFIX, $border_prefix, '___', $form_item_type, '___', @id, '___', @name, '___', $value)"/></xsl:attribute>
+		</xsl:if>
 	</xsl:template>
 
 	<!-- =================== -->
@@ -13870,6 +14418,7 @@
 	</xsl:attribute-set>
 
 	<xsl:template name="refine_toc-style">
+		<xsl:copy-of select="@id"/>
 	</xsl:template>
 
 	<xsl:attribute-set name="toc-title-style">
@@ -13920,6 +14469,7 @@
 	</xsl:template>
 
 	<xsl:attribute-set name="toc-pagenumber-style">
+		<xsl:attribute name="role">SKIP</xsl:attribute>
 	</xsl:attribute-set>
 
 	<xsl:template name="refine_toc-pagenumber-style">
@@ -13953,13 +14503,13 @@
 
 	<xsl:template name="processPrefaceSectionsDefault_Contents">
 		<xsl:variable name="nodes_preface_">
-			<xsl:for-each select="/*/mn:preface/*[not(self::mn:note or self::mn:admonition or @type = 'toc')]">
+			<xsl:for-each select="/*/mn:preface/*[not(self::mn:note or self::mn:admonition)]"> <!--  or @type = 'toc' -->
 				<node id="{@id}"/>
 			</xsl:for-each>
 		</xsl:variable>
 		<xsl:variable name="nodes_preface" select="xalan:nodeset($nodes_preface_)"/>
 
-		<xsl:for-each select="/*/mn:preface/*[not(self::mn:note or self::mn:admonition or @type = 'toc')]">
+		<xsl:for-each select="/*/mn:preface/*[not(self::mn:note or self::mn:admonition)]"> <!--  or @type = 'toc' -->
 			<xsl:sort select="@displayorder" data-type="number"/>
 
 			<!-- process Section's title -->
@@ -13970,6 +14520,23 @@
 
 			<xsl:apply-templates select="." mode="contents"/>
 		</xsl:for-each>
+	</xsl:template>
+
+	<xsl:template match="*[@type = 'toc'][mn:title or mn:fmt-title]" mode="contents" priority="2">
+		<xsl:variable name="title">
+			<xsl:call-template name="getName"/>
+		</xsl:variable>
+		<xsl:variable name="root">
+			<xsl:if test="ancestor-or-self::mn:preface">preface</xsl:if>
+			<xsl:if test="ancestor-or-self::mn:annex">annex</xsl:if>
+		</xsl:variable>
+		<mnx:item id="{@id}" level="1" section="" type="toc" root="{$root}" display="false">
+			<mnx:title>
+				<xsl:apply-templates select="xalan:nodeset($title)" mode="contents_item">
+					<xsl:with-param name="element" select="$root"/>
+				</xsl:apply-templates>
+			</mnx:title>
+		</mnx:item>
 	</xsl:template>
 
 	<xsl:template name="processMainSectionsDefault_Contents">
@@ -14661,8 +15228,8 @@
 
 	<xsl:variable name="toc_level">
 		<!-- https://www.metanorma.org/author/ref/document-attributes/ -->
-		<xsl:variable name="pdftoclevels" select="normalize-space(//mn:metanorma-extension/mn:presentation-metadata[mn:name/text() = 'PDF TOC Heading Levels']/mn:value)"/> <!-- :toclevels-pdf  Number of table of contents levels to render in PDF output; used to override :toclevels:-->
-		<xsl:variable name="toclevels" select="normalize-space(//mn:metanorma-extension/mn:presentation-metadata[mn:name/text() = 'TOC Heading Levels']/mn:value)"/> <!-- Number of table of contents levels to render -->
+		<xsl:variable name="pdftoclevels" select="normalize-space(//mn:metanorma-extension/mn:presentation-metadata/mn:pdf-toc-heading-levels)"/> <!-- :toclevels-pdf  Number of table of contents levels to render in PDF output; used to override :toclevels:-->
+		<xsl:variable name="toclevels" select="normalize-space(//mn:metanorma-extension/mn:presentation-metadata/mn:toc-heading-levels)"/> <!-- Number of table of contents levels to render -->
 		<xsl:choose>
 			<xsl:when test="$pdftoclevels != ''"><xsl:value-of select="number($pdftoclevels)"/></xsl:when> <!-- if there is value in xml -->
 			<xsl:when test="$toclevels != ''"><xsl:value-of select="number($toclevels)"/></xsl:when>  <!-- if there is value in xml -->
@@ -15200,6 +15767,7 @@
 				<xsl:otherwise>justify</xsl:otherwise>
 			</xsl:choose>
 		</xsl:attribute>
+		<xsl:call-template name="copyParagraphId"/>
 		<!-- $namespace = 'itu' -->
 
 	</xsl:template> <!-- refine_p-style -->
@@ -15296,10 +15864,51 @@
 		<xsl:attribute name="role">H<xsl:value-of select="$level"/></xsl:attribute>
 	</xsl:template> <!-- refine_title-style -->
 
+	<xsl:attribute-set name="key-style">
+
+	</xsl:attribute-set>
+
+	<xsl:template name="refine_key-style">
+
+	</xsl:template>
+
+	<xsl:attribute-set name="key-name-style" use-attribute-sets="dl-name-style">
+
+	</xsl:attribute-set>
+
+	<xsl:template name="refine_key-name-style">
+	</xsl:template>
+
+	<xsl:template match="mn:key">
+		<xsl:apply-templates/>
+	</xsl:template>
+
+	<xsl:template match="mn:key/mn:name">
+		<xsl:param name="process">false</xsl:param>
+		<xsl:if test="$process = 'true'">
+			<fo:block xsl:use-attribute-sets="key-name-style">
+				<xsl:call-template name="refine_key-name-style"/>
+				<xsl:apply-templates/>
+			</fo:block>
+		</xsl:if>
+	</xsl:template>
+
+	<!-- debug templates -->
+	<xsl:template name="debug_contents">
+		<xsl:if test="$debug = 'true'">
+			<redirect:write file="contents_.xml"> <!-- {java:getTime(java:java.util.Date.new())} -->
+				<xsl:copy-of select="$contents"/>
+			</redirect:write>
+		</xsl:if>
+	</xsl:template>
+
 	<xsl:template name="processPrefaceSectionsDefault">
+		<xsl:param name="num"/>
 		<xsl:for-each select="/*/mn:preface/*[not(self::mn:note or self::mn:admonition)]">
 			<xsl:sort select="@displayorder" data-type="number"/>
-			<xsl:apply-templates select="."/>
+			<xsl:apply-templates select=".">
+				<xsl:with-param name="num" select="$num"/>
+			</xsl:apply-templates>
 		</xsl:for-each>
 	</xsl:template>
 
@@ -15800,11 +16409,17 @@
 	<!-- insert fo:basic-link, if external-destination or internal-destination is non-empty, otherwise insert fo:inline -->
 	<xsl:template name="insert_basic_link">
 		<xsl:param name="element"/>
+		<xsl:param name="wrapper">true</xsl:param>
 		<xsl:variable name="element_node" select="xalan:nodeset($element)"/>
 		<xsl:variable name="external-destination" select="normalize-space(count($element_node/fo:basic-link/@external-destination[. != '']) = 1)"/>
 		<xsl:variable name="internal-destination" select="normalize-space(count($element_node/fo:basic-link/@internal-destination[. != '']) = 1)"/>
 		<xsl:choose>
-			<xsl:when test="$external-destination = 'true' or $internal-destination = 'true'">
+			<xsl:when test="$internal-destination = 'true' and $wrapper = 'true'">
+				<fo:wrapper role="Reference">
+					<xsl:copy-of select="$element_node"/>
+				</fo:wrapper>
+			</xsl:when>
+			<xsl:when test="$internal-destination = 'true' or $external-destination = 'true'">
 				<xsl:copy-of select="$element_node"/>
 			</xsl:when>
 			<xsl:otherwise>
@@ -16471,6 +17086,23 @@
 		<xsl:call-template name="getLang_fromCurrentNode"/><xsl:value-of select=".//mn:p[1]/@id"/>
 	</xsl:template>
 
+	<xsl:template name="getDoctype">
+		<xsl:variable name="doctype_alias" select="normalize-space(/mn:metanorma/mn:metanorma-extension/mn:presentation-metadata/mn:doctype-alias)"/>
+		<xsl:value-of select="$doctype_alias"/>
+		<xsl:if test="$doctype_alias = ''"><xsl:value-of select="/mn:metanorma/mn:bibdata/mn:ext/mn:doctype[not(@language) or @language = '']"/></xsl:if>
+	</xsl:template>
+
+	<xsl:template name="getDoctypeTitle">
+		<xsl:variable name="doctype_i18n" select="normalize-space(/mn:metanorma/mn:bibdata/mn:ext/mn:doctype[@language = $lang])"/>
+		<xsl:value-of select="$doctype_i18n"/>
+		<xsl:if test="$doctype_i18n = ''">
+			<xsl:variable name="doctype"><xsl:call-template name="getDoctype"/></xsl:variable>
+			<xsl:call-template name="capitalizeWords">
+				<xsl:with-param name="str" select="$doctype"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+
 	<xsl:template name="setId">
 		<xsl:param name="prefix"/>
 		<xsl:attribute name="id">
@@ -16486,28 +17118,38 @@
 	</xsl:template>
 
 	<xsl:template name="setIDforNamedDestination">
-		<xsl:if test="@named_dest">
-			<xsl:attribute name="id"><xsl:value-of select="@named_dest"/></xsl:attribute>
+		<xsl:if test="$isGenerateTableIF = 'false'">
+			<xsl:if test="@named_dest">
+				<xsl:attribute name="id"><xsl:value-of select="@named_dest"/></xsl:attribute>
+			</xsl:if>
 		</xsl:if>
 	</xsl:template>
 
 	<xsl:template name="setIDforNamedDestinationInline">
-		<xsl:if test="@named_dest">
-			<fo:inline><xsl:call-template name="setIDforNamedDestination"/></fo:inline>
+		<xsl:if test="$isGenerateTableIF = 'false'">
+			<xsl:if test="@named_dest">
+				<fo:inline><xsl:call-template name="setIDforNamedDestination"/></fo:inline>
+			</xsl:if>
 		</xsl:if>
 	</xsl:template>
 
 	<xsl:template name="setNamedDestination">
 		<xsl:if test="$isGenerateTableIF = 'false'">
 			<!-- skip GUID, e.g. _33eac3cb-9663-4291-ae26-1d4b6f4635fc -->
-			<xsl:if test="@id and       normalize-space(java:matches(java:java.lang.String.new(@id), '_[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}')) = 'false'">
+			<xsl:if test="@id and       normalize-space(java:matches(java:java.lang.String.new(@id), '_[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}.*')) = 'false'">
 				<fox:destination internal-destination="{@id}"/>
 			</xsl:if>
-			<xsl:for-each select=". | mn:fmt-title | mn:fmt-name">
+			<xsl:for-each select=". | mn:fmt-title[1] | mn:fmt-name[1]">
 				<xsl:if test="@named_dest">
 					<fox:destination internal-destination="{@named_dest}"/>
 				</xsl:if>
 			</xsl:for-each>
+		</xsl:if>
+	</xsl:template>
+
+	<xsl:template name="copyParagraphId">
+		<xsl:if test="normalize-space(java:matches(java:java.lang.String.new(@id), '_[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}.*')) = 'false'">
+			<xsl:copy-of select="@id"/>
 		</xsl:if>
 	</xsl:template>
 
@@ -16720,7 +17362,7 @@
 		<!-- background image -->
 		<fo:block-container absolute-position="fixed" left="0mm" top="0mm" font-size="0" id="__internal_layout__coverpage{$suffix}_{$name}_{$number}_{generate-id()}">
 			<fo:block>
-				<xsl:for-each select="/mn:metanorma/mn:metanorma-extension/mn:presentation-metadata[mn:name = $name][1]/mn:value/mn:image[$num]">
+				<xsl:for-each select="/mn:metanorma/mn:metanorma-extension/mn:presentation-metadata/*[local-name() = $name][1]/mn:image[$num]">
 
 					<xsl:call-template name="insertPageImage"/>
 
@@ -16732,8 +17374,8 @@
 	<!-- for https://github.com/metanorma/mn-native-pdf/issues/845 -->
 	<xsl:template name="insertCoverPageFullImage">
 		<xsl:param name="name">coverpage-image</xsl:param>
-		<xsl:for-each select="//mn:metanorma/mn:metanorma-extension/mn:presentation-metadata[mn:name = $name][1]/mn:value/mn:image">
-			<fo:page-sequence master-reference="cover-page" force-page-count="no-force">
+		<xsl:for-each select="//mn:metanorma/mn:metanorma-extension/mn:presentation-metadata/*[local-name() = $name][1]/mn:image">
+			<fo:page-sequence master-reference="cover-page" force-page-count="no-force" initial-page-number="1">
 				<fo:flow flow-name="xsl-region-body">
 					<xsl:call-template name="insertBackgroundPageImage">
 						<xsl:with-param name="number" select="position()"/>
@@ -17197,6 +17839,18 @@
 		</xsl:attribute>
 	</xsl:template>
 
+	<xsl:template name="insert_firstpage_id">
+		<xsl:param name="num"/>
+		<fo:wrapper role="artifact">
+			<fo:block-container absolute-position="fixed" top="1mm">
+				<xsl:if test="$num = 1">
+					<xsl:attribute name="id">firstpage_id_0</xsl:attribute>
+				</xsl:if>
+				<fo:block id="firstpage_id_{$num}" role="SKIP"> </fo:block>
+			</fo:block-container>
+		</fo:wrapper>
+	</xsl:template>
+
 	<xsl:template name="getCharByCodePoint">
 		<xsl:param name="codepoint"/>
 		<xsl:param name="radix">16</xsl:param>
@@ -17284,5 +17938,12 @@
 	<!-- ============================================= -->
 	<!-- END: mode="set_table_role_skip" -->
 	<!-- ============================================= -->
+
+	<xsl:variable name="svg_empty">
+		<!-- empty -->
+		<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" viewBox="0 0 2 2">
+			<rect x="0" y="0" width="2" height="2" style="fill:#fff;fill-opacity:0;stroke:none"/>
+		</svg>
+	</xsl:variable>
 
 </xsl:stylesheet>

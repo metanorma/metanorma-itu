@@ -4,7 +4,7 @@ require "fileutils"
 RSpec.describe Metanorma::Itu do
   it "processes section names in French" do
     presxml = <<~OUTPUT
-      <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
+       <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
           <bibdata type="standard">
              <title language="en" type="main">An ITU Standard</title>
              <title language="fr" type="main">Un Standard ITU</title>
@@ -21,52 +21,53 @@ RSpec.describe Metanorma::Itu do
           </bibdata>
           <preface>
              <clause type="toc" id="_" displayorder="1">
-                <fmt-title id="_" depth="1">Table des matières</fmt-title>
+                <fmt-title depth="1" id="_">Table des matières</fmt-title>
              </clause>
-             <abstract displayorder="2" id="_">
+             <abstract id="_" displayorder="2">
                 <title id="_">Abstract</title>
-                <fmt-title id="_" depth="1">
+                <fmt-title depth="1" id="_">
                    <semx element="title" source="_">Abstract</semx>
                 </fmt-title>
                 <p>This is an abstract</p>
              </abstract>
-             <clause type="keyword" displayorder="3" id="_">
+             <clause id="_" type="keyword" displayorder="3">
                 <fmt-title id="_" depth="1">Mots clés</fmt-title>
                 <p>A, B.</p>
              </clause>
-             <foreword obligation="informative" displayorder="4" id="_">
+             <foreword obligation="informative" id="_" displayorder="4">
                 <title id="_">Foreword</title>
-                <fmt-title id="_" depth="1">
+                <fmt-title depth="1" id="_">
                    <semx element="title" source="_">Foreword</semx>
                 </fmt-title>
                 <p id="A">This is a preamble</p>
              </foreword>
              <introduction id="B" obligation="informative" displayorder="5">
                 <title id="_">Introduction</title>
-                <fmt-title id="_" depth="1">
+                <fmt-title depth="1" id="_">
                    <semx element="title" source="_">Introduction</semx>
                 </fmt-title>
                 <clause id="C" inline-header="false" obligation="informative">
                    <title id="_">Introduction Subsection</title>
-                   <fmt-title id="_" depth="2">
+                   <fmt-title depth="2" id="_">
                       <semx element="title" source="_">Introduction Subsection</semx>
                    </fmt-title>
                 </clause>
              </introduction>
              <clause id="A0" displayorder="6">
                 <title id="_">History</title>
-                <fmt-title id="_" depth="1">
+                <fmt-title depth="1" id="_">
                    <semx element="title" source="_">History</semx>
                 </fmt-title>
                 <p>history</p>
              </clause>
           </preface>
           <sections>
-             <p class="zzSTDTitle1" displayorder="7">Recommandation 12345</p>
+             <p class="zzSTDTitle1" displayorder="7">Recommandation
+         12345</p>
              <p class="zzSTDTitle2" displayorder="8">Un Standard ITU</p>
              <clause id="D" obligation="normative" type="scope" displayorder="9">
                 <title id="_">Scope</title>
-                <fmt-title id="_" depth="1">
+                <fmt-title depth="1" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="D">1</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -83,7 +84,7 @@ RSpec.describe Metanorma::Itu do
                 <p id="E">Text</p>
              </clause>
              <terms id="I" obligation="normative" displayorder="11">
-                <fmt-title id="_" depth="1">
+                <fmt-title depth="1" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="I">3</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -108,21 +109,24 @@ RSpec.describe Metanorma::Itu do
                       <span class="fmt-autonum-delim">.</span>
                       <semx element="autonum" source="J">1</semx>
                    </fmt-xref-label>
-            <preferred id="_">
-               <expression>
-                  <name>Term2</name>
-               </expression>
-            </preferred>
-            <fmt-preferred>
-               <semx element="preferred" source="_">
-                  <strong>Term2</strong> :
-               </semx>
-            </fmt-preferred>
+                   <preferred id="_">
+                      <expression>
+                         <name id="_">Term2</name>
+                      </expression>
+                   </preferred>
+                   <fmt-preferred>
+                      <semx element="preferred" source="_">
+                         <strong>
+                            <semx element="expression/name" source="_">Term2</semx>
+                         </strong>
+                          :
+                      </semx>
+                   </fmt-preferred>
                 </term>
              </terms>
              <definitions id="L" displayorder="12">
                 <title id="_">Abréviations et acronymes</title>
-                <fmt-title id="_" depth="1">
+                <fmt-title depth="1" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="L">4</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -147,7 +151,7 @@ RSpec.describe Metanorma::Itu do
              </definitions>
              <clause id="M" inline-header="false" obligation="normative" displayorder="13">
                 <title id="_">Clause 4</title>
-                <fmt-title id="_" depth="1">
+                <fmt-title depth="1" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="M">5</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -163,7 +167,7 @@ RSpec.describe Metanorma::Itu do
                 </fmt-xref-label>
                 <clause id="N" inline-header="false" obligation="normative">
                    <title id="_">Introduction</title>
-                   <fmt-title id="_" depth="2">
+                   <fmt-title depth="2" id="_">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="M">5</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -184,7 +188,7 @@ RSpec.describe Metanorma::Itu do
                 </clause>
                 <clause id="O" inline-header="false" obligation="normative">
                    <title id="_">Clause 4.2</title>
-                   <fmt-title id="_" depth="2">
+                   <fmt-title depth="2" id="_">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="M">5</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -206,7 +210,7 @@ RSpec.describe Metanorma::Itu do
              </clause>
              <references id="R" obligation="informative" normative="true" displayorder="10">
                 <title id="_">References</title>
-                <fmt-title id="_" depth="1">
+                <fmt-title depth="1" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="R">2</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -223,9 +227,7 @@ RSpec.describe Metanorma::Itu do
              </references>
           </sections>
           <annex id="P" inline-header="false" obligation="normative" autonum="A" displayorder="14">
-             <title id="_">
-                <strong>Annex</strong>
-             </title>
+             <title id="_">Annex</title>
              <fmt-title id="_">
                 <strong>
                    <span class="fmt-caption-label">
@@ -248,9 +250,19 @@ RSpec.describe Metanorma::Itu do
              <p class="annex_obligation">
                 <span class="fmt-obligation">(Cette annexe fait partie intégrante de ce Recommandation.)</span>
              </p>
+                   <variant-title type="toc">
+         <span class="fmt-caption-label">
+            <span class="fmt-element-name">Annexe</span>
+            <semx element="autonum" source="P">A</semx>
+         </span>
+         <span class="fmt-caption-delim">
+            <tab/>
+         </span>
+         <semx element="title" source="_">Annex</semx>
+      </variant-title>
              <clause id="Q" inline-header="false" obligation="normative">
                 <title id="_">Annex A.1</title>
-                <fmt-title id="_" depth="2">
+                <fmt-title depth="2" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="P">A</semx>
                       <span class="fmt-autonum-delim">.</span>
@@ -270,7 +282,7 @@ RSpec.describe Metanorma::Itu do
                 </fmt-xref-label>
                 <clause id="Q1" inline-header="false" obligation="normative">
                    <title id="_">Annex A.1a</title>
-                   <fmt-title id="_" depth="3">
+                   <fmt-title depth="3" id="_">
                       <span class="fmt-caption-label">
                          <semx element="autonum" source="P">A</semx>
                          <span class="fmt-autonum-delim">.</span>
@@ -298,12 +310,12 @@ RSpec.describe Metanorma::Itu do
           <bibliography>
              <clause id="S" obligation="informative" displayorder="15">
                 <title id="_">Bibliography</title>
-                <fmt-title id="_" depth="1">
+                <fmt-title depth="1" id="_">
                    <semx element="title" source="_">Bibliography</semx>
                 </fmt-title>
                 <references id="T" obligation="informative" normative="false">
                    <title id="_">Bibliography Subsection</title>
-                   <fmt-title id="_" depth="2">
+                   <fmt-title depth="2" id="_">
                       <semx element="title" source="_">Bibliography Subsection</semx>
                    </fmt-title>
                 </references>
@@ -351,7 +363,7 @@ RSpec.describe Metanorma::Itu do
                      </div>
                      <div id="I">
                      <h1>3.</h1>
-                     <div id="J"><p class="TermNum" id="J"><b>3.1.&#160; <b>Term2</b> :</b></p>
+                     <div id="J"><p class="TermNum" id="J"><b>3.1.&#160; <b><dfn>Term2</dfn></b> :</b></p>
               </div>
                    </div>
                      <div id="L" class="Symbols">
@@ -382,6 +394,7 @@ RSpec.describe Metanorma::Itu do
                      <div id="P" class="Section3">
                        <h1 class="Annex"><b>Annexe A</b> <br/><br/><b>Annex</b></h1>
                       <p class="annex_obligation">(Cette annexe fait partie intégrante de ce Recommandation.)</p>
+                       <p style="display:none;" class="variant-title-toc">Annexe A  Annex</p>
                        <div id="Q">
                 <h2>A.1.&#160; Annex A.1</h2>
                 <div id="Q1">
@@ -408,19 +421,19 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", itudoc("fr"), true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(html)
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_xml_equivalent_to html
   end
 
   it "processes section names in Chinese" do
     presxml = <<~OUTPUT
-      <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
+       <metanorma xmlns="http://riboseinc.com/isoxml" type="presentation">
           <bibdata type="standard">
              <title language="en" type="main">An ITU Standard</title>
              <title language="fr" type="main">Un Standard ITU</title>
@@ -526,12 +539,14 @@ RSpec.describe Metanorma::Itu do
                    </fmt-xref-label>
                    <preferred id="_">
                       <expression>
-                         <name>Term2</name>
+                         <name id="_">Term2</name>
                       </expression>
                    </preferred>
                    <fmt-preferred>
                       <semx element="preferred" source="_">
-                         <strong>Term2</strong>
+                         <strong>
+                            <semx element="expression/name" source="_">Term2</semx>
+                         </strong>
                          ：
                       </semx>
                    </fmt-preferred>
@@ -640,9 +655,7 @@ RSpec.describe Metanorma::Itu do
              </references>
           </sections>
           <annex id="P" inline-header="false" obligation="normative" autonum="A" displayorder="13">
-             <title id="_">
-                <strong>Annex</strong>
-             </title>
+             <title id="_">Annex</title>
              <fmt-title id="_">
                 <strong>
                    <span class="fmt-caption-label">
@@ -665,6 +678,16 @@ RSpec.describe Metanorma::Itu do
              <p class="annex_obligation">
                 <span class="fmt-obligation">（本附件不构成本建议书的不可或缺部分）</span>
              </p>
+      <variant-title type="toc">
+         <span class="fmt-caption-label">
+            <span class="fmt-element-name">附件</span>
+            <semx element="autonum" source="P">A</semx>
+         </span>
+         <span class="fmt-caption-delim">
+            <tab/>
+         </span>
+         <semx element="title" source="_">Annex</semx>
+      </variant-title>
              <clause id="Q" inline-header="false" obligation="normative">
                 <title id="_">Annex A.1</title>
                 <fmt-title depth="2" id="_">
@@ -772,7 +795,7 @@ RSpec.describe Metanorma::Itu do
                    <p class="TermNum" id="J">
                       <b>
                          3.1.　
-                         <b>Term2</b>
+                         <b><dfn>Term2</dfn></b>
                          ：
                       </b>
                    </p>
@@ -811,6 +834,7 @@ RSpec.describe Metanorma::Itu do
                    <b>Annex</b>
                 </h1>
                 <p class="annex_obligation">（本附件不构成本建议书的不可或缺部分）</p>
+                <p style="display:none;" class="variant-title-toc">附件A　Annex</p>
                 <div id="Q">
                    <h2>A.1.　Annex A.1</h2>
                    <div id="Q1">
@@ -837,14 +861,14 @@ RSpec.describe Metanorma::Itu do
     pres_output = IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)
       .convert("test", itudoc("zh"), true)
-    expect(Canon.format_xml(strip_guid(pres_output
-      .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))))
-      .to be_equivalent_to Canon.format_xml(presxml)
-    expect(Canon.format_xml(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
+    expect(strip_guid(pres_output
+      .gsub(%r{<localized-strings>.*</localized-strings>}m, "")))
+      .to be_xml_equivalent_to presxml
+    expect(strip_guid(IsoDoc::Itu::HtmlConvert.new({})
       .convert("test", pres_output, true)
       .gsub(%r{^.*<body}m, "<body")
-      .gsub(%r{</body>.*}m, "</body>"))))
-      .to be_equivalent_to Canon.format_xml(html)
+      .gsub(%r{</body>.*}m, "</body>")))
+      .to be_xml_equivalent_to html
   end
 
   it "processes editor clauses, two editors in French" do
@@ -910,7 +934,7 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
     xml = xml.at("//xmlns:preface").to_xml
-    expect(Canon.format_xml(strip_guid(xml)))
-      .to be_equivalent_to Canon.format_xml(presxml)
+    expect(strip_guid(xml))
+      .to be_xml_equivalent_to presxml
   end
 end

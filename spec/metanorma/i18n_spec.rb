@@ -60,14 +60,20 @@ RSpec.describe Metanorma::Itu do
     output = <<~"OUTPUT"
       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
         <bibdata type='standard'>
-          <title language='en' type='main'>Main Title</title>
           <title language='fr' type='main'>Titre Principal</title>
-          <title language='en' type='subtitle'>Subtitle</title>
+          <title language='en' type='main'>Main Title</title>
           <title language='fr' type='subtitle'>Soustitre</title>
+<<<<<<< HEAD
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docidentifier type="ITU" primary="true">Annex to ITU-T OB No. 1000</docidentifier>
           <docidentifier type="ITU-lang">Annexe au UIT-T OB No. 1000-F</docidentifier>
           <docidentifier type="ITU-lang-long">Annexe au BE de l'UIT 1000-F</docidentifier>
+=======
+          <title language='en' type='subtitle'>Subtitle</title>
+          <docidentifier primary="true" type='ITU'>Annexe au BE de l'UIT 1000</docidentifier>
+          <docidentifier type='ITU-lang'>Annexe au BE de l'UIT 1000-F</docidentifier>
+          <docidentifier type='ITU-provisional'>ABC</docidentifier>
+>>>>>>> main
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>
@@ -199,8 +205,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes summaries in other languages" do
@@ -208,7 +214,7 @@ RSpec.describe Metanorma::Itu do
       "es" => "Resumen", "fr" => "Résumé", "ru" => "Резюме",
       "zh" => "概括" }.each do |k, v|
         input = <<~INPUT
-          #{ASCIIDOC_BLANK_HDR.sub(':novalid:', ":novalid:\n:language: #{k}#{k == 'zh' ? "\n:script: Hans" : ''}")}
+          #{ASCIIDOC_BLANK_HDR.sub(':novalid:', ":novalid:\n:language: #{k}#{"\n:script: Hans" if k == 'zh'}")}
           .Foreword
 
           Text
@@ -223,8 +229,8 @@ RSpec.describe Metanorma::Itu do
         OUTPUT
         xml = Nokogiri::XML(Asciidoctor.convert(input, *OPTIONS))
         xml = xml.at("//xmlns:preface/xmlns:abstract")
-        expect(Canon.format_xml(strip_guid(xml.to_xml)))
-          .to be_equivalent_to Canon.format_xml(strip_guid(output))
+        expect(strip_guid(xml.to_xml))
+          .to be_xml_equivalent_to strip_guid(output)
       end
   end
 
@@ -383,8 +389,8 @@ RSpec.describe Metanorma::Itu do
          </bibliography>
       </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes explicit metadata, service publication in Chinese" do
@@ -446,16 +452,19 @@ RSpec.describe Metanorma::Itu do
           <title language='fr' type='main'>Titre Principal</title>
           <title language='en' type='subtitle'>Subtitle</title>
           <title language='fr' type='subtitle'>Soustitre</title>
-          <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docidentifier primary="true" type='ITU'>
             &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;
           </docidentifier>
           <docidentifier type='ITU-lang'>
             &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;-C
           </docidentifier>
+<<<<<<< HEAD
           <docidentifier type='ITU-lang-long'>
             &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;-C
           </docidentifier>
+=======
+          <docidentifier type='ITU-provisional'>ABC</docidentifier>
+>>>>>>> main
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>
@@ -583,8 +592,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes sections in Chinese" do
@@ -743,8 +752,8 @@ RSpec.describe Metanorma::Itu do
            </bibliography>
         </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes explicit metadata, service publication in Arabic" do
@@ -801,14 +810,30 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
            <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
       <bibdata type='standard'>
-        <title language='en' type='main'>Main Title</title>
         <title language='ar' type='main'>Titre Principal</title>
-        <title language='en' type='subtitle'>Subtitle</title>
+        <title language='en' type='main'>Main Title</title>
         <title language='ar' type='subtitle'>Soustitre</title>
+<<<<<<< HEAD
         <docidentifier type='ITU-provisional'>ABC</docidentifier>
         <docidentifier type="ITU" primary="true">Annex to ITU-T OB No. 1000</docidentifier>
         <docidentifier type="ITU-lang">ITU-T OB No. 1000 ملحق-A</docidentifier>
         <docidentifier type="ITU-lang-long">ملحق ابلنشرة التشغيلية رقم 1000-A</docidentifier>
+=======
+        <title language='en' type='subtitle'>Subtitle</title>
+        <docidentifier primary="true" type='ITU'>
+          &#1605;&#1604;&#1581;&#1602;
+          &#1576;&#1575;&#1604;&#1606;&#1588;&#1585;&#1577;
+          &#1575;&#1604;&#1578;&#1588;&#1594;&#1610;&#1604;&#1610;&#1577;
+          &#1604;&#1604;&#1575;&#1578;&#1581;&#1575;&#1583; &#1585;&#1602;&#1605;
+        </docidentifier>
+        <docidentifier type='ITU-lang'>
+          &#1605;&#1604;&#1581;&#1602;
+          &#1576;&#1575;&#1604;&#1606;&#1588;&#1585;&#1577;
+          &#1575;&#1604;&#1578;&#1588;&#1594;&#1610;&#1604;&#1610;&#1577;
+          &#1604;&#1604;&#1575;&#1578;&#1581;&#1575;&#1583; &#1585;&#1602;&#1605;-A
+        </docidentifier>
+        <docidentifier type='ITU-provisional'>ABC</docidentifier>
+>>>>>>> main
         <docnumber>1000</docnumber>
         <contributor>
           <role type='author'/>
@@ -936,8 +961,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes sections in Arabic" do
@@ -1096,8 +1121,8 @@ RSpec.describe Metanorma::Itu do
          </bibliography>
       </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes explicit metadata, service publication in Spanish" do
@@ -1154,14 +1179,20 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
            <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
             <bibdata type='standard'>
-        <title language='en' type='main'>Main Title</title>
         <title language='es' type='main'>Titre Principal</title>
-        <title language='en' type='subtitle'>Subtitle</title>
+        <title language='en' type='main'>Main Title</title>
         <title language='es' type='subtitle'>Soustitre</title>
+<<<<<<< HEAD
         <docidentifier type='ITU-provisional'>ABC</docidentifier>
         <docidentifier type="ITU" primary="true">Annex to ITU-T OB No. 1000</docidentifier>
         <docidentifier type="ITU-lang">Anexo al UIT-T OB No. 1000-S</docidentifier>
         <docidentifier type="ITU-lang-long">Anexo al BE de la UIT N.º 1000-S</docidentifier>
+=======
+        <title language='en' type='subtitle'>Subtitle</title>
+        <docidentifier primary="true" type='ITU'>Anexo al BE de la UIT 1000</docidentifier>
+        <docidentifier type='ITU-lang'>Anexo al BE de la UIT 1000-S</docidentifier>
+        <docidentifier type='ITU-provisional'>ABC</docidentifier>
+>>>>>>> main
         <docnumber>1000</docnumber>
         <contributor>
           <role type='author'/>
@@ -1293,8 +1324,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes sections in Spanish" do
@@ -1452,8 +1483,8 @@ RSpec.describe Metanorma::Itu do
          </bibliography>
       </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes explicit metadata, service publication in German" do
@@ -1510,13 +1541,13 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
           <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
       <bibdata type='standard'>
-        <title language='en' type='main'>Main Title</title>
         <title language='de' type='main'>Titre Principal</title>
-        <title language='en' type='subtitle'>Subtitle</title>
+        <title language='en' type='main'>Main Title</title>
         <title language='de' type='subtitle'>Soustitre</title>
-        <docidentifier type='ITU-provisional'>ABC</docidentifier>
+        <title language='en' type='subtitle'>Subtitle</title>
         <docidentifier primary="true" type='ITU'>Anhang zum  ITU OB 1000</docidentifier>
         <docidentifier type='ITU-lang'>Anhang zum  ITU OB 1000-</docidentifier>
+        <docidentifier type='ITU-provisional'>ABC</docidentifier>
         <docnumber>1000</docnumber>
         <contributor>
           <role type='author'/>
@@ -1648,8 +1679,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes sections in German" do
@@ -1806,8 +1837,8 @@ RSpec.describe Metanorma::Itu do
          </bibliography>
       </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes explicit metadata, service publication in Russian" do
@@ -1862,13 +1893,12 @@ RSpec.describe Metanorma::Itu do
 
     INPUT
     output = <<~OUTPUT
-       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
-       <bibdata type='standard'>
-            <title language='en' type='main'>Main Title</title>
-            <title language='ru' type='main'>Titre Principal</title>
-            <title language='en' type='subtitle'>Subtitle</title>
-            <title language='ru' type='subtitle'>Soustitre</title>
-            <docidentifier type='ITU-provisional'>ABC</docidentifier>
+      <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
+      <bibdata type='standard'>
+        <title language='ru' type='main'>Titre Principal</title>
+        <title language='en' type='main'>Main Title</title>
+        <title language='ru' type='subtitle'>Soustitre</title>
+        <title language='en' type='subtitle'>Subtitle</title>
             <docidentifier primary="true" type='ITU'>
               &#1055;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;
               &#1082; &#1054;&#1041; &#1052;&#1057;&#1069; 1000
@@ -1877,6 +1907,7 @@ RSpec.describe Metanorma::Itu do
               &#1055;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;
               &#1082; &#1054;&#1041; &#1052;&#1057;&#1069; 1000-R
             </docidentifier>
+            <docidentifier type='ITU-provisional'>ABC</docidentifier>
             <docnumber>1000</docnumber>
             <contributor>
               <role type='author'/>
@@ -2008,8 +2039,8 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(input)
     xml.xpath("//xmlns:boilerplate | //xmlns:metanorma-extension")
       .each(&:remove)
-    expect(Canon.format_xml(strip_guid(xml.to_xml)))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(xml.to_xml))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   it "processes sections in Russian" do
@@ -2168,8 +2199,8 @@ RSpec.describe Metanorma::Itu do
            </bibliography>
         </metanorma>
     OUTPUT
-    expect(Canon.format_xml(strip_guid(Asciidoctor.convert(input, *OPTIONS))))
-      .to be_equivalent_to Canon.format_xml(strip_guid(output))
+    expect(strip_guid(Asciidoctor.convert(input, *OPTIONS)))
+      .to be_xml_equivalent_to strip_guid(output)
   end
 
   private

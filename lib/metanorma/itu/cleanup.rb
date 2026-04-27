@@ -2,7 +2,15 @@ require_relative "cleanup_section"
 
 module Metanorma
   module Itu
-    class Converter < Standoc::Converter
+    class Cleanup < Standoc::Cleanup
+      def copied_instance_variables
+        super + %i[no_insert_missing_sections]
+      end
+
+      def boilerplate_file(_xmldoc)
+        File.join(@libdir, "boilerplate.adoc")
+      end
+
       def table_cleanup(xmldoc)
         super
         xmldoc.xpath("//thead/tr[1]/th | //thead/tr[1]/td").each do |t|
@@ -49,7 +57,7 @@ module Metanorma
         return 3 if bib.at("#{PUBLISHER}[abbreviation = 'IEC']")
         return 3 if bib.at("#{PUBLISHER}[name = 'International " \
                            "Electrotechnical Commission']")
-        return 4 if bib.at("./docidentifier[@type][not(#{skip_docid} or " \
+        return 4 if bib.at("./docidentifier[@type][not(#{@conv.skip_docid} or " \
                            "@type = 'metanorma')]")
 
         5
@@ -67,7 +75,7 @@ module Metanorma
       # then title
       def sort_biblio_key(bib)
         pubclass = pub_class(bib)
-        id = bib.at("./docidentifier[not(#{skip_docid} or @type = " \
+        id = bib.at("./docidentifier[not(#{@conv.skip_docid} or @type = " \
                      "'metanorma')]")
         metaid = bib.at("./docidentifier[@type = 'metanorma']")&.text
         # abbrid = metaid unless /^\[\d+\]$/.match?(metaid)

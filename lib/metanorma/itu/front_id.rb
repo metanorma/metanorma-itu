@@ -3,13 +3,9 @@ require "pubid-itu"
 module Metanorma
   module Itu
     class Converter < Standoc::Converter
-      def metadata_id(node, xml)
+      def metadata_id_nonprimary(node, xml)
         provisional_id(node, xml)
         td_id(node, xml)
-        if id = node.attr("docidentifier")
-          xml.docidentifier id, **attr_code(type: "ITU")
-        else itu_id(node, xml)
-        end
         recommendation_id(node, xml)
         iso_id(node, xml)
       end
@@ -18,25 +14,17 @@ module Metanorma
         node.attr("provisional-name") or return
         add_noko_elem(xml, "docidentifier",
                       node.attr("provisional-name"), type: "ITU-provisional")
-        # xml.docidentifier type: "ITU-provisional" do |i|
-        #  i << node.attr("provisional-name")
-        # end
       end
 
       def td_id(node, xml)
         node.attr("td-number") or return
         add_noko_elem(xml, "docidentifier",
                       node.attr("td-number"), type: "ITU-TemporaryDocument")
-        # xml.docidentifier type: "ITU-TemporaryDocument" do |i|
-        #  i << node.attr("td-number")
-        # end
       end
 
       def iso_id(node, xml)
         add_noko_elem(xml, "docidentifier",
                       node.attr("common-text-docnumber"), type: "ISO")
-        # a = node.attr("common-text-docnumber") and
-        #  xml.docidentifier a, type: "ISO"
       end
 
       ITULANG = { "en" => "E", "fr" => "F", "ar" => "A", "es" => "S",
@@ -129,10 +117,6 @@ module Metanorma
         node.attr("recommendationnumber") or return
         node.attr("recommendationnumber").split("/").each do |s|
           add_noko_elem(xml, "docidentifier", s, type: "ITU-Recommendation")
-
-          # xml.docidentifier type: "ITU-Recommendation" do |i|
-          #   i << s
-          # end
         end
       end
 
@@ -140,15 +124,10 @@ module Metanorma
         node.attr("docnumber") or return
         xml.structuredidentifier do |i|
           add_noko_elem(i, "bureau", node.attr("bureau") || "T")
-          # i.bureau node.attr("bureau") || "T"
           add_noko_elem(i, "docnumber", node.attr("docnumber"))
-          # i.docnumber node.attr("docnumber")
           add_noko_elem(i, "annexid", node.attr("annexid"))
-          # a = node.attr("annexid") and i.annexid a
           add_noko_elem(i, "amendment", node.attr("amendment-number"))
-          # a = node.attr("amendment-number") and i.amendment a
           add_noko_elem(i, "corrigendum", node.attr("corrigendum-number"))
-          # a = node.attr("corrigendum-number") and i.corrigendum a
         end
       end
     end

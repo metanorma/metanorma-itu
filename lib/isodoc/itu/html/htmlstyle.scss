@@ -150,7 +150,7 @@ nav {
 }
 
 
-.figure {
+figure {
   @include figureBlock();
   @include monospaceBlockStyle();
 
@@ -158,7 +158,7 @@ nav {
   font-size: $monospacefontsize;
 }
 
-table div.figure {
+table figure {
   padding: 0;
   margin: 0;
 }
@@ -385,11 +385,14 @@ ol ul > li:first-child {
 
 /* Bibliograhy */
 
-p.Biblio, p.NormRef {
+p.Biblio, p.NormRef, div.Biblio, div.NormRef {
   margin-top: 1em;
   margin-left: 2em;
 }
 
+.Biblio.note, .Biblio.Note, .NormRef.note, .NormRef.Note {
+  margin-left: 3em;
+}
 
 /* Blocks */
 
@@ -487,7 +490,7 @@ table:not(.biblio) {
   }
 }
 
-p.TableTitle {
+table > caption {
   text-align: center;
   margin-top: 2.5em;
   font-weight: 400;
@@ -520,7 +523,7 @@ a.footnote-number {
   @include formulaBlock(#f6f6f6);
 }
 
-dl.formula_dl {
+.formula_dl {
 background-color: #f6f6f6;
 margin-left: 1.4cm;
 margin-right: 1.4cm;
@@ -569,6 +572,11 @@ span.keyword {
   font-weight: 600;
 }
 
+a.url {
+  font-family:"Arial",sans-serif;
+  font-size:8pt;
+}
+
 
 p {
   margin-top: 1em;
@@ -608,7 +616,7 @@ a.anchorjs-link {
     background-color: white;
   }
 
-  .note, .figure, pre, table {
+  .note, figure, pre, table {
     page-break-inside: avoid;
   }
 

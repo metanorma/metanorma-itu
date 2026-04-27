@@ -27,14 +27,20 @@ module Metanorma
                       node.attr("common-text-docnumber"), type: "ISO")
       end
 
+      # KILL
       ITULANG = { "en" => "E", "fr" => "F", "ar" => "A", "es" => "S",
                   "zh" => "C", "ru" => "R" }.freeze
 
+      def metadata_id_primary_type(_node)
+        "ITU"
+      end
+
+      def metadata_id_primary(node, xml)
+        itu_id(node, xml)
+      end
+
       def itu_id(node, xml)
-        node.attr("docnumber") || node.attr("docidentifier") or return
-        node.attr("docidentifier") and
-          return add_noko_elem(xml, "docidentifier",
-                      node.attr("docidentifier"), type: "ITU", primary: "true")
+        node.attr("docnumber") or return
         params = itu_id_params(node)
         itu_id_out(node, xml, params)
       end
@@ -92,24 +98,26 @@ module Metanorma
 
       def itu_id_out(node, xml, params)
         add_noko_elem(xml, "docidentifier", itu_id_default(node, params).to_s,
-                          type: "ITU", primary: "true")
+                      type: "ITU", primary: "true")
         id_lang = itu_id_lang(node, params)
         add_noko_elem(xml, "docidentifier", id_lang.to_s(language: @lang),
-                          type: "ITU-lang")
+                      type: "ITU-lang")
         add_noko_elem(xml, "docidentifier", id_lang
           .to_s(language: @lang, format: :long),
-                          type: "ITU-lang-long")
+                      type: "ITU-lang-long")
       end
 
       def itu_id_default(node, params)
         p = params.dup
         p[:base] &&= itu_id_default(node, p[:base])
+        # p[:"i18n-lang"] = @lang
         Pubid::Itu::Identifier.create(**p)
       end
 
       def itu_id_lang(node, params)
         params[:base] &&= itu_id_lang(node, params[:base])
         params[:language] = @lang
+        # params[:"i18n-lang"] = @lang
         Pubid::Itu::Identifier.create(**params)
       end
 

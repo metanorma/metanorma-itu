@@ -799,8 +799,8 @@ RSpec.describe Metanorma::Itu do
            <title language="en" type="main">Main Title</title>
            <title language="ar" type="subtitle">Soustitre</title>
            <title language="en" type="subtitle">Subtitle</title>
-           <docidentifier type="ITU" primary="true">ITU-T OB No. 1000 ملحق</docidentifier>
-           <docidentifier type="ITU-lang">ITU-T OB No. 1000 ملحق-A</docidentifier>
+           <docidentifier type="ITU" primary="true">ITU OB No. 1000 ملحق</docidentifier>
+           <docidentifier type="ITU-lang">ITU OB No. 1000 ملحق-A</docidentifier>
            <docidentifier type="ITU-lang-long">ملحق ابلنشرة التشغيلية رقم 1000-A</docidentifier>
            <docidentifier type="ITU-provisional">ABC</docidentifier>
            <docnumber>1000</docnumber>
@@ -1508,9 +1508,9 @@ RSpec.describe Metanorma::Itu do
            <title language="en" type="main">Main Title</title>
            <title language="de" type="subtitle">Soustitre</title>
            <title language="en" type="subtitle">Subtitle</title>
-           <docidentifier type="ITU" primary="true">Anhang zum ITU-R OB No. 1000</docidentifier>
-           <docidentifier type="ITU-lang">Anhang zum ITU-R OB No. 1000</docidentifier>
-           <docidentifier type="ITU-lang-long">Anhang zum ITU-R OB No. 1000</docidentifier>
+           <docidentifier type="ITU" primary="true">Anhang zum ITU OB No. 1000</docidentifier>
+           <docidentifier type="ITU-lang">Anhang zum ITU OB No. 1000</docidentifier>
+           <docidentifier type="ITU-lang-long">Anhang zum ITU OB No. 1000</docidentifier>
            <docidentifier type="ITU-provisional">ABC</docidentifier>
            <docnumber>1000</docnumber>
            <contributor>

@@ -1826,11 +1826,11 @@ RSpec.describe Metanorma::Itu do
       </iso-standard>
     INPUT
     expect(File.exist?("test.doc")).to be true
-    html = Nokogiri::XML(File.read("test.doc")
+    html = Nokogiri::HTML(File.read("test.doc")
       .sub(/^.*<html/m, "<html").sub(/<\/html>.*$/m, "</html>"))
       .at("//*[@id = 'A']").parent.to_xml
     expect(strip_guid(html))
-      .to be_xml_equivalent_to <<~OUTPUT
+      .to be_html4_equivalent_to <<~OUTPUT
             <div><a name="A" id="A"/>
           <p class='h1Preface'/>
           <div class="ol_wrap">

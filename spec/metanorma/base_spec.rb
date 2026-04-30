@@ -1560,9 +1560,9 @@ RSpec.describe Metanorma::Itu do
            <title language='fr' type='main'>Titre Principal</title>
            <title language='en' type='subtitle'>Subtitle</title>
            <title language='fr' type='subtitle'>Soustitre</title>
-           <docidentifier primary="true" type='ITU'>Annex to ITU-R OB No. 1000</docidentifier>
-           <docidentifier type='ITU-lang'>Annex to ITU-R OB No. 1000-E</docidentifier>
-           <docidentifier type='ITU-lang-long'>Annex to ITU-R OB No. 1000-E</docidentifier>
+           <docidentifier primary="true" type='ITU'>Annex to ITU OB No. 1000</docidentifier>
+           <docidentifier type='ITU-lang'>Annex to ITU OB No. 1000-E</docidentifier>
+           <docidentifier type='ITU-lang-long'>Annex to ITU OB No. 1000-E</docidentifier>
            <docidentifier type='ITU-provisional'>ABC</docidentifier>
            <docnumber>1000</docnumber>
            <contributor>

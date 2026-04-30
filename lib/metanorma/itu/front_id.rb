@@ -73,12 +73,17 @@ module Metanorma
       def itu_id_params_core(node)
         pub = itu_id_pub(node)
         num = node.attr("docnumber")
-        ret = { sector: node.attr("bureau") || "T",
+        ret = { sector: itu_id_params_sector(node),
                 publisher: pub[0],
-                copublisher: pub[1..-1] }
+                copublisher: pub[1..-1] }.compact
         ret.merge!(itu_id_params_num(num))
         ret[:copublisher].empty? and ret.delete(:copublisher)
         ret
+      end
+
+      def itu_id_params_sector(node)
+        node.attr("doctype") == "service-publication" and return nil
+        node.attr("bureau") || "T"
       end
 
       def itu_id_params_num(num)

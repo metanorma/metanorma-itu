@@ -1,3 +1,5 @@
+require "pubid-itu"
+
 module Metanorma
   module Itu
     class Converter < Standoc::Converter
@@ -25,55 +27,98 @@ module Metanorma
                       node.attr("common-text-docnumber"), type: "ISO")
       end
 
+      # KILL
       ITULANG = { "en" => "E", "fr" => "F", "ar" => "A", "es" => "S",
                   "zh" => "C", "ru" => "R" }.freeze
 
-      def itu_id1(node, lang)
-        bureau = node.attr("bureau") || "T"
-        id = case doctype(node)
-             when "service-publication"
-               itu_service_pub_id(node)
-             when "contribution"
-               itu_contrib_id(node)
-             else
-               "ITU-#{bureau} #{node.attr('docnumber')}"
-             end
-        itu_lang(id, lang)
-      end
-
-      def itu_lang(id, lang)
-        id + (lang ? "-#{ITULANG[@lang]}" : "")
-      end
-
-      def itu_service_pub_id(node)
-        @i18n.annex_to_itu_ob_abbrev.sub(/%/, node.attr("docnumber"))
-      end
-
-      def itu_contrib_id(node)
-        group = node.attr("group-acronym") ||
-          node.attr("group")&.sub("Study Group ", "SG") || "XXX"
-        "#{group}-C#{node.attr('docnumber')}"
+      def metadata_id_primary_type(_node)
+        "ITU"
       end
 
       def metadata_id_primary(node, xml)
+        itu_id(node, xml)
+      end
+
+      def itu_id(node, xml)
         node.attr("docnumber") or return
-        add_noko_elem(xml, "docidentifier",
-                      itu_id1(node, false),
+        params = itu_id_params(node)
+        itu_id_out(node, xml, params)
+      end
+
+      def compact_blank(hash)
+        hash.compact.reject { |_, v| v.is_a?(String) && v.empty? }
+      end
+
+      def itu_id_pub(node)
+        (node.attr("publisher") || "ITU").split(/[;,]/)
+          .map(&:strip).map { |x| org_abbrev[x] || x }
+      end
+
+      def itu_id_params(node)
+        itu_id_resolve(node, itu_id_params_core(node), itu_id_params_add(node))
+      end
+
+      def itu_id_resolve(_node, core, add)
+        ret = core.merge(add)
+        case @doctype
+        when "service-publication"
+          base = ret.merge(series: "OB")
+          ret = { type: :annex, base: base }
+        when "contribution"
+          ret[:type] = :contribution
+        end
+        ret
+      end
+
+      def itu_id_params_core(node)
+        pub = itu_id_pub(node)
+        num = node.attr("docnumber")
+        ret = { sector: node.attr("bureau") || "T",
+                publisher: pub[0],
+                copublisher: pub[1..-1] }
+        ret.merge!(itu_id_params_num(num))
+        ret[:copublisher].empty? and ret.delete(:copublisher)
+        ret
+      end
+
+      def itu_id_params_num(num)
+        if m = /^(?:(?<series>[A-Z])\.)?(?<number>\d+)$/.match(num)
+          { series: m[:series], number: m[:number] }
+        else { number: num }
+        end
+      end
+
+      def itu_id_params_add(node)
+        ret = { part: node.attr("partnumber") }
+        @doctype == "contribution" and
+          ret[:series] = node.attr("group-acronym") ||
+            node.attr("group")&.sub("Study Group ", "SG")
+        compact_blank(ret)
+      end
+
+      def itu_id_out(node, xml, params)
+        add_noko_elem(xml, "docidentifier", itu_id_default(node, params)
+          .to_s(i18n_lang: @lang),
                       type: "ITU", primary: "true")
-        add_noko_elem(xml, "docidentifier",
-                      itu_id1(node, true), type: "ITU-lang")
-      end
-
-      def metadata_id_docidentifier(node, xml)
-        super
-        add_noko_elem(xml, "docidentifier",
-                      itu_lang(node.attr("docidentifier"), true),
-                      boilerplate: true,
+        id_lang = itu_id_lang(node, params)
+        add_noko_elem(xml, "docidentifier", id_lang.to_s(language: @lang,
+                                                         i18n_lang: @lang),
                       type: "ITU-lang")
+        add_noko_elem(xml, "docidentifier", id_lang
+          .to_s(language: @lang, i18n_lang: @lang, format: :long),
+                      type: "ITU-lang-long")
       end
 
-      def metadata_id_primary_type(_node)
-        "ITU"
+      def itu_id_default(node, params)
+        p = params.dup
+        p[:base] &&= itu_id_default(node, p[:base])
+        Pubid::Itu::Identifier.create(**p)
+      end
+
+      def itu_id_lang(node, params)
+        params[:base] &&= itu_id_lang(node, params[:base])
+        params[:language] = @lang
+        Pubid::Itu::Identifier.create(**params)
       end
 
       def recommendation_id(node, xml)

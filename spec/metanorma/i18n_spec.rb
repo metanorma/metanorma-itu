@@ -63,17 +63,10 @@ RSpec.describe Metanorma::Itu do
           <title language='fr' type='main'>Titre Principal</title>
           <title language='en' type='main'>Main Title</title>
           <title language='fr' type='subtitle'>Soustitre</title>
-<<<<<<< HEAD
-          <docidentifier type='ITU-provisional'>ABC</docidentifier>
-          <docidentifier type="ITU" primary="true">Annex to ITU-T OB No. 1000</docidentifier>
-          <docidentifier type="ITU-lang">Annexe au UIT-T OB No. 1000-F</docidentifier>
-          <docidentifier type="ITU-lang-long">Annexe au BE de l'UIT 1000-F</docidentifier>
-=======
           <title language='en' type='subtitle'>Subtitle</title>
           <docidentifier primary="true" type='ITU'>Annexe au BE de l'UIT 1000</docidentifier>
           <docidentifier type='ITU-lang'>Annexe au BE de l'UIT 1000-F</docidentifier>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
->>>>>>> main
           <docnumber>1000</docnumber>
           <contributor>
             <role type='author'/>
@@ -447,124 +440,115 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
-      <bibdata type='standard'>
-          <title language='en' type='main'>Main Title</title>
-          <title language='fr' type='main'>Titre Principal</title>
-          <title language='en' type='subtitle'>Subtitle</title>
-          <title language='fr' type='subtitle'>Soustitre</title>
-          <docidentifier primary="true" type='ITU'>
-            &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;
-          </docidentifier>
-          <docidentifier type='ITU-lang'>
-            &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;-C
-          </docidentifier>
-<<<<<<< HEAD
-          <docidentifier type='ITU-lang-long'>
-            &#22269;&#38469;&#30005;&#32852;&#25805;&#20316;&#20844;&#25253;&#38468;&#20214; &#31532; 1000 &#26399;-C
-          </docidentifier>
-=======
-          <docidentifier type='ITU-provisional'>ABC</docidentifier>
->>>>>>> main
-          <docnumber>1000</docnumber>
-          <contributor>
-            <role type='author'/>
-            <organization>
-            <name>国际电信联盟</name>
-            </organization>
-          </contributor>
-          <contributor>
-            <role type='editor'>raporteur</role>
-            <person>
-              <name>
-                <completename>Fred Flintstone</completename>
-              </name>
-              <affiliation>
-                <organization>
-                  <name>Bedrock Quarry</name>
-                  <address>
-                    <formattedAddress>Canada</formattedAddress>
-                  </address>
-                </organization>
-              </affiliation>
-              <phone>555</phone>
-              <phone type='fax'>556</phone>
-              <email>x@example.com</email>
-            </person>
-          </contributor>
-          <contributor>
-            <role type='editor'/>
-            <person>
-              <name>
-                <completename>Barney Rubble</completename>
-              </name>
-              <affiliation>
-                <organization>
-                  <name>Bedrock Quarry 2</name>
-                  <address>
-                    <formattedAddress>USA</formattedAddress>
-                  </address>
-                </organization>
-              </affiliation>
-              <phone>557</phone>
-              <phone type='fax'>558</phone>
-              <email>y@example.com</email>
-            </person>
-          </contributor>
-      <contributor>
-         <role type="author">
-            <description>committee</description>
-         </role>
-         <organization>
-            <name>国际电信联盟</name>
-            <subdivision type="Bureau">
-               <name>R</name>
-            </subdivision>
-            <subdivision type="Group">
-               <name>I</name>
-            </subdivision>
-            <subdivision type="Subgroup">
-               <name>I1</name>
-            </subdivision>
-            <subdivision type="Workgroup">
-               <name>I2</name>
-            </subdivision>
-         </organization>
-      </contributor>
-          <contributor>
-            <role type='publisher'/>
-            <organization>
-            <name>国际电信联盟</name>
-            </organization>
-          </contributor>
-          <edition>2</edition>
-          <version>
-            <revision-date>2000-01-01</revision-date>
-            <draft>5</draft>
-          </version>
-          <language>zh</language>
-          <script>Hans</script>
-          <status>
-            <stage>draft</stage>
-          </status>
-          <copyright>
-            <from>2001</from>
-            <owner>
-              <organization>
-                <name>国际电信联盟</name>
-              </organization>
-            </owner>
-          </copyright>
-          <series type='main'>
-            <title>A3</title>
-          </series>
-          <series type='secondary'>
-            <title>B3</title>
-          </series>
-          <series type='tertiary'>
-            <title>C3</title>
-          </series>
-          <keyword>Word1</keyword>
-          <keyword>word2</keyword>
+         <bibdata type="standard">
+           <title language="en" type="main">Main Title</title>
+           <title language="fr" type="main">Titre Principal</title>
+           <title language="en" type="subtitle">Subtitle</title>
+           <title language="fr" type="subtitle">Soustitre</title>
+           <docidentifier type="ITU" primary="true">国际电联操作公报附件 第 1000 期</docidentifier>
+           <docidentifier type="ITU-lang">国际电联操作公报附件 第 1000 期-C</docidentifier>
+           <docidentifier type="ITU-lang-long">国际电联操作公报附件 第 1000 期-C</docidentifier>
+           <docidentifier type="ITU-provisional">ABC</docidentifier>
+           <docnumber>1000</docnumber>
+           <contributor>
+             <role type="author"/>
+             <organization>
+               <name>国际电信联盟</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="editor">raporteur</role>
+             <person>
+               <name>
+                 <completename>Fred Flintstone</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry</name>
+                   <address>
+                     <formattedAddress>Canada</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>555</phone>
+               <phone type="fax">556</phone>
+               <email>x@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="editor"/>
+             <person>
+               <name>
+                 <completename>Barney Rubble</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry 2</name>
+                   <address>
+                     <formattedAddress>USA</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>557</phone>
+               <phone type="fax">558</phone>
+               <email>y@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="author">
+               <description>committee</description>
+             </role>
+             <organization>
+               <name>国际电信联盟</name>
+               <subdivision type="Bureau">
+                 <name>T</name>
+               </subdivision>
+               <subdivision type="Group">
+                 <name>I</name>
+               </subdivision>
+               <subdivision type="Subgroup">
+                 <name>I1</name>
+               </subdivision>
+               <subdivision type="Workgroup">
+                 <name>I2</name>
+               </subdivision>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>国际电信联盟</name>
+             </organization>
+           </contributor>
+           <edition>2</edition>
+           <version>
+             <revision-date>2000-01-01</revision-date>
+             <draft>5</draft>
+           </version>
+           <language>zh</language>
+           <script>Hans</script>
+           <status>
+             <stage>draft</stage>
+           </status>
+           <copyright>
+             <from>2001</from>
+             <owner>
+               <organization>
+                 <name>国际电信联盟</name>
+               </organization>
+             </owner>
+           </copyright>
+           <series type="main">
+             <title>A3</title>
+           </series>
+           <series type="secondary">
+             <title>B3</title>
+           </series>
+           <series type="tertiary">
+             <title>C3</title>
+           </series>
+           <keyword>Word1</keyword>
+           <keyword>word2</keyword>
           <ext>
             <doctype>service-publication</doctype>
             <flavor>itu</flavor>
@@ -809,131 +793,115 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~OUTPUT
            <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
-      <bibdata type='standard'>
-        <title language='ar' type='main'>Titre Principal</title>
-        <title language='en' type='main'>Main Title</title>
-        <title language='ar' type='subtitle'>Soustitre</title>
-<<<<<<< HEAD
-        <docidentifier type='ITU-provisional'>ABC</docidentifier>
-        <docidentifier type="ITU" primary="true">Annex to ITU-T OB No. 1000</docidentifier>
-        <docidentifier type="ITU-lang">ITU-T OB No. 1000 ملحق-A</docidentifier>
-        <docidentifier type="ITU-lang-long">ملحق ابلنشرة التشغيلية رقم 1000-A</docidentifier>
-=======
-        <title language='en' type='subtitle'>Subtitle</title>
-        <docidentifier primary="true" type='ITU'>
-          &#1605;&#1604;&#1581;&#1602;
-          &#1576;&#1575;&#1604;&#1606;&#1588;&#1585;&#1577;
-          &#1575;&#1604;&#1578;&#1588;&#1594;&#1610;&#1604;&#1610;&#1577;
-          &#1604;&#1604;&#1575;&#1578;&#1581;&#1575;&#1583; &#1585;&#1602;&#1605;
-        </docidentifier>
-        <docidentifier type='ITU-lang'>
-          &#1605;&#1604;&#1581;&#1602;
-          &#1576;&#1575;&#1604;&#1606;&#1588;&#1585;&#1577;
-          &#1575;&#1604;&#1578;&#1588;&#1594;&#1610;&#1604;&#1610;&#1577;
-          &#1604;&#1604;&#1575;&#1578;&#1581;&#1575;&#1583; &#1585;&#1602;&#1605;-A
-        </docidentifier>
-        <docidentifier type='ITU-provisional'>ABC</docidentifier>
->>>>>>> main
-        <docnumber>1000</docnumber>
-        <contributor>
-          <role type='author'/>
-          <organization>
-          <name>الاتحاد الدولي للاتصالات</na
-          </organization>
-        </contributor>
-        <contributor>
-          <role type='editor'>raporteur</role>
-          <person>
-            <name>
-              <completename>Fred Flintstone</completename>
-            </name>
-            <affiliation>
-              <organization>
-                <name>Bedrock Quarry</name>
-                <address>
-                  <formattedAddress>Canada</formattedAddress>
-                </address>
-              </organization>
-            </affiliation>
-            <phone>555</phone>
-            <phone type='fax'>556</phone>
-            <email>x@example.com</email>
-          </person>
-        </contributor>
-        <contributor>
-          <role type='editor'/>
-          <person>
-            <name>
-              <completename>Barney Rubble</completename>
-            </name>
-            <affiliation>
-              <organization>
-                <name>Bedrock Quarry 2</name>
-                <address>
-                  <formattedAddress>USA</formattedAddress>
-                </address>
-              </organization>
-            </affiliation>
-            <phone>557</phone>
-            <phone type='fax'>558</phone>
-            <email>y@example.com</email>
-          </person>
-        </contributor>
-      <contributor>
-         <role type="author">
-            <description>committee</description>
-         </role>
-         <organization>
-            <name>الاتحاد الدولي للاتصالات</name>
-            <subdivision type="Bureau">
-               <name>R</name>
-            </subdivision>
-            <subdivision type="Group">
-               <name>I</name>
-            </subdivision>
-            <subdivision type="Subgroup">
-               <name>I1</name>
-            </subdivision>
-            <subdivision type="Workgroup">
-               <name>I2</name>
-            </subdivision>
-         </organization>
-      </contributor>
-        <contributor>
-          <role type='publisher'/>
-          <organization>
-          <name>الاتحاد الدولي للاتصالات</na
-          </organization>
-        </contributor>
-        <edition>2</edition>
-        <version>
-          <revision-date>2000-01-01</revision-date>
-          <draft>5</draft>
-        </version>
-        <language>ar</language>
-        <script>Arab</script>
-        <status>
-          <stage>draft</stage>
-        </status>
-        <copyright>
-          <from>2001</from>
-          <owner>
-            <organization>
-              <name>الاتحاد الدولي للاتصالات</na
-            </organization>
-          </owner>
-        </copyright>
-        <series type='main'>
-          <title>A3</title>
-        </series>
-        <series type='secondary'>
-          <title>B3</title>
-        </series>
-        <series type='tertiary'>
-          <title>C3</title>
-        </series>
-        <keyword>Word1</keyword>
-        <keyword>word2</keyword>
+         <bibdata type="standard">
+           <title language="ar" type="main">Titre Principal</title>
+           <title language="en" type="main">Main Title</title>
+           <title language="ar" type="subtitle">Soustitre</title>
+           <title language="en" type="subtitle">Subtitle</title>
+           <docidentifier type="ITU" primary="true">ITU-T OB No. 1000 ملحق</docidentifier>
+           <docidentifier type="ITU-lang">ITU-T OB No. 1000 ملحق-A</docidentifier>
+           <docidentifier type="ITU-lang-long">ملحق ابلنشرة التشغيلية رقم 1000-A</docidentifier>
+           <docidentifier type="ITU-provisional">ABC</docidentifier>
+           <docnumber>1000</docnumber>
+           <contributor>
+             <role type="author"/>
+             <organization>
+               <name>الاتحاد الدولي للاتصالات</name>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="editor">raporteur</role>
+             <person>
+               <name>
+                 <completename>Fred Flintstone</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry</name>
+                   <address>
+                     <formattedAddress>Canada</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>555</phone>
+               <phone type="fax">556</phone>
+               <email>x@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="editor"/>
+             <person>
+               <name>
+                 <completename>Barney Rubble</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry 2</name>
+                   <address>
+                     <formattedAddress>USA</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>557</phone>
+               <phone type="fax">558</phone>
+               <email>y@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="author">
+               <description>committee</description>
+             </role>
+             <organization>
+               <name>الاتحاد الدولي للاتصالات</name>
+               <subdivision type="Bureau">
+                 <name>T</name>
+               </subdivision>
+               <subdivision type="Group">
+                 <name>I</name>
+               </subdivision>
+               <subdivision type="Subgroup">
+                 <name>I1</name>
+               </subdivision>
+               <subdivision type="Workgroup">
+                 <name>I2</name>
+               </subdivision>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>الاتحاد الدولي للاتصالات</name>
+             </organization>
+           </contributor>
+           <edition>2</edition>
+           <version>
+             <revision-date>2000-01-01</revision-date>
+             <draft>5</draft>
+           </version>
+           <language>ar</language>
+           <script>Arab</script>
+           <status>
+             <stage>draft</stage>
+           </status>
+           <copyright>
+             <from>2001</from>
+             <owner>
+               <organization>
+                 <name>الاتحاد الدولي للاتصالات</name>
+               </organization>
+             </owner>
+           </copyright>
+           <series type="main">
+             <title>A3</title>
+           </series>
+           <series type="secondary">
+             <title>B3</title>
+           </series>
+           <series type="tertiary">
+             <title>C3</title>
+           </series>
+           <keyword>Word1</keyword>
+           <keyword>word2</keyword>
         <ext>
           <doctype>service-publication</doctype>
             <flavor>itu</flavor>
@@ -1182,17 +1150,10 @@ RSpec.describe Metanorma::Itu do
         <title language='es' type='main'>Titre Principal</title>
         <title language='en' type='main'>Main Title</title>
         <title language='es' type='subtitle'>Soustitre</title>
-<<<<<<< HEAD
-        <docidentifier type='ITU-provisional'>ABC</docidentifier>
-        <docidentifier type="ITU" primary="true">Annex to ITU-T OB No. 1000</docidentifier>
-        <docidentifier type="ITU-lang">Anexo al UIT-T OB No. 1000-S</docidentifier>
-        <docidentifier type="ITU-lang-long">Anexo al BE de la UIT N.º 1000-S</docidentifier>
-=======
         <title language='en' type='subtitle'>Subtitle</title>
         <docidentifier primary="true" type='ITU'>Anexo al BE de la UIT 1000</docidentifier>
         <docidentifier type='ITU-lang'>Anexo al BE de la UIT 1000-S</docidentifier>
         <docidentifier type='ITU-provisional'>ABC</docidentifier>
->>>>>>> main
         <docnumber>1000</docnumber>
         <contributor>
           <role type='author'/>
@@ -1894,124 +1855,119 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~OUTPUT
       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
-      <bibdata type='standard'>
-        <title language='ru' type='main'>Titre Principal</title>
-        <title language='en' type='main'>Main Title</title>
-        <title language='ru' type='subtitle'>Soustitre</title>
-        <title language='en' type='subtitle'>Subtitle</title>
-            <docidentifier primary="true" type='ITU'>
-              &#1055;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;
-              &#1082; &#1054;&#1041; &#1052;&#1057;&#1069; 1000
-            </docidentifier>
-            <docidentifier type='ITU-lang'>
-              &#1055;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1077;
-              &#1082; &#1054;&#1041; &#1052;&#1057;&#1069; 1000-R
-            </docidentifier>
-            <docidentifier type='ITU-provisional'>ABC</docidentifier>
-            <docnumber>1000</docnumber>
-            <contributor>
-              <role type='author'/>
-              <organization>
+         <bibdata type="standard">
+           <title language="ru" type="main">Titre Principal</title>
+           <title language="en" type="main">Main Title</title>
+           <title language="ru" type="subtitle">Soustitre</title>
+           <title language="en" type="subtitle">Subtitle</title>
+           <docidentifier type="ITU" primary="true">Приложение к ОБ МСЭ 1000</docidentifier>
+           <docidentifier type="ITU-lang">Приложение к ОБ МСЭ 1000-R</docidentifier>
+           <docidentifier type="ITU-lang-long">Приложение к ОБ МСЭ 1000-R</docidentifier>
+           <docidentifier type="ITU-provisional">ABC</docidentifier>
+           <docnumber>1000</docnumber>
+           <contributor>
+             <role type="author"/>
+             <organization>
+               <name>Международный Союз Электросвязи</name>
+               <abbreviation>МСЭ</abbreviation>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="editor">raporteur</role>
+             <person>
+               <name>
+                 <completename>Fred Flintstone</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry</name>
+                   <address>
+                     <formattedAddress>Canada</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>555</phone>
+               <phone type="fax">556</phone>
+               <email>x@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="editor"/>
+             <person>
+               <name>
+                 <completename>Barney Rubble</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry 2</name>
+                   <address>
+                     <formattedAddress>USA</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>557</phone>
+               <phone type="fax">558</phone>
+               <email>y@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="author">
+               <description>committee</description>
+             </role>
+             <organization>
+               <name>Международный Союз Электросвязи</name>
+               <subdivision type="Bureau">
+                 <name>T</name>
+               </subdivision>
+               <subdivision type="Group">
+                 <name>I</name>
+               </subdivision>
+               <subdivision type="Subgroup">
+                 <name>I1</name>
+               </subdivision>
+               <subdivision type="Workgroup">
+                 <name>I2</name>
+               </subdivision>
+               <abbreviation>МСЭ</abbreviation>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>Международный Союз Электросвязи</name>
+               <abbreviation>МСЭ</abbreviation>
+             </organization>
+           </contributor>
+           <edition>2</edition>
+           <version>
+             <revision-date>2000-01-01</revision-date>
+             <draft>5</draft>
+           </version>
+           <language>ru</language>
+           <script>Cyrl</script>
+           <status>
+             <stage>draft</stage>
+           </status>
+           <copyright>
+             <from>2001</from>
+             <owner>
+               <organization>
                  <name>Международный Союз Электросвязи</name>
                  <abbreviation>МСЭ</abbreviation>
-              </organization>
-            </contributor>
-            <contributor>
-              <role type='editor'>raporteur</role>
-              <person>
-                <name>
-                  <completename>Fred Flintstone</completename>
-                </name>
-                <affiliation>
-                  <organization>
-                    <name>Bedrock Quarry</name>
-                    <address>
-                      <formattedAddress>Canada</formattedAddress>
-                    </address>
-                  </organization>
-                </affiliation>
-                <phone>555</phone>
-                <phone type='fax'>556</phone>
-                <email>x@example.com</email>
-              </person>
-            </contributor>
-            <contributor>
-              <role type='editor'/>
-              <person>
-                <name>
-                  <completename>Barney Rubble</completename>
-                </name>
-                <affiliation>
-                  <organization>
-                    <name>Bedrock Quarry 2</name>
-                    <address>
-                      <formattedAddress>USA</formattedAddress>
-                    </address>
-                  </organization>
-                </affiliation>
-                <phone>557</phone>
-                <phone type='fax'>558</phone>
-                <email>y@example.com</email>
-              </person>
-            </contributor>
-      <contributor>
-         <role type="author">
-            <description>committee</description>
-         </role>
-         <organization>
-            <name>Международный Союз Электросвязи</name>
-            <subdivision type="Bureau">
-               <name>R</name>
-            </subdivision>
-            <subdivision type="Group">
-               <name>I</name>
-            </subdivision>
-            <subdivision type="Subgroup">
-               <name>I1</name>
-            </subdivision>
-            <subdivision type="Workgroup">
-               <name>I2</name>
-            </subdivision>
-            <abbreviation>МСЭ</abbreviation>
-         </organization>
-      </contributor>
-            <contributor>
-              <role type='publisher'/>
-              <organization>
-                 <name>Международный Союз Электросвязи</name>
-                 <abbreviation>МСЭ</abbreviation>
-              </organization>
-            </contributor>
-            <edition>2</edition>
-            <version>
-              <revision-date>2000-01-01</revision-date>
-              <draft>5</draft>
-            </version>
-            <language>ru</language>
-            <script>Cyrl</script>
-            <status>
-              <stage>draft</stage>
-            </status>
-            <copyright>
-              <from>2001</from>
-              <owner>
-                <organization>
-                  <name>Международный Союз Электросвязи</name>
-                  <abbreviation>МСЭ</abbreviation>
-                </organization>
-              </owner>
-            </copyright>
-            <series type='main'>
-              <title>A3</title>
-            </series>
-            <series type='secondary'>
-              <title>B3</title>
-            </series>
-            <series type='tertiary'>
-              <title>C3</title>
-            </series>
-            <keyword>Word1</keyword>
-            <keyword>word2</keyword>
+               </organization>
+             </owner>
+           </copyright>
+           <series type="main">
+             <title>A3</title>
+           </series>
+           <series type="secondary">
+             <title>B3</title>
+           </series>
+           <series type="tertiary">
+             <title>C3</title>
+           </series>
+           <keyword>Word1</keyword>
+           <keyword>word2</keyword>
             <ext>
               <doctype>service-publication</doctype>
              <flavor>itu</flavor>
@@ -2028,7 +1984,7 @@ RSpec.describe Metanorma::Itu do
               <intended-type>TD</intended-type>
               <source>Source</source>
               <structuredidentifier>
-                <bureau>R</bureau>
+                <bureau>T</bureau>
                 <docnumber>1000</docnumber>
               </structuredidentifier>
             </ext>

@@ -59,118 +59,119 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~"OUTPUT"
       <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
-        <bibdata type='standard'>
-          <title language='fr' type='main'>Titre Principal</title>
-          <title language='en' type='main'>Main Title</title>
-          <title language='fr' type='subtitle'>Soustitre</title>
-          <title language='en' type='subtitle'>Subtitle</title>
-          <docidentifier primary="true" type='ITU'>Annexe au BE de l'UIT 1000</docidentifier>
-          <docidentifier type='ITU-lang'>Annexe au BE de l'UIT 1000-F</docidentifier>
-          <docidentifier type='ITU-provisional'>ABC</docidentifier>
-          <docnumber>1000</docnumber>
-          <contributor>
-            <role type='author'/>
-            <organization>
-                           <name>Union internationale des télécommunications</name>
-                <abbreviation>UIT</abbreviation>
-            </organization>
-          </contributor>
-          <contributor>
-            <role type='editor'>raporteur</role>
-            <person>
-              <name>
-                <completename>Fred Flintstone</completename>
-              </name>
-              <affiliation>
-                <organization>
-                  <name>Bedrock Quarry</name>
-                  <address>
-                    <formattedAddress>Canada</formattedAddress>
-                  </address>
-                </organization>
-              </affiliation>
-              <phone>555</phone>
-              <phone type='fax'>556</phone>
-              <email>x@example.com</email>
-            </person>
-          </contributor>
-          <contributor>
-            <role type='editor'/>
-            <person>
-              <name>
-                <completename>Barney Rubble</completename>
-              </name>
-              <affiliation>
-                <organization>
-                  <name>Bedrock Quarry 2</name>
-                  <address>
-                    <formattedAddress>USA</formattedAddress>
-                  </address>
-                </organization>
-              </affiliation>
-              <phone>557</phone>
-              <phone type='fax'>558</phone>
-              <email>y@example.com</email>
-            </person>
-          </contributor>
-      <contributor>
-         <role type="author">
-            <description>committee</description>
-         </role>
-         <organization>
-            <name>Union internationale des télécommunications</name>
-            <subdivision type="Bureau">
-               <name>R</name>
-            </subdivision>
-            <subdivision type="Group">
-               <name>I</name>
-            </subdivision>
-            <subdivision type="Subgroup">
-               <name>I1</name>
-            </subdivision>
-            <subdivision type="Workgroup">
-               <name>I2</name>
-            </subdivision>
-            <abbreviation>UIT</abbreviation>
-         </organization>
-      </contributor>
-          <contributor>
-            <role type='publisher'/>
-            <organization>
-                           <name>Union internationale des télécommunications</name>
-                <abbreviation>UIT</abbreviation>
-            </organization>
-          </contributor>
-          <edition>2</edition>
-          <version>
-            <revision-date>2000-01-01</revision-date>
-            <draft>5</draft>
-          </version>
-          <language>fr</language>
-          <script>Latn</script>
-          <status>
-            <stage>draft</stage>
-          </status>
-          <copyright>
-            <from>2001</from>
-            <owner>
-              <organization>
+         <bibdata type="standard">
+           <title language="fr" type="main">Titre Principal</title>
+           <title language="en" type="main">Main Title</title>
+           <title language="fr" type="subtitle">Soustitre</title>
+           <title language="en" type="subtitle">Subtitle</title>
+           <docidentifier type="ITU" primary="true">Annexe au BE de l'UIT 1000</docidentifier>
+           <docidentifier type="ITU-lang">Annexe au BE de l'UIT 1000-F</docidentifier>
+           <docidentifier type="ITU-lang-long">Annexe au BE de l'UIT 1000-F</docidentifier>
+           <docidentifier type="ITU-provisional">ABC</docidentifier>
+           <docnumber>1000</docnumber>
+           <contributor>
+             <role type="author"/>
+             <organization>
                <name>Union internationale des télécommunications</name>
-                <abbreviation>UIT</abbreviation>
-              </organization>
-            </owner>
-          </copyright>
-          <series type='main'>
-            <title>A3</title>
-          </series>
-          <series type='secondary'>
-            <title>B3</title>
-          </series>
-          <series type='tertiary'>
-            <title>C3</title>
-          </series>
-          <keyword>Word1</keyword>
-          <keyword>word2</keyword>
+               <abbreviation>UIT</abbreviation>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="editor">raporteur</role>
+             <person>
+               <name>
+                 <completename>Fred Flintstone</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry</name>
+                   <address>
+                     <formattedAddress>Canada</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>555</phone>
+               <phone type="fax">556</phone>
+               <email>x@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="editor"/>
+             <person>
+               <name>
+                 <completename>Barney Rubble</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry 2</name>
+                   <address>
+                     <formattedAddress>USA</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>557</phone>
+               <phone type="fax">558</phone>
+               <email>y@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="author">
+               <description>committee</description>
+             </role>
+             <organization>
+               <name>Union internationale des télécommunications</name>
+               <subdivision type="Bureau">
+                 <name>T</name>
+               </subdivision>
+               <subdivision type="Group">
+                 <name>I</name>
+               </subdivision>
+               <subdivision type="Subgroup">
+                 <name>I1</name>
+               </subdivision>
+               <subdivision type="Workgroup">
+                 <name>I2</name>
+               </subdivision>
+               <abbreviation>UIT</abbreviation>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>Union internationale des télécommunications</name>
+               <abbreviation>UIT</abbreviation>
+             </organization>
+           </contributor>
+           <edition>2</edition>
+           <version>
+             <revision-date>2000-01-01</revision-date>
+             <draft>5</draft>
+           </version>
+           <language>fr</language>
+           <script>Latn</script>
+           <status>
+             <stage>draft</stage>
+           </status>
+           <copyright>
+             <from>2001</from>
+             <owner>
+               <organization>
+                 <name>Union internationale des télécommunications</name>
+                 <abbreviation>UIT</abbreviation>
+               </organization>
+             </owner>
+           </copyright>
+           <series type="main">
+             <title>A3</title>
+           </series>
+           <series type="secondary">
+             <title>B3</title>
+           </series>
+           <series type="tertiary">
+             <title>C3</title>
+           </series>
+           <keyword>Word1</keyword>
+           <keyword>word2</keyword>
           <ext>
             <doctype>service-publication</doctype>
             <flavor>itu</flavor>
@@ -1146,118 +1147,119 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~OUTPUT
            <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
-            <bibdata type='standard'>
-        <title language='es' type='main'>Titre Principal</title>
-        <title language='en' type='main'>Main Title</title>
-        <title language='es' type='subtitle'>Soustitre</title>
-        <title language='en' type='subtitle'>Subtitle</title>
-        <docidentifier primary="true" type='ITU'>Anexo al BE de la UIT 1000</docidentifier>
-        <docidentifier type='ITU-lang'>Anexo al BE de la UIT 1000-S</docidentifier>
-        <docidentifier type='ITU-provisional'>ABC</docidentifier>
-        <docnumber>1000</docnumber>
-        <contributor>
-          <role type='author'/>
-          <organization>
-                  <name>Unión Internacional de Telecomunicaciones</name>
-        <abbreviation>UIT</abbreviation>
-          </organization>
-        </contributor>
-        <contributor>
-          <role type='editor'>raporteur</role>
-          <person>
-            <name>
-              <completename>Fred Flintstone</completename>
-            </name>
-            <affiliation>
-              <organization>
-                <name>Bedrock Quarry</name>
-                <address>
-                  <formattedAddress>Canada</formattedAddress>
-                </address>
-              </organization>
-            </affiliation>
-            <phone>555</phone>
-            <phone type='fax'>556</phone>
-            <email>x@example.com</email>
-          </person>
-        </contributor>
-        <contributor>
-          <role type='editor'/>
-          <person>
-            <name>
-              <completename>Barney Rubble</completename>
-            </name>
-            <affiliation>
-              <organization>
-                <name>Bedrock Quarry 2</name>
-                <address>
-                  <formattedAddress>USA</formattedAddress>
-                </address>
-              </organization>
-            </affiliation>
-            <phone>557</phone>
-            <phone type='fax'>558</phone>
-            <email>y@example.com</email>
-          </person>
-        </contributor>
-      <contributor>
-         <role type="author">
-            <description>committee</description>
-         </role>
-         <organization>
-            <name>Unión Internacional de Telecomunicaciones</name>
-            <subdivision type="Bureau">
-               <name>R</name>
-            </subdivision>
-            <subdivision type="Group">
-               <name>I</name>
-            </subdivision>
-            <subdivision type="Subgroup">
-               <name>I1</name>
-            </subdivision>
-            <subdivision type="Workgroup">
-               <name>I2</name>
-            </subdivision>
-            <abbreviation>UIT</abbreviation>
-         </organization>
-      </contributor>
-        <contributor>
-          <role type='publisher'/>
-          <organization>
-                  <name>Unión Internacional de Telecomunicaciones</name>
-        <abbreviation>UIT</abbreviation>
-          </organization>
-        </contributor>
-        <edition>2</edition>
-        <version>
-          <revision-date>2000-01-01</revision-date>
-          <draft>5</draft>
-        </version>
-        <language>es</language>
-        <script>Latn</script>
-        <status>
-          <stage>draft</stage>
-        </status>
-        <copyright>
-          <from>2001</from>
-          <owner>
-            <organization>
-                    <name>Unión Internacional de Telecomunicaciones</name>
-        <abbreviation>UIT</abbreviation>
-            </organization>
-          </owner>
-        </copyright>
-        <series type='main'>
-          <title>A3</title>
-        </series>
-        <series type='secondary'>
-          <title>B3</title>
-        </series>
-        <series type='tertiary'>
-          <title>C3</title>
-        </series>
-        <keyword>Word1</keyword>
-        <keyword>word2</keyword>
+         <bibdata type="standard">
+           <title language="es" type="main">Titre Principal</title>
+           <title language="en" type="main">Main Title</title>
+           <title language="es" type="subtitle">Soustitre</title>
+           <title language="en" type="subtitle">Subtitle</title>
+           <docidentifier type="ITU" primary="true">Anexo al BE de la UIT N.º 1000</docidentifier>
+           <docidentifier type="ITU-lang">Anexo al BE de la UIT N.º 1000-S</docidentifier>
+           <docidentifier type="ITU-lang-long">Anexo al BE de la UIT N.º 1000-S</docidentifier>
+           <docidentifier type="ITU-provisional">ABC</docidentifier>
+           <docnumber>1000</docnumber>
+           <contributor>
+             <role type="author"/>
+             <organization>
+               <name>Unión Internacional de Telecomunicaciones</name>
+               <abbreviation>UIT</abbreviation>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="editor">raporteur</role>
+             <person>
+               <name>
+                 <completename>Fred Flintstone</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry</name>
+                   <address>
+                     <formattedAddress>Canada</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>555</phone>
+               <phone type="fax">556</phone>
+               <email>x@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="editor"/>
+             <person>
+               <name>
+                 <completename>Barney Rubble</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry 2</name>
+                   <address>
+                     <formattedAddress>USA</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>557</phone>
+               <phone type="fax">558</phone>
+               <email>y@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="author">
+               <description>committee</description>
+             </role>
+             <organization>
+               <name>Unión Internacional de Telecomunicaciones</name>
+               <subdivision type="Bureau">
+                 <name>T</name>
+               </subdivision>
+               <subdivision type="Group">
+                 <name>I</name>
+               </subdivision>
+               <subdivision type="Subgroup">
+                 <name>I1</name>
+               </subdivision>
+               <subdivision type="Workgroup">
+                 <name>I2</name>
+               </subdivision>
+               <abbreviation>UIT</abbreviation>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>Unión Internacional de Telecomunicaciones</name>
+               <abbreviation>UIT</abbreviation>
+             </organization>
+           </contributor>
+           <edition>2</edition>
+           <version>
+             <revision-date>2000-01-01</revision-date>
+             <draft>5</draft>
+           </version>
+           <language>es</language>
+           <script>Latn</script>
+           <status>
+             <stage>draft</stage>
+           </status>
+           <copyright>
+             <from>2001</from>
+             <owner>
+               <organization>
+                 <name>Unión Internacional de Telecomunicaciones</name>
+                 <abbreviation>UIT</abbreviation>
+               </organization>
+             </owner>
+           </copyright>
+           <series type="main">
+             <title>A3</title>
+           </series>
+           <series type="secondary">
+             <title>B3</title>
+           </series>
+           <series type="tertiary">
+             <title>C3</title>
+           </series>
+           <keyword>Word1</keyword>
+           <keyword>word2</keyword>
         <ext>
           <doctype>service-publication</doctype>
             <flavor>itu</flavor>
@@ -1501,118 +1503,119 @@ RSpec.describe Metanorma::Itu do
     INPUT
     output = <<~OUTPUT
           <metanorma xmlns='https://www.metanorma.org/ns/standoc' type='semantic' version='#{Metanorma::Itu::VERSION}' flavor="itu">
-      <bibdata type='standard'>
-        <title language='de' type='main'>Titre Principal</title>
-        <title language='en' type='main'>Main Title</title>
-        <title language='de' type='subtitle'>Soustitre</title>
-        <title language='en' type='subtitle'>Subtitle</title>
-        <docidentifier primary="true" type='ITU'>Anhang zum  ITU OB 1000</docidentifier>
-        <docidentifier type='ITU-lang'>Anhang zum  ITU OB 1000-</docidentifier>
-        <docidentifier type='ITU-provisional'>ABC</docidentifier>
-        <docnumber>1000</docnumber>
-        <contributor>
-          <role type='author'/>
-          <organization>
-                  <name>Internationale Fernmeldeunion</name>
-        <abbreviation>ITU</abbreviation>
-          </organization>
-        </contributor>
-        <contributor>
-          <role type='editor'>raporteur</role>
-          <person>
-            <name>
-              <completename>Fred Flintstone</completename>
-            </name>
-            <affiliation>
-              <organization>
-                <name>Bedrock Quarry</name>
-                <address>
-                  <formattedAddress>Canada</formattedAddress>
-                </address>
-              </organization>
-            </affiliation>
-            <phone>555</phone>
-            <phone type='fax'>556</phone>
-            <email>x@example.com</email>
-          </person>
-        </contributor>
-        <contributor>
-          <role type='editor'/>
-          <person>
-            <name>
-              <completename>Barney Rubble</completename>
-            </name>
-            <affiliation>
-              <organization>
-                <name>Bedrock Quarry 2</name>
-                <address>
-                  <formattedAddress>USA</formattedAddress>
-                </address>
-              </organization>
-            </affiliation>
-            <phone>557</phone>
-            <phone type='fax'>558</phone>
-            <email>y@example.com</email>
-          </person>
-        </contributor>
-              <contributor>
-         <role type="author">
-            <description>committee</description>
-         </role>
-         <organization>
-            <name>Internationale Fernmeldeunion</name>
-            <subdivision type="Bureau">
-               <name>R</name>
-            </subdivision>
-            <subdivision type="Group">
-               <name>I</name>
-            </subdivision>
-            <subdivision type="Subgroup">
-               <name>I1</name>
-            </subdivision>
-            <subdivision type="Workgroup">
-               <name>I2</name>
-            </subdivision>
-            <abbreviation>ITU</abbreviation>
-         </organization>
-      </contributor>
-        <contributor>
-          <role type='publisher'/>
-          <organization>
-                  <name>Internationale Fernmeldeunion</name>
-        <abbreviation>ITU</abbreviation>
-          </organization>
-        </contributor>
-        <edition>2</edition>
-        <version>
-          <revision-date>2000-01-01</revision-date>
-          <draft>5</draft>
-        </version>
-        <language>de</language>
-        <script>Latn</script>
-        <status>
-          <stage>draft</stage>
-        </status>
-        <copyright>
-          <from>2001</from>
-          <owner>
-            <organization>
-                    <name>Internationale Fernmeldeunion</name>
-        <abbreviation>ITU</abbreviation>
-            </organization>
-          </owner>
-        </copyright>
-        <series type='main'>
-          <title>A3</title>
-        </series>
-        <series type='secondary'>
-          <title>B3</title>
-        </series>
-        <series type='tertiary'>
-          <title>C3</title>
-        </series>
-        <keyword>Word1</keyword>
-        <keyword>word2</keyword>
+         <bibdata type="standard">
+           <title language="de" type="main">Titre Principal</title>
+           <title language="en" type="main">Main Title</title>
+           <title language="de" type="subtitle">Soustitre</title>
+           <title language="en" type="subtitle">Subtitle</title>
+           <docidentifier type="ITU" primary="true">Anhang zum ITU-R OB No. 1000</docidentifier>
+           <docidentifier type="ITU-lang">Anhang zum ITU-R OB No. 1000</docidentifier>
+           <docidentifier type="ITU-lang-long">Anhang zum ITU-R OB No. 1000</docidentifier>
+           <docidentifier type="ITU-provisional">ABC</docidentifier>
+           <docnumber>1000</docnumber>
+           <contributor>
+             <role type="author"/>
+             <organization>
+               <name>Internationale Fernmeldeunion</name>
+               <abbreviation>ITU</abbreviation>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="editor">raporteur</role>
+             <person>
+               <name>
+                 <completename>Fred Flintstone</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry</name>
+                   <address>
+                     <formattedAddress>Canada</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>555</phone>
+               <phone type="fax">556</phone>
+               <email>x@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="editor"/>
+             <person>
+               <name>
+                 <completename>Barney Rubble</completename>
+               </name>
+               <affiliation>
+                 <organization>
+                   <name>Bedrock Quarry 2</name>
+                   <address>
+                     <formattedAddress>USA</formattedAddress>
+                   </address>
+                 </organization>
+               </affiliation>
+               <phone>557</phone>
+               <phone type="fax">558</phone>
+               <email>y@example.com</email>
+             </person>
+           </contributor>
+           <contributor>
+             <role type="author">
+               <description>committee</description>
+             </role>
+             <organization>
+               <name>Internationale Fernmeldeunion</name>
+               <subdivision type="Bureau">
+                 <name>R</name>
+               </subdivision>
+               <subdivision type="Group">
+                 <name>I</name>
+               </subdivision>
+               <subdivision type="Subgroup">
+                 <name>I1</name>
+               </subdivision>
+               <subdivision type="Workgroup">
+                 <name>I2</name>
+               </subdivision>
+               <abbreviation>ITU</abbreviation>
+             </organization>
+           </contributor>
+           <contributor>
+             <role type="publisher"/>
+             <organization>
+               <name>Internationale Fernmeldeunion</name>
+               <abbreviation>ITU</abbreviation>
+             </organization>
+           </contributor>
+           <edition>2</edition>
+           <version>
+             <revision-date>2000-01-01</revision-date>
+             <draft>5</draft>
+           </version>
+           <language>de</language>
+           <script>Latn</script>
+           <status>
+             <stage>draft</stage>
+           </status>
+           <copyright>
+             <from>2001</from>
+             <owner>
+               <organization>
+                 <name>Internationale Fernmeldeunion</name>
+                 <abbreviation>ITU</abbreviation>
+               </organization>
+             </owner>
+           </copyright>
+           <series type="main">
+             <title>A3</title>
+           </series>
+           <series type="secondary">
+             <title>B3</title>
+           </series>
+           <series type="tertiary">
+             <title>C3</title>
+           </series>
+           <keyword>Word1</keyword>
+           <keyword>word2</keyword>
         <ext>
           <doctype>service-publication</doctype>
             <flavor>itu</flavor>

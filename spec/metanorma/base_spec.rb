@@ -74,8 +74,9 @@ RSpec.describe Metanorma::Itu do
         <bibdata type="standard">
           <title language="en" type="main">Main Title</title>
           <title language='en' type='subtitle'>Subtitle</title>
-          <docidentifier primary="true" type="ITU">ITU-T 1000</docidentifier>
+          <docidentifier type="ITU" primary="true">ITU-T 1000</docidentifier>
           <docidentifier type="ITU-lang">ITU-T 1000-E</docidentifier>
+          <docidentifier type="ITU-lang-long">ITU-T 1000-E</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
             <role type="author"/>
@@ -257,6 +258,7 @@ RSpec.describe Metanorma::Itu do
              <title language="en" type="slogan">Slogan</title>
              <docidentifier type="ITU" primary="true">ITU-R 1000</docidentifier>
              <docidentifier type="ITU-lang">ITU-R 1000-E</docidentifier>
+             <docidentifier type="ITU-lang-long">ITU-R 1000-E</docidentifier>
              <docidentifier type="ITU-provisional">ABC</docidentifier>
              <docidentifier type="ITU-TemporaryDocument">SG17-TD611</docidentifier>
              <docidentifier type="ITU-Recommendation">G.7713.1</docidentifier>
@@ -1015,6 +1017,7 @@ RSpec.describe Metanorma::Itu do
           <title language='fr' type='subtitle'>Soustitre</title>
           <docidentifier primary="true" type='ITU'>SG17-C1000</docidentifier>
           <docidentifier type='ITU-lang'>SG17-C1000-E</docidentifier>
+          <docidentifier type='ITU-lang-long'>SG17-C1000-E</docidentifier>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
@@ -1221,6 +1224,7 @@ RSpec.describe Metanorma::Itu do
           <title language='fr' type='subtitle'>Soustitre</title>
           <docidentifier primary="true" type='ITU'>ITU-R 1000</docidentifier>
           <docidentifier type='ITU-lang'>ITU-R 1000-E</docidentifier>
+          <docidentifier type='ITU-lang-long'>ITU-R 1000-E</docidentifier>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
@@ -1402,7 +1406,6 @@ RSpec.describe Metanorma::Itu do
           <title language='en' type='subtitle'>Subtitle</title>
           <title language='fr' type='subtitle'>Soustitre</title>
           <docidentifier primary="true" type='ITU'>OVERRIDE</docidentifier>
-          <docidentifier type='ITU-lang'>OVERRIDE-E</docidentifier>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docnumber>1000</docnumber>
           <contributor>
@@ -1557,8 +1560,9 @@ RSpec.describe Metanorma::Itu do
            <title language='fr' type='main'>Titre Principal</title>
            <title language='en' type='subtitle'>Subtitle</title>
            <title language='fr' type='subtitle'>Soustitre</title>
-           <docidentifier primary="true" type='ITU'>Annex to ITU OB 1000</docidentifier>
-           <docidentifier type='ITU-lang'>Annex to ITU OB 1000-E</docidentifier>
+           <docidentifier primary="true" type='ITU'>Annex to ITU-R OB No. 1000</docidentifier>
+           <docidentifier type='ITU-lang'>Annex to ITU-R OB No. 1000-E</docidentifier>
+           <docidentifier type='ITU-lang-long'>Annex to ITU-R OB No. 1000-E</docidentifier>
            <docidentifier type='ITU-provisional'>ABC</docidentifier>
            <docnumber>1000</docnumber>
            <contributor>
@@ -1716,6 +1720,7 @@ RSpec.describe Metanorma::Itu do
         <title language="en" type="main">Main Title</title>
         <docidentifier primary="true" type="ITU">ITU-T 1000</docidentifier>
         <docidentifier type="ITU-lang">ITU-T 1000-E</docidentifier>
+        <docidentifier type="ITU-lang-long">ITU-T 1000-E</docidentifier>
         <docnumber>1000</docnumber>
         <contributor>
           <role type="author"/>

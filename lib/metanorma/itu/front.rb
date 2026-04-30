@@ -1,6 +1,6 @@
 require "fileutils"
-require_relative "./front_id"
-require_relative "./front_contrib"
+require_relative "front_id"
+require_relative "front_contrib"
 
 module Metanorma
   module Itu
@@ -9,7 +9,8 @@ module Metanorma
         stage = node.attr("status") || node.attr("docstage") || "published"
         stage = "draft" if node.attributes.has_key?("draft")
         xml.status do |s|
-          add_noko_elem(s, "stage", stage, abbreviation: node.attr("docstage-abbrev"))
+          add_noko_elem(s, "stage", stage,
+                        abbreviation: node.attr("docstage-abbrev"))
         end
       end
 
@@ -49,14 +50,14 @@ module Metanorma
 
       def other_title_defaultlang(node, xml, type)
         a = node.attr(type) || node.attr("#{type}-#{@lang}")
-        add_title_xml(xml, a, @lang, type.sub(/-title/, ""))
+        add_title_xml(xml, a, @lang, type.sub("-title", ""))
       end
 
       def other_title_otherlangs(node, xml, type)
         node.attributes.each do |k, v|
           m = /^#{type}-(?<lang>.+)$/.match(k) or next
           m[:lang] == @lang and next
-          add_title_xml(xml, v, m[:lang], type.sub(/-title/, ""))
+          add_title_xml(xml, v, m[:lang], type.sub("-title", ""))
         end
       end
 
@@ -76,8 +77,8 @@ module Metanorma
 
       def group_period(node, prefix, suffix)
         s = node.attr("#{prefix}group-year-start#{suffix}") ||
-          Date.today.year - (Date.today.year % 2)
-        e = node.attr("#{prefix}group-year-end#{suffix}") || s.to_i + 2
+          (Date.today.year - (Date.today.year % 2))
+        e = node.attr("#{prefix}group-year-end#{suffix}") || (s.to_i + 2)
         [s, e]
       end
 
@@ -85,7 +86,7 @@ module Metanorma
         { series: "main", series1: "secondary", series2: "tertiary" }
           .each do |k, v|
           node.attr(k.to_s) and
-            xml.series **{ type: v } do |s|
+            xml.series type: v do |s|
               add_noko_elem(s, "title", node.attr(k.to_s))
             end
         end

@@ -9,7 +9,7 @@ module IsoDoc
         @isodoc = IsoDoc::Itu::HtmlConvert.new({})
       end
 
-      def images(isoxml, xml)
+      def images(_isoxml, _xml)
         n = "International_Telecommunication_Union_Logo.svg"
         set(:logo_html, fileloc(n))
         set(:logo_comb, fileloc("itu-document-comb.png"))
@@ -67,22 +67,13 @@ module IsoDoc
       end
 
       COMMITTEE_XPATH = "//bibdata/contributor[role/description = 'committee']/" \
-        "organization/subdivision".freeze
+                        "organization/subdivision".freeze
 
       def author(xml, _out)
         sector = xml.at(ns("#{COMMITTEE_XPATH}[@type='Sector']/name"))
         set(:sector, sector.text) if sector
         bureau(xml)
-        tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Group']/name"))
-        set(:group, tc.text) if tc
-        tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Group']/identifier"))
-        set(:group_acronym, tc.text) if tc
-        start1 = xml.at(ns("//bibdata/ext/studyperiod/start"))
-        end1 = xml.at(ns("//bibdata/ext/studyperiod/end"))
-        if start1
-          set(:study_group_period,
-              @i18n.l10n("#{start1.text}–#{end1.text}"))
-        end
+        study_group(xml)
         tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Subgroup']/name"))
         set(:subgroup, tc.text) if tc
         tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Workgroup']/name"))
@@ -93,14 +84,24 @@ module IsoDoc
         person_attributes(authors) unless authors.empty?
       end
 
+      def study_group(xml)
+        tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Group']/name"))
+        set(:group, tc.text) if tc
+        tc = xml.at(ns("#{COMMITTEE_XPATH}[@type='Group']/identifier"))
+        set(:group_acronym, tc.text) if tc
+        start1 = xml.at(ns("//bibdata/ext/studyperiod/start")) or return
+        end1 = xml.at(ns("//bibdata/ext/studyperiod/end"))
+        set(:study_group_period,
+            @i18n.l10n("#{start1.text}–#{end1.text}"))
+      end
+
       def bureau(xml)
-        if bureau = xml.at(ns("#{COMMITTEE_XPATH}[@type='Bureau']/name"))
-          set(:bureau, bureau.text)
-          case bureau.text
-          when "T" then set(:bureau_full, @i18n.tsb_full)
-          when "D" then set(:bureau_full, @i18n.bdt_full)
-          when "R" then set(:bureau_full, @i18n.br_full)
-          end
+        bureau = xml.at(ns("#{COMMITTEE_XPATH}[@type='Bureau']/name")) or return
+        set(:bureau, bureau.text)
+        case bureau.text
+        when "T" then set(:bureau_full, @i18n.tsb_full)
+        when "D" then set(:bureau_full, @i18n.bdt_full)
+        when "R" then set(:bureau_full, @i18n.br_full)
         end
       end
 

@@ -2,7 +2,7 @@ module IsoDoc
   module Itu
     class WordConvert < IsoDoc::WordConvert
       def word_preface_cleanup(docxml)
-        docxml.xpath("//h1[@class = 'AbstractTitle'] | "\
+        docxml.xpath("//h1[@class = 'AbstractTitle'] | " \
                      "//h1[@class = 'IntroTitle']").each do |h2|
                        h2.name = "p"
                        h2["class"] = "h1Preface"
@@ -25,8 +25,8 @@ module IsoDoc
 
       def word_footnote_cleanup(docxml)
         docxml.xpath("//aside").each do |a|
-          a.first_element_child.
-            add_first_child '<span style="mso-tab-count:1"/>'
+          a.first_element_child
+            .add_first_child '<span style="mso-tab-count:1"/>'
         end
       end
 
@@ -50,21 +50,13 @@ module IsoDoc
 
       def word_preface(docxml)
         super
-        abstractbox = docxml.at("//div[@id='abstractbox']")
-        historybox = docxml.at("//div[@id='historybox']")
-        sourcebox = docxml.at("//div[@id='sourcebox']")
-        keywordsbox = docxml.at("//div[@id='keywordsbox']")
-        changelogbox = docxml.at("//div[@id='change_logbox']")
-        abstract = docxml.at("//div[@class = 'Abstract']")
-        history = docxml.at("//div[@class = 'history']")
-        source = docxml.at("//div[@class = 'source']")
-        keywords = docxml.at("//div[@class = 'Keyword']")
-        changelog = docxml.at("//div[@id = 'change_log']")
-        abstract.parent = abstractbox if abstract && abstractbox
-        history.parent = historybox if history && historybox
-        source.parent = sourcebox if source && sourcebox
-        keywords.parent = keywordsbox if keywords && keywordsbox
-        changelog.parent = changelogbox if changelog && changelogbox
+        { abstractbox: "Abstract", historybox: "history",
+          sourcebox: "source", keywordsbox: "Keyword",
+          changelogbox: "change_log" }.each do |k, v|
+          box = docxml.at("//div[@id='#{k}']")
+          content = docxml.at("//div[@class = '#{v}']")
+          content.parent = box if content && box
+        end
       end
 
       def toWord(result, filename, dir, header)
@@ -82,8 +74,8 @@ module IsoDoc
       def postprocess_cleanup(result)
         result = from_xhtml(cleanup(to_xhtml(textcleanup(result))))
         result = populate_template(result, :word)
-        result = from_xhtml(word_cleanup(to_xhtml(result)))
-          .gsub(/-DOUBLE_HYPHEN_ESCAPE-/, "--")
+        from_xhtml(word_cleanup(to_xhtml(result)))
+          .gsub("-DOUBLE_HYPHEN_ESCAPE-", "--")
       end
 
       def wordstylesheet_update
@@ -128,22 +120,29 @@ module IsoDoc
         auth = docxml.at("//div[@id = 'draft-warning']")
         dest and auth and dest.replace(auth.remove)
         %w(copyright license legal).each do |t|
-          dest = docxml.at("//div[@id = 'boilerplate-#{t}-destination']")
-          auth = docxml.at("//div[@class = 'boilerplate-#{t}']")
-          auth.remove if auth && !dest
-          next unless auth && dest
-
-          t == "copyright" and para = auth&.at(".//p") and
-            para["class"] = "boilerplateHdr"
-          auth&.xpath(".//p[not(@class)]")&.each_with_index do |p, _i|
-            p["class"] = "boilerplate"
-            # i == 0 && t == "copyright" and p["style"] = "text-align:center;"
-          end
-          t == "copyright" or
-            auth << "<p>&#xa0;</p><p>&#xa0;</p><p>&#xa0;</p>"
-          dest.replace(auth.remove)
+          authority_cleanup1(docxml, t)
         end
         coverpage_note_cleanup(docxml)
+      end
+
+      def authority_cleanup1(docxml, type)
+        auth, dest = authority_cleanup1_prep(docxml, type)
+        (auth && dest) or return
+        type == "copyright" and para = auth.at(".//p") and
+          para["class"] = "boilerplateHdr"
+        auth.xpath(".//p[not(@class)]").each do |p|
+          p["class"] = "boilerplate"
+        end
+        type == "copyright" or
+          auth << "<p>&#xa0;</p><p>&#xa0;</p><p>&#xa0;</p>"
+        dest.replace(auth.remove)
+      end
+
+      def authority_cleanup1_prep(docxml, type)
+        dest = docxml.at("//div[@id = 'boilerplate-#{type}-destination']")
+        auth = docxml.at("//div[@class = 'boilerplate-#{type}']")
+        auth.remove if auth && !dest
+        [auth, dest]
       end
 
       TOPLIST = "[not(ancestor::ul) and not(ancestor::ol)]".freeze

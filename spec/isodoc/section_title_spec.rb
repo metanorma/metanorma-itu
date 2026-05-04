@@ -434,8 +434,7 @@ RSpec.describe Metanorma::Itu do
         <div class="TOC" id="_">
           <p class="zzContents">Table of Contents</p>
           <p style="tab-stops:right 17.0cm">
-            <span style="mso-tab-count:1">  </span>
-            <b>Page</b>
+            <span style="mso-tab-count:1">  </span><b>Page</b>
           </p>
         </div>
          <div class='Abstract' id="_">
@@ -514,7 +513,7 @@ RSpec.describe Metanorma::Itu do
              <br clear="all" style="mso-special-character:line-break;page-break-before:always"/>
            </p>
            <div id="P" class="Section3">
-             <h1 class="Annex"><b>Annex A</b> <br/><br/><b>Annex</b></h1>
+             <h1 class="Annex"><b>Annex A</b><br/><br/><b>Annex</b></h1>
               <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
          <p style="display:none;" class="variant-title-toc">
             Annex A

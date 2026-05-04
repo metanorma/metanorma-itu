@@ -452,8 +452,7 @@ RSpec.describe IsoDoc::Itu do
     IsoDoc::Itu::HtmlConvert.new({}).convert("test", pres_output, false)
     output = <<~OUTPUT
        <main class="main-section">
-          <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-          <br/>
+          <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button><br/>
           <div id="_">
              <h1 class="IntroTitle" id="_">
                 <a class="anchor" href="#_"/>

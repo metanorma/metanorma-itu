@@ -24,7 +24,7 @@ RSpec.describe Metanorma::Itu do
     OUTPUT
     expect(Nokogiri::HTML(IsoDoc::Itu::WordConvert.new({})
       .convert("test", input, true))
-      .at("//div[@class='WordSection2']").to_xml)
+      .at("//div[@class='WordSection2']").to_xhtml)
      .to be_html4_equivalent_to output
   end
 
@@ -1312,7 +1312,7 @@ RSpec.describe Metanorma::Itu do
         <fmt-title id="_" depth="1">Table of Contents</fmt-title>
           </clause>
          <clause id='_' type='editors' displayorder='2'>
-           <table id="_" id='_' unnumbered='true'>
+           <table id="_" unnumbered='true'>
              <tbody>
                <tr id="_">
                  <th id="_">Editor:</th>
@@ -1373,7 +1373,7 @@ RSpec.describe Metanorma::Itu do
     presxml = <<~OUTPUT
       <preface>
          <clause id='_' type='editors' displayorder='1'>
-           <table id="_" id='_' unnumbered='true'>
+           <table id="_" unnumbered='true'>
              <tbody>
                <tr id="_">
                  <th id="_">Editors:</th>

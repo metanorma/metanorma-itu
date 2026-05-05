@@ -378,8 +378,7 @@ RSpec.describe Metanorma::Itu do
       .gsub(%r{^.*<main}m, "<main")
       .gsub(%r{</main>.*}m, "</main>")))
       .to be_html5_equivalent_to <<~OUTPUT
-         <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-         <br/>
+         <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button><br/>
               <div id="H"><h1 id="_"><a class="anchor" href="#H"/><a class="header" href="#H">1.&#xA0; Terms</a></h1>
           <div id="J"><p class="TermNum" id="J"><b>1.1.&#xA0; <b><dfn>Term2</dfn></b>:</b> [XYZ] This is a journey into sound</p>
 
@@ -717,7 +716,7 @@ RSpec.describe Metanorma::Itu do
              </html>
     OUTPUT
     expect(IsoDoc::Itu::HtmlConvert.new({})
-      .cleanup(Nokogiri::XML(input)).to_s)
+      .cleanup(Nokogiri::HTML5(input)).to_s)
       .to be_html5_equivalent_to output
   end
 end

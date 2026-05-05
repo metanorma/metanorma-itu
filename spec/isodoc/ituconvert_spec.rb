@@ -287,18 +287,10 @@ RSpec.describe Metanorma::Itu do
          <div class="WordSection3">
             <p class="zzSTDTitle1" style="text-align:center;" align="center">RESOLUTION 1 (Andorra, 1204)</p>
             <p class="zzSTDTitle2" style="text-align:center;" align="center">
-               <i>(Andorra, 1204)</i>
-               <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
-                  <a class="FootnoteRef" epub:type="footnote" href="#ftn_">1</a>
-               </span>
-               <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
-                  <a class="FootnoteRef" epub:type="footnote" href="#ftn_">2</a>
-               </span>
-            </p>
+               <i>(Andorra, 1204)</i><span style="mso-bookmark:_Ref" class="MsoFootnoteReference"><a class="FootnoteRef" epub:type="footnote" href="#ftn_">1</a></span><span style="mso-bookmark:_Ref" class="MsoFootnoteReference"><a class="FootnoteRef" epub:type="footnote" href="#ftn_">2</a></span></p>
             <p class="supertitle" style="page-break-after: avoid;">SECTION 1</p>
             <div id="A">
-               <p>
-                  Hello.
+               <p>Hello.
                   <span style="mso-bookmark:_Ref" class="MsoFootnoteReference">
                      <a class="FootnoteRef" epub:type="footnote" href="#ftn_">3</a>
                   </span>
@@ -411,7 +403,7 @@ RSpec.describe Metanorma::Itu do
            <p class='zzSTDTitle1'  style='text-align:center;'>RESOLUTION 1 (Rev. Andorra, 1204)</p>
            <p class='zzSTDTitle2'  style='text-align:center;'><i>(Andorra, 1204)</i></p>
       <p class="supertitle" style="page-break-after: avoid;">SECTION 1</p>
-      <div id="_"/>
+      <div id="_"></div>
          </div>
        </body>
     OUTPUT
@@ -443,7 +435,7 @@ RSpec.describe Metanorma::Itu do
     output = <<~OUTPUT
       #{HTML_HDR}
            <div id="_">
-             <h1 class="IntroTitle"/>
+             <h1 class="IntroTitle"></h1>
              <span class="keyword">ABC</span>
            </div>
          </div>
@@ -489,13 +481,13 @@ RSpec.describe Metanorma::Itu do
          <div class='prefatory-section'>
           <div class='boilerplate-legal'>
             <div id="_">
-              <h1 class='IntroTitle'><a class="anchor" href="#_"/><a class="header" href="#_">FOREWORD</a></h1>
+              <h1 class='IntroTitle'><a class="anchor" href="#_"></a><a class="header" href="#_">FOREWORD</a></h1>
               <p id='_'>The International Telecommunication Union (ITU) is the United Nations specialized agency in the field of telecommunications , information and communication technologies (ICTs). The ITU Telecommunication Standardization Sector (ITU-T) is a permanent organ of ITU. ITU-T is responsible for studying technical, operating and tariff questions and issuing Recommendations on them with a view to standardizing telecommunications on a worldwide basis.</p>
               <p id='_'>The World Telecommunication Standardization Assembly (WTSA), which meets every four years, establishes the topics for study by the ITU T study groups which, in turn, produce Recommendations on these topics.</p>
               <p id='_'>The approval of ITU-T Recommendations is covered by the procedure laid down in WTSA Resolution 1.</p>
               <p id='_'>In some areas of information technology which fall within ITU-T's purview, the necessary standards are prepared on a collaborative basis with ISO and IEC.</p>
               <div id="_">
-                <h2 class='IntroTitle'><a class="anchor" href="#_"/><a class="header" href="#_">NOTE</a></h2>
+                <h2 class='IntroTitle'><a class="anchor" href="#_"></a><a class="header" href="#_">NOTE</a></h2>
                 <p id='_'>In this Recommendation, the expression "Administration" is used for conciseness to indicate both a telecommunication administration and a recognized operating agency.</p>
                 <p id='_'>Compliance with this Recommendation is voluntary. However, the Recommendation may contain certain mandatory provisions (to ensure, e.g., interoperability or applicability) and compliance with the Recommendation is achieved when all of these mandatory provisions are met. The words "shall" or some other obligatory language such as "must" and the negative equivalents are used to express requirements. The use of such words does not suggest that compliance with the Recommendation is required of any party.</p>
               </div>
@@ -503,7 +495,7 @@ RSpec.describe Metanorma::Itu do
           </div>
           <div class='boilerplate-license'>
             <div id="_">
-              <h1 class='IntroTitle'><a class="anchor" href="#_"/><a class="header" href="#_">INTELLECTUAL PROPERTY RIGHTS</a></h1>
+              <h1 class='IntroTitle'><a class="anchor" href="#_"></a><a class="header" href="#_">INTELLECTUAL PROPERTY RIGHTS</a></h1>
                <p id="_">ITU draws attention to the possibility that the practice or implementation of this Recommendation may involve the use of a claimed Intellectual Property Right. ITU takes no position concerning the evidence, validity or applicability of claimed Intellectual Property Rights, whether asserted by ITU members or others outside of the Recommendation development process.</p>
              <p id="_">As of the date of approval of this Recommendation, ITU had not received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <a href="http://www.itu.int/ITU-T/ipr/">http://www.itu.int/ITU-T/ipr/</a>.</p>
             </div>
@@ -511,50 +503,53 @@ RSpec.describe Metanorma::Itu do
         </div>
       OUTPUT
 
-    FileUtils.rm_f "test.doc"
-    IsoDoc::Itu::WordConvert.new({}).convert("test", pres_output, false)
-    expect(strip_guid(File.read("test.doc", encoding: "utf-8"))
-      .gsub(%r{^.*<div class="boilerplate-legal">}m, '<div><div class="boilerplate-legal">')
-      .gsub(%r{<b>Table of Contents</b></p>.*}m, "<b>Table of Contents</b></p></div>"))
-      .to be_html4_equivalent_to <<~"OUTPUT"
-            <div><div class="boilerplate-legal">
-            <div><a name="_" id="_"/><p class="boilerplateHdr">FOREWORD</p>
+    output = <<~OUTPUT
+          <div><div class="boilerplate-legal">
+          <div><a name="_" id="_"></a><p class="boilerplateHdr">FOREWORD</p>
 
-        <p class="boilerplate"><a name="_" id="_"></a>The International Telecommunication Union (ITU) is the United Nations specialized agency in the field of telecommunications , information and communication technologies (ICTs). The ITU Telecommunication Standardization Sector (ITU-T) is a permanent organ of ITU. ITU-T is responsible for studying technical, operating and tariff questions and issuing Recommendations on them with a view to standardizing telecommunications on a worldwide basis.</p>
-        <p class="boilerplate"><a name="_" id="_"></a>The World Telecommunication Standardization Assembly (WTSA), which meets every four years, establishes the topics for study by the ITU T study groups which, in turn, produce Recommendations on these topics.</p>
-        <p class="boilerplate"><a name="_" id="_"></a>The approval of ITU-T Recommendations is covered by the procedure laid down in WTSA Resolution 1.</p>
-        <p class="boilerplate"><a name="_" id="_"></a>In some areas of information technology which fall within ITU-T's purview, the necessary standards are prepared on a collaborative basis with ISO and IEC.</p>
+      <p class="boilerplate"><a name="_" id="_"></a>The International Telecommunication Union (ITU) is the United Nations specialized agency in the field of telecommunications , information and communication technologies (ICTs). The ITU Telecommunication Standardization Sector (ITU-T) is a permanent organ of ITU. ITU-T is responsible for studying technical, operating and tariff questions and issuing Recommendations on them with a view to standardizing telecommunications on a worldwide basis.</p>
+      <p class="boilerplate"><a name="_" id="_"></a>The World Telecommunication Standardization Assembly (WTSA), which meets every four years, establishes the topics for study by the ITU T study groups which, in turn, produce Recommendations on these topics.</p>
+      <p class="boilerplate"><a name="_" id="_"></a>The approval of ITU-T Recommendations is covered by the procedure laid down in WTSA Resolution 1.</p>
+      <p class="boilerplate"><a name="_" id="_"></a>In some areas of information technology which fall within ITU-T's purview, the necessary standards are prepared on a collaborative basis with ISO and IEC.</p>
 
 
-        <div><a name="_" id="_"/><p class="boilerplateHdr">NOTE</p>
+      <div><a name="_" id="_"></a><p class="boilerplateHdr">NOTE</p>
 
-        <p class="boilerplate"><a name="_" id="_"></a>In this Recommendation, the expression "Administration" is used for conciseness to indicate both a telecommunication administration and a recognized operating agency.</p>
-        <p class="boilerplate"><a name="_" id="_"></a>Compliance with this Recommendation is voluntary. However, the Recommendation may contain certain mandatory provisions (to ensure, e.g., interoperability or applicability) and compliance with the Recommendation is achieved when all of these mandatory provisions are met. The words "shall" or some other obligatory language such as "must" and the negative equivalents are used to express requirements. The use of such words does not suggest that compliance with the Recommendation is required of any party.</p>
-        </div>
+      <p class="boilerplate"><a name="_" id="_"></a>In this Recommendation, the expression "Administration" is used for conciseness to indicate both a telecommunication administration and a recognized operating agency.</p>
+      <p class="boilerplate"><a name="_" id="_"></a>Compliance with this Recommendation is voluntary. However, the Recommendation may contain certain mandatory provisions (to ensure, e.g., interoperability or applicability) and compliance with the Recommendation is achieved when all of these mandatory provisions are met. The words "shall" or some other obligatory language such as "must" and the negative equivalents are used to express requirements. The use of such words does not suggest that compliance with the Recommendation is required of any party.</p>
+      </div>
 
-            </div>
-
-
-
-          <p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p></div>
-        <div class="boilerplate-license">
-            <div><a name="_" id="_"/><p class="boilerplateHdr">INTELLECTUAL PROPERTY RIGHTS</p>
-
-              <p class="boilerplate"><a name="_" id="_"></a>ITU draws attention to the possibility that the practice or implementation of this Recommendation may involve the use of a claimed Intellectual Property Right. ITU takes no position concerning the evidence, validity or applicability of claimed Intellectual Property Rights, whether asserted by ITU members or others outside of the Recommendation development process.</p>
-        <p class="boilerplate"><a name="_" id="_"></a>As of the date of approval of this Recommendation, ITU had not received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <a href="http://www.itu.int/ITU-T/ipr/">http://www.itu.int/ITU-T/ipr/</a>.
-        </p>
-        </div>
-        <p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p></div>
-        <div class="boilerplate-copyright">
-            <div><a name="_" id="_"/>
-              <p class="boilerplateHdr"><a name="_" id="_"></a>&#xA9; ITU #{Date.today.year}</p>
-        <p class="boilerplate"><a name="_" id="_"></a>All rights reserved. No part of this publication may be reproduced, by any means whatsoever, without the prior written permission of ITU.</p>
-            </div>
           </div>
 
 
+
+        <p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p></div>
+      <div class="boilerplate-license">
+          <div><a name="_" id="_"></a><p class="boilerplateHdr">INTELLECTUAL PROPERTY RIGHTS</p>
+
+            <p class="boilerplate"><a name="_" id="_"></a>ITU draws attention to the possibility that the practice or implementation of this Recommendation may involve the use of a claimed Intellectual Property Right. ITU takes no position concerning the evidence, validity or applicability of claimed Intellectual Property Rights, whether asserted by ITU members or others outside of the Recommendation development process.</p>
+      <p class="boilerplate"><a name="_" id="_"></a>As of the date of approval of this Recommendation, ITU had not received notice of intellectual property, protected by patents, which may be required to implement this Recommendation. However, implementers are cautioned that this may not represent the latest information and are therefore strongly urged to consult the TSB patent database at <a href="http://www.itu.int/ITU-T/ipr/">http://www.itu.int/ITU-T/ipr/</a>.
+      </p>
+      </div>
+      <p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p><p class="MsoNormal">&#xA0;</p></div>
+      <div class="boilerplate-copyright">
+          <div><a name="_" id="_"></a>
+            <p class="boilerplateHdr"><a name="_" id="_"></a>&#xA9; ITU #{Date.today.year}</p>
+      <p class="boilerplate"><a name="_" id="_"></a>All rights reserved. No part of this publication may be reproduced, by any means whatsoever, without the prior written permission of ITU.</p>
+          </div>
         </div>
-      OUTPUT
+
+
+      </div>
+    OUTPUT
+    FileUtils.rm_f "test.doc"
+    IsoDoc::Itu::WordConvert.new({}).convert("test", pres_output, false)
+    word = Nokogiri::HTML(File.read("test.doc", encoding: "utf-8")
+      .sub(%r{^.*<body}m, "").sub(%r{</body>.*$}m, ""))
+    word = word.xpath("//div[@class='boilerplate-legal' or "\
+                      "@class='boilerplate-license' or @class='boilerplate-copyright']")
+    expect(strip_guid("<div>#{word.map(&:to_xhtml).join}</div>"))
+      .to be_html4_equivalent_to output
   end
 
   it "processes lists within tables (Word)" do
@@ -606,7 +601,7 @@ RSpec.describe Metanorma::Itu do
       .sub(%r{</table>.*$}m, "</table>"))
       .to be_xml_equivalent_to <<~OUTPUT
         <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;">
-          <a name="_2a8bd899-ab80-483a-90dc-002b6f497f54" id="_2a8bd899-ab80-483a-90dc-002b6f497f54"/>
+          <a name="_2a8bd899-ab80-483a-90dc-002b6f497f54" id="_2a8bd899-ab80-483a-90dc-002b6f497f54"></a>
           <thead>
             <tr>
               <th valign="top" align="left" style="font-weight:bold;border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">A</th>
@@ -633,7 +628,7 @@ RSpec.describe Metanorma::Itu do
             <tr>
               <td colspan="2" style="border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;">
                 <div class="Note">
-                  <a name="_cf69f8ff-21f2-4ce9-aefb-0bebf988b8fa" id="_cf69f8ff-21f2-4ce9-aefb-0bebf988b8fa"/>
+                  <a name="_cf69f8ff-21f2-4ce9-aefb-0bebf988b8fa" id="_cf69f8ff-21f2-4ce9-aefb-0bebf988b8fa"></a>
                   <p class="Note">B</p>
                 </div>
               </td>

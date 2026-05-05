@@ -696,10 +696,7 @@ RSpec.describe Metanorma::Itu do
           </p>
           <div id="_" class="TOC">
             <p class="zzContents">Table of Contents</p>
-            <p style="tab-stops:right 17.0cm">
-              <span style="mso-tab-count:1">  </span>
-              <b>Page</b>
-            </p>
+            <p style="tab-stops:right 17.0cm"><span style="mso-tab-count:1">  </span><b>Page</b></p>
           </div>
           <div id="_">
             <h1 class="IntroTitle">Foreword</h1>
@@ -1016,10 +1013,7 @@ RSpec.describe Metanorma::Itu do
             </p>
             <div id="_" class="TOC">
                <p class="zzContents">Table of Contents</p>
-               <p style="tab-stops:right 17.0cm">
-                  <span style="mso-tab-count:1">  </span>
-                  <b>Page</b>
-               </p>
+               <p style="tab-stops:right 17.0cm"><span style="mso-tab-count:1">  </span><b>Page</b></p>
             </div>
             <div id="A">
                <h1 class="IntroTitle">Foreword</h1>

@@ -2,17 +2,21 @@ module IsoDoc
   module Itu
     class Metadata < IsoDoc::Metadata
       def monthyr(isodate)
-        m = /(?<yr>\d\d\d\d)-(?<mo>\d\d)/.match isodate
-        m && m[:yr] && m[:mo] or return isodate
-        "#{m[:mo]}/#{m[:yr]}"
+        IsoDoc::ExtendedDateFormatter.format_iso_date(
+          isodate,
+          lang: @lang,
+          year_month: "%m/%Y",
+          full: "%m/%Y",
+        )
       end
 
       def ddMMMYYYY(isodate)
-        m = /(?<yr>\d\d\d\d)-(?<mo>\d\d)-(?<dd>\d\d)/.match isodate
-        m && m[:yr] && m[:mo] && m[:dd] or return isodate
-        mmm = DateTime.parse(isodate).localize(@lang.to_sym)
-          .to_additional_s("yMMM")
-        @i18n.l10n("#{m[:dd]} #{mmm}")
+        out = IsoDoc::ExtendedDateFormatter.format_iso_date(
+          isodate,
+          lang: @lang,
+          full: "%d %b %Y",
+        )
+        out == isodate ? out : @i18n.l10n(out)
       end
 
       def ddMMMMYYYY(date1, date2)
@@ -24,21 +28,29 @@ module IsoDoc
             dd2 = m2[:dd].sub(/^0/, "")
             if m1[:yr] == m2[:yr]
               if m1[:mo] == m2[:mo]
-                @i18n.l10n("#{dd1}&#x2013;#{dd2} #{months[m1[:mo].to_sym]} #{m1[:yr]}")
+                @i18n.l10n("#{dd1}&#x2013;#{dd2} #{localized_month(m1[:mo])} #{m1[:yr]}")
               else
-                @i18n.l10n("#{dd1} #{months[m1[:mo].to_sym]} &#x2013; " \
-                           "#{dd2} #{months[m2[:mo].to_sym]} #{m1[:yr]}")
+                @i18n.l10n("#{dd1} #{localized_month(m1[:mo])} &#x2013; " \
+                           "#{dd2} #{localized_month(m2[:mo])} #{m1[:yr]}")
               end
             else
-              @i18n.l10n("#{dd1} #{months[m1[:mo].to_sym]} #{m1[:yr]} &#x2013; " \
-                         "#{dd2} #{months[m2[:mo].to_sym]} #{m2[:yr]}")
+              @i18n.l10n("#{dd1} #{localized_month(m1[:mo])} #{m1[:yr]} &#x2013; " \
+                         "#{dd2} #{localized_month(m2[:mo])} #{m2[:yr]}")
             end
           else
-            date2.nil? ? @i18n.l10n("#{dd1} #{months[m1[:mo].to_sym]} #{m1[:yr]}") : "#{date1}/#{date2}"
+            date2.nil? ? @i18n.l10n("#{dd1} #{localized_month(m1[:mo])} #{m1[:yr]}") : "#{date1}/#{date2}"
           end
         else
           date2.nil? ? date1 : "#{date1}/#{date2}"
         end
+      end
+
+      private
+
+      def localized_month(month)
+        IsoDoc::ExtendedDateFormatter.format(
+          "2000-#{month}-01", "%B", lang: @lang
+        )
       end
     end
   end

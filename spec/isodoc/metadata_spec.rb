@@ -29,7 +29,8 @@ RSpec.describe Metanorma::Itu do
         <docidentifier type="ISO">ISO/IEC 99999</docidentifier>
         <docnumber>1000</docnumber>
         <date type='published'>2018-09-01</date>
-                 <date type='published' format='ddMMMyyyy'>1.IX.2018</date>
+        <date type='published' format='ddMMMyyyy'>1.IX.2018</date>
+        <date type='updated'><on>2000-01-01</on></date>
         <contributor>
           <role type="author"/>
           <organization>
@@ -96,10 +97,7 @@ RSpec.describe Metanorma::Itu do
           </organization>
         </contributor>
         <edition>2</edition>
-      <version>
-        <revision-date>2000-01-01</revision-date>
-        <draft>3.4</draft>
-      </version>
+      <version>3.4</version>
         <language>en</language>
         <script>Latn</script>
         <status>
@@ -401,6 +399,7 @@ RSpec.describe Metanorma::Itu do
              <docidentifier type='ITU-Recommendation'>DEF</docidentifier>
              <docidentifier type='ITU'>ITU-R 1000</docidentifier>
              <docnumber>1000</docnumber>
+        <date type='updated'><on>2000-01-01</on></date>
              <contributor>
                <role type='author'/>
                <organization>
@@ -475,10 +474,7 @@ RSpec.describe Metanorma::Itu do
                </organization>
              </contributor>
              <edition>2</edition>
-             <version>
-               <revision-date>2000-01-01</revision-date>
-               <draft>5</draft>
-             </version>
+             <version>5</version>
              <language>en</language>
              <script>Latn</script>
              <status>
@@ -635,6 +631,7 @@ RSpec.describe Metanorma::Itu do
              <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
              <docidentifier type='ITU'>ITU-R 1000</docidentifier>
              <docnumber>1000</docnumber>
+        <date type='updated'><on>2000-01-01</on></date>
              <contributor>
                <role type='author'/>
                <organization> <name>International Telecommunication Union</name> </organization>
@@ -656,10 +653,7 @@ RSpec.describe Metanorma::Itu do
                <organization> <name>International Telecommunication Union</name> </organization>
              </contributor>
              <edition>2</edition>
-             <version>
-               <revision-date>2000-01-01</revision-date>
-               <draft>5</draft>
-             </version>
+             <version>5</version>
              <language>en</language>
              <script>Latn</script>
              <status>
@@ -771,6 +765,7 @@ RSpec.describe Metanorma::Itu do
              <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
              <docidentifier type='ITU'>ITU-R 1000</docidentifier>
              <docnumber>1000</docnumber>
+        <date type='updated'><on>2000-01-01</on></date>
              <contributor>
                <role type='author'/>
                <organization> <name>International Telecommunication Union</name> </organization>
@@ -792,10 +787,7 @@ RSpec.describe Metanorma::Itu do
                <organization> <name>International Telecommunication Union</name> </organization>
              </contributor>
              <edition>2</edition>
-             <version>
-               <revision-date>2000-01-01</revision-date>
-               <draft>5</draft>
-             </version>
+             <version>5</version>
              <language>en</language>
              <script>Latn</script>
              <status>
@@ -909,6 +901,7 @@ RSpec.describe Metanorma::Itu do
              <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
              <docidentifier type='ITU'>ITU-R 1000</docidentifier>
              <docnumber>1000</docnumber>
+        <date type='updated'><on>2000-01-01</on></date>
              <contributor>
                <role type='author'/>
                <organization> <name>International Telecommunication Union</name> </organization>
@@ -930,10 +923,7 @@ RSpec.describe Metanorma::Itu do
                <organization> <name>International Telecommunication Union</name> </organization>
              </contributor>
              <edition>2</edition>
-             <version>
-               <revision-date>2000-01-01</revision-date>
-               <draft>5</draft>
-             </version>
+             <version>5</version>
              <language>en</language>
              <script>Latn</script>
              <status>
@@ -1047,6 +1037,7 @@ RSpec.describe Metanorma::Itu do
              <title language='en' format='text/plain' type='subtitle'>Subtitle</title>
              <docidentifier type='ITU'>ITU-R 1000</docidentifier>
              <docnumber>1000</docnumber>
+        <date type='updated'><on>2000-01-01</on></date>
              <contributor>
                <role type='author'/>
                <organization> <name>International Telecommunication Union</name> </organization>
@@ -1068,10 +1059,7 @@ RSpec.describe Metanorma::Itu do
                <organization> <name>International Telecommunication Union</name> </organization>
              </contributor>
              <edition>2</edition>
-             <version>
-               <revision-date>2000-01-01</revision-date>
-               <draft>5</draft>
-             </version>
+             <version>5</version>
              <language>en</language>
              <script>Latn</script>
              <status>
@@ -1189,6 +1177,7 @@ RSpec.describe Metanorma::Itu do
              <docidentifier type='ITU-Recommendation'>DEF</docidentifier>
              <docidentifier type='ITU'>ITU-R 1000</docidentifier>
              <docnumber>1000</docnumber>
+             <date type='updated'><on>2000-01-01</on></date>
              <contributor>
                <role type='author'/>
                <organization>
@@ -1263,10 +1252,7 @@ RSpec.describe Metanorma::Itu do
                </organization>
              </contributor>
              <edition>2</edition>
-             <version>
-               <revision-date>2000-01-01</revision-date>
-               <draft>5</draft>
-             </version>
+             <version>5</version>
              <language>en</language>
              <script>Latn</script>
              <status>

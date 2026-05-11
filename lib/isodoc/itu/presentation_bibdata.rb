@@ -52,28 +52,33 @@ module IsoDoc
       end
 
       def ddMMMyyyy(date)
-        d = date.split("-").map { |x| x.sub(/^0/, "") }
+        IsoDoc::ExtendedDateFormatter.format_iso_date(
+          date, lang: @lang, **roman_or_chinese_formats
+        )
+      end
+
+      def roman_or_chinese_formats
         case @lang
         when "zh"
-          d[0] += "年" if d[0]
-          d[1] += "月" if d[1]
-          d[2] += "日" if d[2]
-          d.join
+          { year: "%Y年", year_month: "%Y年%-m月", full: "%Y年%-m月%-d日" }
         when "ar"
-          d[1] = ::RomanNumerals.to_roman(d[1].to_i).upcase if d[1]
-          d.join(".")
+          { year: "%Y", year_month: "%Y.%Om[roman]",
+            full: "%Y.%Om[roman].%-d" }
         else
-          d[1] = ::RomanNumerals.to_roman(d[1].to_i).upcase if d[1]
-          d.reverse.join(".")
+          { year: "%Y", year_month: "%Om[roman].%Y",
+            full: "%-d.%Om[roman].%Y" }
         end
       end
 
       def ddmmmmyyyy(date)
         @lang == "zh" and return ddMMMyyyy(date)
-        d = date.split("-")
-        d[1] &&= @meta.months[d[1].to_sym]
-        d[2] &&= d[2].sub(/^0/, "")
-        l10n(d.reverse.join(" "))
+        out = IsoDoc::ExtendedDateFormatter.format_iso_date(
+          date,
+          lang: @lang,
+          year_month: "%B %Y",
+          full: "%-d %B %Y",
+        )
+        out == date ? out : l10n(out)
       end
 
       def amendment_id(bib)

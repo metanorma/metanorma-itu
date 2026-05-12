@@ -78,6 +78,7 @@ RSpec.describe Metanorma::Itu do
           <docidentifier type="ITU-lang">ITU-T 1000-E</docidentifier>
           <docidentifier type="ITU-lang-long">ITU-T 1000-E</docidentifier>
           <docnumber>1000</docnumber>
+          <date type="updated"><on>2000-01-01</on></date>
           <contributor>
             <role type="author"/>
             <organization>
@@ -92,10 +93,7 @@ RSpec.describe Metanorma::Itu do
               <abbreviation>ITU</abbreviation>
             </organization>
           </contributor>
-          <version>
-            <revision-date>2000-01-01</revision-date>
-            <draft>3.4</draft>
-          </version>
+          <version>3.4</version>
           <language>en</language>
           <script>Latn</script>
           <status>
@@ -265,6 +263,7 @@ RSpec.describe Metanorma::Itu do
              <docidentifier type="ITU-Recommendation">Y.1704.1</docidentifier>
              <docidentifier type="ISO">ISO/IEC 99999</docidentifier>
              <docnumber>1000</docnumber>
+          <date type="updated"><on>2000-01-01</on></date>
              <contributor>
                 <role type="author"/>
                 <organization>
@@ -348,9 +347,7 @@ RSpec.describe Metanorma::Itu do
                 </organization>
              </contributor>
              <edition>2</edition>
-             <version>
-                <revision-date>2000-01-01</revision-date>
-             </version>
+             <version>2000-01-01</version>
              <language>en</language>
              <script>Latn</script>
              <status>
@@ -1020,6 +1017,7 @@ RSpec.describe Metanorma::Itu do
           <docidentifier type='ITU-lang-long'>SG17-C1000-E</docidentifier>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docnumber>1000</docnumber>
+          <date type="updated"><on>2000-01-01</on></date>
           <contributor>
             <role type='author'/>
             <organization>
@@ -1094,10 +1092,7 @@ RSpec.describe Metanorma::Itu do
             </organization>
           </contributor>
           <edition>2</edition>
-          <version>
-            <revision-date>2000-01-01</revision-date>
-            <draft>5</draft>
-          </version>
+          <version>5</version>
           <language>en</language>
           <script>Latn</script>
           <status>
@@ -1227,6 +1222,7 @@ RSpec.describe Metanorma::Itu do
           <docidentifier type='ITU-lang-long'>ITU-R 1000-E</docidentifier>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docnumber>1000</docnumber>
+          <date type="updated"><on>2000-01-01</on></date>
           <contributor>
             <role type='author'/>
             <organization>
@@ -1300,10 +1296,7 @@ RSpec.describe Metanorma::Itu do
             </organization>
           </contributor>
           <edition>2</edition>
-          <version>
-            <revision-date>2000-01-01</revision-date>
-            <draft>5</draft>
-          </version>
+          <version>5</version>
           <language>en</language>
           <script>Latn</script>
           <status>
@@ -1408,6 +1401,7 @@ RSpec.describe Metanorma::Itu do
           <docidentifier primary="true" type='ITU'>OVERRIDE</docidentifier>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docnumber>1000</docnumber>
+          <date type="updated"><on>2000-01-01</on></date>
           <contributor>
             <role type='author'/>
             <organization>
@@ -1444,10 +1438,7 @@ RSpec.describe Metanorma::Itu do
             </organization>
           </contributor>
           <edition>2</edition>
-          <version>
-            <revision-date>2000-01-01</revision-date>
-            <draft>5</draft>
-          </version>
+          <version>5</version>
           <language>en</language>
           <script>Latn</script>
           <status>
@@ -1565,6 +1556,7 @@ RSpec.describe Metanorma::Itu do
            <docidentifier type='ITU-lang-long'>Annex to ITU OB No. 1000-E</docidentifier>
            <docidentifier type='ITU-provisional'>ABC</docidentifier>
            <docnumber>1000</docnumber>
+          <date type="updated"><on>2000-01-01</on></date>
            <contributor>
              <role type='author'/>
              <organization>
@@ -1639,10 +1631,7 @@ RSpec.describe Metanorma::Itu do
              </organization>
            </contributor>
            <edition>2</edition>
-           <version>
-             <revision-date>2000-01-01</revision-date>
-             <draft>5</draft>
-           </version>
+           <version>5</version>
            <language>en</language>
            <script>Latn</script>
            <status>

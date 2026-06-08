@@ -4054,6 +4054,14 @@
 
 	<xsl:template match="@semx-id | @anchor" mode="update_xml_step1"/>
 
+	<xsl:template match="mn:pagebreak" mode="update_xml_step1">
+		<xsl:copy>
+			<xsl:apply-templates select="@*" mode="update_xml_step1"/>
+			<xsl:attribute name="from_source_xml">true</xsl:attribute>
+			<xsl:apply-templates select="node()" mode="update_xml_step1"/>
+		</xsl:copy>
+	</xsl:template>
+
 	<!-- END: update new Presentation XML -->
 
 	<!-- =========================================================================== -->
@@ -4091,6 +4099,7 @@
 			<xsl:for-each select="ancestor-or-self::*[ancestor::mn:preface or ancestor::mn:sections or ancestor-or-self::mn:annex]">
 				<xsl:if test="following-sibling::*">false</xsl:if>
 			</xsl:for-each>
+			<xsl:if test="@from_source_xml = 'true'">false</xsl:if>
 		</xsl:variable>
 
 		<xsl:if test="contains($isLast, 'false')">
@@ -5015,6 +5024,7 @@
 	</xsl:attribute-set> <!-- sourcecode-style -->
 
 	<xsl:template name="refine_sourcecode-style">
+		<xsl:call-template name="setKeepAttributes"/>
 	</xsl:template> <!-- refine_sourcecode-style -->
 
 	<xsl:attribute-set name="sourcecode-number-style">
@@ -5759,8 +5769,36 @@
 	<xsl:template name="refine_strike-style">
 	</xsl:template>
 
+	<xsl:attribute-set name="hr-block-style">
+		<xsl:attribute name="font-size">1pt</xsl:attribute>
+		<xsl:attribute name="keep-with-previous">always</xsl:attribute>
+		<xsl:attribute name="role">SKIP</xsl:attribute>
+		<xsl:attribute name="padding-top">-2pt</xsl:attribute>
+		<xsl:attribute name="space-after">4pt</xsl:attribute>
+	</xsl:attribute-set>
+
+	<xsl:template name="refine_hr-block-style">
+	</xsl:template>
+
+	<xsl:attribute-set name="hr-style">
+		<xsl:attribute name="leader-pattern">rule</xsl:attribute>
+		<xsl:attribute name="leader-length">100%</xsl:attribute>
+	</xsl:attribute-set>
+
+	<xsl:template name="refine_hr-style">
+	</xsl:template>
+
 	<xsl:template match="mn:br">
 		<xsl:value-of select="$linebreak"/>
+	</xsl:template>
+
+	<xsl:template match="mn:hr">
+		<fo:block xsl:use-attribute-sets="hr-block-style">
+			<xsl:call-template name="refine_hr-block-style"/>
+			<fo:leader xsl:use-attribute-sets="hr-style">
+				<xsl:call-template name="refine_hr-style"/>
+			</fo:leader>
+		</fo:block>
 	</xsl:template>
 
 	<xsl:template match="mn:em">
@@ -7000,6 +7038,7 @@
 	     text line 1
 			 text line 2
 	-->
+	<xsl:variable name="example_display_in"><!-- don't change here, only for override xsl --></xsl:variable> <!-- block or inline -->
 	<xsl:template match="mn:example" name="example">
 		<xsl:call-template name="setNamedDestination"/>
 		<fo:block-container id="{@id}" xsl:use-attribute-sets="example-style" role="SKIP">
@@ -7009,7 +7048,8 @@
 			<xsl:call-template name="refine_example-style"/>
 
 			<xsl:variable name="fo_element">
-				<xsl:if test=".//mn:table or .//mn:dl or *[not(self::mn:fmt-name)][1][self::mn:sourcecode]">block</xsl:if>block
+				<xsl:if test=".//mn:table or .//mn:dl or *[not(self::mn:fmt-name)][1][self::mn:sourcecode]">block</xsl:if>
+				<xsl:if test="normalize-space($example_display_in) != ''"><xsl:value-of select="$example_display_in"/></xsl:if>block
 			</xsl:variable>
 
 			<fo:block-container margin-left="0mm" role="SKIP">

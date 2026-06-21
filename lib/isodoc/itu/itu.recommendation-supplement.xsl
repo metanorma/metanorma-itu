@@ -1970,9 +1970,11 @@
 
 	<xsl:template match="mn:preface//mn:clause[@type = 'toc']/mn:fmt-title" priority="4">
 		<fo:block xsl:use-attribute-sets="toc-title-style">
+			<xsl:call-template name="refine_toc-title-style"/>
 			<xsl:apply-templates/>
 		</fo:block>
 		<fo:block xsl:use-attribute-sets="toc-title-page-style">
+			<xsl:call-template name="refine_toc-title-page-style"/>
 			<xsl:call-template name="getLocalizedString"><xsl:with-param name="key">Page.sg</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/mn:bibdata"/></xsl:call-template>
 		</fo:block>
 	</xsl:template>

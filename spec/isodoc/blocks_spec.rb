@@ -106,16 +106,16 @@ RSpec.describe Metanorma::Itu do
                 </colgroup>
                 <tbody>
                   <tr>
-                    <th style="font-weight:bold;" scope="row">A</th>
-                    <td style="">B</td>
+                  <th scope="row" style="font-weight:bold;">A</th>
+                   <td style="">B</td>
                   </tr>
                   <tr>
-                    <th style="font-weight:bold;" scope="row">C</th>
-                    <td style="">D</td>
+                  <th scope="row" style="font-weight:bold;">C</th>
+                   <td style="">D</td>
                   </tr>
                   <tr>
-                    <th style="font-weight:bold;" scope="row">E</th>
-                    <td style="">
+                  <th scope="row" style="font-weight:bold;">E</th>
+                  <td style="">
                       <div class="figdl">
                         <dl>
                           <dt>
@@ -187,7 +187,7 @@ RSpec.describe Metanorma::Itu do
                   </tbody>
                   <tfoot>
                     <tr>
-                      <td colspan="2" style="border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;">
+                      <td colspan="2">
                         <div class="Note"><p class="Note"><span class="note_label">NOTE</span></p>hien?</div>
                       </td>
                     </tr>
@@ -1510,7 +1510,7 @@ RSpec.describe Metanorma::Itu do
             <div id="_">
               <h1 class="IntroTitle">Foreword</h1>
                <div class="ol_wrap">
-                           <ol type="1" id="_">
+                           <ol class="steps" id="_" type="1">
                <li id="_">
                  <p id="_">all information necessary for the complete identification of the sample;</p>
                </li>

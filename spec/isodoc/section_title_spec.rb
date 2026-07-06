@@ -368,15 +368,15 @@ RSpec.describe Metanorma::Itu do
                       </div>
                         <div id="L" class="Symbols">
                         <h1>4.  Abbreviations and acronyms</h1>
-                                <table class="dl" style="table-layout:fixed;">
+                        <table class="dl" style="table-layout:fixed;">
         <colgroup>
           <col style="width: 20%;"/>
           <col style="width: 80%;"/>
         </colgroup>
                             <tbody>
                               <tr>
-                                <th style="font-weight:bold;" scope="row">Symbol</th>
-                                <td style="">Definition</td>
+                              <th scope="row" style="font-weight:bold;">Symbol</th>
+                              <td style="">Definition</td>
                               </tr>
                             </tbody>
                           </table>

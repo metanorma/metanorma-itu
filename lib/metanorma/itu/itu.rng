@@ -28,11 +28,4 @@
       </group>
     </define>
   </include>
-  <define name="OlAttributes" combine="interleave">
-    <optional>
-      <attribute name="class">
-        <value>steps</value>
-      </attribute>
-    </optional>
-  </define>
 </grammar>

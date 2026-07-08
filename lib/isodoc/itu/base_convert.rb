@@ -105,6 +105,14 @@ module IsoDoc
         n = dlist.at(ns("./colgroup")) and ret = "#{n.remove.to_xml}#{ret}"
         n = dlist.at(ns("./fmt-name")) and ret = "#{n.remove.to_xml}#{ret}"
         dlist.name = "table"
+        # GOTCHA (metanorma/iso-10303#712): ITU renders definition lists as
+        # tables, and this hard-sets class="dl", OVERWRITING any author custom
+        # @class ([class="..."]). So the block-@class support added in
+        # metanorma-standoc#1197 does NOT reach dl in ITU. Left as-is
+        # deliberately (class="dl" is the intentional dl-as-table marker); making
+        # it additive would re-enter the dl->table / MsoISOTable-border
+        # interaction. If an author class is ever wanted here, merge instead of
+        # overwrite: ["dl", dlist["class"]].compact.join(" ").
         dlist["class"] = "dl"
         dlist.children.first.previous = ret
       end

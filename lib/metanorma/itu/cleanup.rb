@@ -47,20 +47,20 @@ module Metanorma
 
       PUBLISHER = "./contributor[role/@type = 'publisher']/organization".freeze
 
-      def pub_class(bib)
-        return 1 if bib.at("#{PUBLISHER}[abbreviation = 'ITU']")
-        return 1 if bib.at("#{PUBLISHER}[name = 'International " \
-                           "Telecommunication Union']")
-        return 2 if bib.at("#{PUBLISHER}[abbreviation = 'ISO']")
-        return 2 if bib.at("#{PUBLISHER}[name = 'International Organization " \
-                           "for Standardization']")
-        return 3 if bib.at("#{PUBLISHER}[abbreviation = 'IEC']")
-        return 3 if bib.at("#{PUBLISHER}[name = 'International " \
-                           "Electrotechnical Commission']")
-        return 4 if bib.at("./docidentifier[@type][not(#{@conv.skip_docid} or " \
-                           "@type = 'metanorma')]")
+      # ITU first, then ISO, then IEC, then other standards, then everything
+      # else. Overridable per-document / per-taste via :sort-biblio-<abbrev>:
+      # through the shared Standoc::Ref helpers.
+      DEFAULT_PUBLISHER_SORT = [
+        { abbrev: "ITU", name: "International Telecommunication Union",
+          rank: 1 },
+        { abbrev: "ISO", name: "International Organization for Standardization",
+          rank: 2 },
+        { abbrev: "IEC", name: "International Electrotechnical Commission",
+          rank: 3 },
+      ].freeze
 
-        5
+      def pub_class(bib)
+        publisher_sort_rank(bib, DEFAULT_PUBLISHER_SORT)
       end
 
       def sort_biblio(bib)

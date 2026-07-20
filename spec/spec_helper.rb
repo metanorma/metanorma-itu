@@ -43,8 +43,8 @@ def presxml_options
 end
 
 def metadata(xml)
-  xml.sort.to_h.delete_if do |_k, v|
-    v.nil? || (v.respond_to?(:empty?) && v.empty?)
+  xml.sort.to_h.delete_if do |k, v|
+    k.to_s == "bibdata" || v.nil? || (v.respond_to?(:empty?) && v.empty?)
   end
 end
 

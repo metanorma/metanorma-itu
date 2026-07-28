@@ -799,8 +799,8 @@ RSpec.describe Metanorma::Itu do
              <series type="tertiary">
                 <title>C3</title>
              </series>
-             <keyword>Word1</keyword>
-             <keyword>word2</keyword>
+             <keyword><vocab>Word1</vocab></keyword>
+             <keyword><vocab>word2</vocab></keyword>
              <ext>
                 <doctype>directive</doctype>
                 <flavor>itu</flavor>
@@ -1116,8 +1116,8 @@ RSpec.describe Metanorma::Itu do
           <series type='tertiary'>
             <title>C3</title>
           </series>
-          <keyword>VoIP</keyword>
-          <keyword>word1</keyword>
+          <keyword><vocab>VoIP</vocab></keyword>
+          <keyword><vocab>word1</vocab></keyword>
           <ext>
             <doctype>contribution</doctype>
             <flavor>itu</flavor>
@@ -1320,8 +1320,8 @@ RSpec.describe Metanorma::Itu do
           <series type='tertiary'>
             <title>C3</title>
           </series>
-          <keyword>VoIP</keyword>
-          <keyword>word1</keyword>
+          <keyword><vocab>VoIP</vocab></keyword>
+          <keyword><vocab>word1</vocab></keyword>
           <ext>
             <doctype>technical-report</doctype>
             <flavor>itu</flavor>
@@ -1462,8 +1462,8 @@ RSpec.describe Metanorma::Itu do
           <series type='tertiary'>
             <title>C3</title>
           </series>
-          <keyword>Word1</keyword>
-          <keyword>word2</keyword>
+          <keyword><vocab>Word1</vocab></keyword>
+          <keyword><vocab>word2</vocab></keyword>
           <ext>
             <doctype>technical-report</doctype>
             <flavor>itu</flavor>
@@ -1655,8 +1655,8 @@ RSpec.describe Metanorma::Itu do
            <series type='tertiary'>
              <title>C3</title>
            </series>
-           <keyword>Word1</keyword>
-           <keyword>word2</keyword>
+           <keyword><vocab>Word1</vocab></keyword>
+           <keyword><vocab>word2</vocab></keyword>
            <ext>
              <doctype>service-publication</doctype>
              <flavor>itu</flavor>

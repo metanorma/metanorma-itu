@@ -168,8 +168,8 @@ RSpec.describe Metanorma::Itu do
            <series type="tertiary">
              <title>C3</title>
            </series>
-           <keyword>Word1</keyword>
-           <keyword>word2</keyword>
+           <keyword><vocab>Word1</vocab></keyword>
+           <keyword><vocab>word2</vocab></keyword>
           <ext>
             <doctype>service-publication</doctype>
             <flavor>itu</flavor>
@@ -544,8 +544,8 @@ RSpec.describe Metanorma::Itu do
            <series type="tertiary">
              <title>C3</title>
            </series>
-           <keyword>Word1</keyword>
-           <keyword>word2</keyword>
+           <keyword><vocab>Word1</vocab></keyword>
+           <keyword><vocab>word2</vocab></keyword>
           <ext>
             <doctype>service-publication</doctype>
             <flavor>itu</flavor>
@@ -895,8 +895,8 @@ RSpec.describe Metanorma::Itu do
            <series type="tertiary">
              <title>C3</title>
            </series>
-           <keyword>Word1</keyword>
-           <keyword>word2</keyword>
+           <keyword><vocab>Word1</vocab></keyword>
+           <keyword><vocab>word2</vocab></keyword>
         <ext>
           <doctype>service-publication</doctype>
             <flavor>itu</flavor>
@@ -1250,8 +1250,8 @@ RSpec.describe Metanorma::Itu do
            <series type="tertiary">
              <title>C3</title>
            </series>
-           <keyword>Word1</keyword>
-           <keyword>word2</keyword>
+           <keyword><vocab>Word1</vocab></keyword>
+           <keyword><vocab>word2</vocab></keyword>
         <ext>
           <doctype>service-publication</doctype>
             <flavor>itu</flavor>
@@ -1604,8 +1604,8 @@ RSpec.describe Metanorma::Itu do
            <series type="tertiary">
              <title>C3</title>
            </series>
-           <keyword>Word1</keyword>
-           <keyword>word2</keyword>
+           <keyword><vocab>Word1</vocab></keyword>
+           <keyword><vocab>word2</vocab></keyword>
         <ext>
           <doctype>service-publication</doctype>
             <flavor>itu</flavor>
@@ -1957,8 +1957,8 @@ RSpec.describe Metanorma::Itu do
            <series type="tertiary">
              <title>C3</title>
            </series>
-           <keyword>Word1</keyword>
-           <keyword>word2</keyword>
+           <keyword><vocab>Word1</vocab></keyword>
+           <keyword><vocab>word2</vocab></keyword>
             <ext>
               <doctype>service-publication</doctype>
              <flavor>itu</flavor>

@@ -122,8 +122,8 @@ RSpec.describe Metanorma::Itu do
       <series type="tertiary">
         <title>C3</title>
       </series>
-           <keyword>word2</keyword>
-       <keyword>word1</keyword>
+           <keyword><vocab>word2</vocab></keyword>
+       <keyword><vocab>word1</vocab></keyword>
         <ext>
         <doctype>directive</doctype>
             <editorialgroup>
@@ -497,8 +497,8 @@ RSpec.describe Metanorma::Itu do
              <series type='tertiary'>
                <title>C3</title>
              </series>
-             <keyword>Word1</keyword>
-             <keyword>word2</keyword>
+             <keyword><vocab>Word1</vocab></keyword>
+             <keyword><vocab>word2</vocab></keyword>
              <ext>
                <doctype>technical-report</doctype>
                <editorialgroup>
@@ -665,8 +665,8 @@ RSpec.describe Metanorma::Itu do
                  <organization> <name>International Telecommunication Union</name> </organization>
                </owner>
              </copyright>
-             <keyword>Word1</keyword>
-             <keyword>word2</keyword>
+             <keyword><vocab>Word1</vocab></keyword>
+             <keyword><vocab>word2</vocab></keyword>
              <ext>
                <doctype>resolution</doctype>
                <editorialgroup>
@@ -799,8 +799,8 @@ RSpec.describe Metanorma::Itu do
                  <organization> <name>International Telecommunication Union</name> </organization>
                </owner>
              </copyright>
-             <keyword>Word1</keyword>
-             <keyword>word2</keyword>
+             <keyword><vocab>Word1</vocab></keyword>
+             <keyword><vocab>word2</vocab></keyword>
              <ext>
                <doctype>resolution</doctype>
                <editorialgroup>
@@ -935,8 +935,8 @@ RSpec.describe Metanorma::Itu do
                  <organization> <name>International Telecommunication Union</name> </organization>
                </owner>
              </copyright>
-             <keyword>Word1</keyword>
-             <keyword>word2</keyword>
+             <keyword><vocab>Word1</vocab></keyword>
+             <keyword><vocab>word2</vocab></keyword>
              <ext>
                <doctype>resolution</doctype>
                <editorialgroup>
@@ -1071,8 +1071,8 @@ RSpec.describe Metanorma::Itu do
                  <organization> <name>International Telecommunication Union</name> </organization>
                </owner>
              </copyright>
-             <keyword>Word1</keyword>
-             <keyword>word2</keyword>
+             <keyword><vocab>Word1</vocab></keyword>
+             <keyword><vocab>word2</vocab></keyword>
              <ext>
                <doctype>resolution</doctype>
                <editorialgroup>
@@ -1275,8 +1275,8 @@ RSpec.describe Metanorma::Itu do
              <series type='tertiary'>
                <title>C3</title>
              </series>
-             <keyword>Word1</keyword>
-             <keyword>word2</keyword>
+             <keyword><vocab>Word1</vocab></keyword>
+             <keyword><vocab>word2</vocab></keyword>
              <ext>
                <doctype>technical-report</doctype>
                <editorialgroup>

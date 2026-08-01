@@ -1058,8 +1058,8 @@ RSpec.describe Metanorma::Itu do
              <docidentifier type="ISO">ISO/IEC 99999</docidentifier>
              <language>en</language>
              <script>Latn</script>
-             <keyword>A</keyword>
-             <keyword>B</keyword>
+             <keyword><vocab>A</vocab></keyword>
+             <keyword><vocab>B</vocab></keyword>
              <ext>
              <doctype>recommendation</doctype>
              <flavor>itu</flavor>
@@ -1096,8 +1096,8 @@ RSpec.describe Metanorma::Itu do
              <docidentifier type="ISO">ISO/IEC 99999</docidentifier>
              <language current="true">en</language>
              <script current="true">Latn</script>
-             <keyword>A</keyword>
-             <keyword>B</keyword>
+             <keyword><vocab>A</vocab></keyword>
+             <keyword><vocab>B</vocab></keyword>
              <ext>
                 <doctype language="">recommendation</doctype>
                 <doctype language="en">Recommendation</doctype>
@@ -1528,8 +1528,8 @@ RSpec.describe Metanorma::Itu do
           <series type='tertiary'>
             <title>C3</title>
           </series>
-          <keyword>VoIP</keyword>
-          <keyword>word1</keyword>
+          <keyword><vocab>VoIP</vocab></keyword>
+          <keyword><vocab>word1</vocab></keyword>
           <ext>
           <doctype>contribution</doctype>
             <recommendationstatus>

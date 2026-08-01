@@ -82,8 +82,12 @@ module Metanorma
         node.attr("keywords") or return
         node.attr("keywords").split(/, */).sort.each_with_index do |kw, i|
           kw_out = i.zero? ? Metanorma::Utils.strict_capitalize_first(kw) : kw
-          add_noko_elem(xml, "keyword", kw_out)
-          # xml.keyword kw_out
+          kw_out.empty? and next
+          # keyword content is structured per the grammar: an uncontrolled
+          # keyword is a vocab entry, not bare text
+          xml.keyword do |k|
+            add_noko_elem(k, "vocab", kw_out)
+          end
         end
       end
 

@@ -569,8 +569,8 @@ RSpec.describe Metanorma::Itu do
                      <title language="en" format="text/plain" type="main">An ITU Standard</title>
                      <docidentifier type="ITU">12345</docidentifier>
                      <language>en</language>
-                     <keyword>A</keyword>
-                     <keyword>B</keyword>
+                     <keyword><vocab>A</vocab></keyword>
+                     <keyword><vocab>B</vocab></keyword>
                      <ext>
                      <doctype>recommendation</doctype>
                      </ext>
@@ -665,8 +665,8 @@ RSpec.describe Metanorma::Itu do
              <title language="en" format="text/plain" type="subtitle">Subtitle</title>
              <docidentifier type="ITU">12345</docidentifier>
              <language>en</language>
-             <keyword>A</keyword>
-             <keyword>B</keyword>
+             <keyword><vocab>A</vocab></keyword>
+             <keyword><vocab>B</vocab></keyword>
              <ext>
              <doctype>recommendation-annex</doctype>
              <structuredidentifier>
@@ -693,8 +693,8 @@ RSpec.describe Metanorma::Itu do
               <title language="en" format="text/plain" type="subtitle">Subtitle</title>
               <docidentifier type="ITU">12345</docidentifier>
               <language current="true">en</language>
-              <keyword>A</keyword>
-              <keyword>B</keyword>
+              <keyword><vocab>A</vocab></keyword>
+              <keyword><vocab>B</vocab></keyword>
               <ext>
                  <doctype language="">recommendation-annex</doctype>
                  <doctype language="en">Recommendation Annex</doctype>

@@ -473,6 +473,18 @@ RSpec.describe Metanorma::Itu do
                    <docidentifier type="ITU" primary="true">F Suppl. 4 (04/2021)</docidentifier>
                  </bibitem>
                </relation>
+               <relation type="complementOf">
+                 <bibitem>
+                   <title language="en" script="Latn">Use cases for communication services of passive sensing equipment based on civilian unmanned aerial vehicles</title>
+                   <docidentifier type="ITU" primary="true">F Suppl. 5 (07/2026)</docidentifier>
+                 </bibitem>
+               </relation>
+               <relation type="complementOf">
+                 <bibitem>
+                   <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
+                   <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
+                 </bibitem>
+               </relation>
                <relation type="instanceOf">
                  <bibitem type="standard">
                    <title language="en" script="Latn" type="title-main">The international telex service – Service and operational provisions of telex destination codes and telex network identification codes</title>
@@ -586,6 +598,18 @@ RSpec.describe Metanorma::Itu do
                        <docidentifier type="ITU" primary="true">F Suppl. 4 (04/2021)</docidentifier>
                      </bibitem>
                    </relation>
+                   <relation type="complementOf">
+                     <bibitem>
+                       <title language="en" script="Latn">Use cases for communication services of passive sensing equipment based on civilian unmanned aerial vehicles</title>
+                       <docidentifier type="ITU" primary="true">F Suppl. 5 (07/2026)</docidentifier>
+                     </bibitem>
+                   </relation>
+                   <relation type="complementOf">
+                     <bibitem>
+                       <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
+                       <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
+                     </bibitem>
+                   </relation>
                    <place>
                      <city>Geneva</city>
                    </place>
@@ -687,6 +711,18 @@ RSpec.describe Metanorma::Itu do
                    <docidentifier type="ITU" primary="true">F Suppl. 4 (04/2021)</docidentifier>
                  </bibitem>
                </relation>
+               <relation type="complementOf">
+                 <bibitem>
+                   <title language="en" script="Latn">Use cases for communication services of passive sensing equipment based on civilian unmanned aerial vehicles</title>
+                   <docidentifier type="ITU" primary="true">F Suppl. 5 (07/2026)</docidentifier>
+                 </bibitem>
+               </relation>
+               <relation type="complementOf">
+                 <bibitem>
+                   <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
+                   <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
+                 </bibitem>
+               </relation>
                <relation type="instanceOf">
                  <bibitem type="standard">
                    <title language="en" script="Latn" type="title-main">Establishment of the automatic intercontinental telex network</title>
@@ -780,6 +816,18 @@ RSpec.describe Metanorma::Itu do
                      <bibitem>
                        <title language="en" script="Latn">Overview of convergence of artificial intelligence and blockchain</title>
                        <docidentifier type="ITU" primary="true">F Suppl. 4 (04/2021)</docidentifier>
+                     </bibitem>
+                   </relation>
+                   <relation type="complementOf">
+                     <bibitem>
+                       <title language="en" script="Latn">Use cases for communication services of passive sensing equipment based on civilian unmanned aerial vehicles</title>
+                       <docidentifier type="ITU" primary="true">F Suppl. 5 (07/2026)</docidentifier>
+                     </bibitem>
+                   </relation>
+                   <relation type="complementOf">
+                     <bibitem>
+                       <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
+                       <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
                      </bibitem>
                    </relation>
                    <place>

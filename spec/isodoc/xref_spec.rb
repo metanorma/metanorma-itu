@@ -672,7 +672,7 @@ OUTPUT
                        <semx element="autonum" source="A1">F2</semx>
                        <span class="fmt-autonum-delim">.</span>
                        <semx element="autonum" source="A2">1</semx>
-                       <span class="fmt-autonum-delim">.</span>
+                       <span class="fmt-clause-delim">.</span>
                     </span>
                     <span class="fmt-caption-delim">
                        <tab/>
@@ -1373,7 +1373,7 @@ OUTPUT
                           <semx element="autonum" source="M">2</semx>
                           <span class="fmt-autonum-delim">.</span>
                           <semx element="autonum" source="N">1</semx>
-                          <span class="fmt-autonum-delim">.</span>
+                          <span class="fmt-clause-delim">.</span>
                        </span>
                        <span class="fmt-caption-delim">
                           <tab/>
@@ -1393,7 +1393,7 @@ OUTPUT
                           <semx element="autonum" source="M">2</semx>
                           <span class="fmt-autonum-delim">.</span>
                           <semx element="autonum" source="O">2</semx>
-                          <span class="fmt-autonum-delim">.</span>
+                          <span class="fmt-clause-delim">.</span>
                        </span>
                        <span class="fmt-caption-delim">
                           <tab/>
@@ -1431,7 +1431,7 @@ OUTPUT
                        <semx element="autonum" source="P">A</semx>
                        <span class="fmt-autonum-delim">.</span>
                        <semx element="autonum" source="Q">1</semx>
-                       <span class="fmt-autonum-delim">.</span>
+                       <span class="fmt-clause-delim">.</span>
                     </span>
                     <span class="fmt-caption-delim">
                        <tab/>
@@ -1452,7 +1452,7 @@ OUTPUT
                           <semx element="autonum" source="Q">1</semx>
                           <span class="fmt-autonum-delim">.</span>
                           <semx element="autonum" source="Q1">1</semx>
-                          <span class="fmt-autonum-delim">.</span>
+                          <span class="fmt-clause-delim">.</span>
                        </span>
                        <span class="fmt-caption-delim">
                           <tab/>
@@ -1533,10 +1533,10 @@ OUTPUT
                  <div id='M'>
       <h1>Clause 4</h1>
                    <div id='N'>
-                     <h2>2.1.  Introduction</h2>
+                     <h2>2.1<span class="fmt-clause-delim">.</span>  Introduction</h2>
                    </div>
                    <div id='O'>
-                   <h2>2.2.  Clause 4.2</h2>
+                   <h2>2.2<span class="fmt-clause-delim">.</span>  Clause 4.2</h2>
                    </div>
                  </div>
                  <br/>
@@ -1551,9 +1551,9 @@ OUTPUT
                    </h1>
                    <p style="display:none;" class="variant-title-toc">Annex Title</p>
                    <div id='Q'>
-                   <h2>A.1.  Annex A.1</h2>
+                   <h2>A.1<span class="fmt-clause-delim">.</span>  Annex A.1</h2>
                      <div id='Q1'>
-                     <h3>A.1.1.  Annex A.1a</h3>
+                     <h3>A.1.1<span class="fmt-clause-delim">.</span>  Annex A.1a</h3>
                      </div>
                    </div>
                  </div>

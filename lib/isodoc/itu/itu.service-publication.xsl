@@ -5073,6 +5073,9 @@
 
 	<xsl:template name="refine_sourcecode-style">
 		<xsl:call-template name="setKeepAttributes"/>
+		<xsl:if test="ancestor::mn:sourcecode and parent::mn:td">
+			<xsl:attribute name="role">SKIP</xsl:attribute>
+		</xsl:if>
 	</xsl:template> <!-- refine_sourcecode-style -->
 
 	<xsl:attribute-set name="sourcecode-number-style">
@@ -5400,12 +5403,12 @@
 
 	<!-- outer table with line numbers for sourcecode -->
 	<xsl:template match="mn:sourcecode[@linenums = 'true']/mn:table" priority="3"> <!-- *[local-name()='table'][@type = 'sourcecode'] |  -->
-		<fo:block>
-			<fo:table width="100%" table-layout="fixed">
+		<fo:block role="SKIP">
+			<fo:table width="100%" table-layout="fixed" role="SKIP">
 				<xsl:copy-of select="@id"/>
 					<fo:table-column column-width="8%"/>
 					<fo:table-column column-width="92%"/>
-					<fo:table-body>
+					<fo:table-body role="SKIP">
 						<xsl:apply-templates/>
 					</fo:table-body>
 			</fo:table>
@@ -5415,14 +5418,14 @@
 		<xsl:apply-templates/>
 	</xsl:template>
 	<xsl:template match="mn:sourcecode[@linenums = 'true']/mn:table//mn:tr" priority="3"> <!-- *[local-name()='table'][@type = 'sourcecode']//*[local-name()='tr'] |  -->
-		<fo:table-row>
+		<fo:table-row role="SKIP">
 			<xsl:apply-templates/>
 		</fo:table-row>
 	</xsl:template>
 	<!-- first td with line numbers -->
 	<xsl:template match="mn:sourcecode[@linenums = 'true']/mn:table//mn:tr/*[local-name() = 'td'][not(preceding-sibling::*)]" priority="3"> <!-- *[local-name()='table'][@type = 'sourcecode'] -->
-		<fo:table-cell>
-			<fo:block>
+		<fo:table-cell role="SKIP">
+			<fo:block role="SKIP">
 
 				<!-- set attibutes for line numbers - same as sourcecode -->
 				<xsl:variable name="sourcecode_attributes">
@@ -5430,7 +5433,7 @@
 						<xsl:call-template name="get_sourcecode_attributes"/>
 					</xsl:for-each>
 				</xsl:variable>
-				<xsl:for-each select="xalan:nodeset($sourcecode_attributes)/sourcecode_attributes/@*[not(starts-with(local-name(), 'margin-') or starts-with(local-name(), 'space-'))]">
+				<xsl:for-each select="xalan:nodeset($sourcecode_attributes)/sourcecode_attributes/@*[not(starts-with(local-name(), 'margin-') or starts-with(local-name(), 'space-') or starts-with(local-name(), 'role'))]">
 					<xsl:attribute name="{name()}">
 						<xsl:value-of select="."/>
 					</xsl:attribute>
@@ -5443,7 +5446,7 @@
 
 	<!-- second td with sourcecode -->
 	<xsl:template match="mn:sourcecode[@linenums = 'true']/mn:table//mn:tr/*[local-name() = 'td'][preceding-sibling::*]" priority="3"> <!-- *[local-name()='table'][@type = 'sourcecode'] -->
-		<fo:table-cell>
+		<fo:table-cell role="SKIP">
 			<fo:block role="SKIP">
 				<xsl:apply-templates/>
 			</fo:block>
@@ -6248,11 +6251,12 @@
 			<xsl:choose>
 
 				<xsl:when test="ancestor::mn:sourcecode[@linenums = 'true'] and ancestor::*[local-name() = 'td'][1][not(preceding-sibling::*)]"> <!-- pre in the first td in the table with @linenums = 'true' -->
+					<xsl:attribute name="role">SKIP</xsl:attribute>
 					<xsl:if test="ancestor::mn:tr[1]/following-sibling::mn:tr"> <!-- is current tr isn't last -->
 						<xsl:attribute name="margin-top">0pt</xsl:attribute>
 						<xsl:attribute name="margin-bottom">0pt</xsl:attribute>
 					</xsl:if>
-					<fo:instream-foreign-object fox:alt-text="{.}" content-width="95%" fox:placement="Inline">
+					<fo:instream-foreign-object fox:alt-text="{.}" content-width="95%" fox:placement="Inline" role="artifact">
 						<math xmlns="http://www.w3.org/1998/Math/MathML">
 							<mtext><xsl:value-of select="."/></mtext>
 						</math>
@@ -8345,7 +8349,7 @@
 
 			<xsl:variable name="tableWithNotesAndFootnotes">
 
-				<fo:table keep-with-previous="always" role="SKIP">
+				<fo:table keep-with-previous="always" role="TFoot">
 					<xsl:for-each select="xalan:nodeset($table_attributes)/table_attributes/@*">
 						<xsl:variable name="name" select="local-name()"/>
 						<xsl:choose>
@@ -8389,14 +8393,14 @@
 					</xsl:choose>
 
 					<fo:table-body role="SKIP">
-						<fo:table-row role="SKIP">
+						<fo:table-row>
 							<xsl:for-each select="ancestor::mn:table[1]">
 								<xsl:call-template name="setTableStyles">
 									<xsl:with-param name="scope">ancestor_table</xsl:with-param>
 								</xsl:call-template>
 							</xsl:for-each>
 
-							<fo:table-cell xsl:use-attribute-sets="table-footer-cell-style" number-columns-spanned="{$cols-count}" role="SKIP">
+							<fo:table-cell xsl:use-attribute-sets="table-footer-cell-style" number-columns-spanned="{$cols-count}">
 
 								<xsl:call-template name="refine_table-footer-cell-style"/>
 

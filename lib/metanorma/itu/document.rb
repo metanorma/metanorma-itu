@@ -33,3 +33,19 @@ end
 module Metanorma
   deprecate_constant :ItuDocument
 end
+
+# OCP adoption: register the flavor with the metanorma-document harness.
+# The html renderer resolves lazily (require at first render), keeping
+# the load graph clean. Re-basing to the Standoc renderer or an own
+# renderer later is a change to this registration only.
+Metanorma.register_flavor(Metanorma::Flavor.new(
+                            name: :itu,
+                            model_class: Metanorma::Itu::Document::Root,
+                            pubid_module: :"Pubid::Itu",
+                            renderers: {
+                              html: lambda do |_document, **_options|
+                                require "metanorma/iso/html"
+                                Metanorma::Iso::Html::Renderer
+                              end,
+                            },
+                          ))

@@ -3,6 +3,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}" }
 
 gemspec
 
+gem "metanorma-core", github: "metanorma/metanorma-core", branch: "feat/flavor-table"
+
 # TEMPORARY: cross-PR branch pins so CI can resolve the in-flight
 # metanorma-standoc namespace rename (Metanorma::Standoc::Document)
 # and the pubid-2 / relaton-bib 2.2 / metanorma-document 0.5 chain.

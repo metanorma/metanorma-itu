@@ -176,7 +176,7 @@ RSpec.describe IsoDoc::Itu do
                 <fmt-title depth="1" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="_">1</semx>
-                      <span class="fmt-clause-delim">.</span>
+                      <span class="fmt-autonum-delim">.</span>
                    </span>
                    <span class="fmt-caption-delim">
                       <tab/>
@@ -470,7 +470,7 @@ RSpec.describe IsoDoc::Itu do
              </p>
           </div>
           <div>
-             <h1 id="_">1<span class="fmt-clause-delim">.</span>  Normative References</h1>
+             <h1 id="_">1<span class="fmt-autonum-delim">.</span>  Normative References</h1>
              <table class="biblio" border="0">
                 <tbody>
                    <tr>
@@ -710,7 +710,7 @@ RSpec.describe IsoDoc::Itu do
                <fmt-title id="_" depth="1">
                   <span class="fmt-caption-label">
                      <semx element="autonum" source="_">1</semx>
-                     <span class="fmt-clause-delim">.</span>
+                     <span class="fmt-autonum-delim">.</span>
                   </span>
                   <span class="fmt-caption-delim">
                      <tab/>
@@ -835,7 +835,7 @@ RSpec.describe IsoDoc::Itu do
            </p>
                </div>
                <div>
-                 <h1>1<span class="fmt-clause-delim">.</span>&#160; References</h1>
+                 <h1>1<span class="fmt-autonum-delim">.</span>&#160; References</h1>
                        <table class='biblio' border='0'>
           <tbody>
             <tx>

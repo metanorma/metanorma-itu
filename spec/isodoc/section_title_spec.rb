@@ -70,7 +70,7 @@ RSpec.describe Metanorma::Itu do
                 <fmt-title depth="1" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="D">1</semx>
-                      <span class="fmt-clause-delim">.</span>
+                      <span class="fmt-autonum-delim">.</span>
                    </span>
                    <span class="fmt-caption-delim">
                       <tab/>
@@ -87,7 +87,7 @@ RSpec.describe Metanorma::Itu do
                 <fmt-title depth="1" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="I">3</semx>
-                      <span class="fmt-clause-delim">.</span>
+                      <span class="fmt-autonum-delim">.</span>
                    </span>
                 </fmt-title>
                 <fmt-xref-label>
@@ -100,7 +100,7 @@ RSpec.describe Metanorma::Itu do
                          <semx element="autonum" source="I">3</semx>
                          <span class="fmt-autonum-delim">.</span>
                          <semx element="autonum" source="J">1</semx>
-                         <span class="fmt-clause-delim">.</span>
+                         <span class="fmt-autonum-delim">.</span>
                       </span>
                    </fmt-name>
                    <fmt-xref-label>
@@ -129,7 +129,7 @@ RSpec.describe Metanorma::Itu do
                 <fmt-title depth="1" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="L">4</semx>
-                      <span class="fmt-clause-delim">.</span>
+                      <span class="fmt-autonum-delim">.</span>
                    </span>
                    <span class="fmt-caption-delim">
                       <tab/>
@@ -154,7 +154,7 @@ RSpec.describe Metanorma::Itu do
                 <fmt-title depth="1" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="M">5</semx>
-                      <span class="fmt-clause-delim">.</span>
+                      <span class="fmt-autonum-delim">.</span>
                    </span>
                    <span class="fmt-caption-delim">
                       <tab/>
@@ -172,7 +172,7 @@ RSpec.describe Metanorma::Itu do
                          <semx element="autonum" source="M">5</semx>
                          <span class="fmt-autonum-delim">.</span>
                          <semx element="autonum" source="N">1</semx>
-                         <span class="fmt-clause-delim">.</span>
+                         <span class="fmt-autonum-delim">.</span>
                       </span>
                       <span class="fmt-caption-delim">
                          <tab/>
@@ -193,7 +193,7 @@ RSpec.describe Metanorma::Itu do
                          <semx element="autonum" source="M">5</semx>
                          <span class="fmt-autonum-delim">.</span>
                          <semx element="autonum" source="O">2</semx>
-                         <span class="fmt-clause-delim">.</span>
+                         <span class="fmt-autonum-delim">.</span>
                       </span>
                       <span class="fmt-caption-delim">
                          <tab/>
@@ -213,7 +213,7 @@ RSpec.describe Metanorma::Itu do
                 <fmt-title depth="1" id="_">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="R">2</semx>
-                      <span class="fmt-clause-delim">.</span>
+                      <span class="fmt-autonum-delim">.</span>
                    </span>
                    <span class="fmt-caption-delim">
                       <tab/>
@@ -267,7 +267,7 @@ RSpec.describe Metanorma::Itu do
                       <semx element="autonum" source="P">A</semx>
                       <span class="fmt-autonum-delim">.</span>
                       <semx element="autonum" source="Q">1</semx>
-                      <span class="fmt-clause-delim">.</span>
+                      <span class="fmt-autonum-delim">.</span>
                    </span>
                    <span class="fmt-caption-delim">
                       <tab/>
@@ -289,7 +289,7 @@ RSpec.describe Metanorma::Itu do
                          <semx element="autonum" source="Q">1</semx>
                          <span class="fmt-autonum-delim">.</span>
                          <semx element="autonum" source="Q1">1</semx>
-                         <span class="fmt-clause-delim">.</span>
+                         <span class="fmt-autonum-delim">.</span>
                       </span>
                       <span class="fmt-caption-delim">
                          <tab/>
@@ -352,22 +352,22 @@ RSpec.describe Metanorma::Itu do
                         <p class="zzSTDTitle1">Recommendation 12345</p>
                         <p class="zzSTDTitle2">An ITU Standard</p>
                         <div id="D">
-                          <h1>1<span class="fmt-clause-delim">.</span>&#160; Scope</h1>
+                          <h1>1<span class="fmt-autonum-delim">.</span>&#160; Scope</h1>
                           <p id="E">Text</p>
                         </div>
                         <div>
-                          <h1>2<span class="fmt-clause-delim">.</span>&#160; References</h1>
+                          <h1>2<span class="fmt-autonum-delim">.</span>&#160; References</h1>
                           <table class='biblio' border='0'>
            <tbody/>
          </table>
                         </div>
                         <div id="I">
-                        <h1>3<span class="fmt-clause-delim">.</span></h1>
-                        <div id="J"><p class="TermNum" id="J"><b>3.1<span class="fmt-clause-delim">.</span>&#160; <b><dfn>Term2</dfn></b>:</b></p>
+                        <h1>3<span class="fmt-autonum-delim">.</span></h1>
+                        <div id="J"><p class="TermNum" id="J"><b>3.1<span class="fmt-autonum-delim">.</span>&#160; <b><dfn>Term2</dfn></b>:</b></p>
                  </div>
                       </div>
                         <div id="L" class="Symbols">
-                        <h1>4<span class="fmt-clause-delim">.</span>  Abbreviations and acronyms</h1>
+                        <h1>4<span class="fmt-autonum-delim">.</span>  Abbreviations and acronyms</h1>
                         <table class="dl" style="table-layout:fixed;">
         <colgroup>
           <col style="width: 20%;"/>
@@ -382,12 +382,12 @@ RSpec.describe Metanorma::Itu do
                           </table>
                         </div>
                         <div id="M">
-                          <h1>5<span class="fmt-clause-delim">.</span>&#160; Clause 4</h1>
+                          <h1>5<span class="fmt-autonum-delim">.</span>&#160; Clause 4</h1>
                           <div id="N">
-                   <h2>5.1<span class="fmt-clause-delim">.</span>&#160; Introduction</h2>
+                   <h2>5.1<span class="fmt-autonum-delim">.</span>&#160; Introduction</h2>
                  </div>
                           <div id="O">
-                   <h2>5.2<span class="fmt-clause-delim">.</span>&#160; Clause 4.2</h2>
+                   <h2>5.2<span class="fmt-autonum-delim">.</span>&#160; Clause 4.2</h2>
                  </div>
                         </div>
                         <br/>
@@ -396,9 +396,9 @@ RSpec.describe Metanorma::Itu do
                           <p class="annex_obligation">(This annex forms an integral part of this Recommendation.)</p>
                           <p style="display:none;" class="variant-title-toc">Annex A  Annex</p>
                           <div id="Q">
-                   <h2>A.1<span class="fmt-clause-delim">.</span>&#160; Annex A.1</h2>
+                   <h2>A.1<span class="fmt-autonum-delim">.</span>&#160; Annex A.1</h2>
                    <div id="Q1">
-                   <h3>A.1.1<span class="fmt-clause-delim">.</span>&#160; Annex A.1a</h3>
+                   <h3>A.1.1<span class="fmt-autonum-delim">.</span>&#160; Annex A.1a</h3>
                    </div>
                  </div>
                         </div>
@@ -467,22 +467,22 @@ RSpec.describe Metanorma::Itu do
            <p class="zzSTDTitle1">Recommendation 12345</p>
            <p class="zzSTDTitle2">An ITU Standard</p>
            <div id="D">
-             <h1>1<span class="fmt-clause-delim">.</span><span style="mso-tab-count:1">&#160; </span>Scope</h1>
+             <h1>1<span class="fmt-autonum-delim">.</span><span style="mso-tab-count:1">&#160; </span>Scope</h1>
              <p id="E">Text</p>
           </div>
            <div>
-             <h1>2<span class="fmt-clause-delim">.</span><span style="mso-tab-count:1">&#160; </span>References</h1>
+             <h1>2<span class="fmt-autonum-delim">.</span><span style="mso-tab-count:1">&#160; </span>References</h1>
               <table class='biblio' border='0'>
               <tbody/>
             </table>
            </div>
-           <div id="I"><h1>3<span class="fmt-clause-delim">.</span></h1>
-        <div id="J"><p class="TermNum" id="J"><b>3.1<span class="fmt-clause-delim">.</span><span style="mso-tab-count:1">&#160; </span><b>Term2</b>:</b> </p>
+           <div id="I"><h1>3<span class="fmt-autonum-delim">.</span></h1>
+        <div id="J"><p class="TermNum" id="J"><b>3.1<span class="fmt-autonum-delim">.</span><span style="mso-tab-count:1">&#160; </span><b>Term2</b>:</b> </p>
       </div>
       </div>
            <div id="L" class="Symbols">
            <h1>
-            4<span class="fmt-clause-delim">.</span><span style="mso-tab-count:1">  </span>
+            4<span class="fmt-autonum-delim">.</span><span style="mso-tab-count:1">  </span>
             Abbreviations and acronyms
          </h1>
 
@@ -502,10 +502,10 @@ RSpec.describe Metanorma::Itu do
       </div>
            </div>
            <div id="M">
-             <h1>5<span class="fmt-clause-delim">.</span><span style="mso-tab-count:1">&#160; </span>Clause 4</h1>
-             <div id="N"><h2>5.1<span class="fmt-clause-delim">.</span><span style="mso-tab-count:1">&#160; </span>Introduction</h2>
+             <h1>5<span class="fmt-autonum-delim">.</span><span style="mso-tab-count:1">&#160; </span>Clause 4</h1>
+             <div id="N"><h2>5.1<span class="fmt-autonum-delim">.</span><span style="mso-tab-count:1">&#160; </span>Introduction</h2>
       </div>
-             <div id="O"><h2>5.2<span class="fmt-clause-delim">.</span><span style="mso-tab-count:1">&#160; </span>Clause 4.2</h2>
+             <div id="O"><h2>5.2<span class="fmt-autonum-delim">.</span><span style="mso-tab-count:1">&#160; </span>Clause 4.2</h2>
       </div>
            </div>
            <p class="page-break">
@@ -519,8 +519,8 @@ RSpec.describe Metanorma::Itu do
             <span style="mso-tab-count:1">  </span>
             Annex
          </p>
-             <div id="Q"><h2>A.1<span class="fmt-clause-delim">.</span><span style="mso-tab-count:1">&#160; </span>Annex A.1</h2>
-        <div id="Q1"><h3>A.1.1<span class="fmt-clause-delim">.</span><span style="mso-tab-count:1">&#160; </span>Annex A.1a</h3>
+             <div id="Q"><h2>A.1<span class="fmt-autonum-delim">.</span><span style="mso-tab-count:1">&#160; </span>Annex A.1</h2>
+        <div id="Q1"><h3>A.1.1<span class="fmt-autonum-delim">.</span><span style="mso-tab-count:1">&#160; </span>Annex A.1a</h3>
         </div>
       </div>
            </div>
@@ -719,7 +719,7 @@ RSpec.describe Metanorma::Itu do
          <fmt-title depth="1" id="_">
             <span class="fmt-caption-label">
                <semx element="autonum" source="_">1</semx>
-               <span class="fmt-clause-delim">.</span>
+               <span class="fmt-autonum-delim">.</span>
             </span>
          </fmt-title>
          <fmt-xref-label>
@@ -769,7 +769,7 @@ RSpec.describe Metanorma::Itu do
                        <semx element="autonum" source="A1">F2</semx>
                        <span class="fmt-autonum-delim">.</span>
                        <semx element="autonum" source="A2">1</semx>
-                       <span class="fmt-clause-delim">.</span>
+                       <span class="fmt-autonum-delim">.</span>
                     </span>
                     <span class="fmt-caption-delim">
                        <tab/>
@@ -866,7 +866,7 @@ RSpec.describe Metanorma::Itu do
                   <div id="_">
                      <h1 id="_">
                         <a class="anchor" href="#_"/>
-                        <a class="header" href="#_">1<span class="fmt-clause-delim">.</span></a>
+                        <a class="header" href="#_">1<span class="fmt-autonum-delim">.</span></a>
                      </h1>
                   </div>
                  <div id='A1' class='Section3'>
@@ -879,7 +879,7 @@ RSpec.describe Metanorma::Itu do
                    <p class='annex_obligation'>(This annex forms an integral part of this Recommendation Annex.)</p>
                    <p style="display:none;" class="variant-title-toc">Annex F2  Annex</p>
                    <div id='A2'>
-                     <h2 id='_'><a class="anchor" href="#A2"/><a class="header" href="#A2">F2.1<span class="fmt-clause-delim">.</span>&#xA0; Subtitle</a></h2>
+                     <h2 id='_'><a class="anchor" href="#A2"/><a class="header" href="#A2">F2.1<span class="fmt-autonum-delim">.</span>&#xA0; Subtitle</a></h2>
                      <table id='T' class='MsoISOTable' style='border-width:1px;border-spacing:0;'>
                      <caption>Table F2.1</caption>
                      </table>
@@ -910,7 +910,7 @@ RSpec.describe Metanorma::Itu do
               <p class='zzSTDTitle3'>Subtitle</p>
                 <div>
                   <a name="_" id="_"/>
-                  <h1>1<span class="fmt-clause-delim">.</span></h1>
+                  <h1>1<span class="fmt-autonum-delim">.</span></h1>
                   </div>
               <div class='Section3'>
                 <a name='A1' id='A1'/>
@@ -929,7 +929,7 @@ RSpec.describe Metanorma::Itu do
                 <div>
                   <a name='A2' id='A2'/>
                   <h2>
-                    F2.1<span class="fmt-clause-delim">.</span><span style='mso-tab-count:1'>&#xA0; </span>
+                    F2.1<span class="fmt-autonum-delim">.</span><span style='mso-tab-count:1'>&#xA0; </span>
                     Subtitle
                   </h2>
                  <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
@@ -1169,7 +1169,7 @@ RSpec.describe Metanorma::Itu do
                              10
                              <em>quater</em>
                           </semx>
-                          <span class="fmt-clause-delim">.</span>
+                          <span class="fmt-autonum-delim">.</span>
                        </span>
                        <span class="fmt-caption-delim">
                           <tab/>

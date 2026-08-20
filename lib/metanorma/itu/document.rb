@@ -34,6 +34,8 @@ module Metanorma
   deprecate_constant :ItuDocument
 end
 
+require "metanorma-core"
+
 # OCP adoption: ONE registration in the metanorma-core flavor table
 # (metanorma-core#18). Renderer resolves lazily; iso-style today.
 Metanorma::Core::Flavors.register(Metanorma::Core::Flavor.new(

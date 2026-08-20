@@ -221,7 +221,7 @@ RSpec.describe Metanorma::Itu do
          <fmt-title depth="1" id="_">
             <span class="fmt-caption-label">
                <semx element="autonum" source="_">1</semx>
-               <span class="fmt-clause-delim">.</span>
+               <span class="fmt-autonum-delim">.</span>
             </span>
          </fmt-title>
          <fmt-xref-label>
@@ -391,7 +391,7 @@ RSpec.describe Metanorma::Itu do
             <div id="_">
                <h1 id="_">
                   <a class="anchor" href="#_"/>
-                  <a class="header" href="#_">1<span class="fmt-clause-delim">.</span></a>
+                  <a class="header" href="#_">1<span class="fmt-autonum-delim">.</span></a>
                </h1>
             </div>
           <aside id="fn:_" class="footnote">
@@ -655,7 +655,7 @@ RSpec.describe Metanorma::Itu do
                <fmt-title id="_" depth="1">
                   <span class="fmt-caption-label">
                      <semx element="autonum" source="_">1</semx>
-                     <span class="fmt-clause-delim">.</span>
+                     <span class="fmt-autonum-delim">.</span>
                   </span>
                   <span class="fmt-caption-delim">
                      <tab/>
@@ -717,7 +717,7 @@ RSpec.describe Metanorma::Itu do
         </p>
         <div class="WordSection3">
           <div>
-            <h1>1<span class="fmt-clause-delim">.</span><span style="mso-tab-count:1">  </span>References</h1>
+            <h1>1<span class="fmt-autonum-delim">.</span><span style="mso-tab-count:1">  </span>References</h1>
             <table class="biblio" border="0">
               <tbody>
                 <tr id="ISO712" class="NormRef">
@@ -818,7 +818,7 @@ RSpec.describe Metanorma::Itu do
                <fmt-title depth="1" id="_">
                   <span class="fmt-caption-label">
                      <semx element="autonum" source="B">2</semx>
-                     <span class="fmt-clause-delim">.</span>
+                     <span class="fmt-autonum-delim">.</span>
                   </span>
                </fmt-title>
                <fmt-xref-label>
@@ -853,7 +853,7 @@ RSpec.describe Metanorma::Itu do
                <fmt-title depth="1" id="_">
                   <span class="fmt-caption-label">
                      <semx element="autonum" source="_">1</semx>
-                     <span class="fmt-clause-delim">.</span>
+                     <span class="fmt-autonum-delim">.</span>
                   </span>
                   <span class="fmt-caption-delim">
                      <tab/>
@@ -949,7 +949,7 @@ RSpec.describe Metanorma::Itu do
                 </p>
              </div>
              <div>
-                <h1>1<span class="fmt-clause-delim">.</span>  References</h1>
+                <h1>1<span class="fmt-autonum-delim">.</span>  References</h1>
                 <table class="biblio" border="0">
                    <tbody>
                       <tr id="ISO712" class="NormRef">
@@ -968,7 +968,7 @@ RSpec.describe Metanorma::Itu do
                 </table>
              </div>
              <div id="B">
-                <h1>2<span class="fmt-clause-delim">.</span></h1>
+                <h1>2<span class="fmt-autonum-delim">.</span></h1>
                 <p>
                    <a href="http://www.example.com" class="url">http://www.example.com</a>
                 </p>
@@ -1029,7 +1029,7 @@ RSpec.describe Metanorma::Itu do
          <div class="WordSection3">
             <div>
                <h1>
-                  1<span class="fmt-clause-delim">.</span><span style="mso-tab-count:1">  </span>
+                  1<span class="fmt-autonum-delim">.</span><span style="mso-tab-count:1">  </span>
                   References
                </h1>
                <table class="biblio" border="0">
@@ -1050,7 +1050,7 @@ RSpec.describe Metanorma::Itu do
                </table>
             </div>
             <div id="B">
-               <h1>2<span class="fmt-clause-delim">.</span></h1>
+               <h1>2<span class="fmt-autonum-delim">.</span></h1>
                <p>
                   <a href="http://www.example.com" class="url">http://www.example.com</a>
                </p>

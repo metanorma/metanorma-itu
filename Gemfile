@@ -16,6 +16,7 @@ gem "metanorma-standoc", github: "metanorma/metanorma-standoc", branch: "feat/mo
 gem "metanorma-document", github: "metanorma/metanorma-document", branch: "feat/model-validation-l1-declarations"
 gem "isodoc", github: "metanorma/isodoc", branch: "rt-pubid-2-migration"
 gem "relaton-bib", "~> 2.2.0.pre.alpha.1"
+gem "relaton-cli", ">= 2.2.0.pre.alpha.1"
 gem "pubid", github: "pubid/pubid", branch: "main"
 
 eval_gemfile("Gemfile.devel") rescue nil

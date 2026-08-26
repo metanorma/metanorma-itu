@@ -1,4 +1,4 @@
-require "pubid-itu"
+require "pubid"
 
 module Metanorma
   module Itu
@@ -117,13 +117,61 @@ module Metanorma
       def itu_id_default(node, params)
         p = params.dup
         p[:base] &&= itu_id_default(node, p[:base])
-        Pubid::Itu::Identifier.create(**p)
+        itu_pubid_create(p)
       end
 
       def itu_id_lang(node, params)
         params[:base] &&= itu_id_lang(node, params[:base])
         params[:language] = @lang
-        Pubid::Itu::Identifier.create(**params)
+        itu_pubid_create(params)
+      end
+
+      # Build a pubid monogem (>= 2.0) ITU identifier from the flat
+      # converter params (sector, series, number, part, publisher,
+      # language, base). The monogem keeps the document number and parts
+      # inside one Code component and types sector/series as components.
+      def itu_pubid_create(params)
+        case params[:type]
+        when :annex
+          return Pubid::Itu::Identifiers::Annex.new(
+            base: params[:base], language: params[:language]
+          )
+        when :contribution
+          attrs = {}
+          attrs[:sector] = Pubid::Itu::Components::Sector.new(
+            { sector: params[:sector] }
+          ) if params[:sector]
+          attrs[:series] = Pubid::Itu::Components::Series.new(
+            { series: params[:series] }
+          ) if params[:series]
+          attrs[:code] = Pubid::Itu::Components::Code.new(
+            imp_marker: "C", number: params[:number],
+            parts: Array(params[:part]).compact
+          )
+          attrs[:language] = params[:language] if params[:language]
+          attrs[:series_dash] = true
+          return Pubid::Itu::Identifier.new(**attrs)
+        end
+        attrs = {}
+        attrs[:sector] = Pubid::Itu::Components::Sector.new(
+          { sector: params[:sector] }
+        ) if params[:sector]
+        attrs[:series] = Pubid::Itu::Components::Series.new(
+          { series: params[:series] }
+        ) if params[:series]
+        if params[:number] || params[:part]
+          attrs[:code] = Pubid::Itu::Components::Code.new(
+            number: params[:number],
+            parts: Array(params[:part]).compact
+          )
+        end
+        attrs[:publisher] = params[:publisher] if params[:publisher]
+        attrs[:language] = params[:language] if params[:language]
+        attrs[:base] = params[:base] if params[:base]
+        klass = params[:series] == "OB" ?
+                  Pubid::Itu::Identifiers::SpecialPublication :
+                  Pubid::Itu::Identifier
+        klass.new(**attrs)
       end
 
       def recommendation_id(node, xml)

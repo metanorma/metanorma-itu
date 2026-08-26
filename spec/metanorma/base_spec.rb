@@ -1066,9 +1066,9 @@ RSpec.describe Metanorma::Itu do
           <title language='fr' type='main'>Titre Principal</title>
           <title language='en' type='subtitle'>Subtitle</title>
           <title language='fr' type='subtitle'>Soustitre</title>
-          <docidentifier primary="true" type='ITU'>SG17-C1000</docidentifier>
-          <docidentifier type='ITU-lang'>SG17-C1000-E</docidentifier>
-          <docidentifier type='ITU-lang-long'>SG17-C1000-E</docidentifier>
+          <docidentifier primary="true" type='ITU'>ITU-R SG17-C1000</docidentifier>
+          <docidentifier type='ITU-lang'>ITU-R SG17-C1000-E</docidentifier>
+          <docidentifier type='ITU-lang-long'>ITU-R SG17-C1000-E</docidentifier>
           <docidentifier type='ITU-provisional'>ABC</docidentifier>
           <docnumber>1000</docnumber>
           <date type="updated"><on>2000-01-01</on></date>

@@ -352,22 +352,22 @@ RSpec.describe Metanorma::Itu do
                      <p class="zzSTDTitle1">Recommandation 12345</p>
                      <p class="zzSTDTitle2">Un Standard ITU</p>
                      <div id="D">
-                     <h1>1<span class="fmt-autonum-delim">.</span>&#160; Scope</h1>
+                     <h1>1.&#160; Scope</h1>
                        <p id="E">Text</p>
                      </div>
                      <div>
-                     <h1>2<span class="fmt-autonum-delim">.</span>&#160; References</h1>
+                     <h1>2.&#160; References</h1>
                        <table class='biblio' border='0'>
         <tbody/>
       </table>
                      </div>
                      <div id="I">
-                     <h1>3<span class="fmt-autonum-delim">.</span></h1>
-                     <div id="J"><p class="TermNum" id="J"><b>3.1<span class="fmt-autonum-delim">.</span>&#160; <b><dfn>Term2</dfn></b> :</b></p>
+                     <h1>3.</h1>
+                     <div id="J"><p class="TermNum" id="J"><b>3.1.&#160; <b><dfn>Term2</dfn></b> :</b></p>
               </div>
                    </div>
                      <div id="L" class="Symbols">
-                        <h1>4<span class="fmt-autonum-delim">.</span>  Abréviations et acronymes</h1>
+                        <h1>4.  Abréviations et acronymes</h1>
                              <table class="dl" style="table-layout:fixed;">
         <colgroup>
           <col style="width: 20%;"/>
@@ -382,12 +382,12 @@ RSpec.describe Metanorma::Itu do
                           </table>
                      </div>
                      <div id="M">
-                       <h1>5<span class="fmt-autonum-delim">.</span>&#160; Clause 4</h1>
+                       <h1>5.&#160; Clause 4</h1>
                        <div id="N">
-                <h2>5.1<span class="fmt-autonum-delim">.</span>&#160; Introduction</h2>
+                <h2>5.1.&#160; Introduction</h2>
               </div>
                        <div id="O">
-                <h2>5.2<span class="fmt-autonum-delim">.</span>&#160; Clause 4.2</h2>
+                <h2>5.2.&#160; Clause 4.2</h2>
               </div>
                      </div>
                      <br/>
@@ -396,9 +396,9 @@ RSpec.describe Metanorma::Itu do
                       <p class="annex_obligation">(Cette annexe fait partie intégrante de ce Recommandation.)</p>
                        <p style="display:none;" class="variant-title-toc">Annexe A  Annex</p>
                        <div id="Q">
-                <h2>A.1<span class="fmt-autonum-delim">.</span>&#160; Annex A.1</h2>
+                <h2>A.1.&#160; Annex A.1</h2>
                 <div id="Q1">
-                <h3>A.1.1<span class="fmt-autonum-delim">.</span>&#160; Annex A.1a</h3>
+                <h3>A.1.1.&#160; Annex A.1a</h3>
                 </div>
               </div>
                      </div>
@@ -780,21 +780,21 @@ RSpec.describe Metanorma::Itu do
              <p class="zzSTDTitle1">建议书
          12345</p>
              <div id="D">
-                <h1>1<span class="fmt-autonum-delim">.</span>　Scope</h1>
+                <h1>1.　Scope</h1>
                 <p id="E">Text</p>
              </div>
              <div>
-                <h1>2<span class="fmt-autonum-delim">.</span>　References</h1>
+                <h1>2.　References</h1>
                 <table class="biblio" border="0">
                    <tbody/>
                 </table>
              </div>
              <div id="I">
-                <h1>3<span class="fmt-autonum-delim">.</span></h1>
+                <h1>3.</h1>
                 <div id="J">
                    <p class="TermNum" id="J">
                       <b>
-                         3.1<span class="fmt-autonum-delim">.</span>　
+                         3.1.　
                          <b><dfn>Term2</dfn></b>
                          ：
                       </b>
@@ -802,7 +802,7 @@ RSpec.describe Metanorma::Itu do
                 </div>
              </div>
              <div id="L" class="Symbols">
-                <h1>4<span class="fmt-autonum-delim">.</span>　缩略语与缩写</h1>
+                <h1>4.　缩略语与缩写</h1>
                 <table class="dl" style="table-layout:fixed;">
                    <colgroup>
                       <col style="width: 20%;"/>
@@ -817,12 +817,12 @@ RSpec.describe Metanorma::Itu do
                 </table>
              </div>
              <div id="M">
-                <h1>5<span class="fmt-autonum-delim">.</span>　Clause 4</h1>
+                <h1>5.　Clause 4</h1>
                 <div id="N">
-                   <h2>5.1<span class="fmt-autonum-delim">.</span>　Introduction</h2>
+                   <h2>5.1.　Introduction</h2>
                 </div>
                 <div id="O">
-                   <h2>5.2<span class="fmt-autonum-delim">.</span>　Clause 4.2</h2>
+                   <h2>5.2.　Clause 4.2</h2>
                 </div>
              </div>
              <br/>
@@ -836,9 +836,9 @@ RSpec.describe Metanorma::Itu do
                 <p class="annex_obligation">（本附件不构成本建议书的不可或缺部分）</p>
                 <p style="display:none;" class="variant-title-toc">附件A　Annex</p>
                 <div id="Q">
-                   <h2>A.1<span class="fmt-autonum-delim">.</span>　Annex A.1</h2>
+                   <h2>A.1.　Annex A.1</h2>
                    <div id="Q1">
-                      <h3>A.1.1<span class="fmt-autonum-delim">.</span>　Annex A.1a</h3>
+                      <h3>A.1.1.　Annex A.1a</h3>
                    </div>
                 </div>
              </div>

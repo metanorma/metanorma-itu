@@ -7,5 +7,5 @@ require_relative "support/roundtrip_helper"
 require_relative "support/shared_roundtrip_examples"
 
 RSpec.describe "ITU document XML round-trip" do
-  it_behaves_like "xml round-trip", flavor_dir: "itu"
+  it_behaves_like "xml round-trip", flavor_dir: "itu", doc_class: Metanorma::Itu::Document::Root
 end

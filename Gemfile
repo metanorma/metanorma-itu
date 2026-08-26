@@ -16,6 +16,6 @@ gem "metanorma-standoc", github: "metanorma/metanorma-standoc", branch: "feat/mo
 gem "metanorma-document", github: "metanorma/metanorma-document", branch: "feat/model-validation-l1-declarations"
 gem "isodoc", github: "metanorma/isodoc", branch: "rt-pubid-2-migration"
 gem "relaton-cli", ">= 3.0.0.pre.alpha.1"
-gem "pubid", ">= 2.0.0.pre.alpha.9"
+gem "pubid", "2.0.0.pre.alpha.8" # relaton 3.0.0.pre.alpha.1 pairs with pre-rename pubid; .alpha.9 renamed base_identifier->base
 
 eval_gemfile("Gemfile.devel") rescue nil

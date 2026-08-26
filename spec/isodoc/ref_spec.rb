@@ -470,7 +470,7 @@ RSpec.describe IsoDoc::Itu do
              </p>
           </div>
           <div>
-             <h1 id="_">1<span class="fmt-autonum-delim">.</span>  Normative References</h1>
+             <h1 id="_">1.  Normative References</h1>
              <table class="biblio" border="0">
                 <tbody>
                    <tr>
@@ -835,7 +835,7 @@ RSpec.describe IsoDoc::Itu do
            </p>
                </div>
                <div>
-                 <h1>1<span class="fmt-autonum-delim">.</span>&#160; References</h1>
+                 <h1>1.&#160; References</h1>
                        <table class='biblio' border='0'>
           <tbody>
             <tx>

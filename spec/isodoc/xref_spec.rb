@@ -1533,10 +1533,10 @@ OUTPUT
                  <div id='M'>
       <h1>Clause 4</h1>
                    <div id='N'>
-                     <h2>2.1<span class="fmt-autonum-delim">.</span>  Introduction</h2>
+                     <h2>2.1.  Introduction</h2>
                    </div>
                    <div id='O'>
-                   <h2>2.2<span class="fmt-autonum-delim">.</span>  Clause 4.2</h2>
+                   <h2>2.2.  Clause 4.2</h2>
                    </div>
                  </div>
                  <br/>
@@ -1551,9 +1551,9 @@ OUTPUT
                    </h1>
                    <p style="display:none;" class="variant-title-toc">Annex Title</p>
                    <div id='Q'>
-                   <h2>A.1<span class="fmt-autonum-delim">.</span>  Annex A.1</h2>
+                   <h2>A.1.  Annex A.1</h2>
                      <div id='Q1'>
-                     <h3>A.1.1<span class="fmt-autonum-delim">.</span>  Annex A.1a</h3>
+                     <h3>A.1.1.  Annex A.1a</h3>
                      </div>
                    </div>
                  </div>

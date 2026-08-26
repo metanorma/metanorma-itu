@@ -1,4 +1,5 @@
 require "pubid"
+require_relative "pubid_contribution"
 
 module Metanorma
   module Itu
@@ -137,20 +138,9 @@ module Metanorma
             base: params[:base], language: params[:language]
           )
         when :contribution
-          attrs = {}
-          attrs[:sector] = Pubid::Itu::Components::Sector.new(
-            { sector: params[:sector] }
-          ) if params[:sector]
-          attrs[:series] = Pubid::Itu::Components::Series.new(
-            { series: params[:series] }
-          ) if params[:series]
-          attrs[:code] = Pubid::Itu::Components::Code.new(
-            imp_marker: "C", number: params[:number],
-            parts: Array(params[:part]).compact
+          return Pubid::Itu::Identifiers::Contribution.new(
+            **itu_pubid_contribution_attrs(params)
           )
-          attrs[:language] = params[:language] if params[:language]
-          attrs[:series_dash] = true
-          return Pubid::Itu::Identifier.new(**attrs)
         end
         attrs = {}
         attrs[:sector] = Pubid::Itu::Components::Sector.new(
@@ -172,6 +162,21 @@ module Metanorma
                   Pubid::Itu::Identifiers::SpecialPublication :
                   Pubid::Itu::Identifier
         klass.new(**attrs)
+      end
+
+      def itu_pubid_contribution_attrs(params)
+        attrs = {}
+        attrs[:sector] = Pubid::Itu::Components::Sector.new(
+          { sector: params[:sector] }
+        ) if params[:sector]
+        attrs[:series] = Pubid::Itu::Components::Series.new(
+          { series: params[:series] }
+        ) if params[:series]
+        attrs[:code] = Pubid::Itu::Components::Code.new(
+          number: params[:number], parts: Array(params[:part]).compact
+        )
+        attrs[:language] = params[:language] if params[:language]
+        attrs
       end
 
       def recommendation_id(node, xml)

@@ -365,480 +365,668 @@ RSpec.describe Metanorma::Itu do
              </owner>
            </copyright>
            <relation type="complements">
-             <bibitem type="standard">
-               <title language="en" script="Latn" type="title-main">The international telex service – Service and operational provisions of telex destination codes and telex network identification codes</title>
-               <title language="en" script="Latn" type="main">The international telex service – Service and operational provisions of telex destination codes and telex network identification codes</title>
-               <uri type="src">https://handle.itu.int/11.1002/1000/696</uri>
-               <uri type="pdf">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.69-199406-I!!PDF-E&amp;type=items</uri>
-               <docidentifier type="ITU" primary="true">ITU-T F.69</docidentifier>
-               <contributor>
-                 <role type="publisher"/>
+           <bibitem type="standard" schema-version="v1.5.6">
+  
+  
+           <title language="en" script="Latn" type="title-main">Plan for telex destination codes</title>
+
+  
+           <title language="en" script="Latn" type="main">Plan for telex destination codes</title>
+
+             <uri type="src">https://handle.itu.int/11.1002/1000/694</uri>
+             <uri type="pdf">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.69-198811-S!!PDF-E&amp;type=items</uri>
+             <docidentifier type="ITU" primary="true">ITU-T F.69</docidentifier>
+             <contributor>
+               <role type="publisher"/>
+               <organization>
+      
+           <name>International Telecommunication Union</name>
+
+                 <abbreviation>ITU</abbreviation>
+                 <uri>www.itu.int</uri>
+               </organization>
+             </contributor>
+             <contributor>
+               <role type="author">
+                 <description>committee</description>
+               </role>
+               <organization>
+      
+           <name>International Telecommunication Union</name>
+
+                 <subdivision type="technical-committee" subtype="study-group">
+        
+           <name>ITU-T Study Group 2</name>
+
+                 </subdivision>
+                 <abbreviation>ITU-T</abbreviation>
+               </organization>
+             </contributor>
+             <edition>5</edition>
+             <language>en</language>
+             <script>Latn</script>
+             <status>
+               <stage>Withdrawal</stage>
+             </status>
+             <copyright>
+               <from>1988</from>
+               <owner>
                  <organization>
-                   <name>International Telecommunication Union</name>
+        
+           <name>International Telecommunication Union</name>
+
                    <abbreviation>ITU</abbreviation>
                    <uri>www.itu.int</uri>
                  </organization>
-               </contributor>
-               <contributor>
-                 <role type="author">
-                   <description>committee</description>
-                 </role>
-                 <organization>
-                   <name>International Telecommunication Union</name>
-                   <subdivision type="technical-committee" subtype="study-group">
-                     <name>ITU-T Study Group 2</name>
-                   </subdivision>
-                   <abbreviation>ITU-T</abbreviation>
-                 </organization>
-               </contributor>
-               <edition>7</edition>
-               <language>en</language>
-               <script>Latn</script>
-               <status>
-                 <stage>Published</stage>
-               </status>
-               <copyright>
-                 <from>1994</from>
-                 <owner>
+               </owner>
+             </copyright>
+             <relation type="hasEdition">
+               <bibitem>
+      
+           <title language="en" script="Latn">The international telex service – Service and operational provisions of telex destination codes and telex network identification codes</title>
+
+                 <docidentifier type="ITU" primary="true">F.69 (06/1994)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="hasEdition">
+               <bibitem>
+      
+           <title language="en" script="Latn">Plan for telex destination codes</title>
+
+                 <docidentifier type="ITU" primary="true">F.69 (03/1993)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="hasEdition">
+               <bibitem>
+      
+           <title language="en" script="Latn">Plan for telex destination codes</title>
+
+                 <docidentifier type="ITU" primary="true">F.69 (10/1984)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="hasEdition">
+               <bibitem>
+      
+           <title language="en" script="Latn">Plan for telex destination codes</title>
+
+                 <docidentifier type="ITU" primary="true">F.69 (11/1980)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="hasEdition">
+               <bibitem>
+                 <formattedref>F.69 (1976) Amd. 1 (10/1977)</formattedref>
+                 <docidentifier type="ITU" primary="true">F.69 (1976) Amd. 1 (10/1977)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="hasEdition">
+               <bibitem>
+      
+           <title language="en" script="Latn">Plan for telex destination codes</title>
+
+                 <docidentifier type="ITU" primary="true">F.69 (10/1976)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="hasEdition">
+               <bibitem>
+      
+           <title language="en" script="Latn">Plan for telex destination codes</title>
+
+                 <docidentifier type="ITU" primary="true">F.69 (12/1972)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="complementOf">
+               <bibitem>
+      
+           <title language="en" script="Latn">Definitions relating to telegraph, telematic and data transmission services</title>
+
+                 <docidentifier type="ITU" primary="true">F Suppl. 1 (11/1988)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="complementOf">
+               <bibitem>
+      
+           <title language="en" script="Latn">Terms and definitions for telex</title>
+
+                 <docidentifier type="ITU" primary="true">F Suppl. 2 (11/1988)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="complementOf">
+               <bibitem>
+      
+           <title language="en" script="Latn">Overview of Telecom Finance (Finance2.0)</title>
+
+                 <docidentifier type="ITU" primary="true">F Suppl. 3 (09/2016)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="complementOf">
+               <bibitem>
+      
+           <title language="en" script="Latn">Overview of convergence of artificial intelligence and blockchain</title>
+
+                 <docidentifier type="ITU" primary="true">F Suppl. 4 (04/2021)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="complementOf">
+               <bibitem>
+      
+           <title language="en" script="Latn">Use cases for communication services of passive sensing equipment based on civilian unmanned aerial vehicles</title>
+
+                 <docidentifier type="ITU" primary="true">F Suppl. 5 (07/2026)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="complementOf">
+               <bibitem>
+      
+           <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
+
+                 <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="instanceOf">
+               <bibitem type="standard">
+      
+           <title language="en" script="Latn" type="title-main">Plan for telex destination codes</title>
+
+      
+           <title language="en" script="Latn" type="main">Plan for telex destination codes</title>
+
+                 <uri type="src">https://handle.itu.int/11.1002/1000/694</uri>
+                 <uri type="pdf">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.69-198811-S!!PDF-E&amp;type=items</uri>
+                 <docidentifier type="ITU" primary="true">ITU-T F.69 (11/1988)</docidentifier>
+                 <date type="published">
+                   <on>1988-11-25</on>
+                 </date>
+                 <contributor>
+                   <role type="publisher"/>
                    <organization>
-                     <name>International Telecommunication Union</name>
+          
+           <name>International Telecommunication Union</name>
+
                      <abbreviation>ITU</abbreviation>
                      <uri>www.itu.int</uri>
                    </organization>
-                 </owner>
-               </copyright>
-               <relation type="hasEdition">
-                 <bibitem>
-                   <title language="en" script="Latn">Plan for telex destination codes</title>
-                   <docidentifier type="ITU" primary="true">F.69 (03/1993)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="hasEdition">
-                 <bibitem>
-                   <title language="en" script="Latn">Plan for telex destination codes</title>
-                   <docidentifier type="ITU" primary="true">F.69 (11/1988)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="hasEdition">
-                 <bibitem>
-                   <title language="en" script="Latn">Plan for telex destination codes</title>
-                   <docidentifier type="ITU" primary="true">F.69 (10/1984)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="hasEdition">
-                 <bibitem>
-                   <title language="en" script="Latn">Plan for telex destination codes</title>
-                   <docidentifier type="ITU" primary="true">F.69 (11/1980)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="hasEdition">
-                 <bibitem>
-                   <formattedref>F.69 (1976) Amd. 1 (10/1977)</formattedref>
-                   <docidentifier type="ITU" primary="true">F.69 (1976) Amd. 1 (10/1977)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="hasEdition">
-                 <bibitem>
-                   <title language="en" script="Latn">Plan for telex destination codes</title>
-                   <docidentifier type="ITU" primary="true">F.69 (10/1976)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="hasEdition">
-                 <bibitem>
-                   <title language="en" script="Latn">Plan for telex destination codes</title>
-                   <docidentifier type="ITU" primary="true">F.69 (12/1972)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="complementOf">
-                 <bibitem>
-                   <title language="en" script="Latn">Definitions relating to telegraph, telematic and data transmission services</title>
-                   <docidentifier type="ITU" primary="true">F Suppl. 1 (11/1988)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="complementOf">
-                 <bibitem>
-                   <title language="en" script="Latn">Terms and definitions for telex</title>
-                   <docidentifier type="ITU" primary="true">F Suppl. 2 (11/1988)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="complementOf">
-                 <bibitem>
-                   <title language="en" script="Latn">Overview of Telecom Finance (Finance2.0)</title>
-                   <docidentifier type="ITU" primary="true">F Suppl. 3 (09/2016)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="complementOf">
-                 <bibitem>
-                   <title language="en" script="Latn">Overview of convergence of artificial intelligence and blockchain</title>
-                   <docidentifier type="ITU" primary="true">F Suppl. 4 (04/2021)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="complementOf">
-                 <bibitem>
-                   <title language="en" script="Latn">Use cases for communication services of passive sensing equipment based on civilian unmanned aerial vehicles</title>
-                   <docidentifier type="ITU" primary="true">F Suppl. 5 (07/2026)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="complementOf">
-                 <bibitem>
-                   <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
-                   <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="instanceOf">
-                 <bibitem type="standard">
-                   <title language="en" script="Latn" type="title-main">The international telex service – Service and operational provisions of telex destination codes and telex network identification codes</title>
-                   <title language="en" script="Latn" type="main">The international telex service – Service and operational provisions of telex destination codes and telex network identification codes</title>
-                   <uri type="src">https://handle.itu.int/11.1002/1000/696</uri>
-                   <uri type="pdf">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.69-199406-I!!PDF-E&amp;type=items</uri>
-                   <docidentifier type="ITU" primary="true">ITU-T F.69 (06/1994)</docidentifier>
-                   <date type="published">
-                     <on>1994-06-01</on>
-                   </date>
-                   <contributor>
-                     <role type="publisher"/>
+                 </contributor>
+                 <contributor>
+                   <role type="author">
+                     <description>committee</description>
+                   </role>
+                   <organization>
+          
+           <name>International Telecommunication Union</name>
+
+                     <subdivision type="technical-committee" subtype="study-group">
+            
+           <name>ITU-T Study Group 2</name>
+
+                     </subdivision>
+                     <abbreviation>ITU-T</abbreviation>
+                   </organization>
+                 </contributor>
+                 <edition>5</edition>
+                 <language>en</language>
+                 <script>Latn</script>
+                 <abstract language="en" script="Latn"/>
+                 <status>
+                   <stage>Withdrawal</stage>
+                 </status>
+                 <copyright>
+                   <from>1988</from>
+                   <owner>
                      <organization>
-                       <name>International Telecommunication Union</name>
+            
+           <name>International Telecommunication Union</name>
+
                        <abbreviation>ITU</abbreviation>
                        <uri>www.itu.int</uri>
                      </organization>
-                   </contributor>
-                   <contributor>
-                     <role type="author">
-                       <description>committee</description>
-                     </role>
-                     <organization>
-                       <name>International Telecommunication Union</name>
-                       <subdivision type="technical-committee" subtype="study-group">
-                         <name>ITU-T Study Group 2</name>
-                       </subdivision>
-                       <abbreviation>ITU-T</abbreviation>
-                     </organization>
-                   </contributor>
-                   <edition>7</edition>
-                   <language>en</language>
-                   <script>Latn</script>
-                   <abstract language="en" script="Latn">The interconnection of the networks of the countries and recognized operating agencies participating in the international telex service requires the development of a standardized mechanism for the routing of calls between subscribers in a transparent manner. This is achieved through the use of a telex destination code which is used for routing purposes in international exchanges. Telex destination codes may also be used within national telex networks or at international gateway exchanges for recording call details for billing and accounting purposes, or sometimes for other purposes such as segregating particular types of traffic. Furthermore, the service requirement enabling the identification of the called subscriber and thereby giving assurance of correct connection is achieved by the inclusion of a telex network identification code in the answerbacks of subscribers of the international telex service in addition to the subscribers national telex number.This Recommendation describes the procedures to be followed in the allocation of telex destination codes and telex network identification codes. The means of promulgation publication, and date of entry into effect of code allocations are also identified.</abstract>
-                   <status>
-                     <stage>Published</stage>
-                   </status>
-                   <copyright>
-                     <from>1994</from>
-                     <owner>
-                       <organization>
-                         <name>International Telecommunication Union</name>
-                         <abbreviation>ITU</abbreviation>
-                         <uri>www.itu.int</uri>
-                       </organization>
-                     </owner>
-                   </copyright>
-                   <relation type="hasEdition">
-                     <bibitem>
-                       <title language="en" script="Latn">Plan for telex destination codes</title>
-                       <docidentifier type="ITU" primary="true">F.69 (03/1993)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="hasEdition">
-                     <bibitem>
-                       <title language="en" script="Latn">Plan for telex destination codes</title>
-                       <docidentifier type="ITU" primary="true">F.69 (11/1988)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="hasEdition">
-                     <bibitem>
-                       <title language="en" script="Latn">Plan for telex destination codes</title>
-                       <docidentifier type="ITU" primary="true">F.69 (10/1984)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="hasEdition">
-                     <bibitem>
-                       <title language="en" script="Latn">Plan for telex destination codes</title>
-                       <docidentifier type="ITU" primary="true">F.69 (11/1980)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="hasEdition">
-                     <bibitem>
-                       <formattedref>F.69 (1976) Amd. 1 (10/1977)</formattedref>
-                       <docidentifier type="ITU" primary="true">F.69 (1976) Amd. 1 (10/1977)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="hasEdition">
-                     <bibitem>
-                       <title language="en" script="Latn">Plan for telex destination codes</title>
-                       <docidentifier type="ITU" primary="true">F.69 (10/1976)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="hasEdition">
-                     <bibitem>
-                       <title language="en" script="Latn">Plan for telex destination codes</title>
-                       <docidentifier type="ITU" primary="true">F.69 (12/1972)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                     <bibitem>
-                       <title language="en" script="Latn">Definitions relating to telegraph, telematic and data transmission services</title>
-                       <docidentifier type="ITU" primary="true">F Suppl. 1 (11/1988)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                     <bibitem>
-                       <title language="en" script="Latn">Terms and definitions for telex</title>
-                       <docidentifier type="ITU" primary="true">F Suppl. 2 (11/1988)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                     <bibitem>
-                       <title language="en" script="Latn">Overview of Telecom Finance (Finance2.0)</title>
-                       <docidentifier type="ITU" primary="true">F Suppl. 3 (09/2016)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                     <bibitem>
-                       <title language="en" script="Latn">Overview of convergence of artificial intelligence and blockchain</title>
-                       <docidentifier type="ITU" primary="true">F Suppl. 4 (04/2021)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                     <bibitem>
-                       <title language="en" script="Latn">Use cases for communication services of passive sensing equipment based on civilian unmanned aerial vehicles</title>
-                       <docidentifier type="ITU" primary="true">F Suppl. 5 (07/2026)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                     <bibitem>
-                       <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
-                       <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <place>
-                     <city>Geneva</city>
-                   </place>
-                 </bibitem>
-               </relation>
-               <place>
-                 <city>Geneva</city>
-               </place>
-             </bibitem>
+                   </owner>
+                 </copyright>
+                 <relation type="hasEdition">
+                   <bibitem>
+          
+           <title language="en" script="Latn">The international telex service – Service and operational provisions of telex destination codes and telex network identification codes</title>
+
+                     <docidentifier type="ITU" primary="true">F.69 (06/1994)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="hasEdition">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Plan for telex destination codes</title>
+
+                     <docidentifier type="ITU" primary="true">F.69 (03/1993)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="hasEdition">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Plan for telex destination codes</title>
+
+                     <docidentifier type="ITU" primary="true">F.69 (10/1984)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="hasEdition">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Plan for telex destination codes</title>
+
+                     <docidentifier type="ITU" primary="true">F.69 (11/1980)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="hasEdition">
+                   <bibitem>
+                     <formattedref>F.69 (1976) Amd. 1 (10/1977)</formattedref>
+                     <docidentifier type="ITU" primary="true">F.69 (1976) Amd. 1 (10/1977)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="hasEdition">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Plan for telex destination codes</title>
+
+                     <docidentifier type="ITU" primary="true">F.69 (10/1976)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="hasEdition">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Plan for telex destination codes</title>
+
+                     <docidentifier type="ITU" primary="true">F.69 (12/1972)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="complementOf">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Definitions relating to telegraph, telematic and data transmission services</title>
+
+                     <docidentifier type="ITU" primary="true">F Suppl. 1 (11/1988)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="complementOf">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Terms and definitions for telex</title>
+
+                     <docidentifier type="ITU" primary="true">F Suppl. 2 (11/1988)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="complementOf">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Overview of Telecom Finance (Finance2.0)</title>
+
+                     <docidentifier type="ITU" primary="true">F Suppl. 3 (09/2016)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="complementOf">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Overview of convergence of artificial intelligence and blockchain</title>
+
+                     <docidentifier type="ITU" primary="true">F Suppl. 4 (04/2021)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="complementOf">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Use cases for communication services of passive sensing equipment based on civilian unmanned aerial vehicles</title>
+
+                     <docidentifier type="ITU" primary="true">F Suppl. 5 (07/2026)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="complementOf">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
+
+                     <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <place>
+                   <city>Geneva</city>
+                 </place>
+               </bibitem>
+
+             </relation>
+             <place>
+               <city>Geneva</city>
+             </place>
+           </bibitem>
+
            </relation>
            <relation type="complements">
-             <bibitem type="standard">
-               <title language="en" script="Latn" type="title-main">Establishment of the automatic intercontinental telex network</title>
-               <title language="en" script="Latn" type="main">Establishment of the automatic intercontinental telex network</title>
-               <uri type="src">https://handle.itu.int/11.1002/1000/693</uri>
-               <uri type="pdf">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.68-198811-I!!PDF-E&amp;type=items</uri>
-               <docidentifier type="ITU" primary="true">ITU-T F.68</docidentifier>
-               <contributor>
-                 <role type="publisher"/>
+           <bibitem type="standard" schema-version="v1.5.6">
+  
+  
+           <title language="en" script="Latn" type="title-main">Establishment of the automatic intercontinental telex network</title>
+
+  
+           <title language="en" script="Latn" type="main">Establishment of the automatic intercontinental telex network</title>
+
+             <uri type="src">https://handle.itu.int/11.1002/1000/693</uri>
+             <uri type="pdf">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.68-198811-I!!PDF-E&amp;type=items</uri>
+             <docidentifier type="ITU" primary="true">ITU-T F.68</docidentifier>
+             <contributor>
+               <role type="publisher"/>
+               <organization>
+      
+           <name>International Telecommunication Union</name>
+
+                 <abbreviation>ITU</abbreviation>
+                 <uri>www.itu.int</uri>
+               </organization>
+             </contributor>
+             <contributor>
+               <role type="author">
+                 <description>committee</description>
+               </role>
+               <organization>
+      
+           <name>International Telecommunication Union</name>
+
+                 <subdivision type="technical-committee" subtype="study-group">
+        
+           <name>ITU-T Study Group 2</name>
+
+                 </subdivision>
+                 <abbreviation>ITU-T</abbreviation>
+               </organization>
+             </contributor>
+             <edition>5</edition>
+             <language>en</language>
+             <script>Latn</script>
+             <status>
+               <stage>Published</stage>
+             </status>
+             <copyright>
+               <from>1988</from>
+               <owner>
                  <organization>
-                   <name>International Telecommunication Union</name>
+        
+           <name>International Telecommunication Union</name>
+
                    <abbreviation>ITU</abbreviation>
                    <uri>www.itu.int</uri>
                  </organization>
-               </contributor>
-               <contributor>
-                 <role type="author">
-                   <description>committee</description>
-                 </role>
-                 <organization>
-                   <name>International Telecommunication Union</name>
-                   <subdivision type="technical-committee" subtype="study-group">
-                     <name>ITU-T Study Group 2</name>
-                   </subdivision>
-                   <abbreviation>ITU-T</abbreviation>
-                 </organization>
-               </contributor>
-               <edition>5</edition>
-               <language>en</language>
-               <script>Latn</script>
-               <status>
-                 <stage>Published</stage>
-               </status>
-               <copyright>
-                 <from>1988</from>
-                 <owner>
+               </owner>
+             </copyright>
+             <relation type="hasEdition">
+               <bibitem>
+      
+           <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
+
+                 <docidentifier type="ITU" primary="true">F.68 (10/1984)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="hasEdition">
+               <bibitem>
+      
+           <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
+
+                 <docidentifier type="ITU" primary="true">F.68 (11/1980)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="hasEdition">
+               <bibitem>
+      
+           <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
+
+                 <docidentifier type="ITU" primary="true">F.68 (10/1976)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="hasEdition">
+               <bibitem>
+      
+           <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
+
+                 <docidentifier type="ITU" primary="true">F.68 (12/1972)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="complementOf">
+               <bibitem>
+      
+           <title language="en" script="Latn">Definitions relating to telegraph, telematic and data transmission services</title>
+
+                 <docidentifier type="ITU" primary="true">F Suppl. 1 (11/1988)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="complementOf">
+               <bibitem>
+      
+           <title language="en" script="Latn">Terms and definitions for telex</title>
+
+                 <docidentifier type="ITU" primary="true">F Suppl. 2 (11/1988)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="complementOf">
+               <bibitem>
+      
+           <title language="en" script="Latn">Overview of Telecom Finance (Finance2.0)</title>
+
+                 <docidentifier type="ITU" primary="true">F Suppl. 3 (09/2016)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="complementOf">
+               <bibitem>
+      
+           <title language="en" script="Latn">Overview of convergence of artificial intelligence and blockchain</title>
+
+                 <docidentifier type="ITU" primary="true">F Suppl. 4 (04/2021)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="complementOf">
+               <bibitem>
+      
+           <title language="en" script="Latn">Use cases for communication services of passive sensing equipment based on civilian unmanned aerial vehicles</title>
+
+                 <docidentifier type="ITU" primary="true">F Suppl. 5 (07/2026)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="complementOf">
+               <bibitem>
+      
+           <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
+
+                 <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
+               </bibitem>
+
+             </relation>
+             <relation type="instanceOf">
+               <bibitem type="standard">
+      
+           <title language="en" script="Latn" type="title-main">Establishment of the automatic intercontinental telex network</title>
+
+      
+           <title language="en" script="Latn" type="main">Establishment of the automatic intercontinental telex network</title>
+
+                 <uri type="src">https://handle.itu.int/11.1002/1000/693</uri>
+                 <uri type="pdf">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.68-198811-I!!PDF-E&amp;type=items</uri>
+                 <docidentifier type="ITU" primary="true">ITU-T F.68 (11/1988)</docidentifier>
+                 <date type="published">
+                   <on>1988-11-25</on>
+                 </date>
+                 <contributor>
+                   <role type="publisher"/>
                    <organization>
-                     <name>International Telecommunication Union</name>
+          
+           <name>International Telecommunication Union</name>
+
                      <abbreviation>ITU</abbreviation>
                      <uri>www.itu.int</uri>
                    </organization>
-                 </owner>
-               </copyright>
-               <relation type="hasEdition">
-                 <bibitem>
-                   <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
-                   <docidentifier type="ITU" primary="true">F.68 (10/1984)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="hasEdition">
-                 <bibitem>
-                   <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
-                   <docidentifier type="ITU" primary="true">F.68 (11/1980)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="hasEdition">
-                 <bibitem>
-                   <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
-                   <docidentifier type="ITU" primary="true">F.68 (10/1976)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="hasEdition">
-                 <bibitem>
-                   <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
-                   <docidentifier type="ITU" primary="true">F.68 (12/1972)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="complementOf">
-                 <bibitem>
-                   <title language="en" script="Latn">Definitions relating to telegraph, telematic and data transmission services</title>
-                   <docidentifier type="ITU" primary="true">F Suppl. 1 (11/1988)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="complementOf">
-                 <bibitem>
-                   <title language="en" script="Latn">Terms and definitions for telex</title>
-                   <docidentifier type="ITU" primary="true">F Suppl. 2 (11/1988)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="complementOf">
-                 <bibitem>
-                   <title language="en" script="Latn">Overview of Telecom Finance (Finance2.0)</title>
-                   <docidentifier type="ITU" primary="true">F Suppl. 3 (09/2016)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="complementOf">
-                 <bibitem>
-                   <title language="en" script="Latn">Overview of convergence of artificial intelligence and blockchain</title>
-                   <docidentifier type="ITU" primary="true">F Suppl. 4 (04/2021)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="complementOf">
-                 <bibitem>
-                   <title language="en" script="Latn">Use cases for communication services of passive sensing equipment based on civilian unmanned aerial vehicles</title>
-                   <docidentifier type="ITU" primary="true">F Suppl. 5 (07/2026)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="complementOf">
-                 <bibitem>
-                   <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
-                   <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
-                 </bibitem>
-               </relation>
-               <relation type="instanceOf">
-                 <bibitem type="standard">
-                   <title language="en" script="Latn" type="title-main">Establishment of the automatic intercontinental telex network</title>
-                   <title language="en" script="Latn" type="main">Establishment of the automatic intercontinental telex network</title>
-                   <uri type="src">https://handle.itu.int/11.1002/1000/693</uri>
-                   <uri type="pdf">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.68-198811-I!!PDF-E&amp;type=items</uri>
-                   <docidentifier type="ITU" primary="true">ITU-T F.68 (11/1988)</docidentifier>
-                   <date type="published">
-                     <on>1988-11-25</on>
-                   </date>
-                   <contributor>
-                     <role type="publisher"/>
+                 </contributor>
+                 <contributor>
+                   <role type="author">
+                     <description>committee</description>
+                   </role>
+                   <organization>
+          
+           <name>International Telecommunication Union</name>
+
+                     <subdivision type="technical-committee" subtype="study-group">
+            
+           <name>ITU-T Study Group 2</name>
+
+                     </subdivision>
+                     <abbreviation>ITU-T</abbreviation>
+                   </organization>
+                 </contributor>
+                 <edition>5</edition>
+                 <language>en</language>
+                 <script>Latn</script>
+                 <abstract language="en" script="Latn"/>
+                 <status>
+                   <stage>Published</stage>
+                 </status>
+                 <copyright>
+                   <from>1988</from>
+                   <owner>
                      <organization>
-                       <name>International Telecommunication Union</name>
+            
+           <name>International Telecommunication Union</name>
+
                        <abbreviation>ITU</abbreviation>
                        <uri>www.itu.int</uri>
                      </organization>
-                   </contributor>
-                   <contributor>
-                     <role type="author">
-                       <description>committee</description>
-                     </role>
-                     <organization>
-                       <name>International Telecommunication Union</name>
-                       <subdivision type="technical-committee" subtype="study-group">
-                         <name>ITU-T Study Group 2</name>
-                       </subdivision>
-                       <abbreviation>ITU-T</abbreviation>
-                     </organization>
-                   </contributor>
-                   <edition>5</edition>
-                   <language>en</language>
-                   <script>Latn</script>
-                   <abstract language="en" script="Latn"/>
-                   <status>
-                     <stage>Published</stage>
-                   </status>
-                   <copyright>
-                     <from>1988</from>
-                     <owner>
-                       <organization>
-                         <name>International Telecommunication Union</name>
-                         <abbreviation>ITU</abbreviation>
-                         <uri>www.itu.int</uri>
-                       </organization>
-                     </owner>
-                   </copyright>
-                   <relation type="hasEdition">
-                     <bibitem>
-                       <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
-                       <docidentifier type="ITU" primary="true">F.68 (10/1984)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="hasEdition">
-                     <bibitem>
-                       <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
-                       <docidentifier type="ITU" primary="true">F.68 (11/1980)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="hasEdition">
-                     <bibitem>
-                       <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
-                       <docidentifier type="ITU" primary="true">F.68 (10/1976)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="hasEdition">
-                     <bibitem>
-                       <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
-                       <docidentifier type="ITU" primary="true">F.68 (12/1972)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                     <bibitem>
-                       <title language="en" script="Latn">Definitions relating to telegraph, telematic and data transmission services</title>
-                       <docidentifier type="ITU" primary="true">F Suppl. 1 (11/1988)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                     <bibitem>
-                       <title language="en" script="Latn">Terms and definitions for telex</title>
-                       <docidentifier type="ITU" primary="true">F Suppl. 2 (11/1988)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                     <bibitem>
-                       <title language="en" script="Latn">Overview of Telecom Finance (Finance2.0)</title>
-                       <docidentifier type="ITU" primary="true">F Suppl. 3 (09/2016)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                     <bibitem>
-                       <title language="en" script="Latn">Overview of convergence of artificial intelligence and blockchain</title>
-                       <docidentifier type="ITU" primary="true">F Suppl. 4 (04/2021)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                     <bibitem>
-                       <title language="en" script="Latn">Use cases for communication services of passive sensing equipment based on civilian unmanned aerial vehicles</title>
-                       <docidentifier type="ITU" primary="true">F Suppl. 5 (07/2026)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <relation type="complementOf">
-                     <bibitem>
-                       <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
-                       <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
-                     </bibitem>
-                   </relation>
-                   <place>
-                     <city>Geneva</city>
-                   </place>
-                 </bibitem>
-               </relation>
-               <place>
-                 <city>Geneva</city>
-               </place>
-             </bibitem>
+                   </owner>
+                 </copyright>
+                 <relation type="hasEdition">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
+
+                     <docidentifier type="ITU" primary="true">F.68 (10/1984)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="hasEdition">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
+
+                     <docidentifier type="ITU" primary="true">F.68 (11/1980)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="hasEdition">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
+
+                     <docidentifier type="ITU" primary="true">F.68 (10/1976)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="hasEdition">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Establishment of the automatic intercontinental telex network</title>
+
+                     <docidentifier type="ITU" primary="true">F.68 (12/1972)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="complementOf">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Definitions relating to telegraph, telematic and data transmission services</title>
+
+                     <docidentifier type="ITU" primary="true">F Suppl. 1 (11/1988)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="complementOf">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Terms and definitions for telex</title>
+
+                     <docidentifier type="ITU" primary="true">F Suppl. 2 (11/1988)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="complementOf">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Overview of Telecom Finance (Finance2.0)</title>
+
+                     <docidentifier type="ITU" primary="true">F Suppl. 3 (09/2016)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="complementOf">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Overview of convergence of artificial intelligence and blockchain</title>
+
+                     <docidentifier type="ITU" primary="true">F Suppl. 4 (04/2021)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="complementOf">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Use cases for communication services of passive sensing equipment based on civilian unmanned aerial vehicles</title>
+
+                     <docidentifier type="ITU" primary="true">F Suppl. 5 (07/2026)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <relation type="complementOf">
+                   <bibitem>
+          
+           <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
+
+                     <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
+                   </bibitem>
+
+                 </relation>
+                 <place>
+                   <city>Geneva</city>
+                 </place>
+               </bibitem>
+
+             </relation>
+             <place>
+               <city>Geneva</city>
+             </place>
+           </bibitem>
+
            </relation>
            <series type="main">
              <title>A3</title>

@@ -134,7 +134,17 @@ module RoundtripHelper
 
   # Extract formula IDs (sorted).
   def self.formula_ids(doc)
-    doc.css("formula").filter_map { |f| f["id"] }.sort
+    doc.css("formula").flat_map { |f| [f["id"], f["original-id"]] }.compact.uniq.sort
+  end
+
+  # Key used to compare formula identity between original and round-tripped
+  # presentation XML, where presentation IDs may live in `id`, `original-id`,
+  # or `anchor` (and the round-trip may rename or split block formulas).
+  def self.formula_identity_keys(doc)
+    doc.css("formula").flat_map do |f|
+      keys = [f["id"], f["original-id"], f["anchor"]]
+      keys.compact
+    end.uniq.sort
   end
 
   # Extract nested clause IDs — 2 levels deep (sorted).

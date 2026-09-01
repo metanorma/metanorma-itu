@@ -1866,63 +1866,17 @@
 			<xsl:variable name="doctype" select="ancestor::mn:metanorma/mn:bibdata/mn:ext/mn:doctype[not(@language) or @language = '']"/>
 			<xsl:if test="$doctype != 'resolution' and $doctype != 'service-publication'">
 				<fo:block break-after="page"/>
-				<fo:block-container>
+				<fo:block-container role="SKIP">
 					<fo:block role="SKIP">
 						<xsl:apply-templates/>
 					</fo:block>
 
-					<fo:block role="TOC">
+					<fo:block role="SKIP">
 						<xsl:if test="count(*) = 1 and mn:fmt-title"> <!-- if there isn't user ToC -->
 
-							<xsl:for-each select="$contents/mnx:doc[@num = $num]//mnx:item[@display = 'true']">
-
-								<fo:block xsl:use-attribute-sets="toc-item-style">
-
-									<xsl:call-template name="refine_toc-item-style"/>
-
-									<fo:list-block provisional-label-separation="3mm">
-										<xsl:attribute name="provisional-distance-between-starts">
-											<xsl:choose>
-												<xsl:when test="@section != ''">
-													<xsl:if test="@level = 1">
-														<xsl:choose>
-															<xsl:when test="string-length(@section) &gt; 10">27mm</xsl:when>
-															<xsl:when test="string-length(@section) &gt; 5">22mm</xsl:when>
-															<!-- <xsl:when test="@type = 'annex'">20mm</xsl:when> -->
-															<xsl:otherwise>12mm</xsl:otherwise>
-														</xsl:choose>
-													</xsl:if>
-													<xsl:if test="@level &gt;= 2"><xsl:value-of select="(@level - 1) * 26"/>mm</xsl:if>
-												</xsl:when>
-												<xsl:otherwise>0mm</xsl:otherwise>
-											</xsl:choose>
-										</xsl:attribute>
-										<fo:list-item>
-											<fo:list-item-label end-indent="label-end()">
-												<xsl:if test="@level &gt;= 2">
-													<xsl:attribute name="start-indent"><xsl:value-of select="(@level - 1) * 12"/>mm</xsl:attribute>
-												</xsl:if>
-												<fo:block>
-													<xsl:if test="@section">
-														<xsl:value-of select="@section"/>
-													</xsl:if>
-												</fo:block>
-											</fo:list-item-label>
-												<fo:list-item-body start-indent="body-start()">
-													<fo:block text-align-last="justify">
-														<fo:basic-link internal-destination="{@id}" fox:alt-text="{mnx:title}">
-															<xsl:apply-templates select="mnx:title"/>
-															<fo:inline keep-together.within-line="always">
-																<fo:leader xsl:use-attribute-sets="toc-leader-style"><xsl:call-template name="refine_toc-leader-style"/></fo:leader>
-																<fo:page-number-citation ref-id="{@id}"/>
-															</fo:inline>
-														</fo:basic-link>
-													</fo:block>
-												</fo:list-item-body>
-										</fo:list-item>
-									</fo:list-block>
-								</fo:block>
-							</xsl:for-each>
+							<fo:block role="TOC">
+								<xsl:apply-templates select="$contents/mnx:doc[@num = $num]/mnx:contents/mnx:item[@display = 'true']"/>
+							</fo:block>
 
 							<xsl:variable name="i18n_page"><xsl:call-template name="getLocalizedString"><xsl:with-param name="key">Page.sg</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/mn:bibdata"/></xsl:call-template></xsl:variable>
 
@@ -1980,6 +1934,61 @@
 		<fo:block xsl:use-attribute-sets="toc-title-page-style">
 			<xsl:call-template name="refine_toc-title-page-style"/>
 			<xsl:call-template name="getLocalizedString"><xsl:with-param name="key">Page.sg</xsl:with-param><xsl:with-param name="bibdata_updated" select="/*/mn:bibdata"/></xsl:call-template>
+		</fo:block>
+	</xsl:template>
+
+	<xsl:template match="mnx:contents//mnx:item[@display = 'true']">
+		<fo:block xsl:use-attribute-sets="toc-item-style">
+
+			<xsl:call-template name="refine_toc-item-style"/>
+
+			<fo:list-block provisional-label-separation="3mm" role="SKIP">
+				<xsl:attribute name="provisional-distance-between-starts">
+					<xsl:choose>
+						<xsl:when test="@section != ''">
+							<xsl:if test="@level = 1">
+								<xsl:choose>
+									<xsl:when test="string-length(@section) &gt; 10">27mm</xsl:when>
+									<xsl:when test="string-length(@section) &gt; 5">22mm</xsl:when>
+									<!-- <xsl:when test="@type = 'annex'">20mm</xsl:when> -->
+									<xsl:otherwise>12mm</xsl:otherwise>
+								</xsl:choose>
+							</xsl:if>
+							<xsl:if test="@level &gt;= 2"><xsl:value-of select="(@level - 1) * 26"/>mm</xsl:if>
+						</xsl:when>
+						<xsl:otherwise>0mm</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+				<fo:list-item role="SKIP">
+					<fo:list-item-label end-indent="label-end()">
+						<xsl:if test="@level &gt;= 2">
+							<xsl:attribute name="start-indent"><xsl:value-of select="(@level - 1) * 12"/>mm</xsl:attribute>
+						</xsl:if>
+						<fo:block role="SKIP">
+							<xsl:if test="@section">
+								<xsl:value-of select="@section"/>
+							</xsl:if>
+						</fo:block>
+					</fo:list-item-label>
+						<fo:list-item-body start-indent="body-start()" role="SKIP">
+							<fo:block text-align-last="justify" role="Reference">
+								<fo:basic-link internal-destination="{@id}" fox:alt-text="{mnx:title}">
+									<xsl:apply-templates select="mnx:title"/>
+									<fo:inline keep-together.within-line="always" role="SKIP">
+										<fo:leader xsl:use-attribute-sets="toc-leader-style"><xsl:call-template name="refine_toc-leader-style"/></fo:leader>
+										<fo:page-number-citation ref-id="{@id}" role="SKIP"/>
+									</fo:inline>
+								</fo:basic-link>
+							</fo:block>
+						</fo:list-item-body>
+				</fo:list-item>
+			</fo:list-block>
+
+			<xsl:if test="mnx:item[@display = 'true']">
+				<fo:block role="TOC">
+					<xsl:apply-templates select="mnx:item[@display = 'true']"/>
+				</fo:block>
+			</xsl:if>
 		</fo:block>
 	</xsl:template>
 
@@ -14774,6 +14783,7 @@
 
 	<!-- List of Figures, Tables, Examples -->
 	<xsl:attribute-set name="toc-listof-title-style">
+		<xsl:attribute name="role">H2</xsl:attribute>
 		<xsl:attribute name="space-before">36pt</xsl:attribute>
 		<xsl:attribute name="text-align">center</xsl:attribute>
 		<xsl:attribute name="font-weight">bold</xsl:attribute>

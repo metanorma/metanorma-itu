@@ -1,12 +1,8 @@
-require "lutaml/model"
 require "pubid"
-require "pubid/itu"
-require "pubid/itu/components"
-require "pubid/itu/identifiers"
-require "pubid/identifier"
-require "pubid/itu/identifiers/base"
-require "pubid/itu/identifiers/special_publication"
-require "pubid/itu/identifiers/contribution"
+
+# The pubid monogem: all flavors load through the registry — no
+# per-flavor gems (pubid-itu is the legacy 1.x line).
+Pubid.eager_load_flavors!
 
 module Metanorma
   module Itu
@@ -137,7 +133,8 @@ module Metanorma
       # Build a pubid monogem (>= 2.0) ITU identifier from the flat
       # converter params (sector, series, number, part, publisher,
       # language, base). The monogem keeps the document number and parts
-      # inside one Code component and types sector/series as components.
+      # inside one Code component and types sector/series as components;
+      # Identifier.create no longer exists on the 2.x line.
       def itu_pubid_create(params)
         case params[:type]
         when :annex

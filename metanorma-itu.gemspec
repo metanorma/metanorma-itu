@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "metanorma-iso", ">= 3.4.2"
   spec.add_dependency "metanorma-standoc", ">= 3.4.2" # relaxed until standoc#1232 releases its 3.5.x; the branch pin resolves 3.4.10
-  spec.add_dependency "pubid"
+  spec.add_dependency "pubid", "~> 2.0.0.pre.alpha"
   spec.add_dependency "twitter_cldr", ">= 3.0.0"
   spec.add_dependency "tzinfo-data" # we need this for windows only
 

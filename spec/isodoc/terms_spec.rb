@@ -378,16 +378,14 @@ RSpec.describe Metanorma::Itu do
       .gsub(%r{^.*<main}m, "<main")
       .gsub(%r{</main>.*}m, "</main>")))
       .to be_html5_equivalent_to <<~OUTPUT
-         <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button><br/>
-              <div id="H"><h1 id="_"><a class="anchor" href="#H"/><a class="header" href="#H">1<span class="fmt-clause-delim">.</span>&#xA0; Terms</a></h1>
-          <div id="J"><p class="TermNum" id="J"><b>1.1<span class="fmt-clause-delim">.</span>&#xA0; <b><dfn>Term2</dfn></b>:</b> [XYZ] This is a journey into sound</p>
+         <main class="main-section"><button onclick="topFunction()" id="myBtn" title="Go to top">Top</button><br /><div id="H"><h1 id="_"><a class="anchor" href="#H"></a><a class="header" href="#H">1<span class="fmt-clause-delim">.</span>  Terms</a></h1>
+         <div id="J"><p class="TermNum" id="J"><b>1.1<span class="fmt-clause-delim">.</span>  <b><dfn>Term2</dfn></b>:</b>[XYZ] This is a journey into sound</p>
 
 
 
-          <div id="J1" class="Note"><p><span class="termnote_label">NOTE – </span>This is a note</p></div>
-        </div>
-         </div>
-            </main>
+         <div id="J1" class="Note"><p><span class="termnote_label">NOTE – </span>This is a note</p></div>
+       </div>
+        </div></main>
       OUTPUT
   end
 
@@ -685,9 +683,9 @@ RSpec.describe Metanorma::Itu do
                </div>
                <br/>
                <div class="WordSection3">
-                 <div id="H"><h1>1.&#160; Terms and definitions</h1><p>For the purposes of this document,
+                 <div id="H"><h1>1<span class="fmt-clause-delim">.</span>&#160; Terms and definitions</h1><p>For the purposes of this document,
              the following terms and definitions apply.</p>
-         <p class="TermNum" id="J">1.1.</p>
+         <p class="TermNum" id="J">1.1<span class="fmt-clause-delim">.</span></p>
            <p class="Terms" style="text-align:left;">Term2</p>
          </div>
                </div>
@@ -706,9 +704,9 @@ RSpec.describe Metanorma::Itu do
                </div>
                <br/>
                <div class="WordSection3">
-                 <div id="H"><h1>1.&#xA0; Terms and definitions</h1><p>For the purposes of this document,
+                 <div id="H"><h1>1<span class="fmt-clause-delim">.</span>&#xA0; Terms and definitions</h1><p>For the purposes of this document,
              the following terms and definitions apply.</p>
-         <p class="Terms" style='text-align:left;' id="J"><b>1.1.</b>&#xA0;Term2</p>
+         <p class="Terms" style='text-align:left;' id="J"><b>1.1<span class="fmt-clause-delim">.</span></b>&#xA0;Term2</p>
 
          </div>
                </div>

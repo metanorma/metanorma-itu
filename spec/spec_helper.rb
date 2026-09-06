@@ -18,6 +18,25 @@ require "canon"
 
 Canon::Config.instance.profile = :metanorma
 
+# The vendored relaton cache (spec/relatondb) is repo-owned fixture
+# data: the suite must never silently fall back to the live relaton
+# services. relaton expires undated cache entries 60 days after their
+# <fetched> date and would then refetch from the network, reintroducing
+# live-DB drift into the specs. Bump the freshness markers to today so
+# the vendored snapshot is always treated as valid. If relaton's cache
+# FORMAT changes (version/grammar hash mismatch), relaton wipes the
+# cache and the specs fail loudly against live data — regenerate the
+# cache with a single local run and re-commit it.
+def refresh_vendored_relaton_cache
+  Dir[File.expand_path("relatondb/cache/**/*.xml", __dir__)].each do |f|
+    content = File.read(f, encoding: "utf-8")
+    fresh = content.sub(%r{<fetched>[^<]*</fetched>},
+                        "<fetched>#{Date.today}</fetched>")
+    File.write(f, fresh) if fresh != content
+  end
+end
+refresh_vendored_relaton_cache
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"

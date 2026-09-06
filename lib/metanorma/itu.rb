@@ -1,4 +1,5 @@
 require "metanorma/itu/version"
+require "metanorma/itu/document"
 require "metanorma/itu/processor"
 require "metanorma/itu/converter"
 require "metanorma/itu/cleanup"

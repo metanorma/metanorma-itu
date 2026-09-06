@@ -1,0 +1,156 @@
+<bibdata type="standard" schema-version="v1.5.6">
+  <fetched>2026-08-27</fetched>
+  <title language="en" script="Latn" type="title-intro">Asset management</title>
+  <title language="en" script="Latn" type="title-main">Vocabulary, overview and principles</title>
+  <title language="en" script="Latn" type="main">Asset management - Vocabulary, overview and principles</title>
+  <title language="fr" script="Latn" type="title-intro">Gestion d'actifs</title>
+  <title language="fr" script="Latn" type="title-main">Vocabulaire, aperçu général et principes</title>
+  <title language="fr" script="Latn" type="main">Gestion d'actifs - Vocabulaire, aperçu général et principes</title>
+  <uri type="src">https://www.iso.org/standard/83053.html</uri>
+  <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:83053:en</uri>
+  <uri type="rss">https://www.iso.org/contents/data/standard/08/30/83053.detail.rss</uri>
+  <docidentifier type="ISO" primary="true">ISO 55000</docidentifier>
+  <docidentifier type="iso-reference">ISO 55000(E)</docidentifier>
+  <docidentifier type="URN">urn:iso:std:iso:55000</docidentifier>
+  <docnumber>55000</docnumber>
+  <contributor>
+    <role type="publisher"/>
+    <organization>
+      <name>International Organization for Standardization</name>
+      <abbreviation>ISO</abbreviation>
+      <uri>www.iso.org</uri>
+    </organization>
+  </contributor>
+  <contributor>
+    <role type="author">
+      <description>committee</description>
+    </role>
+    <organization>
+      <name>International Organization for Standardization</name>
+      <subdivision type="technical-committee" subtype="TC">
+        <name>Asset management</name>
+        <identifier>ISO/TC 251</identifier>
+      </subdivision>
+      <abbreviation>ISO</abbreviation>
+    </organization>
+  </contributor>
+  <edition>2</edition>
+  <language>en</language>
+  <language>es</language>
+  <language>fr</language>
+  <language>ru</language>
+  <script>Latn</script>
+  <script>Cyrl</script>
+  <status>
+    <stage>60</stage>
+    <substage>60</substage>
+  </status>
+  <copyright>
+    <from>2024</from>
+    <owner>
+      <organization>
+        <name>ISO</name>
+      </organization>
+    </owner>
+  </copyright>
+  <relation type="obsoletes">
+    <bibitem>
+      <formattedref>ISO 55000:2014</formattedref>
+      <docidentifier type="ISO" primary="true">ISO 55000:2014</docidentifier>
+      <date type="published">
+        <on>2014-01-09</on>
+      </date>
+    </bibitem>
+  </relation>
+  <relation type="instanceOf">
+    <bibitem type="standard">
+      <title language="en" script="Latn" type="title-intro">Asset management</title>
+      <title language="en" script="Latn" type="title-main">Vocabulary, overview and principles</title>
+      <title language="en" script="Latn" type="main">Asset management - Vocabulary, overview and principles</title>
+      <title language="fr" script="Latn" type="title-intro">Gestion d'actifs</title>
+      <title language="fr" script="Latn" type="title-main">Vocabulaire, aperçu général et principes</title>
+      <title language="fr" script="Latn" type="main">Gestion d'actifs - Vocabulaire, aperçu général et principes</title>
+      <uri type="src">https://www.iso.org/standard/83053.html</uri>
+      <uri type="obp">https://www.iso.org/obp/ui/en/#!iso:std:83053:en</uri>
+      <uri type="rss">https://www.iso.org/contents/data/standard/08/30/83053.detail.rss</uri>
+      <docidentifier type="ISO" primary="true">ISO 55000:2024</docidentifier>
+      <docidentifier type="iso-reference">ISO 55000:2024(E)</docidentifier>
+      <docidentifier type="URN">urn:iso:std:iso:55000</docidentifier>
+      <docnumber>55000</docnumber>
+      <date type="published">
+        <on>2024-07-03</on>
+      </date>
+      <contributor>
+        <role type="publisher"/>
+        <organization>
+          <name>International Organization for Standardization</name>
+          <abbreviation>ISO</abbreviation>
+          <uri>www.iso.org</uri>
+        </organization>
+      </contributor>
+      <contributor>
+        <role type="author">
+          <description>committee</description>
+        </role>
+        <organization>
+          <name>International Organization for Standardization</name>
+          <subdivision type="technical-committee" subtype="TC">
+            <name>Asset management</name>
+            <identifier>ISO/TC 251</identifier>
+          </subdivision>
+          <abbreviation>ISO</abbreviation>
+        </organization>
+      </contributor>
+      <edition>2</edition>
+      <language>en</language>
+      <language>es</language>
+      <language>fr</language>
+      <language>ru</language>
+      <script>Latn</script>
+      <script>Cyrl</script>
+      <abstract language="en" script="Latn">This document defines terms and establishes principles and outcomes for asset management. It describes: —     the benefits of asset management and an asset management system; —     the relationship between asset management, the asset management system and asset portfolio; —     asset management improvement and maturity. This document is applicable to all types of assets and all types and sizes of organizations. This document does not provide financial, accounting, human resources nor technical guidance for managing specific asset types. NOTE            For the purposes of this document, ISO 55001 and ISO 55002, the term “asset management system” is used to refer to a management system for asset management.</abstract>
+      <status>
+        <stage>60</stage>
+        <substage>60</substage>
+      </status>
+      <copyright>
+        <from>2024</from>
+        <owner>
+          <organization>
+            <name>ISO</name>
+          </organization>
+        </owner>
+      </copyright>
+      <relation type="obsoletes">
+        <bibitem>
+          <formattedref>ISO 55000:2014</formattedref>
+          <docidentifier type="ISO" primary="true">ISO 55000:2014</docidentifier>
+          <date type="published">
+            <on>2014-01-09</on>
+          </date>
+        </bibitem>
+      </relation>
+      <place>
+        <city>Geneva</city>
+      </place>
+    </bibitem>
+  </relation>
+  <place>
+    <city>Geneva</city>
+  </place>
+  <ext schema-version="v1.1.2">
+    <doctype>international-standard</doctype>
+    <flavor>iso</flavor>
+    <ics>
+      <code>03.100.01</code>
+      <text>Company organization and management in general</text>
+    </ics>
+    <ics>
+      <code>01.040.03</code>
+      <text>Services. Company organization, management and quality. Administration. Transport. Sociology. (Vocabularies)</text>
+    </ics>
+    <structuredidentifier type="ISO">
+      <project-number>83053</project-number>
+    </structuredidentifier>
+  </ext>
+</bibdata>

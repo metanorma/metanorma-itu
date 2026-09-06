@@ -746,7 +746,7 @@ RSpec.describe Metanorma::Itu do
                 <fmt-title id="_" depth="1">
                    <span class="fmt-caption-label">
                       <semx element="autonum" source="_">1</semx>
-                      <span class="fmt-autonum-delim">.</span>
+                      <span class="fmt-clause-delim">.</span>
                    </span>
                    <span class="fmt-caption-delim">
                       <tab/>
@@ -993,7 +993,7 @@ RSpec.describe Metanorma::Itu do
               </table>
             </div>
             <div>
-              <h1>1.  Normative References</h1>
+              <h1>1<span class="fmt-clause-delim">.</span>  Normative References</h1>
               <table border="0" class="biblio">
                 <tbody>
                   <tr class="NormRef" id="ISO712">
@@ -1150,7 +1150,7 @@ RSpec.describe Metanorma::Itu do
         </p>
         <div class="WordSection3">
           <div>
-            <h1>1.<span style="mso-tab-count:1">&#xA0; </span>Normative References</h1>
+            <h1>1<span class="fmt-clause-delim">.</span><span style="mso-tab-count:1">&#xA0; </span>Normative References</h1>
             <table class="biblio" border="0">
               <tbody>
                 <tr id="ISO712" class="NormRef">

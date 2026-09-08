@@ -15,10 +15,8 @@ gem "metanorma-iso", github: "metanorma/metanorma-iso", branch: "main"
 #   - https://github.com/metanorma/metanorma-standoc/pull/1232
 #   - https://github.com/metanorma/metanorma-document/pull/45
 gem "metanorma-standoc", github: "metanorma/metanorma-standoc", branch: "feat/move-standard-document"
-gem "metanorma-document", github: "metanorma/metanorma-document", branch: "feat/model-validation-l1-declarations"
-# isodoc main carries the relaton-render >= 1.3.0, < 5 range (#847)
-# the CitationStyle port co-resolves with
-gem "isodoc", github: "metanorma/isodoc", branch: "main"
+gem "metanorma-document", github: "metanorma/metanorma-document", branch: "feat/render-new-vocabulary"
+gem "isodoc", github: "metanorma/isodoc", branch: "rt-pubid-2-migration"
 gem "relaton-cli", ">= 3.0.0.pre.alpha.1"
 # Pin relaton: Its VERSION is the cache grammar_hash and it ships the ITU
 # scraper. A floating `>= 3.0.0.pre.alpha.1` (via metanorma-document) lets
@@ -30,3 +28,4 @@ gem "pubid", "2.0.0.pre.alpha.13" # relaton 3.0.0.pre.alpha.1 pairs with pre-ren
 gem "relaton-render", "3.0.0.pre.alpha.34" # itu_identifier named rule
 
 eval_gemfile("Gemfile.devel") rescue nil
+gem "metanorma-mirror", github: "metanorma/metanorma-mirror", branch: "feat/svgmap-imagemap-handlers" # TEMPORARY audit chain

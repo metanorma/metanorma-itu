@@ -2,6 +2,7 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}" }
 
 gemspec
+gem "metanorma-mirror", "~> 1.0"
 
 gem "metanorma-core", github: "metanorma/metanorma-core", branch: "feat/flavor-table"
 # main carries the CitationStyle port: no lib/relaton load paths, so the
@@ -28,4 +29,3 @@ gem "pubid", "2.0.0.pre.alpha.13" # relaton 3.0.0.pre.alpha.1 pairs with pre-ren
 gem "relaton-render", "3.0.0.pre.alpha.34" # itu_identifier named rule
 
 eval_gemfile("Gemfile.devel") rescue nil
-gem "metanorma-mirror", github: "metanorma/metanorma-mirror", branch: "feat/svgmap-imagemap-handlers" # TEMPORARY audit chain

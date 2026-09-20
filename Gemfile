@@ -16,7 +16,7 @@ gem "metanorma-iso", github: "metanorma/metanorma-iso", branch: "main"
 #   - https://github.com/metanorma/metanorma-standoc/pull/1232
 #   - https://github.com/metanorma/metanorma-document/pull/45
 gem "metanorma-standoc", github: "metanorma/metanorma-standoc", branch: "feat/move-standard-document"
-gem "metanorma-document", github: "metanorma/metanorma-document", branch: "feat/render-new-vocabulary"
+gem "metanorma-document", github: "metanorma/metanorma-document", branch: "main"
 gem "isodoc", github: "metanorma/isodoc", branch: "rt-pubid-2-migration"
 gem "relaton-cli", ">= 3.0.0.pre.alpha.1"
 # Pin relaton: Its VERSION is the cache grammar_hash and it ships the ITU

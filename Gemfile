@@ -2,6 +2,7 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}" }
 
 gemspec
+gem "metanorma-mirror", "~> 1.0"
 
 gem "metanorma-core", github: "metanorma/metanorma-core", branch: "feat/flavor-table"
 gem "metanorma-iso", github: "metanorma/metanorma-iso", branch: "feat/model-validation-migration"
@@ -13,7 +14,7 @@ gem "metanorma-iso", github: "metanorma/metanorma-iso", branch: "feat/model-vali
 #   - https://github.com/metanorma/metanorma-standoc/pull/1232
 #   - https://github.com/metanorma/metanorma-document/pull/45
 gem "metanorma-standoc", github: "metanorma/metanorma-standoc", branch: "feat/move-standard-document"
-gem "metanorma-document", github: "metanorma/metanorma-document", branch: "feat/model-validation-l1-declarations"
+gem "metanorma-document", github: "metanorma/metanorma-document", branch: "main"
 gem "isodoc", github: "metanorma/isodoc", branch: "rt-pubid-2-migration"
 gem "relaton-cli", ">= 3.0.0.pre.alpha.1"
 gem "pubid", "2.0.0.pre.alpha.8" # relaton 3.0.0.pre.alpha.1 pairs with pre-rename pubid; .alpha.9 renamed base_identifier->base

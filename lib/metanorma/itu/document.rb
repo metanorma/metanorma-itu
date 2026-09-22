@@ -45,7 +45,7 @@ Metanorma::Core::Flavors.register(Metanorma::Core::Flavor.new(
   model_root: Metanorma::Itu::Document::Root,
   pubid_module: :"Pubid::Itu",
   renderers: { html: lambda do |_document, **_options|
-    require "metanorma/iso/html"
-    Metanorma::Iso::Html::Renderer
+    require "metanorma/itu/html"
+    Metanorma::Itu::Html::Renderer
   end },
 ))

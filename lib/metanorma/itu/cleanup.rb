@@ -60,7 +60,18 @@ module Metanorma
       ].freeze
 
       def pub_class(bib)
-        publisher_sort_rank(bib, DEFAULT_PUBLISHER_SORT)
+        rank = publisher_sort_rank(bib, DEFAULT_PUBLISHER_SORT)
+        max = DEFAULT_PUBLISHER_SORT.map { |e| e[:rank] }.max
+        return rank if rank <= max
+
+        # Relaton miss: publishers were never attached. Rank by the
+        # standards code prefix (ITU-T … / ISO/IEC … / IEC …) so
+        # bibliography order stays ITU → ISO → IEC without live fetch.
+        id = bib.at("./docidentifier[not(#{@conv.skip_docid} or @type = " \
+                     "'metanorma')]")&.text.to_s
+        DEFAULT_PUBLISHER_SORT
+          .find { |e| id.start_with?(e[:abbrev]) }
+          &.[](:rank) || rank
       end
 
       def sort_biblio(bib)

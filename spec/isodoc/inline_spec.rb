@@ -576,7 +576,8 @@ RSpec.describe Metanorma::Itu do
                <span class="fmt-conn">and</span>
                10
             </fmt-xref>
-         </semx
+         </semx>
+      </p>
     OUTPUT
     expect(strip_guid(Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert
       .new(presxml_options)

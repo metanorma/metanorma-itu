@@ -1890,7 +1890,7 @@ RSpec.describe Metanorma::Itu do
     xml = Nokogiri::XML(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true))
     xml = xml.xpath("//xmlns:preface | //xmlns:sections | //xmlns:annex").to_xml
-    expect(strip_guid("<metanorma>#{xml}</itu-standard>"))
+    expect(strip_guid("<metanorma>#{xml}</metanorma>"))
       .to be_xml_equivalent_to presxml
 
     presxml = <<~OUTPUT

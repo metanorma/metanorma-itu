@@ -109,13 +109,18 @@ VALIDATING_BLANK_HDR = <<~HDR.freeze
 
 HDR
 
+# Absolute path: examples run inside a Dir.mktmpdir chdir, so a relative
+# :local-cache: would miss the vendored tree and fall through to live
+# relaton services (the drift this fixture exists to prevent).
+VENDORED_RELATON_CACHE = File.expand_path("relatondb", __dir__).freeze
+
 LOCAL_CACHED_ISOBIB_BLANK_HDR = <<~HDR.freeze
   = Document title
   Author
   :docfile: test.adoc
   :nodoc:
   :novalid:
-  :local-cache: spec/relatondb
+  :local-cache-only: #{VENDORED_RELATON_CACHE}
 
 HDR
 

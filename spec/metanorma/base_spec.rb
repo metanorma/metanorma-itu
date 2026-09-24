@@ -231,7 +231,7 @@ RSpec.describe Metanorma::Itu do
       :question: Q10/17: Identity management and telebiometrics architecture and mechanisms, "Q11/17: Generic technologies (such as Directory, PKI, formal languages, object identifiers) to support secure applications"
       :timing: 2025-Q4
       :common-text-docnumber: ISO/IEC 99999
-      :local-cache: spec/relatondb
+      :local-cache-only: #{VENDORED_RELATON_CACHE}
     INPUT
     output = <<~"OUTPUT"
        <metanorma xmlns="https://www.metanorma.org/ns/standoc" type="semantic" version="#{Metanorma::Itu::VERSION}" flavor="itu">
@@ -2173,8 +2173,15 @@ RSpec.describe Metanorma::Itu do
   end
 
   it "reorders references in bibliography, and renumbers citations accordingly" do
+    # :no-isobib: keeps this a pure sort-order check: no live relaton
+    # fetch, so the assertion cannot drift with those databases.
     xml = Asciidoctor.convert(<<~INPUT, *OPTIONS)
-      #{LOCAL_CACHED_ISOBIB_BLANK_HDR}
+      = Document title
+      Author
+      :docfile: test.adoc
+      :nodoc:
+      :novalid:
+      :no-isobib:
 
       == Clause 1
       <<ref1>>
@@ -2199,17 +2206,12 @@ RSpec.describe Metanorma::Itu do
     expect(strip_guid("<div>#{xpath.to_xml}</div>"))
       .to be_xml_equivalent_to strip_guid(<<~OUTPUT)
          <div>
-         <docidentifier type="ITU" primary="true">ITU-T Y.1001</docidentifier>
-        <docidentifier type="ITU" primary="true">ITU-T Y.140</docidentifier>
-        <docidentifier type="ITU" primary="true">ITU-T Z.100</docidentifier>
-        <docidentifier type="ISO" primary="true">ISO 55000</docidentifier>
-        <docidentifier type="iso-reference">ISO 55000(E)</docidentifier>
-        <docidentifier type="URN">urn:iso:std:iso:55000</docidentifier>
-        <docidentifier type="ISO" primary="true">ISO/IEC 27001</docidentifier>
-        <docidentifier type="iso-reference">ISO/IEC 27001(E)</docidentifier>
-        <docidentifier type="URN">urn:iso:std:iso-iec:27001</docidentifier>
-         <docidentifier type="IEC" primary="true">IEC 60027</docidentifier>
-         <docidentifier type="URN">urn:iec:std:iec:60027::::</docidentifier>
+         <docidentifier>ITU-T Y.1001</docidentifier>
+        <docidentifier>ITU-T Y.140</docidentifier>
+        <docidentifier>ITU-T Z.100</docidentifier>
+        <docidentifier>ISO 55000</docidentifier>
+        <docidentifier>ISO/IEC 27001</docidentifier>
+        <docidentifier>IEC 60027</docidentifier>
          </div>
       OUTPUT
   end

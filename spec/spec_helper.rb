@@ -15,6 +15,7 @@ require "metanorma-core"
 require "metanorma/itu"
 require "relaton/iso"
 require "canon"
+require "webmock/rspec"
 
 Canon::Config.instance.profile = :metanorma
 
@@ -23,10 +24,7 @@ Canon::Config.instance.profile = :metanorma
 # services. relaton expires undated cache entries 60 days after their
 # <fetched> date and would then refetch from the network, reintroducing
 # live-DB drift into the specs. Bump the freshness markers to today so
-# the vendored snapshot is always treated as valid. If relaton's cache
-# FORMAT changes (version/grammar hash mismatch), relaton wipes the
-# cache and the specs fail loudly against live data — regenerate the
-# cache with a single local run and re-commit it.
+# the vendored snapshot is always treated as valid.
 def refresh_vendored_relaton_cache
   Dir[File.expand_path("relatondb/cache/**/*.xml", __dir__)].each do |f|
     content = File.read(f, encoding: "utf-8")
@@ -36,6 +34,40 @@ def refresh_vendored_relaton_cache
   end
 end
 refresh_vendored_relaton_cache
+
+# Relaton wipes a flavor cache when its version file no longer matches
+# `processor.grammar_hash` (MD5 of Relaton::VERSION). That is silent: the
+# next fetch goes to the live ITU site and the specs drift. Fail here
+# instead, before any example runs, so the cause is obvious.
+def assert_vendored_relaton_cache_version!
+  require "relaton/db"
+  cache_root = File.expand_path("relatondb/cache", __dir__)
+  Dir["#{cache_root}/*/"].each do |fdir|
+    type = fdir.split("/").last
+    expected = Relaton::Db::Cache.grammar_hash(fdir)
+    actual = begin
+      File.read(File.join(fdir, "version"), encoding: "utf-8").strip
+    rescue StandardError
+      nil
+    end
+    next if expected.nil? || actual == expected
+
+    raise <<~MSG
+      Vendored relaton cache version mismatch for #{type}:
+        cache file: #{actual.inspect}
+        relaton:    #{expected.inspect} (Relaton::VERSION #{Relaton::VERSION})
+      Relaton will wipe #{fdir} and fall through to live www.itu.int.
+      Regenerate the cache with a single local run and re-commit it,
+      or pin relaton so the grammar_hash stays stable.
+    MSG
+  end
+end
+assert_vendored_relaton_cache_version!
+
+# Specs must never depend on live relaton/ITU responses. A cache miss
+# (wiped version, expired entry, unvendored ref) has to fail loudly
+# rather than silently rewrite the fixtures against today's website.
+WebMock.disable_net_connect!(allow_localhost: false)
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

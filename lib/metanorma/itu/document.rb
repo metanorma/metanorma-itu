@@ -2,6 +2,9 @@
 
 require "metanorma/standoc"
 require "metanorma/iso/document/models"
+require "lutaml/model"
+require "pubid"
+require "pubid/itu"
 # Forward-declare parent namespace so this file is safe to require
 # directly (without first requiring metanorma/itu.rb).
 module Metanorma

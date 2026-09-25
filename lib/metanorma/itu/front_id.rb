@@ -1,5 +1,12 @@
+require "lutaml/model"
 require "pubid"
-require_relative "pubid_contribution"
+require "pubid/itu"
+require "pubid/itu/components"
+require "pubid/itu/identifiers"
+require "pubid/identifier"
+require "pubid/itu/identifiers/base"
+require "pubid/itu/identifiers/special_publication"
+require "pubid/itu/identifiers/contribution"
 
 module Metanorma
   module Itu

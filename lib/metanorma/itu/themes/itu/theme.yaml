@@ -1,0 +1,45 @@
+primary: "#0a7bac"
+accent: "#0e99d5"
+accent_deep: "#0a7bac"
+gradient: "linear-gradient(135deg, #065a83 0%, #0a7bac 50%, #0e99d5 100%)"
+primary_light: "#e8f4fa"
+accent_light: "#daedf8"
+warm: "#b8860b"
+warm_light: "#fdf5e6"
+sidebar_bg: "#f2f6fa"
+font_body: '"Noto Serif", "Georgia", serif'
+font_sans: '"Noto Sans", "Helvetica Neue", Arial, sans-serif'
+font_mono: '"Noto Sans Mono", "Menlo", monospace'
+font_url: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+Mono:wght@400;500&display=swap"
+header_background: "linear-gradient(135deg, #065a83 0%, #0a7bac 40%, #0e99d5 100%)"
+cover_background: "linear-gradient(175deg, #043d5c 0%, #065a83 25%, #0a7bac 55%, #0e99d5 85%, #47b5e3 100%)"
+cover_before_bg: "background: radial-gradient(ellipse at 30% 15%, rgba(14,153,213,0.2) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(184,134,11,0.1) 0%, transparent 40%)"
+cover_after_bg: "height: 3px; background: linear-gradient(90deg, transparent, #0e99d5, #b8860b, transparent)"
+progress_bar_color: "#0e99d5"
+note_border: "#0e99d5"
+note_bg: "#daedf8"
+note_color: "#0e99d5"
+example_border: "#0a7bac"
+example_bg: "#e8f4fa"
+example_color: "#0a7bac"
+admonition_border: "#b8860b"
+admonition_color: "#b8860b"
+footer_border_color: "#0e99d5"
+cover_separator_color: "rgba(14,153,213,0.25)"
+
+# Publisher metadata
+publishers:
+  - "ITU"
+publisher_name: "ITU"
+logos_light:
+  "ITU": "itu-logo.svg"
+
+# Section ordering
+preface_order:
+  - foreword
+  - introduction
+  - abstract
+  - clause
+  - acknowledgements
+  - executivesummary
+toc_filter_types: []

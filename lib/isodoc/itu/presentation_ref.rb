@@ -1,7 +1,6 @@
 require_relative "init"
 require "roman-numerals"
 require "isodoc"
-require_relative "../../metanorma/itu/relaton_render/general"
 require_relative "presentation_bibdata"
 require_relative "presentation_preface"
 

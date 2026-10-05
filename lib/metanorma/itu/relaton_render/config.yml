@@ -1,3 +1,0 @@
-template:
-  # skip authoritative identifier, it is inserted in front of formattedref within metanorma
-  standard: "<em>{{ title }}</em> ,_{{ edition | capitalize_first }} $$$ {{ extent }}" 

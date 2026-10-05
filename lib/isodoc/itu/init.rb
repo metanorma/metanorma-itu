@@ -22,7 +22,7 @@ module IsoDoc
       end
 
       def bibrenderer(options = {})
-        require_relative "../../../metanorma/itu/relaton_render/general"
+        require_relative "../../metanorma/itu/relaton_render/general"
 
         ::Relaton::Render::Itu::General.new(options
           .merge(language: @lang, script: @script, i18nhash: @i18n.get,

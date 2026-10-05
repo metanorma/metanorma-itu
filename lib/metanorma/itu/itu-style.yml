@@ -1,0 +1,38 @@
+# The metanorma-itu CitationStyle instance (relaton-render 3.0.0.pre
+# Iso690 engine). The ITU reference form is identifier-led: the
+# authoritative identifier opens the reference, the year of publication
+# follows in parentheses, and the title is emphasised.
+name: "ITU citation style"
+scheme:
+  system: name-date
+  nameForm:
+    initials: true
+    completenameUpcase: true
+  locale:
+    labels:
+      oxford_comma: ""
+templates:
+  titleOpen: "<em>"
+  titleClose: "</em>"
+  citation: "{{surname}}, {{date}}{{disambiguator}}"
+  reference: "{{creator}}. {{title}}. {{date}}. {{identifier}}."
+  name: "{{surname}}, {{givenNames}}"
+  uri: "<span class='biburl'><fmt-link target='{{uri}}'>{{uri}}</fmt-link></span>"
+perType:
+  # The authoritative identifier and its publication year are inserted
+  # in front of the formattedref by the metanorma bibliography layer
+  - type: report
+    template: "{{title}}."
+  - type: monograph
+    template: "{{title}}. {{location}} {{date}}. {{identifier}}."
+    fallbacks:
+      location: "n.p.:"
+      date: "n.d"
+  - type: webdoc
+    template: "{{title}}. {{production}}."
+  - type: online
+    template: "{{title}}. {{production}}."
+  - type: continuing
+    template: "{{title}}. {{date}}. {{identifier}}."
+    fallbacks:
+      date: "n.d"

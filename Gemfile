@@ -27,6 +27,6 @@ gem "relaton-cli", ">= 3.0.0.pre.alpha.1"
 gem "relaton", "3.0.0.pre.alpha.1"
 gem "pubid", "2.0.0.pre.alpha.13" # relaton 3.0.0.pre.alpha.1 pairs with pre-rename pubid; .alpha.9 renamed base_identifier->base
 # The CitationStyle port rides the relaton-render 3 prerelease line
-gem "relaton-render", "3.0.0.pre.alpha.11"
+gem "relaton-render", "= 3.0.0.pre.alpha.19"
 
 eval_gemfile("Gemfile.devel") rescue nil

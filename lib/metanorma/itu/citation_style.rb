@@ -12,24 +12,22 @@ module Metanorma
     class CitationStyle < ::Relaton::Render::General
       STYLE_PATH = File.join(__dir__, "itu-style.yml")
 
+      # The ITU data elements, scoped to this renderer alone: the
+      # ISBN and ISSN kinds carry their kind label with a colon
+      ELEMENTS = {
+        identifier: ItuElements::ItuIdentifier,
+      }.freeze
+
       def initialize(options = {})
         super
         options = deep_symbolize(options)
-        register_identifier_kinds
         @renderer = ::Relaton::Render::Iso690::Renderer.new(
           lang: @lang,
           script: options[:script] || "Latn",
           labels: options[:i18nhash] || {},
           style: options[:style] || STYLE_PATH,
+          elements: ELEMENTS,
         )
-      end
-
-      # ITU prefixes the identifier kinds it cites with the kind label
-      def register_identifier_kinds
-        %w(ISBN ISSN).each do |type|
-          ::Relaton::Render::Iso690::IdentifierKinds
-            .register(type, ->(content) { "#{type}: #{content}" })
-        end
       end
     end
   end

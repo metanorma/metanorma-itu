@@ -12,11 +12,8 @@ module Metanorma
     class CitationStyle < ::Relaton::Render::General
       STYLE_PATH = File.join(__dir__, "itu-style.yml")
 
-      # The ITU data elements, scoped to this renderer alone: the
-      # ISBN and ISSN kinds carry their kind label with a colon
-      ELEMENTS = {
-        identifier: ItuElements::ItuIdentifier,
-      }.freeze
+      # The ITU presentation-of-models rules are engine-registered
+      # (itu_identifier) and selected as pack data in itu-style.yml
 
       def initialize(options = {})
         super
@@ -26,7 +23,6 @@ module Metanorma
           script: options[:script] || "Latn",
           labels: options[:i18nhash] || {},
           style: options[:style] || STYLE_PATH,
-          elements: ELEMENTS,
         )
       end
     end

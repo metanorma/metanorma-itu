@@ -10,6 +10,5 @@ module Metanorma
     ORGANIZATION_NAME_SHORT = "ITU"
     ORGANIZATION_NAME_LONG = "International Telecommunication Union"
 
-    autoload :ItuElements, "metanorma/itu/itu_elements"
   end
 end

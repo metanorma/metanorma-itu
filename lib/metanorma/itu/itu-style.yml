@@ -11,6 +11,8 @@ scheme:
   locale:
     labels:
       oxford_comma: ""
+rules:
+  identifier: itu_identifier
 templates:
   titleOpen: "<em>"
   titleClose: "</em>"

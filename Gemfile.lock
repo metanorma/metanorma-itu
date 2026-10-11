@@ -95,19 +95,6 @@ GIT
       parsanol (>= 1.3.62)
       parslet
 
-GIT
-  remote: https://github.com/relaton/relaton
-  revision: 35bdf3431f50cd5efccd19dbdd031c07f6a5edad
-  tag: v3.0.0.pre.alpha.4
-  glob: gems/relaton-cli/relaton-cli.gemspec
-  specs:
-    relaton-cli (3.0.0.pre.alpha.4)
-      liquid (~> 5)
-      pubid (~> 2.0.0.pre.alpha.11)
-      relaton (= 3.0.0.pre.alpha.4)
-      thor
-      thor-hollaback
-
 PATH
   remote: .
   specs:
@@ -871,7 +858,7 @@ GEM
     readline (0.0.4)
       reline
     regexp_parser (2.13.1)
-    relaton (3.0.0.pre.alpha.4)
+    relaton (3.0.0.pre.alpha.11)
       addressable (~> 2.8)
       algolia (~> 2.3.0)
       base64
@@ -889,21 +876,25 @@ GEM
       iso639
       isoics (~> 0.1.6)
       json (< 3)
+      leptris (>= 1.9.80)
       loc_mods (~> 0.3.0)
       logger (~> 1.6)
       lutaml-hal (~> 0.2, >= 0.2.5)
-      lutaml-model (~> 0.8.0)
+      lutaml-model (~> 0.8.76)
+      lutaml-store (~> 0.3.2)
       mechanize (~> 2.10)
       mini_portile2 (~> 2.8.0)
+      moxml (>= 0.5)
       niso-jats (~> 0.3.4)
-      nokogiri (>= 1.16)
       parallel (~> 1.26)
       parslet (~> 2.0.0)
-      psych (~> 5.2.0)
-      pubid (~> 2.0.0.pre.alpha.11)
+      pubid (~> 2.0.0.pre.alpha.21)
+      relaton-render (>= 3.0.0.pre.alpha.1, < 4)
       rfcxml (~> 0.4.3)
       rubyzip (~> 3.7)
+      sqlite3 (~> 1.7)
       w3c_api (~> 0.3.3)
+      yeptris (>= 0.4)
     relaton-bib (2.1.9)
       bibtex-ruby
       iso639
@@ -914,6 +905,12 @@ GEM
       relaton-core (~> 0.0.8)
       relaton-logger (~> 0.2.0)
       rfcxml (~> 0.4.3)
+    relaton-cli (3.0.0.pre.alpha.11)
+      liquid (~> 5)
+      pubid (~> 2.0.0.pre.alpha.13)
+      relaton (= 3.0.0.pre.alpha.11)
+      thor
+      thor-hollaback
     relaton-core (0.0.13)
       nokogiri (>= 1.16)
       psych (~> 5.2.0)
@@ -925,7 +922,7 @@ GEM
       uuidtools
     relaton-logger (0.2.4)
       logger (~> 1.6)
-    relaton-render (3.0.0.pre.alpha.34)
+    relaton-render (3.0.0.pre.alpha.43)
       htmlentities
       liquid (~> 5)
       lutaml-model
@@ -1046,19 +1043,8 @@ GEM
     sparql-client (3.3.0)
       net-http-persistent (~> 4.0, >= 4.0.2)
       rdf (~> 3.3)
-    sqlite3 (2.9.6)
+    sqlite3 (1.7.3)
       mini_portile2 (~> 2.8.0)
-    sqlite3 (2.9.6-aarch64-linux-gnu)
-    sqlite3 (2.9.6-aarch64-linux-musl)
-    sqlite3 (2.9.6-arm-linux-gnu)
-    sqlite3 (2.9.6-arm-linux-musl)
-    sqlite3 (2.9.6-arm64-darwin)
-    sqlite3 (2.9.6-x64-mingw-ucrt)
-    sqlite3 (2.9.6-x86-linux-gnu)
-    sqlite3 (2.9.6-x86-linux-musl)
-    sqlite3 (2.9.6-x86_64-darwin)
-    sqlite3 (2.9.6-x86_64-linux-gnu)
-    sqlite3 (2.9.6-x86_64-linux-musl)
     ssrf_filter (1.6.0)
     sterile (1.0.26)
       nokogiri (>= 1.11.7)
@@ -1249,9 +1235,8 @@ DEPENDENCIES
   openssl
   pubid!
   rake (~> 13.0)
-  relaton (= 3.0.0.pre.alpha.4)
-  relaton-cli!
-  relaton-render (= 3.0.0.pre.alpha.34)
+  relaton (= 3.0.0.pre.alpha.11)
+  relaton-render (= 3.0.0.pre.alpha.43)
   rspec (~> 3.6)
   rubocop (~> 1)
   rubocop-performance
@@ -1504,13 +1489,13 @@ CHECKSUMS
   rdoc (7.2.0) sha256=8650f76cd4009c3b54955eb5d7e3a075c60a57276766ebf36f9085e8c9f23192
   readline (0.0.4) sha256=6138eef17be2b98298b672c3ea63bf9cb5158d401324f26e1e84f235879c1d6a
   regexp_parser (2.13.1) sha256=5aedb6b7c35688f51e86eef17a15374dfd287c83f4ca644b2c5f3ec50a33b44b
-  relaton (3.0.0.pre.alpha.4) sha256=85e32b275daaed189753548245b049f3709a7c26c171b8fd578a48ede7504642
+  relaton (3.0.0.pre.alpha.11) sha256=a782406d60986c70d5b29a181431131decb7fb09d8c477d7fda0221d0995a705
   relaton-bib (2.1.9) sha256=559c47a88862ef359305b96fc27c994fe58df4912591a816b16318a5ec5f97ce
-  relaton-cli (3.0.0.pre.alpha.4)
+  relaton-cli (3.0.0.pre.alpha.11) sha256=badf2fd78d4876f6382a8485eb51ce715cdf366501b48ecd8aa08c92afefa2f7
   relaton-core (0.0.13) sha256=10eef0d4bdff18a9058114ca46323508972b8caed872212992c4f9ced7375881
   relaton-iev (2.0.2) sha256=ec77f5ad4700c8856aaacf9655eaf026c4a87acdfb17eca9af53520e8bf5b638
   relaton-logger (0.2.4) sha256=1494cc7330e6d654afcb825904361371010b1d83d13705314a10a147f7f53358
-  relaton-render (3.0.0.pre.alpha.34) sha256=89c1876405121da4ea759e883745f3a9917e93ce72bdbc38f9b8a8a26b9f08be
+  relaton-render (3.0.0.pre.alpha.43) sha256=8bf683a88cf02270f1add02880defc5c1b6c57d9707dfc914f0bfd2ba024598a
   reline (0.7.0) sha256=5b012d8e55dbf9d450f12bde2cf7d15ff546ae80b3f8f3b30e570d431815583d
   reverse_markdown (2.1.1) sha256=b2206466b682ac1177b6b8ec321d00a84fca02d096c5d676a7a0cc5838dc0701
   rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
@@ -1558,18 +1543,7 @@ CHECKSUMS
   simplecov_json_formatter (0.1.4) sha256=529418fbe8de1713ac2b2d612aa3daa56d316975d307244399fa4838c601b428
   sparql (3.3.2) sha256=20d73a62801fd6d03c834ca5012c11aaf6594ef536f554e92fd94bf9b3ed64dc
   sparql-client (3.3.0) sha256=71225eefad48dc2baab6b7008df8a9bcfffa833e5f25387dbe87ff52a5cad64e
-  sqlite3 (2.9.6) sha256=956fe606956420d04ac7157d3ace620c8caba2135b2e05c76e483493da24d08e
-  sqlite3 (2.9.6-aarch64-linux-gnu) sha256=d8b1f7d23efd7abac285775a9566562fc7debfef79d594e3a20354406fb7907c
-  sqlite3 (2.9.6-aarch64-linux-musl) sha256=3579e1c98cdc7ff5c3722847bb63ed4e1efb7ff675cb5e1e48ef2d4da5fb3bc9
-  sqlite3 (2.9.6-arm-linux-gnu) sha256=33541500e3615da02afe54a9cc38b17a6985d3cf9d8b76d6d0a83002f114e7ec
-  sqlite3 (2.9.6-arm-linux-musl) sha256=c5490af48bb228fefa54314e9541375c3907e70f8109f3881b5ff97e1c93ae33
-  sqlite3 (2.9.6-arm64-darwin) sha256=849b5d7f795e60fe25076d62c72dd722beb45b3850b516ad978d60ee848ec15b
-  sqlite3 (2.9.6-x64-mingw-ucrt) sha256=1f2b88f417fd0a8c1d5ef19c7e817d8b9c61bee6e33b6b36255fb6e40148e6f8
-  sqlite3 (2.9.6-x86-linux-gnu) sha256=fbaa9f46f9708f57dd8a459b37fc269f9613e0cacf1547df01aa439cc45c20c0
-  sqlite3 (2.9.6-x86-linux-musl) sha256=6715026fbb5530e810b28ef43b9c4f84cd3c991f67b9d808a31fcc32b847abbd
-  sqlite3 (2.9.6-x86_64-darwin) sha256=b5842fea77781c14da03fa7bc0feb82db03a69e135affcb6f5399cbd2797a5f3
-  sqlite3 (2.9.6-x86_64-linux-gnu) sha256=613188ce02f614126ddbc38c5e217ccffd6306d0dcd9adca9764547aa890a634
-  sqlite3 (2.9.6-x86_64-linux-musl) sha256=d493b11818a3573387a1d56e1ee8fa00da23a683a7a1cc063e7a0feeed843abf
+  sqlite3 (1.7.3) sha256=fa77f63c709548f46d4e9b6bb45cda52aa3881aa12cc85991132758e8968701c
   ssrf_filter (1.6.0) sha256=78d15bc26d0385c931f46f12a9c1cbb90e6556bd96b95f25e5a5f786c8dcf999
   sterile (1.0.26) sha256=2fb472c9fe30b29531bbda315ca72b584d9b7ceb2213fffb44ba4bfea7cd9191
   stringio (3.2.0) sha256=c37cb2e58b4ffbd33fe5cd948c05934af997b36e0b6ca6fdf43afa234cf222e1

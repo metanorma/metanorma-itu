@@ -44,7 +44,10 @@ def assert_vendored_relaton_cache_version!
   cache_root = File.expand_path("relatondb/cache", __dir__)
   Dir["#{cache_root}/*/"].each do |fdir|
     type = fdir.split("/").last
-    expected = Relaton::Db::Cache.grammar_hash(fdir)
+    # Relaton::Db::Cache.grammar_hash(fdir) is gone on the monogem line;
+    # the processor registry owns the grammar hash now.
+    processor = Relaton::Db::Registry.instance[:"relaton_#{type}"]
+    expected = processor&.grammar_hash
     actual = begin
       File.read(File.join(fdir, "version"), encoding: "utf-8").strip
     rescue StandardError

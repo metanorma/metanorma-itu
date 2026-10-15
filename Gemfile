@@ -16,6 +16,8 @@ gem "metanorma-iso", github: "metanorma/metanorma-iso", branch: "main"
 #   - https://github.com/metanorma/metanorma-standoc/pull/1232
 #   - https://github.com/metanorma/metanorma-document/pull/45
 gem "metanorma-standoc", github: "metanorma/metanorma-standoc", branch: "main"
+# released metanorma-utils 2.0.7 predates GcBudget (utils main carries it)
+gem "metanorma-utils", github: "metanorma/metanorma-utils", branch: "main"
 gem "metanorma-document", github: "metanorma/metanorma-document", branch: "main"
 gem "isodoc", github: "metanorma/isodoc", branch: "rt-pubid-2-migration"# Pin relaton: Its VERSION is the cache grammar_hash and it ships the ITU
 # scraper. A floating `>= 3.0.0.pre.alpha.1` (via metanorma-document) lets

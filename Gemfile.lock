@@ -86,6 +86,21 @@ GIT
       svg_conform (~> 0.1.0)
 
 GIT
+  remote: https://github.com/metanorma/metanorma-utils
+  revision: 2808689766e50663ca359b3b7967131c22ef00d0
+  branch: main
+  specs:
+    metanorma-utils (2.0.8)
+      asciidoctor (>= 2)
+      concurrent-ruby
+      csv
+      htmlentities (~> 4.3.4)
+      logger
+      nokogiri (>= 1.11)
+      sterile (~> 1.0.14)
+      uuidtools
+
+GIT
   remote: https://github.com/pubid/pubid
   revision: 4ab4bf14324471dd19a99ebcf81c3a2866407459
   branch: main
@@ -686,15 +701,6 @@ GEM
       asciidoctor
     metanorma-taste (1.1.2)
       lutaml-model (>= 0.8)
-    metanorma-utils (2.0.7)
-      asciidoctor (>= 2)
-      concurrent-ruby
-      csv
-      htmlentities (~> 4.3.4)
-      logger
-      nokogiri (>= 1.11)
-      sterile (~> 1.0.14)
-      uuidtools
     method_source (1.1.0)
     mime-types (3.7.0)
       logger
@@ -1232,6 +1238,7 @@ DEPENDENCIES
   metanorma-itu!
   metanorma-mirror (~> 1.0)
   metanorma-standoc!
+  metanorma-utils!
   openssl
   pubid!
   rake (~> 13.0)
@@ -1408,7 +1415,7 @@ CHECKSUMS
   metanorma-plugin-plantuml (1.0.16) sha256=0152005ce066a1f91db71465ca905dc1399f01d946574c76c95ba83e19fd8d75
   metanorma-standoc (3.5.0)
   metanorma-taste (1.1.2) sha256=dc520440018880a219bd6ff090eb095255db96768cca532f9bdad2dc00908448
-  metanorma-utils (2.0.7) sha256=35075056c30a803ea428bb2649c8418598ade7e70c393a8ac9b83fc944ffd878
+  metanorma-utils (2.0.8)
   method_source (1.1.0) sha256=181301c9c45b731b4769bc81e8860e72f9161ad7d66dd99103c9ab84f560f5c5
   mime-types (3.7.0) sha256=dcebf61c246f08e15a4de34e386ebe8233791e868564a470c3fe77c00eed5e56
   mime-types-data (3.2026.1006) sha256=657973f3fdf857f493584e05f9d093417456836133fd5b30c5a078ee54e4ae2f

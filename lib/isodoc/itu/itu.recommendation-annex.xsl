@@ -2115,7 +2115,9 @@
 				<xsl:call-template name="getName"/>
 			</xsl:variable>
 			<xsl:variable name="variant_title">
-				<xsl:copy-of select="mn:variant-title[@type = 'toc']/node()"/>
+				<xsl:if test="not(self::mn:annex)">
+					<xsl:copy-of select="mn:variant-title[@type = 'toc']/node()"/>
+				</xsl:if>
 			</xsl:variable>
 
 			<mnx:item level="{$level}" section="{$section}" type="{$type}" display="{$display}">

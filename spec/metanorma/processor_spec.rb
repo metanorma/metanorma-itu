@@ -57,10 +57,7 @@ RSpec.describe Metanorma::Itu::Processor do
         <main class="main-section">
           <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
           <div id="H">
-            <h1 id="_">
-              <a class="anchor" href="#H"/>
-              <a class="header" href="#H">Terms</a>
-            </h1>
+            <h1 id="_"><a class="anchor" href="#H"></a><a class="header" href="#H">Terms</a></h1>
             <div id="J">
               <p class="TermNum" id="J"><b>1.1.  Term2</b></p>
             </div>

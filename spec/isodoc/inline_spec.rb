@@ -317,7 +317,7 @@ RSpec.describe Metanorma::Itu do
           <br/>
           <div id="_">
              <h1 class="IntroTitle" id="_">
-                <a class="anchor" href="#_"/>
+                <a class="anchor" href="#_"></a>
                 <a class="header" href="#_">Foreword</a>
              </h1>
              <p>
@@ -390,7 +390,7 @@ RSpec.describe Metanorma::Itu do
           </p>
             <div id="_">
                <h1 id="_">
-                  <a class="anchor" href="#_"/>
+                  <a class="anchor" href="#_"></a>
                   <a class="header" href="#_">1<span class="fmt-clause-delim">.</span></a>
                </h1>
             </div>
@@ -444,7 +444,7 @@ RSpec.describe Metanorma::Itu do
     html = File.read("test.doc", encoding: "UTF-8")
     output = <<~OUTPUT
       <table class="MsoISOTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;" title="tool tip" summary="long desc">
-         <a name="tableD-1" id="tableD-1"/>
+         <a name="tableD-1" id="tableD-1"></a>
          <thead>
             <tr>
                <td rowspan="2" valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Description</td>
@@ -469,9 +469,9 @@ RSpec.describe Metanorma::Itu do
             <tr>
                <td colspan="5" style="border-top:0pt;mso-border-top-alt:0pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;">
                   <div class="TableFootnote">
-                     <a name="ftntableD-1a" id="ftntableD-1a"/>
+                     <a name="ftntableD-1a" id="ftntableD-1a"></a>
                      <p class="TableFootnote">
-                        <a name="_0fe65e9a-5531-408e-8295-eeff35f41a55" id="_0fe65e9a-5531-408e-8295-eeff35f41a55"/>
+                        <a name="_0fe65e9a-5531-408e-8295-eeff35f41a55" id="_0fe65e9a-5531-408e-8295-eeff35f41a55"></a>
                         <span class="TableFootnoteRef">a)</span>
                         <span style="mso-tab-count:1">  </span>
                         Parboiled rice.

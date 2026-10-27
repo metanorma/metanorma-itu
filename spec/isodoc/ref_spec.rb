@@ -454,10 +454,7 @@ RSpec.describe IsoDoc::Itu do
        <main class="main-section">
           <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button><br/>
           <div id="_">
-             <h1 class="IntroTitle" id="_">
-                <a class="anchor" href="#_"/>
-                <a class="header" href="#_">Foreword</a>
-             </h1>
+             <h1 class="IntroTitle" id="_"><a class="anchor" href="#_"></a><a class="header" href="#_">Foreword</a></h1>
              <p id="_">
                 <a href="#ISO712">[ISO 712]</a>
                 <a href="#ISBN">[3]</a>

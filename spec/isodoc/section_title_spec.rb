@@ -854,7 +854,7 @@ RSpec.describe Metanorma::Itu do
                  <button onclick='topFunction()' id='myBtn' title='Go to top'>Top</button>
                     <div id="_" class="Keyword">
               <h1 class="IntroTitle" id="_">
-                <a class="anchor" href="#_"/>
+                <a class="anchor" href="#_"></a>
                 <a class="header" href="#_">Keywords</a>
               </h1>
                     <p>A, B.</p>
@@ -865,7 +865,7 @@ RSpec.describe Metanorma::Itu do
                  <p class='zzSTDTitle3'>Subtitle</p>
                   <div id="_">
                      <h1 id="_">
-                        <a class="anchor" href="#_"/>
+                        <a class="anchor" href="#_"></a>
                         <a class="header" href="#_">1<span class="fmt-clause-delim">.</span></a>
                      </h1>
                   </div>
@@ -879,7 +879,7 @@ RSpec.describe Metanorma::Itu do
                    <p class='annex_obligation'>(This annex forms an integral part of this Recommendation Annex.)</p>
                    <p style="display:none;" class="variant-title-toc">Annex F2  Annex</p>
                    <div id='A2'>
-                     <h2 id='_'><a class="anchor" href="#A2"/><a class="header" href="#A2">F2.1<span class="fmt-clause-delim">.</span>&#xA0; Subtitle</a></h2>
+                     <h2 id='_'><a class="anchor" href="#A2"></a><a class="header" href="#A2">F2.1<span class="fmt-clause-delim">.</span>&#xA0; Subtitle</a></h2>
                      <table id='T' class='MsoISOTable' style='border-width:1px;border-spacing:0;'>
                      <caption>Table F2.1</caption>
                      </table>
@@ -909,11 +909,11 @@ RSpec.describe Metanorma::Itu do
               <p class='zzSTDTitle2'>An ITU Standard</p>
               <p class='zzSTDTitle3'>Subtitle</p>
                 <div>
-                  <a name="_" id="_"/>
+                  <a name="_" id="_"></a>
                   <h1>1<span class="fmt-clause-delim">.</span></h1>
                   </div>
               <div class='Section3'>
-                <a name='A1' id='A1'/>
+                <a name='A1' id='A1'></a>
                 <p class='h1Annex'>
                   <b>Annex F2</b>
                   <br/>
@@ -927,7 +927,7 @@ RSpec.describe Metanorma::Itu do
                     Annex
                   </p>
                 <div>
-                  <a name='A2' id='A2'/>
+                  <a name='A2' id='A2'></a>
                   <h2>
                     F2.1<span class="fmt-clause-delim">.</span><span style='mso-tab-count:1'>&#xA0; </span>
                     Subtitle
@@ -935,15 +935,15 @@ RSpec.describe Metanorma::Itu do
                  <p class='TableTitle' style='text-align:center;'>Table F2.1</p>
                   <div align='center' class='table_container'>
                     <table class='MsoISOTable' style='mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;'>
-                      <a name='T' id='T'/>
+                      <a name='T' id='T'></a>
                     </table>
                   </div>
                   <div class='figure'>
-                    <a name='U' id='U'/>
+                    <a name='U' id='U'></a>
                     <p class='FigureTitle' style='text-align:center;'>Figure F2.1</p>
                   </div>
                   <div>
-                    <a name='V' id='V'/>
+                    <a name='V' id='V'></a>
                     <div class='formula'>
                       <p class='formula'>
                         <span style='mso-tab-count:1'>&#xA0; </span>

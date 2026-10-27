@@ -1229,7 +1229,7 @@ RSpec.describe Metanorma::Itu do
           <p class="TableTitle" style="text-align:center;">Table 1</p>
           <div align="center" class="table_container">
              <table class="MsoNormalTable" style="mso-table-anchor-horizontal:column;mso-table-overlap:never;border-spacing:0;border-width:1px;">
-                <a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4"/>
+                <a name="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4" id="_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4"></a>
                 <tbody>
                    <tr>
                       <td valign="top" align="left" style="">Edition</td>
@@ -1256,10 +1256,10 @@ RSpec.describe Metanorma::Itu do
                    <tr>
                       <td colspan="5" style="">
                          <div class="TableFootnote">
-                            <a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)"/>
+                            <a name="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)" id="ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)"></a>
                             <span class="TableFootnoteRef">a)</span>
                             <p class="TableFootnote">
-                               <a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"/>
+                               <a name="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9" id="_8a4ff03f-e7a6-4430-939d-1b7b0ffa60e9"></a>
                                To access the Recommendation, type the URL
                                <a href="http://handle.itu.int/">http://handle.itu.int/</a>
                                in the address field of your web browser, followed by the Recommendation?~@~Ys unique ID. For example,

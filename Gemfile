@@ -24,7 +24,7 @@ gem "isodoc", github: "metanorma/isodoc", branch: "rt-pubid-2-migration"# Pin re
 # CI resolve a newer pre-release, which wipes the vendored spec cache and
 # rewrites fixtures against live www.itu.int.
 gem "relaton", "= 3.0.0.pre.alpha.11"
-gem "pubid", github: "pubid/pubid", branch: "main"
+gem "pubid", "~> 2.0" # 2.0.0 released; the git source now carries the 2.1 pre line
 # The CitationStyle port rides the relaton-render 3 prerelease line
 gem "relaton-render", "= 3.0.0.pre.alpha.43" # itu_identifier named rule
 

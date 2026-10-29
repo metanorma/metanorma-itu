@@ -770,19 +770,19 @@ GEM
       bigdecimal (>= 3.0)
     paint (2.3.0)
     parallel (1.28.0)
-    parsanol (1.3.109)
+    parsanol (1.3.114)
       rb_sys (~> 0.9.39)
-    parsanol (1.3.109-aarch64-linux)
-    parsanol (1.3.109-aarch64-linux-musl)
-    parsanol (1.3.109-arm-linux)
-    parsanol (1.3.109-arm-linux-musl)
-    parsanol (1.3.109-arm64-darwin)
-    parsanol (1.3.109-x64-mingw-ucrt)
-    parsanol (1.3.109-x64-mingw32)
+    parsanol (1.3.114-aarch64-linux)
+    parsanol (1.3.114-aarch64-linux-musl)
+    parsanol (1.3.114-arm-linux)
+    parsanol (1.3.114-arm-linux-musl)
+    parsanol (1.3.114-arm64-darwin)
+    parsanol (1.3.114-x64-mingw-ucrt)
+    parsanol (1.3.114-x64-mingw32)
       rb_sys (~> 0.9.39)
-    parsanol (1.3.109-x86_64-darwin)
-    parsanol (1.3.109-x86_64-linux)
-    parsanol (1.3.109-x86_64-linux-musl)
+    parsanol (1.3.114-x86_64-darwin)
+    parsanol (1.3.114-x86_64-linux)
+    parsanol (1.3.114-x86_64-linux-musl)
     parser (3.3.12.0)
       ast (~> 2.4.1)
       racc
@@ -859,7 +859,7 @@ GEM
     readline (0.0.4)
       reline
     regexp_parser (2.13.1)
-    relaton (3.0.0.pre.alpha.11)
+    relaton (3.0.1)
       addressable (~> 2.8)
       algolia (~> 2.3.0)
       base64
@@ -881,19 +881,20 @@ GEM
       loc_mods (~> 0.3.0)
       logger (~> 1.6)
       lutaml-hal (~> 0.2, >= 0.2.5)
-      lutaml-model (~> 0.8.76)
+      lutaml-model (~> 0.8.113)
       lutaml-store (~> 0.3.2)
       mechanize (~> 2.10)
       mini_portile2 (~> 2.8.0)
       moxml (>= 0.5)
       niso-jats (~> 0.3.4)
       parallel (~> 1.26)
+      parsanol (>= 1.3.112, < 1.4)
       parslet (~> 2.0.0)
-      pubid (~> 2.0.0.pre.alpha.21)
+      pubid (~> 2.0.0.pre.alpha.62)
       relaton-render (>= 3.0.0.pre.alpha.1, < 4)
       rfcxml (~> 0.4.3)
       rubyzip (~> 3.7)
-      sqlite3 (~> 1.7)
+      sqlite3 (>= 1.7)
       w3c_api (~> 0.3.3)
       yeptris (>= 0.4)
     relaton-bib (2.1.9)
@@ -906,10 +907,11 @@ GEM
       relaton-core (~> 0.0.8)
       relaton-logger (~> 0.2.0)
       rfcxml (~> 0.4.3)
-    relaton-cli (3.0.0.pre.alpha.11)
+    relaton-cli (3.0.1)
       liquid (~> 5)
-      pubid (~> 2.0.0.pre.alpha.13)
-      relaton (= 3.0.0.pre.alpha.11)
+      pubid (~> 2.0.0.pre.alpha.28)
+      relaton (= 3.0.1)
+      relaton-render (>= 3.0.0.pre.alpha.1, < 4)
       thor
       thor-hollaback
     relaton-core (0.0.13)
@@ -923,10 +925,10 @@ GEM
       uuidtools
     relaton-logger (0.2.4)
       logger (~> 1.6)
-    relaton-render (3.0.0.pre.alpha.43)
+    relaton-render (3.0.0)
       htmlentities
       liquid (~> 5)
-      lutaml-model
+      lutaml-model (~> 0.8)
       nokogiri
       twitter_cldr
     reline (0.7.0)
@@ -1237,8 +1239,8 @@ DEPENDENCIES
   openssl
   pubid (~> 2.0)
   rake (~> 13.0)
-  relaton (= 3.0.0.pre.alpha.11)
-  relaton-render (= 3.0.0.pre.alpha.43)
+  relaton (~> 3.0)
+  relaton-render (~> 3.0)
   rspec (~> 3.6)
   rubocop (~> 1)
   rubocop-performance
@@ -1451,17 +1453,17 @@ CHECKSUMS
   ox (2.14.29) sha256=206736d5a8dade9dca10cf72022bc157ad6ca3eecaba3853918426ed88e12dc2
   paint (2.3.0) sha256=327d623e4038619d5bd99ae5db07973859cd78400c7f0329eea283cef8e83be5
   parallel (1.28.0) sha256=33e6de1484baf2524792d178b0913fc8eb94c628d6cfe45599ad4458c638c970
-  parsanol (1.3.109) sha256=d10ed48bf6dd805d74a094af19df1097d11402240e5c4e8749beee3a36a7654c
-  parsanol (1.3.109-aarch64-linux) sha256=576321b7c84b22bdae0c0d4ac9a6fe73801d9957f209cf1f5a7de7075b5b84a8
-  parsanol (1.3.109-aarch64-linux-musl) sha256=9503877e1037ebb839a6425e02dd43f126cbabef5cbd084e37b3b661f32f58e1
-  parsanol (1.3.109-arm-linux) sha256=d490d8659ee2404469221c2b5597b22af25065a0b383cd6149949b6b50eeaf28
-  parsanol (1.3.109-arm-linux-musl) sha256=34a45024bfa8153bc534292c451d324a3a6b928350ed9b6c4b29d21fb6b930c6
-  parsanol (1.3.109-arm64-darwin) sha256=3c817b498aaa2cdaabe401738abdec184692ca963e9f4686054740d47656cc83
-  parsanol (1.3.109-x64-mingw-ucrt) sha256=38bdd97ebecea36ee7c4f2b4721d764fb2db56074081b3e26834afc7a8f29b6a
-  parsanol (1.3.109-x64-mingw32) sha256=ccee7e2b672fb69a40377a324842880fc4c665599ba52fe15f201bb378f62dc2
-  parsanol (1.3.109-x86_64-darwin) sha256=155e0514e80e0e35e9356a7ef2b46a608d16347be8159af80f2a6e365b377578
-  parsanol (1.3.109-x86_64-linux) sha256=2a533e0d3a9890e5b7be6a7a17c85b619a64498cf197818fdf7e71f0e3479c83
-  parsanol (1.3.109-x86_64-linux-musl) sha256=6802be1f448ceacae3624a34a8d2855c35ece5e73bec7f60d605ebfc57bc0f7c
+  parsanol (1.3.114) sha256=0f41c7a3914627f3f5080f8e5094aa6316a22d9f3aec91bd3a7a80ce000f7b94
+  parsanol (1.3.114-aarch64-linux) sha256=777f61fa6dbad9ef8d4027c2130ba5dfdbec284c0e82016169bb3f8f8a6c388d
+  parsanol (1.3.114-aarch64-linux-musl) sha256=a06efa14d8543da3a6a328ae9db6f4214fe8feb4706c8cbbaeb1dd81f031ab66
+  parsanol (1.3.114-arm-linux) sha256=1e014bc15920346116d8be6a00fdbe0ae272d398814f96a3d2ea350791f6193c
+  parsanol (1.3.114-arm-linux-musl) sha256=3e7444d2a2b3b0f2dc4ddb10d764653dc66e7544db014adb5b888e3f454e8407
+  parsanol (1.3.114-arm64-darwin) sha256=1a2334e6201eac44dfe6b61a01b5ecd945fbb0123b480037c296aaf0c18ff9ce
+  parsanol (1.3.114-x64-mingw-ucrt) sha256=3de15997f1bb21082709c8382d42731bd1d300920bd9dc6e6bec94cc5136b3ea
+  parsanol (1.3.114-x64-mingw32) sha256=c55b6bf4db15af8f0b0eee2946648398fc531b54c4712ea00302ff5d4ec85c2b
+  parsanol (1.3.114-x86_64-darwin) sha256=0726d5adbcfde9f02d9a1fed05fb7e270786258265a853098a85d138e4c3128a
+  parsanol (1.3.114-x86_64-linux) sha256=e51f4209bb68f18d4913836c4483ea23f403f76219c19b678966bb01c023d67f
+  parsanol (1.3.114-x86_64-linux-musl) sha256=6c5ed27a2b050a9c0dc2e00c1cdd15cf378874b1cfd68affb4bd105a022dbdea
   parser (3.3.12.0) sha256=21a6d7f755d5a24dfbdc6e6b772e4e879a52e7631a88bc5a3a134606052c9828
   parslet (2.0.0) sha256=d45130695d39b43d7e6a91f4d2ec66b388a8d822bae38de9b4de9a5fbde1f606
   plane1converter (0.0.1) sha256=86c5dd19ba46c013c0e1780499657702a21d75e05611275714db2dc3773703a9
@@ -1492,13 +1494,13 @@ CHECKSUMS
   rdoc (7.2.0) sha256=8650f76cd4009c3b54955eb5d7e3a075c60a57276766ebf36f9085e8c9f23192
   readline (0.0.4) sha256=6138eef17be2b98298b672c3ea63bf9cb5158d401324f26e1e84f235879c1d6a
   regexp_parser (2.13.1) sha256=5aedb6b7c35688f51e86eef17a15374dfd287c83f4ca644b2c5f3ec50a33b44b
-  relaton (3.0.0.pre.alpha.11) sha256=a782406d60986c70d5b29a181431131decb7fb09d8c477d7fda0221d0995a705
+  relaton (3.0.1) sha256=4cd77220997a65a8ee4457ce92e0739008a2d3e29ccde68506474cb354f6669e
   relaton-bib (2.1.9) sha256=559c47a88862ef359305b96fc27c994fe58df4912591a816b16318a5ec5f97ce
-  relaton-cli (3.0.0.pre.alpha.11) sha256=badf2fd78d4876f6382a8485eb51ce715cdf366501b48ecd8aa08c92afefa2f7
+  relaton-cli (3.0.1) sha256=847c059900b17f6287fb9a08698d7c3d9904e5e8dbd304d8c746831fcc5cb401
   relaton-core (0.0.13) sha256=10eef0d4bdff18a9058114ca46323508972b8caed872212992c4f9ced7375881
   relaton-iev (2.0.2) sha256=ec77f5ad4700c8856aaacf9655eaf026c4a87acdfb17eca9af53520e8bf5b638
   relaton-logger (0.2.4) sha256=1494cc7330e6d654afcb825904361371010b1d83d13705314a10a147f7f53358
-  relaton-render (3.0.0.pre.alpha.43) sha256=8bf683a88cf02270f1add02880defc5c1b6c57d9707dfc914f0bfd2ba024598a
+  relaton-render (3.0.0) sha256=1fdc95c19aa99f50041b0f449d8c0fc132c8083e3cbe7721a9fb7b134b473c67
   reline (0.7.0) sha256=5b012d8e55dbf9d450f12bde2cf7d15ff546ae80b3f8f3b30e570d431815583d
   reverse_markdown (2.1.1) sha256=b2206466b682ac1177b6b8ec321d00a84fca02d096c5d676a7a0cc5838dc0701
   rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142

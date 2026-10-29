@@ -103,7 +103,7 @@ GIT
 PATH
   remote: .
   specs:
-    metanorma-itu (2.9.3.pre.alpha.1)
+    metanorma-itu (2.9.3)
       metanorma-iso (>= 3.4.2)
       metanorma-standoc (>= 3.4.2)
       pubid (~> 2.0)
@@ -1404,7 +1404,7 @@ CHECKSUMS
   metanorma-core (0.2.3)
   metanorma-document (0.5.1)
   metanorma-iso (3.5.0)
-  metanorma-itu (2.9.3.pre.alpha.1)
+  metanorma-itu (2.9.3)
   metanorma-mirror (1.0.0) sha256=46bcfd1ea62b5225b031e4f8262ce4917107f65c5939ba45afaccaaf796c24d0
   metanorma-mko (1.1.1) sha256=4c8fb55b485b49341c28cad0e862889e5d3855547adf21accce627714a35a41a
   metanorma-plugin-asciichem (0.1.2) sha256=1b2ed06f2223ee25425f705376ca515dfb128a8ba3f29ba04858274ca70bd599

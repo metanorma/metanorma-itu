@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "index": "index-v2",
+  "count": 21787,
+  "shards": 2048,
+  "key": "root-number",
+  "algorithm": "crc32",
+  "generated": "2026-10-30",
+  "sha256": "30ebd066bc04200d171630489cd912632b013210825aabb8aa3f4ba690c234fc",
+  "bytes": 251871
+}

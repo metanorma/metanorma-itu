@@ -1,0 +1,204 @@
+---
+id: ITUTF69061994
+schema_version: v1.5.6
+type: standard
+title:
+- language: en
+  script: Latn
+  content: The international telex service – Service and operational provisions of telex destination codes and telex network identification codes
+  type: main
+source:
+- type: src
+  content: https://handle.itu.int/11.1002/1000/696
+- type: pdf
+  content: https://www.itu.int/rec/dologin_pub.asp?lang=e&id=T-REC-F.69-199406-I!!PDF-E&type=items
+docidentifier:
+- content: ITU-T F.69 (06/1994)
+  type: ITU
+  primary: true
+date:
+- type: published
+  at: '1994-06-01'
+contributor:
+- role:
+  - type: publisher
+  organization:
+    uri:
+    - content: www.itu.int
+    name:
+    - content: International Telecommunication Union
+    abbreviation:
+      content: ITU
+- role:
+  - type: author
+    description:
+    - content: committee
+  organization:
+    name:
+    - content: International Telecommunication Union
+    subdivision:
+    - name:
+      - content: ITU-T Study Group 2
+      type: technical-committee
+      subtype: study-group
+    abbreviation:
+      content: ITU-T
+edition:
+  content: '7'
+language:
+- en
+script:
+- Latn
+abstract:
+- language: en
+  script: Latn
+  content: The interconnection of the networks of the countries and recognized operating agencies participating in the international telex service requires the development of a standardized mechanism for the routing of calls between subscribers in a transparent manner. This is achieved through the use of a telex destination code which is used for routing purposes in international exchanges. Telex destination codes may also be used within national telex networks or at international gateway exchanges for recording call details for billing and accounting purposes, or sometimes for other purposes such as segregating particular types of traffic. Furthermore, the service requirement enabling the identification of the called subscriber and thereby giving assurance of correct connection is achieved by the inclusion of a telex network identification code in the answerbacks of subscribers of the international telex service in addition to the subscribers national telex number.This Recommendation describes the procedures to be followed in the allocation of telex destination codes and telex network identification codes. The means of promulgation publication, and date of entry into effect of code allocations are also identified.
+status:
+  stage:
+    content: Published
+copyright:
+- from: '1994'
+  owner:
+  - organization:
+      uri:
+      - content: www.itu.int
+      name:
+      - content: International Telecommunication Union
+      abbreviation:
+        content: ITU
+relation:
+- type: hasEdition
+  bibitem:
+    title:
+    - language: en
+      script: Latn
+      content: Plan for telex destination codes
+    docidentifier:
+    - content: F.69 (03/1993)
+      type: ITU
+      primary: true
+- type: hasEdition
+  bibitem:
+    title:
+    - language: en
+      script: Latn
+      content: Plan for telex destination codes
+    docidentifier:
+    - content: F.69 (11/1988)
+      type: ITU
+      primary: true
+- type: hasEdition
+  bibitem:
+    title:
+    - language: en
+      script: Latn
+      content: Plan for telex destination codes
+    docidentifier:
+    - content: F.69 (10/1984)
+      type: ITU
+      primary: true
+- type: hasEdition
+  bibitem:
+    title:
+    - language: en
+      script: Latn
+      content: Plan for telex destination codes
+    docidentifier:
+    - content: F.69 (11/1980)
+      type: ITU
+      primary: true
+- type: hasEdition
+  bibitem:
+    formattedref:
+      content: F.69 (1976) Amd. 1 (10/1977)
+    docidentifier:
+    - content: F.69 (1976) Amd. 1 (10/1977)
+      type: ITU
+      primary: true
+- type: hasEdition
+  bibitem:
+    title:
+    - language: en
+      script: Latn
+      content: Plan for telex destination codes
+    docidentifier:
+    - content: F.69 (10/1976)
+      type: ITU
+      primary: true
+- type: hasEdition
+  bibitem:
+    title:
+    - language: en
+      script: Latn
+      content: Plan for telex destination codes
+    docidentifier:
+    - content: F.69 (12/1972)
+      type: ITU
+      primary: true
+- type: complementOf
+  bibitem:
+    title:
+    - language: en
+      script: Latn
+      content: Definitions relating to telegraph, telematic and data transmission services
+    docidentifier:
+    - content: F Suppl. 1 (11/1988)
+      type: ITU
+      primary: true
+- type: complementOf
+  bibitem:
+    title:
+    - language: en
+      script: Latn
+      content: Terms and definitions for telex
+    docidentifier:
+    - content: F Suppl. 2 (11/1988)
+      type: ITU
+      primary: true
+- type: complementOf
+  bibitem:
+    title:
+    - language: en
+      script: Latn
+      content: Overview of Telecom Finance (Finance2.0)
+    docidentifier:
+    - content: F Suppl. 3 (09/2016)
+      type: ITU
+      primary: true
+- type: complementOf
+  bibitem:
+    title:
+    - language: en
+      script: Latn
+      content: Overview of convergence of artificial intelligence and blockchain
+    docidentifier:
+    - content: F Suppl. 4 (04/2021)
+      type: ITU
+      primary: true
+- type: complementOf
+  bibitem:
+    title:
+    - language: en
+      script: Latn
+      content: Use cases for communication services of passive sensing equipment based on civilian unmanned aerial vehicles
+    docidentifier:
+    - content: F Suppl. 5 (07/2026)
+      type: ITU
+      primary: true
+- type: complementOf
+  bibitem:
+    title:
+    - language: en
+      script: Latn
+      content: Overview of information and communication technology-enabled flying car service platform
+    docidentifier:
+    - content: F Suppl. 6 (07/2026)
+      type: ITU
+      primary: true
+place:
+- city: Geneva
+ext:
+  schema_version: v1.1.3
+  doctype:
+    content: recommendation
+  flavor: itu

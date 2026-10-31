@@ -6,3 +6,5 @@ coverage/
 .rubocop-https--*
 
 /Gemfile.lock
+spec/relatondb/cache/v2/docs/.lock
+spec/relatondb/cache/v2/rows/.lock

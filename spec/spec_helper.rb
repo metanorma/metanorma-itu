@@ -9,7 +9,7 @@ require "metanorma-itu"
 require "isodoc/itu/html_convert"
 require "metanorma-standoc"
 require "rspec/matchers"
-require "equivalent-xml"
+require "canon/rspec_matchers"
 require "htmlentities"
 require "metanorma-core"
 require "metanorma/itu"
@@ -26,6 +26,14 @@ Canon::Config.instance.profile = :metanorma
 # live-DB drift into the specs. Bump the freshness markers to today so
 # the vendored snapshot is always treated as valid.
 def refresh_vendored_relaton_cache
+# Vendor relaton's machine index alongside the document cache: the
+# index machinery downloads a manifest + zip into Relaton::Index's
+# storage (default: ~/) on first use, which would make the suite
+# depend on live state. Keep it in-repo, hermetically.
+require "relaton/index"
+Relaton::Index.configure do |config|
+  config.storage_dir = File.expand_path("relatondb/index", __dir__)
+end
   Dir[File.expand_path("relatondb/cache/**/*.xml", __dir__)].each do |f|
     content = File.read(f, encoding: "utf-8")
     fresh = content.sub(%r{<fetched>[^<]*</fetched>},
@@ -71,6 +79,19 @@ assert_vendored_relaton_cache_version!
 # (wiped version, expired entry, unvendored ref) has to fail loudly
 # rather than silently rewrite the fixtures against today's website.
 WebMock.disable_net_connect!(allow_localhost: false)
+# relaton 3.0 stable performs an index fetch on every cache lookup;
+# an unvendored reference (a miss under the flat v1 cache) must keep
+# its historical "not found -> pass as written" semantics without
+# touching the network, so 404 the relaton hosts hermetically.
+WebMock.stub_request(:get, "https://relaton.github.io/relaton-data-itu/index/manifest.json")
+  .to_return(status: 200, headers: {"Content-Type" => "application/json"}, body: File.read(File.expand_path("relatondb/index/manifest.json", __dir__)))
+WebMock.stub_request(:get, "https://relaton.github.io/relaton-data-itu/index-v2.zip")
+  .to_return(status: 200, headers: {"Content-Type" => "application/zip"}, body: File.read(File.expand_path("relatondb/index/index-v2.zip", __dir__), mode: "rb"))
+WebMock.stub_request(:get, %r{\Ahttps://raw\.githubusercontent\.com/relaton/relaton-data-itu/refs/heads/main/data/})
+  .to_return { |req| fn = req.uri.path.split("/").last; f = File.expand_path("relatondb/index/data/#{fn}", __dir__); File.exist?(f) ? { status: 200, headers: {"Content-Type" => "text/yaml"}, body: File.read(f) } : { status: 404, body: "" } }
+WebMock.stub_request(:get, %r{\Ahttps://relaton\.github\.io/relaton-data-itu/index/shard-\d+\.json\z})
+  .to_return { |req| fn = req.uri.path.split("/").last; f = File.expand_path("relatondb/index/#{fn}", __dir__); File.exist?(f) ? { status: 200, headers: {"Content-Type" => "application/json"}, body: File.read(f) } : { status: 404, body: "" } }
+  WebMock.stub_request(:get, %r{\Ahttps://www\.itu\.int/}).to_return(status: 404)
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

@@ -1,9 +1,8 @@
 <bibdata type="standard" schema-version="v1.5.6">
-  <fetched>2026-09-25</fetched>
-  <title language="en" script="Latn" type="title-main">Plan for telex destination codes</title>
-  <title language="en" script="Latn" type="main">Plan for telex destination codes</title>
-  <uri type="src">https://handle.itu.int/11.1002/1000/694</uri>
-  <uri type="pdf">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.69-198811-S!!PDF-E&amp;type=items</uri>
+  <fetched>2026-10-31</fetched>
+  <title language="en" script="Latn" type="main">The international telex service – Service and operational provisions of telex destination codes and telex network identification codes</title>
+  <uri type="src">https://handle.itu.int/11.1002/1000/696</uri>
+  <uri type="pdf">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.69-199406-I!!PDF-E&amp;type=items</uri>
   <docidentifier type="ITU" primary="true">ITU-T F.69</docidentifier>
   <contributor>
     <role type="publisher"/>
@@ -25,14 +24,14 @@
       <abbreviation>ITU-T</abbreviation>
     </organization>
   </contributor>
-  <edition>5</edition>
+  <edition>7</edition>
   <language>en</language>
   <script>Latn</script>
   <status>
-    <stage>Withdrawal</stage>
+    <stage>Published</stage>
   </status>
   <copyright>
-    <from>1988</from>
+    <from>1994</from>
     <owner>
       <organization>
         <name>International Telecommunication Union</name>
@@ -43,14 +42,14 @@
   </copyright>
   <relation type="hasEdition">
     <bibitem>
-      <title language="en" script="Latn">The international telex service – Service and operational provisions of telex destination codes and telex network identification codes</title>
-      <docidentifier type="ITU" primary="true">F.69 (06/1994)</docidentifier>
+      <title language="en" script="Latn">Plan for telex destination codes</title>
+      <docidentifier type="ITU" primary="true">F.69 (03/1993)</docidentifier>
     </bibitem>
   </relation>
   <relation type="hasEdition">
     <bibitem>
       <title language="en" script="Latn">Plan for telex destination codes</title>
-      <docidentifier type="ITU" primary="true">F.69 (03/1993)</docidentifier>
+      <docidentifier type="ITU" primary="true">F.69 (11/1988)</docidentifier>
     </bibitem>
   </relation>
   <relation type="hasEdition">
@@ -115,19 +114,18 @@
   </relation>
   <relation type="complementOf">
     <bibitem>
-      <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
+      <title language="en" script="Latn">Overview of information and communication technology-enabled flying car service platform</title>
       <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
     </bibitem>
   </relation>
   <relation type="instanceOf">
     <bibitem type="standard">
-      <title language="en" script="Latn" type="title-main">Plan for telex destination codes</title>
-      <title language="en" script="Latn" type="main">Plan for telex destination codes</title>
-      <uri type="src">https://handle.itu.int/11.1002/1000/694</uri>
-      <uri type="pdf">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.69-198811-S!!PDF-E&amp;type=items</uri>
-      <docidentifier type="ITU" primary="true">ITU-T F.69 (11/1988)</docidentifier>
+      <title language="en" script="Latn" type="main">The international telex service – Service and operational provisions of telex destination codes and telex network identification codes</title>
+      <uri type="src">https://handle.itu.int/11.1002/1000/696</uri>
+      <uri type="pdf">https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-F.69-199406-I!!PDF-E&amp;type=items</uri>
+      <docidentifier type="ITU" primary="true">ITU-T F.69 (06/1994)</docidentifier>
       <date type="published">
-        <on>1988-11-25</on>
+        <on>1994-06-01</on>
       </date>
       <contributor>
         <role type="publisher"/>
@@ -149,15 +147,15 @@
           <abbreviation>ITU-T</abbreviation>
         </organization>
       </contributor>
-      <edition>5</edition>
+      <edition>7</edition>
       <language>en</language>
       <script>Latn</script>
-      <abstract language="en" script="Latn"/>
+      <abstract language="en" script="Latn">The interconnection of the networks of the countries and recognized operating agencies participating in the international telex service requires the development of a standardized mechanism for the routing of calls between subscribers in a transparent manner. This is achieved through the use of a telex destination code which is used for routing purposes in international exchanges. Telex destination codes may also be used within national telex networks or at international gateway exchanges for recording call details for billing and accounting purposes, or sometimes for other purposes such as segregating particular types of traffic. Furthermore, the service requirement enabling the identification of the called subscriber and thereby giving assurance of correct connection is achieved by the inclusion of a telex network identification code in the answerbacks of subscribers of the international telex service in addition to the subscribers national telex number.This Recommendation describes the procedures to be followed in the allocation of telex destination codes and telex network identification codes. The means of promulgation publication, and date of entry into effect of code allocations are also identified.</abstract>
       <status>
-        <stage>Withdrawal</stage>
+        <stage>Published</stage>
       </status>
       <copyright>
-        <from>1988</from>
+        <from>1994</from>
         <owner>
           <organization>
             <name>International Telecommunication Union</name>
@@ -168,14 +166,14 @@
       </copyright>
       <relation type="hasEdition">
         <bibitem>
-          <title language="en" script="Latn">The international telex service – Service and operational provisions of telex destination codes and telex network identification codes</title>
-          <docidentifier type="ITU" primary="true">F.69 (06/1994)</docidentifier>
+          <title language="en" script="Latn">Plan for telex destination codes</title>
+          <docidentifier type="ITU" primary="true">F.69 (03/1993)</docidentifier>
         </bibitem>
       </relation>
       <relation type="hasEdition">
         <bibitem>
           <title language="en" script="Latn">Plan for telex destination codes</title>
-          <docidentifier type="ITU" primary="true">F.69 (03/1993)</docidentifier>
+          <docidentifier type="ITU" primary="true">F.69 (11/1988)</docidentifier>
         </bibitem>
       </relation>
       <relation type="hasEdition">
@@ -240,7 +238,7 @@
       </relation>
       <relation type="complementOf">
         <bibitem>
-          <title language="en" script="Latn">Overview of ICT-enabled flying car service platform</title>
+          <title language="en" script="Latn">Overview of information and communication technology-enabled flying car service platform</title>
           <docidentifier type="ITU" primary="true">F Suppl. 6 (07/2026)</docidentifier>
         </bibitem>
       </relation>

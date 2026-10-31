@@ -297,7 +297,7 @@ RSpec.describe Metanorma::Itu do
                workgroup: "I2" }
     docxml, = csdc.convert_init(input, "test", true)
     expect(metadata(csdc.info(docxml, nil)))
-      .to be_equivalent_to output
+      .to eq output
 
     output =
       { accesseddate: "XXX",
@@ -384,7 +384,7 @@ RSpec.describe Metanorma::Itu do
     docxml, = csdc.convert_init(input
       .sub("<language>en</language>", "<language>fr</language>"), "test", true)
     expect(metadata(csdc.info(docxml, nil)))
-      .to be_equivalent_to output
+      .to eq output
   end
 
   it "processes default metadata for technical report" do
@@ -537,7 +537,7 @@ RSpec.describe Metanorma::Itu do
          </itu-standard>
     INPUT
     expect(metadata(csdc.info(docxml, nil)))
-      .to be_equivalent_to(
+      .to eq(
         {
           accesseddate: "XXX",
           adapteddate: "XXX",
@@ -692,7 +692,7 @@ RSpec.describe Metanorma::Itu do
          </itu-standard>
     INPUT
     expect(metadata(csdc.info(docxml, nil)))
-      .to be_equivalent_to(
+      .to eq(
         { accesseddate: "XXX",
           adapteddate: "XXX",
           agency: "International Telecommunication Union",
@@ -827,7 +827,7 @@ RSpec.describe Metanorma::Itu do
          </itu-standard>
     INPUT
     expect(metadata(csdc.info(docxml, nil)))
-      .to be_equivalent_to(
+      .to eq(
         { accesseddate: "XXX",
           adapteddate: "XXX",
           agency: "International Telecommunication Union",
@@ -963,7 +963,7 @@ RSpec.describe Metanorma::Itu do
          </itu-standard>
     INPUT
     expect(metadata(csdc.info(docxml, nil)))
-      .to be_equivalent_to(
+      .to eq(
         { accesseddate: "XXX",
           adapteddate: "XXX",
           agency: "International Telecommunication Union",
@@ -1099,7 +1099,7 @@ RSpec.describe Metanorma::Itu do
          </itu-standard>
     INPUT
     expect(metadata(csdc.info(docxml, nil)))
-      .to be_equivalent_to(
+      .to eq(
         { accesseddate: "XXX",
           adapteddate: "XXX",
           agency: "International Telecommunication Union",
@@ -1314,7 +1314,7 @@ RSpec.describe Metanorma::Itu do
          </itu-standard>
     INPUT
     expect(metadata(csdc.info(docxml, nil)))
-      .to be_equivalent_to(
+      .to eq(
         { accesseddate: "XXX",
           adapteddate: "XXX",
           addresses: ["Canada", "USA"],
@@ -1440,7 +1440,7 @@ RSpec.describe Metanorma::Itu do
       </itu-standard>
     INPUT
     expect(metadata(csdc.info(docxml, nil)))
-      .to be_equivalent_to(
+      .to eq(
         { accesseddate: "XXX",
           adapteddate: "XXX",
           agency: "ITU",
@@ -1518,7 +1518,7 @@ RSpec.describe Metanorma::Itu do
     expect(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))
-      .to be_xml_equivalent_to output
+      .to be_xml_equivalent_to(output).with_profile(:spec_friendly)
   end
 
   it "localises dates in Arabic" do
@@ -1548,7 +1548,7 @@ RSpec.describe Metanorma::Itu do
     expect(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))
-      .to be_xml_equivalent_to output
+      .to be_xml_equivalent_to(output).with_profile(:spec_friendly)
   end
 
   it "localises dates in Chinese" do
@@ -1580,6 +1580,6 @@ RSpec.describe Metanorma::Itu do
     expect(IsoDoc::Itu::PresentationXMLConvert.new(presxml_options)
       .convert("test", input, true)
       .gsub(%r{<localized-strings>.*</localized-strings>}m, ""))
-      .to be_xml_equivalent_to output
+      .to be_xml_equivalent_to(output).with_profile(:spec_friendly)
   end
 end

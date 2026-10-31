@@ -235,8 +235,6 @@ GEM
       fontisan
       libpng (~> 1.6)
       nokogiri (~> 1.16)
-    equivalent-xml (0.6.0)
-      nokogiri (>= 1.4.3)
     erb (6.0.7)
     expressir (2.4.29)
       base64
@@ -1223,9 +1221,8 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  canon
+  canon (~> 0.3)
   debug
-  equivalent-xml (~> 0.6)
   guard (~> 2.14)
   guard-rspec (~> 4.7)
   isodoc!
@@ -1292,7 +1289,6 @@ CHECKSUMS
   elkrb (1.0.2) sha256=07a5f57669e6b72dcd0fd53de0857f85b22e3fb41e597947c7c212a968da30c8
   emf (0.1.0) sha256=c6b0fc2bed886308442c969d4924304a9f4992e6d60fc5b152da07356c3635b9
   emfsvg (0.1.2) sha256=18f37e1cb1cc656420eed941f73d4890b211cb2e058d6e25ddb774bc99b2d5a3
-  equivalent-xml (0.6.0) sha256=8919761efa848ad0846369ff8be1f646b17e5061698c4867b09829000cc3f487
   erb (6.0.7) sha256=c5ca6dc25b0ef974a44dc8f59fe847577122483b1968a38dec305c60bf91ee92
   expressir (2.4.29) sha256=795727cad4922d4e3913fec3c8e974bc94dbab986c14c56ffdd91449f87ba4ee
   expressir (2.4.29-aarch64-linux) sha256=fd6e3d360d7c65059d801f45e49533e6816c7b5893b3ad90ca815e0a9921aef3

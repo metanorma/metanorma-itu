@@ -896,11 +896,11 @@ RSpec.describe Metanorma::Itu do
                     <td scope="col" style="text-align:left;vertical-align:top;border-top:none;border-bottom:solid windowtext 1.5pt;">Arborio</td>
                     <td scope="col" style="text-align:center;vertical-align:middle;border-top:none;border-bottom:solid windowtext 1.5pt;">
                       Drago
-                      <a class="TableFootnoteRef" href="#tableD-1a">a)</a>
+                      <a class="TableFootnoteRef" href="#fn:tableD-1a">a)</a>
                     </td>
                     <td scope="col" style="text-align:center;vertical-align:bottom;border-top:none;border-bottom:solid windowtext 1.5pt;">
                       Balilla
-                      <a class="TableFootnoteRef" href="#tableD-1a">a)</a>
+                      <a class="TableFootnoteRef" href="#fn:tableD-1a">a)</a>
                     </td>
                     <td scope="col" style="text-align:center;border-top:none;border-bottom:solid windowtext 1.5pt;">Thaibonnet</td>
                   </tr>
@@ -1074,8 +1074,8 @@ RSpec.describe Metanorma::Itu do
                   </tr>
                   <tr>
                     <td valign="top" align="left" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Arborio</td>
-                    <td valign="top" align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Drago<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
-                    <td valign="top" align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Balilla<a href="#tableD-1a" class="TableFootnoteRef">a)</a></td>
+                    <td valign="top" align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Drago<a href="#ftntableD-1a" class="TableFootnoteRef">a)</a></td>
+                    <td valign="top" align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Balilla<a href="#ftntableD-1a" class="TableFootnoteRef">a)</a></td>
                     <td valign="top" align="center" style="border-top:none;mso-border-top-alt:none;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:avoid;">Thaibonnet</td>
                   </tr>
                 </thead>

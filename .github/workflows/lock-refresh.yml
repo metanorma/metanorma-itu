@@ -15,7 +15,7 @@ jobs:
       - run: bundle lock --add-platform ruby aarch64-darwin arm64-darwin x86_64-darwin aarch64-linux x86_64-linux x64-mingw-ucrt x64-mingw32
       - name: Commit refreshed lock
         run: |
-          git config user.name "lockbot"
-          git config user.email "lockbot@users.noreply.github.com"
+          git config user.name "Ronald Tse"
+          git config user.email "ronald.tse@ribose.com"
           git add -f Gemfile.lock 2>/dev/null || true
           git diff --cached --quiet || (git commit -m "Lock refresh (GHA runner)" && git push)

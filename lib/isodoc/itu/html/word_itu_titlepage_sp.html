@@ -5,7 +5,7 @@ direction:rtl;unicode-bidi:embed'><i><span lang="EN-GB" dir="LTR" style='font-si
 
 {%  if lang == "zh" %}
 <p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><i><span
-                     lang="{{ lang }}" style='font-size:10.0pt'>国际电联{{ pubdate_ddMMMyyyy }}第{{ docnumeric }}期</span></i></p>
+                     lang="{{ lang }}" style='font-size:10.0pt'>国际电联{{ pubdate_ddMMMyyyy }}第{{ bibdata.docnumber }}期</span></i></p>
 
 <p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><i><span
                      lang="{{ lang }}" style='font-size:10.0pt'>《操作公报》附件</span></i></p>
@@ -15,10 +15,10 @@ direction:rtl;unicode-bidi:embed'><i><span lang="EN-GB" dir="LTR" style='font-si
 
 {% if lang == "ar" %}
 <p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><span
-                     lang="{{ lang }}" style='font-size:10.0pt'>{{ docnumeric }} – {{ pubdate_ddMMMyyyy }} {{ labels["number_abbrev"] }}</span></p>
+                     lang="{{ lang }}" style='font-size:10.0pt'>{{ bibdata.docnumber }} – {{ pubdate_ddMMMyyyy }} {{ labels["number_abbrev"] }}</span></p>
 {% else %}
 <p class="MsoNormal" align="center" style='margin-top:0cm;text-align:center'><i><span
-                     lang="{{ lang }}" style='font-size:10.0pt'>{{ labels["number_abbrev"] }} {{ docnumeric }} – {{ pubdate_ddMMMyyyy }}</span></i></p>
+                     lang="{{ lang }}" style='font-size:10.0pt'>{{ labels["number_abbrev"] }} {{ bibdata.docnumber }} – {{ pubdate_ddMMMyyyy }}</span></i></p>
 {% endif %}
 {% endif %}
 {% if docnumber_td %}<p><span class="doc-identifier">TD number: {{docnumber_td}}</span></p>{%endif%}

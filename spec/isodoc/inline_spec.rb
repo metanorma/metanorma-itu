@@ -356,11 +356,11 @@ RSpec.describe Metanorma::Itu do
                       <td style="text-align:left;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Arborio</td>
                       <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">
                          Drago
-                         <a href="#tableD-1a" class="TableFootnoteRef">a)</a>
+                         <a href="#fn:tableD-1a" class="TableFootnoteRef">a)</a>
                       </td>
                       <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">
                          Balilla
-                         <a href="#tableD-1a" class="TableFootnoteRef">a)</a>
+                         <a href="#fn:tableD-1a" class="TableFootnoteRef">a)</a>
                       </td>
                       <td style="text-align:center;border-top:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;">Thaibonnet</td>
                    </tr>
@@ -456,11 +456,11 @@ RSpec.describe Metanorma::Itu do
                <td valign="top" align="left" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Arborio</td>
                <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">
                   Drago
-                  <a href="#tableD-1a" class="TableFootnoteRef">a)</a>
+                  <a href="#ftntableD-1a" class="TableFootnoteRef">a)</a>
                </td>
                <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">
                   Balilla
-                  <a href="#tableD-1a" class="TableFootnoteRef">a)</a>
+                  <a href="#ftntableD-1a" class="TableFootnoteRef">a)</a>
                </td>
                <td valign="top" align="center" style="border-top:solid windowtext 1.5pt;mso-border-top-alt:solid windowtext 1.5pt;border-bottom:solid windowtext 1.5pt;mso-border-bottom-alt:solid windowtext 1.5pt;page-break-after:auto;">Thaibonnet</td>
             </tr>

@@ -1238,7 +1238,7 @@ RSpec.describe Metanorma::Itu do
                       <td valign="top" align="left" style="">Study Group</td>
                       <td valign="top" align="left" style="">
                          Unique ID
-                         <a href="#_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)" class="TableFootnoteRef">a)</a>
+                         <a href="#ftn_5c4d4e85-b6b0-4f34-b1ed-57d28c4e88d4a)" class="TableFootnoteRef">a)</a>
                          .
                       </td>
                    </tr>

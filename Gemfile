@@ -19,13 +19,12 @@ gem "metanorma-standoc", github: "metanorma/metanorma-standoc", branch: "main"
 # released metanorma-utils 2.0.7 predates GcBudget (utils main carries it)
 gem "metanorma-utils", github: "metanorma/metanorma-utils", branch: "main"
 gem "metanorma-document", github: "metanorma/metanorma-document", branch: "main"
-gem "isodoc", github: "metanorma/isodoc", branch: "rt-pubid-2-migration"# Pin relaton: Its VERSION is the cache grammar_hash and it ships the ITU
+gem "isodoc", github: "metanorma/isodoc", branch: "main"
+# Pin relaton: Its VERSION is the cache grammar_hash and it ships the ITU
 # scraper. A floating `>= 3.0.0.pre.alpha.1` (via metanorma-document) lets
 # CI resolve a newer pre-release, which wipes the vendored spec cache and
 # rewrites fixtures against live www.itu.int.
 gem "relaton", "~> 3.0"
 gem "pubid", "~> 2.0" # 2.0.0 released; the git source now carries the 2.1 pre line
-# The CitationStyle port rides the relaton-render 3 prerelease line
-gem "relaton-render", "~> 3.0"
 
 eval_gemfile("Gemfile.devel") rescue nil
